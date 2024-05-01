@@ -1,10 +1,10 @@
-package springsideproject1.springsideproject1build.service;
+package springsideproject1.springsideproject1production.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.repository.MemberRepository;
+import springsideproject1.springsideproject1production.domain.Member;
+import springsideproject1.springsideproject1production.repository.MemberRepository;
 
 import java.util.List;
 import java.util.Optional;

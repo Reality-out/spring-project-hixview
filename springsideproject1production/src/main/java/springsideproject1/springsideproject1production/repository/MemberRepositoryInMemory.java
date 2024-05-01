@@ -1,8 +1,8 @@
-package springsideproject1.springsideproject1build.repository;
+package springsideproject1.springsideproject1production.repository;
 
 import org.springframework.stereotype.Repository;
-import springsideproject1.springsideproject1build.domain.DatabaseHashMap;
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1production.domain.DatabaseHashMap;
+import springsideproject1.springsideproject1production.domain.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.domain.DatabaseHashMap.*;
+import static springsideproject1.springsideproject1production.domain.DatabaseHashMap.*;
 
 @Repository
 public class MemberRepositoryInMemory implements MemberRepository {

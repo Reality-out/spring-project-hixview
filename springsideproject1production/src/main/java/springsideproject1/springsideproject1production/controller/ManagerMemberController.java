@@ -1,13 +1,13 @@
-package springsideproject1.springsideproject1build.controller;
+package springsideproject1.springsideproject1production.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.domain.MembershipForm;
-import springsideproject1.springsideproject1build.service.MemberService;
+import springsideproject1.springsideproject1production.domain.Member;
+import springsideproject1.springsideproject1production.domain.MembershipForm;
+import springsideproject1.springsideproject1production.service.MemberService;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build;
+package springsideproject1.springsideproject1production;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

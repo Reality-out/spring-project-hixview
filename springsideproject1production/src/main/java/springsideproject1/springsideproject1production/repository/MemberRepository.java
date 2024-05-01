@@ -1,6 +1,6 @@
-package springsideproject1.springsideproject1build.repository;
+package springsideproject1.springsideproject1production.repository;
 
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1production.domain.Member;
 
 import java.util.List;
 import java.util.Optional;

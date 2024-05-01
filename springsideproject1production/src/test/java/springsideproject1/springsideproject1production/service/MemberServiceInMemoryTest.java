@@ -1,12 +1,12 @@
-package springsideproject1.springsideproject1build.service;
+package springsideproject1.springsideproject1production.service;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import springsideproject1.springsideproject1build.domain.DatabaseHashMap;
-import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.repository.MemberRepositoryInMemory;
+import springsideproject1.springsideproject1production.domain.DatabaseHashMap;
+import springsideproject1.springsideproject1production.domain.Member;
+import springsideproject1.springsideproject1production.repository.MemberRepositoryInMemory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

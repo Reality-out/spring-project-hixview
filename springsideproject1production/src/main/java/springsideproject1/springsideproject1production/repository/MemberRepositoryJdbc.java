@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.repository;
+package springsideproject1.springsideproject1production.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1production.domain.Member;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
