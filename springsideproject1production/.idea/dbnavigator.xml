@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DBNavigator.Project.DDLFileAttachmentManager">
+    <mappings />
+    <preferences />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -7,8 +11,8 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="5972cda5-54eb-4348-8e11-90a823dffdf6">
-      <console name="Project1ConPro" type="STANDARD" schema="" session="Main" />
+    <connection id="05105aca-32aa-40f2-abd3-4fc87557518d">
+      <console name="Project1ConnectionProduction" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -31,10 +35,10 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="5972cda5-54eb-4348-8e11-90a823dffdf6" active="true" signed="true">
+      <connection id="05105aca-32aa-40f2-abd3-4fc87557518d" active="true" signed="true">
         <database>
-          <name value="Project1ConnectBuild" />
-          <description value="Project1 Database for Build Environment" />
+          <name value="Project1ConnectionProduction" />
+          <description value="Project1 Database for Production Environment" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
           <database-version value="8.0" />
@@ -44,7 +48,7 @@
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="3306" />
-          <database value="project1build" />
+          <database value="project1production" />
           <tns-folder value="" />
           <tns-profile value="" />
           <type value="USER_PASSWORD" />
@@ -78,7 +82,7 @@
           <connect-automatically value="true" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="false" />
-          <environment-type value="production" />
+          <environment-type value="default" />
           <connectivity-timeout value="30" />
           <idle-time-to-disconnect value="30" />
           <idle-time-to-disconnect-pool value="5" />
@@ -95,7 +99,9 @@
           <debugger-type value="ASK" />
         </debugger>
         <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
-          <object-filters />
+          <object-filters>
+            <filter object-type="TABLE" active="true"><![CDATA[TABLE_NAME LIKE 'project1build']]></filter>
+          </object-filters>
           <object-type-filter use-master-settings="true">
             <object-type name="SCHEMA" enabled="true" />
             <object-type name="USER" enabled="true" />

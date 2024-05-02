@@ -1,7 +1,9 @@
 package springsideproject1.springsideproject1build.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserCompanyController {
@@ -11,9 +13,12 @@ public class UserCompanyController {
         return "user/company/companySubPage";
     }
 
-    @GetMapping("/company/samsungelectronics")
-    public String companySamsungElectronicsSubPage() {
-        return "user/company/variouscompanies/samsungelectronics";
+    @GetMapping("/company/companies")
+    public String companyLookUp(
+            @RequestParam("companyName") String companyName, Model model
+    ) {
+        model.addAttribute("companyName", companyName);
+        return "user/company/companyShowSubPage";
     }
 
     @GetMapping("/company/hyundai")
