@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MemberRepository {
     /**
-     * SELECT Data
+     * SELECT Member
      */
     List<Member> findAllMembers();
 
@@ -18,12 +18,12 @@ public interface MemberRepository {
     List<Member> findMemberByName(String name);
 
     /**
-     * INSERT Data
+     * INSERT Member
      */
     void saveMember(Member member);
 
     /**
-     * REMOVE Data
+     * REMOVE Member
      */
     void removeMemberByID(String id);
 }
