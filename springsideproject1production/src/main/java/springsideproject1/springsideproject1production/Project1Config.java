@@ -2,8 +2,8 @@ package springsideproject1.springsideproject1production;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springsideproject1.springsideproject1production.repository.MemberRepository;
-import springsideproject1.springsideproject1production.repository.MemberRepositoryJdbc;
+import springsideproject1.springsideproject1production.repository.*;
+import springsideproject1.springsideproject1production.service.CompanyService;
 import springsideproject1.springsideproject1production.service.MemberService;
 
 import javax.sql.DataSource;
@@ -17,6 +17,9 @@ public class Project1Config {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Member Bean
+     */
     @Bean
     public MemberService memberService() {
         return new MemberService(memberRepository());
@@ -26,5 +29,18 @@ public class Project1Config {
     public MemberRepository memberRepository() {
 //        return new MemberRepositoryInMemory();
         return new MemberRepositoryJdbc(dataSource);
+    }
+
+    /**
+     * Company Bean
+     */
+    @Bean
+    public CompanyService companyService() {
+        return new CompanyService(companyRepository());
+    }
+
+    @Bean
+    public CompanyRepository companyRepository() {
+        return new CompanyRepositoryJdbc(dataSource);
     }
 }

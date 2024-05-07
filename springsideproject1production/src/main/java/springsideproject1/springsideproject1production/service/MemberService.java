@@ -43,7 +43,7 @@ public class MemberService {
      */
     @Transactional
     public void joinMember(Member member) {
-        validateIDCheck(member);
+        DuplicateIDCheck(member);
         memberRepository.saveMember(member);
     }
 
@@ -58,7 +58,7 @@ public class MemberService {
         memberRepository.removeMemberByID(memberID);
     }
 
-    private void validateIDCheck(Member member) {
+    private void DuplicateIDCheck(Member member) {
         memberRepository.findMemberByID(member.getId()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 ID입니다.");}
         );

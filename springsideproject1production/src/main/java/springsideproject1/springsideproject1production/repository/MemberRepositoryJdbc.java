@@ -27,7 +27,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
     }
 
     /**
-     * SELECT Data
+     * SELECT Member
      */
     @Override
     public List<Member> findAllMembers() {
@@ -51,7 +51,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
     }
 
     /**
-     * INSERT Data
+     * INSERT Member
      */
     @Override
     @Transactional
@@ -72,7 +72,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
     }
 
     /**
-     * REMOVE Data
+     * REMOVE Member
      */
     @Override
     @Transactional
