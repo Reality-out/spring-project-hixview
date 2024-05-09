@@ -1,0 +1,16 @@
+.memberTable {
+    border: thick outset #5A5BC7;
+    border-collapse: collapse;
+    padding: 16px
+}
+
+Caption {
+    padding: inherit;
+}
+
+th, td {
+    border: medium outset #39429D;
+    border-collapse: collapse;
+    padding: 1.2rem;
+    text-align: center;
+}
