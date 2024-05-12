@@ -1,7 +1,7 @@
 .memberTable {
     border: thick outset #5A5BC7;
     border-collapse: collapse;
-    padding: 16px
+    padding: 1rem;
 }
 
 Caption {
