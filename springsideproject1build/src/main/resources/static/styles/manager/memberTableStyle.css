@@ -1,16 +1,76 @@
 .memberTable {
-    border: thick outset #5A5BC7;
-    border-collapse: collapse;
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 10px;
+    
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
+
+    display: table;
+    box-sizing: content-box;
+    margin: 1rem;
     padding: 1rem;
+    position: absolute;
+    opacity: 1;
+    transform: none;
 }
 
-Caption {
-    padding: inherit;
-}
+.memberTable > Caption {
+    /* 
+     * block
+     */
 
-th, td {
-    border: medium outset #39429D;
-    border-collapse: collapse;
-    padding: 1.2rem;
+    /* border */
+    border: none;
+    
+    /* font */
+    font: normal normal 400 18px / 1.5 inherit;
+    font-stretch: normal;
+
+    display: table-caption;
+    margin: 1rem;
+    padding: 1rem;
+    opacity: 1;
     text-align: center;
+    transform: none;
+    
+    /*
+     * inline
+     */
+    hyphens: none;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}
+
+.memberTable th, .memberTable td {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px ;
+    
+    /* font */
+    font: normal normal 400 18px / 1.5 inherit;
+    font-stretch: normal;
+
+    display: inline-block;
+    margin: 1rem;
+    padding: 1rem;
+    opacity: 1;
+    transform: none;
+        
+    /*
+     * inline
+     */
+    hyphens: revert;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
 }
