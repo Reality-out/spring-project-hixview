@@ -5,30 +5,36 @@
     <meta name=”viewport” content=”width=device-width”>
     <title>힉스뷰 - 세상 경제사를 한눈에</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+    <link href="/styles/manager/memberTableStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <div>
-        <link href="/styles/manager/memberTableStyle.css" rel="stylesheet"/>
         <table class="memberTable">
             <caption>
-                << Member Data >>
+                <strong><< Member Data >></strong>
             </caption>
-            <thead>
-                <tr>
-                    <th>식별자</th>
-                    <th>ID</th>
-                    <th>패스워드</th>
-                    <th>이름</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="member : ${members}">
-                    <td th:text="${member.identifier}"></td>
-                    <td th:text="${member.id}"></td>
-                    <td th:text="${member.password}"></td>
-                    <td th:text="${member.name}"></td>
-                </tr>
-            </tbody>
+            <tr>
+                <td>
+                    <table class="subMemberTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">식별자</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">패스워드</th>
+                                <th scope="col">이름</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="member : ${members}">
+                                <td th:text="${member.identifier}"></td>
+                                <td th:text="${member.id}"></td>
+                                <td th:text="${member.password}"></td>
+                                <td th:text="${member.name}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
         </table>
     </div>
     <div>

@@ -7,17 +7,24 @@
     border: 3px outset #5A5BC7;
     border-collapse: separate;
     border-radius: 10px;
+    border-spacing: 0;
     
     /* decoration */
     box-shadow: 2px 2px 3px 2px black;
+    opacity: 1;
+    transform: none;
 
-    display: table;
+    /* empty space */
     box-sizing: content-box;
     margin: 1rem;
     padding: 1rem;
-    position: absolute;
-    opacity: 1;
-    transform: none;
+
+    /* positioning */
+    display: table;
+    position: static;
+    
+    /* sorting */
+    justify-content: space-evenly;
 }
 
 .memberTable > Caption {
@@ -29,15 +36,25 @@
     border: none;
     
     /* font */
-    font: normal normal 400 18px / 1.5 inherit;
+    font: normal normal 700 20px/1.2 inherit;
     font-stretch: normal;
+    
+    /* decoration */
+    opacity: 1;
+    transform: none;
 
-    display: table-caption;
+    /* empty space */
+    box-sizing: content-box;
     margin: 1rem;
     padding: 1rem;
-    opacity: 1;
+    
+    /* positioning */
+    caption-side: top;
+    display: table-caption;
+    position: static;
+
+    /* sorting */
     text-align: center;
-    transform: none;
     
     /*
      * inline
@@ -48,28 +65,114 @@
     word-spacing: 0.25rem;
 }
 
-.memberTable th, .memberTable td {
+.subMemberTable {
     /* 
      * block
      */
 
     /* border */
-    border: 2px ;
-    
-    /* font */
-    font: normal normal 400 18px / 1.5 inherit;
-    font-stretch: normal;
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 8px;
+    border-spacing: 0;
 
-    display: inline-block;
-    margin: 1rem;
-    padding: 1rem;
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
     opacity: 1;
     transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 4px;
+    padding: 0;
+    
+    /* positioning */
+    display: table;
+    position: static;
+
+    /* size */
+    width: 400px;
+}
+
+.subMemberTable th {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px outset #5A5BC7;
+    border-collapse: collapse;
+    
+    /* font */
+    font: normal normal 700 18px/1.2 inherit;
+    font-stretch: normal;
+
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* positioning */
+    display: table-cell;
+    position: static;
+
+    /* size */
+    min-height: 40px;
+    min-width: 100px;
+    
+    /* sorting */
+    text-align: center;
         
     /*
      * inline
      */
-    hyphens: revert;
+    hyphens: none;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}
+
+.subMemberTable td {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px outset #5A5BC7;
+    border-collapse: collapse;
+    
+    /* font */
+    font: normal normal 400 16px/1.2 inherit;
+    font-stretch: normal;
+
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* positioning */
+    display: table-cell;
+    position: static;
+
+    /* size */
+    min-height: 40px;
+    min-width: 100px;
+
+    /* sorting */
+    text-align: center;
+
+    /*
+     * inline
+     */
+    hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
     word-spacing: 0.25rem;
