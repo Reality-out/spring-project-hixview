@@ -1,0 +1,151 @@
+#userMainPageNavigator {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: none
+    
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 0;
+
+    /* positioning */
+    display: block;
+    position: static;
+    
+    /* size */
+    width: 100vw;
+    height: 15vw;
+    min-width: 600px;
+    min-height: 90px;
+}
+
+#userMainPageNavigator > ul {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: none;
+    
+    /* decoration */
+    list-style: none;
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: table;
+    position: static;
+    
+    /* size */
+    width: 60vw;
+    height: inherit;
+    min-width: 0.6em;
+    min-height: inherit;
+    
+    /* sorting */
+    text-align: center;
+}
+
+#userMainPageNavigator > ul > li {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 1px solid black;
+    border-collapse: collapse;
+    
+    /* font */
+    font: inherit;
+    font-stretch: inherit;
+
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: table-cell;
+    position: static;
+
+    /* size */
+    width: 20vw;
+    height: inherit;
+    min-width: 0.33em;
+    min-height: inherit;
+    
+    /* sorting */
+    vertical-align: middle;
+
+    /*
+     * inline
+     */
+    hyphens: none;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}
+
+#userMainPageNavigator > ul > li > a {
+    /* 
+     * block
+     */
+    
+    /* border */
+    border: none;
+    
+    /* font */
+    font: normal normal 400 18px/1.2 inherit;
+    font-stretch: normal;
+
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: inline;
+    position: static;
+
+    /* size */
+    width: inherit;
+    height: inherit;
+    min-width: inherit;
+    min-height: inherit;
+    
+    /* sorting */
+    vertical-align: middle;
+
+    /*
+     * inline
+     */
+    hyphens: none;
+    letter-spacing: inherit;
+    text-decoration: none;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}
+
+#userMainPageNavigator > ul > li > a > p {
+    vertical-align: middle;
+}

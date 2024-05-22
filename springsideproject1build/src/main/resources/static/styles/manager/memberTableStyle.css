@@ -1,4 +1,4 @@
-.memberTable {
+.memberWrapperDiv {
     /* 
      * block
      */
@@ -16,15 +16,45 @@
 
     /* empty space */
     box-sizing: content-box;
-    margin: 1rem;
-    padding: 1rem;
+    margin: 1rem auto 1rem;
+    padding: 0 0 1rem;
 
+    /* positioning */
+    display: block;
+    position: static;
+    
+    /* size */
+    width: 90vw;
+    min-width: 600px;
+}
+
+.memberTable {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 8px;
+    border-spacing: 0;
+
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    padding: 0;
+    
     /* positioning */
     display: table;
     position: static;
-    
-    /* sorting */
-    justify-content: space-evenly;
+
+    /* size */
+    width: 400px;
 }
 
 .memberTable > Caption {
@@ -45,8 +75,8 @@
 
     /* empty space */
     box-sizing: content-box;
-    margin: 1rem;
-    padding: 1rem;
+    margin: 1rem auto 1rem;
+    padding: 4px;
     
     /* positioning */
     caption-side: top;
@@ -65,36 +95,7 @@
     word-spacing: 0.25rem;
 }
 
-.subMemberTable {
-    /* 
-     * block
-     */
-
-    /* border */
-    border: 3px outset #5A5BC7;
-    border-collapse: separate;
-    border-radius: 8px;
-    border-spacing: 0;
-
-    /* decoration */
-    box-shadow: 2px 2px 3px 2px black;
-    opacity: 1;
-    transform: none;
-
-    /* empty space */
-    box-sizing: content-box;
-    margin: 4px;
-    padding: 0;
-    
-    /* positioning */
-    display: table;
-    position: static;
-
-    /* size */
-    width: 400px;
-}
-
-.subMemberTable th {
+.memberTable th {
     /* 
      * block
      */
@@ -136,7 +137,7 @@
     word-spacing: 0.25rem;
 }
 
-.subMemberTable td {
+.memberTable td {
     /* 
      * block
      */
