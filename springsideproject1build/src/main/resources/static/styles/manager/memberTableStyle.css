@@ -64,11 +64,7 @@
 
     /* border */
     border: none;
-    
-    /* font */
-    font: normal normal 700 20px/1.2 inherit;
-    font-stretch: normal;
-    
+        
     /* decoration */
     opacity: 1;
     transform: none;
@@ -89,6 +85,12 @@
     /*
      * inline
      */
+    
+    /* font */
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+
     hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
@@ -104,10 +106,6 @@
     border: 2px outset #5A5BC7;
     border-collapse: collapse;
     
-    /* font */
-    font: normal normal 700 18px/1.2 inherit;
-    font-stretch: normal;
-
     /* decoration */
     opacity: 1;
     transform: none;
@@ -131,6 +129,12 @@
     /*
      * inline
      */
+    
+    /* font */
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 700;
+
     hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
@@ -146,10 +150,6 @@
     border: 2px outset #5A5BC7;
     border-collapse: collapse;
     
-    /* font */
-    font: normal normal 400 16px/1.2 inherit;
-    font-stretch: normal;
-
     /* decoration */
     opacity: 1;
     transform: none;
@@ -173,6 +173,12 @@
     /*
      * inline
      */
+    
+    /* font */
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 400;
+
     hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
