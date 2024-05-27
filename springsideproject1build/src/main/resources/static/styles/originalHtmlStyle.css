@@ -9,6 +9,10 @@ html {
     font-stretch: normal;
     font-synthesis: style weight;
     
+    /* empty space */
+    margin: 0;
+    padding: 0;
+    
     /*
      * inline
      */

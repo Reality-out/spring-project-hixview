@@ -4,27 +4,41 @@
     <meta charset="UTF-8"/>
     <title>힉스뷰 - 세상 경제사를 한눈에</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/userMainPageNavigatorStyle.css" rel="stylesheet">
+    <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/userMainPageHeaderStyle.css" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h3>힉스뷰</h3>
+        <div id="headerWrapperDiv">
+            <div id="headerTopDiv">
+                <div id="headerTopLeftDiv">
+                    <!-- Empty Grid -->
+                </div>
+                <div id="headerTopMiddleDiv">
+                    <h1>힉스뷰</h1>
+                </div>
+                <div id="headerTopRightDiv">
+                    <li><a href="/login">로그인</a></li>
+                </div>
+            </div>
+            <div id="headerMiddleDiv">
+                <nav id="userMainPageNavigator">
+                    <ul>
+                        <li><a href="/company">기업</a></li>
+                        <li><a href="/industry">산업</a></li>
+                        <li><a href="/economy">경제</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section>
         <div>
-            <p>마이 페이지 기능</p>
+            <p>마이 페이지 내부 </p>
             <nav>
                 <a href="/membership">회원 가입</a>
             </nav>
         </div>
-        <nav id="userMainPageNavigator">
-            <ul>
-                <li><a href="/company">기업</a></li>
-                <li><a href="/industry">산업</a></li>
-                <li><a href="/economy">경제</a></li>
-            </ul>
-        </nav>
-    </header>
-    <section>
-
     </section>
     <footer>
         <nav>
