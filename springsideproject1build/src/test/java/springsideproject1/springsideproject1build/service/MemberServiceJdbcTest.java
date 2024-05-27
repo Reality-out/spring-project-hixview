@@ -1,29 +1,46 @@
 package springsideproject1.springsideproject1build.service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import springsideproject1.springsideproject1build.domain.DatabaseHashMap;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.repository.MemberRepositoryInMemory;
+import springsideproject1.springsideproject1build.repository.MemberRepository;
+
+import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class MemberServiceInMemoryTest {
-    MemberRepositoryInMemory memberRepositoryInMemory;
+@SpringBootTest
+@Transactional
+@Component
+@TestMethodOrder(MethodOrderer.DisplayName.class)
+class MemberServiceJdbcTest {
+
+    @Autowired
     MemberService memberService;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    private final JdbcTemplate jdbcTemplateTest;
+
+    @Autowired
+    public MemberServiceJdbcTest(DataSource dataSource) {
+        jdbcTemplateTest = new JdbcTemplate(dataSource);
+    }
 
     @BeforeEach
     public void beforeEach() {
-        memberRepositoryInMemory = new MemberRepositoryInMemory();
-        memberService = new MemberService(memberRepositoryInMemory);
+        resetTable("testmembers");
     }
 
-    @AfterEach
-    public void afterEach() {
-        DatabaseHashMap.clearSettings();
+    private void resetTable(String tableName) {
+        jdbcTemplateTest.execute("DELETE FROM " + tableName);
+        jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
     }
 
     @DisplayName("회원 가입 테스트")
@@ -31,16 +48,15 @@ class MemberServiceInMemoryTest {
     public void membership() {
         // given
         Member member = new Member();
-        member.setId("hunter10");
-        member.setPassword("newPassword!");
-        member.setName("배주민");
+        member.setId("ABcd1234!");
+        member.setPassword("EFgh1234!");
+        member.setName("박진하");
 
         // when
         memberService.joinMember(member);
 
         // then
-        assertThat(memberService.findOneMemberByID("hunter10").get()).isEqualTo(member);
-        assertThat(memberService.findOneMemberByID("noneID")).isEmpty();
+        assertThat(memberService.findMembers().getFirst()).usingRecursiveComparison().isEqualTo(member);
     }
 
     @DisplayName("중복 ID 가입 테스트")

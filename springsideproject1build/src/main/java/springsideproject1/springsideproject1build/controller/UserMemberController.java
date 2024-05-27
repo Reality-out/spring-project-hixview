@@ -13,6 +13,15 @@ import springsideproject1.springsideproject1build.service.MemberService;
 public class UserMemberController {
     private final MemberService memberService;
 
+    @GetMapping("/login")
+    public String loginOnSite() {
+        return "user/loginSitePage";
+    }
+
+//    @PostMapping("/login")
+//    public String submitIDAndPWForLogin(Member member) {
+//    }
+
     @GetMapping("/membership")
     public String createMembershipForm() {
         return "user/createMembershipForm";
