@@ -27,7 +27,6 @@ public class Project1Config {
 
     @Bean
     public MemberRepository memberRepository() {
-//        return new MemberRepositoryInMemory();
         return new MemberRepositoryJdbc(dataSource);
     }
 

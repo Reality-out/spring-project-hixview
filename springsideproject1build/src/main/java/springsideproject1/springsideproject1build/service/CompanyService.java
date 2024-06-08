@@ -46,6 +46,7 @@ public class CompanyService {
         companyRepository.removeCompanyByCode(companyCode);
     }
 
+    @Transactional
     private void DuplicateCodeCheck(Company company) {
         companyRepository.searchCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 코드 번호입니다.");}

@@ -58,6 +58,7 @@ public class MemberService {
         memberRepository.removeMemberByID(memberID);
     }
 
+    @Transactional
     private void DuplicateIDCheck(Member member) {
         memberRepository.findMemberByID(member.getId()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 ID입니다.");}

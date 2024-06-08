@@ -18,10 +18,6 @@ public class UserMemberController {
         return "user/loginSitePage";
     }
 
-//    @PostMapping("/login")
-//    public String submitIDAndPWForLogin(Member member) {
-//    }
-
     @GetMapping("/membership")
     public String createMembershipForm() {
         return "user/createMembershipForm";

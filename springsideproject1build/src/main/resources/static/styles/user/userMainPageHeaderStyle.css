@@ -169,6 +169,41 @@
     grid-area: 1 / 3 / 2 / 4;
 }
 
+#headerTopRightDiv > a {
+    /* 
+     * block
+     */
+    
+    /* border */
+    border: none;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: inline-block;
+    position: relative;
+
+    /* size */
+    top: 60%;
+    left: 50%;
+        
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    color: darkblue;
+
+    word-spacing: 0.25rem;
+}
+
 /*
  * Middle Header Layer
  */

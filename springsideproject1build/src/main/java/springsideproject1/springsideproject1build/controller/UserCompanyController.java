@@ -30,7 +30,7 @@ public class UserCompanyController {
         return "user/company/companyShowSubPage";
     }
 
-    @GetMapping("/company/companysearch")
+    @GetMapping("/company/companies/search")
     public String companySearch(
             @RequestParam("nameOrCode") String nameOrCode
     ) {
