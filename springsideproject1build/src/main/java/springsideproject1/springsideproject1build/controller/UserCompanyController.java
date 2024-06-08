@@ -19,7 +19,7 @@ public class UserCompanyController {
 
     @GetMapping("/company")
     public String companySubPage() {
-        return "user/company/companySubPage";
+        return "user/company/subPage";
     }
 
     @GetMapping("/company/companies")
@@ -27,7 +27,7 @@ public class UserCompanyController {
             @RequestParam("companyCode") Long companyCode, Model model
     ) {
         model.addAttribute("companyName", companyService.SearchOneCompanyByCode(companyCode).get().getName());
-        return "user/company/companyShowSubPage";
+        return "user/company/showCompany";
     }
 
     @GetMapping("/company/companies/search")

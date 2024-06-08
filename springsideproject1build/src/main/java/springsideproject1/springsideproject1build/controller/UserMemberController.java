@@ -15,12 +15,12 @@ public class UserMemberController {
 
     @GetMapping("/login")
     public String loginOnSite() {
-        return "user/loginSitePage";
+        return "user/loginPage";
     }
 
     @GetMapping("/membership")
     public String createMembershipForm() {
-        return "user/createMembershipForm";
+        return "user/membership/createPage";
     }
 
     @PostMapping("/membership")
@@ -32,6 +32,6 @@ public class UserMemberController {
 
         memberService.joinMember(member);
 
-        return "user/finishMembership";
+        return "user/membership/finishPage";
     }
 }

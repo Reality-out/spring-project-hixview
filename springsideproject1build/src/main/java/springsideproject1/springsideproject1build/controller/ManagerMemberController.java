@@ -16,22 +16,22 @@ import java.util.List;
 public class ManagerMemberController {
     private final MemberService memberService;
 
-    @GetMapping("/members/list")
+    @GetMapping("/manager/members/show")
     public String ShowMemberList(Model model) {
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
-        return "manager/allMemberList";
+        return "manager/select/members";
     }
 
-    @GetMapping("/member/remove")
+    @GetMapping("/manager/member/remove")
     public String createMemberWithdrawForm() {
-        return "manager/removeMembershipForm";
+        return "manager/remove/membership/process";
     }
 
-    @PostMapping("/member/remove")
+    @PostMapping("/manager/member/remove")
     public String removeMemberWithForm(MembershipForm form, Model model) {
         memberService.removeMember(form.getId());
         model.addAttribute("ID", form.getId());
-        return "manager/finishRemoveMember";
+        return "manager/remove/membership/finish";
     }
 }
