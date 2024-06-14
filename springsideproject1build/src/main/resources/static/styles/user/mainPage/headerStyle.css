@@ -1,13 +1,7 @@
-/*
- * Header
- */
-#headerWrapperDiv {
+.headerWrapperDiv {    
     /* 
      * block
      */
-
-    /* border */
-    border: none;
     
     /* empty space */
     box-sizing: border-box;
@@ -19,10 +13,8 @@
     position: static;
 
     /* size */
-    width: calc(100vw - 15px);
+    width: calc(100vw - 14px);
     height: 216px;
-    min-width: 606px;
-    min-height: 216px;
     
     /* 
      * Grid layout
@@ -42,13 +34,10 @@
 /*
  * Top Header Layer
  */
-#headerTopDiv {
+.headerTopDiv {
     /* 
      * block
      */
-
-    /* border */
-    border: none;
     
     /* empty space */
     box-sizing: border-box;
@@ -62,8 +51,6 @@
     /* size */
     width: inherit;
     height: 108px;
-    min-width: inherit;
-    min-height: 108px;
     
     /* 
      * Grid layout
@@ -72,13 +59,10 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
-#headerTopLeftDiv {
+.headerTopLeftDiv {
     /* 
      * block
      */
-
-    /* border */
-    border: none;
     
     /* empty space */
     box-sizing: border-box;
@@ -94,13 +78,10 @@
     grid-area: 1 / 1 / 2 / 2;
 }
 
-#headerTopMiddleDiv {
+.headerTopMiddleDiv {
     /* 
      * block
      */
-
-    /* border */
-    border: none;
     
     /* empty space */
     box-sizing: border-box;
@@ -121,7 +102,7 @@
     place-items: center;
 }
 
-#headerTopMiddleDiv > h1 {
+.headerTopMiddleDiv > h1 {
     /* 
      * block
      */
@@ -147,13 +128,10 @@
     word-spacing: 0.25rem;
 }
 
-#headerTopRightDiv {
+.headerTopRightDiv {
     /* 
      * block
      */
-
-    /* border */
-    border: none;
     
     /* empty space */
     box-sizing: border-box;
@@ -169,14 +147,11 @@
     grid-area: 1 / 3 / 2 / 4;
 }
 
-#headerTopRightDiv > a {
+.headerTopRightDiv > a {
     /* 
      * block
      */
-    
-    /* border */
-    border: none;
-    
+        
     /* empty space */
     box-sizing: border-box;
     margin: 0;
@@ -207,13 +182,10 @@
 /*
  * Middle Header Layer
  */
-#headerMiddleDiv {
+.headerMiddleDiv {
     /* 
      * block
      */
-
-    /* border */
-    border: none;
     
     /* empty space */
     box-sizing: border-box;
@@ -226,8 +198,6 @@
     /* size */
     width: inherit;
     height: 108px;
-    min-width: inherit;
-    min-height: 108px;
     
     /* 
      * Grid layout
@@ -239,7 +209,7 @@
 /* 
  * Navigator
  */
-#userMainPageNavigator {
+.headerNavigator {
     /* 
      * block
      */
@@ -264,8 +234,6 @@
     /* size */
     width: inherit;
     height: 108px;
-    min-width: inherit;
-    min-height: 108px;
 
     /* sorting */
     justify-content: center;
@@ -277,7 +245,7 @@
     flex-flow: row wrap;
 }
 
-#userMainPageNavigator > ul {
+.headerNavigator > ul {
     /* 
      * block
      */
@@ -302,8 +270,6 @@
     /* size */
     width: 600px;
     height: 70px;
-    min-width: 600px;
-    min-height: 70px;
     
     /* sorting */
     justify-content: center;
@@ -316,7 +282,7 @@
     flex-flow: row nowrap;
 }
 
-#userMainPageNavigator > ul > li {
+.headerNavigator > ul > li {
     /* 
      * block
      */
@@ -339,8 +305,6 @@
     /* size */
     width: 200px;
     height: inherit;
-    min-width: 200px;
-    min-height: inherit;
     
     /* sorting */
     justify-content: center;
@@ -351,17 +315,14 @@
      */
     flex-grow: 1;
     flex-shrink: 1;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
 }
 
-#userMainPageNavigator > ul > li > a {
+.headerNavigator > ul > li > a {
     /* 
      * block
      */
-    
-    /* border */
-    border: none;
-    
+        
     /* empty space */
     box-sizing: border-box;
     margin: 0;
@@ -374,8 +335,6 @@
     /* size */
     width: inherit;
     height: inherit;
-    min-width: inherit;
-    min-height: inherit;
     
     /* sorting */
     justify-content: center;
@@ -395,17 +354,17 @@
     word-spacing: 0.25rem;
 }
 
-#userMainPageNavigator > ul > li:first-child {
+.headerNavigator > ul > li:first-child {
     /* border */
     border-left: 3px outset darkblue;
 }
 
-#userMainPageNavigator > ul > li:last-child {
+.headerNavigator > ul > li:last-child {
     /* border */
     border-right: 3px outset darkblue;
 }
 
-#userMainPageNavigator > ul > li:hover {
+.headerNavigator > ul > li:hover {
     background-color: #80c0ff;
     background-clip: content-box;
 }

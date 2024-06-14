@@ -6,23 +6,25 @@
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
     <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
     <link href="/styles/user/mainPage/headerStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/mainPage/bodyStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/mainPage/footerStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <header>
-        <div id="headerWrapperDiv">
-            <div id="headerTopDiv">
-                <div id="headerTopLeftDiv">
+        <div class="headerWrapperDiv">
+            <div class="headerTopDiv">
+                <div class="headerTopLeftDiv">
                     <!-- Empty Grid -->
                 </div>
-                <div id="headerTopMiddleDiv">
+                <div class="headerTopMiddleDiv">
                     <h1>힉스뷰</h1>
                 </div>
-                <div id="headerTopRightDiv">
+                <div class="headerTopRightDiv">
                     <a href="/login">로그인</a>
                 </div>
             </div>
-            <div id="headerMiddleDiv">
-                <nav id="userMainPageNavigator">
+            <div class="headerMiddleDiv">
+                <nav class="headerNavigator">
                     <ul>
                         <li><a href="/company">기업</a></li>
                         <li><a href="/industry">산업</a></li>
@@ -32,11 +34,20 @@
             </div>
         </div>
     </header>
-    <section>
+    <section style="height: 800px;"> <!-- TODO: 추후 바디 부분 코드 추가 요망 -->
     </section>
     <footer>
-        <nav>
-        </nav>
+        <div class="footerWrapperDiv">
+            <div class="footerTopDiv">
+                <nav class="footerNavigator">
+                    <ul>
+                        <li><a href="/introduce">사이트 소개</a></li>
+                        <li><a href="/notify">공지 사항</a></li>
+                        <li><a href="/question-answer">자주 묻는 질문</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
