@@ -1,0 +1,27 @@
+html {
+    /* 
+     * block
+     */
+
+    /* font */
+    font-size: 16px;
+    font-family: "Times New Roman";
+    font-stretch: normal;
+    font-synthesis: style weight;
+    
+    /* empty space */
+    margin: 0;
+    padding: 0;
+    
+    /*
+     * inline
+     */
+    
+    /* text */
+    hyphens: none;
+    letter-spacing: normal;
+    line-height: 1.2;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+    writing-mode: horizontal-tb;
+}

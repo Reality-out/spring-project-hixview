@@ -1,0 +1,370 @@
+.headerWrapperDiv {    
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+
+    /* size */
+    width: calc(100vw - 14px);
+    height: 216px;
+    
+    /* 
+     * Grid layout
+     */
+    
+    /* sorting */
+    place-content: center;
+    place-items: center;
+    
+    grid: auto-flow repeat(2, 108px) / 1fr;
+    grid-gap: 0;
+    grid-template-areas: 
+        "header-top"
+        "header-middle";
+}
+
+/*
+ * Top Header Layer
+ */
+.headerTopDiv {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+
+    /* size */
+    width: inherit;
+    height: 108px;
+    
+    /* 
+     * Grid layout
+     */
+    grid-gap: 0;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.headerTopLeftDiv {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    position: static;
+    
+    /* 
+     * Grid layout
+     */
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.headerTopMiddleDiv {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+    
+    /* 
+     * Grid layout
+     */
+    grid-area: 1 / 2 / 2 / 3;
+    
+    /* sorting */
+    place-content: center;
+    place-items: center;
+}
+
+.headerTopMiddleDiv > h1 {
+    /* 
+     * block
+     */
+
+    /* positioning */
+    position: static;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: black;
+    
+    word-spacing: 0.25rem;
+}
+
+.headerTopRightDiv {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    position: static;
+    
+    /* 
+     * Grid layout
+     */
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.headerTopRightDiv > a {
+    /* 
+     * block
+     */
+        
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: inline-block;
+    position: relative;
+
+    /* size */
+    top: 60%;
+    left: 50%;
+        
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    color: darkblue;
+
+    word-spacing: 0.25rem;
+}
+
+/*
+ * Middle Header Layer
+ */
+.headerMiddleDiv {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    position: static;
+
+    /* size */
+    width: inherit;
+    height: 108px;
+    
+    /* 
+     * Grid layout
+     */
+    grid-area: 2 / 1 / 3 / 2;
+    grid-gap: 0;
+}
+
+/* 
+ * Navigator
+ */
+.headerNavigator {
+    /* 
+     * block
+     */
+
+    /* background */
+    background: local padding-box #1e90ffff;
+    
+    /* border */
+    border: 3px outset darkblue;
+    border-collapse: separate;
+    border-spacing: 0;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+    
+    /* size */
+    width: inherit;
+    height: 108px;
+
+    /* sorting */
+    justify-content: center;
+    align-content: center;
+
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row wrap;
+}
+
+.headerNavigator > ul {
+    /* 
+     * block
+     */
+    
+    /* border */
+    border: 3px outset darkblue;
+    border-collapse: collapse;
+    
+    /* decoration */
+    list-style: none;
+
+    /* empty space */
+    box-sizing: border-box;
+    margin: 8px 0;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+    z-index: 0;
+    
+    /* size */
+    width: 600px;
+    height: 70px;
+    
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+    
+    /* 
+     * flexbox layout
+     */
+    column-gap: 0;
+    flex-flow: row nowrap;
+}
+
+.headerNavigator > ul > li {
+    /* 
+     * block
+     */
+    
+    /* border */
+    border-left: 1.5px outset darkblue;
+    border-right: 1.5px outset darkblue;
+    border-collapse: collapse;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 3px 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+    z-index: -1;
+
+    /* size */
+    width: 200px;
+    height: inherit;
+    
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+    
+    /* 
+     * flexbox layout
+     */
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-flow: row nowrap;
+}
+
+.headerNavigator > ul > li > a {
+    /* 
+     * block
+     */
+        
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+
+    /* size */
+    width: inherit;
+    height: inherit;
+    
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    color: black;
+
+    word-spacing: 0.25rem;
+}
+
+.headerNavigator > ul > li:first-child {
+    /* border */
+    border-left: 3px outset darkblue;
+}
+
+.headerNavigator > ul > li:last-child {
+    /* border */
+    border-right: 3px outset darkblue;
+}
+
+.headerNavigator > ul > li:hover {
+    background-color: #80c0ff;
+    background-clip: content-box;
+}
