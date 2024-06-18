@@ -1,25 +1,25 @@
-package springsideproject1.springsideproject1build.domain;
+package springsideproject1.springsideproject1build.database;
 
-import lombok.Getter;
+import springsideproject1.springsideproject1build.domain.Member;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class DatabaseHashMap {
-    @Getter
+public class MemberDatabase {
     private static Map<AtomicLong, Member> memberHashMap = new ConcurrentHashMap<>();
 
-    @Getter
     private static AtomicLong sequence = new AtomicLong();
 
     public static void increaseSequence() {
         sequence.set(sequence.get() + 1);
     }
 
-    public static void clearSettings() {
-        memberHashMap.clear();
-        sequence.set(0L);
+    public static Map<AtomicLong, Member> getCompanyHashMap() {
+        return memberHashMap;
     }
 
+    public static AtomicLong getSequence() {
+        return sequence;
+    }
 }

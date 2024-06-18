@@ -4,12 +4,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import springsideproject1.springsideproject1build.domain.DatabaseHashMap;
+import springsideproject1.springsideproject1build.database.MemberDatabase;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.repository.MemberRepositoryInMemory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static springsideproject1.springsideproject1build.database.DatabaseUtils.clearMemberDatabase;
 
 class MemberServiceInMemoryTest {
     MemberRepositoryInMemory memberRepositoryInMemory;
@@ -23,7 +24,7 @@ class MemberServiceInMemoryTest {
 
     @AfterEach
     public void afterEach() {
-        DatabaseHashMap.clearSettings();
+        clearMemberDatabase();
     }
 
     @DisplayName("회원 가입 테스트")
