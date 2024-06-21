@@ -29,13 +29,13 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * SELECT Company
      */
     @Override
-    public Optional<Company> searchCompanyByCode(Long code) {
-        return Optional.ofNullable(jdbcTemplate.query("select * from testcompanies where code = ?", companyRowMapper(), code).getFirst());
+    public Optional<Company> searchCompanyByCode(String companyCode) {
+        return Optional.ofNullable(jdbcTemplate.query("select * from testcompanies where code = ?", companyRowMapper(), companyCode).getFirst());
     }
 
     @Override
-    public Optional<Company> searchCompanyByName(String name) {
-        return Optional.ofNullable(jdbcTemplate.query("select * from testcompanies where name = ?", companyRowMapper(), name).getFirst());
+    public Optional<Company> searchCompanyByName(String companyName) {
+        return Optional.ofNullable(jdbcTemplate.query("select * from testcompanies where name = ?", companyRowMapper(), companyName).getFirst());
     }
 
     /**
@@ -63,14 +63,14 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * REMOVE Company
      */
     @Override
-    public void removeCompanyByCode(Long code) {
-        jdbcTemplate.execute("delete from testcompanies where code = '" + code + "'");
+    public void removeCompanyByCode(String companyCode) {
+        jdbcTemplate.execute("delete from testcompanies where code = '" + companyCode + "'");
     }
 
     private RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> {
             Company company = new Company();
-            company.setCode(resultSet.getLong("code"));
+            company.setCode(resultSet.getString("code"));
             company.setCountry(resultSet.getString("country"));
             company.setScale(resultSet.getString("scale"));
             company.setName(resultSet.getString("name"));

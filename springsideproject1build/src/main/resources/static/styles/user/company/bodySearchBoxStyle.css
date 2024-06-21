@@ -1,37 +1,3 @@
-.bodyWrapper {    
-    /* 
-     * block
-     */
-    
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding: 0;
-
-    /* positioning */
-    display: grid;
-    position: static;
-
-    /* size */
-    width: calc(100vw - 14px);
-    height: 760px;
-    
-    /* 
-     * Grid layout
-     */
-    
-    /* sorting */
-    place-content: center;
-    place-items: center;
-    
-    grid-template-rows: 160px 600px;
-    grid-template-columns: calc(100vw - 14px);
-    grid-gap: 0;
-    grid-template-areas: 
-        "top"
-        "bottom";
-}
-
 .searchBoxWrapper {    
     /* 
      * block
@@ -39,7 +5,7 @@
     
     /* empty space */
     box-sizing: border-box;
-    margin: 0 auto;
+    margin: 40px auto 0px;
     padding: 0;
 
     /* positioning */
@@ -162,7 +128,6 @@
     /* font */
     font-size: 16px;
     font-weight: 700;
-    line-height: 1.2;
     color: #2D2A40;
 }
 
@@ -230,6 +195,5 @@
     /* font */
     font-size: 16px;
     font-weight: 700;
-    line-height: 1.2;
     color: #2D2A40;
 }

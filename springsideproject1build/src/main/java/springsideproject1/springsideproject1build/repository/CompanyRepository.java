@@ -8,7 +8,7 @@ public interface CompanyRepository {
     /**
      * SELECT Company
      */
-    Optional<Company> searchCompanyByCode(Long code);
+    Optional<Company> searchCompanyByCode(String code);
 
     Optional<Company> searchCompanyByName(String name);
 
@@ -20,5 +20,5 @@ public interface CompanyRepository {
     /**
      * REMOVE Company
      */
-    void removeCompanyByCode(Long code);
+    void removeCompanyByCode(String code);
 }

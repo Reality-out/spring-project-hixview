@@ -1,0 +1,41 @@
+.logo {
+    background-attachment: local;
+    background-clip: content-box;
+    background-origin: content-box;
+    background-repeat: no-repeat;
+
+    background-size: 60%;
+    background-position: center;
+}
+
+.logoHyundaiMotorCompany {
+    background-image: url("/images/company/logo/HyundaiMotorCompany.png");
+}
+
+.logoKakao {
+    background-image: url("/images/company/logo/Kakao.png");
+}
+
+.logoKia {
+    background-image: url("/images/company/logo/Kia.png");
+}
+
+.logoLGEnergySolution {
+    background-image: url("/images/company/logo/LGEnergySolution.png");
+}
+
+.logoNaver {
+    background-image: url("/images/company/logo/Naver.png");
+}
+
+.logoSamsungElectronics {
+    background-image: url("/images/company/logo/SamsungElectronics.png");
+}
+
+.logoSamsungSDI {
+    background-image: url("/images/company/logo/SamsungSDI.png");
+}
+
+.logoSKHynix {
+    background-image: url("/images/company/logo/SKHynix.png");
+}

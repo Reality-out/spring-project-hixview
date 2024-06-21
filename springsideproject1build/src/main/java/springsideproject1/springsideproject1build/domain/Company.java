@@ -4,19 +4,19 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Company {
-    private AtomicLong code;
+    private AtomicReference<String> code;
     private AtomicReference<String> country;
     private AtomicReference<String> scale;
     private AtomicReference<String> name;
     private AtomicReference<String> category1st;
     private AtomicReference<String> category2nd;
 
-    public Long getCode() {
+    public String getCode() {
         return code.get();
     }
 
-    public void setCode(Long code) {
-        this.code = new AtomicLong(code);
+    public void setCode(String code) {
+        this.code = new AtomicReference<String>(code);
     }
 
     public String getCountry() {

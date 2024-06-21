@@ -30,7 +30,7 @@ public class UserCompanyController {
     ) {
         Optional<Company> company;
         if (isNumeric(nameOrCode)) {
-            company = companyService.SearchOneCompanyByCode(Long.valueOf(nameOrCode));
+            company = companyService.SearchOneCompanyByCode(nameOrCode);
         } else {
             company = companyService.SearchOneCompanyByName(nameOrCode);
         }

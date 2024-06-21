@@ -13,7 +13,6 @@
     box-sizing: border-box;
     margin: 0 auto;
     padding: 0;
-    padding-bottom: 10px;
 
     /* positioning */
     display: grid;
@@ -154,7 +153,6 @@
     /* font */
     font-size: 14px;
     font-weight: 300;
-    line-height: 1.2;
     text-decoration: none;
     color: #696969;
 }

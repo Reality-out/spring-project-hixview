@@ -1,0 +1,161 @@
+.companyListWrapper {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 120px auto 80px;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+
+    /* size */
+    width: calc(100vw - 14px);
+    height: 600px;
+    
+    /* 
+     * Grid layout
+     */
+    
+    grid-template-rows: 600px;
+    grid-template-columns: calc(100vw - 14px);
+    grid-gap: 0;
+}
+
+.firstLayer {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+
+    /* size */
+    width: inherit;
+    height: 600px;
+    
+    /* 
+     * Grid layout
+     */
+
+    /* sorting */
+    place-content: center;
+    place-items: center;
+
+    grid-area: 1 / 1 / 2 / 2;
+    grid-gap: 0;
+    grid-template-rows: 600px;
+    grid-template-columns: repeat(4, calc((100vw - 14px) / 4));
+    grid-template-areas: 
+        "a b c d";
+}
+
+.row1 {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+
+    /* size */
+    width: calc((100vw - 14px) / 4);
+    height: 600px;
+    
+    /* 
+     * Flex layout
+     */
+
+    /* sorting */
+    place-content: center;
+    place-items: center;
+    
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row wrap;
+}
+
+.row1 > h3, .row1 > p {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 20px;
+    padding: 0;
+
+    /* positioning */
+    display: inline-flex;
+    position: static;
+
+    /* size */
+    width: calc((100vw - 14px) / 4);
+    height: min-content;
+    
+    /* sortind */
+    place-content: center;
+    place-items: center;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 19px;
+    font-weight: 700;
+    color: #2D2A40;
+}
+
+.row1 > p {
+    /*
+     * inline
+     */
+    font-size: 16px;
+}
+
+.row1 > a {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 20px;
+    padding: 0;
+
+    /* positioning */
+    display: inline-flex;
+    position: static;
+
+    /* size */
+    width: calc((100vw - 14px) / 4);
+    height: 160px;
+    
+    /* sortind */
+    place-content: center;
+    place-items: center;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    text-decoration: none;
+}

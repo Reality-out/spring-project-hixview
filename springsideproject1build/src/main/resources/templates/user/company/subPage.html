@@ -7,7 +7,10 @@
     <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
     <link href="/styles/user/headerStyle.css" rel="stylesheet"/>
     <link href="/styles/user/footerStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/company/bodyStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/logoStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/company/bodyWrapperStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/company/bodySearchBoxStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/company/bodyCompanyListStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <header>
@@ -17,7 +20,9 @@
                     <!-- Empty Grid -->
                 </div>
                 <div class="headerTopMiddle">
-                    <h1>힉스뷰</h1>
+                    <a href="/">
+                        <h1>힉스뷰</h1>
+                    </a>
                 </div>
                 <div class="headerTopRight">
                     <a href="/login">로그인</a>
@@ -45,16 +50,45 @@
                     </form>
                 </div>
             </div>
-            <div>
-                <p>
-                    <a href="/company/companies?companyCode=005930">삼성전자</a>
-                </p>
-                <p>
-                    <a href="/company/companies?companyCode=005380">현대차</a>
-                </p>
-                <p>
-                    <a href="/">처음 화면으로</a>
-                </p>
+            <div class="companyListWrapper">
+                <div class="firstLayer">
+                    <div class="row1">
+                        <h3>반도체 대표 기업</h3>
+                        <p>삼성전자</p>
+                        <a class="logo logoSamsungElectronics" href="/company/companies?nameOrCode=005930">
+                        </a>
+                        <p>SK하이닉스</p>
+                        <a class="logo logoSKHynix" href="/company/companies?nameOrCode=000660">
+                        </a>
+                    </div>
+                    <div class="row1">
+                        <h3>전기차 대표 기업</h3>
+                        <p>현대차</P>
+                        <a class="logo logoHyundaiMotorCompany" href="/company/companies?nameOrCode=005380">
+                        </a>
+                        <p>기아</P>
+                        <a class="logo logoKia" href="/company/companies?nameOrCode=000270">
+                        </a>
+                    </div>
+                    <div class="row1">
+                        <h3>2차전지 대표 기업</h3>
+                        <p>LG에너지솔루션</P>
+                        <a class="logo logoLGEnergySolution" href="/company/companies?nameOrCode=373220">
+                        </a>
+                        <p>삼성SDI</P>
+                        <a class="logo logoSamsungSDI" href="/company/companies?nameOrCode=006400">
+                        </a>
+                    </div>
+                    <div class="row1">
+                        <h3>IT 대표 기업</h3>
+                        <p>NAVER</P>
+                        <a class="logo logoNaver" href="/company/companies?nameOrCode=035420">
+                        </a>
+                        <p>카카오</P>
+                        <a class="logo logoKakao" href="/company/companies?nameOrCode=035720">
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

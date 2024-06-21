@@ -18,12 +18,12 @@ public class CompanyService {
     /**
      * SELECT One Company
      */
-    public Optional<Company> SearchOneCompanyByCode(Long code) {
-        return companyRepository.searchCompanyByCode(code);
+    public Optional<Company> SearchOneCompanyByCode(String companyCode) {
+        return companyRepository.searchCompanyByCode(companyCode);
     }
 
-    public Optional<Company> SearchOneCompanyByName(String name) {
-        return companyRepository.searchCompanyByName(name);
+    public Optional<Company> SearchOneCompanyByName(String companyName) {
+        return companyRepository.searchCompanyByName(companyName);
     }
 
     /**
@@ -39,7 +39,7 @@ public class CompanyService {
      * REMOVE One Member
      */
     @Transactional
-    public void removeCompany(Long companyCode) {
+    public void removeCompany(String companyCode) {
         companyRepository.searchCompanyByCode(companyCode).orElseThrow(
                 () -> new IllegalStateException("해당 ID와 일치하는 멤버가 없습니다."));
 
