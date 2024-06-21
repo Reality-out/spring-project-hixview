@@ -1,0 +1,235 @@
+.bodyWrapper {    
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+
+    /* size */
+    width: calc(100vw - 14px);
+    height: 760px;
+    
+    /* 
+     * Grid layout
+     */
+    
+    /* sorting */
+    place-content: center;
+    place-items: center;
+    
+    grid-template-rows: 160px 600px;
+    grid-template-columns: calc(100vw - 14px);
+    grid-gap: 0;
+    grid-template-areas: 
+        "top"
+        "bottom";
+}
+
+.searchBoxWrapper {    
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+
+    /* positioning */
+    display: block;
+    position: static;
+
+    /* size */
+    width: calc(100vw - 14px);
+    height: 160px;
+    
+    /* 
+     * Grid layout
+     */
+    
+    /* sorting */
+    place-content: center;
+    
+    grid-template-rows: 160px;
+    grid-template-columns: calc(100vw - 14px);
+    grid-gap: 0;
+}
+
+.searchBox {
+    /* 
+     * block
+     */
+
+    /* background */
+    background: local padding-box #727479;
+    
+    /* border */
+    border: 3px outset darkblue;
+    border-collapse: collapse;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: auto;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+    
+    /* size */
+    width: 400px;
+    height: 80px;
+
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row nowrap;
+}
+
+.searchBox > form {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+    /* positioning */
+    display: flex;
+    position: static;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+    /* size */
+    width: inherit;
+    height: inherit;
+    
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row nowrap;
+}
+
+.searchBox > form > label {
+    /* 
+     * block
+     */
+
+    /* background */
+    background: #ced4da;
+    
+    /* border */
+    border: 2px solid #42414D;
+    border-collapse: collapse;
+
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 5px;
+    padding: 0;
+    
+    /* positioning */
+    display: inline-flex;
+    position: static;
+    
+    /* size */
+    width: 60px;
+    height: 60px;
+    
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #2D2A40;
+}
+
+.searchBox > form > input {
+    /* 
+     * block
+     */
+    
+    /* background */
+    background-color: white;
+    
+    /* border */
+    border: 2px solid #42414D;
+    border-collapse: collapse;
+
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 5px;
+    padding: 0;
+    
+    /* positioning */
+    display: inline-flex;
+    position: static;
+    
+    /* size */
+    width: 180px;
+    height: 60px;
+}
+
+.searchBox > form > button {
+    /* 
+     * block
+     */
+    
+    /* background */
+    background: #ced4da;
+
+    /* border */
+    border: 2px solid #888888;
+    border-collapse: separate;
+    border-radius: 14px;
+    border-spacing: 0;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 5px;
+    padding: 0;
+
+    /* positioning */
+    display: inline-flex;
+    position: static;
+
+    /* size */
+    width: 60px;
+    height: 60px;
+
+    /* sorting */
+    justify-content: center;
+    align-items: center;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #2D2A40;
+}

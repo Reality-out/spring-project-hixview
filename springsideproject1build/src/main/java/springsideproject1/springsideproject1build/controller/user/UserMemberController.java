@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller;
+package springsideproject1.springsideproject1build.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

@@ -94,7 +94,6 @@
     hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
-    word-spacing: 0.25rem;
 }
 
 .memberTable th {
@@ -138,7 +137,6 @@
     hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
-    word-spacing: 0.25rem;
 }
 
 .memberTable td {
@@ -182,5 +180,4 @@
     hyphens: none;
     letter-spacing: inherit;
     word-break: keep-all;
-    word-spacing: 0.25rem;
 }

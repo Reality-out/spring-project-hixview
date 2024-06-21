@@ -4,28 +4,72 @@
     <meta charset="UTF-8"/>
     <title>힉스뷰 - 세상 경제사를 한눈에</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+    <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/headerStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/footerStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/company/bodyStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <header>
-        <h3>기업</h3>
-    </header>
-    <div>
-        <p>
-            <a href="/company/companies?companyCode=005930">삼성전자</a>
-        </p>
-        <p>
-            <a href="/company/companies?companyCode=005380">현대차</a>
-        </p>
-        <form action="/company/companies/search" method="get">
-            <div>
-                <label for="nameOrCode">기업명 또는 기업 코드</label>
-                <input type="search" id="nameOrCode" name="nameOrCode">
+        <div class="headerWrapper">
+            <div class="headerTop">
+                <div class="headerTopLeft">
+                    <!-- Empty Grid -->
+                </div>
+                <div class="headerTopMiddle">
+                    <h1>힉스뷰</h1>
+                </div>
+                <div class="headerTopRight">
+                    <a href="/login">로그인</a>
+                </div>
             </div>
-            <button type="submit">기업 검색</button>
-        </form>
-        <p>
-            <a href="/">처음 화면으로</a>
-        </p>
-    </div>
+            <div class="headerMiddle">
+                <nav id="headerNavigator">
+                    <ul>
+                        <li><a href="/company">기업</a></li>
+                        <li><a href="/industry">산업</a></li>
+                        <li><a href="/economy">경제</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="bodyWrapper">
+            <div class="searchBoxWrapper">
+                <div class="searchBox">
+                    <form action="/company/companies?companyCode={nameOrCode}" method="get">
+                        <label for="nameOrCode">기업</label>
+                        <input type="search" id="nameOrCode" name="nameOrCode">
+                        <button type="submit">검색</button>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <p>
+                    <a href="/company/companies?companyCode=005930">삼성전자</a>
+                </p>
+                <p>
+                    <a href="/company/companies?companyCode=005380">현대차</a>
+                </p>
+                <p>
+                    <a href="/">처음 화면으로</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="footerWrapper">
+            <div class="footerTop">
+                <nav class="footerNavigator">
+                    <ul>
+                        <li><a href="/introduce">사이트 소개</a></li>
+                        <li><a href="/notify">공지 사항</a></li>
+                        <li><a href="/question-answer">자주 묻는 질문</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

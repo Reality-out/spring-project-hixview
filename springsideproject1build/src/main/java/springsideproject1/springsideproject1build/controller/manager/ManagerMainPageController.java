@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller;
+package springsideproject1.springsideproject1build.controller.manager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
