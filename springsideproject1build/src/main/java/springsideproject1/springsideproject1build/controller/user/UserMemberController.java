@@ -30,10 +30,11 @@ public class UserMemberController {
     @PostMapping("/membership")
     @ResponseStatus(HttpStatus.OK)
     public String submitMembershipForm(MembershipForm form) {
-        Member member = new Member();
-        member.setId(form.getId());
-        member.setPassword(form.getPassword());
-        member.setName(form.getName());
+        Member member = new Member.MemberBuilder()
+                .id(form.getId())
+                .password(form.getPassword())
+                .name(form.getName())
+                .build();
 
         memberService.joinMember(member);
 

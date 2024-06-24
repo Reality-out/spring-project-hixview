@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static springsideproject1.springsideproject1build.Utility.createSKHynix;
+import static springsideproject1.springsideproject1build.Utility.createSamsungElectronics;
 
 @SpringBootTest
 @Transactional
@@ -39,21 +41,8 @@ class CompanyRepositoryJdbcTest {
     @Test
     public void findAll() {
         // given
-        Company company1 = new Company();
-        company1.setCode("005930");
-        company1.setCountry("South Korea");
-        company1.setScale("big");
-        company1.setName("삼성전자");
-        company1.setCategory1st("electronics");
-        company1.setCategory2nd("semiconductor");
-
-        Company company2 = new Company();
-        company2.setCode("000660");
-        company2.setCountry("South Korea");
-        company2.setScale("big");
-        company2.setName("SK하이닉스");
-        company2.setCategory1st("electronics");
-        company2.setCategory2nd("semiconductor");
+        Company company1 = createSamsungElectronics();
+        Company company2 = createSKHynix();
 
         // when
         companyRepository.saveCompany(company1);
@@ -67,71 +56,39 @@ class CompanyRepositoryJdbcTest {
     @Test
     public void findByCode() {
         // given
-        Company company1 = new Company();
-        company1.setCode("005930");
-        company1.setCountry("South Korea");
-        company1.setScale("big");
-        company1.setName("삼성전자");
-        company1.setCategory1st("electronics");
-        company1.setCategory2nd("semiconductor");
-
-        Company company2 = new Company();
-        company2.setCode("000660");
-        company2.setCountry("South Korea");
-        company2.setScale("big");
-        company2.setName("SK하이닉스");
-        company2.setCategory1st("electronics");
-        company2.setCategory2nd("semiconductor");
+        Company company1 = createSamsungElectronics();
+        Company company2 = createSKHynix();
 
         // when
         companyRepository.saveCompany(company1);
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.searchCompanyByCode("005930").get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.searchCompanyByCode("000660").get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.searchCompanyByCode(company1.getCode()).get()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.searchCompanyByCode(company2.getCode()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 이름으로 찾기")
     @Test
     public void findByName() {
         // given
-        Company company1 = new Company();
-        company1.setCode("005930");
-        company1.setCountry("South Korea");
-        company1.setScale("big");
-        company1.setName("삼성전자");
-        company1.setCategory1st("electronics");
-        company1.setCategory2nd("semiconductor");
-
-        Company company2 = new Company();
-        company2.setCode("000660");
-        company2.setCountry("South Korea");
-        company2.setScale("big");
-        company2.setName("SK하이닉스");
-        company2.setCategory1st("electronics");
-        company2.setCategory2nd("semiconductor");
+        Company company1 = createSamsungElectronics();
+        Company company2 = createSKHynix();
 
         // when
         companyRepository.saveCompany(company1);
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.searchCompanyByName("삼성전자").get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.searchCompanyByName("SK하이닉스").get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.searchCompanyByName(company1.getName()).get()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.searchCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 저장 테스트")
     @Test
     public void save() {
         // given
-        Company company = new Company();
-        company.setCode("005930");
-        company.setCountry("South Korea");
-        company.setScale("big");
-        company.setName("삼성전자");
-        company.setCategory1st("electronics");
-        company.setCategory2nd("semiconductor");
+        Company company = createSamsungElectronics();
 
         // when
         companyRepository.saveCompany(company);
@@ -145,29 +102,16 @@ class CompanyRepositoryJdbcTest {
     @Test
     public void removeByCode() {
         // given
-        Company company1 = new Company();
-        company1.setCode("005930");
-        company1.setCountry("South Korea");
-        company1.setScale("big");
-        company1.setName("삼성전자");
-        company1.setCategory1st("electronics");
-        company1.setCategory2nd("semiconductor");
-
-        Company company2 = new Company();
-        company2.setCode("000660");
-        company2.setCountry("South Korea");
-        company2.setScale("big");
-        company2.setName("SK하이닉스");
-        company2.setCategory1st("electronics");
-        company2.setCategory2nd("semiconductor");
+        Company company1 = createSamsungElectronics();
+        Company company2 = createSKHynix();
 
         // when
         companyRepository.saveCompany(company1);
         companyRepository.saveCompany(company2);
 
         // then
-        companyRepository.removeCompanyByCode("005930");
-        companyRepository.removeCompanyByCode("000660");
+        companyRepository.removeCompanyByCode(company1.getCode());
+        companyRepository.removeCompanyByCode(company2.getCode());
         assertThat(companyRepository.findAllCompanies()).isEmpty();
     }
 }

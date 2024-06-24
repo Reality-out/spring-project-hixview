@@ -14,26 +14,71 @@ public class Utility {
      */
     public static RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> {
-            Company company = new Company();
-            company.setCode(resultSet.getString("code"));
-            company.setCountry(resultSet.getString("country"));
-            company.setScale(resultSet.getString("scale"));
-            company.setName(resultSet.getString("name"));
-            company.setCategory1st(resultSet.getString("category1st"));
-            company.setCategory2nd(resultSet.getString("category2nd"));
+            Company company = new Company.CompanyBuilder()
+                    .code(resultSet.getString("code"))
+                    .country(resultSet.getString("country"))
+                    .scale(resultSet.getString("scale"))
+                    .name(resultSet.getString("name"))
+                    .category1st(resultSet.getString("category1st"))
+                    .category2nd(resultSet.getString("category2nd"))
+                    .build();
             return company;
         };
     }
 
     public static RowMapper<Member> memberRowMapper() {
         return (resultSet, rowNumber) -> {
-            Member member = new Member();
-            member.setIdentifier(resultSet.getLong("identifier"));
-            member.setId(resultSet.getString("id"));
-            member.setPassword(resultSet.getString("password"));
-            member.setName(resultSet.getString("name"));
+            Member member = new Member.MemberBuilder()
+                    .identifier(resultSet.getLong("identifier"))
+                    .id(resultSet.getString("id"))
+                    .password(resultSet.getString("password"))
+                    .name(resultSet.getString("name"))
+                    .build();
             return member;
         };
+    }
+
+    /**
+     * Test
+     */
+    public static Member createTestMember() {
+        return new Member.MemberBuilder()
+                .identifier(1L)
+                .id("ABcd1234!")
+                .password("EFgh1234!")
+                .name("박진하")
+                .build();
+    }
+
+    public static Member createTestNewMember() {
+        return new Member.MemberBuilder()
+                .identifier(2L)
+                .id("abCD4321!")
+                .password("OPqr4321!")
+                .name("박하진")
+                .build();
+    }
+
+    public static Company createSamsungElectronics() {
+        return new Company.CompanyBuilder()
+                .code("005930")
+                .country("South Korea")
+                .scale("big")
+                .name("삼성전자")
+                .category1st("electronics")
+                .category2nd("semiconductor")
+                .build();
+    }
+
+    public static Company createSKHynix() {
+        return new Company.CompanyBuilder()
+                .code("000660")
+                .country("South Korea")
+                .scale("big")
+                .name("SK하이닉스")
+                .category1st("electronics")
+                .category2nd("semiconductor")
+                .build();
     }
 
     /**

@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static springsideproject1.springsideproject1build.Utility.createTestMember;
 
 @SpringBootTest
 @Transactional
@@ -46,10 +47,7 @@ class MemberServiceJdbcTest {
     @Test
     public void membership() {
         // given
-        Member member = new Member();
-        member.setId("ABcd1234!");
-        member.setPassword("EFgh1234!");
-        member.setName("박진하");
+        Member member = createTestMember();
 
         // when
         memberService.joinMember(member);
@@ -62,15 +60,8 @@ class MemberServiceJdbcTest {
     @Test
     public void membershipWithSameID() {
         // given
-        Member member1 = new Member();
-        member1.setId("ABcd1234!");
-        member1.setPassword("EFgh1234!");
-        member1.setName("박진하");
-
-        Member member2 = new Member();
-        member2.setId("ABcd1234!");
-        member2.setPassword("EFgh1234!");
-        member2.setName("박하진");
+        Member member1 = createTestMember();
+        Member member2 = createTestMember();
 
         // when
         memberService.joinMember(member1);

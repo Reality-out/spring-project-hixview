@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static springsideproject1.springsideproject1build.Utility.createSamsungElectronics;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -59,20 +60,14 @@ class UserCompanyControllerTest {
     @Test
     public void searchCompanyByCode() throws Exception {
         // given
-        Company company = new Company();
-        company.setCode("005930");
-        company.setCountry("South Korea");
-        company.setScale("big");
-        company.setName("삼성전자");
-        company.setCategory1st("electronics");
-        company.setCategory2nd("semiconductor");
+        Company company = createSamsungElectronics();
 
         // when
         companyService.joinCompany(company);
 
         // then
         mockMvc.perform(get("/company")
-                        .param("nameOrCode", "005930"))
+                        .param("nameOrCode", company.getCode()))
                 .andExpect(status().isOk());
     }
 
@@ -80,20 +75,14 @@ class UserCompanyControllerTest {
     @Test
     public void searchCompanyByName() throws Exception {
         // given
-        Company company = new Company();
-        company.setCode("005930");
-        company.setCountry("South Korea");
-        company.setScale("big");
-        company.setName("삼성전자");
-        company.setCategory1st("electronics");
-        company.setCategory2nd("semiconductor");
+        Company company = createSamsungElectronics();
 
         // when
         companyService.joinCompany(company);
 
         // then
         mockMvc.perform(get("/company")
-                        .param("nameOrCode", "삼성전자"))
+                        .param("nameOrCode", company.getName()))
                 .andExpect(status().isOk());
     }
 }

@@ -2,7 +2,6 @@ package springsideproject1.springsideproject1build.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.Utility.companyRowMapper;
-import static springsideproject1.springsideproject1build.Utility.memberRowMapper;
 
 @Repository
 @Transactional(readOnly = true)

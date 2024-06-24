@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static springsideproject1.springsideproject1build.Utility.createTestMember;
+import static springsideproject1.springsideproject1build.Utility.createTestNewMember;
 
 @SpringBootTest
 @Transactional
@@ -40,15 +42,8 @@ class MemberRepositoryJdbcTest {
     @Test
     public void findAll() {
         // given
-        Member member1 = new Member();
-        member1.setId("parkjunhyeok");
-        member1.setPassword("junhyeokpark");
-        member1.setName("박준혁");
-
-        Member member2 = new Member();
-        member2.setId("parkhajin");
-        member2.setPassword("hajinpark");
-        member2.setName("박하진");
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
 
         // when
         memberRepository.saveMember(member1);
@@ -62,15 +57,8 @@ class MemberRepositoryJdbcTest {
     @Test
     public void findByIdentifier() {
         // given
-        Member member1 = new Member();
-        member1.setId("parkjunhyeok");
-        member1.setPassword("junhyeokpark");
-        member1.setName("박준혁");
-
-        Member member2 = new Member();
-        member2.setId("parkhajin");
-        member2.setPassword("hajinpark");
-        member2.setName("박하진");
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
 
         // when
         memberRepository.saveMember(member1);
@@ -85,79 +73,60 @@ class MemberRepositoryJdbcTest {
     @Test
     public void findByID() {
         // given
-        Member member1 = new Member();
-        member1.setId("Wehado!");
-        member1.setPassword("junhyeokpark");
-        member1.setName("박준혁");
-
-        Member member2 = new Member();
-        member2.setId("Beautiful16");
-        member2.setPassword("hajinpark");
-        member2.setName("박하진");
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
 
         // when
         memberRepository.saveMember(member1);
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByID("Wehado!").get()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.findMemberByID("Beautiful16").get()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.findMemberByID(member1.getId()).get()).usingRecursiveComparison().isEqualTo(member1);
+        assertThat(memberRepository.findMemberByID(member2.getId()).get()).usingRecursiveComparison().isEqualTo(member2);
     }
 
     @DisplayName("멤버 이름으로 찾기")
     @Test
     public void findByName() {
         // given
-        Member member1 = new Member();
-        member1.setId("Rarafsd12");
-        member1.setPassword("1tangkwa!");
-        member1.setName("박준호");
-
-        Member member2 = new Member();
-        member2.setId("parkhajin");
-        member2.setPassword("hajinpark");
-        member2.setName("박하진");
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
 
         // when
         memberRepository.saveMember(member1);
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName("박준호").getFirst()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.findMemberByName("박하진").getFirst()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.findMemberByName(member1.getName()).getFirst()).usingRecursiveComparison().isEqualTo(member1);
+        assertThat(memberRepository.findMemberByName(member2.getName()).getFirst()).usingRecursiveComparison().isEqualTo(member2);
     }
 
     @DisplayName("이름이 중복되는 멤버 모두 찾기")
     @Test
     public void findAllByName() {
         // given
-        Member member1 = new Member();
-        member1.setId("HyeSung596");
-        member1.setPassword("gamma137!");
-        member1.setName("박준호");
+        Member member1 = createTestMember();
+        String commonName = member1.getName();
 
-        Member member2 = new Member();
-        member2.setId("parkjunho");
-        member2.setPassword("junhopark");
-        member2.setName("박준호");
+        Member member2 = new Member.MemberBuilder()
+                .id("AaK3619")
+                .password("PwB1298!")
+                .name(commonName)
+                .build();
 
         // when
         memberRepository.saveMember(member1);
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName("박준호")).usingRecursiveComparison().isEqualTo(List.of(member1, member2));
+        assertThat(memberRepository.findMemberByName(commonName)).usingRecursiveComparison().isEqualTo(List.of(member1, member2));
     }
 
     @DisplayName("멤버 저장 테스트")
     @Test
     public void save() {
         // given
-        Member member = new Member();
-        member.setIdentifier(Long.valueOf(1));
-        member.setId("Ranger37");
-        member.setPassword("12satellight!");
-        member.setName("박구준");
+        Member member = createTestMember();
 
         // when
         memberRepository.saveMember(member);
@@ -171,23 +140,16 @@ class MemberRepositoryJdbcTest {
     @Test
     public void removeByID() {
         // given
-        Member member1 = new Member();
-        member1.setId("ParkWnsGur12");
-        member1.setPassword("junhyeokpark");
-        member1.setName("박준혁");
-
-        Member member2 = new Member();
-        member2.setId("ParkHaJin34");
-        member2.setPassword("hajinpark");
-        member2.setName("박하진");
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
 
         // when
         memberRepository.saveMember(member1);
         memberRepository.saveMember(member2);
 
         // then
-        memberRepository.removeMemberByID("ParkWnsGur12");
-        memberRepository.removeMemberByID("ParkHaJin34");
+        memberRepository.removeMemberByID(member1.getId());
+        memberRepository.removeMemberByID(member2.getId());
         assertThat(memberRepository.findAllMembers()).isEmpty();
     }
 }

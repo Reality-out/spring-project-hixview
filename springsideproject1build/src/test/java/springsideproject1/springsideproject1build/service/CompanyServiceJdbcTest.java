@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.Utility;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.repository.CompanyRepository;
 
@@ -12,6 +13,7 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
@@ -43,21 +45,8 @@ class CompanyServiceJdbcTest {
     @Test
     public void registerCompanyWithSameCode() {
         // given
-        Company company1 = new Company();
-        company1.setCode("005930");
-        company1.setCountry("South Korea");
-        company1.setScale("big");
-        company1.setName("삼성전자");
-        company1.setCategory1st("electronics");
-        company1.setCategory2nd("semiconductor");
-
-        Company company2 = new Company();
-        company2.setCode("005930");
-        company2.setCountry("South Korea");
-        company2.setScale("big");
-        company2.setName("삼성전자");
-        company2.setCategory1st("electronics");
-        company2.setCategory2nd("semiconductor");
+        Company company1 = createSamsungElectronics();
+        Company company2 = createSamsungElectronics();
 
         // when
         companyService.joinCompany(company1);
@@ -72,7 +61,7 @@ class CompanyServiceJdbcTest {
     @Test
     public void removeCompanyByFaultCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.removeCompany("005930"));
+                () -> companyService.removeCompany("123456"));
         assertThat(e.getMessage()).isEqualTo("해당 코드 번호와 일치하는 기업이 없습니다.");
     }
 }
