@@ -4,10 +4,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.service.MemberService;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -16,12 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-@Component
-@TestMethodOrder(MethodOrderer.DisplayName.class)
 class MemberRepositoryJdbcTest {
-
-    @Autowired
-    MemberService memberService;
 
     @Autowired
     MemberRepository memberRepository;
@@ -38,14 +31,14 @@ class MemberRepositoryJdbcTest {
         resetTable("testmembers");
     }
 
-    private void resetTable(String tableName) {
-        jdbcTemplateTest.execute("DELETE FROM " + tableName);
-        jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
+    private void resetTable(String presentTableName) {
+        jdbcTemplateTest.execute("DELETE FROM " + presentTableName);
+        jdbcTemplateTest.execute("ALTER TABLE " + presentTableName + " AUTO_INCREMENT = 1");
     }
 
     @DisplayName("멤버 모두 가져오기")
     @Test
-    public void findMembers() {
+    public void findAll() {
         // given
         Member member1 = new Member();
         member1.setId("parkjunhyeok");
@@ -156,7 +149,7 @@ class MemberRepositoryJdbcTest {
         assertThat(memberRepository.findMemberByName("박준호")).usingRecursiveComparison().isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("메모리 저장 테스트")
+    @DisplayName("멤버 저장 테스트")
     @Test
     public void save() {
         // given

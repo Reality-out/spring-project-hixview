@@ -1,10 +1,11 @@
 package springsideproject1.springsideproject1build.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.repository.MemberRepository;
@@ -16,8 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
-@Component
-@TestMethodOrder(MethodOrderer.DisplayName.class)
 class MemberServiceJdbcTest {
 
     @Autowired
@@ -59,7 +58,7 @@ class MemberServiceJdbcTest {
         assertThat(memberService.findMembers().getFirst()).usingRecursiveComparison().isEqualTo(member);
     }
 
-    @DisplayName("중복 ID 가입 테스트")
+    @DisplayName("중복 ID를 사용하는 회원가입")
     @Test
     public void membershipWithSameID() {
         // given
@@ -85,9 +84,8 @@ class MemberServiceJdbcTest {
     @DisplayName("잘못된 ID를 통한 회원 삭제")
     @Test
     public void removeByFaultID() {
-        // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.removeMember("NoneID123"));
-        assertThat(e.getMessage()).isEqualTo("해당 ID와 일치하는 멤버가 없습니다.");
+        assertThat(e.getMessage()).isEqualTo("해당 ID와 일치하는 회원이 없습니다.");
     }
 }

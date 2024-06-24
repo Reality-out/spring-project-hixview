@@ -53,7 +53,7 @@ public class MemberService {
     @Transactional
     public void removeMember(String memberID) {
         memberRepository.findMemberByID(memberID).orElseThrow(
-                () -> new IllegalStateException("해당 ID와 일치하는 멤버가 없습니다."));
+                () -> new IllegalStateException("해당 ID와 일치하는 회원이 없습니다."));
 
         memberRepository.removeMemberByID(memberID);
     }

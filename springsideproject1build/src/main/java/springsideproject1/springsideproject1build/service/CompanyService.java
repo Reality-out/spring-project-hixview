@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.repository.CompanyRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,10 @@ public class CompanyService {
     /**
      * SELECT One Company
      */
+    public List<Company> findCompanies() {
+        return companyRepository.findAllCompanies();
+    }
+
     public Optional<Company> SearchOneCompanyByCode(String companyCode) {
         return companyRepository.searchCompanyByCode(companyCode);
     }
@@ -41,7 +46,7 @@ public class CompanyService {
     @Transactional
     public void removeCompany(String companyCode) {
         companyRepository.searchCompanyByCode(companyCode).orElseThrow(
-                () -> new IllegalStateException("해당 ID와 일치하는 멤버가 없습니다."));
+                () -> new IllegalStateException("해당 코드 번호와 일치하는 기업이 없습니다."));
 
         companyRepository.removeCompanyByCode(companyCode);
     }

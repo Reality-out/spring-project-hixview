@@ -11,8 +11,12 @@ import springsideproject1.springsideproject1build.domain.Company;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static springsideproject1.springsideproject1build.Utility.companyRowMapper;
+import static springsideproject1.springsideproject1build.Utility.memberRowMapper;
 
 @Repository
 @Transactional(readOnly = true)
@@ -29,13 +33,21 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * SELECT Company
      */
     @Override
+    public List<Company> findAllCompanies() {
+        return jdbcTemplate.query("select * from testcompanies", companyRowMapper());
+    }
+
+    @Override
     public Optional<Company> searchCompanyByCode(String companyCode) {
-        return Optional.ofNullable(jdbcTemplate.query("select * from testcompanies where code = ?", companyRowMapper(), companyCode).getFirst());
+        List<Company> oneCompanyOrNull = jdbcTemplate.query("select * from testcompanies where code = ?", companyRowMapper(), companyCode);
+        return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
     }
 
     @Override
     public Optional<Company> searchCompanyByName(String companyName) {
-        return Optional.ofNullable(jdbcTemplate.query("select * from testcompanies where name = ?", companyRowMapper(), companyName).getFirst());
+        List<Company> oneCompanyOrNull = jdbcTemplate.query("select * from testcompanies where name = ?", companyRowMapper(), companyName);
+        return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
+
     }
 
     /**
@@ -65,18 +77,5 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
     @Override
     public void removeCompanyByCode(String companyCode) {
         jdbcTemplate.execute("delete from testcompanies where code = '" + companyCode + "'");
-    }
-
-    private RowMapper<Company> companyRowMapper() {
-        return (resultSet, rowNumber) -> {
-            Company company = new Company();
-            company.setCode(resultSet.getString("code"));
-            company.setCountry(resultSet.getString("country"));
-            company.setScale(resultSet.getString("scale"));
-            company.setName(resultSet.getString("name"));
-            company.setCategory1st(resultSet.getString("category1st"));
-            company.setCategory2nd(resultSet.getString("category2nd"));
-            return company;
-        };
     }
 }

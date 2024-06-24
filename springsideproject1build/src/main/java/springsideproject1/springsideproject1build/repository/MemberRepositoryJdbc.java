@@ -2,7 +2,6 @@ package springsideproject1.springsideproject1build.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -14,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static springsideproject1.springsideproject1build.Utility.memberRowMapper;
 
 @Repository
 @Transactional(readOnly = true)
@@ -36,7 +37,8 @@ public class MemberRepositoryJdbc implements MemberRepository {
 
     @Override
     public Optional<Member> findMemberByIdentifier(Long identifier) {
-        return Optional.ofNullable(jdbcTemplate.query("select * from testmembers where identifier = ?", memberRowMapper(), identifier).getFirst());
+        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from testmembers where identifier = ?", memberRowMapper(), identifier);
+        return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
 
     @Override
@@ -78,16 +80,5 @@ public class MemberRepositoryJdbc implements MemberRepository {
     @Transactional
     public void removeMemberByID(String id) {
         jdbcTemplate.execute("delete from testmembers where id = '" + id + "'");
-    }
-
-    private RowMapper<Member> memberRowMapper() {
-        return (resultSet, rowNumber) -> {
-            Member member = new Member();
-            member.setIdentifier(resultSet.getLong("identifier"));
-            member.setId(resultSet.getString("id"));
-            member.setPassword(resultSet.getString("password"));
-            member.setName(resultSet.getString("name"));
-            return member;
-        };
     }
 }
