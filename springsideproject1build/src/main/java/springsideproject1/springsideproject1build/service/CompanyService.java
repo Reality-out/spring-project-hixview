@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
@@ -46,7 +45,8 @@ public class CompanyService {
     @Transactional
     public void removeCompany(String companyCode) {
         companyRepository.searchCompanyByCode(companyCode).orElseThrow(
-                () -> new IllegalStateException("해당 코드 번호와 일치하는 기업이 없습니다."));
+                () -> new IllegalStateException("해당 코드 번호와 일치하는 기업이 없습니다.")
+        );
 
         companyRepository.removeCompanyByCode(companyCode);
     }

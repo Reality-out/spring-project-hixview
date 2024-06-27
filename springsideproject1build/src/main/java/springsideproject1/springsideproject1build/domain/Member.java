@@ -24,10 +24,6 @@ public class Member {
         return identifier.get();
     }
 
-    public void setIdentifier(Long identifier) {
-        this.identifier = new AtomicLong(identifier);
-    }
-
     public String getId() {
         return id.get();
     }

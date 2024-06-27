@@ -17,7 +17,6 @@ import java.util.Optional;
 import static springsideproject1.springsideproject1build.Utility.companyRowMapper;
 
 @Repository
-@Transactional(readOnly = true)
 public class CompanyRepositoryJdbc implements CompanyRepository {
 
     private final JdbcTemplate jdbcTemplate;

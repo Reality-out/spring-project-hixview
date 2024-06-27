@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller.user;
+package springsideproject1.springsideproject1build.controller.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,26 +11,30 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.service.MemberService;
 
 import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.Utility.createTestMember;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMemberControllerTest {
+class ManagerMemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    MemberService memberService;
+
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public UserMemberControllerTest(DataSource dataSource) {
+    public ManagerMemberControllerTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -43,34 +47,41 @@ class UserMemberControllerTest {
         jdbcTemplateTest.execute("DELETE FROM " + tableName);
         jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
     }
-    
-    @DisplayName("로그인 페이지 접속")
+
+    @DisplayName("멤버 리스트 페이지 접속")
     @Test
-    public void accessLoginPage() throws Exception {
-        mockMvc.perform(get("/login"))
+    public void accessMembersPage() throws Exception {
+        mockMvc.perform(get("/manager/member/showAll"))
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("회원가입 페이지 접속")
+    @DisplayName("회원 탈퇴 페이지 접속")
     @Test
-    public void accessMembershipPage() throws Exception {
-        mockMvc.perform(get("/membership"))
+    public void accessMembershipWithdrawPage() throws Exception {
+        mockMvc.perform(get("/manager/member/remove"))
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("회원가입 완료 페이지 접속")
+    @DisplayName("회원 탈퇴 완료 페이지 접속")
     @Test
-    public void accessMembershipSucceedPage() throws Exception {
+    public void accessMembershipWithdrawFinishPage() throws Exception {
+        // given
         Member member = createTestMember();
 
-        mockMvc.perform(post("/membership")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("id", member.getId())
-                        .param("password", member.getPassword())
-                        .param("name", member.getName()))
-                .andExpect(status().isSeeOther());
+        // when
+        memberService.joinMember(member);
 
-        mockMvc.perform(get("/membership/succeed"))
+        // then
+        String id = member.getId();
+
+        mockMvc.perform(post("/manager/member/remove")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", id))
+                .andExpect(status().isSeeOther())
+                .andExpect(flash().attribute("id", id));
+
+        mockMvc.perform(get("/manager/member/remove/finish")
+                        .param("id", id))
                 .andExpect(status().isOk());
     }
 }

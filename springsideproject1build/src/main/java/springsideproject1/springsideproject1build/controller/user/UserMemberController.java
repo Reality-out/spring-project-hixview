@@ -1,7 +1,10 @@
 package springsideproject1.springsideproject1build.controller.user;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,9 +13,15 @@ import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.domain.MembershipForm;
 import springsideproject1.springsideproject1build.service.MemberService;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 @Controller
 @RequiredArgsConstructor
 public class UserMemberController {
+
+    @Autowired
     private final MemberService memberService;
 
     @GetMapping("/login")
@@ -23,13 +32,21 @@ public class UserMemberController {
 
     @GetMapping("/membership")
     @ResponseStatus(HttpStatus.OK)
-    public String createMembershipForm() {
+    public String createMembership() {
         return "user/membership/createPage";
     }
 
-    @PostMapping("/membership")
+    @GetMapping("/membership/succeed")
     @ResponseStatus(HttpStatus.OK)
-    public String submitMembershipForm(MembershipForm form) {
+    public String succeedMembership() {
+        return "user/membership/succeedPage";
+    }
+
+    @PostMapping("/membership")
+    public ResponseEntity submitMembership(HttpServletRequest request, MembershipForm form) throws MalformedURLException, URISyntaxException {
+        URL requestURL = new URL(request.getRequestURL().toString());
+        URL redirectURL = new URL(requestURL + "/succeed");
+
         Member member = new Member.MemberBuilder()
                 .id(form.getId())
                 .password(form.getPassword())
@@ -38,6 +55,6 @@ public class UserMemberController {
 
         memberService.joinMember(member);
 
-        return "user/membership/finishPage";
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(redirectURL.toURI()).build();
     }
 }

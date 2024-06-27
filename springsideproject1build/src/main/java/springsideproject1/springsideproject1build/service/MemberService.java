@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -44,7 +43,11 @@ public class MemberService {
     @Transactional
     public void joinMember(Member member) {
         DuplicateIDCheck(member);
-        memberRepository.saveMember(member);
+        Long memberIdentifier = memberRepository.saveMember(member);
+        member = new Member.MemberBuilder()
+                .member(member)
+                .identifier(memberIdentifier)
+                .build();
     }
 
     /**
@@ -53,7 +56,8 @@ public class MemberService {
     @Transactional
     public void removeMember(String memberID) {
         memberRepository.findMemberByID(memberID).orElseThrow(
-                () -> new IllegalStateException("해당 ID와 일치하는 회원이 없습니다."));
+                () -> new IllegalStateException("해당 ID와 일치하는 회원이 없습니다.")
+        );
 
         memberRepository.removeMemberByID(memberID);
     }

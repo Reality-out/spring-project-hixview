@@ -17,7 +17,6 @@ import java.util.Optional;
 import static springsideproject1.springsideproject1build.Utility.memberRowMapper;
 
 @Repository
-@Transactional(readOnly = true)
 public class MemberRepositoryJdbc implements MemberRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -57,7 +56,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
      */
     @Override
     @Transactional
-    public void saveMember(Member member) {
+    public Long saveMember(Member member) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("testmembers").usingGeneratedKeyColumns("identifier");
 
@@ -70,7 +69,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
         Number memberKey = jdbcInsert.executeAndReturnKey(
                 new MapSqlParameterSource(insertParam));
 
-        member.setIdentifier(memberKey.longValue());
+        return memberKey.longValue();
     }
 
     /**

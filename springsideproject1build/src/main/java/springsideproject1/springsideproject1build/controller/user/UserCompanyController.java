@@ -1,6 +1,7 @@
 package springsideproject1.springsideproject1build.controller.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,8 @@ import static springsideproject1.springsideproject1build.Utility.*;
 @RequestMapping("/company")
 @RequiredArgsConstructor
 public class UserCompanyController {
+
+    @Autowired
     private final CompanyService companyService;
 
     @GetMapping
@@ -39,6 +42,6 @@ public class UserCompanyController {
             company = companyService.SearchOneCompanyByName(nameOrCode);
         }
         model.addAttribute("companyName", company.get().getName());
-        return "user/company/showCompany";
+        return "user/company/showCompanyPage";
     }
 }

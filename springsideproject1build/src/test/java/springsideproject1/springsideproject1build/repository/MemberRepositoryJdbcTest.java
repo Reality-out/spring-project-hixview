@@ -1,6 +1,8 @@
 package springsideproject1.springsideproject1build.repository;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -119,7 +121,9 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName(commonName)).usingRecursiveComparison().isEqualTo(List.of(member1, member2));
+        assertThat(memberRepository.findMemberByName(commonName)).usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(List.of(member1, member2));
     }
 
     @DisplayName("멤버 저장 테스트")

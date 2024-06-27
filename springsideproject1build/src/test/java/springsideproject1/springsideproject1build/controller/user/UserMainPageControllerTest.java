@@ -1,14 +1,13 @@
 package springsideproject1.springsideproject1build.controller.user;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.repository.MemberRepository;
-import springsideproject1.springsideproject1build.service.MemberService;
 
 import javax.sql.DataSource;
 
@@ -22,12 +21,6 @@ class UserMainPageControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    MemberService memberService;
-
-    @Autowired
-    MemberRepository memberRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 

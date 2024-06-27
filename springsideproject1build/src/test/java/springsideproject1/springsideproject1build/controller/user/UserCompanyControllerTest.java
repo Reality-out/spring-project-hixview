@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
-import springsideproject1.springsideproject1build.repository.CompanyRepository;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
 import javax.sql.DataSource;
@@ -29,9 +28,6 @@ class UserCompanyControllerTest {
 
     @Autowired
     CompanyService companyService;
-
-    @Autowired
-    CompanyRepository companyRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 

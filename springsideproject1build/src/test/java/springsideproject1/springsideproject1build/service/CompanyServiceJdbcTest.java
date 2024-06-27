@@ -1,19 +1,19 @@
 package springsideproject1.springsideproject1build.service;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.Utility;
 import springsideproject1.springsideproject1build.domain.Company;
-import springsideproject1.springsideproject1build.repository.CompanyRepository;
 
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.Utility.createSamsungElectronics;
 
 @SpringBootTest
 @Transactional
@@ -21,9 +21,6 @@ class CompanyServiceJdbcTest {
 
     @Autowired
     CompanyService companyService;
-
-    @Autowired
-    CompanyRepository companyRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 

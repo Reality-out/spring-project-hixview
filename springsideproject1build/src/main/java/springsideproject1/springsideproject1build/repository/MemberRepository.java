@@ -20,7 +20,7 @@ public interface MemberRepository {
     /**
      * INSERT Member
      */
-    void saveMember(Member member);
+    Long saveMember(Member member);
 
     /**
      * REMOVE Member
