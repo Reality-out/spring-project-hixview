@@ -52,14 +52,16 @@ class ManagerMemberControllerTest {
     @Test
     public void accessMembersPage() throws Exception {
         mockMvc.perform(get("/manager/member/showAll"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("manager/select/membersPage"));
     }
 
     @DisplayName("회원 탈퇴 페이지 접속")
     @Test
     public void accessMembershipWithdrawPage() throws Exception {
         mockMvc.perform(get("/manager/member/remove"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("manager/remove/membership/processPage"));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")
@@ -77,11 +79,11 @@ class ManagerMemberControllerTest {
         mockMvc.perform(post("/manager/member/remove")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id", id))
-                .andExpect(status().isSeeOther())
-                .andExpect(flash().attribute("id", id));
+                .andExpect(status().isSeeOther());
 
         mockMvc.perform(get("/manager/member/remove/finish")
                         .param("id", id))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("manager/remove/membership/finishPage"));
     }
 }

@@ -1,51 +1,39 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('searchCompanyForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var nameOrCode = document.getElementById('nameOrCode').value;
+
+        var url = "/company/companies/" + encodeURIComponent(nameOrCode);
+
+        window.location.href = url;
+    });
+});
+</script>
 <head>
     <meta charset="UTF-8"/>
     <title>힉스뷰 - 세상 경제사를 한눈에</title>
-    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
-    <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/headerStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/footerStyle.css" rel="stylesheet"/>
+    <th:block th:replace="~{/user/fragment/original :: originalStyle}"></th:block>
+    <th:block th:replace="~{/user/fragment/header :: headerStyle}"></th:block>
+    <th:block th:replace="~{/user/fragment/footer :: footerStyle}"></th:block>
+
     <link href="/styles/user/logoStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/company/bodyWrapperStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/company/bodySearchBoxStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/company/bodyCompanyListStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/company/bodyWrapperStyle.css" rel="stylesheet"/>       <!-- wrap the whole body -->
+    <link href="/styles/user/company/bodySearchBoxStyle.css" rel="stylesheet"/>     <!-- wrap the top search box -->
+    <link href="/styles/user/company/bodyCompanyListStyle.css" rel="stylesheet"/>   <!-- wrap the middle grid covering the companies -->
 </head>
 <body>
-    <header>
-        <div class="headerWrapper">
-            <div class="headerTop">
-                <div class="headerTopLeft">
-                    <!-- Empty Grid -->
-                </div>
-                <div class="headerTopMiddle">
-                    <a href="/">
-                        <h1>힉스뷰</h1>
-                    </a>
-                </div>
-                <div class="headerTopRight">
-                    <a href="/login">로그인</a>
-                </div>
-            </div>
-            <div class="headerMiddle">
-                <nav id="headerNavigator">
-                    <ul>
-                        <li><a href="/company">기업</a></li>
-                        <li><a href="/industry">산업</a></li>
-                        <li><a href="/economy">경제</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <header th:replace="~{/user/fragment/header :: headerFragment}"></header>
     <section>
         <div class="bodyWrapper">
             <div class="searchBoxWrapper">
                 <div class="searchBox">
-                    <form action="/company/companies?companyCode={nameOrCode}" method="get">
+                    <form id="searchCompanyForm" th:action="@{/company/companies/{nameOrCode}(nameOrCode=${nameOrCode})}" method="get">
                         <label for="nameOrCode">기업</label>
-                        <input type="search" id="nameOrCode" name="nameOrCode">
+                        <input type="text" id="nameOrCode" name="nameOrCode">
                         <button type="submit">검색</button>
                     </form>
                 </div>
@@ -55,55 +43,43 @@
                     <div class="row1">
                         <h3>반도체 대표 기업</h3>
                         <p>삼성전자</p>
-                        <a class="logo logoSamsungElectronics" href="/company/companies?nameOrCode=005930">
+                        <a class="logo logoSamsungElectronics" href="/company/companies/005930">
                         </a>
                         <p>SK하이닉스</p>
-                        <a class="logo logoSKHynix" href="/company/companies?nameOrCode=000660">
+                        <a class="logo logoSKHynix" href="/company/companies/000660">
                         </a>
                     </div>
                     <div class="row1">
                         <h3>전기차 대표 기업</h3>
                         <p>현대차</P>
-                        <a class="logo logoHyundaiMotorCompany" href="/company/companies?nameOrCode=005380">
+                        <a class="logo logoHyundaiMotorCompany" href="/company/companies/005380">
                         </a>
                         <p>기아</P>
-                        <a class="logo logoKia" href="/company/companies?nameOrCode=000270">
+                        <a class="logo logoKia" href="/company/companies/000270">
                         </a>
                     </div>
                     <div class="row1">
                         <h3>2차전지 대표 기업</h3>
                         <p>LG에너지솔루션</P>
-                        <a class="logo logoLGEnergySolution" href="/company/companies?nameOrCode=373220">
+                        <a class="logo logoLGEnergySolution" href="/company/companies/373220">
                         </a>
                         <p>삼성SDI</P>
-                        <a class="logo logoSamsungSDI" href="/company/companies?nameOrCode=006400">
+                        <a class="logo logoSamsungSDI" href="/company/companies/006400">
                         </a>
                     </div>
                     <div class="row1">
                         <h3>IT 대표 기업</h3>
                         <p>NAVER</P>
-                        <a class="logo logoNaver" href="/company/companies?nameOrCode=035420">
+                        <a class="logo logoNaver" href="/company/companies/035420">
                         </a>
                         <p>카카오</P>
-                        <a class="logo logoKakao" href="/company/companies?nameOrCode=035720">
+                        <a class="logo logoKakao" href="/company/companies/035720">
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <footer>
-        <div class="footerWrapper">
-            <div class="footerTop">
-                <nav class="footerNavigator">
-                    <ul>
-                        <li><a href="/introduce">사이트 소개</a></li>
-                        <li><a href="/notify">공지 사항</a></li>
-                        <li><a href="/question-answer">자주 묻는 질문</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </footer>
+    <footer th:replace="~{/user/fragment/footer :: footerFragment}"></footer>
 </body>
 </html>

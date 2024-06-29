@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,6 +34,7 @@ class UserMainPageControllerTest {
     @Test
     public void accessMainPage() throws Exception {
         mockMvc.perform(get(""))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/mainPage"));
     }
 }

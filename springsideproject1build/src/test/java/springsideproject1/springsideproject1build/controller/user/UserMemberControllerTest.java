@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.createTestMember;
 
 @SpringBootTest
@@ -48,14 +49,16 @@ class UserMemberControllerTest {
     @Test
     public void accessLoginPage() throws Exception {
         mockMvc.perform(get("/login"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/loginPage"));
     }
 
     @DisplayName("회원가입 페이지 접속")
     @Test
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get("/membership"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/membership/createPage"));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
@@ -71,6 +74,7 @@ class UserMemberControllerTest {
                 .andExpect(status().isSeeOther());
 
         mockMvc.perform(get("/membership/succeed"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/membership/succeedPage"));
     }
 }

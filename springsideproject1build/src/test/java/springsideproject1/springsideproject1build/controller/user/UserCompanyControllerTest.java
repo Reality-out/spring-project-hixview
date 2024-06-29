@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.createSamsungElectronics;
 
 @SpringBootTest
@@ -49,7 +50,8 @@ class UserCompanyControllerTest {
     @Test
     public void accessCompanyPage() throws Exception {
         mockMvc.perform(get("/company"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/company/subPage"));
     }
 
     @DisplayName("기업 코드로 검색")
@@ -62,9 +64,9 @@ class UserCompanyControllerTest {
         companyService.joinCompany(company);
 
         // then
-        mockMvc.perform(get("/company")
-                        .param("nameOrCode", company.getCode()))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/company/companies/" + company.getCode()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/company/showCompanyPage"));
     }
 
     @DisplayName("기업 이름으로 검색")
@@ -77,8 +79,8 @@ class UserCompanyControllerTest {
         companyService.joinCompany(company);
 
         // then
-        mockMvc.perform(get("/company")
-                        .param("nameOrCode", company.getName()))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/company/companies/" + company.getName()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/company/showCompanyPage"));
     }
 }

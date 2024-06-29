@@ -43,9 +43,8 @@ public class UserMemberController {
     }
 
     @PostMapping("/membership")
-    public ResponseEntity submitMembership(HttpServletRequest request, MembershipForm form) throws MalformedURLException, URISyntaxException {
-        URL requestURL = new URL(request.getRequestURL().toString());
-        URL redirectURL = new URL(requestURL + "/succeed");
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String submitMembership(HttpServletRequest request, MembershipForm form) throws MalformedURLException, URISyntaxException {
 
         Member member = new Member.MemberBuilder()
                 .id(form.getId())
@@ -55,6 +54,6 @@ public class UserMemberController {
 
         memberService.joinMember(member);
 
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(redirectURL.toURI()).build();
+        return "redirect:succeed";
     }
 }
