@@ -11,8 +11,6 @@
     
     /* decoration */
     box-shadow: 2px 2px 3px 2px black;
-    opacity: 1;
-    transform: none;
 
     /* empty space */
     box-sizing: content-box;
@@ -21,7 +19,6 @@
 
     /* positioning */
     display: block;
-    position: static;
     
     /* size */
     width: 90vw;
@@ -41,17 +38,13 @@
 
     /* decoration */
     box-shadow: 2px 2px 3px 2px black;
-    opacity: 1;
-    transform: none;
 
     /* empty space */
     box-sizing: content-box;
     margin: 1rem auto 1rem;
-    padding: 0;
     
     /* positioning */
     display: table;
-    position: static;
 
     /* size */
     width: 400px;
@@ -62,13 +55,6 @@
      * block
      */
 
-    /* border */
-    border: none;
-        
-    /* decoration */
-    opacity: 1;
-    transform: none;
-
     /* empty space */
     box-sizing: content-box;
     margin: 1rem auto 1rem;
@@ -77,7 +63,6 @@
     /* positioning */
     caption-side: top;
     display: table-caption;
-    position: static;
 
     /* sorting */
     text-align: center;
@@ -89,10 +74,6 @@
     /* font */
     font-size: 20px;
     font-weight: 700;
-
-    hyphens: none;
-    letter-spacing: inherit;
-    word-break: keep-all;
 }
 
 .memberTable th {
@@ -104,10 +85,6 @@
     border: 2px outset #5A5BC7;
     border-collapse: collapse;
     
-    /* decoration */
-    opacity: 1;
-    transform: none;
-
     /* empty space */
     box-sizing: content-box;
     margin: 1rem;
@@ -115,7 +92,6 @@
 
     /* positioning */
     display: table-cell;
-    position: static;
 
     /* size */
     min-height: 40px;
@@ -131,10 +107,6 @@
     /* font */
     font-size: 18px;
     font-weight: 700;
-
-    hyphens: none;
-    letter-spacing: inherit;
-    word-break: keep-all;
 }
 
 .memberTable td {
@@ -145,10 +117,6 @@
     /* border */
     border: 2px outset #5A5BC7;
     border-collapse: collapse;
-    
-    /* decoration */
-    opacity: 1;
-    transform: none;
 
     /* empty space */
     box-sizing: content-box;
@@ -157,7 +125,6 @@
 
     /* positioning */
     display: table-cell;
-    position: static;
 
     /* size */
     min-height: 40px;
@@ -173,8 +140,4 @@
     /* font */
     font-size: 16px;
     font-weight: 400;
-
-    hyphens: none;
-    letter-spacing: inherit;
-    word-break: keep-all;
 }

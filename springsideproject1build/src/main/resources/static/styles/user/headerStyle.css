@@ -4,17 +4,14 @@
      */
     
     /* empty space */
-    box-sizing: border-box;
     margin: 0 auto;
-    padding: 0;
 
     /* positioning */
     display: grid;
-    position: static;
 
     /* size */
     width: calc(100vw - 14px);
-    height: 216px;
+    height: 160px;
     
     /* 
      * Grid layout
@@ -24,7 +21,7 @@
     place-content: center;
     place-items: center;
     
-    grid: auto-flow repeat(2, 108px) / 1fr;
+    grid: auto-flow repeat(2, 80px) / 1fr;
     grid-gap: 0;
     grid-template-areas: 
         "header-top"
@@ -39,18 +36,12 @@
      * block
      */
     
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: grid;
-    position: static;
 
     /* size */
     width: inherit;
-    height: 108px;
+    height: 80px;
     
     /* 
      * Grid layout
@@ -66,12 +57,6 @@
     
     /* empty space */
     display: block;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
-    /* positioning */
-    position: static;
     
     /* 
      * Grid layout
@@ -84,14 +69,8 @@
      * block
      */
     
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: grid;
-    position: static;
     
     /* 
      * Grid layout
@@ -108,14 +87,8 @@
      * block
      */
     
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: flex;
-    position: static;
 
     /* size */
     width: 100px;
@@ -129,21 +102,20 @@
      * inline
      */
     text-decoration: none;
+    
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row nowrap;
 }
 
 .headerTopMiddle > a > h1 {
     /* 
      * block
      */
-    
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 
     /* positioning */
     display: inline-block;
-    position: static;
     
     /*
      * inline
@@ -160,14 +132,8 @@
      * block
      */
     
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: block;
-    position: static;
     
     /* 
      * Grid layout
@@ -179,18 +145,13 @@
     /* 
      * block
      */
-        
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 
     /* positioning */
     display: inline-block;
     position: relative;
 
     /* size */
-    top: 60%;
+    top: 50%;
     left: 50%;
         
     /*
@@ -212,18 +173,12 @@
      * block
      */
     
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: block;
-    position: static;
 
     /* size */
     width: inherit;
-    height: 108px;
+    height: 80px;
     
     /* 
      * Grid layout
@@ -241,34 +196,26 @@
      */
 
     /* background */
-    background: local padding-box #1e90ffff;
+    background: local padding-box #000980;
     
     /* border */
-    border: 3px outset darkblue;
+    border: 3px solid black;
     border-collapse: separate;
     border-spacing: 0;
     
     /* empty space */
-    box-sizing: border-box;
     margin: 0 auto;
-    padding: 0;
 
     /* positioning */
     display: flex;
-    position: static;
     
     /* size */
     width: inherit;
-    height: 108px;
+    height: 80px;
 
     /* sorting */
     justify-content: center;
     align-content: center;
-
-    /* 
-     * flexbox layout
-     */
-    flex-flow: row wrap;
 }
 
 #headerNavigator > ul {
@@ -277,25 +224,22 @@
      */
     
     /* border */
-    border: 3px outset darkblue;
+    border: 3px solid black;
     border-collapse: collapse;
     
     /* decoration */
     list-style: none;
 
     /* empty space */
-    box-sizing: border-box;
     margin: 8px 0;
-    padding: 0;
 
     /* positioning */
     display: flex;
-    position: static;
     z-index: 0;
     
     /* size */
     width: 600px;
-    height: 70px;
+    height: 60px;
     
     /* sorting */
     justify-content: center;
@@ -314,18 +258,15 @@
      */
     
     /* border */
-    border-left: 1.5px outset darkblue;
-    border-right: 1.5px outset darkblue;
+    border-left: 1.5px solid black;
+    border-right: 1.5px solid black;
     border-collapse: collapse;
     
     /* empty space */
-    box-sizing: border-box;
-    margin: 0;
     padding: 3px 0;
 
     /* positioning */
     display: flex;
-    position: static;
     z-index: -1;
 
     /* size */
@@ -339,8 +280,6 @@
     /* 
      * flexbox layout
      */
-    flex-grow: 1;
-    flex-shrink: 1;
     flex-flow: row nowrap;
 }
 
@@ -349,14 +288,8 @@
      * block
      */
         
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: flex;
-    position: static;
 
     /* size */
     width: inherit;
@@ -374,20 +307,25 @@
     font-size: 21px;
     font-weight: 700;
     text-decoration: none;
-    color: black;
+    color: white;
+    
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row nowrap;
 }
 
 #headerNavigator > ul > li:first-child {
     /* border */
-    border-left: 3px outset darkblue;
+    border-left: 3px solid black;
 }
 
 #headerNavigator > ul > li:last-child {
     /* border */
-    border-right: 3px outset darkblue;
+    border-right: 3px solid black;
 }
 
 #headerNavigator > ul > li:hover {
-    background-color: #80c0ff;
+    background-color: #3B3BC7;
     background-clip: content-box;
 }

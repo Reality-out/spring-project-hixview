@@ -4,13 +4,10 @@
      */
     
     /* empty space */
-    box-sizing: border-box;
     margin: 0 auto;
-    padding: 0;
 
     /* positioning */
     display: grid;
-    position: static;
 
     /* size */
     width: calc(100vw - 14px);
@@ -24,9 +21,7 @@
     place-content: center;
     place-items: center;
     
+    grid-gap: 0;
     grid-template-rows: 800px;
     grid-template-columns: calc(100vw - 14px);
-    grid-gap: 0;
-    grid-template-areas: 
-        "body";
 }

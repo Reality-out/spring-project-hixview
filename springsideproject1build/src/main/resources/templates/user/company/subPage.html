@@ -1,18 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('searchCompanyForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        var nameOrCode = document.getElementById('nameOrCode').value;
-
-        var url = "/company/companies/" + encodeURIComponent(nameOrCode);
-
-        window.location.href = url;
-    });
-});
-</script>
 <head>
     <meta charset="UTF-8"/>
     <title>힉스뷰 - 세상 경제사를 한눈에</title>
@@ -21,9 +8,9 @@
     <th:block th:replace="~{/user/fragment/footer :: footerStyle}"></th:block>
 
     <link href="/styles/user/logoStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/company/bodyWrapperStyle.css" rel="stylesheet"/>       <!-- wrap the whole body -->
-    <link href="/styles/user/company/bodySearchBoxStyle.css" rel="stylesheet"/>     <!-- wrap the top search box -->
-    <link href="/styles/user/company/bodyCompanyListStyle.css" rel="stylesheet"/>   <!-- wrap the middle grid covering the companies -->
+    <link href="/styles/user/company/search/bodyWrapperStyle.css" rel="stylesheet"/>       <!-- wrap the whole body -->
+    <link href="/styles/user/company/search/bodySearchBoxStyle.css" rel="stylesheet"/>     <!-- wrap the top search box -->
+    <link href="/styles/user/company/search/bodyCompanyListStyle.css" rel="stylesheet"/>   <!-- wrap the middle grid covering the companies -->
 </head>
 <body>
     <header th:replace="~{/user/fragment/header :: headerFragment}"></header>
@@ -51,28 +38,28 @@
                     </div>
                     <div class="row1">
                         <h3>전기차 대표 기업</h3>
-                        <p>현대차</P>
+                        <p>현대차</p>
                         <a class="logo logoHyundaiMotorCompany" href="/company/companies/005380">
                         </a>
-                        <p>기아</P>
+                        <p>기아</p>
                         <a class="logo logoKia" href="/company/companies/000270">
                         </a>
                     </div>
                     <div class="row1">
                         <h3>2차전지 대표 기업</h3>
-                        <p>LG에너지솔루션</P>
+                        <p>LG에너지솔루션</p>
                         <a class="logo logoLGEnergySolution" href="/company/companies/373220">
                         </a>
-                        <p>삼성SDI</P>
+                        <p>삼성SDI</p>
                         <a class="logo logoSamsungSDI" href="/company/companies/006400">
                         </a>
                     </div>
                     <div class="row1">
                         <h3>IT 대표 기업</h3>
-                        <p>NAVER</P>
+                        <p>NAVER</p>
                         <a class="logo logoNaver" href="/company/companies/035420">
                         </a>
-                        <p>카카오</P>
+                        <p>카카오</p>
                         <a class="logo logoKakao" href="/company/companies/035720">
                         </a>
                     </div>
@@ -81,5 +68,17 @@
         </div>
     </section>
     <footer th:replace="~{/user/fragment/footer :: footerFragment}"></footer>
+    <script>
+        let CompanyAddressConversionModule;
+
+        if (window.location.pathname.includes('/company')) {
+            import('/scripts/user/module/CompanyAddressConversionModule.js')
+                .then((module) => {
+                    CompanyAddressConversionModule = new module.default();
+                    CompanyAddressConversionModule.init();
+                })
+                .catch((error) => console.error("Failed to load CompanyAddressConversionModule: ", error));
+        }
+    </script>
 </body>
 </html>

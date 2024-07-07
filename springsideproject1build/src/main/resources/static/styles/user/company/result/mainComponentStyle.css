@@ -1,0 +1,404 @@
+/*
+ * Top, Middle
+ */
+.topMiddleComponent {
+    /*
+     * block
+     */
+
+    /* empty space */
+    margin: 80px auto 0px;
+    
+    /* positioning */
+    display: grid;
+
+    /* size */
+    width: 70rem;
+    height: 570px;
+
+    /* 
+     * flexbox layout
+     */
+
+    /* sorting */
+    place-items: baseline start;
+
+    grid-template-rows: 50px 500px;
+    grid-template-columns: inherit;
+    grid-gap: 20px;
+    grid-template-areas: 
+        "top"
+        "middle";
+}
+
+.topComponent {
+    /*
+     * block
+     */
+
+    /* positioning */
+    display: flex;
+
+    /* size */
+    width: inherit;
+    height: 50px;
+
+    /*
+     * Grid layout
+     */
+
+    grid-area: top;
+
+    /* 
+     * flexbox layout
+     */
+
+    /* sorting */
+    place-items: baseline flex-start;
+}
+
+.topComponent > h3 {
+    /* 
+     * block
+     */
+       
+    /* empty space */
+    margin-right: 8px;
+
+    /* positioning */
+    display: inline-block;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 24px;
+    font-weight: 700;
+    text-decoration: none;
+    color: black;
+}
+
+.topComponent > h5 {
+    /* 
+     * block
+     */
+
+    /* positioning */
+    display: inline-block;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    font-weight: 400;
+    color: black;
+}
+    
+.middleComponent {
+    /*
+     * block
+     */
+
+    /* border */
+    border: 2px solid black;
+    border-collapse: collapse;
+
+    /* positioning */
+    display: grid;
+
+    /* size */
+    width: inherit;
+    height: 500px;
+
+    /*
+     * Grid layout
+     */
+
+    /* sorting */
+    place-items: center;
+
+    grid-area: middle;
+}
+
+/*
+ * Bottom
+ */
+#bottomComponent {
+    /*
+     * block
+     */
+    
+    /* empty space */
+    margin: 80px auto 0;
+
+    /* positioning */
+    display: grid;
+}
+
+#bottomLeftComponent {
+    /*
+     * block
+     */
+    
+    /* positioning */
+    display: block;
+
+    /* size */
+    width: 700px;
+    height: 350px;
+}
+
+#bottomRightComponent {
+    /*
+     * block
+     */
+
+    /* positioning */
+    display: block;
+
+    /* size */
+    width: 700px;
+    height: 350px;
+}
+
+#bottomComponent.long {
+    /*
+     * block
+     */
+    
+    /* size */
+    height: 450px;
+    width: 1500px;
+    
+    /*
+     * Grid layout
+     */
+
+    grid-gap: 80px;
+    grid-template-rows: 350px;
+    grid-template-columns: repeat(2, 700px);
+    grid-template-areas: 
+        "bottomLeft bottomRight";    
+}
+
+#bottomComponent.middle {
+    /*
+     * block
+     */
+    
+    /* size */
+    height: 750px;
+    width: 700px;
+    
+    /*
+     * Grid layout
+     */
+
+    grid-gap: 20px;
+    grid-template-rows: repeat(2, 350px);
+    grid-template-columns: 700px;
+    grid-template-areas: 
+        "bottomLeft"
+        "bottomRight";
+}
+
+#bottomLeftComponent.common {
+    /*
+     * Grid layout
+     */
+
+    grid-area: bottomLeft;
+}
+
+#bottomRightComponent.common {
+    /*
+     * Grid layout
+     */
+
+    grid-area: bottomRight;
+}
+
+#bottomLeftComponent > nl {
+    /*
+     * block
+     */
+    
+    /* decoration */
+    border-top: 1px solid #B0E0E6;
+    border-bottom: 1px solid #B0E0E6;
+    border-collapse: collapse;
+    list-style: none;
+
+    /* empty space */
+    margin: 0 auto;
+
+    /* positioning */
+    display: flex;
+
+    /* size */
+    width: 100%;
+    height: 280px;
+    
+    /* sorting */
+    justify-content: right;
+    
+    /*
+     * flex layout
+     */
+    flex-flow: column nowrap;
+}
+
+#bottomLeftComponent > nl > nl {
+    /*
+     * block
+     */
+
+    /* positioning */
+    display: flex;
+
+    /* size */
+    width: inherit;
+    height: 40px;
+    
+    /*
+     * flexbox layout
+     */
+
+    flex-flow: row nowrap;
+}
+
+#bottomLeftComponent > nl > nl > li {
+    /*
+     * block
+     */
+
+    /* decoration */
+    border-top: 1px solid #B0E0E6;
+    border-bottom: 1px solid #B0E0E6;
+    border-collapse: collapse;
+        
+    /* positioning */
+    display: inline-flex;
+
+    /* size */
+    height: inherit;
+
+    /* sorting */
+    align-items: center;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #0000CD;
+}
+
+
+#bottomLeftComponent > nl > nl > li:nth-child(2n + 2) {
+    width: 14%;
+}
+
+#bottomLeftComponent > nl > nl > li:nth-child(2n + 1) {
+    width: 36%;    
+}
+
+#bottomRightComponent > div {
+    /*
+     * block
+     */
+    
+    /* empty space */
+    margin: 0 auto;
+
+    /* positioning */
+    display: flex;
+
+    /* size */
+    width: 100%;
+    height: 100%;
+    
+    /*
+     * flex layout
+     */
+    flex-flow: column wrap;
+}
+
+#bottomRightComponent > div > h5 {
+    /* 
+     * block
+     */
+       
+    /* positioning */
+    display: inline-block;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+}
+
+#bottomRightComponent > div > nl {
+    /*
+     * block
+     */
+    
+    /* decoration */
+    list-style: none;
+
+    /* empty space */
+    margin: 8px 0 10px;
+    
+    /* positioning */
+    display: grid;
+
+    /* size */
+    width: 100%;
+    height: 90px;
+        
+    /* 
+     * Grid layout
+     */
+    
+    /* sorting */
+    align-content: center;
+    justify-content: start;
+    
+    grid-auto-flow: column;
+    grid-gap: 0;
+    grid-template-rows: repeat(3, 30px);
+    grid-template-columns: 700px;
+}
+
+#bottomRightComponent > div > nl > li {
+    /*
+     * block
+     */
+    
+    /* positioning */
+    display: inline-grid;
+
+    /* size */
+    width: 100%;
+    height: 30px;
+        
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 200;
+    text-decoration: none;
+    color: blue;
+}

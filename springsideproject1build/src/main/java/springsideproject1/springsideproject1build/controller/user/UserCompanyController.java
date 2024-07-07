@@ -40,6 +40,7 @@ public class UserCompanyController {
             company = companyService.SearchOneCompanyByName(nameOrCode);
         }
         model.addAttribute("companyName", company.get().getName());
+        model.addAttribute("companyCode", company.get().getCode());
         return "user/company/showCompanyPage";
     }
 }

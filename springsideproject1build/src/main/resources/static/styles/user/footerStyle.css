@@ -10,13 +10,10 @@
     border-top: 1px solid #dee2e6;
     
     /* empty space */
-    box-sizing: border-box;
     margin: 0 auto;
-    padding: 0;
 
     /* positioning */
     display: grid;
-    position: static;
 
     /* size */
     width: calc(100vw - 12px);
@@ -29,9 +26,9 @@
     /* 
      * Grid layout
      */
+    grid-gap: 0;
     grid-template-rows: 70px 10px;
     grid-template-columns: calc(100vw - 12px);
-    grid-gap: 0;
 }
 
 .footerTop {
@@ -39,15 +36,8 @@
      * block
      */
     
-    /* empty space */
+   /* positioning */
     display: grid;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
-    /* positioning */
-    display: grid;
-    position: static;
     
     /* 
      * Grid layout
@@ -63,13 +53,10 @@
      */
 
     /* empty space */
-    box-sizing: border-box;
     margin: 0 auto;
-    padding: 0;
 
     /* positioning */
     display: flex;
-    position: static;
     
     /* size */
     width: 100%;
@@ -78,11 +65,6 @@
     /* sorting */
     justify-content: center;
     align-content: center;
-    
-    /* 
-     * Flexbox layout
-     */
-    flex-flow: row nowrap;
 }
 
 .footerNavigator > ul {
@@ -93,14 +75,8 @@
     /* decoration */
     list-style: none;
 
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: flex;
-    position: static;
     
     /* size */
     width: 100%;
@@ -109,12 +85,6 @@
     /* sorting */
     justify-content: start;
     align-content: start;
-        
-    /* 
-     * Flexbox layout
-     */
-    column-gap: 0;
-    flex-flow: row nowrap;
 }
 
 .footerNavigator > ul > li {
@@ -123,13 +93,15 @@
      */
     
     /* empty space */
-    box-sizing: border-box;
     margin: 12px;
-    padding: 0;
 
     /* positioning */
     display: flex;
-    position: static;
+    
+    /* 
+     * flexbox layout
+     */
+    flex-flow: row nowrap;
 }
 
 .footerNavigator > ul > li > a {
@@ -137,14 +109,8 @@
      * block
      */
         
-    /* empty space */
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-
     /* positioning */
     display: block;
-    position: static;
 
     /*
      * inline
