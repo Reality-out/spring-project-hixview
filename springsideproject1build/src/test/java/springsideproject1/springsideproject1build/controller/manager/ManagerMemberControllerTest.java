@@ -17,7 +17,8 @@ import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.createTestMember;
 
 @SpringBootTest
@@ -51,7 +52,7 @@ class ManagerMemberControllerTest {
     @DisplayName("멤버 리스트 페이지 접속")
     @Test
     public void accessMembersPage() throws Exception {
-        mockMvc.perform(get("/manager/member/showAll"))
+        mockMvc.perform(get("/manager/member/all"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("manager/select/membersPage"));
     }

@@ -1,50 +1,40 @@
 package springsideproject1.springsideproject1build.controller.user;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.domain.MembershipForm;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 @Controller
+@RequestMapping("/membership")
 @RequiredArgsConstructor
-public class UserMemberController {
+public class UserMembershipController {
 
     @Autowired
     private final MemberService memberService;
 
-    @GetMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    public String loginOnSite() {
-        return "user/loginPage";
-    }
-
-    @GetMapping("/membership")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String createMembership() {
         return "user/membership/createPage";
     }
 
-    @GetMapping("/membership/succeed")
+    @GetMapping("/succeed")
     @ResponseStatus(HttpStatus.OK)
     public String succeedMembership() {
         return "user/membership/succeedPage";
     }
 
-    @PostMapping("/membership")
+    @PostMapping
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitMembership(HttpServletRequest request, MembershipForm form) throws MalformedURLException, URISyntaxException {
+    public String submitMembership(MembershipForm form) {
 
         Member member = new Member.MemberBuilder()
                 .id(form.getId())
@@ -54,6 +44,6 @@ public class UserMemberController {
 
         memberService.joinMember(member);
 
-        return "redirect:succeed";
+        return "redirect:membership/succeed";
     }
 }

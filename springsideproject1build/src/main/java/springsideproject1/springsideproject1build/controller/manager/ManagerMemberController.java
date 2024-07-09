@@ -1,6 +1,5 @@
 package springsideproject1.springsideproject1build.controller.manager;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +20,10 @@ public class ManagerMemberController {
     @Autowired
     private final MemberService memberService;
 
-    @GetMapping("/showAll")
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public String ShowMemberList(Model model) {
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
+        model.addAttribute("members", memberService.findMembers());
         return "manager/select/membersPage";
     }
 
@@ -37,19 +35,15 @@ public class ManagerMemberController {
 
     @GetMapping("/remove/finish")
     @ResponseStatus(HttpStatus.OK)
-    public String finishMemberWithdraw(@RequestParam("id") String id, Model model) {
-
+    public String finishMemberWithdraw(@RequestParam String id, Model model) {
         model.addAttribute("id", id);
-
         return "manager/remove/membership/finishPage";
     }
 
     @PostMapping("/remove")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String removeMemberWithForm(HttpServletRequest request, MembershipForm form) {
-
+    public String removeMemberWithForm(MembershipForm form) {
         memberService.removeMember(form.getId());
-
-        return "redirect:finish?id=" + form.getId();
+        return "redirect:remove/finish?id=" + form.getId();
     }
 }

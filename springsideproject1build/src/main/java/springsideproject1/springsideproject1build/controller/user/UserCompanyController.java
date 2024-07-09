@@ -28,19 +28,16 @@ public class UserCompanyController {
         return "user/company/subPage";
     }
 
-    @GetMapping("/companies/{nameOrCode}")
+    @GetMapping("/{nameOrCode}")
     @ResponseStatus(HttpStatus.OK)
     public String companyLookUp(
-            @PathVariable String nameOrCode, Model model
-    ) {
-        Optional<Company> company;
-        if (isNumeric(nameOrCode)) {
-            company = companyService.SearchOneCompanyByCode(nameOrCode);
-        } else {
-            company = companyService.SearchOneCompanyByName(nameOrCode);
-        }
-        model.addAttribute("companyName", company.get().getName());
-        model.addAttribute("companyCode", company.get().getCode());
+            @PathVariable String nameOrCode, Model model) {
+
+        Company company = (isNumeric(nameOrCode)) ?
+                companyService.SearchOneCompanyByCode(nameOrCode).get() : companyService.SearchOneCompanyByName(nameOrCode).get();
+
+        model.addAttribute("companyName", company.getName());
+        model.addAttribute("companyCode", company.getCode());
         return "user/company/showCompanyPage";
     }
 }

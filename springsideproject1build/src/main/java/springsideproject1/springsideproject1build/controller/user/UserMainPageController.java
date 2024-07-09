@@ -13,4 +13,10 @@ public class UserMainPageController {
     public String mainPage() {
         return "user/mainPage";
     }
+
+    @GetMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public String loginOnSite() {
+        return "user/loginPage";
+    }
 }

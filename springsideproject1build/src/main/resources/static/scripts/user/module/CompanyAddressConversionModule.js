@@ -14,7 +14,7 @@ class CompanyAddressConversionModule {
     handleSubmit(event) {
         event.preventDefault();
         const nameOrCode = document.getElementById('nameOrCode').value;
-        const url = "/company/companies/" + encodeURIComponent(nameOrCode);
+        const url = "/company/" + encodeURIComponent(nameOrCode);
         window.location.href = url;
     }
 }

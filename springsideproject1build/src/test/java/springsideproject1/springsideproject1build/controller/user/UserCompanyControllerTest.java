@@ -64,7 +64,7 @@ class UserCompanyControllerTest {
         companyService.joinCompany(company);
 
         // then
-        mockMvc.perform(get("/company/companies/" + company.getCode()))
+        mockMvc.perform(get("/company/" + company.getCode()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/company/showCompanyPage"));
     }
@@ -79,7 +79,7 @@ class UserCompanyControllerTest {
         companyService.joinCompany(company);
 
         // then
-        mockMvc.perform(get("/company/companies/" + company.getName()))
+        mockMvc.perform(get("/company/" + company.getName()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/company/showCompanyPage"));
     }
