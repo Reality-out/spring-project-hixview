@@ -1,135 +1,4 @@
-/*
- * Top, Middle
- */
-.topMiddleComponent {
-    /*
-     * block
-     */
-
-    /* empty space */
-    margin: 80px auto 0px;
-    
-    /* positioning */
-    display: grid;
-
-    /* size */
-    width: 70rem;
-    height: 570px;
-
-    /* 
-     * flexbox layout
-     */
-
-    /* sorting */
-    place-items: baseline start;
-
-    grid-template-rows: 50px 500px;
-    grid-template-columns: inherit;
-    grid-gap: 20px;
-    grid-template-areas: 
-        "top"
-        "middle";
-}
-
-.topComponent {
-    /*
-     * block
-     */
-
-    /* positioning */
-    display: flex;
-
-    /* size */
-    width: inherit;
-    height: 50px;
-
-    /*
-     * Grid layout
-     */
-
-    grid-area: top;
-
-    /* 
-     * flexbox layout
-     */
-
-    /* sorting */
-    place-items: baseline flex-start;
-}
-
-.topComponent > h3 {
-    /* 
-     * block
-     */
-       
-    /* empty space */
-    margin-right: 8px;
-
-    /* positioning */
-    display: inline-block;
-
-    /*
-     * inline
-     */
-    
-    /* font */
-    font-size: 24px;
-    font-weight: 700;
-    text-decoration: none;
-    color: black;
-}
-
-.topComponent > h5 {
-    /* 
-     * block
-     */
-
-    /* positioning */
-    display: inline-block;
-
-    /*
-     * inline
-     */
-    
-    /* font */
-    font-size: 18px;
-    font-weight: 400;
-    color: black;
-}
-    
-.middleComponent {
-    /*
-     * block
-     */
-
-    /* border */
-    border: 2px solid black;
-    border-collapse: collapse;
-
-    /* positioning */
-    display: grid;
-
-    /* size */
-    width: inherit;
-    height: 500px;
-
-    /*
-     * Grid layout
-     */
-
-    /* sorting */
-    place-items: center;
-
-    grid-area: middle;
-}
-
-/*
- * Bottom
- */
 #bottomComponent {
-    /*
-     * block
-     */
     
     /* empty space */
     margin: 80px auto 0;
@@ -139,23 +8,16 @@
 }
 
 #bottomLeftComponent {
-    /*
-     * block
-     */
     
     /* positioning */
     display: block;
 
     /* size */
     width: 700px;
-    height: 350px;
 }
 
 #bottomRightComponent {
-    /*
-     * block
-     */
-
+    
     /* positioning */
     display: block;
 
@@ -165,9 +27,6 @@
 }
 
 #bottomComponent.long {
-    /*
-     * block
-     */
     
     /* size */
     height: 450px;
@@ -176,7 +35,6 @@
     /*
      * Grid layout
      */
-
     grid-gap: 80px;
     grid-template-rows: 350px;
     grid-template-columns: repeat(2, 700px);
@@ -185,9 +43,6 @@
 }
 
 #bottomComponent.middle {
-    /*
-     * block
-     */
     
     /* size */
     height: 750px;
@@ -196,7 +51,6 @@
     /*
      * Grid layout
      */
-
     grid-gap: 20px;
     grid-template-rows: repeat(2, 350px);
     grid-template-columns: 700px;
@@ -205,26 +59,65 @@
         "bottomRight";
 }
 
-#bottomLeftComponent.common {
+#bottomComponent.short {
+    
+    /* size */
+    height: 1030px;
+    width: min(700px, calc(100vw - 14px));
+    
     /*
      * Grid layout
      */
+    grid-gap: 20px;
+    grid-template-rows: 630px 350px;
+    grid-template-columns: min(700px, calc(100vw - 14px));
+    grid-template-areas: 
+        "bottomLeft"
+        "bottomRight";
+}
 
+#bottomLeftComponent.longMiddle {
+    width: 700px;
+    height: 350px;
     grid-area: bottomLeft;
 }
 
-#bottomRightComponent.common {
-    /*
-     * Grid layout
-     */
+#bottomLeftComponent.short {
+    width: inherit;
+    height: 630px;
+    grid-area: bottomLeft;
+}
 
+#bottomLeftComponent > nl.longMiddle {
+    width: inherit;
+    height: 280px;
+}
+
+#bottomLeftComponent > nl.short {
+    width: inherit;
+    height: 560px;
+}
+
+#bottomLeftComponent > nl > nl.longMiddle {
+    width: inherit;
+    height: 40px;
+    flex-flow: row nowrap;
+}
+
+#bottomLeftComponent > nl > nl.short {
+    width: inherit;
+    height: 80px;
+    flex-flow: column nowrap;
+}
+
+#bottomRightComponent.common {
     grid-area: bottomRight;
 }
 
+/*
+ * Bottom Left
+ */
 #bottomLeftComponent > nl {
-    /*
-     * block
-     */
     
     /* decoration */
     border-top: 1px solid #B0E0E6;
@@ -237,10 +130,6 @@
 
     /* positioning */
     display: flex;
-
-    /* size */
-    width: 100%;
-    height: 280px;
     
     /* sorting */
     justify-content: right;
@@ -252,12 +141,15 @@
 }
 
 #bottomLeftComponent > nl > nl {
-    /*
-     * block
-     */
+    
+    /* positioning */
+    display: inherit;
+}
+
+#bottomLeftComponent > nl > nl > nl {
 
     /* positioning */
-    display: flex;
+    display: inherit;
 
     /* size */
     width: inherit;
@@ -266,11 +158,10 @@
     /*
      * flexbox layout
      */
-
     flex-flow: row nowrap;
 }
 
-#bottomLeftComponent > nl > nl > li {
+#bottomLeftComponent > nl > nl > nl > li {
     /*
      * block
      */
@@ -300,15 +191,17 @@
     color: #0000CD;
 }
 
-
-#bottomLeftComponent > nl > nl > li:nth-child(2n + 2) {
-    width: 14%;
+#bottomLeftComponent > nl > nl > nl > li:first-child {
+    width: 36%;
 }
 
-#bottomLeftComponent > nl > nl > li:nth-child(2n + 1) {
-    width: 36%;    
+#bottomLeftComponent > nl > nl > nl > li:last-child {
+    width: 64%;    
 }
 
+/*
+ * Bottom Right
+ */
 #bottomRightComponent > div {
     /*
      * block

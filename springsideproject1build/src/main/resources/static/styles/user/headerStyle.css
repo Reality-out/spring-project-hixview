@@ -238,7 +238,8 @@
     z-index: 0;
     
     /* size */
-    width: 600px;
+    max-width: 600px;
+    width: calc(100vw - 20px);
     height: 60px;
     
     /* sorting */
@@ -270,7 +271,7 @@
     z-index: -1;
 
     /* size */
-    width: 200px;
+    width: calc(100% / 3);
     height: inherit;
     
     /* sorting */
