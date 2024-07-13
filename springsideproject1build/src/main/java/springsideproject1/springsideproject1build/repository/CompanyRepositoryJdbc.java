@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.Utility.companyRowMapper;
+import static springsideproject1.springsideproject1build.Utility.companyTable;
 
 @Repository
 public class CompanyRepositoryJdbc implements CompanyRepository {
@@ -31,18 +32,20 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      */
     @Override
     public List<Company> findAllCompanies() {
-        return jdbcTemplate.query("select * from testcompanies", companyRowMapper());
+        return jdbcTemplate.query("select * from " + companyTable, companyRowMapper());
     }
 
     @Override
-    public Optional<Company> searchCompanyByCode(String companyCode) {
-        List<Company> oneCompanyOrNull = jdbcTemplate.query("select * from testcompanies where code = ?", companyRowMapper(), companyCode);
+    public Optional<Company> searchCompanyByCode(String code) {
+        List<Company> oneCompanyOrNull = jdbcTemplate.query(
+                "select * from " + companyTable + "  where code = ?", companyRowMapper(), code);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
     }
 
     @Override
-    public Optional<Company> searchCompanyByName(String companyName) {
-        List<Company> oneCompanyOrNull = jdbcTemplate.query("select * from testcompanies where name = ?", companyRowMapper(), companyName);
+    public Optional<Company> searchCompanyByName(String name) {
+        List<Company> oneCompanyOrNull = jdbcTemplate.query(
+                "select * from " + companyTable + " where name = ?", companyRowMapper(), name);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
 
     }
@@ -54,7 +57,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
     @Transactional
     public void saveCompany(Company company) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("testcompanies");
+        jdbcInsert.withTableName(companyTable);
 
         Map<String, Object> insertParam = new HashMap<>() {{
             put("code", company.getCode());
@@ -72,7 +75,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * REMOVE Company
      */
     @Override
-    public void removeCompanyByCode(String companyCode) {
-        jdbcTemplate.execute("delete from testcompanies where code = '" + companyCode + "'");
+    public void removeCompanyByCode(String code) {
+        jdbcTemplate.execute("delete from " + companyTable + " where code = '" + code + "'");
     }
 }

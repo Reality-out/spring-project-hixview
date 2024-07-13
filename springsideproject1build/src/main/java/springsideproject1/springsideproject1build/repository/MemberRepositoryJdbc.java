@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.Utility.memberRowMapper;
+import static springsideproject1.springsideproject1build.Utility.memberTable;
 
 @Repository
 public class MemberRepositoryJdbc implements MemberRepository {
@@ -31,24 +32,24 @@ public class MemberRepositoryJdbc implements MemberRepository {
      */
     @Override
     public List<Member> findAllMembers() {
-        return jdbcTemplate.query("select * from testmembers", memberRowMapper());
+        return jdbcTemplate.query("select * from " + memberTable, memberRowMapper());
     }
 
     @Override
     public Optional<Member> findMemberByIdentifier(Long identifier) {
-        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from testmembers where identifier = ?", memberRowMapper(), identifier);
+        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where identifier = ?", memberRowMapper(), identifier);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
 
     @Override
     public Optional<Member> findMemberByID(String id) {
-        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from testmembers where id = ?", memberRowMapper(), id);
+        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where id = ?", memberRowMapper(), id);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
 
     @Override
     public List<Member> findMemberByName(String name) {
-        return jdbcTemplate.query("select * from testmembers where name = ?", memberRowMapper(), name);
+        return jdbcTemplate.query("select * from " + memberTable + " where name = ?", memberRowMapper(), name);
     }
 
     /**
@@ -58,7 +59,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
     @Transactional
     public Long saveMember(Member member) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("testmembers").usingGeneratedKeyColumns("identifier");
+        jdbcInsert.withTableName(memberTable).usingGeneratedKeyColumns("identifier");
 
         Map<String, String> insertParam = new HashMap<>() {{
             put("ID", member.getId());
@@ -66,8 +67,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
             put("name", member.getName());
         }};
 
-        Number memberKey = jdbcInsert.executeAndReturnKey(
-                new MapSqlParameterSource(insertParam));
+        Number memberKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(insertParam));
 
         return memberKey.longValue();
     }
@@ -78,6 +78,6 @@ public class MemberRepositoryJdbc implements MemberRepository {
     @Override
     @Transactional
     public void removeMemberByID(String id) {
-        jdbcTemplate.execute("delete from testmembers where id = '" + id + "'");
+        jdbcTemplate.execute("delete from " + memberTable + " where id = '" + id + "'");
     }
 }

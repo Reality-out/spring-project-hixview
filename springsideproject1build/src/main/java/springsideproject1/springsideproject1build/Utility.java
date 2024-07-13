@@ -1,17 +1,39 @@
 package springsideproject1.springsideproject1build;
 
 import lombok.experimental.UtilityClass;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import springsideproject1.springsideproject1build.domain.Article;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.domain.Member;
 
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 @UtilityClass
 public class Utility {
     /**
+     * Constant
+     */
+    public static final String articleTable = "testarticles";
+    public static final String companyTable = "testcompanies";
+    public static final String memberTable = "testmembers";
+
+    /**
      * RowMapper
      */
+    public static RowMapper<Article> articleRowMapper() {
+        return (resultSet, rowNumber) -> {
+            Article article = new Article.ArticleBuilder()
+                    .number(resultSet.getString("number"))
+                    .name(resultSet.getString("name"))
+                    .date(resultSet.getDate("date").toLocalDate())
+                    .link(resultSet.getString("link"))
+                    .build();
+            return article;
+        };
+    }
+
     public static RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> {
             Company company = new Company.CompanyBuilder()
@@ -41,24 +63,32 @@ public class Utility {
     /**
      * Test
      */
-    public static Member createTestMember() {
-        return new Member.MemberBuilder()
-                .identifier(1L)
-                .id("ABcd1234!")
-                .password("EFgh1234!")
-                .name("박진하")
+    // Article
+    public static Article createTestArticle() {
+        return new Article.ArticleBuilder()
+                .name("中 넘어 중동·인도 가는 F&F…김창수 \"MLB 2.0 시대 열 것\"")
+                .date(LocalDate.of(2024, 6, 18))
+                .link("https://www.hankyung.com/article/2024061850181")
                 .build();
     }
 
-    public static Member createTestNewMember() {
-        return new Member.MemberBuilder()
-                .identifier(2L)
-                .id("abCD4321!")
-                .password("OPqr4321!")
-                .name("박하진")
+    public static Article createTestEqualDateArticle() {
+        return new Article.ArticleBuilder()
+                .name("F&F, MLB 글로벌 수주회 한국서 첫 개최")
+                .date(LocalDate.of(2024, 6, 18))
+                .link("https://biz.sbs.co.kr/article/20000176828?division=NAVER")
                 .build();
     }
 
+    public static Article createTestNewArticle() {
+        return new Article.ArticleBuilder()
+                .name("[뉴스핌 라씨로] 넥스틴, HBM 검사 장비 이달 '퀄 테스트' 개시")
+                .date(LocalDate.of(2024, 7, 5))
+                .link("https://www.newspim.com/news/view/20240705000120")
+                .build();
+    }
+
+    // Company
     public static Company createSamsungElectronics() {
         return new Company.CompanyBuilder()
                 .code("005930")
@@ -79,6 +109,37 @@ public class Utility {
                 .category1st("electronics")
                 .category2nd("semiconductor")
                 .build();
+    }
+
+    // Member
+    public static Member createTestMember() {
+        return new Member.MemberBuilder()
+                .identifier(1L)
+                .id("ABcd1234!")
+                .password("EFgh1234!")
+                .name("박진하")
+                .build();
+    }
+
+    public static Member createTestNewMember() {
+        return new Member.MemberBuilder()
+                .identifier(2L)
+                .id("abCD4321!")
+                .password("OPqr4321!")
+                .name("박하진")
+                .build();
+    }
+
+    // General-Purpose
+    public static void resetTable(JdbcTemplate jdbcTemplateTest, String tableName) {
+        resetTable(jdbcTemplateTest, tableName, false);
+    }
+
+    public static void resetTable(JdbcTemplate jdbcTemplateTest, String tableName, boolean hasAutoIncrement) {
+        jdbcTemplateTest.execute("DELETE FROM " + tableName);
+        if (hasAutoIncrement) {
+            jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
+        }
     }
 
     /**

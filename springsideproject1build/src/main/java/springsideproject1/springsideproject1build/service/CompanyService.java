@@ -16,12 +16,15 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
 
     /**
-     * SELECT One Company
+     * SELECT Companies
      */
     public List<Company> findCompanies() {
         return companyRepository.findAllCompanies();
     }
 
+    /**
+     * SELECT One Company
+     */
     public Optional<Company> SearchOneCompanyByCode(String companyCode) {
         return companyRepository.searchCompanyByCode(companyCode);
     }

@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.Utility.createTestMember;
+import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
@@ -31,13 +31,9 @@ class MemberServiceJdbcTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable("testmembers");
+        resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    private void resetTable(String tableName) {
-        jdbcTemplateTest.execute("DELETE FROM " + tableName);
-        jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
-    }
 
     @DisplayName("회원 가입 테스트")
     @Test

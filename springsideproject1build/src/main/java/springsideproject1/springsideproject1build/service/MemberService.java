@@ -16,7 +16,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     /**
-     * SELECT All Members
+     * SELECT Members
      */
     public List<Member> findMembers() {
         return memberRepository.findAllMembers();

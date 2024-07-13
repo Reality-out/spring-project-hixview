@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Company;
+import springsideproject1.springsideproject1build.domain.Article;
 
 import javax.sql.DataSource;
 
@@ -17,44 +17,44 @@ import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
-class CompanyServiceJdbcTest {
+class ArticleServiceJdbcTest {
 
     @Autowired
-    CompanyService companyService;
+    ArticleService articleService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyServiceJdbcTest(DataSource dataSource) {
+    public ArticleServiceJdbcTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, companyTable);
+        resetTable(jdbcTemplateTest, articleTable);
     }
 
-    @DisplayName("중복 코드 번호를 사용하는 기업 등록")
+    @DisplayName("중복 기사 제목을 사용하는 기사 등록")
     @Test
-    public void registerCompanyWithSameCode() {
+    public void registerArticleWithSameName() {
         // given
-        Company company1 = createSamsungElectronics();
-        Company company2 = createSamsungElectronics();
+        Article article1 = createTestArticle();
+        Article article2 = createTestArticle();
 
         // when
-        companyService.joinCompany(company1);
+        articleService.joinArticle(article1);
 
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.joinCompany(company2));
-        assertThat(e.getMessage()).isEqualTo("이미 존재하는 코드 번호입니다.");
+                () -> articleService.joinArticle(article2));
+        assertThat(e.getMessage()).isEqualTo("이미 존재하는 기사 제목입니다.");
     }
 
-    @DisplayName("존재하지 않는 코드 번호를 통한 기업 삭제")
+    @DisplayName("존재하지 않는 이름을 통한 기사 삭제")
     @Test
-    public void removeCompanyByFaultCode() {
+    public void removeArticleByFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.removeCompany("123456"));
-        assertThat(e.getMessage()).isEqualTo("해당 코드 번호와 일치하는 기업이 없습니다.");
+                () -> articleService.removeArticle("123456"));
+        assertThat(e.getMessage()).isEqualTo("해당 제목과 일치하는 기사가 없습니다.");
     }
 }

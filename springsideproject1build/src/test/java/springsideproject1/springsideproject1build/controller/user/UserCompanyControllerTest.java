@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.Utility.createSamsungElectronics;
+import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,11 +39,7 @@ class UserCompanyControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable("testcompanies");
-    }
-
-    private void resetTable(String tableName) {
-        jdbcTemplateTest.execute("DELETE FROM " + tableName);
+        resetTable(jdbcTemplateTest, companyTable);
     }
 
     @DisplayName("기업 페이지 접속")

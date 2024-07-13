@@ -6,11 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.domain.MembershipForm;
 import springsideproject1.springsideproject1build.service.MemberService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/manager/member")
@@ -20,6 +16,9 @@ public class ManagerMemberController {
     @Autowired
     private final MemberService memberService;
 
+    /*
+     * GetMapping
+     */
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public String ShowMemberList(Model model) {
@@ -40,10 +39,13 @@ public class ManagerMemberController {
         return "manager/remove/membership/finishPage";
     }
 
+    /*
+     * PostMapping
+     */
     @PostMapping("/remove")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String removeMemberWithForm(MembershipForm form) {
-        memberService.removeMember(form.getId());
-        return "redirect:remove/finish?id=" + form.getId();
+    public String removeMemberWithForm(@RequestParam String id) {
+        memberService.removeMember(id);
+        return "redirect:remove/finish?id=" + id;
     }
 }

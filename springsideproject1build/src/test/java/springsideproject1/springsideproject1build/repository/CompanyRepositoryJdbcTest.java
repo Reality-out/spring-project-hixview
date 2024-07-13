@@ -13,8 +13,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.Utility.createSKHynix;
-import static springsideproject1.springsideproject1build.Utility.createSamsungElectronics;
+import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
@@ -32,11 +31,7 @@ class CompanyRepositoryJdbcTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable("testcompanies");
-    }
-
-    private void resetTable(String presentTableName) {
-        jdbcTemplateTest.execute("DELETE FROM " + presentTableName);
+        resetTable(jdbcTemplateTest, companyTable);
     }
 
     @DisplayName("기업 모두 가져오기")

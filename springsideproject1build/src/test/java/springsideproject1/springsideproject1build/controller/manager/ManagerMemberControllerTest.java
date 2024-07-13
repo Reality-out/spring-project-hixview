@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.Utility.createTestMember;
+import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -41,12 +41,7 @@ class ManagerMemberControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable("testmembers");
-    }
-
-    private void resetTable(String tableName) {
-        jdbcTemplateTest.execute("DELETE FROM " + tableName);
-        jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
+        resetTable(jdbcTemplateTest, memberTable, true);
     }
 
     @DisplayName("멤버 리스트 페이지 접속")

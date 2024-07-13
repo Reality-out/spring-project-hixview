@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.Utility.createTestMember;
+import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,14 +37,9 @@ class UserMemberControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable("testmembers");
+        resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    private void resetTable(String tableName) {
-        jdbcTemplateTest.execute("DELETE FROM " + tableName);
-        jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
-    }
-    
     @DisplayName("로그인 페이지 접속")
     @Test
     public void accessLoginPage() throws Exception {
