@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <th:block th:replace="~{/user/fragment/original :: originalStyle}"></th:block>
+    <th:block th:replace="~{/user/fragment/header :: headerStyle}"></th:block>
+    <th:block th:replace="~{/user/fragment/footer :: footerStyle}"></th:block>
+
+    <link href="/styles/user/company/result/topMiddleComponentStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/company/result/bottomComponentStyle.css" rel="stylesheet"/>
+</head>
+<body>
+    <header th:replace="~{/user/fragment/header :: headerFragment}"></header>
+    <section>
+        <div class="topMiddleComponent">
+            <div class="topComponent">
+                <h3 th:text="${companyName}"></h3>
+                <h5 th:text="${companyCode}"></h5>
+            </div>
+            <div class="middleComponent"></div>
+        </div>
+        <div id="bottomComponent">
+            <div id="bottomLeftComponent">
+                <nl>
+                    <nl>
+                        <nl>
+                            <li>주가</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>시총</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li>52주 최저가</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>52주 최고가</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li>1차 구분</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>2차 구분</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li>PER</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>PBR</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li>ROE</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>PEG</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li>EPS</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>주당 배당금</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li>배당 성향</li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li>주가 수익률</li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                </nl>
+            </div>
+            <div id="bottomRightComponent">
+                <div>
+                    <h5>최신 뉴스</h5>
+                    <nl>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </nl>
+                    <h5>2024년 2분기 뉴스 TOP 3</h5>
+                    <nl>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </nl>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer th:replace="~{/user/fragment/footer :: footerFragment}"></footer>
+    <script src="/scripts/user/module/DifferentlyShowedCompanyModule.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            adjustGridLayout();
+
+            window.addEventListener('resize', adjustGridLayout);
+        });
+    </script>
+</body>
+</html>
