@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <link th:fragment="headerStyle" href="/styles/user/headerStyle.css" rel="stylesheet"/>
+</head>
+<body>
+    <header th:fragment="headerFragment">
+        <div class="headerWrapper">
+            <div class="headerTop">
+                <div class="headerTopLeft">
+                    <!-- Empty Grid -->
+                </div>
+                <div class="headerTopMiddle">
+                    <a href="/">
+                        <h1>힉스뷰</h1>
+                    </a>
+                </div>
+                <div class="headerTopRight">
+                    <a href="/login">로그인</a>
+                </div>
+            </div>
+            <div class="headerMiddle">
+                <nav id="headerNavigator">
+                    <ul>
+                        <li><a href="/company">기업</a></li>
+                        <li><a href="/industry">산업</a></li>
+                        <li><a href="/economy">경제</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

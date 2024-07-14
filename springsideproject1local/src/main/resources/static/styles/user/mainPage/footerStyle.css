@@ -1,0 +1,162 @@
+.footerWrapperDiv {
+    /* 
+     * block
+     */
+
+    /* background */
+    background: #dee2e6;
+
+    /* border */
+    border-top: 1px solid #dee2e6;
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+    padding-bottom: 10px;
+
+    /* positioning */
+    display: grid;
+    position: static;
+
+    /* size */
+    width: calc(100vw - 12px);
+    height: 90px;
+    
+    /* sorting */
+    place-content: center;
+    place-items: center;
+    
+    /* 
+     * Grid layout
+     */
+    grid-template-rows: 70px 10px;
+    grid-template-columns: calc(100vw - 12px);
+    grid-gap: 0;
+}
+
+.footerTopDiv {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    display: grid;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: grid;
+    position: static;
+    
+    /* 
+     * Grid layout
+     */
+    grid-template-rows: 70px;
+    grid-template-columns: calc(100vw - 12px);
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.footerNavigator {
+    /* 
+     * block
+     */
+
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+    
+    /* size */
+    width: 100%;
+    height: 100%;
+
+    /* sorting */
+    justify-content: center;
+    align-content: center;
+    
+    /* 
+     * Flexbox layout
+     */
+    flex-flow: row nowrap;
+}
+
+.footerNavigator > ul {
+    /* 
+     * block
+     */
+    
+    /* decoration */
+    list-style: none;
+
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+    
+    /* size */
+    width: 100%;
+    height: 100%;
+    
+    /* sorting */
+    justify-content: start;
+    align-content: start;
+        
+    /* 
+     * Flexbox layout
+     */
+    column-gap: 0;
+    flex-flow: row nowrap;
+}
+
+.footerNavigator > ul > li {
+    /* 
+     * block
+     */
+    
+    /* empty space */
+    box-sizing: border-box;
+    margin: 12px;
+    padding: 0;
+
+    /* positioning */
+    display: flex;
+    position: static;
+}
+
+.footerNavigator > ul > li > a {
+    /* 
+     * block
+     */
+        
+    /* empty space */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* positioning */
+    display: block;
+    position: static;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.2;
+    text-decoration: none;
+    color: #696969;
+
+    word-spacing: 0.25rem;
+}

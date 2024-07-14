@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <h1>기업</h1>
+        <p>
+            <a href="/company/companies?companyCode=005930">삼성전자</a>
+        </p>
+        <p>
+            <a href="/company/companies?companyCode=005380">현대차</a>
+        </p>
+        <form action="/company/companysearch" method="get">
+            <div class="form-group">
+                <label for="nameOrCode">기업명 또는 기업 코드</label>
+                <input type="text" id="nameOrCode" name="nameOrCode">
+            </div>
+            <button type="submit">기업 검색</button>
+        </form>
+        <p>
+            <a href="/">처음 화면으로</a>
+        </p>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

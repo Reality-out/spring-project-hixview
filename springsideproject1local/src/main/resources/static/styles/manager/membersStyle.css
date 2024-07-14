@@ -1,0 +1,186 @@
+.memberWrapperDiv {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 10px;
+    border-spacing: 0;
+    
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    padding: 0 0 1rem;
+
+    /* positioning */
+    display: block;
+    position: static;
+    
+    /* size */
+    width: 90vw;
+    min-width: 600px;
+}
+
+.memberTable {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 8px;
+    border-spacing: 0;
+
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    padding: 0;
+    
+    /* positioning */
+    display: table;
+    position: static;
+
+    /* size */
+    width: 400px;
+}
+
+.memberTable > Caption {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: none;
+        
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    padding: 4px;
+    
+    /* positioning */
+    caption-side: top;
+    display: table-caption;
+    position: static;
+
+    /* sorting */
+    text-align: center;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+
+    hyphens: none;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}
+
+.memberTable th {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px outset #5A5BC7;
+    border-collapse: collapse;
+    
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* positioning */
+    display: table-cell;
+    position: static;
+
+    /* size */
+    min-height: 40px;
+    min-width: 100px;
+    
+    /* sorting */
+    text-align: center;
+        
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 700;
+
+    hyphens: none;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}
+
+.memberTable td {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px outset #5A5BC7;
+    border-collapse: collapse;
+    
+    /* decoration */
+    opacity: 1;
+    transform: none;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* positioning */
+    display: table-cell;
+    position: static;
+
+    /* size */
+    min-height: 40px;
+    min-width: 100px;
+
+    /* sorting */
+    text-align: center;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    line-height: 1.2;
+    font-weight: 400;
+
+    hyphens: none;
+    letter-spacing: inherit;
+    word-break: keep-all;
+    word-spacing: 0.25rem;
+}

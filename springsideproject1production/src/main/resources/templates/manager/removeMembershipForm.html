@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>타임라인 뷰어 - 세상 경제사를 한눈에</title>
+    </head>
+    <body>
+        <div>
+            <p>정말로 회원을 제거하시겠습니까?</p>
+            <form action="/member/remove" method="POST">
+                <div>
+                    <label for="id">ID</label>
+                    <input type="text" id="id" name="id">
+                </div>
+                <button type="submit">제거</button>
+            </form>
+        </div>
+    </body>
+</html>
