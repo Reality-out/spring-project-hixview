@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0e246e75-5a24-40a6-a7f0-9053c7ff4e41" name="Changes" comment="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="HTML File" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2iJTequsXOxBqhhOs91A9OYrDy9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.SpringSideProject1BuildApplication.executor": "Run",
+    "Application.Temp.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Gradle.Tests in 'springsideproject1.springsideproject1build'.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.findAll.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.findByCode.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.findByName.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.removeByName.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.save.executor": "Run",
+    "JUnit.ArticleRepositoryJdbcTest.searchByDateRange.executor": "Run",
+    "JUnit.CompanyRepositoryJdbcTest.findAll.executor": "Run",
+    "JUnit.CompanyServiceJdbcTest.executor": "Run",
+    "JUnit.ManagerArticleControllerTest.accessArticleRegisterPage.executor": "Run",
+    "JUnit.ManagerMainPageControllerTest.accessMainPage.executor": "Run",
+    "JUnit.ManagerMainPageControllerTest.executor": "Run",
+    "JUnit.ManagerMemberControllerTest.accessMembershipWithdrawFinishPage.executor": "Run",
+    "JUnit.ManagerMemberControllerTest.executor": "Run",
+    "JUnit.MemberRepositoryJdbcTest.findAllByName.executor": "Run",
+    "JUnit.MemberServiceJdbcTest.executor": "Run",
+    "JUnit.SeparatedBuildTest.executor": "Run",
+    "JUnit.SeparatedBuildTest.scrap.executor": "Run",
+    "JUnit.UserCompanyControllerTest.executor": "Run",
+    "JUnit.UserMainPageControllerTest.executor": "Run",
+    "JUnit.UserMemberControllerTest.accessMembershipSuccessPage.executor": "Run",
+    "JUnit.UserMemberControllerTest.executor": "Run",
+    "JUnit.springsideproject1 in springsideproject1.test.executor": "Run",
+    "JUnit.springsideproject1 in springsideproject1build.test (1).executor": "Run",
+    "JUnit.springsideproject1 in springsideproject1build.test.executor": "Run",
+    "JUnit.springsideproject1.springsideproject1build in springsideproject1build.test.executor": "Run",
+    "JUnit.springsideproject1.springsideproject1build.controller in springsideproject1build.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "feature",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/akdnj/springsideproject/local/springsideproject1/build.gradle",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\akdnj\OneDrive\바탕 화면\인생 과정\직업\Java\SpringDirectory\springsideproject1build\src\main\resources\templates\manager\add\article" />
+      <recent name="C:\Users\akdnj\OneDrive\바탕 화면\인생 과정\직업\Java\SpringDirectory\springsideproject1build\src\main\resources\static\scripts\user\module" />
+      <recent name="C:\Users\akdnj\OneDrive\바탕 화면\인생 과정\직업\Java\SpringDirectory\springsideproject1build\src\main\resources\static\scripts\user" />
+      <recent name="C:\Users\akdnj\OneDrive\바탕 화면\인생 과정\직업\Java\SpringDirectory\springsideproject1build\src\main\resources\static\scripts" />
+      <recent name="C:\Users\akdnj\OneDrive\바탕 화면\인생 과정\직업\Java\SpringDirectory\springsideproject1build\src\main\resources\static\scripts\module" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="springsideproject1.springsideproject1build.controller.manager" />
+      <recent name="springsideproject1.springsideproject1build.service" />
+      <recent name="springsideproject1.springsideproject1build.repository" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.springsideproject1 in springsideproject1.test">
+    <configuration name="ArticleRepositoryJdbcTest.removeByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springsideproject1build.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="springsideproject1.springsideproject1build.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="springsideproject1.springsideproject1build.repository" />
+      <option name="MAIN_CLASS_NAME" value="springsideproject1.springsideproject1build.repository.ArticleRepositoryJdbcTest" />
+      <option name="METHOD_NAME" value="removeByName" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ArticleRepositoryJdbcTest.searchByDateRange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springsideproject1build.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="springsideproject1.springsideproject1build.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="springsideproject1.springsideproject1build.repository" />
+      <option name="MAIN_CLASS_NAME" value="springsideproject1.springsideproject1build.repository.ArticleRepositoryJdbcTest" />
+      <option name="METHOD_NAME" value="searchByDateRange" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="springsideproject1 in springsideproject1.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springsideproject1.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="springsideproject1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="springsideproject1" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="springsideproject1 in springsideproject1build.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springsideproject1build.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="springsideproject1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="springsideproject1" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="springsideproject1.springsideproject1build in springsideproject1build.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springsideproject1build.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="springsideproject1.springsideproject1build.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="springsideproject1.springsideproject1build" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.springsideproject1 in springsideproject1.test" />
+      <item itemvalue="JUnit.springsideproject1 in springsideproject1build.test" />
+      <item itemvalue="JUnit.springsideproject1.springsideproject1build in springsideproject1build.test" />
+      <item itemvalue="JUnit.ArticleRepositoryJdbcTest.searchByDateRange" />
+      <item itemvalue="JUnit.ArticleRepositoryJdbcTest.removeByName" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.springsideproject1 in springsideproject1.test" />
+        <item itemvalue="JUnit.springsideproject1 in springsideproject1build.test" />
+        <item itemvalue="JUnit.ArticleRepositoryJdbcTest.removeByName" />
+        <item itemvalue="JUnit.ArticleRepositoryJdbcTest.searchByDateRange" />
+        <item itemvalue="JUnit.springsideproject1.springsideproject1build in springsideproject1build.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\akdnj\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0e246e75-5a24-40a6-a7f0-9053c7ff4e41" name="Changes" comment="" />
+      <created>1719207780569</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719207780569</updated>
+    </task>
+    <task id="LOCAL-00001" summary="24.06.24 applying builder pattern to the Member and Company Class">
+      <option name="closed" value="true" />
+      <created>1719216223134</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719216223134</updated>
+    </task>
+    <task id="LOCAL-00002" summary="24.06.27 make test clearer with the static method of the utility class and add more tests">
+      <option name="closed" value="true" />
+      <created>1719483609898</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719483609898</updated>
+    </task>
+    <task id="LOCAL-00003" summary="24.06.27 make the tests clearer with the static method of the utility class and add more tests">
+      <option name="closed" value="true" />
+      <created>1719483664642</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719483664642</updated>
+    </task>
+    <task id="LOCAL-00004" summary="24.06.29 test the view name, and apply the JavaScript on the HTML, the template function provided with the Thymeleaf">
+      <option name="closed" value="true" />
+      <created>1719646587512</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719646587512</updated>
+    </task>
+    <task id="LOCAL-00005" summary="24.07.07 apply the new font, arrange JS files, and implement the dynamic scrollbar and responsive grid box sizing">
+      <option name="closed" value="true" />
+      <created>1720339219933</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1720339219934</updated>
+    </task>
+    <task id="LOCAL-00006" summary="24.07.10 abbreviate the URL and clean up the code of the controller methods">
+      <option name="closed" value="true" />
+      <created>1720542881058</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1720542881058</updated>
+    </task>
+    <task id="LOCAL-00007" summary="24.07.10 make the visual reaction of the company page better">
+      <option name="closed" value="true" />
+      <created>1720603261059</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1720603261061</updated>
+    </task>
+    <task id="LOCAL-00008" summary="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)">
+      <option name="closed" value="true" />
+      <created>1720863800252</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1720863800252</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="24.06.24 applying builder pattern to the Member and Company Class" />
+    <MESSAGE value="24.06.27 make the test clearer with the static method of the utility class and add more tests" />
+    <MESSAGE value="24.06.27 make test clearer with the static method of the utility class and add more tests" />
+    <MESSAGE value="24.06.27 make the tests clearer with the static method of the utility class and add more tests" />
+    <MESSAGE value="24.06.29 test the view name, and apply the JavaScript on the HTML, the template function provided with the Thymeleaf" />
+    <MESSAGE value="24.07.07 apply the new font, arrange JS files, and implement the dynamic scrollbar and responsive grid box sizing" />
+    <MESSAGE value="24.07.10 abbreviate the URL and clean up the code of the controller methods" />
+    <MESSAGE value="24.07.10 make the visual reaction of the company page better" />
+    <MESSAGE value="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)" />
+    <option name="LAST_COMMIT_MESSAGE" value="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)" />
+  </component>
+</project>

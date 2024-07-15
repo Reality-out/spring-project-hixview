@@ -1,0 +1,143 @@
+.memberWrapperDiv {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 10px;
+    border-spacing: 0;
+    
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    padding: 0 0 1rem;
+
+    /* positioning */
+    display: block;
+    
+    /* size */
+    width: 90vw;
+    min-width: 600px;
+}
+
+.memberTable {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 3px outset #5A5BC7;
+    border-collapse: separate;
+    border-radius: 8px;
+    border-spacing: 0;
+
+    /* decoration */
+    box-shadow: 2px 2px 3px 2px black;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    
+    /* positioning */
+    display: table;
+
+    /* size */
+    width: 400px;
+}
+
+.memberTable > Caption {
+    /* 
+     * block
+     */
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem auto 1rem;
+    padding: 4px;
+    
+    /* positioning */
+    caption-side: top;
+    display: table-caption;
+
+    /* sorting */
+    text-align: center;
+    
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.memberTable th {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px outset #5A5BC7;
+    border-collapse: collapse;
+    
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* positioning */
+    display: table-cell;
+
+    /* size */
+    min-height: 40px;
+    min-width: 100px;
+    
+    /* sorting */
+    text-align: center;
+        
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.memberTable td {
+    /* 
+     * block
+     */
+
+    /* border */
+    border: 2px outset #5A5BC7;
+    border-collapse: collapse;
+
+    /* empty space */
+    box-sizing: content-box;
+    margin: 1rem;
+    padding: 1rem;
+
+    /* positioning */
+    display: table-cell;
+
+    /* size */
+    min-height: 40px;
+    min-width: 100px;
+
+    /* sorting */
+    text-align: center;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 400;
+}
