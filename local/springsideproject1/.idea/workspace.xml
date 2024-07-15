@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e246e75-5a24-40a6-a7f0-9053c7ff4e41" name="Changes" comment="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)" />
+    <list default="true" id="0e246e75-5a24-40a6-a7f0-9053c7ff4e41" name="Changes" comment="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,6 +83,7 @@
     "JUnit.UserMainPageControllerTest.executor": "Run",
     "JUnit.UserMemberControllerTest.accessMembershipSuccessPage.executor": "Run",
     "JUnit.UserMemberControllerTest.executor": "Run",
+    "JUnit.springsideproject1 in springsideproject1.test.executor": "Run",
     "JUnit.springsideproject1 in springsideproject1build.test (1).executor": "Run",
     "JUnit.springsideproject1 in springsideproject1build.test.executor": "Run",
     "JUnit.springsideproject1.springsideproject1build in springsideproject1build.test.executor": "Run",
@@ -111,20 +114,7 @@
       <recent name="springsideproject1.springsideproject1build.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.springsideproject1 in springsideproject1build.test">
-    <configuration name="SpringSideProject1BuildApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="springsideproject1.springsideproject1build.SpringSideProject1BuildApplication" />
-      <module name="springsideproject1build.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="springsideproject1.springsideproject1build.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.springsideproject1 in springsideproject1.test">
     <configuration name="ArticleRepositoryJdbcTest.removeByName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="springsideproject1build.test" />
       <extension name="coverage">
@@ -153,6 +143,20 @@
       <option name="MAIN_CLASS_NAME" value="springsideproject1.springsideproject1build.repository.ArticleRepositoryJdbcTest" />
       <option name="METHOD_NAME" value="searchByDateRange" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="springsideproject1 in springsideproject1.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springsideproject1.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="springsideproject1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="springsideproject1" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -186,7 +190,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.SpringSideProject1BuildApplication" />
+      <item itemvalue="JUnit.springsideproject1 in springsideproject1.test" />
       <item itemvalue="JUnit.springsideproject1 in springsideproject1build.test" />
       <item itemvalue="JUnit.springsideproject1.springsideproject1build in springsideproject1build.test" />
       <item itemvalue="JUnit.ArticleRepositoryJdbcTest.searchByDateRange" />
@@ -194,11 +198,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.springsideproject1 in springsideproject1.test" />
         <item itemvalue="JUnit.springsideproject1 in springsideproject1build.test" />
         <item itemvalue="JUnit.ArticleRepositoryJdbcTest.removeByName" />
         <item itemvalue="JUnit.ArticleRepositoryJdbcTest.searchByDateRange" />
         <item itemvalue="JUnit.springsideproject1.springsideproject1build in springsideproject1build.test" />
-        <item itemvalue="Application.SpringSideProject1BuildApplication" />
       </list>
     </recent_temporary>
   </component>
