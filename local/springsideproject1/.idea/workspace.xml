@@ -4,7 +4,114 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0e246e75-5a24-40a6-a7f0-9053c7ff4e41" name="Changes" comment="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)" />
+    <list default="true" id="0e246e75-5a24-40a6-a7f0-9053c7ff4e41" name="Changes" comment="24.07.13 implement the article component, remove the MembershipForm class, and produce code optimization (make the resetTable method static, make the static table name, and so on)">
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/Project1Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/SpringSideProject1BuildApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/Utility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/controller/manager/ManagerArticleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/controller/manager/ManagerMainPageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/controller/manager/ManagerMemberController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/controller/user/UserCompanyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/controller/user/UserMainPageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/controller/user/UserMembershipController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/domain/Article.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/domain/Company.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/domain/Member.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/repository/ArticleRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/repository/ArticleRepositoryJdbc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/repository/CompanyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/repository/CompanyRepositoryJdbc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/repository/MemberRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/repository/MemberRepositoryJdbc.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/service/ArticleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/service/CompanyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/java/springsideproject1/springsideproject1build/service/MemberService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/HyundaiMotorCompany.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/Kakao.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/Kia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/LGEnergySolution.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/Naver.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/SKHynix.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/SamsungElectronics.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/images/company/logo/SamsungSDI.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/scripts/MainJavaScript.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/scripts/user/DynamicHorizontalScrollbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/scripts/user/module/CompanyAddressConversionModule.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/scripts/user/module/DifferentlyShowedCompanyModule.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/OFL.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/NotoSansKR-VariableFont_wght.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-Black.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-ExtraBold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-ExtraLight.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-Light.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-Medium.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-SemiBold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/ttf/static/NotoSansKR-Thin.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/desktop.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/notosanskr-variablefont-wght.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-Bold.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-ExtraBold.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-ExtraLight.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-Light.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-Medium.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-Regular.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-SemiBold.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/NotoSansKR-Thin.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/files/Noto_Sans_KR/woff/static/notosanskr-black.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/fonts/fontStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/manager/membersStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/originalBodyStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/originalHtmlStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/company/result/bottomComponentStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/company/result/topMiddleComponentStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/company/search/bodyCompanyListStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/company/search/bodySearchBoxStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/company/search/bodyWrapperStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/footerStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/headerStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/logoStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/static/styles/user/main/bodyStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/add/article/finishPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/add/article/processPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/mainPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/remove/article/finishPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/remove/article/processPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/remove/membership/finishPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/remove/membership/processPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/manager/select/membersPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/company/showCompanyPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/company/subPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/fragment/footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/fragment/header.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/fragment/original.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/loginPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/mainPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/membership/createPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/main/resources/templates/user/membership/succeedPage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/controller/manager/ManagerArticleControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/controller/manager/ManagerMainPageControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/controller/manager/ManagerMemberControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/controller/user/UserCompanyControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/controller/user/UserMainPageControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/controller/user/UserMemberControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/repository/ArticleRepositoryJdbcTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/repository/CompanyRepositoryJdbcTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/repository/MemberRepositoryJdbcTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/service/ArticleServiceJdbcTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/service/CompanyServiceJdbcTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springsideproject1/src/test/java/springsideproject1/springsideproject1build/service/MemberServiceJdbcTest.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +143,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
@@ -46,7 +153,7 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2iJTequsXOxBqhhOs91A9OYrDy9" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -88,9 +195,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/akdnj/springsideproject/springsideproject1/build.gradle",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "last_opened_file_path": "C:/Users/akdnj/springsideproject/build/springsideproject1/build.gradle",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -282,6 +390,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
     <MESSAGE value="24.06.24 applying builder pattern to the Member and Company Class" />
     <MESSAGE value="24.06.27 make the test clearer with the static method of the utility class and add more tests" />
     <MESSAGE value="24.06.27 make test clearer with the static method of the utility class and add more tests" />
