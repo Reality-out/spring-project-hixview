@@ -1,0 +1,297 @@
+#bottomComponent {
+    
+    /* empty space */
+    margin: 80px auto 0;
+
+    /* positioning */
+    display: grid;
+}
+
+#bottomLeftComponent {
+    
+    /* positioning */
+    display: block;
+
+    /* size */
+    width: 700px;
+}
+
+#bottomRightComponent {
+    
+    /* positioning */
+    display: block;
+
+    /* size */
+    width: 700px;
+    height: 350px;
+}
+
+#bottomComponent.long {
+    
+    /* size */
+    height: 450px;
+    width: 1500px;
+    
+    /*
+     * Grid layout
+     */
+    grid-gap: 80px;
+    grid-template-rows: 350px;
+    grid-template-columns: repeat(2, 700px);
+    grid-template-areas: 
+        "bottomLeft bottomRight";    
+}
+
+#bottomComponent.middle {
+    
+    /* size */
+    height: 750px;
+    width: 700px;
+    
+    /*
+     * Grid layout
+     */
+    grid-gap: 20px;
+    grid-template-rows: repeat(2, 350px);
+    grid-template-columns: 700px;
+    grid-template-areas: 
+        "bottomLeft"
+        "bottomRight";
+}
+
+#bottomComponent.short {
+    
+    /* size */
+    height: 1030px;
+    width: min(700px, calc(100vw - 14px));
+    
+    /*
+     * Grid layout
+     */
+    grid-gap: 20px;
+    grid-template-rows: 630px 350px;
+    grid-template-columns: min(700px, calc(100vw - 14px));
+    grid-template-areas: 
+        "bottomLeft"
+        "bottomRight";
+}
+
+#bottomLeftComponent.longMiddle {
+    width: 700px;
+    height: 350px;
+    grid-area: bottomLeft;
+}
+
+#bottomLeftComponent.short {
+    width: inherit;
+    height: 630px;
+    grid-area: bottomLeft;
+}
+
+#bottomLeftComponent > nl.longMiddle {
+    width: inherit;
+    height: 280px;
+}
+
+#bottomLeftComponent > nl.short {
+    width: inherit;
+    height: 560px;
+}
+
+#bottomLeftComponent > nl > nl.longMiddle {
+    width: inherit;
+    height: 40px;
+    flex-flow: row nowrap;
+}
+
+#bottomLeftComponent > nl > nl.short {
+    width: inherit;
+    height: 80px;
+    flex-flow: column nowrap;
+}
+
+#bottomRightComponent.common {
+    grid-area: bottomRight;
+}
+
+/*
+ * Bottom Left
+ */
+#bottomLeftComponent > nl {
+    
+    /* decoration */
+    border-top: 1px solid #B0E0E6;
+    border-bottom: 1px solid #B0E0E6;
+    border-collapse: collapse;
+    list-style: none;
+
+    /* empty space */
+    margin: 0 auto;
+
+    /* positioning */
+    display: flex;
+    
+    /* sorting */
+    justify-content: right;
+    
+    /*
+     * flex layout
+     */
+    flex-flow: column nowrap;
+}
+
+#bottomLeftComponent > nl > nl {
+    
+    /* positioning */
+    display: inherit;
+}
+
+#bottomLeftComponent > nl > nl > nl {
+
+    /* positioning */
+    display: inherit;
+
+    /* size */
+    width: inherit;
+    height: 40px;
+    
+    /*
+     * flexbox layout
+     */
+    flex-flow: row nowrap;
+}
+
+#bottomLeftComponent > nl > nl > nl > li {
+    /*
+     * block
+     */
+
+    /* decoration */
+    border-top: 1px solid #B0E0E6;
+    border-bottom: 1px solid #B0E0E6;
+    border-collapse: collapse;
+        
+    /* positioning */
+    display: inline-flex;
+
+    /* size */
+    height: inherit;
+
+    /* sorting */
+    align-items: center;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #0000CD;
+}
+
+#bottomLeftComponent > nl > nl > nl > li:first-child {
+    width: 36%;
+}
+
+#bottomLeftComponent > nl > nl > nl > li:last-child {
+    width: 64%;    
+}
+
+/*
+ * Bottom Right
+ */
+#bottomRightComponent > div {
+    /*
+     * block
+     */
+    
+    /* empty space */
+    margin: 0 auto;
+
+    /* positioning */
+    display: flex;
+
+    /* size */
+    width: inherit;
+    height: inherit;
+    
+    /*
+     * flex layout
+     */
+    flex-flow: column wrap;
+}
+
+#bottomRightComponent > div > h5 {
+    /* 
+     * block
+     */
+       
+    /* positioning */
+    display: inline-block;
+
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+}
+
+#bottomRightComponent > div > nl {
+    /*
+     * block
+     */
+    
+    /* decoration */
+    list-style: none;
+
+    /* empty space */
+    margin: 8px 0 10px;
+    
+    /* positioning */
+    display: grid;
+
+    /* size */
+    width: inherit;
+    height: 90px;
+        
+    /* 
+     * Grid layout
+     */
+    
+    /* sorting */
+    align-content: center;
+    justify-content: start;
+    
+    grid-auto-flow: column;
+    grid-gap: 0;
+    grid-template-rows: repeat(3, 30px);
+    grid-template-columns: 700px;
+}
+
+#bottomRightComponent > div > nl > li {
+    /*
+     * block
+     */
+    
+    /* positioning */
+    display: inline-grid;
+
+    /* size */
+    width: inherit;
+    height: 30px;
+        
+    /*
+     * inline
+     */
+    
+    /* font */
+    font-size: 16px;
+    font-weight: 200;
+    text-decoration: none;
+    color: blue;
+}
