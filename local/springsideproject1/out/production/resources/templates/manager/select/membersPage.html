@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name=”viewport” content=”width=device-width”>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+    <link href="/styles/manager/membersStyle.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="memberWrapperDiv">
+        <table class="memberTable">
+            <caption>
+                <strong><< Member Data >></strong>
+            </caption>
+            <thead>
+                <tr>
+                    <th scope="col">식별자</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">패스워드</th>
+                    <th scope="col">이름</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.identifier}"></td>
+                    <td th:text="${member.id}"></td>
+                    <td th:text="${member.password}"></td>
+                    <td th:text="${member.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form action="/manager" method="get">
+            <button type="submit">첫 페이지로 이동</button>
+        </form>
+    </div>
+</body>
+</html>
