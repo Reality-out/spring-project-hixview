@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static springsideproject1.springsideproject1build.Utility.*;
@@ -107,7 +106,7 @@ class ArticleRepositoryJdbcTest {
         List<Article> articles = Arrays.asList(article1, article2, article3);
         List<Article> sortedArticles = articles.stream()
                 .sorted(Comparator.comparingLong(article -> article.getDate().toEpochDay()))
-                .collect(Collectors.toList());
+                .toList();
 
         // when
         articleRepository.saveOneArticle(article1);

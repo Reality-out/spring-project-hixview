@@ -70,6 +70,17 @@ public class Article {
         }};
     }
 
+    public HashMap<String, Object> toMapWithNoNumber() {
+        return new HashMap<>() {{
+            put("name", name.get());
+            put("press", press.get());
+            put("subjectCompany", subjectCompany.get());
+            put("link", link.get());
+            put("date", date.get());
+            put("importance", importance.get());
+        }};
+    }
+
     public static class ArticleBuilder {
         private Long number = -1L;
         private String name;

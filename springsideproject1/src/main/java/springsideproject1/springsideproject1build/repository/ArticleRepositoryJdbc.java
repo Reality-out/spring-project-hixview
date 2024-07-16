@@ -52,7 +52,7 @@ public class ArticleRepositoryJdbc implements ArticleRepository {
     public Long saveOneArticle(Article article) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(articleTable).usingGeneratedKeyColumns("number");
-        Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMap()));
+        Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber()));
 
         return articleKey.longValue();
     }
