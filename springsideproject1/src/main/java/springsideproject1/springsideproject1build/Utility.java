@@ -23,44 +23,38 @@ public class Utility {
      * RowMapper
      */
     public static RowMapper<Article> articleRowMapper() {
-        return (resultSet, rowNumber) -> {
-            Article article = new Article.ArticleBuilder()
-                    .number(resultSet.getLong("number"))
-                    .name(resultSet.getString("name"))
-                    .press(resultSet.getString("press"))
-                    .subjectCompany(resultSet.getString("subjectcompany"))
-                    .link(resultSet.getString("link"))
-                    .date(resultSet.getDate("date").toLocalDate())
-                    .importance(resultSet.getInt("importance"))
-                    .build();
-            return article;
-        };
+        return (resultSet, rowNumber) ->
+                new Article.ArticleBuilder()
+                .number(resultSet.getLong("number"))
+                .name(resultSet.getString("name"))
+                .press(resultSet.getString("press"))
+                .subjectCompany(resultSet.getString("subjectcompany"))
+                .link(resultSet.getString("link"))
+                .date(resultSet.getDate("date").toLocalDate())
+                .importance(resultSet.getInt("importance"))
+                .build();
     }
 
     public static RowMapper<Company> companyRowMapper() {
-        return (resultSet, rowNumber) -> {
-            Company company = new Company.CompanyBuilder()
-                    .code(resultSet.getString("code"))
-                    .country(resultSet.getString("country"))
-                    .scale(resultSet.getString("scale"))
-                    .name(resultSet.getString("name"))
-                    .category1st(resultSet.getString("category1st"))
-                    .category2nd(resultSet.getString("category2nd"))
-                    .build();
-            return company;
-        };
+        return (resultSet, rowNumber) ->
+                new Company.CompanyBuilder()
+                .code(resultSet.getString("code"))
+                .country(resultSet.getString("country"))
+                .scale(resultSet.getString("scale"))
+                .name(resultSet.getString("name"))
+                .category1st(resultSet.getString("category1st"))
+                .category2nd(resultSet.getString("category2nd"))
+                .build();
     }
 
     public static RowMapper<Member> memberRowMapper() {
-        return (resultSet, rowNumber) -> {
-            Member member = new Member.MemberBuilder()
-                    .identifier(resultSet.getLong("identifier"))
-                    .id(resultSet.getString("id"))
-                    .password(resultSet.getString("password"))
-                    .name(resultSet.getString("name"))
-                    .build();
-            return member;
-        };
+        return (resultSet, rowNumber) ->
+                new Member.MemberBuilder()
+                .identifier(resultSet.getLong("identifier"))
+                .id(resultSet.getString("id"))
+                .password(resultSet.getString("password"))
+                .name(resultSet.getString("name"))
+                .build();
     }
 
     /**
