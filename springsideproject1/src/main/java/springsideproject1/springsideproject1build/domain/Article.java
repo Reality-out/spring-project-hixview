@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -55,6 +56,18 @@ public class Article {
 
     public int getImportance() {
         return importance.get();
+    }
+
+    public HashMap<String, Object> toMap() {
+        return new HashMap<>() {{
+            put("number", number.get());
+            put("name", name.get());
+            put("press", press.get());
+            put("subjectCompany", subjectCompany.get());
+            put("link", link.get());
+            put("date", date.get());
+            put("importance", importance.get());
+        }};
     }
 
     public static class ArticleBuilder {

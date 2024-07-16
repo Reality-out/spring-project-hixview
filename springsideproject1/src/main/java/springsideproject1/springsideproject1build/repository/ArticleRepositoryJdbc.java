@@ -9,9 +9,7 @@ import springsideproject1.springsideproject1build.domain.Article;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.Utility.articleRowMapper;
@@ -54,17 +52,7 @@ public class ArticleRepositoryJdbc implements ArticleRepository {
     public Long saveOneArticle(Article article) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(articleTable).usingGeneratedKeyColumns("number");
-
-        Map<String, Object> insertParam = new HashMap<>() {{
-            put("name", article.getName());
-            put("press", article.getPress());
-            put("subjectCompany", article.getSubjectCompany());
-            put("link", article.getLink());
-            put("date", article.getDate());
-            put("importance", article.getImportance());
-        }};
-
-        Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(insertParam));
+        Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMap()));
 
         return articleKey.longValue();
     }
