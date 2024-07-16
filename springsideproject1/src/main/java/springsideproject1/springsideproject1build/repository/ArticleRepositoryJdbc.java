@@ -57,8 +57,10 @@ public class ArticleRepositoryJdbc implements ArticleRepository {
 
         Map<String, Object> insertParam = new HashMap<>() {{
             put("name", article.getName());
-            put("date", article.getDate());
+            put("press", article.getPress());
+            put("subjectCompany", article.getSubjectCompany());
             put("link", article.getLink());
+            put("date", article.getDate());
             put("importance", article.getImportance());
         }};
 

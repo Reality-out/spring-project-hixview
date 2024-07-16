@@ -55,8 +55,8 @@ public class ManagerArticleController {
      */
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitArticleAdd(@RequestParam String name, @RequestParam LocalDate date, @RequestParam String link) {
-        articleService.joinArticle(new Article.ArticleBuilder().name(name).date(date).link(link).build());
+    public String submitArticleAdd(String name, String press, String subjectCompany, String link, LocalDate date, Integer importance) {
+        articleService.joinArticle(new Article.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany).link(link).date(date).importance(importance).build());
         return "redirect:add/finish";
     }
 

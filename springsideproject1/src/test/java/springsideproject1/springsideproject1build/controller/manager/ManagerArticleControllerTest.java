@@ -62,8 +62,10 @@ class ManagerArticleControllerTest {
         mockMvc.perform(post("/manager/article/add")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", article.getName())
-                        .param("date", article.getDate().toString())
+                        .param("press", article.getPress())
+                        .param("subjectCompany", article.getSubjectCompany())
                         .param("link", article.getLink())
+                        .param("date", article.getDate().toString())
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther());
 

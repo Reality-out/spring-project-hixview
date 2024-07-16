@@ -12,15 +12,20 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Article {
     private AtomicLong number;
     private AtomicReference<String> name;
-    private AtomicReference<LocalDate> date;
+    private AtomicReference<String> press;
+    private AtomicReference<String> subjectCompany;
     private AtomicReference<String> link;
+    private AtomicReference<LocalDate> date;
     private AtomicInteger importance;
 
-    private Article(Long number, String name, LocalDate date, String link, int importance) {
+    private Article(Long number, String name, String press,
+                    String subjectCompany, String link, LocalDate date, int importance) {
         this.number = new AtomicLong(number);
         this.name = new AtomicReference<>(name);
-        this.date = new AtomicReference<>(date);
+        this.press = new AtomicReference<>(press);
+        this.subjectCompany = new AtomicReference<>(subjectCompany);
         this.link = new AtomicReference<>(link);
+        this.date = new AtomicReference<>(date);
         this.importance = new AtomicInteger(importance);
     }
 
@@ -32,12 +37,20 @@ public class Article {
         return name.get();
     }
 
-    public LocalDate getDate() {
-        return date.get();
+    public String getPress() {
+        return press.get();
+    }
+
+    public String getSubjectCompany() {
+        return subjectCompany.get();
     }
 
     public String getLink() {
         return link.get();
+    }
+
+    public LocalDate getDate() {
+        return date.get();
     }
 
     public int getImportance() {
@@ -47,15 +60,19 @@ public class Article {
     public static class ArticleBuilder {
         private Long number = -1L;
         private String name;
-        private LocalDate date;
+        private String press;
+        private String subjectCompany;
         private String link;
+        private LocalDate date;
         private int importance;
 
         public Article.ArticleBuilder article(Article article) {
             number = article.getNumber();
             name = article.getName();
-            date = article.getDate();
+            press = article.getPress();
+            subjectCompany = article.getSubjectCompany();
             link = article.getLink();
+            date = article.getDate();
             importance = article.getImportance();
             return this;
         }
@@ -70,13 +87,23 @@ public class Article {
             return this;
         }
 
-        public Article.ArticleBuilder date(LocalDate date) {
-            this.date = date;
+        public Article.ArticleBuilder press(String press) {
+            this.press = press;
+            return this;
+        }
+
+        public Article.ArticleBuilder subjectCompany(String subjectCompany) {
+            this.subjectCompany = subjectCompany;
             return this;
         }
 
         public Article.ArticleBuilder link(String link) {
             this.link = link;
+            return this;
+        }
+
+        public Article.ArticleBuilder date(LocalDate date) {
+            this.date = date;
             return this;
         }
 
@@ -86,7 +113,7 @@ public class Article {
         }
 
         public Article build() {
-            return new Article(number, name, date, link, importance);
+            return new Article(number, name, press, subjectCompany, link, date, importance);
         }
     }
 }

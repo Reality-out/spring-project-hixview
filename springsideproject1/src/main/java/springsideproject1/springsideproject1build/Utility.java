@@ -27,8 +27,10 @@ public class Utility {
             Article article = new Article.ArticleBuilder()
                     .number(resultSet.getLong("number"))
                     .name(resultSet.getString("name"))
-                    .date(resultSet.getDate("date").toLocalDate())
+                    .press(resultSet.getString("press"))
+                    .subjectCompany(resultSet.getString("subjectcompany"))
                     .link(resultSet.getString("link"))
+                    .date(resultSet.getDate("date").toLocalDate())
                     .importance(resultSet.getInt("importance"))
                     .build();
             return article;
@@ -68,8 +70,10 @@ public class Utility {
     public static Article createTestArticle() {
         return new Article.ArticleBuilder()
                 .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
-                .date(LocalDate.of(2024, 6, 18))
+                .press("SBS")
+                .subjectCompany("삼성디스플레이")
                 .link("https://biz.sbs.co.kr/article/20000176881")
+                .date(LocalDate.of(2024, 6, 18))
                 .importance(0)
                 .build();
     }
@@ -77,8 +81,10 @@ public class Utility {
     public static Article createTestEqualDateArticle() {
         return new Article.ArticleBuilder()
                 .name("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회")
-                .date(LocalDate.of(2024, 6, 18))
+                .press("비즈니스포스트")
+                .subjectCompany("삼성전자")
                 .link("https://www.businesspost.co.kr/BP?command=article_view&num=355822")
+                .date(LocalDate.of(2024, 6, 18))
                 .importance(0)
                 .build();
     }
@@ -86,8 +92,10 @@ public class Utility {
     public static Article createTestNewArticle() {
         return new Article.ArticleBuilder()
                 .name("[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치")
-                .date(LocalDate.of(2024, 6, 17))
+                .press("헤럴드경제")
+                .subjectCompany("삼성전자")
                 .link("https://biz.heraldcorp.com/view.php?ud=20240617050050")
+                .date(LocalDate.of(2024, 6, 17))
                 .importance(0)
                 .build();
     }
