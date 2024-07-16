@@ -65,7 +65,9 @@ class ManagerArticleControllerTest {
                         .param("press", article.getPress())
                         .param("subjectCompany", article.getSubjectCompany())
                         .param("link", article.getLink())
-                        .param("date", article.getDate().toString())
+                        .param("year", String.valueOf(article.getDate().getYear()))
+                        .param("month", String.valueOf(article.getDate().getMonthValue()))
+                        .param("date", String.valueOf(article.getDate().getDayOfMonth()))
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther());
 

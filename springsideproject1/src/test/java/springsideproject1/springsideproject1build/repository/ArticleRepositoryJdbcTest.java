@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
