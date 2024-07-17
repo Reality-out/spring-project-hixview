@@ -18,7 +18,7 @@
         <div class="bodyWrapper">
             <div class="searchBoxWrapper">
                 <div class="searchBox">
-                    <form id="searchCompanyForm" th:action="@{/company/{nameOrCode}(nameOrCode=${nameOrCode})}" method="get">
+                    <form id="searchCompanyForm" th:action="@{|/company/${nameOrCode}|}" method="get">
                         <label for="nameOrCode">기업</label>
                         <input type="text" id="nameOrCode" name="nameOrCode">
                         <button type="submit">검색</button>
