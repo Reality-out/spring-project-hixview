@@ -8,7 +8,7 @@
 <body>
     <div>
         <p>정말로 회원을 제거하시겠습니까?</p>
-        <form action="/manager/member/remove" method="POST">
+        <form action="/manager/member/remove" th:action method="POST">
             <div>
                 <label for="id">ID</label>
                 <input type="text" id="id" name="id">
