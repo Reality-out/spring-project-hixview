@@ -7,7 +7,8 @@
 </head>
 <body>
     <div>
-        <p>ID: "<td th:text="${id}"></td>"인 회원에 대한 계정 제거가 완료되었습니다.</p>
+        <p>다음 ID의 회원 제거가 완료되었습니다:</p>
+        <p th:text="${id}"></p>
         <form action="/manager" method="get">
             <button type="submit">첫 페이지로 이동</button>
         </form>
