@@ -25,16 +25,16 @@ public class ManagerArticleController {
     /*
      * GetMapping
      */
-    @GetMapping("/add")
+    @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
     public String processArticleAdd() {
-        return "manager/add/article/processPage";
+        return "manager/add/article/singleProcessPage";
     }
 
-    @GetMapping("/add/finish")
+    @GetMapping("/add/single/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishArticleAdd() {
-        return "manager/add/article/finishPage";
+        return "manager/add/article/singleFinishPage";
     }
 
     @GetMapping("/remove")
@@ -53,13 +53,13 @@ public class ManagerArticleController {
     /*
      * PostMapping
      */
-    @PostMapping("/add")
+    @PostMapping("/add/single")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitArticleAdd(String name, String press, String subjectCompany, String link,
                                    int year, int month, int date, Integer importance) {
         articleService.joinArticle(new Article.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
-        return "redirect:add/finish";
+        return "redirect:single/finish";
     }
 
     @PostMapping("/remove")

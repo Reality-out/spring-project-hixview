@@ -47,9 +47,9 @@ class ManagerArticleControllerTest {
     @DisplayName("기사 등록 페이지 접속")
     @Test
     public void accessArticleRegisterPage() throws Exception {
-        mockMvc.perform(get("/manager/article/add"))
+        mockMvc.perform(get("/manager/article/add/single"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/add/article/processPage"));
+                .andExpect(view().name("manager/add/article/singleProcessPage"));
     }
 
     @DisplayName("기사 등록 완료 페이지 접속")
@@ -59,7 +59,7 @@ class ManagerArticleControllerTest {
         Article article = createTestArticle();
 
         // then
-        mockMvc.perform(post("/manager/article/add")
+        mockMvc.perform(post("/manager/article/add/single")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", article.getName())
                         .param("press", article.getPress())
@@ -71,9 +71,9 @@ class ManagerArticleControllerTest {
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther());
 
-        mockMvc.perform(get("/manager/article/add/finish"))
+        mockMvc.perform(get("/manager/article/add/single/finish"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/add/article/finishPage"));
+                .andExpect(view().name("manager/add/article/singleFinishPage"));
     }
 
     @DisplayName("기사 삭제 페이지 접속")
