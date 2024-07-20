@@ -38,7 +38,7 @@ public class CompanyService {
      */
     @Transactional
     public void joinCompany(Company company) {
-        DuplicateCodeCheck(company);
+        duplicateCodeCheck(company);
         companyRepository.saveCompany(company);
     }
 
@@ -55,7 +55,7 @@ public class CompanyService {
     }
 
     @Transactional
-    private void DuplicateCodeCheck(Company company) {
+    private void duplicateCodeCheck(Company company) {
         companyRepository.searchCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 코드 번호입니다.");}
         );

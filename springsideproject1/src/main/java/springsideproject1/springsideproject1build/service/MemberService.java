@@ -42,7 +42,7 @@ public class MemberService {
      */
     @Transactional
     public void joinMember(Member member) {
-        DuplicateIDCheck(member);
+        duplicateIDCheck(member);
         Long memberIdentifier = memberRepository.saveMember(member);
         member = new Member.MemberBuilder()
                 .member(member)
@@ -63,7 +63,7 @@ public class MemberService {
     }
 
     @Transactional
-    private void DuplicateIDCheck(Member member) {
+    private void duplicateIDCheck(Member member) {
         memberRepository.findMemberByID(member.getId()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 ID입니다.");}
         );

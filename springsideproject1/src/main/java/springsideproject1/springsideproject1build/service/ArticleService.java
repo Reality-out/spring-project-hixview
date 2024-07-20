@@ -43,7 +43,7 @@ public class ArticleService {
      */
     @Transactional
     public void joinArticle(Article article) {
-        DuplicateCodeCheck(article);
+        duplicateCodeCheck(article);
         Long articleNumber = articleRepository.saveOneArticle(article);
         article = new Article.ArticleBuilder()
                 .article(article)
@@ -53,6 +53,7 @@ public class ArticleService {
 
     @Transactional
     public void joinArticlesWithString(String string) {
+
     }
 
     /**
@@ -67,8 +68,11 @@ public class ArticleService {
         articleRepository.removeArticleByName(articleName);
     }
 
+    /**
+     * Other private methods
+     */
     @Transactional
-    private void DuplicateCodeCheck(Article article) {
+    private void duplicateCodeCheck(Article article) {
         articleRepository.searchArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 기사 제목입니다.");}
         );
