@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.HtmlViewName;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static springsideproject1.springsideproject1build.HtmlViewName.*;
 import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
@@ -49,7 +51,7 @@ class ManagerCompanyArticleControllerTest {
     public void accessArticleRegisterPage() throws Exception {
         mockMvc.perform(get("/manager/article/add/single"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/add/article/company/singleProcessPage"));
+                .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "singleProcessPage"));
     }
 
     @DisplayName("기사 등록 완료 페이지 접속")
@@ -73,7 +75,7 @@ class ManagerCompanyArticleControllerTest {
 
         mockMvc.perform(get("/manager/article/add/single/finish"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/add/article/company/singleFinishPage"));
+                .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage"));
     }
 
     @DisplayName("기사 삭제 페이지 접속")
@@ -81,7 +83,7 @@ class ManagerCompanyArticleControllerTest {
     public void accessArticleRemovePage() throws Exception {
         mockMvc.perform(get("/manager/article/remove"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/remove/article/processPage"));
+                .andExpect(view().name(MANAGER_REMOVE_COMPANY_ARTICLE + "processPage"));
     }
 
     @DisplayName("기사 삭제 완료 페이지 접속")
@@ -103,6 +105,6 @@ class ManagerCompanyArticleControllerTest {
         mockMvc.perform(get("/manager/article/remove/finish")
                         .param("name", name))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/remove/article/finishPage"));
+                .andExpect(view().name(MANAGER_REMOVE_COMPANY_ARTICLE + "finishPage"));
     }
 }

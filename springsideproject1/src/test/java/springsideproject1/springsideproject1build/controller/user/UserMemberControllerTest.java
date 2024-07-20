@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.HtmlViewName;
 import springsideproject1.springsideproject1build.domain.Member;
 
 import javax.sql.DataSource;
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static springsideproject1.springsideproject1build.HtmlViewName.USER_CREATE_MEMBERSHIP;
 import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
@@ -53,7 +55,7 @@ class UserMemberControllerTest {
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get("/membership"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/membership/createPage"));
+                .andExpect(view().name(USER_CREATE_MEMBERSHIP + "createPage"));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
@@ -70,6 +72,6 @@ class UserMemberControllerTest {
 
         mockMvc.perform(get("/membership/succeed"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/membership/succeedPage"));
+                .andExpect(view().name(USER_CREATE_MEMBERSHIP + "succeedPage"));
     }
 }

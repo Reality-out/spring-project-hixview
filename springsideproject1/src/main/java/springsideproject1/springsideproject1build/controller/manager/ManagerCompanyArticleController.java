@@ -14,6 +14,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
+import static springsideproject1.springsideproject1build.HtmlViewName.*;
+
 @Controller
 @RequestMapping("/manager/article")
 @RequiredArgsConstructor
@@ -28,38 +30,38 @@ public class ManagerCompanyArticleController {
     @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleArticle() {
-        return "manager/add/article/company/singleProcessPage";
+        return MANAGER_ADD_COMPANY_ARTICLE + "singleProcessPage";
     }
 
     @GetMapping("/add/single/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleArticle() {
-        return "manager/add/article/company/singleFinishPage";
+        return MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage";
     }
 
     @GetMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.OK)
     public String processAddMultipleArticleUsingString() {
-        return "manager/add/article/company/multipleProcessStringPage";
+        return MANAGER_ADD_COMPANY_ARTICLE + "multipleProcessStringPage";
     }
 
     @GetMapping("/add/multiple/string/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishAddMultipleArticleUsingString() {
-        return "manager/add/article/company/multipleFinishStringPage";
+        return MANAGER_ADD_COMPANY_ARTICLE + "multipleFinishStringPage";
     }
 
     @GetMapping("/remove")
     @ResponseStatus(HttpStatus.OK)
     public String processArticleRemove() {
-        return "manager/remove/article/processPage";
+        return MANAGER_REMOVE_COMPANY_ARTICLE + "processPage";
     }
 
     @GetMapping("/remove/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishArticleRemove(@RequestParam String name, Model model) {
         model.addAttribute("name", URLDecoder.decode(name, StandardCharsets.UTF_8));
-        return "manager/remove/article/finishPage";
+        return MANAGER_REMOVE_COMPANY_ARTICLE + "finishPage";
     }
 
     /*

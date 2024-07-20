@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.HtmlViewName;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.service.MemberService;
 
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static springsideproject1.springsideproject1build.HtmlViewName.MANAGER_REMOVE_MEMBERSHIP;
 import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
@@ -57,7 +59,7 @@ class ManagerMemberControllerTest {
     public void accessMembershipWithdrawPage() throws Exception {
         mockMvc.perform(get("/manager/member/remove"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/remove/membership/processPage"));
+                .andExpect(view().name(MANAGER_REMOVE_MEMBERSHIP + "processPage"));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")
@@ -80,6 +82,6 @@ class ManagerMemberControllerTest {
         mockMvc.perform(get("/manager/member/remove/finish")
                         .param("id", id))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/remove/membership/finishPage"));
+                .andExpect(view().name(MANAGER_REMOVE_MEMBERSHIP + "finishPage"));
     }
 }

@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import springsideproject1.springsideproject1build.HtmlViewName;
 import springsideproject1.springsideproject1build.service.MemberService;
+
+import static springsideproject1.springsideproject1build.HtmlViewName.*;
 
 @Controller
 @RequestMapping("/manager/member")
@@ -29,14 +32,14 @@ public class ManagerMemberController {
     @GetMapping("/remove")
     @ResponseStatus(HttpStatus.OK)
     public String createMemberWithdraw() {
-        return "manager/remove/membership/processPage";
+        return MANAGER_REMOVE_MEMBERSHIP + "processPage";
     }
 
     @GetMapping("/remove/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishMemberWithdraw(@RequestParam String id, Model model) {
         model.addAttribute("id", id);
-        return "manager/remove/membership/finishPage";
+        return MANAGER_REMOVE_MEMBERSHIP + "finishPage";
     }
 
     /*
