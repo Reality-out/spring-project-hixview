@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Article;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
 
 import javax.sql.DataSource;
 
@@ -17,15 +17,15 @@ import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
-class ArticleServiceJdbcTest {
+class CompanyArticleServiceJdbcTest {
 
     @Autowired
-    ArticleService articleService;
+    CompanyArticleService articleService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public ArticleServiceJdbcTest(DataSource dataSource) {
+    public CompanyArticleServiceJdbcTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -38,8 +38,8 @@ class ArticleServiceJdbcTest {
     @Test
     public void registerArticleWithSameName() {
         // given
-        Article article1 = createTestArticle();
-        Article article2 = createTestArticle();
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestArticle();
 
         // when
         articleService.joinArticle(article1);

@@ -16,11 +16,11 @@ public class Project1Config {
     }
 
     /**
-     * Article Bean
+     * CompanyArticle Bean
      */
     @Bean
-    public ArticleRepository articleRepository() {
-        return new ArticleRepositoryJdbc(dataSource);
+    public CompanyArticleRepository articleRepository() {
+        return new CompanyArticleRepositoryJdbc(dataSource);
     }
 
     /**

@@ -3,7 +3,7 @@ package springsideproject1.springsideproject1build;
 import lombok.experimental.UtilityClass;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import springsideproject1.springsideproject1build.domain.Article;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.domain.Member;
 
@@ -22,9 +22,9 @@ public class Utility {
     /**
      * RowMapper
      */
-    public static RowMapper<Article> articleRowMapper() {
+    public static RowMapper<CompanyArticle> articleRowMapper() {
         return (resultSet, rowNumber) ->
-                new Article.ArticleBuilder()
+                new CompanyArticle.ArticleBuilder()
                 .number(resultSet.getLong("number"))
                 .name(resultSet.getString("name"))
                 .press(resultSet.getString("press"))
@@ -60,9 +60,9 @@ public class Utility {
     /**
      * Test
      */
-    // Article
-    public static Article createTestArticle() {
-        return new Article.ArticleBuilder()
+    // CompanyArticle
+    public static CompanyArticle createTestArticle() {
+        return new CompanyArticle.ArticleBuilder()
                 .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
                 .press("SBS")
                 .subjectCompany("삼성디스플레이")
@@ -72,8 +72,8 @@ public class Utility {
                 .build();
     }
 
-    public static Article createTestEqualDateArticle() {
-        return new Article.ArticleBuilder()
+    public static CompanyArticle createTestEqualDateArticle() {
+        return new CompanyArticle.ArticleBuilder()
                 .name("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회")
                 .press("비즈니스포스트")
                 .subjectCompany("삼성전자")
@@ -83,8 +83,8 @@ public class Utility {
                 .build();
     }
 
-    public static Article createTestNewArticle() {
-        return new Article.ArticleBuilder()
+    public static CompanyArticle createTestNewArticle() {
+        return new CompanyArticle.ArticleBuilder()
                 .name("[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치")
                 .press("헤럴드경제")
                 .subjectCompany("삼성전자")

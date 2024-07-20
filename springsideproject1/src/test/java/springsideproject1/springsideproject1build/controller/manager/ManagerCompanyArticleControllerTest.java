@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Article;
-import springsideproject1.springsideproject1build.service.ArticleService;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
+import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
 import javax.sql.DataSource;
 
@@ -24,18 +24,18 @@ import static springsideproject1.springsideproject1build.Utility.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerArticleControllerTest {
+class ManagerCompanyArticleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    ArticleService articleService;
+    CompanyArticleService articleService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public ManagerArticleControllerTest(DataSource dataSource) {
+    public ManagerCompanyArticleControllerTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -56,7 +56,7 @@ class ManagerArticleControllerTest {
     @Test
     public void accessArticleRegisterFinishPage() throws Exception {
         // given
-        Article article = createTestArticle();
+        CompanyArticle article = createTestArticle();
 
         // then
         mockMvc.perform(post("/manager/article/add/single")
@@ -88,7 +88,7 @@ class ManagerArticleControllerTest {
     @Test
     public void accessArticleRemoveFinishPage() throws Exception {
         // given
-        Article article = createTestArticle();
+        CompanyArticle article = createTestArticle();
         String name = article.getName();
 
         // when

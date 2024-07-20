@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Article {
+public class CompanyArticle {
     private AtomicLong number;
     private AtomicReference<String> name;
     private AtomicReference<String> press;
@@ -19,8 +19,8 @@ public class Article {
     private AtomicReference<LocalDate> date;
     private AtomicInteger importance;
 
-    private Article(Long number, String name, String press,
-                    String subjectCompany, String link, LocalDate date, int importance) {
+    private CompanyArticle(Long number, String name, String press,
+                           String subjectCompany, String link, LocalDate date, int importance) {
         this.number = new AtomicLong(number);
         this.name = new AtomicReference<>(name);
         this.press = new AtomicReference<>(press);
@@ -90,7 +90,7 @@ public class Article {
         private LocalDate date;
         private int importance;
 
-        public Article.ArticleBuilder article(Article article) {
+        public CompanyArticle.ArticleBuilder article(CompanyArticle article) {
             number = article.getNumber();
             name = article.getName();
             press = article.getPress();
@@ -101,43 +101,43 @@ public class Article {
             return this;
         }
 
-        public Article.ArticleBuilder number(Long number) {
+        public CompanyArticle.ArticleBuilder number(Long number) {
             this.number = number;
             return this;
         }
 
-        public Article.ArticleBuilder name(String name) {
+        public CompanyArticle.ArticleBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public Article.ArticleBuilder press(String press) {
+        public CompanyArticle.ArticleBuilder press(String press) {
             this.press = press;
             return this;
         }
 
-        public Article.ArticleBuilder subjectCompany(String subjectCompany) {
+        public CompanyArticle.ArticleBuilder subjectCompany(String subjectCompany) {
             this.subjectCompany = subjectCompany;
             return this;
         }
 
-        public Article.ArticleBuilder link(String link) {
+        public CompanyArticle.ArticleBuilder link(String link) {
             this.link = link;
             return this;
         }
 
-        public Article.ArticleBuilder date(LocalDate date) {
+        public CompanyArticle.ArticleBuilder date(LocalDate date) {
             this.date = date;
             return this;
         }
 
-        public Article.ArticleBuilder importance(int importance) {
+        public CompanyArticle.ArticleBuilder importance(int importance) {
             this.importance = importance;
             return this;
         }
 
-        public Article build() {
-            return new Article(number, name, press, subjectCompany, link, date, importance);
+        public CompanyArticle build() {
+            return new CompanyArticle(number, name, press, subjectCompany, link, date, importance);
         }
     }
 }

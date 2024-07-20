@@ -3,8 +3,8 @@ package springsideproject1.springsideproject1build.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Article;
-import springsideproject1.springsideproject1build.repository.ArticleRepository;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
+import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,40 +16,40 @@ import static java.lang.Integer.parseInt;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleService {
+public class CompanyArticleService {
 
-    private final ArticleRepository articleRepository;
+    private final CompanyArticleRepository articleRepository;
 
     /**
      * SELECT Articles
      */
-    public List<Article> findArticles() {
+    public List<CompanyArticle> findArticles() {
         return articleRepository.findAllArticles();
     }
 
-    public List<Article> SearchOneArticleByDate(LocalDate articleDate) {
+    public List<CompanyArticle> SearchOneArticleByDate(LocalDate articleDate) {
         return articleRepository.searchArticlesByDate(articleDate);
     }
 
-    public List<Article> SearchOneArticleByDate(LocalDate articleStartDate, LocalDate articleEndDate) {
+    public List<CompanyArticle> SearchOneArticleByDate(LocalDate articleStartDate, LocalDate articleEndDate) {
         return articleRepository.searchArticlesByDate(articleStartDate, articleEndDate);
     }
 
     /**
-     * SELECT One Article
+     * SELECT One CompanyArticle
      */
-    public Optional<Article> SearchOneArticleByName(String articleName) {
+    public Optional<CompanyArticle> SearchOneArticleByName(String articleName) {
         return articleRepository.searchArticleByName(articleName);
     }
 
     /**
-     * INSERT One Article
+     * INSERT One CompanyArticle
      */
     @Transactional
-    public void joinArticle(Article article) {
+    public void joinArticle(CompanyArticle article) {
         duplicateCodeCheck(article);
         Long articleNumber = articleRepository.saveOneArticle(article);
-        article = new Article.ArticleBuilder()
+        article = new CompanyArticle.ArticleBuilder()
                 .article(article)
                 .number(articleNumber)
                 .build();
@@ -60,7 +60,7 @@ public class ArticleService {
         List<List<String>> partialArticleLists = parseSingleString(articleString);
 
         for (List<String> partialArticleList : partialArticleLists) {
-            joinArticle(new Article.ArticleBuilder()
+            joinArticle(new CompanyArticle.ArticleBuilder()
                     .name(partialArticleList.get(0))
                     .press(partialArticleList.get(4))
                     .subjectCompany(subjectCompany)
@@ -74,7 +74,7 @@ public class ArticleService {
     }
 
     /**
-     * REMOVE One Article
+     * REMOVE One CompanyArticle
      */
     @Transactional
     public void removeArticle(String articleName) {
@@ -89,7 +89,7 @@ public class ArticleService {
      * Other private methods
      */
     @Transactional
-    private void duplicateCodeCheck(Article article) {
+    private void duplicateCodeCheck(CompanyArticle article) {
         articleRepository.searchArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 기사 제목입니다.");}
         );

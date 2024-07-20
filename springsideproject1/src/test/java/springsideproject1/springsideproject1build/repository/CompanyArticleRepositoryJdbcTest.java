@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Article;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -19,15 +19,15 @@ import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
-class ArticleRepositoryJdbcTest {
+class CompanyArticleRepositoryJdbcTest {
 
     @Autowired
-    ArticleRepository articleRepository;
+    CompanyArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public ArticleRepositoryJdbcTest(DataSource dataSource) {
+    public CompanyArticleRepositoryJdbcTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -40,8 +40,8 @@ class ArticleRepositoryJdbcTest {
     @Test
     public void findAll() {
         // given
-        Article article1 = createTestArticle();
-        Article article2 = createTestNewArticle();
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestNewArticle();
 
         // when
         articleRepository.saveOneArticle(article1);
@@ -58,8 +58,8 @@ class ArticleRepositoryJdbcTest {
     @Test
     public void findByName() {
         // given
-        Article article1 = createTestArticle();
-        Article article2 = createTestNewArticle();
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestNewArticle();
 
         // when
         articleRepository.saveOneArticle(article1);
@@ -81,8 +81,8 @@ class ArticleRepositoryJdbcTest {
     @Test
     public void searchByOneDate() {
         // given
-        Article article1 = createTestArticle();
-        Article article2 = createTestEqualDateArticle();
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestEqualDateArticle();
 
         // when
         articleRepository.saveOneArticle(article1);
@@ -99,12 +99,12 @@ class ArticleRepositoryJdbcTest {
     @Test
     public void searchByDateRange() {
         // given
-        Article article1 = createTestArticle();
-        Article article2 = createTestEqualDateArticle();
-        Article article3 = createTestNewArticle();
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestEqualDateArticle();
+        CompanyArticle article3 = createTestNewArticle();
 
-        List<Article> articles = Arrays.asList(article1, article2, article3);
-        List<Article> sortedArticles = articles.stream()
+        List<CompanyArticle> articles = Arrays.asList(article1, article2, article3);
+        List<CompanyArticle> sortedArticles = articles.stream()
                 .sorted(Comparator.comparingLong(article -> article.getDate().toEpochDay()))
                 .toList();
 
@@ -125,7 +125,7 @@ class ArticleRepositoryJdbcTest {
     @Test
     public void save() {
         // given
-        Article article = createTestArticle();
+        CompanyArticle article = createTestArticle();
 
         // when
         articleRepository.saveOneArticle(article);
@@ -141,8 +141,8 @@ class ArticleRepositoryJdbcTest {
     @Test
     public void removeByName() {
         // given
-        Article article1 = createTestArticle();
-        Article article2 = createTestEqualDateArticle();
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestEqualDateArticle();
 
         // when
         articleRepository.saveOneArticle(article1);

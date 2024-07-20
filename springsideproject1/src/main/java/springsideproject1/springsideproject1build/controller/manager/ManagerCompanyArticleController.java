@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import springsideproject1.springsideproject1build.domain.Article;
-import springsideproject1.springsideproject1build.service.ArticleService;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
+import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -17,10 +17,10 @@ import java.time.LocalDate;
 @Controller
 @RequestMapping("/manager/article")
 @RequiredArgsConstructor
-public class ManagerArticleController {
+public class ManagerCompanyArticleController {
 
     @Autowired
-    private final ArticleService articleService;
+    private final CompanyArticleService articleService;
 
     /*
      * GetMapping
@@ -69,7 +69,7 @@ public class ManagerArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddSingleArticle(String name, String press, String subjectCompany, String link,
                                          int year, int month, int date, Integer importance) {
-        articleService.joinArticle(new Article.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
+        articleService.joinArticle(new CompanyArticle.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
         return "redirect:single/finish";
     }

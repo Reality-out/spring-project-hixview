@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import springsideproject1.springsideproject1build.domain.Article;
+import springsideproject1.springsideproject1build.domain.CompanyArticle;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -16,40 +16,40 @@ import static springsideproject1.springsideproject1build.Utility.articleRowMappe
 import static springsideproject1.springsideproject1build.Utility.articleTable;
 
 @Repository
-public class ArticleRepositoryJdbc implements ArticleRepository {
+public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ArticleRepositoryJdbc(DataSource dataSource) {
+    public CompanyArticleRepositoryJdbc(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
-    public List<Article> findAllArticles() {
+    public List<CompanyArticle> findAllArticles() {
         return jdbcTemplate.query("select * from " + articleTable, articleRowMapper());
     }
 
     @Override
-    public Optional<Article> searchArticleByName(String name) {
-        List<Article> oneArticleOrNull = jdbcTemplate.query(
+    public Optional<CompanyArticle> searchArticleByName(String name) {
+        List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
                 "select * from " + articleTable + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
-    public List<Article> searchArticlesByDate(LocalDate date) {
+    public List<CompanyArticle> searchArticlesByDate(LocalDate date) {
         return jdbcTemplate.query("select * from " + articleTable + " where date = ?", articleRowMapper(), date);
     }
 
     @Override
-    public List<Article> searchArticlesByDate(LocalDate startDate, LocalDate endDate) {
+    public List<CompanyArticle> searchArticlesByDate(LocalDate startDate, LocalDate endDate) {
         return jdbcTemplate.query(
                 "select * from " + articleTable + " where date between ? and ?", articleRowMapper(), startDate, endDate);
     }
 
     @Override
-    public Long saveOneArticle(Article article) {
+    public Long saveOneArticle(CompanyArticle article) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(articleTable).usingGeneratedKeyColumns("number");
         Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber()));
