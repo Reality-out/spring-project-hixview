@@ -76,8 +76,9 @@ public class ManagerArticleController {
 
     @PostMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddMultipleArticleUsingString(String str) {
-        articleService.joinArticlesWithString(str);
+    public String submitAddMultipleArticleUsingString(
+            @RequestParam String subjectCompany, @RequestParam String articleString) {
+        articleService.joinArticlesWithString(subjectCompany, articleString);
         return "redirect:string/finish";
     }
 

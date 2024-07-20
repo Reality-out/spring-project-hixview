@@ -10,8 +10,10 @@
     <p>기사 등록</p>
     <form action="/manager/article/add/multiple/string" th:action method="POST">
         <div>
-            <label for="string">단일 문자열</label>
-            <input type="text" id="string" name="string">
+            <label for="subjectCompany">대상 기업</label>
+            <input type="text" id="subjectCompany" name="subjectCompany">
+            <label for="articleString">단일 문자열</label>
+            <input type="text" id="articleString" name="articleString">
         </div>
         <button type="submit">등록</button>
     </form>

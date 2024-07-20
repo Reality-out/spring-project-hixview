@@ -7,8 +7,12 @@ import springsideproject1.springsideproject1build.domain.Article;
 import springsideproject1.springsideproject1build.repository.ArticleRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static java.lang.Integer.parseInt;
 
 @Service
 @RequiredArgsConstructor
@@ -52,8 +56,21 @@ public class ArticleService {
     }
 
     @Transactional
-    public void joinArticlesWithString(String string) {
+    public void joinArticlesWithString(String subjectCompany, String articleString) {  // TODO: 링크가 비어 있습니다.
+        List<List<String>> partialArticleLists = parseSingleString(articleString);
 
+        for (List<String> partialArticleList : partialArticleLists) {
+            joinArticle(new Article.ArticleBuilder()
+                    .name(partialArticleList.get(0))
+                    .press(partialArticleList.get(4))
+                    .subjectCompany(subjectCompany)
+                    .link("")
+                    .date(LocalDate.of(parseInt(partialArticleList.get(1)),
+                            parseInt(partialArticleList.get(2)),
+                            parseInt(partialArticleList.get(3))))
+                    .importance(0)
+                    .build());
+        }
     }
 
     /**
@@ -76,5 +93,28 @@ public class ArticleService {
         articleRepository.searchArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException("이미 존재하는 기사 제목입니다.");}
         );
+    }
+
+    @Transactional
+    private List<List<String>> parseSingleString(String articleString) {
+        List<String> dividedArticle = List.of(articleString.split("\n"));
+        List<List<String>> returnArticle = new ArrayList<>();
+        List<String> tempArticle = new ArrayList<>();
+
+        for (int i = 0; i < dividedArticle.size(); i++) {
+            if (i % 2 == 0) {
+                tempArticle.add(dividedArticle.get(i));
+            } else {
+                Collections.addAll(tempArticle, dividedArticle.get(i).replaceAll("^\\(|\\)$", "").split(", "));
+                returnArticle.add(new ArrayList<>() {{
+                        add(tempArticle.get(0));
+                        addAll(List.of(tempArticle.get(1).split("-")));
+                        add(tempArticle.get(2));
+                    }}
+                );
+                tempArticle.clear();
+            }
+        }
+        return returnArticle;
     }
 }
