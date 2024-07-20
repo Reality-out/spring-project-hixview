@@ -51,6 +51,10 @@ public class ArticleService {
                 .build();
     }
 
+    @Transactional
+    public void joinArticlesWithString(String string) {
+    }
+
     /**
      * REMOVE One Article
      */

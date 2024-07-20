@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+</head>
+<body>
+<div>
+    <p>기사 등록</p>
+    <form action="/manager/article/add/multiple/string" th:action method="POST">
+        <div>
+            <label for="string">단일 문자열</label>
+            <input type="text" id="string" name="string">
+        </div>
+        <button type="submit">등록</button>
+    </form>
+</div>
+</body>
+</html>

@@ -27,14 +27,26 @@ public class ManagerArticleController {
      */
     @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
-    public String processArticleAdd() {
+    public String processAddSingleArticle() {
         return "manager/add/article/singleProcessPage";
     }
 
     @GetMapping("/add/single/finish")
     @ResponseStatus(HttpStatus.OK)
-    public String finishArticleAdd() {
+    public String finishAddSingleArticle() {
         return "manager/add/article/singleFinishPage";
+    }
+
+    @GetMapping("/add/multiple/string")
+    @ResponseStatus(HttpStatus.OK)
+    public String processAddMultipleArticleUsingString() {
+        return "manager/add/article/multipleProcessStringPage";
+    }
+
+    @GetMapping("/add/multiple/string/finish")
+    @ResponseStatus(HttpStatus.OK)
+    public String finishAddMultipleArticleUsingString() {
+        return "manager/add/article/multipleFinishStringPage";
     }
 
     @GetMapping("/remove")
@@ -55,16 +67,23 @@ public class ManagerArticleController {
      */
     @PostMapping("/add/single")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitArticleAdd(String name, String press, String subjectCompany, String link,
-                                   int year, int month, int date, Integer importance) {
+    public String submitAddSingleArticle(String name, String press, String subjectCompany, String link,
+                                         int year, int month, int date, Integer importance) {
         articleService.joinArticle(new Article.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
         return "redirect:single/finish";
     }
 
+    @PostMapping("/add/multiple/string")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String submitAddMultipleArticleUsingString(String str) {
+        articleService.joinArticlesWithString(str);
+        return "redirect:string/finish";
+    }
+
     @PostMapping("/remove")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitArticleRemove(@RequestParam String name) {
+    public String submitRemoveSingleArticle(@RequestParam String name) {
         return "redirect:remove/finish?name=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
     }
 }
