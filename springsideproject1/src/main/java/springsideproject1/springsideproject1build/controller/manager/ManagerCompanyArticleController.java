@@ -28,25 +28,25 @@ public class ManagerCompanyArticleController {
     @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleArticle() {
-        return "manager/add/article/singleProcessPage";
+        return "manager/add/article/company/singleProcessPage";
     }
 
     @GetMapping("/add/single/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleArticle() {
-        return "manager/add/article/singleFinishPage";
+        return "manager/add/article/company/singleFinishPage";
     }
 
     @GetMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.OK)
     public String processAddMultipleArticleUsingString() {
-        return "manager/add/article/multipleProcessStringPage";
+        return "manager/add/article/company/multipleProcessStringPage";
     }
 
     @GetMapping("/add/multiple/string/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishAddMultipleArticleUsingString() {
-        return "manager/add/article/multipleFinishStringPage";
+        return "manager/add/article/company/multipleFinishStringPage";
     }
 
     @GetMapping("/remove")

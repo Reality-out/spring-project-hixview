@@ -49,7 +49,7 @@ class ManagerCompanyArticleControllerTest {
     public void accessArticleRegisterPage() throws Exception {
         mockMvc.perform(get("/manager/article/add/single"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/add/article/singleProcessPage"));
+                .andExpect(view().name("manager/add/article/company/singleProcessPage"));
     }
 
     @DisplayName("기사 등록 완료 페이지 접속")
@@ -73,7 +73,7 @@ class ManagerCompanyArticleControllerTest {
 
         mockMvc.perform(get("/manager/article/add/single/finish"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/add/article/singleFinishPage"));
+                .andExpect(view().name("manager/add/article/company/singleFinishPage"));
     }
 
     @DisplayName("기사 삭제 페이지 접속")
