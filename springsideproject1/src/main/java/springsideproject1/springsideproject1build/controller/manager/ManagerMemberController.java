@@ -19,7 +19,7 @@ public class ManagerMemberController {
     private final MemberService memberService;
 
     /**
-     * GetMapping
+     * Select
      */
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
@@ -28,6 +28,9 @@ public class ManagerMemberController {
         return "manager/select/membersPage";
     }
 
+    /**
+     * Remove
+     */
     @GetMapping("/remove")
     @ResponseStatus(HttpStatus.OK)
     public String createMemberWithdraw() {
@@ -41,9 +44,6 @@ public class ManagerMemberController {
         return MANAGER_REMOVE_MEMBERSHIP + "finishPage";
     }
 
-    /**
-     * PostMapping
-     */
     @PostMapping("/remove")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String removeMemberWithForm(@RequestParam String id) {

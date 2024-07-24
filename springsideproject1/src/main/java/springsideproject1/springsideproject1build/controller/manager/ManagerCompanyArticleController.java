@@ -25,7 +25,7 @@ public class ManagerCompanyArticleController {
     private final CompanyArticleService articleService;
 
     /**
-     * GetMapping
+     * Add - Single
      */
     @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
@@ -39,6 +39,18 @@ public class ManagerCompanyArticleController {
         return MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage";
     }
 
+    @PostMapping("/add/single")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String submitAddSingleArticle(String name, String press, String subjectCompany, String link,
+                                         int year, int month, int date, Integer importance) {
+        articleService.joinArticle(new CompanyArticle.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
+                .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
+        return "redirect:single/finish";
+    }
+
+    /**
+     * Add - Multiple
+     */
     @GetMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.OK)
     public String processAddMultipleArticleUsingString() {
@@ -51,6 +63,17 @@ public class ManagerCompanyArticleController {
         return MANAGER_ADD_COMPANY_ARTICLE + "multipleFinishStringPage";
     }
 
+    @PostMapping("/add/multiple/string")
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String submitAddMultipleArticleUsingString(
+            @RequestParam String subjectCompany, @RequestParam String articleString, @RequestParam String linkString) {
+        articleService.joinArticlesWithString(subjectCompany, articleString, linkString);
+        return "redirect:string/finish";
+    }
+
+    /**
+     * Remove - Single
+     */
     @GetMapping("/remove")
     @ResponseStatus(HttpStatus.OK)
     public String processArticleRemove() {
@@ -62,26 +85,6 @@ public class ManagerCompanyArticleController {
     public String finishArticleRemove(@RequestParam String name, Model model) {
         model.addAttribute("name", URLDecoder.decode(name, StandardCharsets.UTF_8));
         return MANAGER_REMOVE_COMPANY_ARTICLE + "finishPage";
-    }
-
-    /**
-     * PostMapping
-     */
-    @PostMapping("/add/single")
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleArticle(String name, String press, String subjectCompany, String link,
-                                         int year, int month, int date, Integer importance) {
-        articleService.joinArticle(new CompanyArticle.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
-                .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
-        return "redirect:single/finish";
-    }
-
-    @PostMapping("/add/multiple/string")
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddMultipleArticleUsingString(
-            @RequestParam String subjectCompany, @RequestParam String articleString, @RequestParam String linkString) {
-        articleService.joinArticlesWithString(subjectCompany, articleString, linkString);
-        return "redirect:string/finish";
     }
 
     @PostMapping("/remove")

@@ -23,7 +23,7 @@ public class UserCompanyController {
     private final CompanyService companyService;
 
     /**
-     * GetMapping
+     * Main
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -31,6 +31,9 @@ public class UserCompanyController {
         return "user/company/subPage";
     }
 
+    /**
+     * Select
+     */
     @GetMapping("/{nameOrCode}")
     @ResponseStatus(HttpStatus.OK)
     public String companyLookUp(

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ManagerMainPageController {
 
     /**
-     * GetMapping
+     * Main
      */
     @GetMapping("/manager")
     @ResponseStatus(HttpStatus.OK)

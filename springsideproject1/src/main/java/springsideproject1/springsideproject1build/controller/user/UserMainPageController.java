@@ -8,12 +8,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class UserMainPageController {
 
+    /**
+     * Main
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String mainPage() {
         return "user/mainPage";
     }
 
+    /**
+     * Login
+     */
     @GetMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public String loginOnSite() {
