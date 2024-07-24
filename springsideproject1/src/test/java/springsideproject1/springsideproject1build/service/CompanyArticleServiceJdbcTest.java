@@ -47,7 +47,7 @@ class CompanyArticleServiceJdbcTest {
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> articleService.joinArticle(article2));
-        assertThat(e.getMessage()).isEqualTo("이미 존재하는 기사 제목입니다.");
+        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
     @DisplayName("존재하지 않는 이름을 통한 기사 삭제")
@@ -55,6 +55,6 @@ class CompanyArticleServiceJdbcTest {
     public void removeArticleByFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> articleService.removeArticle("123456"));
-        assertThat(e.getMessage()).isEqualTo("해당 제목과 일치하는 기사가 없습니다.");
+        assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
 }

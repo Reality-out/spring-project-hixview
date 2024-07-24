@@ -47,7 +47,7 @@ class CompanyServiceJdbcTest {
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.joinCompany(company2));
-        assertThat(e.getMessage()).isEqualTo("이미 존재하는 코드 번호입니다.");
+        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_CODE);
     }
 
     @DisplayName("존재하지 않는 코드 번호를 통한 기업 삭제")
@@ -55,6 +55,6 @@ class CompanyServiceJdbcTest {
     public void removeCompanyByFaultCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.removeCompany("123456"));
-        assertThat(e.getMessage()).isEqualTo("해당 코드 번호와 일치하는 기업이 없습니다.");
+        assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 }

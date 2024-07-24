@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
+import static springsideproject1.springsideproject1build.Utility.ALREADY_EXIST_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.Utility.NO_ARTICLE_WITH_THAT_NAME;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +51,6 @@ public class CompanyArticleService {
     public void joinArticle(CompanyArticle article) {
         duplicateCodeCheck(article);
 
-        //noinspection ReassignedVariable
         article = new CompanyArticle.ArticleBuilder()
                 .article(article)
                 .number(articleRepository.saveOneArticle(article))
@@ -62,14 +63,15 @@ public class CompanyArticleService {
         List<String> linkLists = parseLinkString(linkString);
 
         for (int i = 0; i < linkLists.size(); i++){
+            List<String> partialArticle = partialArticleLists.get(i);
             joinArticle(new CompanyArticle.ArticleBuilder()
-                    .name(partialArticleLists.get(i).get(0))
-                    .press(partialArticleLists.get(i).get(4))
+                    .name(partialArticle.get(0))
+                    .press(partialArticle.get(4))
                     .subjectCompany(subjectCompany)
                     .link(linkLists.get(i))
-                    .date(LocalDate.of(parseInt(partialArticleLists.get(i).get(1)),
-                            parseInt(partialArticleLists.get(i).get(2)),
-                            parseInt(partialArticleLists.get(i).get(3))))
+                    .date(LocalDate.of(parseInt(partialArticle.get(1)),
+                            parseInt(partialArticle.get(2)),
+                            parseInt(partialArticle.get(3))))
                     .importance(0)
                     .build());
         }
@@ -81,7 +83,7 @@ public class CompanyArticleService {
     @Transactional
     public void removeArticle(String articleName) {
         articleRepository.searchArticleByName(articleName).orElseThrow(
-                () -> new IllegalStateException("해당 제목과 일치하는 기사가 없습니다.")
+                () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
         );
 
         articleRepository.removeArticleByName(articleName);
@@ -93,7 +95,7 @@ public class CompanyArticleService {
     @Transactional
     private void duplicateCodeCheck(CompanyArticle article) {
         articleRepository.searchArticleByName(article.getName()).ifPresent(
-                v -> {throw new IllegalStateException("이미 존재하는 기사 제목입니다.");}
+                v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
         );
     }
 
