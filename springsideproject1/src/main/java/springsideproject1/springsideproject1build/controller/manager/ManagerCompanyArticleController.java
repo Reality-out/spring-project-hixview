@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.HtmlViewName.*;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.*;
 
 @Controller
 @RequestMapping("/manager/article")
@@ -79,8 +79,8 @@ public class ManagerCompanyArticleController {
     @PostMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddMultipleArticleUsingString(
-            @RequestParam String subjectCompany, @RequestParam String articleString) {
-        articleService.joinArticlesWithString(subjectCompany, articleString);
+            @RequestParam String subjectCompany, @RequestParam String articleString, @RequestParam String linkString) {
+        articleService.joinArticlesWithString(subjectCompany, articleString, linkString);
         return "redirect:string/finish";
     }
 

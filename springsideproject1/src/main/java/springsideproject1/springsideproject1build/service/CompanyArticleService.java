@@ -48,26 +48,28 @@ public class CompanyArticleService {
     @Transactional
     public void joinArticle(CompanyArticle article) {
         duplicateCodeCheck(article);
-        Long articleNumber = articleRepository.saveOneArticle(article);
+
+        //noinspection ReassignedVariable
         article = new CompanyArticle.ArticleBuilder()
                 .article(article)
-                .number(articleNumber)
+                .number(articleRepository.saveOneArticle(article))
                 .build();
     }
 
     @Transactional
-    public void joinArticlesWithString(String subjectCompany, String articleString) {  // TODO: 링크가 비어 있습니다.
-        List<List<String>> partialArticleLists = parseSingleString(articleString);
+    public void joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
+        List<List<String>> partialArticleLists = parseArticleString(articleString);
+        List<String> linkLists = parseLinkString(linkString);
 
-        for (List<String> partialArticleList : partialArticleLists) {
+        for (int i = 0; i < linkLists.size(); i++){
             joinArticle(new CompanyArticle.ArticleBuilder()
-                    .name(partialArticleList.get(0))
-                    .press(partialArticleList.get(4))
+                    .name(partialArticleLists.get(i).get(0))
+                    .press(partialArticleLists.get(i).get(4))
                     .subjectCompany(subjectCompany)
-                    .link("")
-                    .date(LocalDate.of(parseInt(partialArticleList.get(1)),
-                            parseInt(partialArticleList.get(2)),
-                            parseInt(partialArticleList.get(3))))
+                    .link(linkLists.get(i))
+                    .date(LocalDate.of(parseInt(partialArticleLists.get(i).get(1)),
+                            parseInt(partialArticleLists.get(i).get(2)),
+                            parseInt(partialArticleLists.get(i).get(3))))
                     .importance(0)
                     .build());
         }
@@ -96,8 +98,8 @@ public class CompanyArticleService {
     }
 
     @Transactional
-    private List<List<String>> parseSingleString(String articleString) {
-        List<String> dividedArticle = List.of(articleString.split("\n"));
+    private List<List<String>> parseArticleString(String articleString) {
+        List<String> dividedArticle = List.of(articleString.split("\\\\n"));
         List<List<String>> returnArticle = new ArrayList<>();
         List<String> tempArticle = new ArrayList<>();
 
@@ -116,5 +118,10 @@ public class CompanyArticleService {
             }
         }
         return returnArticle;
+    }
+
+    @Transactional
+    private List<String> parseLinkString(String linkString) {
+        return List.of(linkString.split("\\\\n"));
     }
 }

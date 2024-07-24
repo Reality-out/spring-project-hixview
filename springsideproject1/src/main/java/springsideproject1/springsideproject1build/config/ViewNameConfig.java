@@ -1,6 +1,6 @@
-package springsideproject1.springsideproject1build;
+package springsideproject1.springsideproject1build.config;
 
-public class HtmlViewName {
+public class ViewNameConfig {
     /**
      * USER
      */

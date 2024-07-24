@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build;
+package springsideproject1.springsideproject1build.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,11 +7,11 @@ import springsideproject1.springsideproject1build.repository.*;
 import javax.sql.DataSource;
 
 @Configuration
-public class Project1Config {
+public class BeanConfig {
 
     private final DataSource dataSource;
 
-    public Project1Config(DataSource dataSource) {
+    public BeanConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
