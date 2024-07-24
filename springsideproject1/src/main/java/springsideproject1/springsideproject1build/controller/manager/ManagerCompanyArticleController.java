@@ -24,7 +24,7 @@ public class ManagerCompanyArticleController {
     @Autowired
     private final CompanyArticleService articleService;
 
-    /*
+    /**
      * GetMapping
      */
     @GetMapping("/add/single")
@@ -64,7 +64,7 @@ public class ManagerCompanyArticleController {
         return MANAGER_REMOVE_COMPANY_ARTICLE + "finishPage";
     }
 
-    /*
+    /**
      * PostMapping
      */
     @PostMapping("/add/single")

@@ -22,7 +22,7 @@ public class UserCompanyController {
     @Autowired
     private final CompanyService companyService;
 
-    /*
+    /**
      * GetMapping
      */
     @GetMapping

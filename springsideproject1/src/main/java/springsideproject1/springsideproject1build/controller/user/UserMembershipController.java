@@ -18,7 +18,7 @@ public class UserMembershipController {
     @Autowired
     private final MemberService memberService;
 
-    /*
+    /**
      * GetMapping
      */
     @GetMapping
@@ -33,7 +33,7 @@ public class UserMembershipController {
         return USER_CREATE_MEMBERSHIP + "succeedPage";
     }
 
-    /*
+    /**
      * PostMapping
      */
     @PostMapping

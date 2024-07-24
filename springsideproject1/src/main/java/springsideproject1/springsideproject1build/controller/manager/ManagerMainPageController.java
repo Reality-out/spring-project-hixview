@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequiredArgsConstructor
 public class ManagerMainPageController {
 
-    /*
+    /**
      * GetMapping
      */
     @GetMapping("/manager")

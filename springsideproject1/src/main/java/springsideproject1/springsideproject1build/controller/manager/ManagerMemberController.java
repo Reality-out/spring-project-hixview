@@ -18,7 +18,7 @@ public class ManagerMemberController {
     @Autowired
     private final MemberService memberService;
 
-    /*
+    /**
      * GetMapping
      */
     @GetMapping("/all")
@@ -41,7 +41,7 @@ public class ManagerMemberController {
         return MANAGER_REMOVE_MEMBERSHIP + "finishPage";
     }
 
-    /*
+    /**
      * PostMapping
      */
     @PostMapping("/remove")
