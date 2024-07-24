@@ -39,11 +39,9 @@ public class UserCompanyController {
     public String companyLookUp(
             @PathVariable String nameOrCode, Model model) {
 
-        Company company = (isNumeric(nameOrCode)) ?
-                companyService.SearchOneCompanyByCode(nameOrCode).get() : companyService.SearchOneCompanyByName(nameOrCode).get();
-
-        model.addAttribute("companyName", company.getName());
-        model.addAttribute("companyCode", company.getCode());
+        model.addAttribute("company", (isNumeric(nameOrCode)) ?
+                companyService.SearchOneCompanyByCode(nameOrCode).get() :
+                companyService.SearchOneCompanyByName(nameOrCode).get());
         return "user/company/showCompanyPage";
     }
 }
