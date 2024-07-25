@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
+import static springsideproject1.springsideproject1build.config.FolderConfig.MANAGER_PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
 
@@ -30,7 +31,8 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
-    public String processAddSingleArticle() {
+    public String processAddSingleArticle(Model model) {
+        model.addAttribute("layoutPath", MANAGER_PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return MANAGER_ADD_COMPANY_ARTICLE + "singleProcessPage";
     }
 
@@ -54,7 +56,8 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.OK)
-    public String processAddMultipleArticleUsingString() {
+    public String processAddMultipleArticleUsingString(Model model) {
+        model.addAttribute("layoutPath", MANAGER_PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return MANAGER_ADD_COMPANY_ARTICLE + "multipleProcessStringPage";
     }
 

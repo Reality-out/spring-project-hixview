@@ -1,46 +1,39 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>힉스뷰 - 세상 경제사를 한눈에</title>
-    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
-</head>
+<html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head></head>
 <body>
-    <div>
-        <p>기사 등록</p>
-        <form action="/manager/article/add/single" th:action method="POST">
-            <div>
-                <div class="partialForm">
-                    <label for="name">이름</label>
-                    <input type="text" id="name" name="name" size="20">
-                </div>
-                <div class="partialForm">
-                    <label for="press">언론사</label>
-                    <input type="text" id="press" name="press" size="20">
-                </div>
-                <div class="partialForm">
-                    <label for="subjectCompany">대상 기업</label>
-                    <input type="text" id="subjectCompany" name="subjectCompany" size="20">
-                </div>
-                <div class="partialForm">
-                    <label for="link">링크</label>
-                    <input type="url" id="link" name="link" size="20">
-                </div>
-                <div class="partialForm">
-                    <label for="year">연</label>
-                    <input type="number" min="1900" max="2024" id="year" name="year" size="4">
-                    <label for="month">월</label>
-                    <input type="number" min="1" max="12" id="month" name="month" size="2">
-                    <label for="date">일</label>
-                    <input type="number" min="1" max="31" id="date" name="date" size="2">
-                </div>
-                <div class="partialForm">
-                    <label for="importance">중요도</label>
-                    <input type="text" id="importance" name="importance" size="20">
-                </div>
+    <form action="/manager/article/add/single" th:action method="POST">
+        <div>
+            <div class="partialForm">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" size="20">
             </div>
-            <button type="submit">등록</button>
-        </form>
-    </div>
+            <div class="partialForm">
+                <label for="press">언론사</label>
+                <input type="text" id="press" name="press" size="20">
+            </div>
+            <div class="partialForm">
+                <label for="subjectCompany">대상 기업</label>
+                <input type="text" id="subjectCompany" name="subjectCompany" size="20">
+            </div>
+            <div class="partialForm">
+                <label for="link">링크</label>
+                <input type="url" id="link" name="link" size="20">
+            </div>
+            <div class="partialForm">
+                <label for="year">연</label>
+                <input type="number" min="1900" max="2024" id="year" name="year" size="4">
+                <label for="month">월</label>
+                <input type="number" min="1" max="12" id="month" name="month" size="2">
+                <label for="date">일</label>
+                <input type="number" min="1" max="31" id="date" name="date" size="2">
+            </div>
+            <div class="partialForm">
+                <label for="importance">중요도</label>
+                <input type="text" id="importance" name="importance" size="20">
+            </div>
+        </div>
+        <button type="submit">등록</button>
+    </form>
 </body>
 </html>
