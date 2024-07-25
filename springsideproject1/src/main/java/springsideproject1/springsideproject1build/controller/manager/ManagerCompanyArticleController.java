@@ -14,7 +14,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.*;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
 
 @Controller
 @RequestMapping("/manager/article")
@@ -86,8 +87,10 @@ public class ManagerCompanyArticleController {
     @GetMapping("/remove/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishArticleRemove(@RequestParam String name, Model model) {
-        model.addAttribute("name", URLDecoder.decode(name, StandardCharsets.UTF_8));
-        return MANAGER_REMOVE_COMPANY_ARTICLE + "finishPage";
+        model.addAttribute("dataTypeKor", "기사");
+        model.addAttribute("key", "제목");
+        model.addAttribute("value", URLDecoder.decode(name, StandardCharsets.UTF_8));
+        return MANAGER_REMOVE + "finishPage";
     }
 
     @PostMapping("/remove")

@@ -7,8 +7,8 @@
 </head>
 <body>
     <div>
-        <p>다음 제목의 기사 제거가 완료되었습니다:</p>
-        <p th:text="${name}"></p>
+        <p>다음 [[${key}]]의 [[${dataTypeKor}]] 제거가 완료되었습니다:</p>
+        <p th:text="${value}"></p>
         <form action="/manager" method="get">
             <button type="submit">첫 페이지로 이동</button>
         </form>

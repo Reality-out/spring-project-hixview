@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import springsideproject1.springsideproject1build.service.MemberService;
 
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE_MEMBERSHIP;
 
 @Controller
 @RequestMapping("/manager/member")
@@ -44,8 +43,10 @@ public class ManagerMemberController {
     @GetMapping("/remove/finish")
     @ResponseStatus(HttpStatus.OK)
     public String finishMemberWithdraw(@RequestParam String id, Model model) {
-        model.addAttribute("id", id);
-        return MANAGER_REMOVE_MEMBERSHIP + "finishPage";
+        model.addAttribute("dataTypeKor", "회원");
+        model.addAttribute("key", "id");
+        model.addAttribute("value", id);
+        return MANAGER_REMOVE + "finishPage";
     }
 
     @PostMapping("/remove")

@@ -20,7 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.*;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.*;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -107,6 +108,6 @@ class ManagerCompanyArticleControllerTest {
         mockMvc.perform(get("/manager/article/remove/finish")
                         .param("name", name))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_COMPANY_ARTICLE + "finishPage"));
+                .andExpect(view().name(MANAGER_REMOVE + "finishPage"));
     }
 }

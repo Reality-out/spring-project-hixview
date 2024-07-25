@@ -10,9 +10,8 @@
     <p>정말로 [[${dataTypeKor}]]을/를 제거하시겠습니까?</p>
     <form action="|/manager/{dataTypeEng}/remove(dataTypeEng=${dataTypeEng})|" th:action method="POST">
         <div>
-            <label th:for="${key}">[[${dataTypeKor}]]
-                <input type="text" th:id="${key}" th:name="${key}">
-            </label>
+            <label th:for="${key}">[[${dataTypeKor}]]</label>
+            <input type="text" th:id="${key}" th:name="${key}">
         </div>
         <button type="submit">제거</button>
     </form>
