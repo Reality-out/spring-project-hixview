@@ -6,19 +6,19 @@
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
-<div>
-    <p>기사 등록</p>
-    <form action="/manager/article/add/multiple/string" th:action method="POST">
-        <div>
-            <label for="subjectCompany">대상 기업</label>
-            <input type="text" id="subjectCompany" name="subjectCompany">
-            <label for="articleString">단일 기사</label>
-            <input type="text" id="articleString" name="articleString">
-            <label for="linkString">단일 링크</label>
-            <input type="text" id="linkString" name="linkString">
-        </div>
-        <button type="submit">등록</button>
-    </form>
-</div>
+    <div>
+        <p>기사 등록</p>
+        <form action="/manager/article/add/multiple/string" th:action method="POST">
+            <div>
+                <label for="subjectCompany">대상 기업</label>
+                <input type="text" id="subjectCompany" name="subjectCompany">
+                <label for="articleString">단일 기사</label>
+                <input type="text" id="articleString" name="articleString">
+                <label for="linkString">단일 링크</label>
+                <input type="text" id="linkString" name="linkString">
+            </div>
+            <button type="submit">등록</button>
+        </form>
+    </div>
 </body>
 </html>
