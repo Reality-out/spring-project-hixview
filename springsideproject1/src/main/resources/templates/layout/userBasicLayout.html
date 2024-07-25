@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html th:fragment="layout (link, section, script)" lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+
+    <!--/* Link - Original */-->
+    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+    <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
+
+    <!--/* Link - Header */-->
+    <link href="/styles/user/headerStyle.css" rel="stylesheet"/>
+
+    <!--/* Link - Footer */-->
+    <link href="/styles/user/footerStyle.css" rel="stylesheet"/>
+
+    <!--/* Link - Added */-->
+    <link th:replace="${link}"/>
+</head>
+<body>
+    <!--/* Header */-->
+    <header>
+        <div class="headerWrapper">
+            <div class="headerTop">
+                <div class="headerTopLeft">
+                    <!-- Empty Grid -->
+                </div>
+                <div class="headerTopMiddle">
+                    <a href="/">
+                        <h1>힉스뷰</h1>
+                    </a>
+                </div>
+                <div class="headerTopRight">
+                    <a href="/login">로그인</a>
+                </div>
+            </div>
+            <div class="headerMiddle">
+                <nav id="headerNavigator">
+                    <ul>
+                        <li><a href="/company">기업</a></li>
+                        <li><a href="/industry">산업</a></li>
+                        <li><a href="/economy">경제</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!--/* Section - Added */-->
+    <section th:replace="${section}"></section>
+
+    <!--/* Footer */-->
+    <footer>
+        <div class="footerWrapper">
+            <div class="footerTop">
+                <nav class="footerNavigator">
+                    <ul>
+                        <li><a href="/introduce">사이트 소개</a></li>
+                        <li><a href="/notify">공지 사항</a></li>
+                        <li><a href="/question-answer">자주 묻는 질문</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <!--/* Script - Added */-->
+    <script th:replace="${script}"></script>
+</body>
+</html>
