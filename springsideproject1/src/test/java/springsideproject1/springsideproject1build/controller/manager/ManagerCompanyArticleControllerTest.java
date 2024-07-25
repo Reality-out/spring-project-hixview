@@ -19,9 +19,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE_COMPANY_ARTICLE;
 import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,9 +80,12 @@ class ManagerCompanyArticleControllerTest {
     @DisplayName("기사 삭제 페이지 접속")
     @Test
     public void accessArticleRemovePage() throws Exception {
-        mockMvc.perform(get("/manager/article/remove"))
+        mockMvc.perform(get("/manager/article/remove")
+                .param("dataTypeKor", "기사")
+                .param("dataTypeEng", "article")
+                .param("key", "name"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_COMPANY_ARTICLE + "processPage"));
+                .andExpect(view().name(MANAGER_REMOVE + "processPage"));
     }
 
     @DisplayName("기사 삭제 완료 페이지 접속")

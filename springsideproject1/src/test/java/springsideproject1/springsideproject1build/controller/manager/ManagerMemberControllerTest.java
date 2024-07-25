@@ -19,8 +19,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE_MEMBERSHIP;
 import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE_MEMBERSHIP;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -56,9 +56,12 @@ class ManagerMemberControllerTest {
     @DisplayName("회원 탈퇴 페이지 접속")
     @Test
     public void accessMembershipWithdrawPage() throws Exception {
-        mockMvc.perform(get("/manager/member/remove"))
+        mockMvc.perform(get("/manager/member/remove")
+                        .param("dataTypeKor", "회원")
+                        .param("dataTypeEng", "member")
+                        .param("key", "id"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_MEMBERSHIP + "processPage"));
+                .andExpect(view().name("manager/remove/processPage"));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")

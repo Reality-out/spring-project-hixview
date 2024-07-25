@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import springsideproject1.springsideproject1build.service.MemberService;
 
+import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE_MEMBERSHIP;
 
 @Controller
@@ -33,8 +34,11 @@ public class ManagerMemberController {
      */
     @GetMapping("/remove")
     @ResponseStatus(HttpStatus.OK)
-    public String createMemberWithdraw() {
-        return MANAGER_REMOVE_MEMBERSHIP + "processPage";
+    public String createMemberWithdraw(Model model) {
+        model.addAttribute("dataTypeKor", "회원");
+        model.addAttribute("dataTypeEng", "member");
+        model.addAttribute("key", "id");
+        return MANAGER_REMOVE + "processPage";
     }
 
     @GetMapping("/remove/finish")

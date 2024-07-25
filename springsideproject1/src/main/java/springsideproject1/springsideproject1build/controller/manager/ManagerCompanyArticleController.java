@@ -76,8 +76,11 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping("/remove")
     @ResponseStatus(HttpStatus.OK)
-    public String processArticleRemove() {
-        return MANAGER_REMOVE_COMPANY_ARTICLE + "processPage";
+    public String processArticleRemove(Model model) {
+        model.addAttribute("dataTypeKor", "기사");
+        model.addAttribute("dataTypeEng", "article");
+        model.addAttribute("key", "name");
+        return MANAGER_REMOVE + "processPage";
     }
 
     @GetMapping("/remove/finish")
