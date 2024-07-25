@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{/layout/userBasicLayout :: layout(~{::link}, ~{::section}, ~{::script})}"
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
       lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="/styles/user/main/bodyStyle.css" rel="stylesheet"/>
