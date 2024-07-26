@@ -23,10 +23,10 @@
             </thead>
             <tbody>
                 <tr th:each="member : ${members}">
-                    <td th:text="${member.identifier}"></td>
-                    <td th:text="${member.id}"></td>
-                    <td th:text="${member.password}"></td>
-                    <td th:text="${member.name}"></td>
+                    <td th:text="${member.identifier}">memberIdentifier</td>
+                    <td th:text="${member.id}">memberId</td>
+                    <td th:text="${member.password}">memberPassword</td>
+                    <td th:text="${member.name}">memberName</td>
                 </tr>
             </tbody>
         </table>
