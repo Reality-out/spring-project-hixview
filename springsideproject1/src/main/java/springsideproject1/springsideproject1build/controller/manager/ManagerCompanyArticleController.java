@@ -14,7 +14,9 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.List;
 
+import static springsideproject1.springsideproject1build.Utility.decodeUTF8;
 import static springsideproject1.springsideproject1build.config.FolderConfig.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.FolderConfig.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
@@ -68,15 +70,18 @@ public class ManagerCompanyArticleController {
 
     @GetMapping("/add/multiple/string/finish")
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddMultipleArticleUsingString() {
+    public String finishAddMultipleArticleUsingString(@RequestParam List<String> nameList, Model model) {
+        model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
+        model.addAttribute("nameList", decodeUTF8(nameList));
         return MANAGER_ADD_COMPANY_ARTICLE + "multipleFinishStringPage";
     }
 
     @PostMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddMultipleArticleUsingString(
+    public String submitAddMultipleArticleUsingString(RedirectAttributes redirect,
             @RequestParam String subjectCompany, @RequestParam String articleString, @RequestParam String linkString) {
-        articleService.joinArticlesWithString(subjectCompany, articleString, linkString);
+        redirect.addAttribute("nameList",
+                articleService.joinArticlesWithString(subjectCompany, articleString, linkString));
         return "redirect:string/finish";
     }
 

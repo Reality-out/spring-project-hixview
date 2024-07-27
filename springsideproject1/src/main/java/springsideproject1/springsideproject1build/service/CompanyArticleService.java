@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,23 +60,27 @@ public class CompanyArticleService {
     }
 
     @Transactional
-    public void joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
+    public List<String> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
-        List<String> linkLists = parseLinkString(linkString);
+        List<String> linkList = parseLinkString(linkString);
+        List<String> nameList = new ArrayList<>();
 
-        for (int i = 0; i < linkLists.size(); i++){
+        for (int i = 0; i < linkList.size(); i++){
             List<String> partialArticle = partialArticleLists.get(i);
             joinArticle(new CompanyArticle.ArticleBuilder()
                     .name(partialArticle.get(0))
                     .press(partialArticle.get(4))
                     .subjectCompany(subjectCompany)
-                    .link(linkLists.get(i))
+                    .link(linkList.get(i))
                     .date(LocalDate.of(parseInt(partialArticle.get(1)),
                             parseInt(partialArticle.get(2)),
                             parseInt(partialArticle.get(3))))
                     .importance(0)
                     .build());
+
+            nameList.add(URLEncoder.encode(partialArticle.get(0), StandardCharsets.UTF_8));
         }
+        return nameList;
     }
 
     /**

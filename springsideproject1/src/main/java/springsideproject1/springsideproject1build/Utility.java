@@ -7,7 +7,11 @@ import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.Member;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @UtilityClass
@@ -34,6 +38,17 @@ public class Utility {
      */
     public static final String ALREADY_EXIST_CODE = "이미 존재하는 코드 번호입니다.";
     public static final String NO_COMPANY_WITH_THAT_CODE = "해당 코드 번호와 일치하는 기업이 없습니다.";
+
+    /**
+     * Decoder
+     */
+    public static List<String> decodeUTF8(List<String> source) {
+        List<String> returnList = new ArrayList<>();
+        for (String s : source) {
+            returnList.add(URLDecoder.decode(s, StandardCharsets.UTF_8));
+        }
+        return returnList;
+    }
 
     /**
      * RowMapper
