@@ -124,6 +124,6 @@ public class CompanyArticleService {
 
     @Transactional
     private List<String> parseLinkString(String linkString) {
-        return List.of(linkString.split("\\\\n"));
+        return List.of(linkString.split("\\R"));
     }
 }
