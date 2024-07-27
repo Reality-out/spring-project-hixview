@@ -23,11 +23,9 @@ class UserMainPageControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private final JdbcTemplate jdbcTemplateTest;
-
     @Autowired
     public UserMainPageControllerTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
+        JdbcTemplate jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @DisplayName("메인 페이지 접속")
@@ -36,5 +34,13 @@ class UserMainPageControllerTest {
         mockMvc.perform(get(""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/mainPage"));
+    }
+
+    @DisplayName("로그인 페이지 접속")
+    @Test
+    public void accessLoginPage() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/loginPage"));
     }
 }

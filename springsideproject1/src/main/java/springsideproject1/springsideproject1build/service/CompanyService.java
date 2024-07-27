@@ -9,7 +9,7 @@ import springsideproject1.springsideproject1build.repository.CompanyRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.Utility.ALREADY_EXIST_CODE;
+import static springsideproject1.springsideproject1build.Utility.ALREADY_EXIST_COMPANY_CODE;
 import static springsideproject1.springsideproject1build.Utility.NO_COMPANY_WITH_THAT_CODE;
 
 @Service
@@ -60,7 +60,7 @@ public class CompanyService {
     @Transactional
     private void duplicateCodeCheck(Company company) {
         companyRepository.searchCompanyByCode(company.getCode()).ifPresent(
-                v -> {throw new IllegalStateException(ALREADY_EXIST_CODE);}
+                v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
         );
     }
 }

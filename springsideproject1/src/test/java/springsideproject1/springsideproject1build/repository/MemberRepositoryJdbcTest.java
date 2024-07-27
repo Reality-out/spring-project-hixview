@@ -61,8 +61,8 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByIdentifier(Long.valueOf(1L)).get()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.findMemberByIdentifier(Long.valueOf(2L)).get()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.findMemberByIdentifier(1L).get()).usingRecursiveComparison().isEqualTo(member1);
+        assertThat(memberRepository.findMemberByIdentifier(2L).get()).usingRecursiveComparison().isEqualTo(member2);
     }
 
     @DisplayName("멤버 ID로 찾기")
@@ -120,7 +120,7 @@ class MemberRepositoryJdbcTest {
                 .isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("멤버 저장 테스트")
+    @DisplayName("멤버 저장")
     @Test
     public void save() {
         // given

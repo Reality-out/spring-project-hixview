@@ -11,6 +11,8 @@ import springsideproject1.springsideproject1build.domain.CompanyArticle;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.Utility.*;
@@ -31,10 +33,41 @@ class CompanyArticleServiceJdbcTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, articleTable);
+        resetTable(jdbcTemplateTest, articleTable, true);
     }
 
-    @DisplayName("중복 기사 제목을 사용하는 기사 등록")
+    @DisplayName("단일 기사 등록")
+    @Test
+    public void registerArticle() {
+        // given
+        CompanyArticle article = createTestArticle();
+
+        // when
+        article = articleService.joinArticle(article);
+
+        // then
+        assertThat(articleService.findArticles().getFirst())
+                .usingRecursiveComparison()
+                .isEqualTo(article);
+    }
+
+    @DisplayName("단일 문자열을 통한 기사 동시 등록")
+    @Test
+    public void registerArticlesWithString() {
+        // given
+        List<String> articleString = createTestStringArticle();
+
+        // when
+        articleService.joinArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast());
+
+        // then
+        assertThat(articleService.findArticles())
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
+    }
+
+    @DisplayName("중복 기사 제목을 사용하는 단일 기사 등록")
     @Test
     public void registerArticleWithSameName() {
         // given
@@ -50,7 +83,24 @@ class CompanyArticleServiceJdbcTest {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
-    @DisplayName("존재하지 않는 이름을 통한 기사 삭제")
+    @DisplayName("중복 기사 제목과 단일 문자열을 사용하는 기사 동시 등록")
+    @Test
+    public void registerArticlesWithSameNameAndString() {
+        // given
+        CompanyArticle article = createTestNewArticle();
+        List<String> articleString = createTestStringArticle();
+
+        // when
+        articleService.joinArticle(article);
+
+        // then
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> articleService.joinArticlesWithString(
+                        articleString.getFirst(), articleString.get(1), articleString.getLast()));
+        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
+    }
+
+    @DisplayName("존재하지 않는 이름을 통한 단일 기사 삭제")
     @Test
     public void removeArticleByFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,

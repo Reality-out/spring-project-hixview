@@ -34,6 +34,19 @@ class CompanyServiceJdbcTest {
         resetTable(jdbcTemplateTest, companyTable);
     }
 
+    @DisplayName("기업 등록")
+    @Test
+    public void registerCompany() {
+        // given
+        Company company = createSamsungElectronics();
+
+        // when
+        companyService.joinCompany(company);
+
+        // then
+        assertThat(companyService.findCompanies().getFirst()).usingRecursiveComparison().isEqualTo(company);
+    }
+
     @DisplayName("중복 코드 번호를 사용하는 기업 등록")
     @Test
     public void registerCompanyWithSameCode() {
@@ -47,7 +60,7 @@ class CompanyServiceJdbcTest {
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.joinCompany(company2));
-        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_CODE);
+        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
     }
 
     @DisplayName("존재하지 않는 코드 번호를 통한 기업 삭제")

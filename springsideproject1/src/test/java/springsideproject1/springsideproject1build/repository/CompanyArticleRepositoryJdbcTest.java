@@ -121,7 +121,7 @@ class CompanyArticleRepositoryJdbcTest {
                 .isEqualTo(List.of(article1, article2, article3));
     }
 
-    @DisplayName("기사 저장 테스트")
+    @DisplayName("기사 저장")
     @Test
     public void save() {
         // given

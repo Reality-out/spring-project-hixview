@@ -81,7 +81,7 @@ class CompanyRepositoryJdbcTest {
         assertThat(companyRepository.searchCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
-    @DisplayName("기업 저장 테스트")
+    @DisplayName("기업 저장")
     @Test
     public void save() {
         // given

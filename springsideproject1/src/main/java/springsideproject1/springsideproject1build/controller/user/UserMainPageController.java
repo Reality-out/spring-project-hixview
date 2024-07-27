@@ -26,7 +26,7 @@ public class UserMainPageController {
      */
     @GetMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public String loginOnSite() {
+    public String loginPage() {
         return "user/loginPage";
     }
 }

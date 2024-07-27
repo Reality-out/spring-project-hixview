@@ -35,7 +35,7 @@ class MemberServiceJdbcTest {
     }
 
 
-    @DisplayName("회원 가입 테스트")
+    @DisplayName("회원 가입")
     @Test
     public void membership() {
         // given

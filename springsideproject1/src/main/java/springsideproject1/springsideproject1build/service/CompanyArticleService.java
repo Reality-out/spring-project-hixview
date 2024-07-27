@@ -50,10 +50,10 @@ public class CompanyArticleService {
      * INSERT One CompanyArticle
      */
     @Transactional
-    public void joinArticle(CompanyArticle article) {
+    public CompanyArticle joinArticle(CompanyArticle article) {
         duplicateCodeCheck(article);
 
-        article = new CompanyArticle.ArticleBuilder()
+        return new CompanyArticle.ArticleBuilder()
                 .article(article)
                 .number(articleRepository.saveOneArticle(article))
                 .build();

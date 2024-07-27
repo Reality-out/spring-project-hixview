@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,7 @@ public class Utility {
     /*
      * Company
      */
-    public static final String ALREADY_EXIST_CODE = "이미 존재하는 코드 번호입니다.";
+    public static final String ALREADY_EXIST_COMPANY_CODE = "이미 존재하는 코드 번호입니다.";
     public static final String NO_COMPANY_WITH_THAT_CODE = "해당 코드 번호와 일치하는 기업이 없습니다.";
 
     /**
@@ -123,6 +124,19 @@ public class Utility {
                 .date(LocalDate.of(2024, 6, 17))
                 .importance(0)
                 .build();
+    }
+
+    // These codes consist of two contents, createTestEqualDateArticle and createTestNewArticle
+    public static List<String> createTestStringArticle() {
+        return Arrays.asList("삼성전자",
+                String.join(System.lineSeparator(),
+                        Arrays.asList("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
+                                "(2024-6-18, 비즈니스포스트)",
+                                "[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치",
+                                "(2024-6-17, 헤럴드경제)")),
+                String.join(System.lineSeparator(),
+                        Arrays.asList("https://www.businesspost.co.kr/BP?command=article_view&num=355822",
+                                "https://biz.heraldcorp.com/view.php?ud=20240617050050")));
     }
 
     // Company

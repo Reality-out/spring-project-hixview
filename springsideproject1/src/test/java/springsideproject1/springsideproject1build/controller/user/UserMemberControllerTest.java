@@ -41,14 +41,6 @@ class UserMemberControllerTest {
         resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    @DisplayName("로그인 페이지 접속")
-    @Test
-    public void accessLoginPage() throws Exception {
-        mockMvc.perform(get("/login"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("user/loginPage"));
-    }
-
     @DisplayName("회원가입 페이지 접속")
     @Test
     public void accessMembershipPage() throws Exception {
