@@ -101,7 +101,7 @@ public class CompanyArticleService {
 
     @Transactional
     private List<List<String>> parseArticleString(String articleString) {
-        List<String> dividedArticle = List.of(articleString.split("\\\\n"));
+        List<String> dividedArticle = List.of(articleString.split("\\R"));
         List<List<String>> returnArticle = new ArrayList<>();
         List<String> tempArticle = new ArrayList<>();
 
@@ -109,7 +109,9 @@ public class CompanyArticleService {
             if (i % 2 == 0) {
                 tempArticle.add(dividedArticle.get(i));
             } else {
-                Collections.addAll(tempArticle, dividedArticle.get(i).replaceAll("^\\(|\\)$", "").split(", "));
+                Collections.addAll(tempArticle, dividedArticle.get(i)
+                        .replaceAll("^\\(|\\)$", "").split(", "));
+
                 returnArticle.add(new ArrayList<>() {{
                         add(tempArticle.get(0));
                         addAll(List.of(tempArticle.get(1).split("-")));

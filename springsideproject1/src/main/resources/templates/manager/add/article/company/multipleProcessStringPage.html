@@ -4,12 +4,18 @@
 <body>
     <form action="/manager/article/add/multiple/string" th:action method="POST">
         <div>
-            <label for="subjectCompany">대상 기업</label>
-            <input type="text" id="subjectCompany" name="subjectCompany">
-            <label for="articleString">단일 기사</label>
-            <input type="text" id="articleString" name="articleString">
-            <label for="linkString">단일 링크</label>
-            <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+            <div>
+                <label for="subjectCompany">대상 기업</label>
+                <input type="text" id="subjectCompany" name="subjectCompany">
+            </div>
+            <div>
+                <label for="articleString">단일 기사</label>
+                <textarea id="articleString" name="articleString" spellcheck="false" wrap="soft"></textarea>
+            </div>
+            <div>
+                <label for="linkString">단일 링크</label>
+                <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+            </div>
         </div>
         <button type="submit">등록</button>
     </form>
