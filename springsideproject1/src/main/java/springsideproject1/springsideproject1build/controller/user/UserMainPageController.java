@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import static springsideproject1.springsideproject1build.config.FolderConfig.USER_BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.FolderConfig.BASIC_LAYOUT_PATH;
 
 @Controller
 public class UserMainPageController {
@@ -17,7 +17,7 @@ public class UserMainPageController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String mainPage(Model model) {
-        model.addAttribute("layoutPath", USER_BASIC_LAYOUT_PATH);
+        model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
         return "user/mainPage";
     }
 

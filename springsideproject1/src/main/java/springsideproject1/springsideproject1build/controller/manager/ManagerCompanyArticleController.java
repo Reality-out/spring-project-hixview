@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
@@ -14,7 +15,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.config.FolderConfig.MANAGER_PROCESS_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.FolderConfig.FINISH_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.FolderConfig.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
 import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
 
@@ -32,20 +34,23 @@ public class ManagerCompanyArticleController {
     @GetMapping("/add/single")
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleArticle(Model model) {
-        model.addAttribute("layoutPath", MANAGER_PROCESS_ADD_COMPANY_ARTICLE_PATH);
+        model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return MANAGER_ADD_COMPANY_ARTICLE + "singleProcessPage";
     }
 
     @GetMapping("/add/single/finish")
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddSingleArticle() {
+    public String finishAddSingleArticle(@RequestParam String name, Model model) {
+        model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
+        model.addAttribute("name", name);
         return MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage";
     }
 
     @PostMapping("/add/single")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleArticle(String name, String press, String subjectCompany, String link,
-                                         int year, int month, int date, Integer importance) {
+    public String submitAddSingleArticle(RedirectAttributes redirect,
+            String name, String press, String subjectCompany, String link, int year, int month, int date, Integer importance) {
+        redirect.addAttribute("name", name);
         articleService.joinArticle(new CompanyArticle.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
         return "redirect:single/finish";
@@ -57,7 +62,7 @@ public class ManagerCompanyArticleController {
     @GetMapping("/add/multiple/string")
     @ResponseStatus(HttpStatus.OK)
     public String processAddMultipleArticleUsingString(Model model) {
-        model.addAttribute("layoutPath", MANAGER_PROCESS_ADD_COMPANY_ARTICLE_PATH);
+        model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return MANAGER_ADD_COMPANY_ARTICLE + "multipleProcessStringPage";
     }
 

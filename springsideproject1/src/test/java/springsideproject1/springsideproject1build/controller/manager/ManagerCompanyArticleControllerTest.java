@@ -73,7 +73,8 @@ class ManagerCompanyArticleControllerTest {
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther());
 
-        mockMvc.perform(get("/manager/article/add/single/finish"))
+        mockMvc.perform(get("/manager/article/add/single/finish")
+                        .param("name", article.getName()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage"));
     }
