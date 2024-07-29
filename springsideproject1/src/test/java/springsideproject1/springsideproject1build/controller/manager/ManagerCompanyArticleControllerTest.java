@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.*;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_ADD_COMPANY_ARTICLE;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
 
 @SpringBootTest
 @AutoConfigureMockMvc

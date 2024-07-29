@@ -10,12 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 
 @SpringBootTest
 @Transactional

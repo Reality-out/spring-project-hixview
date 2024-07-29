@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.USER_CREATE_MEMBERSHIP;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.USER_CREATE_MEMBERSHIP;
 
 @Controller
 @RequiredArgsConstructor

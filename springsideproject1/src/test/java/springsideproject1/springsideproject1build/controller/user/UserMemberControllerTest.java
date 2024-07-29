@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.*;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.USER_CREATE_MEMBERSHIP;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.USER_CREATE_MEMBERSHIP;
 
 @SpringBootTest
 @AutoConfigureMockMvc

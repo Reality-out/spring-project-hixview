@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_MEMBER_ID;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_MEMBER_WITH_THAT_ID;
 
 @SpringBootTest
 @Transactional

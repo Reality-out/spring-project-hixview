@@ -17,10 +17,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static springsideproject1.springsideproject1build.Utility.decodeUTF8;
-import static springsideproject1.springsideproject1build.config.FolderConfig.FINISH_ADD_COMPANY_ARTICLE_PATH;
-import static springsideproject1.springsideproject1build.config.FolderConfig.PROCESS_ADD_COMPANY_ARTICLE_PATH;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_ADD_COMPANY_ARTICLE;
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_ADD_COMPANY_ARTICLE;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
 
 @Controller
 @RequestMapping("/manager/article")

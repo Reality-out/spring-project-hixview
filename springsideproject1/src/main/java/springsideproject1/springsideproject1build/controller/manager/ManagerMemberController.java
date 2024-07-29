@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import static springsideproject1.springsideproject1build.config.ViewNameConfig.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
 
 @Controller
 @RequestMapping("/manager/member")

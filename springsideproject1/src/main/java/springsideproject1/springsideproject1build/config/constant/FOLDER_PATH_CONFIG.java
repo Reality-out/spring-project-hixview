@@ -1,6 +1,6 @@
-package springsideproject1.springsideproject1build.config;
+package springsideproject1.springsideproject1build.config.constant;
 
-public class FolderConfig {
+public class FOLDER_PATH_CONFIG {
     /**
      * Layout
      */

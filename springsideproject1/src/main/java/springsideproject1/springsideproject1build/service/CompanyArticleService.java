@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.Utility.ALREADY_EXIST_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.Utility.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 
 @Service
 @RequiredArgsConstructor
