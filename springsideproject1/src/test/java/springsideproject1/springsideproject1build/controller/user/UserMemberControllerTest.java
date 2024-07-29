@@ -16,8 +16,7 @@ import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MEMBERSHIP_VIEW_NAME;
 
@@ -59,7 +58,8 @@ class UserMemberControllerTest {
                         .param("id", member.getId())
                         .param("password", member.getPassword())
                         .param("name", member.getName()))
-                .andExpect(status().isSeeOther());
+                .andExpect(status().isSeeOther())
+                .andExpect(redirectedUrl("/membership/succeed"));
 
         mockMvc.perform(get("/membership/succeed"))
                 .andExpect(status().isOk())

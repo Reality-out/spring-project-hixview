@@ -14,6 +14,7 @@ import springsideproject1.springsideproject1build.service.CompanyService;
 
 import javax.sql.DataSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.Utility.*;
@@ -61,10 +62,13 @@ class UserCompanyControllerTest {
         companyService.joinCompany(company);
 
         // then
-        mockMvc.perform(get("/company/" + company.getCode()))
+        assertThat(mockMvc.perform(get("/company/" + company.getCode()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/company/showPage"))
-                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
+                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH))
+                .andReturn().getModelAndView().getModelMap().get("company"))
+                .usingRecursiveComparison()
+                .isEqualTo(company);
     }
 
     @DisplayName("기업 이름으로 검색")
@@ -77,9 +81,12 @@ class UserCompanyControllerTest {
         companyService.joinCompany(company);
 
         // then
-        mockMvc.perform(get("/company/" + company.getName()))
+        assertThat(mockMvc.perform(get("/company/" + company.getName()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user/company/showPage"))
-                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
+                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH))
+                .andReturn().getModelAndView().getModelMap().get("company"))
+                .usingRecursiveComparison()
+                .isEqualTo(company);
     }
 }

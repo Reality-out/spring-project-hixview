@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.service.MemberService;
 
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_REDIRECT_PREFIX;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MEMBERSHIP_VIEW_NAME;
 
 @Controller
@@ -45,6 +46,6 @@ public class UserMemberController {
                 .name(name)
                 .build());
 
-        return "redirect:membership/succeed";
+        return URL_REDIRECT_PREFIX + "/membership/succeed";
     }
 }

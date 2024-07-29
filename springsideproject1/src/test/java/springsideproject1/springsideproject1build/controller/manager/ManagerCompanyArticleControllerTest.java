@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.ADD_COMPANY_ARTICLE_VIEW_NAME;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
 
@@ -53,7 +54,7 @@ class ManagerCompanyArticleControllerTest {
     @DisplayName("단일 기사 등록 페이지 접속")
     @Test
     public void accessArticleRegisterPage() throws Exception {
-        mockMvc.perform(get("/manager/article/add/single"))
+        mockMvc.perform(get(ADD_SINGLE_ARTICLE_URL))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "singleProcessPage"))
                 .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
@@ -66,7 +67,7 @@ class ManagerCompanyArticleControllerTest {
         CompanyArticle article = createTestArticle();
 
         // then
-        mockMvc.perform(post("/manager/article/add/single")
+        mockMvc.perform(post(ADD_SINGLE_ARTICLE_URL)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", article.getName())
                         .param("press", article.getPress())
@@ -77,9 +78,11 @@ class ManagerCompanyArticleControllerTest {
                         .param("date", String.valueOf(article.getDate().getDayOfMonth()))
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther())
+                .andExpect(redirectedUrl(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX +
+                        "?name=" + URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)))
                 .andExpect(model().attribute("name", article.getName()));
 
-        mockMvc.perform(get("/manager/article/add/single/finish")
+        mockMvc.perform(get(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX)
                         .param("name", article.getName()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "singleFinishPage"))
@@ -90,7 +93,7 @@ class ManagerCompanyArticleControllerTest {
     @DisplayName("단일 문자열을 사용하는 기사 등록 페이지 접속")
     @Test
     public void StringArticleRegisterPage() throws Exception {
-        mockMvc.perform(get("/manager/article/add/multiple/string"))
+        mockMvc.perform(get(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleProcessStringPage"))
                 .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
@@ -107,14 +110,14 @@ class ManagerCompanyArticleControllerTest {
         articleService.removeArticle(createTestNewArticle().getName());
 
         // then
-        mockMvc.perform(post("/manager/article/add/multiple/string")
+        mockMvc.perform(post(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("subjectCompany", articleString.getFirst())
                         .param("articleString", articleString.get(1))
                         .param("linkString", articleString.getLast()))
                 .andExpect(status().isSeeOther());
 
-        mockMvc.perform(get("/manager/article/add/multiple/string/finish")
+        mockMvc.perform(get(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
                         .param("nameList", nameList.toString()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage"))
@@ -124,7 +127,7 @@ class ManagerCompanyArticleControllerTest {
     @DisplayName("단일 기사 삭제 페이지 접속")
     @Test
     public void accessArticleRemovePage() throws Exception {
-        mockMvc.perform(get("/manager/article/remove")
+        mockMvc.perform(get(REMOVE_ARTICLE_URL)
                         .param("dataTypeKor", "기사")
                         .param("dataTypeEng", "article")
                         .param("key", "name"))
@@ -146,12 +149,14 @@ class ManagerCompanyArticleControllerTest {
         articleService.joinArticle(article);
 
         // then
-        mockMvc.perform(post("/manager/article/remove")
+        mockMvc.perform(post(REMOVE_ARTICLE_URL)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", name))
-                .andExpect(status().isSeeOther());
+                .andExpect(status().isSeeOther())
+                .andExpect(redirectedUrl(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX +
+                        "?name=" + URLEncoder.encode(name, StandardCharsets.UTF_8)));
 
-        mockMvc.perform(get("/manager/article/remove/finish")
+        mockMvc.perform(get(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX)
                         .param("name", URLEncoder.encode(name, StandardCharsets.UTF_8)))
                 .andExpect(status().isOk())
                 .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "finishPage"))
