@@ -9,6 +9,9 @@ import springsideproject1.springsideproject1build.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.Utility.ALREADY_EXIST_MEMBER_ID;
+import static springsideproject1.springsideproject1build.Utility.NO_MEMBER_WITH_THAT_ID;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -56,7 +59,7 @@ public class MemberService {
     @Transactional
     public void removeMember(String memberID) {
         memberRepository.findMemberByID(memberID).orElseThrow(
-                () -> new IllegalStateException("해당 ID와 일치하는 회원이 없습니다.")
+                () -> new IllegalStateException(NO_MEMBER_WITH_THAT_ID)
         );
 
         memberRepository.removeMemberByID(memberID);
@@ -65,7 +68,7 @@ public class MemberService {
     @Transactional
     private void duplicateIDCheck(Member member) {
         memberRepository.findMemberByID(member.getId()).ifPresent(
-                v -> {throw new IllegalStateException("이미 존재하는 ID입니다.");}
+                v -> {throw new IllegalStateException(ALREADY_EXIST_MEMBER_ID);}
         );
     }
 }

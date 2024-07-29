@@ -40,6 +40,12 @@ public class Utility {
     public static final String ALREADY_EXIST_COMPANY_CODE = "이미 존재하는 코드 번호입니다.";
     public static final String NO_COMPANY_WITH_THAT_CODE = "해당 코드 번호와 일치하는 기업이 없습니다.";
 
+    /*
+     * Member
+     */
+    public static final String ALREADY_EXIST_MEMBER_ID = "이미 존재하는 ID입니다.";
+    public static final String NO_MEMBER_WITH_THAT_ID = "해당 ID와 일치하는 회원이 없습니다.";
+
     /**
      * Decoder
      */

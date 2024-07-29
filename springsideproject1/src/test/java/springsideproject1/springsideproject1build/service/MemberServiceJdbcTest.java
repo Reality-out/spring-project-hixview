@@ -61,7 +61,7 @@ class MemberServiceJdbcTest {
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.joinMember(member2));
-        assertThat(e.getMessage()).isEqualTo("이미 존재하는 ID입니다.");
+        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_MEMBER_ID);
     }
 
     @DisplayName("잘못된 ID를 통한 회원 삭제")
@@ -69,6 +69,6 @@ class MemberServiceJdbcTest {
     public void removeByFaultID() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.removeMember("NoneID123"));
-        assertThat(e.getMessage()).isEqualTo("해당 ID와 일치하는 회원이 없습니다.");
+        assertThat(e.getMessage()).isEqualTo(NO_MEMBER_WITH_THAT_ID);
     }
 }
