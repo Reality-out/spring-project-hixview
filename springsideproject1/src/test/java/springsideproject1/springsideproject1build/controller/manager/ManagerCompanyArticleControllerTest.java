@@ -25,8 +25,7 @@ import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.ADD_COMPANY_ARTICLE_VIEW_NAME;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -132,7 +131,7 @@ class ManagerCompanyArticleControllerTest {
                         .param("dataTypeEng", "article")
                         .param("key", "name"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "processPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
                 .andExpect(model().attribute("dataTypeEng", "article"))
                 .andExpect(model().attribute("key", "name"));
@@ -159,7 +158,7 @@ class ManagerCompanyArticleControllerTest {
         mockMvc.perform(get(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX)
                         .param("name", URLEncoder.encode(name, StandardCharsets.UTF_8)))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "finishPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
                 .andExpect(model().attribute("key", "제목"))
                 .andExpect(model().attribute("value", name));

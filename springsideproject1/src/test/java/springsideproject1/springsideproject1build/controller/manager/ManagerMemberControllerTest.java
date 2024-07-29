@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.REMOVE_MEMBER_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -59,7 +59,7 @@ class ManagerMemberControllerTest {
     public void accessMembershipWithdrawPage() throws Exception {
         mockMvc.perform(get(REMOVE_MEMBER_URL))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/remove/processPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "회원"))
                 .andExpect(model().attribute("dataTypeEng", "member"))
                 .andExpect(model().attribute("key", "id"));
@@ -86,7 +86,7 @@ class ManagerMemberControllerTest {
         mockMvc.perform(get(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
                         .param("id", id))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "finishPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "회원"))
                 .andExpect(model().attribute("key", "id"))
                 .andExpect(model().attribute("value", id));

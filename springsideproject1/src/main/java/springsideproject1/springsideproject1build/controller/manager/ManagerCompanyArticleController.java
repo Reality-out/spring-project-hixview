@@ -20,8 +20,7 @@ import static springsideproject1.springsideproject1build.Utility.decodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.ADD_COMPANY_ARTICLE_VIEW_NAME;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -94,7 +93,7 @@ public class ManagerCompanyArticleController {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("dataTypeEng", "article");
         model.addAttribute("key", "name");
-        return MANAGER_REMOVE_VIEW_NAME + "processPage";
+        return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX)
@@ -103,7 +102,7 @@ public class ManagerCompanyArticleController {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("key", "제목");
         model.addAttribute("value", URLDecoder.decode(name, StandardCharsets.UTF_8));
-        return MANAGER_REMOVE_VIEW_NAME + "finishPage";
+        return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
     }
 
     @PostMapping(REMOVE_ARTICLE_URL)

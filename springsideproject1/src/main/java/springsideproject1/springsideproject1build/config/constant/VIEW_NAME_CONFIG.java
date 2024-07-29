@@ -16,6 +16,12 @@ public class VIEW_NAME_CONFIG {
     /**
      * Manager
      */
+
+    // Suffix
+    public static String VIEW_NAME_PROCESS_SUFFIX = "processPage";
+    public static String VIEW_NAME_FINISH_SUFFIX = "finishPage";
+
+    // Others
     public static String ADD_COMPANY_ARTICLE_VIEW_NAME = "manager/add/article/company/";
     public static String MANAGER_REMOVE_VIEW_NAME = "manager/remove/";
 }
