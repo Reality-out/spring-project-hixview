@@ -39,10 +39,10 @@ public class UserCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String companyLookUp(
             @PathVariable String nameOrCode, Model model) {
+        model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
         model.addAttribute("company", (isNumeric(nameOrCode)) ?
                 companyService.SearchOneCompanyByCode(nameOrCode).get() :
                 companyService.SearchOneCompanyByName(nameOrCode).get());
-        model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
         return "user/company/showCompanyPage";
     }
 }

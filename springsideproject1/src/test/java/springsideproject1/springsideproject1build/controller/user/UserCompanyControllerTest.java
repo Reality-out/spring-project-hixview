@@ -15,9 +15,9 @@ import springsideproject1.springsideproject1build.service.CompanyService;
 import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,7 +47,8 @@ class UserCompanyControllerTest {
     public void accessCompanyPage() throws Exception {
         mockMvc.perform(get("/company"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/company/subPage"));
+                .andExpect(view().name("user/company/subPage"))
+                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("기업 코드로 검색")
@@ -62,7 +63,8 @@ class UserCompanyControllerTest {
         // then
         mockMvc.perform(get("/company/" + company.getCode()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/company/showCompanyPage"));
+                .andExpect(view().name("user/company/showCompanyPage"))
+                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("기업 이름으로 검색")
@@ -77,6 +79,7 @@ class UserCompanyControllerTest {
         // then
         mockMvc.perform(get("/company/" + company.getName()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/company/showCompanyPage"));
+                .andExpect(view().name("user/company/showCompanyPage"))
+                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 }

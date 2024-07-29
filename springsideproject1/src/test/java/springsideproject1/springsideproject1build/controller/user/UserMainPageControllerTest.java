@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,7 +33,8 @@ class UserMainPageControllerTest {
     public void accessMainPage() throws Exception {
         mockMvc.perform(get(""))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/mainPage"));
+                .andExpect(view().name("user/mainPage"))
+                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("로그인 페이지 접속")

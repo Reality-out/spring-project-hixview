@@ -17,8 +17,7 @@ import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
 
@@ -56,12 +55,12 @@ class ManagerMemberControllerTest {
     @DisplayName("회원 탈퇴 페이지 접속")
     @Test
     public void accessMembershipWithdrawPage() throws Exception {
-        mockMvc.perform(get("/manager/member/remove")
-                        .param("dataTypeKor", "회원")
-                        .param("dataTypeEng", "member")
-                        .param("key", "id"))
+        mockMvc.perform(get("/manager/member/remove"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/remove/processPage"));
+                .andExpect(view().name("manager/remove/processPage"))
+                .andExpect(model().attribute("dataTypeKor", "회원"))
+                .andExpect(model().attribute("dataTypeEng", "member"))
+                .andExpect(model().attribute("key", "id"));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")
@@ -84,6 +83,9 @@ class ManagerMemberControllerTest {
         mockMvc.perform(get("/manager/member/remove/finish")
                         .param("id", id))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE + "finishPage"));
+                .andExpect(view().name(MANAGER_REMOVE + "finishPage"))
+                .andExpect(model().attribute("dataTypeKor", "회원"))
+                .andExpect(model().attribute("key", "id"))
+                .andExpect(model().attribute("value", id));
     }
 }
