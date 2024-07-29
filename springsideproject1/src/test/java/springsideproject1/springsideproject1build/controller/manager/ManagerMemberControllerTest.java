@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.Utility.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -83,7 +83,7 @@ class ManagerMemberControllerTest {
         mockMvc.perform(get("/manager/member/remove/finish")
                         .param("id", id))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE + "finishPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "finishPage"))
                 .andExpect(model().attribute("dataTypeKor", "회원"))
                 .andExpect(model().attribute("key", "id"))
                 .andExpect(model().attribute("value", id));

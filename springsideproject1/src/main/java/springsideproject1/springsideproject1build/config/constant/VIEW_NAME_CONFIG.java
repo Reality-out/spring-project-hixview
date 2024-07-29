@@ -4,11 +4,18 @@ public class VIEW_NAME_CONFIG {
     /**
      * User
      */
-    public static String USER_CREATE_MEMBERSHIP = "user/membership/";
+
+    // Suffix
+    public static String VIEW_NAME_SUB_SUFFIX = "subPage";
+    public static String VIEW_NAME_SHOW_SUFFIX = "showPage";
+
+    // Others
+    public static String MEMBERSHIP_VIEW_NAME = "user/membership/";
+    public static String USER_COMPANY_VIEW_NAME = "user/company/";
 
     /**
      * Manager
      */
-    public static String MANAGER_ADD_COMPANY_ARTICLE = "manager/add/article/company/";
-    public static String MANAGER_REMOVE = "manager/remove/";
+    public static String ADD_COMPANY_ARTICLE_VIEW_NAME = "manager/add/article/company/";
+    public static String MANAGER_REMOVE_VIEW_NAME = "manager/remove/";
 }

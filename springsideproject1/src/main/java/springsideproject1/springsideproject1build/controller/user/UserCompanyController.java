@@ -13,6 +13,7 @@ import springsideproject1.springsideproject1build.service.CompanyService;
 
 import static springsideproject1.springsideproject1build.Utility.isNumeric;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @Controller
 @RequestMapping("/company")
@@ -29,7 +30,7 @@ public class UserCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String companySubPage(Model model) {
         model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
-        return "user/company/subPage";
+        return USER_COMPANY_VIEW_NAME + VIEW_NAME_SUB_SUFFIX;
     }
 
     /**
@@ -43,6 +44,6 @@ public class UserCompanyController {
         model.addAttribute("company", (isNumeric(nameOrCode)) ?
                 companyService.SearchOneCompanyByCode(nameOrCode).get() :
                 companyService.SearchOneCompanyByName(nameOrCode).get());
-        return "user/company/showCompanyPage";
+        return USER_COMPANY_VIEW_NAME + VIEW_NAME_SHOW_SUFFIX;
     }
 }

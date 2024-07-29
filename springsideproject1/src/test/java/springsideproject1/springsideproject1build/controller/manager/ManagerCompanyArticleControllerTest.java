@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_ADD_COMPANY_ARTICLE;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.ADD_COMPANY_ARTICLE_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -55,7 +55,7 @@ class ManagerCompanyArticleControllerTest {
     public void accessArticleRegisterPage() throws Exception {
         mockMvc.perform(get("/manager/article/add/single"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "singleProcessPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "singleProcessPage"))
                 .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -82,7 +82,7 @@ class ManagerCompanyArticleControllerTest {
         mockMvc.perform(get("/manager/article/add/single/finish")
                         .param("name", article.getName()))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "singleFinishPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
                 .andExpect(model().attribute("name", article.getName()));
     }
@@ -92,7 +92,7 @@ class ManagerCompanyArticleControllerTest {
     public void StringArticleRegisterPage() throws Exception {
         mockMvc.perform(get("/manager/article/add/multiple/string"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "multipleProcessStringPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleProcessStringPage"))
                 .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -117,7 +117,7 @@ class ManagerCompanyArticleControllerTest {
         mockMvc.perform(get("/manager/article/add/multiple/string/finish")
                         .param("nameList", nameList.toString()))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_ADD_COMPANY_ARTICLE + "multipleFinishStringPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -129,7 +129,7 @@ class ManagerCompanyArticleControllerTest {
                         .param("dataTypeEng", "article")
                         .param("key", "name"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE + "processPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "processPage"))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
                 .andExpect(model().attribute("dataTypeEng", "article"))
                 .andExpect(model().attribute("key", "name"));
@@ -154,7 +154,7 @@ class ManagerCompanyArticleControllerTest {
         mockMvc.perform(get("/manager/article/remove/finish")
                         .param("name", URLEncoder.encode(name, StandardCharsets.UTF_8)))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE + "finishPage"))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + "finishPage"))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
                 .andExpect(model().attribute("key", "제목"))
                 .andExpect(model().attribute("value", name));

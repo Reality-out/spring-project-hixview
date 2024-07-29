@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.Utility.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.USER_CREATE_MEMBERSHIP;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MEMBERSHIP_VIEW_NAME;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,7 +46,7 @@ class UserMemberControllerTest {
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get("/membership"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_CREATE_MEMBERSHIP + "createPage"));
+                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + "createPage"));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
@@ -63,6 +63,6 @@ class UserMemberControllerTest {
 
         mockMvc.perform(get("/membership/succeed"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_CREATE_MEMBERSHIP + "succeedPage"));
+                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + "succeedPage"));
     }
 }

@@ -8,10 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
 
 @Controller
-@RequestMapping("/manager/member")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class ManagerMemberController {
 
@@ -21,7 +22,7 @@ public class ManagerMemberController {
     /**
      * Select
      */
-    @GetMapping("/all")
+    @GetMapping("/manager/member/all")
     @ResponseStatus(HttpStatus.OK)
     public String ShowMemberList(Model model) {
         model.addAttribute("members", memberService.findMembers());
@@ -31,28 +32,28 @@ public class ManagerMemberController {
     /**
      * Remove
      */
-    @GetMapping("/remove")
+    @GetMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
     public String createMemberWithdraw(Model model) {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("dataTypeEng", "member");
         model.addAttribute("key", "id");
-        return MANAGER_REMOVE + "processPage";
+        return MANAGER_REMOVE_VIEW_NAME + "processPage";
     }
 
-    @GetMapping("/remove/finish")
+    @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishMemberWithdraw(@RequestParam String id, Model model) {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("key", "id");
         model.addAttribute("value", id);
-        return MANAGER_REMOVE + "finishPage";
+        return MANAGER_REMOVE_VIEW_NAME + "finishPage";
     }
 
-    @PostMapping("/remove")
+    @PostMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String removeMemberWithForm(@RequestParam String id) {
         memberService.removeMember(id);
-        return "redirect:remove/finish?id=" + id;
+        return URL_REDIRECT_PREFIX + REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?id=" + id;
     }
 }

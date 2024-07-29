@@ -19,11 +19,11 @@ import java.util.List;
 import static springsideproject1.springsideproject1build.Utility.decodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_ADD_COMPANY_ARTICLE;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.ADD_COMPANY_ARTICLE_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
 
 @Controller
-@RequestMapping("/manager/article")
 @RequiredArgsConstructor
 public class ManagerCompanyArticleController {
 
@@ -33,82 +33,83 @@ public class ManagerCompanyArticleController {
     /**
      * Add - Single
      */
-    @GetMapping("/add/single")
+    @GetMapping(ADD_SINGLE_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleArticle(Model model) {
         model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
-        return MANAGER_ADD_COMPANY_ARTICLE + "singleProcessPage";
+        return ADD_COMPANY_ARTICLE_VIEW_NAME + "singleProcessPage";
     }
 
-    @GetMapping("/add/single/finish")
+    @GetMapping(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleArticle(@RequestParam String name, Model model) {
         model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
         model.addAttribute("name", name);
-        return MANAGER_ADD_COMPANY_ARTICLE + "singleFinishPage";
+        return ADD_COMPANY_ARTICLE_VIEW_NAME + "singleFinishPage";
     }
 
-    @PostMapping("/add/single")
+    @PostMapping(ADD_SINGLE_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddSingleArticle(RedirectAttributes redirect,
             String name, String press, String subjectCompany, String link, int year, int month, int date, Integer importance) {
         redirect.addAttribute("name", name);
         articleService.joinArticle(new CompanyArticle.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
-        return "redirect:single/finish";
+        return URL_REDIRECT_PREFIX + ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
     /**
      * Add - Multiple
      */
-    @GetMapping("/add/multiple/string")
+    @GetMapping(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processAddMultipleArticleUsingString(Model model) {
         model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
-        return MANAGER_ADD_COMPANY_ARTICLE + "multipleProcessStringPage";
+        return ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleProcessStringPage";
     }
 
-    @GetMapping("/add/multiple/string/finish")
+    @GetMapping(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddMultipleArticleUsingString(@RequestParam List<String> nameList, Model model) {
         model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
         model.addAttribute("nameList", decodeUTF8(nameList));
-        return MANAGER_ADD_COMPANY_ARTICLE + "multipleFinishStringPage";
+        return ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage";
     }
 
-    @PostMapping("/add/multiple/string")
+    @PostMapping(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddMultipleArticleUsingString(RedirectAttributes redirect,
             @RequestParam String subjectCompany, @RequestParam String articleString, @RequestParam String linkString) {
         redirect.addAttribute("nameList",
                 articleService.joinArticlesWithString(subjectCompany, articleString, linkString));
-        return "redirect:string/finish";
+        return URL_REDIRECT_PREFIX + ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
 
     /**
      * Remove - Single
      */
-    @GetMapping("/remove")
+    @GetMapping(REMOVE_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processArticleRemove(Model model) {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("dataTypeEng", "article");
         model.addAttribute("key", "name");
-        return MANAGER_REMOVE + "processPage";
+        return MANAGER_REMOVE_VIEW_NAME + "processPage";
     }
 
-    @GetMapping("/remove/finish")
+    @GetMapping(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishArticleRemove(@RequestParam String name, Model model) {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("key", "제목");
         model.addAttribute("value", URLDecoder.decode(name, StandardCharsets.UTF_8));
-        return MANAGER_REMOVE + "finishPage";
+        return MANAGER_REMOVE_VIEW_NAME + "finishPage";
     }
 
-    @PostMapping("/remove")
+    @PostMapping(REMOVE_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRemoveSingleArticle(@RequestParam String name) {
-        return "redirect:remove/finish?name=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
+        return URL_REDIRECT_PREFIX + REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX +
+                "?name=" + URLEncoder.encode(name, StandardCharsets.UTF_8);
     }
 }
