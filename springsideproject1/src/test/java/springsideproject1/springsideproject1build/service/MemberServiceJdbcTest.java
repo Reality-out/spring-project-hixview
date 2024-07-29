@@ -42,7 +42,7 @@ class MemberServiceJdbcTest {
         Member member = createTestMember();
 
         // when
-        memberService.joinMember(member);
+        member = memberService.joinMember(member);
 
         // then
         assertThat(memberService.findMembers().getFirst()).usingRecursiveComparison().isEqualTo(member);

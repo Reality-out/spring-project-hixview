@@ -39,13 +39,11 @@ public class UserMemberController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMembership(@RequestParam String id, @RequestParam String password, @RequestParam String name) {
 
-        Member member = new Member.MemberBuilder()
+        memberService.joinMember(new Member.MemberBuilder()
                 .id(id)
                 .password(password)
                 .name(name)
-                .build();
-
-        memberService.joinMember(member);
+                .build());
 
         return "redirect:membership/succeed";
     }

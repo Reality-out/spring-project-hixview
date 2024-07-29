@@ -44,10 +44,11 @@ public class MemberService {
      * INSERT One Member
      */
     @Transactional
-    public void joinMember(Member member) {
+    public Member joinMember(Member member) {
         duplicateIDCheck(member);
         Long memberIdentifier = memberRepository.saveMember(member);
-        member = new Member.MemberBuilder()
+
+        return new Member.MemberBuilder()
                 .member(member)
                 .identifier(memberIdentifier)
                 .build();
