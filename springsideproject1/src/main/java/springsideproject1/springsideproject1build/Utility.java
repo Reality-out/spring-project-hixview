@@ -168,7 +168,6 @@ public class Utility {
     // Member
     public static Member createTestMember() {
         return new Member.MemberBuilder()
-                .identifier(1L)
                 .id("ABcd1234!")
                 .password("EFgh1234!")
                 .name("박진하")
@@ -177,7 +176,6 @@ public class Utility {
 
     public static Member createTestNewMember() {
         return new Member.MemberBuilder()
-                .identifier(2L)
                 .id("abCD4321!")
                 .password("OPqr4321!")
                 .name("박하진")

@@ -46,7 +46,10 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findAllMembers()).usingRecursiveComparison().isEqualTo(List.of(member1, member2));
+        assertThat(memberRepository.findAllMembers())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(List.of(member1, member2));
     }
 
     @DisplayName("멤버 식별자로 찾기")
@@ -61,8 +64,14 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByIdentifier(1L).get()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.findMemberByIdentifier(2L).get()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.findMemberByIdentifier(1L).get())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member1);
+        assertThat(memberRepository.findMemberByIdentifier(2L).get())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member2);
     }
 
     @DisplayName("멤버 ID로 찾기")
@@ -77,8 +86,14 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByID(member1.getId()).get()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.findMemberByID(member2.getId()).get()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.findMemberByID(member1.getId()).get())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member1);
+        assertThat(memberRepository.findMemberByID(member2.getId()).get())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member2);
     }
 
     @DisplayName("멤버 이름으로 찾기")
@@ -93,8 +108,14 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName(member1.getName()).getFirst()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.findMemberByName(member2.getName()).getFirst()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.findMemberByName(member1.getName()).getFirst())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member1);
+        assertThat(memberRepository.findMemberByName(member2.getName()).getFirst())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member2);
     }
 
     @DisplayName("이름이 중복되는 멤버 모두 찾기")
@@ -115,7 +136,8 @@ class MemberRepositoryJdbcTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName(commonName)).usingRecursiveComparison()
+        assertThat(memberRepository.findMemberByName(commonName))
+                .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(List.of(member1, member2));
     }
@@ -131,7 +153,9 @@ class MemberRepositoryJdbcTest {
 
         // then
         assertThat(memberRepository.findMemberByName(member.getName()).getFirst())
-                .usingRecursiveComparison().isEqualTo(member);
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member);
     }
 
     @DisplayName("멤버 ID로 제거하기")

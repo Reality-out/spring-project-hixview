@@ -15,6 +15,9 @@ import springsideproject1.springsideproject1build.service.MemberService;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,9 +52,21 @@ class ManagerMemberControllerTest {
     @DisplayName("멤버 리스트 페이지 접속")
     @Test
     public void accessMembersPage() throws Exception {
-        mockMvc.perform(get("/manager/member/all"))
+        // given
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
+
+        // when
+        member1 = memberService.joinMember(member1);
+        member2 = memberService.joinMember(member2);
+
+        // then
+        assertThat(mockMvc.perform(get("/manager/member/all"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("manager/select/membersPage"));
+                .andExpect(view().name("manager/select/membersPage"))
+                .andReturn().getModelAndView().getModelMap().get("members"))
+                .usingRecursiveComparison()
+                .isEqualTo(List.of(member1, member2));
     }
 
     @DisplayName("회원 탈퇴 페이지 접속")
