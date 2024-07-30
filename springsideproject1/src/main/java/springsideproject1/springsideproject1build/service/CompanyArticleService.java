@@ -7,10 +7,7 @@ import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
@@ -107,22 +104,13 @@ public class CompanyArticleService {
     private List<List<String>> parseArticleString(String articleString) {
         List<String> dividedArticle = List.of(articleString.split("\\R"));
         List<List<String>> returnArticle = new ArrayList<>();
-        List<String> tempArticle = new ArrayList<>();
 
         for (int i = 0; i < dividedArticle.size(); i++) {
             if (i % 2 == 0) {
-                tempArticle.add(dividedArticle.get(i));
+                returnArticle.add(new ArrayList<>(List.of(dividedArticle.get(i))));
             } else {
-                Collections.addAll(tempArticle, dividedArticle.get(i)
-                        .replaceAll("^\\(|\\)$", "").split(", "));
-
-                returnArticle.add(new ArrayList<>() {{
-                        add(tempArticle.get(0));
-                        addAll(List.of(tempArticle.get(1).split("-")));
-                        add(tempArticle.get(2));
-                    }}
-                );
-                tempArticle.clear();
+                returnArticle.getLast().addAll(Arrays.asList(dividedArticle.get(i)
+                        .replaceAll("^\\(|\\)$", "").split(",\\s|-")));
             }
         }
         return returnArticle;
