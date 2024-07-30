@@ -8,12 +8,13 @@ import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.Member;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class Utility {
@@ -27,14 +28,29 @@ public class Utility {
     public static final String memberTable = "testmembers";
 
     /**
-     * Decoder
+     * Convert
      */
-    public static List<String> decodeUTF8(List<String> source) {
-        List<String> returnList = new ArrayList<>();
-        for (String s : source) {
-            returnList.add(URLDecoder.decode(s, StandardCharsets.UTF_8));
-        }
-        return returnList;
+    public static String toStringForUrl(List<?> list) {
+        Pattern pattern = Pattern.compile("[\\[\\] ]"); // Regex pattern for [, ], and space
+        return Pattern.compile("").splitAsStream(list.toString())
+                .filter(c -> !pattern.matcher(c).matches())
+                .collect(Collectors.joining());
+    }
+
+    /**
+     * Decode
+     */
+    public static List<String> decodeUTF8(List<String> list) {
+        list.replaceAll(s -> URLDecoder.decode(s, StandardCharsets.UTF_8));
+        return list;
+    }
+
+    /**
+     * Encode
+     */
+    public static List<String> encodeUTF8(List<String> list) {
+        list.replaceAll(s -> URLEncoder.encode(s, StandardCharsets.UTF_8));
+        return list;
     }
 
     /**
@@ -78,6 +94,7 @@ public class Utility {
     /**
      * Test
      */
+
     // CompanyArticle
     public static CompanyArticle createTestArticle() {
         return new CompanyArticle.ArticleBuilder()
@@ -167,7 +184,7 @@ public class Utility {
                 .build();
     }
 
-    // General-Purpose
+    // BeforeEach-Only
     public static void resetTable(JdbcTemplate jdbcTemplateTest, String tableName) {
         resetTable(jdbcTemplateTest, tableName, false);
     }
@@ -180,7 +197,7 @@ public class Utility {
     }
 
     /**
-     * Validation
+     * Validate
      */
     public static boolean isNumeric(String string) {
         return Pattern.matches("[0-9]+", string);

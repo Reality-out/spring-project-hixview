@@ -6,15 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
+import static springsideproject1.springsideproject1build.Utility.encodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 
@@ -63,7 +63,6 @@ public class CompanyArticleService {
     public List<String> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<String> linkList = parseLinkString(linkString);
-        List<String> nameList = new ArrayList<>();
 
         for (int i = 0; i < linkList.size(); i++){
             List<String> partialArticle = partialArticleLists.get(i);
@@ -77,10 +76,9 @@ public class CompanyArticleService {
                             parseInt(partialArticle.get(3))))
                     .importance(0)
                     .build());
-
-            nameList.add(URLEncoder.encode(partialArticle.get(0), StandardCharsets.UTF_8));
         }
-        return nameList;
+
+        return encodeUTF8(partialArticleLists.stream().map(List::getFirst).collect(Collectors.toList()));
     }
 
     /**

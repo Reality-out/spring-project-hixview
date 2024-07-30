@@ -18,6 +18,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -108,18 +109,26 @@ class ManagerCompanyArticleControllerTest {
         articleService.removeArticle(createTestNewArticle().getName());
 
         // then
-        mockMvc.perform(post(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
+        String nameListForURL = toStringForUrl(nameList);
+        assertThat(mockMvc.perform(post(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("subjectCompany", articleString.getFirst())
                         .param("articleString", articleString.get(1))
                         .param("linkString", articleString.getLast()))
-                .andExpect(status().isSeeOther());
+                .andExpect(status().isSeeOther())
+                .andExpect(redirectedUrlPattern(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + "?*"))
+                .andReturn().getModelAndView().getModelMap().get("nameList"))
+                .usingRecursiveComparison()
+                .isEqualTo(nameListForURL);
 
-        mockMvc.perform(get(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
-                        .param("nameList", nameList.toString()))
+        assertThat(mockMvc.perform(get(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
+                        .param("nameList", nameListForURL))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage"))
-                .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH));
+                .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
+                .andReturn().getModelAndView().getModelMap().get("nameList"))
+                .usingRecursiveComparison()
+                .isEqualTo(decodeUTF8(nameList));
     }
 
     @DisplayName("단일 기사 삭제 페이지 접속")
