@@ -81,7 +81,8 @@ class ManagerMemberControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id", id))
                 .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrl(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?id=" + id));
+                .andExpect(redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?*"))
+                .andExpect(model().attribute("id", id));
 
         mockMvc.perform(get(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
                         .param("id", id))

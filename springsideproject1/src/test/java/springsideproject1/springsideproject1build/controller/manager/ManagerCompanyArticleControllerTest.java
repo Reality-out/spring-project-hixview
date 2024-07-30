@@ -77,8 +77,7 @@ class ManagerCompanyArticleControllerTest {
                         .param("date", String.valueOf(article.getDate().getDayOfMonth()))
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrl(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX +
-                        "?name=" + URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)))
+                .andExpect(redirectedUrlPattern(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
                 .andExpect(model().attribute("name", article.getName()));
 
         mockMvc.perform(get(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX)
@@ -152,8 +151,8 @@ class ManagerCompanyArticleControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", name))
                 .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrl(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX +
-                        "?name=" + URLEncoder.encode(name, StandardCharsets.UTF_8)));
+                .andExpect(redirectedUrlPattern(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
+                .andExpect(model().attribute("name", URLEncoder.encode(name, StandardCharsets.UTF_8)));
 
         mockMvc.perform(get(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX)
                         .param("name", URLEncoder.encode(name, StandardCharsets.UTF_8)))

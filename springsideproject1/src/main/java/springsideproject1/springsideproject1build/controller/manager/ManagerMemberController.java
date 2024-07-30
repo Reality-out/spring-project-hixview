@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.service.MemberService;
 
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
@@ -52,8 +53,9 @@ public class ManagerMemberController {
 
     @PostMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String removeMemberWithForm(@RequestParam String id) {
+    public String removeMemberWithForm(RedirectAttributes redirect, @RequestParam String id) {
         memberService.removeMember(id);
-        return URL_REDIRECT_PREFIX + REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?id=" + id;
+        redirect.addAttribute("id", id);
+        return URL_REDIRECT_PREFIX + REMOVE_MEMBER_URL + URL_FINISH_SUFFIX;
     }
 }
