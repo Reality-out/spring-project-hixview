@@ -50,7 +50,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, articleTable, true);
+        resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
     @DisplayName("단일 기사 등록 페이지 접속")

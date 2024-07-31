@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CompanyArticleTest extends ObjectTest {
 
-    String articleTable = "testarticles";
+    String companyArticleTable = "testcompanyarticles";
 
     default CompanyArticle createTestArticle() {
         return new CompanyArticle.ArticleBuilder()

@@ -33,7 +33,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, articleTable, true);
+        resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
     @DisplayName("기사 모두 가져오기")

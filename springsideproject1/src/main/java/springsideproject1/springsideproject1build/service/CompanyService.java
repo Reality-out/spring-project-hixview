@@ -51,7 +51,6 @@ public class CompanyService {
     @Transactional
     public void removeCompany(String companyCode) {
         existentCheck(companyCode);
-
         companyRepository.removeCompanyByCode(companyCode);
     }
 

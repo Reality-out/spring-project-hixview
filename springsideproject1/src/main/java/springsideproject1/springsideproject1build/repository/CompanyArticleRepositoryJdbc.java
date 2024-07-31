@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTest.articleTable;
+import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTest.companyArticleTable;
 
 @Repository
 public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
@@ -27,31 +27,31 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
 
     @Override
     public List<CompanyArticle> findAllArticles() {
-        return jdbcTemplate.query("select * from " + articleTable, articleRowMapper());
+        return jdbcTemplate.query("select * from " + companyArticleTable, articleRowMapper());
     }
 
     @Override
     public Optional<CompanyArticle> searchArticleByName(String name) {
         List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + articleTable + " where name = ?", articleRowMapper(), name);
+                "select * from " + companyArticleTable + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public List<CompanyArticle> searchArticlesByDate(LocalDate date) {
-        return jdbcTemplate.query("select * from " + articleTable + " where date = ?", articleRowMapper(), date);
+        return jdbcTemplate.query("select * from " + companyArticleTable + " where date = ?", articleRowMapper(), date);
     }
 
     @Override
     public List<CompanyArticle> searchArticlesByDate(LocalDate startDate, LocalDate endDate) {
         return jdbcTemplate.query(
-                "select * from " + articleTable + " where date between ? and ?", articleRowMapper(), startDate, endDate);
+                "select * from " + companyArticleTable + " where date between ? and ?", articleRowMapper(), startDate, endDate);
     }
 
     @Override
     public Long saveOneArticle(CompanyArticle article) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName(articleTable).usingGeneratedKeyColumns("number");
+        jdbcInsert.withTableName(companyArticleTable).usingGeneratedKeyColumns("number");
         Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber()));
 
         return articleKey.longValue();
@@ -59,7 +59,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
 
     @Override
     public void updateOneArticle(CompanyArticle article) {
-        jdbcTemplate.update("update " + articleTable +
+        jdbcTemplate.update("update " + companyArticleTable +
                 " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
                 article.getPress(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(),
                 article.getName());
@@ -67,7 +67,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
 
     @Override
     public void removeArticleByName(String name) {
-        jdbcTemplate.update("delete from " + articleTable + " where name = ?", name);
+        jdbcTemplate.update("delete from " + companyArticleTable + " where name = ?", name);
     }
 
     /**
