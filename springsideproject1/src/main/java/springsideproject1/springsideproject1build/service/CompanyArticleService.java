@@ -7,12 +7,15 @@ import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
+import static springsideproject1.springsideproject1build.Utility.duplicateCheck;
 import static springsideproject1.springsideproject1build.Utility.encodeUTF8;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 
 @Service
@@ -48,8 +51,7 @@ public class CompanyArticleService {
      */
     @Transactional
     public CompanyArticle joinArticle(CompanyArticle article) {
-        duplicateCodeCheck(article);
-
+        duplicateCheck(articleRepository, article);
         return new CompanyArticle.ArticleBuilder()
                 .article(article)
                 .number(articleRepository.saveOneArticle(article))
@@ -105,12 +107,6 @@ public class CompanyArticleService {
     /**
      * Other private methods
      */
-    @Transactional
-    private void duplicateCodeCheck(CompanyArticle article) {
-        articleRepository.searchArticleByName(article.getName()).ifPresent(
-                v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
-        );
-    }
 
     @Transactional
     private List<List<String>> parseArticleString(String articleString) {

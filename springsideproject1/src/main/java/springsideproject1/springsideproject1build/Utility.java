@@ -3,9 +3,13 @@ package springsideproject1.springsideproject1build;
 import lombok.experimental.UtilityClass;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
+import springsideproject1.springsideproject1build.repository.CompanyRepository;
+import springsideproject1.springsideproject1build.repository.MemberRepository;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -16,7 +20,10 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.*;
+
 @UtilityClass
+@Transactional
 public class Utility {
     /**
      * Constant
@@ -199,5 +206,25 @@ public class Utility {
      */
     public static boolean isNumeric(String string) {
         return Pattern.matches("[0-9]+", string);
+    }
+
+    @Transactional
+    public static void duplicateCheck(CompanyArticleRepository repository, CompanyArticle article) {
+        repository.searchArticleByName(article.getName()).ifPresent(
+                v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
+        );
+    }
+
+    public static void duplicateCheck(CompanyRepository repository, Company company) {
+        repository.searchCompanyByCode(company.getCode()).ifPresent(
+                v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
+        );
+    }
+
+    @Transactional
+    public static void duplicateCheck(MemberRepository repository, Member member) {
+        repository.findMemberByID(member.getId()).ifPresent(
+                v -> {throw new IllegalStateException(ALREADY_EXIST_MEMBER_ID);}
+        );
     }
 }
