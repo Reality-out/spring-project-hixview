@@ -2,6 +2,7 @@ package springsideproject1.springsideproject1build.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.Utility.companyRowMapper;
-import static springsideproject1.springsideproject1build.Utility.companyTable;
+import static springsideproject1.springsideproject1build.utility.test.CompanyTest.companyTable;
 
 @Repository
 public class CompanyRepositoryJdbc implements CompanyRepository {
@@ -77,5 +77,20 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
     @Override
     public void removeCompanyByCode(String code) {
         jdbcTemplate.execute("delete from " + companyTable + " where code = '" + code + "'");
+    }
+
+    /**
+     * Other private methods
+     */
+    private RowMapper<Company> companyRowMapper() {
+        return (resultSet, rowNumber) ->
+                new Company.CompanyBuilder()
+                        .code(resultSet.getString("code"))
+                        .country(resultSet.getString("country"))
+                        .scale(resultSet.getString("scale"))
+                        .name(resultSet.getString("name"))
+                        .category1st(resultSet.getString("category1st"))
+                        .category2nd(resultSet.getString("category2nd"))
+                        .build();
     }
 }

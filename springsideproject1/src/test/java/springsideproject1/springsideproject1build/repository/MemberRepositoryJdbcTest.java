@@ -8,16 +8,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.utility.test.MemberTest;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.Utility.*;
 
 @SpringBootTest
 @Transactional
-class MemberRepositoryJdbcTest {
+class MemberRepositoryJdbcTest implements MemberTest {
 
     @Autowired
     MemberRepository memberRepository;

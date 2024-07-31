@@ -2,6 +2,7 @@ package springsideproject1.springsideproject1build.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -12,8 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.Utility.articleRowMapper;
-import static springsideproject1.springsideproject1build.Utility.articleTable;
+import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTest.articleTable;
 
 @Repository
 public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
@@ -68,5 +68,21 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
     @Override
     public void removeArticleByName(String name) {
         jdbcTemplate.update("delete from " + articleTable + " where name = ?", name);
+    }
+
+    /**
+     * Other private methods
+     */
+    private RowMapper<CompanyArticle> articleRowMapper() {
+        return (resultSet, rowNumber) ->
+                new CompanyArticle.ArticleBuilder()
+                        .number(resultSet.getLong("number"))
+                        .name(resultSet.getString("name"))
+                        .press(resultSet.getString("press"))
+                        .subjectCompany(resultSet.getString("subjectcompany"))
+                        .link(resultSet.getString("link"))
+                        .date(resultSet.getDate("date").toLocalDate())
+                        .importance(resultSet.getInt("importance"))
+                        .build();
     }
 }

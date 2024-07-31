@@ -9,7 +9,7 @@ import springsideproject1.springsideproject1build.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.Utility.duplicateCheck;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_MEMBER_ID;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_MEMBER_WITH_THAT_ID;
 
 @Service
@@ -45,7 +45,7 @@ public class MemberService {
      */
     @Transactional
     public Member joinMember(Member member) {
-        duplicateCheck(memberRepository, member);
+        duplicateCheck(member);
         Long memberIdentifier = memberRepository.saveMember(member);
         return new Member.MemberBuilder()
                 .member(member)
@@ -63,5 +63,15 @@ public class MemberService {
         );
 
         memberRepository.removeMemberByID(memberID);
+    }
+
+    /**
+     * Other private methods
+     */
+    @Transactional
+    private void duplicateCheck(Member member) {
+        memberRepository.findMemberByID(member.getId()).ifPresent(
+                v -> {throw new IllegalStateException(ALREADY_EXIST_MEMBER_ID);}
+        );
     }
 }

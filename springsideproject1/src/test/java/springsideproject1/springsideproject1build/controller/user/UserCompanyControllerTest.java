@@ -11,20 +11,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.service.CompanyService;
+import springsideproject1.springsideproject1build.utility.test.CompanyTest;
 
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.Utility.*;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserCompanyControllerTest {
+class UserCompanyControllerTest implements CompanyTest {
 
     @Autowired
     private MockMvc mockMvc;

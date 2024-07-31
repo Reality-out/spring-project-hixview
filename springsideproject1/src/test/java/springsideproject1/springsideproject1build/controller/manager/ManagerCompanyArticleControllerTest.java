@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.utility.test.CompanyArticleTest;
 
 import javax.sql.DataSource;
 import java.net.URLEncoder;
@@ -22,7 +23,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.utility.main.Utility.decodeUTF8;
+import static springsideproject1.springsideproject1build.utility.main.Utility.toStringForUrl;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
@@ -31,7 +33,7 @@ import static springsideproject1.springsideproject1build.config.constant.VIEW_NA
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerCompanyArticleControllerTest {
+class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
     @Autowired
     private MockMvc mockMvc;

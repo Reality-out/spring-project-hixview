@@ -2,6 +2,7 @@ package springsideproject1.springsideproject1build.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -14,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.Utility.memberRowMapper;
-import static springsideproject1.springsideproject1build.Utility.memberTable;
+import static springsideproject1.springsideproject1build.utility.test.MemberTest.memberTable;
 
 @Repository
 public class MemberRepositoryJdbc implements MemberRepository {
@@ -79,5 +79,18 @@ public class MemberRepositoryJdbc implements MemberRepository {
     @Transactional
     public void removeMemberByID(String id) {
         jdbcTemplate.execute("delete from " + memberTable + " where id = '" + id + "'");
+    }
+
+    /**
+     * Other private methods
+     */
+    private RowMapper<Member> memberRowMapper() {
+        return (resultSet, rowNumber) ->
+                new Member.MemberBuilder()
+                        .identifier(resultSet.getLong("identifier"))
+                        .id(resultSet.getString("id"))
+                        .password(resultSet.getString("password"))
+                        .name(resultSet.getString("name"))
+                        .build();
     }
 }
