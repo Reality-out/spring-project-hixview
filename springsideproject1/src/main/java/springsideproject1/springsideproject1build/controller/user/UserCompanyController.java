@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
-import static springsideproject1.springsideproject1build.utility.main.Utility.isNumeric;
+import static springsideproject1.springsideproject1build.utility.MainUtility.isNumeric;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 

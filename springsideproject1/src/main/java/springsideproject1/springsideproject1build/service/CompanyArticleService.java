@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.utility.main.Utility.encodeUTF8;
+import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 
@@ -85,10 +85,7 @@ public class CompanyArticleService {
      */
     @Transactional
     public void updateArticle(CompanyArticle article) {
-        articleRepository.searchArticleByName(article.getName()).orElseThrow(
-                () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
-        );
-
+        existentCheck(article.getName());
         articleRepository.updateOneArticle(article);
     }
 
@@ -97,10 +94,7 @@ public class CompanyArticleService {
      */
     @Transactional
     public void removeArticle(String articleName) {
-        articleRepository.searchArticleByName(articleName).orElseThrow(
-                () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
-        );
-
+        existentCheck(articleName);
         articleRepository.removeArticleByName(articleName);
     }
 
@@ -111,6 +105,13 @@ public class CompanyArticleService {
     private void duplicateCheck(CompanyArticle article) {
         articleRepository.searchArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
+        );
+    }
+
+    @Transactional
+    private void existentCheck(String articleName) {
+        articleRepository.searchArticleByName(articleName).orElseThrow(
+                () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
         );
     }
 

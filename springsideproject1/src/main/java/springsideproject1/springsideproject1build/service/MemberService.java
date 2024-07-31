@@ -58,10 +58,7 @@ public class MemberService {
      */
     @Transactional
     public void removeMember(String memberID) {
-        memberRepository.findMemberByID(memberID).orElseThrow(
-                () -> new IllegalStateException(NO_MEMBER_WITH_THAT_ID)
-        );
-
+        existentCheck(memberID);
         memberRepository.removeMemberByID(memberID);
     }
 
@@ -72,6 +69,13 @@ public class MemberService {
     private void duplicateCheck(Member member) {
         memberRepository.findMemberByID(member.getId()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_MEMBER_ID);}
+        );
+    }
+
+    @Transactional
+    private void existentCheck(String memberID) {
+        memberRepository.findMemberByID(memberID).orElseThrow(
+                () -> new IllegalStateException(NO_MEMBER_WITH_THAT_ID)
         );
     }
 }

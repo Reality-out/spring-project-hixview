@@ -50,9 +50,7 @@ public class CompanyService {
      */
     @Transactional
     public void removeCompany(String companyCode) {
-        companyRepository.searchCompanyByCode(companyCode).orElseThrow(
-                () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)
-        );
+        existentCheck(companyCode);
 
         companyRepository.removeCompanyByCode(companyCode);
     }
@@ -64,6 +62,12 @@ public class CompanyService {
     private void duplicateCheck(Company company) {
         companyRepository.searchCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
+        );
+    }
+    @Transactional
+    private void existentCheck(String companyCode) {
+        companyRepository.searchCompanyByCode(companyCode).orElseThrow(
+                () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)
         );
     }
 }

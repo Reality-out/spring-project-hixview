@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.utility.main;
+package springsideproject1.springsideproject1build.utility;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 @Transactional
-public class Utility {
+public class MainUtility {
 
     /**
      * Convert
