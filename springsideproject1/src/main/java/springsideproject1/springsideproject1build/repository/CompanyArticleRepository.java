@@ -24,6 +24,11 @@ public interface CompanyArticleRepository {
     Long saveOneArticle(CompanyArticle article);
 
     /**
+     * UPDATE Company
+     */
+    void updateOneArticle(CompanyArticle article);
+
+    /**
      * REMOVE Company
      */
     void removeArticleByName(String name);

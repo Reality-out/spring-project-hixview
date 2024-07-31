@@ -10,7 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.service.MemberService;
 
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MANAGER_REMOVE_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @Controller
 @RequestMapping("")
@@ -39,7 +39,7 @@ public class ManagerMemberController {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("dataTypeEng", "member");
         model.addAttribute("key", "id");
-        return MANAGER_REMOVE_VIEW_NAME + "processPage";
+        return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
@@ -48,7 +48,7 @@ public class ManagerMemberController {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("key", "id");
         model.addAttribute("value", id);
-        return MANAGER_REMOVE_VIEW_NAME + "finishPage";
+        return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
     }
 
     @PostMapping(REMOVE_MEMBER_URL)

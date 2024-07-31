@@ -101,6 +101,14 @@ class CompanyArticleServiceJdbcTest {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
+    @DisplayName("존재하지 않는 이름을 포함하는 단일 기사 갱신")
+    @Test
+    public void updateArticleWithFaultName() {
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> articleService.updateArticle(createTestArticle()));
+        assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
+    }
+
     @DisplayName("존재하지 않는 이름을 통한 단일 기사 삭제")
     @Test
     public void removeArticleByFaultName() {

@@ -58,6 +58,14 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
     }
 
     @Override
+    public void updateOneArticle(CompanyArticle article) {
+        jdbcTemplate.update("update " + articleTable +
+                " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
+                article.getPress(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(),
+                article.getName());
+    }
+
+    @Override
     public void removeArticleByName(String name) {
         jdbcTemplate.update("delete from " + articleTable + " where name = ?", name);
     }

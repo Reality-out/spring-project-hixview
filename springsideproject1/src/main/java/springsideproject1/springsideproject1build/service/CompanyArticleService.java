@@ -79,6 +79,18 @@ public class CompanyArticleService {
     }
 
     /**
+     * UPDATE One CompanyArticle
+     */
+    @Transactional
+    public void updateArticle(CompanyArticle article) {
+        articleRepository.searchArticleByName(article.getName()).orElseThrow(
+                () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
+        );
+
+        articleRepository.updateOneArticle(article);
+    }
+
+    /**
      * REMOVE One CompanyArticle
      */
     @Transactional

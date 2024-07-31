@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static springsideproject1.springsideproject1build.Utility.*;
+import static springsideproject1.springsideproject1build.Utility.createTestNewArticle;
 
 @SpringBootTest
 @Transactional
@@ -121,7 +122,7 @@ class CompanyArticleRepositoryJdbcTest {
                 .isEqualTo(List.of(article1, article2, article3));
     }
 
-    @DisplayName("기사 저장")
+    @DisplayName("기사 저장하기")
     @Test
     public void save() {
         // given
@@ -135,6 +136,27 @@ class CompanyArticleRepositoryJdbcTest {
                 .usingRecursiveComparison()
                 .ignoringFields("number")
                 .isEqualTo(article);
+    }
+
+    @DisplayName("기사 갱신하기")
+    @Test
+    public void update() {
+        // given
+        CompanyArticle article1 = createTestArticle();
+        articleRepository.saveOneArticle(article1);
+
+        // when
+        article1 = new CompanyArticle.ArticleBuilder()
+                .article(createTestNewArticle())
+                .name(article1.getName())
+                .build();
+
+        // then
+        articleRepository.updateOneArticle(article1);
+        assertThat(articleRepository.searchArticleByName(article1.getName()).get())
+                .usingRecursiveComparison()
+                .ignoringFields("number", "name")
+                .isEqualTo(createTestNewArticle());
     }
 
     @DisplayName("기사 이름으로 제거하기")
