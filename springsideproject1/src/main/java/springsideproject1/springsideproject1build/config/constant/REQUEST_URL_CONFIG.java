@@ -5,10 +5,11 @@ public class REQUEST_URL_CONFIG {
      * Manager
      */
 
-    // Article
-    public static final String ADD_SINGLE_ARTICLE_URL = "/manager/article/add/single";
-    public static final String ADD_MULTIPLE_ARTICLE_WITH_STRING_URL = "/manager/article/add/multiple/string";
-    public static final String REMOVE_ARTICLE_URL = "/manager/article/remove";
+    // Article - Company
+    public static final String ADD_SINGLE_COMPANY_ARTICLE_URL = "/manager/article/company/add/single";
+    public static final String ADD_COMPANY_ARTICLE_WITH_STRING_URL = "/manager/article/company/add/string";
+    public static final String UPDATE_COMPANY_ARTICLE_URL = "/manager/article/company/update";
+    public static final String REMOVE_COMPANY_ARTICLE_URL = "/manager/article/company/remove";
 
     // Member
     public static final String REMOVE_MEMBER_URL = "/manager/member/remove";

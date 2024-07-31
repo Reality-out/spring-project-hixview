@@ -35,83 +35,84 @@ public class ManagerCompanyArticleController {
     /**
      * Add - Single
      */
-    @GetMapping(ADD_SINGLE_ARTICLE_URL)
+    @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddSingleArticle(Model model) {
+    public String processAddSingleCompanyArticle(Model model) {
         model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return ADD_COMPANY_ARTICLE_VIEW_NAME + "singleProcessPage";
     }
 
-    @GetMapping(ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX)
+    @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddSingleArticle(@RequestParam String name, Model model) {
+    public String finishAddSingleCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
         model.addAttribute("name", name);
         return ADD_COMPANY_ARTICLE_VIEW_NAME + "singleFinishPage";
     }
 
-    @PostMapping(ADD_SINGLE_ARTICLE_URL)
+    @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleArticle(RedirectAttributes redirect,
-            String name, String press, String subjectCompany, String link, int year, int month, int date, Integer importance) {
+    public String submitAddSingleCompanyArticle(RedirectAttributes redirect,
+                                                String name, String press, String subjectCompany,
+                                                String link, int year, int month, int date, Integer importance) {
         redirect.addAttribute("name", name);
         articleService.joinArticle(new CompanyArticle.ArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
-        return URL_REDIRECT_PREFIX + ADD_SINGLE_ARTICLE_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
     /**
      * Add - Multiple
      */
-    @GetMapping(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
+    @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddMultipleArticleUsingString(Model model) {
+    public String processAddCompanyArticleUsingString(Model model) {
         model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleProcessStringPage";
     }
 
-    @GetMapping(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
+    @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddMultipleArticleUsingString(@RequestParam List<String> nameList, Model model) {
+    public String finishAddCompanyArticleUsingString(@RequestParam List<String> nameList, Model model) {
         model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
         model.addAttribute("nameList", decodeUTF8(nameList));
         return ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage";
     }
 
-    @PostMapping(ADD_MULTIPLE_ARTICLE_WITH_STRING_URL)
+    @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddMultipleArticleUsingString(RedirectAttributes redirect,
-            @RequestParam String subjectCompany, @RequestParam String articleString, @RequestParam String linkString) {
+    public String submitAddCompanyArticleUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
+                                                     @RequestParam String articleString, @RequestParam String linkString) {
         redirect.addAttribute("nameList",
                 articleService.joinArticlesWithString(subjectCompany, articleString, linkString));
-        return URL_REDIRECT_PREFIX + ADD_MULTIPLE_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
 
     /**
      * Remove - Single
      */
-    @GetMapping(REMOVE_ARTICLE_URL)
+    @GetMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processArticleRemove(Model model) {
+    public String processRemoveCompanyArticle(Model model) {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("dataTypeEng", "article");
         model.addAttribute("key", "name");
         return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
     }
 
-    @GetMapping(REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX)
+    @GetMapping(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishArticleRemove(@RequestParam String name, Model model) {
+    public String finishRemoveCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("key", "제목");
         model.addAttribute("value", URLDecoder.decode(name, StandardCharsets.UTF_8));
         return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
     }
 
-    @PostMapping(REMOVE_ARTICLE_URL)
+    @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRemoveSingleArticle(RedirectAttributes redirect, @RequestParam String name) {
         redirect.addAttribute("name", URLEncoder.encode(name, StandardCharsets.UTF_8));
-        return URL_REDIRECT_PREFIX + REMOVE_ARTICLE_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 }

@@ -9,16 +9,19 @@
     <div>
         <h3>관리자 인터페이스</h3>
         <ol>
-            <li>기사 관련 기능</li>
+            <li>기업 기사 관련 기능</li>
             <ol>
                 <li>단일</li> <!-- CREATE, DELETE 구현 -->
-                <li><a href="/manager/article/add/single">단일 기사 등록</a></li>
-                <li><a href="/manager/article/remove">단일 기사 삭제</a></li>
+                <li><a href="addSingleCompanyArticle" th:href="${addSingleCompanyArticle}">단일 기사 등록</a></li>
+                <li><a href="removeCompanyArticle" th:href="${removeCompanyArticle}">단일 기사 삭제</a></li>
+                <li><a href="updateCompanyArticle" th:href="${updateCompanyArticle}">단일 기사 갱신</a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- CREATE 구현 -->
                 <li>
-                    <a href="/manager/article/add/multiple/string">기사 동시 등록(단일 문자열, subjectCompany 및 importance 고정)</a>
+                    <a href="addCompanyArticleWithString" th:href="${addCompanyArticleWithString}">
+                        기사 동시 등록(단일 문자열, subjectCompany 및 importance 고정)
+                    </a>
                 </li>
             </ol>
         </ol>
@@ -26,7 +29,7 @@
             <li>회원 관련 기능</li>
             <ol>
                 <li>단일</li> <!-- DELETE 구현 -->
-                <li><a href="/manager/member/remove">회원 제거</a></li>
+                <li><a href="removeMember" th:href="${removeMember}">회원 제거</a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- READ 구현 -->
