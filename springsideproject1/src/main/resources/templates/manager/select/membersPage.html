@@ -19,6 +19,8 @@
                     <th scope="col">ID</th>
                     <th scope="col">패스워드</th>
                     <th scope="col">이름</th>
+                    <th scope="col">생일</th>
+                    <th scope="col">전화번호</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +29,8 @@
                     <td th:text="${member.id}">memberId</td>
                     <td th:text="${member.password}">memberPassword</td>
                     <td th:text="${member.name}">memberName</td>
+                    <td th:text="${member.birth}">memberBirth</td>
+                    <td th:text="${member.phoneNumber}">memberPhoneNumber</td>
                 </tr>
             </tbody>
         </table>

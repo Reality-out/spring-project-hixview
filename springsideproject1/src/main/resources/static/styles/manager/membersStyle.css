@@ -22,7 +22,7 @@
     
     /* size */
     width: 90vw;
-    min-width: 600px;
+    min-width: 1200px;
 }
 
 .memberTable {
@@ -47,7 +47,7 @@
     display: table;
 
     /* size */
-    width: 400px;
+    width: 900px;
 }
 
 .memberTable > Caption {
@@ -95,7 +95,7 @@
 
     /* size */
     min-height: 40px;
-    min-width: 100px;
+    min-width: 150px;
     
     /* sorting */
     text-align: center;
@@ -128,7 +128,7 @@
 
     /* size */
     min-height: 40px;
-    min-width: 100px;
+    min-width: 150px;
 
     /* sorting */
     text-align: center;
