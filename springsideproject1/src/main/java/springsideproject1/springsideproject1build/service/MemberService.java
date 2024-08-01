@@ -18,7 +18,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    /**
+    /**f
      * SELECT Members
      */
     public List<Member> findMembers() {

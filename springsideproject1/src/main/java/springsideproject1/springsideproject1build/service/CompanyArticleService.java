@@ -52,7 +52,7 @@ public class CompanyArticleService {
     @Transactional
     public CompanyArticle joinArticle(CompanyArticle article) {
         duplicateCheck(article);
-        return new CompanyArticle.ArticleBuilder()
+        return new CompanyArticle.CompanyArticleBuilder()
                 .article(article)
                 .number(articleRepository.saveOneArticle(article))
                 .build();
@@ -65,7 +65,7 @@ public class CompanyArticleService {
 
         for (int i = 0; i < linkList.size(); i++){
             List<String> partialArticle = partialArticleLists.get(i);
-            joinArticle(new CompanyArticle.ArticleBuilder()
+            joinArticle(new CompanyArticle.CompanyArticleBuilder()
                     .name(partialArticle.get(0))
                     .press(partialArticle.get(4))
                     .subjectCompany(subjectCompany)

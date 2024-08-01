@@ -75,7 +75,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
      */
     private RowMapper<CompanyArticle> articleRowMapper() {
         return (resultSet, rowNumber) ->
-                new CompanyArticle.ArticleBuilder()
+                new CompanyArticle.CompanyArticleBuilder()
                         .number(resultSet.getLong("number"))
                         .name(resultSet.getString("name"))
                         .press(resultSet.getString("press"))

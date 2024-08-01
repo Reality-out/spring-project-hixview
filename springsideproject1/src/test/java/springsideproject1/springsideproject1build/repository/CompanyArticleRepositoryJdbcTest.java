@@ -145,7 +145,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
         articleRepository.saveOneArticle(article1);
 
         // when
-        article1 = new CompanyArticle.ArticleBuilder()
+        article1 = new CompanyArticle.CompanyArticleBuilder()
                 .article(createTestNewArticle())
                 .name(article1.getName())
                 .build();
