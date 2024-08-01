@@ -2,6 +2,11 @@ package springsideproject1.springsideproject1build.config.constant;
 
 public class REQUEST_URL_CONFIG {
     /**
+     * User
+     */
+    public static final String FIND_ID_URL = "/login/find/id";
+
+    /**
      * Manager
      */
 

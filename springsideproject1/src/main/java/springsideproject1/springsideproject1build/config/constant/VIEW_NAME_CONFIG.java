@@ -12,6 +12,7 @@ public class VIEW_NAME_CONFIG {
     // Others
     public static String MEMBERSHIP_VIEW_NAME = "user/membership/";
     public static String USER_LOGIN_VIEW_NAME = "user/login/";
+    public static String USER_FIND_ID_VIEW_NAME = "user/login/findid/";
     public static String USER_COMPANY_VIEW_NAME = "user/company/";
 
     /**

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+</head>
+<body>
+    <div>
+        <p>다음 아이디가 검색되었습니다.</p>
+        <table>
+            <tbody>
+                <tr th:each="id : ${idList}">
+                    <td th:text="${id}">ID</td>
+                </tr>
+            </tbody>
+        </table>
+        <form action="/login" method="get">
+            <button type="submit">로그인</button>
+        </form>
+        <form action="/" method="get">
+            <button type="submit">첫 페이지로 이동</button>
+        </form>
+    </div>
+</body>
+</html>
