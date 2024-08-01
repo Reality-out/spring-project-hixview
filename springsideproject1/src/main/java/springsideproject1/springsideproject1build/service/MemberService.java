@@ -47,10 +47,7 @@ public class MemberService {
     public Member joinMember(Member member) {
         duplicateCheck(member);
         Long memberIdentifier = memberRepository.saveMember(member);
-        return new Member.MemberBuilder()
-                .member(member)
-                .identifier(memberIdentifier)
-                .build();
+        return Member.builder().member(member).identifier(memberIdentifier).build();
     }
 
     /**

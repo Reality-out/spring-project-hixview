@@ -11,7 +11,7 @@ public interface CompanyArticleTest extends ObjectTest {
     String companyArticleTable = "testcompanyarticles";
 
     default CompanyArticle createTestArticle() {
-        return new CompanyArticle.CompanyArticleBuilder()
+        return CompanyArticle.builder()
                 .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
                 .press("SBS")
                 .subjectCompany("삼성디스플레이")
@@ -22,7 +22,7 @@ public interface CompanyArticleTest extends ObjectTest {
     }
 
     default CompanyArticle createTestEqualDateArticle() {
-        return new CompanyArticle.CompanyArticleBuilder()
+        return CompanyArticle.builder()
                 .name("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회")
                 .press("비즈니스포스트")
                 .subjectCompany("삼성전자")
@@ -33,7 +33,7 @@ public interface CompanyArticleTest extends ObjectTest {
     }
 
     default CompanyArticle createTestNewArticle() {
-        return new CompanyArticle.CompanyArticleBuilder()
+        return CompanyArticle.builder()
                 .name("[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치")
                 .press("헤럴드경제")
                 .subjectCompany("삼성전자")

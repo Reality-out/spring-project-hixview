@@ -57,7 +57,11 @@ class UserMemberControllerTest implements MemberTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id", member.getId())
                         .param("password", member.getPassword())
-                        .param("name", member.getName()))
+                        .param("name", member.getName())
+                        .param("year", String.valueOf(member.getBirth().getYear()))
+                        .param("month", String.valueOf(member.getBirth().getMonthValue()))
+                        .param("date", String.valueOf(member.getBirth().getDayOfMonth()))
+                        .param("phoneNumber", member.getPhoneNumber().toString()))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrl("/membership/succeed"));
 

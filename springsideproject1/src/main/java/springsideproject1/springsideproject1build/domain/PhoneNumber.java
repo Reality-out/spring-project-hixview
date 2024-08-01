@@ -14,7 +14,7 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
     private final String countryCode;
     private final String areaCode;
     private final String subscriberNumber;
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -47,13 +47,20 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
     }
 
     public static class PhoneNumberBuilder {
-        public PhoneNumberBuilder() {
-        }
+        public PhoneNumberBuilder() {}
 
         public PhoneNumberBuilder phoneNumber(PhoneNumber phoneNumber) {
             countryCode = phoneNumber.getCountryCode();
             areaCode = phoneNumber.getAreaCode();
             subscriberNumber = phoneNumber.getSubscriberNumber();
+            return this;
+        }
+        
+        public PhoneNumberBuilder phoneNumber(String phoneNumber) {
+            String[] splitPhoneNumber = phoneNumber.split("-");
+            countryCode = splitPhoneNumber[0];
+            areaCode = splitPhoneNumber[1];
+            subscriberNumber = splitPhoneNumber[2];
             return this;
         }
     }

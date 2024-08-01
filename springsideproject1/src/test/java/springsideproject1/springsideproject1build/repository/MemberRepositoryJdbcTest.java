@@ -124,12 +124,7 @@ class MemberRepositoryJdbcTest implements MemberTest {
         // given
         Member member1 = createTestMember();
         String commonName = member1.getName();
-
-        Member member2 = new Member.MemberBuilder()
-                .id("AaK3619")
-                .password("PwB1298!")
-                .name(commonName)
-                .build();
+        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).build();
 
         // when
         memberRepository.saveMember(member1);

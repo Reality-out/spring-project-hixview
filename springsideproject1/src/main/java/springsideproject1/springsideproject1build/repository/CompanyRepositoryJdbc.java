@@ -83,8 +83,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * Other private methods
      */
     private RowMapper<Company> companyRowMapper() {
-        return (resultSet, rowNumber) ->
-                new Company.CompanyBuilder()
+        return (resultSet, rowNumber) -> Company.builder()
                         .code(resultSet.getString("code"))
                         .country(resultSet.getString("country"))
                         .scale(resultSet.getString("scale"))

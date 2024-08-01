@@ -56,7 +56,7 @@ public class ManagerCompanyArticleController {
                                                 String name, String press, String subjectCompany,
                                                 String link, int year, int month, int date, Integer importance) {
         redirect.addAttribute("name", name);
-        articleService.joinArticle(new CompanyArticle.CompanyArticleBuilder().name(name).press(press).subjectCompany(subjectCompany)
+        articleService.joinArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }

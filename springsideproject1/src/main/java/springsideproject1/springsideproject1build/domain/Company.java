@@ -17,8 +17,7 @@ public class Company {
     private final String category2nd;
 
     public static class CompanyBuilder {
-        public CompanyBuilder() {
-        }
+        public CompanyBuilder() {}
 
         public CompanyBuilder company(Company company) {
             code = company.getCode();

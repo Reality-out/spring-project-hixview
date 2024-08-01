@@ -44,8 +44,7 @@ public class CompanyArticle {
     }
 
     public static class CompanyArticleBuilder {
-        public CompanyArticleBuilder() {
-        }
+        public CompanyArticleBuilder() {}
 
         public CompanyArticleBuilder article(CompanyArticle article) {
             number = article.getNumber();

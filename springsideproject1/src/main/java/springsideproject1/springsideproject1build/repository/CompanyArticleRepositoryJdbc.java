@@ -52,9 +52,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
     public Long saveOneArticle(CompanyArticle article) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(companyArticleTable).usingGeneratedKeyColumns("number");
-        Number articleKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber()));
-
-        return articleKey.longValue();
+        return jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
     @Override
@@ -74,8 +72,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
      * Other private methods
      */
     private RowMapper<CompanyArticle> articleRowMapper() {
-        return (resultSet, rowNumber) ->
-                new CompanyArticle.CompanyArticleBuilder()
+        return (resultSet, rowNumber) -> CompanyArticle.builder()
                         .number(resultSet.getLong("number"))
                         .name(resultSet.getString("name"))
                         .press(resultSet.getString("press"))

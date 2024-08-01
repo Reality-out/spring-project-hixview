@@ -60,16 +60,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
     public Long saveMember(Member member) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(memberTable).usingGeneratedKeyColumns("identifier");
-
-        Map<String, String> insertParam = new HashMap<>() {{
-            put("ID", member.getId());
-            put("password", member.getPassword());
-            put("name", member.getName());
-        }};
-
-        Number memberKey = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(insertParam));
-
-        return memberKey.longValue();
+        return jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(getInsertParam(member))).longValue();
     }
 
     /**
@@ -84,13 +75,24 @@ public class MemberRepositoryJdbc implements MemberRepository {
     /**
      * Other private methods
      */
+    private static Map<String, String> getInsertParam(Member member) {
+        return new HashMap<>() {{
+            put("ID", member.getId());
+            put("password", member.getPassword());
+            put("name", member.getName());
+            put("birth", member.getBirth().toString());
+            put("phoneNumber", member.getPhoneNumber().toString());
+        }};
+    }
+
     private RowMapper<Member> memberRowMapper() {
-        return (resultSet, rowNumber) ->
-                new Member.MemberBuilder()
+        return (resultSet, rowNumber) -> Member.builder()
                         .identifier(resultSet.getLong("identifier"))
                         .id(resultSet.getString("id"))
                         .password(resultSet.getString("password"))
                         .name(resultSet.getString("name"))
+                        .birth(resultSet.getDate("birth").toLocalDate())
+                        .phoneNumber(resultSet.getString("phoneNumber"))
                         .build();
     }
 }
