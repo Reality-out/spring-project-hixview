@@ -11,6 +11,7 @@ import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.utility.test.MemberTest;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +48,89 @@ class MemberRepositoryJdbcTest implements MemberTest {
 
         // then
         assertThat(memberRepository.getMembers())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(List.of(member1, member2));
+    }
+
+
+    @DisplayName("멤버 이름으로 찾기")
+    @Test
+    public void findByName() {
+        // given
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
+
+        // when
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
+
+        // then
+        assertThat(memberRepository.getMembersByName(member1.getName()).getFirst())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member1);
+        assertThat(memberRepository.getMembersByName(member2.getName()).getFirst())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member2);
+    }
+
+    @DisplayName("이름이 중복되는 멤버 모두 찾기")
+    @Test
+    public void findAllByName() {
+        // given
+        Member member1 = createTestMember();
+        String commonName = member1.getName();
+        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).build();
+
+        // when
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
+
+        // then
+        assertThat(memberRepository.getMembersByName(commonName))
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(List.of(member1, member2));
+    }
+
+    @DisplayName("멤버 생일로 찾기")
+    @Test
+    public void findByBirth() {
+        // given
+        Member member1 = createTestMember();
+        Member member2 = createTestNewMember();
+
+        // when
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
+
+        // then
+        assertThat(memberRepository.getMembersByBirth(member1.getBirth()).getFirst())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member1);
+        assertThat(memberRepository.getMembersByBirth(member2.getBirth()).getFirst())
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(member2);
+    }
+
+    @DisplayName("생일이 중복되는 멤버 모두 찾기")
+    @Test
+    public void findAllByBirth() {
+        // given
+        Member member1 = createTestMember();
+        LocalDate commonBirth = member1.getBirth();
+        Member member2 = Member.builder().member(createTestNewMember()).birth(commonBirth).build();
+
+        // when
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
+
+        // then
+        assertThat(memberRepository.getMembersByBirth(commonBirth))
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(List.of(member1, member2));
@@ -96,48 +180,7 @@ class MemberRepositoryJdbcTest implements MemberTest {
                 .isEqualTo(member2);
     }
 
-    @DisplayName("멤버 이름으로 찾기")
-    @Test
-    public void findByName() {
-        // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
-
-        // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
-
-        // then
-        assertThat(memberRepository.getMembersByName(member1.getName()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields("identifier")
-                .isEqualTo(member1);
-        assertThat(memberRepository.getMembersByName(member2.getName()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields("identifier")
-                .isEqualTo(member2);
-    }
-
-    @DisplayName("이름이 중복되는 멤버 모두 찾기")
-    @Test
-    public void findAllByName() {
-        // given
-        Member member1 = createTestMember();
-        String commonName = member1.getName();
-        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).build();
-
-        // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
-
-        // then
-        assertThat(memberRepository.getMembersByName(commonName))
-                .usingRecursiveComparison()
-                .ignoringFields("identifier")
-                .isEqualTo(List.of(member1, member2));
-    }
-
-    @DisplayName("멤버 저장")
+    @DisplayName("멤버 저장하기")
     @Test
     public void save() {
         // given

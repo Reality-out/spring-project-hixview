@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,11 @@ public class MemberRepositoryJdbc implements MemberRepository {
     @Override
     public List<Member> getMembersByName(String name) {
         return jdbcTemplate.query("select * from " + memberTable + " where name = ?", memberRowMapper(), name);
+    }
+
+    @Override
+    public List<Member> getMembersByBirth(LocalDate birth) {
+        return jdbcTemplate.query("select * from " + memberTable + " where birth = ?", memberRowMapper(), birth);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class UserMainPageController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect,
             @RequestParam String name, @RequestParam int year, @RequestParam int month, @RequestParam int date) {
-        memberService.findMembersByName(name); // TODO: not completed logic
+        memberService.findMembersByName(name);
         return USER_LOGIN_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
     }
 }

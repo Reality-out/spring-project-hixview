@@ -25,12 +25,12 @@ public class CompanyService {
         return companyRepository.getCompanies();
     }
 
-    public Optional<Company> findCompanyByCode(String companyCode) {
-        return companyRepository.getCompanyByCode(companyCode);
+    public Optional<Company> findCompanyByCode(String code) {
+        return companyRepository.getCompanyByCode(code);
     }
 
-    public Optional<Company> findCompanyByName(String companyName) {
-        return companyRepository.getCompanyByName(companyName);
+    public Optional<Company> findCompanyByName(String name) {
+        return companyRepository.getCompanyByName(name);
     }
 
     /**
@@ -46,9 +46,9 @@ public class CompanyService {
      * REMOVE Company
      */
     @Transactional
-    public void removeCompany(String companyCode) {
-        existentCheck(companyCode);
-        companyRepository.deleteCompanyByCode(companyCode);
+    public void removeCompany(String code) {
+        existentCheck(code);
+        companyRepository.deleteCompanyByCode(code);
     }
 
     /**
@@ -61,8 +61,8 @@ public class CompanyService {
         );
     }
     @Transactional
-    private void existentCheck(String companyCode) {
-        companyRepository.getCompanyByCode(companyCode).orElseThrow(
+    private void existentCheck(String code) {
+        companyRepository.getCompanyByCode(code).orElseThrow(
                 () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)
         );
     }

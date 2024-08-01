@@ -31,16 +31,16 @@ public class CompanyArticleService {
         return articleRepository.getArticles();
     }
 
-    public List<CompanyArticle> findArticlesByDate(LocalDate articleDate) {
-        return articleRepository.getArticlesByDate(articleDate);
+    public List<CompanyArticle> findArticlesByDate(LocalDate date) {
+        return articleRepository.getArticlesByDate(date);
     }
 
-    public List<CompanyArticle> findArticlesByDate(LocalDate articleStartDate, LocalDate articleEndDate) {
-        return articleRepository.getArticlesByDate(articleStartDate, articleEndDate);
+    public List<CompanyArticle> findArticlesByDate(LocalDate startDate, LocalDate endDate) {
+        return articleRepository.getArticlesByDate(startDate, endDate);
     }
 
-    public Optional<CompanyArticle> findArticleByName(String articleName) {
-        return articleRepository.getArticleByName(articleName);
+    public Optional<CompanyArticle> findArticleByName(String name) {
+        return articleRepository.getArticleByName(name);
     }
 
     /**
@@ -87,9 +87,9 @@ public class CompanyArticleService {
      * REMOVE CompanyArticle
      */
     @Transactional
-    public void removeArticle(String articleName) {
-        existentCheck(articleName);
-        articleRepository.deleteArticleByName(articleName);
+    public void removeArticle(String name) {
+        existentCheck(name);
+        articleRepository.deleteArticleByName(name);
     }
 
     /**
@@ -103,8 +103,8 @@ public class CompanyArticleService {
     }
 
     @Transactional
-    private void existentCheck(String articleName) {
-        articleRepository.getArticleByName(articleName).orElseThrow(
+    private void existentCheck(String name) {
+        articleRepository.getArticleByName(name).orElseThrow(
                 () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
         );
     }

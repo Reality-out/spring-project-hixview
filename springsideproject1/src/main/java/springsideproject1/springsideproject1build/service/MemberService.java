@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.repository.MemberRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,16 +26,20 @@ public class MemberService {
         return memberRepository.getMembers();
     }
 
-    public List<Member> findMembersByName(String memberName) {
-        return memberRepository.getMembersByName(memberName);
+    public List<Member> findMembersByName(String name) {
+        return memberRepository.getMembersByName(name);
     }
 
-    public Optional<Member> findMemberByIdentificationNumber(Long memberIdentificationNumber) {
-        return memberRepository.getMemberByIdentifier(memberIdentificationNumber);
+    public List<Member> findMembersByBirth(LocalDate birth) {
+        return memberRepository.getMembersByBirth(birth);
     }
 
-    public Optional<Member> findMemberByID(String memberID) {
-        return memberRepository.getMemberByID(memberID);
+    public Optional<Member> findMemberByIdentificationNumber(Long identificationNumber) {
+        return memberRepository.getMemberByIdentifier(identificationNumber);
+    }
+
+    public Optional<Member> findMemberByID(String Id) {
+        return memberRepository.getMemberByID(Id);
     }
 
     /**
@@ -50,9 +55,9 @@ public class MemberService {
      * REMOVE Member
      */
     @Transactional
-    public void removeMember(String memberID) {
-        existentCheck(memberID);
-        memberRepository.deleteMember(memberID);
+    public void removeMember(String Id) {
+        existentCheck(Id);
+        memberRepository.deleteMember(Id);
     }
 
     /**
@@ -66,8 +71,8 @@ public class MemberService {
     }
 
     @Transactional
-    private void existentCheck(String memberID) {
-        memberRepository.getMemberByID(memberID).orElseThrow(
+    private void existentCheck(String Id) {
+        memberRepository.getMemberByID(Id).orElseThrow(
                 () -> new IllegalStateException(NO_MEMBER_WITH_THAT_ID)
         );
     }
