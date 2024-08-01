@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.HashMap;
+
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,6 +17,17 @@ public class Company {
     private final String name;
     private final String category1st;
     private final String category2nd;
+
+    public HashMap<String, Object> toMap() {
+        return new HashMap<>() {{
+            put("code", code);
+            put("country", country);
+            put("scale", scale);
+            put("name", name);
+            put("category1st", category1st);
+            put("category2nd", category2nd);
+        }};
+    }
 
     public static class CompanyBuilder {
         public CompanyBuilder() {}

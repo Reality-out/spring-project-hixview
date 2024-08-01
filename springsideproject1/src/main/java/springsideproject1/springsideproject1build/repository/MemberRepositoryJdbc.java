@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.utility.test.MemberTest.memberTable;
@@ -60,7 +58,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
     public Long saveMember(Member member) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(memberTable).usingGeneratedKeyColumns("identifier");
-        return jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(getInsertParam(member))).longValue();
+        return jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(member.toMapWithNoIdentifier())).longValue();
     }
 
     /**
@@ -75,16 +73,6 @@ public class MemberRepositoryJdbc implements MemberRepository {
     /**
      * Other private methods
      */
-    private static Map<String, String> getInsertParam(Member member) {
-        return new HashMap<>() {{
-            put("ID", member.getId());
-            put("password", member.getPassword());
-            put("name", member.getName());
-            put("birth", member.getBirth().toString());
-            put("phoneNumber", member.getPhoneNumber().toString());
-        }};
-    }
-
     private RowMapper<Member> memberRowMapper() {
         return (resultSet, rowNumber) -> Member.builder()
                         .identifier(resultSet.getLong("identifier"))

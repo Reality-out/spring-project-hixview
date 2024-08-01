@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.utility.test.CompanyTest.companyTable;
@@ -47,7 +45,6 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
                 "select * from " + companyTable + " where name = ?", companyRowMapper(), name);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
-
     }
 
     /**
@@ -58,17 +55,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
     public void saveCompany(Company company) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName(companyTable);
-
-        Map<String, Object> insertParam = new HashMap<>() {{
-            put("code", company.getCode());
-            put("country", company.getCountry());
-            put("scale", company.getScale());
-            put("name", company.getName());
-            put("category1st", company.getCategory1st());
-            put("category2nd", company.getCategory2nd());
-        }};
-
-        jdbcInsert.execute(new MapSqlParameterSource(insertParam));
+        jdbcInsert.execute(new MapSqlParameterSource(company.toMap()));
     }
 
     /**
