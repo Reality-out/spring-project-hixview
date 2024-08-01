@@ -23,12 +23,7 @@ public class CompanyArticle {
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
             put("number", number);
-            put("name", name);
-            put("press", press);
-            put("subjectCompany", subjectCompany);
-            put("link", link);
-            put("date", date);
-            put("importance", importance);
+            putAll(toMapWithNoNumber());
         }};
     }
 

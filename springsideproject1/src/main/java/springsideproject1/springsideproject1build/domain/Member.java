@@ -19,11 +19,7 @@ public class Member {
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
             put("identifier", identifier);
-            put("id", id);
-            put("password", password);
-            put("name", name);
-            put("birth", birth);
-            put("phoneNumber", phoneNumber);
+            putAll(toMapWithNoIdentifier());
         }};
     }
 
