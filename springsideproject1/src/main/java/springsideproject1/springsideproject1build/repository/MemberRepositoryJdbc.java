@@ -29,25 +29,25 @@ public class MemberRepositoryJdbc implements MemberRepository {
      * SELECT Member
      */
     @Override
-    public List<Member> findAllMembers() {
+    public List<Member> getMembers() {
         return jdbcTemplate.query("select * from " + memberTable, memberRowMapper());
     }
 
     @Override
-    public Optional<Member> findMemberByIdentifier(Long identifier) {
+    public List<Member> getMembersByName(String name) {
+        return jdbcTemplate.query("select * from " + memberTable + " where name = ?", memberRowMapper(), name);
+    }
+
+    @Override
+    public Optional<Member> getMemberByIdentifier(Long identifier) {
         List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where identifier = ?", memberRowMapper(), identifier);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
 
     @Override
-    public Optional<Member> findMemberByID(String id) {
+    public Optional<Member> getMemberByID(String id) {
         List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where id = ?", memberRowMapper(), id);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
-    }
-
-    @Override
-    public List<Member> findMemberByName(String name) {
-        return jdbcTemplate.query("select * from " + memberTable + " where name = ?", memberRowMapper(), name);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
      */
     @Override
     @Transactional
-    public void removeMemberByID(String id) {
+    public void deleteMember(String id) {
         jdbcTemplate.execute("delete from " + memberTable + " where id = '" + id + "'");
     }
 

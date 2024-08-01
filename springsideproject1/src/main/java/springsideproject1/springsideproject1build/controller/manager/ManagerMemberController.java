@@ -25,7 +25,7 @@ public class ManagerMemberController {
      */
     @GetMapping("/manager/member/all")
     @ResponseStatus(HttpStatus.OK)
-    public String ShowMemberList(Model model) {
+    public String showMemberList(Model model) {
         model.addAttribute("members", memberService.findMembers());
         return "manager/select/membersPage";
     }
@@ -35,7 +35,7 @@ public class ManagerMemberController {
      */
     @GetMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String createMemberWithdraw(Model model) {
+    public String processMemberWithdraw(Model model) {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("dataTypeEng", "member");
         model.addAttribute("key", "id");
@@ -53,7 +53,7 @@ public class ManagerMemberController {
 
     @PostMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String removeMemberWithForm(RedirectAttributes redirect, @RequestParam String id) {
+    public String submitMemberWithdraw(RedirectAttributes redirect, @RequestParam String id) {
         memberService.removeMember(id);
         redirect.addAttribute("id", id);
         return URL_REDIRECT_PREFIX + REMOVE_MEMBER_URL + URL_FINISH_SUFFIX;

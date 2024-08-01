@@ -10,26 +10,26 @@ public interface CompanyArticleRepository {
     /**
      * SELECT CompanyArticle
      */
-    List<CompanyArticle> findAllArticles();
+    List<CompanyArticle> getArticles();
 
-    Optional<CompanyArticle> searchArticleByName(String name);
+    List<CompanyArticle> getArticlesByDate(LocalDate date);
 
-    List<CompanyArticle> searchArticlesByDate(LocalDate date);
+    List<CompanyArticle> getArticlesByDate(LocalDate startDate, LocalDate endDate);
 
-    List<CompanyArticle> searchArticlesByDate(LocalDate startDate, LocalDate endDate);
-
-    /**
-     * INSERT Company
-     */
-    Long saveOneArticle(CompanyArticle article);
+    Optional<CompanyArticle> getArticleByName(String name);
 
     /**
-     * UPDATE Company
+     * INSERT CompanyArticle
      */
-    void updateOneArticle(CompanyArticle article);
+    Long saveArticle(CompanyArticle article);
 
     /**
-     * REMOVE Company
+     * UPDATE CompanyArticle
      */
-    void removeArticleByName(String name);
+    void updateArticle(CompanyArticle article);
+
+    /**
+     * REMOVE CompanyArticle
+     */
+    void deleteArticleByName(String name);
 }

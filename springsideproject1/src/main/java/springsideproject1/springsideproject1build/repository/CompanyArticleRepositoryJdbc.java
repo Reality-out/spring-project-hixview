@@ -25,44 +25,56 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    /**
+     * SELECT CompanyArticle
+     */
     @Override
-    public List<CompanyArticle> findAllArticles() {
+    public List<CompanyArticle> getArticles() {
         return jdbcTemplate.query("select * from " + companyArticleTable, articleRowMapper());
     }
 
     @Override
-    public Optional<CompanyArticle> searchArticleByName(String name) {
-        List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + companyArticleTable + " where name = ?", articleRowMapper(), name);
-        return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
-    }
-
-    @Override
-    public List<CompanyArticle> searchArticlesByDate(LocalDate date) {
+    public List<CompanyArticle> getArticlesByDate(LocalDate date) {
         return jdbcTemplate.query("select * from " + companyArticleTable + " where date = ?", articleRowMapper(), date);
     }
 
     @Override
-    public List<CompanyArticle> searchArticlesByDate(LocalDate startDate, LocalDate endDate) {
+    public List<CompanyArticle> getArticlesByDate(LocalDate startDate, LocalDate endDate) {
         return jdbcTemplate.query(
                 "select * from " + companyArticleTable + " where date between ? and ?", articleRowMapper(), startDate, endDate);
     }
 
     @Override
-    public Long saveOneArticle(CompanyArticle article) {
+    public Optional<CompanyArticle> getArticleByName(String name) {
+        List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
+                "select * from " + companyArticleTable + " where name = ?", articleRowMapper(), name);
+        return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
+    }
+
+    /**
+     * INSERT CompanyArticle
+     */
+    @Override
+    public Long saveArticle(CompanyArticle article) {
         return new SimpleJdbcInsert(jdbcTemplate).withTableName(companyArticleTable).usingGeneratedKeyColumns("number")
                 .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
+    /**
+     * UPDATE CompanyArticle
+     */
     @Override
-    public void updateOneArticle(CompanyArticle article) {
+    public void updateArticle(CompanyArticle article) {
         jdbcTemplate.update("update " + companyArticleTable +
                         " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
                 article.getPress(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(), article.getName());
     }
 
+    /**
+     * REMOVE CompanyArticle
+     */
     @Override
-    public void removeArticleByName(String name) {
+    public void deleteArticleByName(String name) {
         jdbcTemplate.update("delete from " + companyArticleTable + " where name = ?", name);
     }
 

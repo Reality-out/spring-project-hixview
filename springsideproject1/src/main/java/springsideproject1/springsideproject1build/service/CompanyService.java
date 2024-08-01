@@ -19,25 +19,22 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
 
     /**
-     * SELECT Companies
+     * SELECT Company
      */
     public List<Company> findCompanies() {
-        return companyRepository.findAllCompanies();
+        return companyRepository.getCompanies();
+    }
+
+    public Optional<Company> findCompanyByCode(String companyCode) {
+        return companyRepository.getCompanyByCode(companyCode);
+    }
+
+    public Optional<Company> findCompanyByName(String companyName) {
+        return companyRepository.getCompanyByName(companyName);
     }
 
     /**
-     * SELECT One Company
-     */
-    public Optional<Company> SearchOneCompanyByCode(String companyCode) {
-        return companyRepository.searchCompanyByCode(companyCode);
-    }
-
-    public Optional<Company> SearchOneCompanyByName(String companyName) {
-        return companyRepository.searchCompanyByName(companyName);
-    }
-
-    /**
-     * INSERT One Member
+     * INSERT Company
      */
     @Transactional
     public void joinCompany(Company company) {
@@ -46,12 +43,12 @@ public class CompanyService {
     }
 
     /**
-     * REMOVE One Member
+     * REMOVE Company
      */
     @Transactional
     public void removeCompany(String companyCode) {
         existentCheck(companyCode);
-        companyRepository.removeCompanyByCode(companyCode);
+        companyRepository.deleteCompanyByCode(companyCode);
     }
 
     /**
@@ -59,13 +56,13 @@ public class CompanyService {
      */
     @Transactional
     private void duplicateCheck(Company company) {
-        companyRepository.searchCompanyByCode(company.getCode()).ifPresent(
+        companyRepository.getCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
         );
     }
     @Transactional
     private void existentCheck(String companyCode) {
-        companyRepository.searchCompanyByCode(companyCode).orElseThrow(
+        companyRepository.getCompanyByCode(companyCode).orElseThrow(
                 () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)
         );
     }

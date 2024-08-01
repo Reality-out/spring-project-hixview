@@ -9,13 +9,13 @@ public interface MemberRepository {
     /**
      * SELECT Member
      */
-    List<Member> findAllMembers();
+    List<Member> getMembers();
 
-    Optional<Member> findMemberByIdentifier(Long identifier);
+    List<Member> getMembersByName(String name);
 
-    Optional<Member> findMemberByID(String id);
+    Optional<Member> getMemberByIdentifier(Long identifier);
 
-    List<Member> findMemberByName(String name);
+    Optional<Member> getMemberByID(String id);
 
     /**
      * INSERT Member
@@ -25,5 +25,5 @@ public interface MemberRepository {
     /**
      * REMOVE Member
      */
-    void removeMemberByID(String id);
+    void deleteMember(String id);
 }

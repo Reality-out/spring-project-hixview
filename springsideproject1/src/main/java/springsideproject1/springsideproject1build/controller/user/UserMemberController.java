@@ -12,8 +12,9 @@ import springsideproject1.springsideproject1build.service.MemberService;
 
 import java.time.LocalDate;
 
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_REDIRECT_PREFIX;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MEMBERSHIP_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,14 +28,14 @@ public class UserMemberController {
      */
     @GetMapping("/membership")
     @ResponseStatus(HttpStatus.OK)
-    public String createMembership() {
-        return MEMBERSHIP_VIEW_NAME + "createPage";
+    public String processMembership() {
+        return MEMBERSHIP_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
     }
 
-    @GetMapping("/membership/succeed")
+    @GetMapping("/membership" + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String succeedMembership() {
-        return MEMBERSHIP_VIEW_NAME + "succeedPage";
+    public String finishMembership() {
+        return MEMBERSHIP_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
     }
 
     @PostMapping("/membership")
@@ -42,6 +43,6 @@ public class UserMemberController {
     public String submitMembership(String id, String password, String name, int year, int month, int date, String phoneNumber) {
         memberService.joinMember(Member.builder().id(id).password(password).name(name)
                 .birth(LocalDate.of(year, month, date)).phoneNumber(phoneNumber).build());
-        return URL_REDIRECT_PREFIX + "/membership/succeed";
+        return URL_REDIRECT_PREFIX + "/membership" + URL_FINISH_SUFFIX;
     }
 }

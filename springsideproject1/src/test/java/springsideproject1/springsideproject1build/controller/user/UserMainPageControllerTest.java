@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.USER_LOGIN_VIEW_NAME;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,6 +43,6 @@ class UserMainPageControllerTest {
     public void accessLoginPage() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("user/loginPage"));
+                .andExpect(view().name(USER_LOGIN_VIEW_NAME + "loginPage"));
     }
 }

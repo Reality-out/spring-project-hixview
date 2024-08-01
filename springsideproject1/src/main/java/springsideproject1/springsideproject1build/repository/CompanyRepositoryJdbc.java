@@ -29,19 +29,19 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * SELECT Company
      */
     @Override
-    public List<Company> findAllCompanies() {
+    public List<Company> getCompanies() {
         return jdbcTemplate.query("select * from " + companyTable, companyRowMapper());
     }
 
     @Override
-    public Optional<Company> searchCompanyByCode(String code) {
+    public Optional<Company> getCompanyByCode(String code) {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
                 "select * from " + companyTable + "  where code = ?", companyRowMapper(), code);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
     }
 
     @Override
-    public Optional<Company> searchCompanyByName(String name) {
+    public Optional<Company> getCompanyByName(String name) {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
                 "select * from " + companyTable + " where name = ?", companyRowMapper(), name);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
@@ -60,7 +60,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * REMOVE Company
      */
     @Override
-    public void removeCompanyByCode(String code) {
+    public void deleteCompanyByCode(String code) {
         jdbcTemplate.execute("delete from " + companyTable + " where code = '" + code + "'");
     }
 

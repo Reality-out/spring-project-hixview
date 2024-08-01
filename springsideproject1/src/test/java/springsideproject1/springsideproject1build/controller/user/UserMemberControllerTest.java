@@ -18,7 +18,8 @@ import javax.sql.DataSource;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.MEMBERSHIP_VIEW_NAME;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,7 +46,7 @@ class UserMemberControllerTest implements MemberTest {
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get("/membership"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + "createPage"));
+                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
@@ -63,10 +64,10 @@ class UserMemberControllerTest implements MemberTest {
                         .param("date", String.valueOf(member.getBirth().getDayOfMonth()))
                         .param("phoneNumber", member.getPhoneNumber().toString()))
                 .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrl("/membership/succeed"));
+                .andExpect(redirectedUrl("/membership" + URL_FINISH_SUFFIX));
 
-        mockMvc.perform(get("/membership/succeed"))
+        mockMvc.perform(get("/membership" + URL_FINISH_SUFFIX))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + "succeedPage"));
+                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX));
     }
 }

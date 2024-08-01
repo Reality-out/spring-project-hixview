@@ -46,7 +46,7 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.findAllCompanies()).usingRecursiveComparison().isEqualTo(List.of(company2, company1));
+        assertThat(companyRepository.getCompanies()).usingRecursiveComparison().isEqualTo(List.of(company2, company1));
     }
 
     @DisplayName("기업 코드로 찾기")
@@ -61,8 +61,8 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.searchCompanyByCode(company1.getCode()).get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.searchCompanyByCode(company2.getCode()).get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.getCompanyByCode(company1.getCode()).get()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.getCompanyByCode(company2.getCode()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 이름으로 찾기")
@@ -77,8 +77,8 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.searchCompanyByName(company1.getName()).get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.searchCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.getCompanyByName(company1.getName()).get()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.getCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 저장")
@@ -91,7 +91,7 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         companyRepository.saveCompany(company);
 
         // then
-        assertThat(companyRepository.searchCompanyByCode(company.getCode()).get())
+        assertThat(companyRepository.getCompanyByCode(company.getCode()).get())
                 .usingRecursiveComparison().isEqualTo(company);
     }
 
@@ -107,8 +107,8 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         companyRepository.saveCompany(company2);
 
         // then
-        companyRepository.removeCompanyByCode(company1.getCode());
-        companyRepository.removeCompanyByCode(company2.getCode());
-        assertThat(companyRepository.findAllCompanies()).isEmpty();
+        companyRepository.deleteCompanyByCode(company1.getCode());
+        companyRepository.deleteCompanyByCode(company2.getCode());
+        assertThat(companyRepository.getCompanies()).isEmpty();
     }
 }

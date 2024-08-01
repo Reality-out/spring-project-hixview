@@ -42,8 +42,8 @@ public class UserCompanyController {
             @PathVariable String nameOrCode, Model model) {
         model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
         model.addAttribute("company", (isNumeric(nameOrCode)) ?
-                companyService.SearchOneCompanyByCode(nameOrCode).get() :
-                companyService.SearchOneCompanyByName(nameOrCode).get());
+                companyService.findCompanyByCode(nameOrCode).get() :
+                companyService.findCompanyByName(nameOrCode).get());
         return USER_COMPANY_VIEW_NAME + VIEW_NAME_SHOW_SUFFIX;
     }
 }

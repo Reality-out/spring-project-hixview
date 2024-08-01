@@ -66,14 +66,14 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddCompanyArticleUsingString(Model model) {
+    public String processAddCompanyArticlesUsingString(Model model) {
         model.addAttribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH);
         return ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleProcessStringPage";
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddCompanyArticleUsingString(@RequestParam List<String> nameList, Model model) {
+    public String finishAddCompanyArticlesUsingString(@RequestParam List<String> nameList, Model model) {
         model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
         model.addAttribute("nameList", decodeUTF8(nameList));
         return ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage";
@@ -81,8 +81,8 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticleUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
-                                                     @RequestParam String articleString, @RequestParam String linkString) {
+    public String submitAddCompanyArticlesUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
+                                                      @RequestParam String articleString, @RequestParam String linkString) {
         redirect.addAttribute("nameList",
                 articleService.joinArticlesWithString(subjectCompany, articleString, linkString));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;

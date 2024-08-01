@@ -9,11 +9,11 @@ public interface CompanyRepository {
     /**
      * SELECT Company
      */
-    List<Company> findAllCompanies();
+    List<Company> getCompanies();
 
-    Optional<Company> searchCompanyByCode(String code);
+    Optional<Company> getCompanyByCode(String code);
 
-    Optional<Company> searchCompanyByName(String name);
+    Optional<Company> getCompanyByName(String name);
 
     /**
      * INSERT Company
@@ -23,5 +23,5 @@ public interface CompanyRepository {
     /**
      * REMOVE Company
      */
-    void removeCompanyByCode(String code);
+    void deleteCompanyByCode(String code);
 }

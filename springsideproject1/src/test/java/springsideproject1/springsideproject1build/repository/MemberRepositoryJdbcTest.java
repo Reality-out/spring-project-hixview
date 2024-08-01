@@ -46,7 +46,7 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findAllMembers())
+        assertThat(memberRepository.getMembers())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(List.of(member1, member2));
@@ -64,11 +64,11 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByIdentifier(1L).get())
+        assertThat(memberRepository.getMemberByIdentifier(1L).get())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member1);
-        assertThat(memberRepository.findMemberByIdentifier(2L).get())
+        assertThat(memberRepository.getMemberByIdentifier(2L).get())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member2);
@@ -86,11 +86,11 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByID(member1.getId()).get())
+        assertThat(memberRepository.getMemberByID(member1.getId()).get())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member1);
-        assertThat(memberRepository.findMemberByID(member2.getId()).get())
+        assertThat(memberRepository.getMemberByID(member2.getId()).get())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member2);
@@ -108,11 +108,11 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName(member1.getName()).getFirst())
+        assertThat(memberRepository.getMembersByName(member1.getName()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member1);
-        assertThat(memberRepository.findMemberByName(member2.getName()).getFirst())
+        assertThat(memberRepository.getMembersByName(member2.getName()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member2);
@@ -131,7 +131,7 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.findMemberByName(commonName))
+        assertThat(memberRepository.getMembersByName(commonName))
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(List.of(member1, member2));
@@ -147,7 +147,7 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member);
 
         // then
-        assertThat(memberRepository.findMemberByName(member.getName()).getFirst())
+        assertThat(memberRepository.getMembersByName(member.getName()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields("identifier")
                 .isEqualTo(member);
@@ -165,8 +165,8 @@ class MemberRepositoryJdbcTest implements MemberTest {
         memberRepository.saveMember(member2);
 
         // then
-        memberRepository.removeMemberByID(member1.getId());
-        memberRepository.removeMemberByID(member2.getId());
-        assertThat(memberRepository.findAllMembers()).isEmpty();
+        memberRepository.deleteMember(member1.getId());
+        memberRepository.deleteMember(member2.getId());
+        assertThat(memberRepository.getMembers()).isEmpty();
     }
 }

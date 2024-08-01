@@ -25,36 +25,27 @@ public class CompanyArticleService {
     private final CompanyArticleRepository articleRepository;
 
     /**
-     * SELECT Articles
+     * SELECT CompanyArticle
      */
     public List<CompanyArticle> findArticles() {
-        return articleRepository.findAllArticles();
+        return articleRepository.getArticles();
     }
 
-    public List<CompanyArticle> SearchOneArticleByDate(LocalDate articleDate) {
-        return articleRepository.searchArticlesByDate(articleDate);
+    public List<CompanyArticle> findArticlesByDate(LocalDate articleDate) {
+        return articleRepository.getArticlesByDate(articleDate);
     }
 
-    public List<CompanyArticle> SearchOneArticleByDate(LocalDate articleStartDate, LocalDate articleEndDate) {
-        return articleRepository.searchArticlesByDate(articleStartDate, articleEndDate);
+    public List<CompanyArticle> findArticlesByDate(LocalDate articleStartDate, LocalDate articleEndDate) {
+        return articleRepository.getArticlesByDate(articleStartDate, articleEndDate);
     }
 
-    /**
-     * SELECT One CompanyArticle
-     */
-    public Optional<CompanyArticle> SearchOneArticleByName(String articleName) {
-        return articleRepository.searchArticleByName(articleName);
+    public Optional<CompanyArticle> findArticleByName(String articleName) {
+        return articleRepository.getArticleByName(articleName);
     }
 
     /**
-     * INSERT One CompanyArticle
+     * INSERT CompanyArticle
      */
-    @Transactional
-    public CompanyArticle joinArticle(CompanyArticle article) {
-        duplicateCheck(article);
-        return CompanyArticle.builder().article(article).number(articleRepository.saveOneArticle(article)).build();
-    }
-
     @Transactional
     public List<String> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
@@ -77,22 +68,28 @@ public class CompanyArticleService {
         return encodeUTF8(partialArticleLists.stream().map(List::getFirst).collect(Collectors.toList()));
     }
 
+    @Transactional
+    public CompanyArticle joinArticle(CompanyArticle article) {
+        duplicateCheck(article);
+        return CompanyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
+    }
+
     /**
-     * UPDATE One CompanyArticle
+     * UPDATE CompanyArticle
      */
     @Transactional
     public void updateArticle(CompanyArticle article) {
         existentCheck(article.getName());
-        articleRepository.updateOneArticle(article);
+        articleRepository.updateArticle(article);
     }
 
     /**
-     * REMOVE One CompanyArticle
+     * REMOVE CompanyArticle
      */
     @Transactional
     public void removeArticle(String articleName) {
         existentCheck(articleName);
-        articleRepository.removeArticleByName(articleName);
+        articleRepository.deleteArticleByName(articleName);
     }
 
     /**
@@ -100,14 +97,14 @@ public class CompanyArticleService {
      */
     @Transactional
     private void duplicateCheck(CompanyArticle article) {
-        articleRepository.searchArticleByName(article.getName()).ifPresent(
+        articleRepository.getArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
         );
     }
 
     @Transactional
     private void existentCheck(String articleName) {
-        articleRepository.searchArticleByName(articleName).orElseThrow(
+        articleRepository.getArticleByName(articleName).orElseThrow(
                 () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
         );
     }
