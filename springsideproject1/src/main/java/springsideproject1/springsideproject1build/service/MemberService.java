@@ -46,8 +46,7 @@ public class MemberService {
     @Transactional
     public Member joinMember(Member member) {
         duplicateCheck(member);
-        Long memberIdentifier = memberRepository.saveMember(member);
-        return Member.builder().member(member).identifier(memberIdentifier).build();
+        return Member.builder().member(member).identifier(memberRepository.saveMember(member)).build();
     }
 
     /**

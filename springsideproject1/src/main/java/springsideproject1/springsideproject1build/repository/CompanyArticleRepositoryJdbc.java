@@ -50,17 +50,15 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
 
     @Override
     public Long saveOneArticle(CompanyArticle article) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName(companyArticleTable).usingGeneratedKeyColumns("number");
-        return jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(companyArticleTable).usingGeneratedKeyColumns("number")
+                .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
     @Override
     public void updateOneArticle(CompanyArticle article) {
         jdbcTemplate.update("update " + companyArticleTable +
-                " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
-                article.getPress(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(),
-                article.getName());
+                        " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
+                article.getPress(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(), article.getName());
     }
 
     @Override

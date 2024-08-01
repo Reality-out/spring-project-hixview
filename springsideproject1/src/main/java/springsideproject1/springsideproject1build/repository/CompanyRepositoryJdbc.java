@@ -53,9 +53,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
     @Override
     @Transactional
     public void saveCompany(Company company) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName(companyTable);
-        jdbcInsert.execute(new MapSqlParameterSource(company.toMap()));
+        new SimpleJdbcInsert(jdbcTemplate).withTableName(companyTable).execute(new MapSqlParameterSource(company.toMap()));
     }
 
     /**

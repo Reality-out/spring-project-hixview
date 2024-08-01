@@ -56,9 +56,8 @@ public class MemberRepositoryJdbc implements MemberRepository {
     @Override
     @Transactional
     public Long saveMember(Member member) {
-        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName(memberTable).usingGeneratedKeyColumns("identifier");
-        return jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(member.toMapWithNoIdentifier())).longValue();
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(memberTable).usingGeneratedKeyColumns("identifier")
+                .executeAndReturnKey(new MapSqlParameterSource(member.toMapWithNoIdentifier())).longValue();
     }
 
     /**
