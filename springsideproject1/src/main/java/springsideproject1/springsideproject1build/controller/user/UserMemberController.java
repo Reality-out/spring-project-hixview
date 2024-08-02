@@ -29,13 +29,13 @@ public class UserMemberController {
     @GetMapping("/membership")
     @ResponseStatus(HttpStatus.OK)
     public String processMembership() {
-        return MEMBERSHIP_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
+        return MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping("/membership" + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishMembership() {
-        return MEMBERSHIP_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
+        return MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     @PostMapping("/membership")

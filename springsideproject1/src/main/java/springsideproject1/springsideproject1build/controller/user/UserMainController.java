@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
@@ -47,7 +47,7 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.OK)
     public String loginPage(Model model) {
         model.addAttribute("findId", FIND_ID_URL);
-        return USER_LOGIN_VIEW_NAME + "loginPage";
+        return USER_LOGIN_VIEW + "loginPage";
     }
 
     /**
@@ -56,14 +56,14 @@ public class UserMainController {
     @GetMapping(FIND_ID_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processFindIdPage() {
-        return USER_FIND_ID_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
+        return USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping(FIND_ID_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
         model.addAttribute("idList", decodeUTF8(idList));
-        return USER_FIND_ID_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
+        return USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     @PostMapping(FIND_ID_URL)

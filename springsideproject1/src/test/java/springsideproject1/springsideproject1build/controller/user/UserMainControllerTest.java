@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.FIND_ID_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
@@ -63,7 +63,7 @@ class UserMainControllerTest implements MemberTest {
     public void accessLoginPage() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_LOGIN_VIEW_NAME + "loginPage"))
+                .andExpect(view().name(USER_LOGIN_VIEW + "loginPage"))
                 .andExpect(model().attribute("findId", FIND_ID_URL));
     }
 
@@ -72,7 +72,7 @@ class UserMainControllerTest implements MemberTest {
     public void accessFindIdPage() throws Exception {
         mockMvc.perform(get(FIND_ID_URL))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_FIND_ID_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX));
+                .andExpect(view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX));
     }
 
     @DisplayName("아이디 찾기 완료 페이지 접속")
@@ -107,7 +107,7 @@ class UserMainControllerTest implements MemberTest {
         mockMvc.perform(get(FIND_ID_URL + URL_FINISH_SUFFIX)
                         .param("idList", idListForUrl))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_FIND_ID_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX))
+                .andExpect(view().name(USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("idList", idList));
     }
 }

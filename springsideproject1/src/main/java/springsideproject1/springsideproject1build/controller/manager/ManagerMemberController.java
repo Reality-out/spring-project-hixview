@@ -39,7 +39,7 @@ public class ManagerMemberController {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("dataTypeEng", "member");
         model.addAttribute("key", "id");
-        return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX;
+        return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
@@ -48,7 +48,7 @@ public class ManagerMemberController {
         model.addAttribute("dataTypeKor", "회원");
         model.addAttribute("key", "id");
         model.addAttribute("value", id);
-        return MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX;
+        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     @PostMapping(REMOVE_MEMBER_URL)

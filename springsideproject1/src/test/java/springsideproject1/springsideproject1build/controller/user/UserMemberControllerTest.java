@@ -30,7 +30,7 @@ class UserMemberControllerTest implements MemberTest {
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get("/membership"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX));
+                .andExpect(view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
@@ -52,6 +52,6 @@ class UserMemberControllerTest implements MemberTest {
 
         mockMvc.perform(get("/membership" + URL_FINISH_SUFFIX))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MEMBERSHIP_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX));
+                .andExpect(view().name(MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX));
     }
 }

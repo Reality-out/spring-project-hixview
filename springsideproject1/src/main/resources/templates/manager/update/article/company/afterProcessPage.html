@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <p>제목과 일치하는 기사가 확인되었습니다.</p>
+    <form th:action="${updateUrl}" method="POST">
+        <div>
+            <div class="partialForm">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" th:value="${article.name}" size="20" readonly>
+            </div>
+            <div class="partialForm">
+                <label for="press">언론사</label>
+                <input type="text" id="press" name="press" th:value="${article.press}" size="20">
+            </div>
+            <div class="partialForm">
+                <label for="subjectCompany">대상 기업</label>
+                <input type="text" id="subjectCompany" name="subjectCompany" th:value="${article.subjectCompany}" size="20">
+            </div>
+            <div class="partialForm">
+                <label for="link">링크</label>
+                <input type="url" id="link" name="link" size="20" th:value="${article.link}">
+            </div>
+            <div class="partialForm">
+                <label for="year">연</label>
+                <input type="number" min="1900" max="2024" id="year" name="year" size="4" th:value="${year}">
+                <label for="month">월</label>
+                <input type="number" min="1" max="12" id="month" name="month" size="2" th:value="${month}">
+                <label for="date">일</label>
+                <input type="number" min="1" max="31" id="date" name="date" size="2" th:value="${date}">
+            </div>
+            <div class="partialForm">
+                <label for="importance">중요도</label>
+                <input type="text" id="importance" name="importance" size="20" th:value="${article.importance}">
+            </div>
+        </div>
+        <button type="submit">갱신</button>
+    </form>
+</body>
+</html>

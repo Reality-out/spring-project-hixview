@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
-import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.MainUtility.*;
@@ -58,7 +58,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
     public void accessArticleRegisterPage() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "singleProcessPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "singleProcessPage"))
                 .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -81,12 +81,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", article.getName()));
+                .andExpect(model().attribute("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)));
 
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", article.getName()))
+                        .param("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "singleFinishPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
                 .andExpect(model().attribute("name", article.getName()));
     }
@@ -96,7 +96,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
     public void StringArticleRegisterPage() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleProcessStringPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleProcessStringPage"))
                 .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -127,7 +127,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         assertThat(mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
                         .param("nameList", nameListForURL))
                 .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW_NAME + "multipleFinishStringPage"))
+                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishStringPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
                 .andReturn().getModelAndView().getModelMap().get("nameList"))
                 .usingRecursiveComparison()
@@ -142,7 +142,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         .param("dataTypeEng", "article")
                         .param("key", "name"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
                 .andExpect(model().attribute("dataTypeEng", "article"))
                 .andExpect(model().attribute("key", "name"));
@@ -169,7 +169,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
                         .param("name", URLEncoder.encode(name, StandardCharsets.UTF_8)))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
                 .andExpect(model().attribute("key", "제목"))
                 .andExpect(model().attribute("value", name));

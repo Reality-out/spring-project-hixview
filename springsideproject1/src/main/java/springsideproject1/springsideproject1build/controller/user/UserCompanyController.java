@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
 import static springsideproject1.springsideproject1build.utility.MainUtility.isNumeric;
-import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @Controller
@@ -30,7 +30,7 @@ public class UserCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String companySubPage(Model model) {
         model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
-        return USER_COMPANY_VIEW_NAME + VIEW_NAME_SUB_SUFFIX;
+        return USER_COMPANY_VIEW + VIEW_SUB_SUFFIX;
     }
 
     /**
@@ -44,6 +44,6 @@ public class UserCompanyController {
         model.addAttribute("company", (isNumeric(nameOrCode)) ?
                 companyService.findCompanyByCode(nameOrCode).get() :
                 companyService.findCompanyByName(nameOrCode).get());
-        return USER_COMPANY_VIEW_NAME + VIEW_NAME_SHOW_SUFFIX;
+        return USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX;
     }
 }

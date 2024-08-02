@@ -73,7 +73,7 @@ class ManagerMemberControllerTest implements MemberTest {
     public void accessMembershipWithdrawPage() throws Exception {
         mockMvc.perform(get(REMOVE_MEMBER_URL))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_PROCESS_SUFFIX))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "회원"))
                 .andExpect(model().attribute("dataTypeEng", "member"))
                 .andExpect(model().attribute("key", "id"));
@@ -101,7 +101,7 @@ class ManagerMemberControllerTest implements MemberTest {
         mockMvc.perform(get(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
                         .param("id", id))
                 .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW_NAME + VIEW_NAME_FINISH_SUFFIX))
+                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "회원"))
                 .andExpect(model().attribute("key", "id"))
                 .andExpect(model().attribute("value", id));

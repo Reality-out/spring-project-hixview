@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @SpringBootTest
@@ -49,7 +49,7 @@ class UserCompanyControllerTest implements CompanyTest {
     public void accessCompanyPage() throws Exception {
         mockMvc.perform(get("/company"))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_COMPANY_VIEW_NAME + VIEW_NAME_SUB_SUFFIX))
+                .andExpect(view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX))
                 .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 
@@ -65,7 +65,7 @@ class UserCompanyControllerTest implements CompanyTest {
         // then
         assertThat(mockMvc.perform(get("/company/" + company.getCode()))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_COMPANY_VIEW_NAME + VIEW_NAME_SHOW_SUFFIX))
+                .andExpect(view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX))
                 .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH))
                 .andReturn().getModelAndView().getModelMap().get("company"))
                 .usingRecursiveComparison()
@@ -84,7 +84,7 @@ class UserCompanyControllerTest implements CompanyTest {
         // then
         assertThat(mockMvc.perform(get("/company/" + company.getName()))
                 .andExpect(status().isOk())
-                .andExpect(view().name(USER_COMPANY_VIEW_NAME + VIEW_NAME_SHOW_SUFFIX))
+                .andExpect(view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX))
                 .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH))
                 .andReturn().getModelAndView().getModelMap().get("company"))
                 .usingRecursiveComparison()
