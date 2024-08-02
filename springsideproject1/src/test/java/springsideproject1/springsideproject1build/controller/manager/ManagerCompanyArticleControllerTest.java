@@ -24,8 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.MainUtility.*;
@@ -134,13 +133,76 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                 .isEqualTo(decodeUTF8(nameList));
     }
 
+    @DisplayName("단일 기사 갱신 페이지 접속")
+    @Test
+    public void accessArticleUpdatePage() throws Exception {
+        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
+                .andExpect(status().isOk())
+                .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX))
+                .andExpect(model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH));
+    }
+
+    @DisplayName("단일 기사 갱신 페이지 내 이름 검색")
+    @Test
+    public void searchNameInArticleUpdatePage() throws Exception {
+        // given
+        CompanyArticle article = createTestArticle();
+
+        // when
+        article = articleService.joinArticle(article);
+
+        // then
+        assertThat(mockMvc.perform(post(UPDATE_COMPANY_ARTICLE_URL)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", article.getName()))
+                .andExpect(status().isOk())
+                .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + "after" + VIEW_PASCAL_PROCESS_SUFFIX))
+                .andExpect(model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH))
+                .andExpect(model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
+                .andExpect(model().attribute("year", article.getDate().getYear()))
+                .andExpect(model().attribute("month", article.getDate().getMonthValue()))
+                .andExpect(model().attribute("date", article.getDate().getDayOfMonth()))
+                .andReturn().getModelAndView().getModelMap().get("article"))
+                .usingRecursiveComparison()
+                .isEqualTo(article);
+    }
+
+    @DisplayName("단일 기사 갱신 완료 페이지 접속")
+    @Test
+    public void accessArticleUpdateFinishPage() throws Exception {
+        // given
+        CompanyArticle article = createTestArticle();
+
+        // when
+        article = articleService.joinArticle(article);
+
+        // then
+        mockMvc.perform(post(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", article.getName())
+                        .param("press", article.getPress())
+                        .param("subjectCompany", article.getSubjectCompany())
+                        .param("link", article.getLink())
+                        .param("year", String.valueOf(article.getDate().getYear()))
+                        .param("month", String.valueOf(article.getDate().getMonthValue()))
+                        .param("date", String.valueOf(article.getDate().getDayOfMonth()))
+                        .param("importance", String.valueOf(article.getImportance())))
+                .andExpect(status().isSeeOther())
+                .andExpect(redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
+                .andExpect(model().attribute("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)));
+
+        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
+                        .param("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)))
+                .andExpect(status().isOk())
+                .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX))
+                .andExpect(model().attribute("layoutPath", FINISH_UPDATE_COMPANY_ARTICLE_PATH))
+                .andExpect(model().attribute("name", article.getName()));
+    }
+
     @DisplayName("단일 기사 삭제 페이지 접속")
     @Test
     public void accessArticleRemovePage() throws Exception {
-        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL)
-                        .param("dataTypeKor", "기사")
-                        .param("dataTypeEng", "article")
-                        .param("key", "name"))
+        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
                 .andExpect(status().isOk())
                 .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
