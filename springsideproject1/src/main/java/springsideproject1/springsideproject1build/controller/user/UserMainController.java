@@ -69,7 +69,7 @@ public class UserMainController {
     @PostMapping(FIND_ID_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect,
-            @RequestParam String name, @RequestParam int year, @RequestParam int month, @RequestParam int date) {
+            @RequestParam String name, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer date) {
         redirect.addAttribute("idList", encodeUTF8(memberService.findMembersByNameAndBirth(
                 name, LocalDate.of(year, month, date)).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;

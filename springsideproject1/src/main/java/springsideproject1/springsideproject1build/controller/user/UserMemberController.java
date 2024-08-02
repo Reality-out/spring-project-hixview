@@ -40,7 +40,8 @@ public class UserMemberController {
 
     @PostMapping("/membership")
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitMembership(String id, String password, String name, int year, int month, int date, String phoneNumber) {
+    public String submitMembership(String id, String password, String name,
+                                   Integer year, Integer month, Integer date, String phoneNumber) {
         memberService.joinMember(Member.builder().id(id).password(password).name(name)
                 .birth(LocalDate.of(year, month, date)).phoneNumber(phoneNumber).build());
         return URL_REDIRECT_PREFIX + "/membership" + URL_FINISH_SUFFIX;

@@ -54,7 +54,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddSingleCompanyArticle(RedirectAttributes redirect,
                                                 String name, String press, String subjectCompany,
-                                                String link, int year, int month, int date, Integer importance) {
+                                                String link, Integer year, Integer month, Integer date, Integer importance) {
         redirect.addAttribute("name", name);
         articleService.joinArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
