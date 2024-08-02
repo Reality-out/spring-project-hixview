@@ -58,13 +58,9 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTest {
         // given
         List<String> articleString = createTestStringArticle();
 
-        // when
-        articleService.joinArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast());
-
         // then
-        assertThat(articleService.findArticles())
+        assertThat(articleService.joinArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast()))
                 .usingRecursiveComparison()
-                .ignoringFields("number")
                 .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
     }
 

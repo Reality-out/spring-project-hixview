@@ -18,12 +18,14 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 
 @Controller
 @RequiredArgsConstructor
@@ -83,8 +85,8 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticlesUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
                                                       @RequestParam String articleString, @RequestParam String linkString) {
-        redirect.addAttribute("nameList",
-                articleService.joinArticlesWithString(subjectCompany, articleString, linkString));
+        redirect.addAttribute("nameList", encodeUTF8(articleService.joinArticlesWithString(
+                subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
 

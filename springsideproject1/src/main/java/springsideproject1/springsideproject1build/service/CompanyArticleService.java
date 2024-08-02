@@ -11,10 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 
@@ -46,14 +44,16 @@ public class CompanyArticleService {
     /**
      * INSERT CompanyArticle
      */
-    @Transactional // returns the names of the newly joined articles
-    public List<String> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
+    @Transactional
+    public List<CompanyArticle> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<String> linkList = parseLinkString(linkString);
+        List<CompanyArticle> returnList = new ArrayList<>();
 
         for (int i = 0; i < linkList.size(); i++){
             List<String> partialArticle = partialArticleLists.get(i);
-            joinArticle(CompanyArticle.builder()
+
+            CompanyArticle article = CompanyArticle.builder()
                     .name(partialArticle.get(0))
                     .press(partialArticle.get(4))
                     .subjectCompany(subjectCompany)
@@ -62,10 +62,13 @@ public class CompanyArticleService {
                             parseInt(partialArticle.get(2)),
                             parseInt(partialArticle.get(3))))
                     .importance(0)
-                    .build());
+                    .build();
+
+            joinArticle(article);
+            returnList.add(article);
         }
 
-        return encodeUTF8(partialArticleLists.stream().map(List::getFirst).collect(Collectors.toList()));
+        return returnList;
     }
 
     @Transactional

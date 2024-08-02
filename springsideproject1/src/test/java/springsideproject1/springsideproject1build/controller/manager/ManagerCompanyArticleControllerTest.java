@@ -18,17 +18,17 @@ import javax.sql.DataSource;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
-import static springsideproject1.springsideproject1build.utility.MainUtility.toStringForUrl;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.FINISH_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.PROCESS_ADD_COMPANY_ARTICLE_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.MainUtility.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -106,12 +106,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         // given
         List<String> articleString = createTestStringArticle();
         List<String> nameList = articleService.joinArticlesWithString(
-                articleString.getFirst(), articleString.get(1), articleString.getLast());
+                articleString.getFirst(), articleString.get(1), articleString.getLast())
+                .stream().map(CompanyArticle::getName).collect(Collectors.toList());
         articleService.removeArticle(createTestEqualDateArticle().getName());
         articleService.removeArticle(createTestNewArticle().getName());
 
         // then
-        String nameListForURL = toStringForUrl(nameList);
+        String nameListForURL = toStringForUrl(encodeUTF8(nameList));
         assertThat(mockMvc.perform(post(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("subjectCompany", articleString.getFirst())
