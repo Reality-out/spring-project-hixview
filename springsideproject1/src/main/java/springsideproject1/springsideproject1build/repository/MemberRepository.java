@@ -16,6 +16,8 @@ public interface MemberRepository {
 
     List<Member> getMembersByBirth(LocalDate birth);
 
+    List<Member> getMembersByNameAndBirth(String name, LocalDate birth);
+
     Optional<Member> getMemberByIdentifier(Long identifier);
 
     Optional<Member> getMemberByID(String id);

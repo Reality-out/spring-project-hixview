@@ -7,13 +7,11 @@ import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.repository.MemberRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_MEMBER_ID;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_MEMBER_WITH_THAT_ID;
-import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 
 @Service
 @RequiredArgsConstructor
@@ -36,14 +34,8 @@ public class MemberService {
         return memberRepository.getMembersByBirth(birth);
     }
 
-    public List<String> findMembersByNameAndBirth(String name, LocalDate birth) {
-        ArrayList<String> returnMembers = new ArrayList<>();
-        for (Member member : findMembersByName(name)) {
-            if (member.getBirth().isEqual(birth)) {
-                returnMembers.add(member.getId());
-            }
-        }
-        return encodeUTF8(returnMembers);
+    public List<Member> findMembersByNameAndBirth(String name, LocalDate birth) {
+        return memberRepository.getMembersByNameAndBirth(name, birth);
     }
 
     public Optional<Member> findMemberByIdentificationNumber(Long identificationNumber) {

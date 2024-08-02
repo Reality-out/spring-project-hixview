@@ -45,6 +45,11 @@ public class MemberRepositoryJdbc implements MemberRepository {
     }
 
     @Override
+    public List<Member> getMembersByNameAndBirth(String name, LocalDate birth) {
+        return jdbcTemplate.query("select * from " + memberTable + " where name = ? and birth = ?", memberRowMapper(), name, birth);
+    }
+
+    @Override
     public Optional<Member> getMemberByIdentifier(Long identifier) {
         List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where identifier = ?", memberRowMapper(), identifier);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());

@@ -10,19 +10,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.service.MemberService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static springsideproject1.springsideproject1build.config.constant.FOLDER_PATH_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
+import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 
 @Controller
 @RequiredArgsConstructor
-public class UserMainPageController {
+public class UserMainController {
 
     @Autowired
     private final MemberService memberService;
@@ -47,6 +50,9 @@ public class UserMainPageController {
         return USER_LOGIN_VIEW_NAME + "loginPage";
     }
 
+    /**
+     * Find ID
+     */
     @GetMapping(FIND_ID_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processFindIdPage() {
@@ -64,8 +70,8 @@ public class UserMainPageController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect,
             @RequestParam String name, @RequestParam int year, @RequestParam int month, @RequestParam int date) {
-        redirect.addAttribute("idList",
-                memberService.findMembersByNameAndBirth(name, LocalDate.of(year, month, date)));
+        redirect.addAttribute("idList", encodeUTF8(memberService.findMembersByNameAndBirth(
+                name, LocalDate.of(year, month, date)).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;
     }
 }

@@ -11,7 +11,7 @@ import static springsideproject1.springsideproject1build.config.constant.REQUEST
 
 @Controller
 @RequiredArgsConstructor
-public class ManagerMainPageController {
+public class ManagerMainController {
 
     /**
      * Main

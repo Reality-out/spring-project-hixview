@@ -136,6 +136,42 @@ class MemberRepositoryJdbcTest implements MemberTest {
                 .isEqualTo(List.of(member1, member2));
     }
 
+    @DisplayName("멤버 이름과 생일로 찾기")
+    @Test
+    public void findByNameAndBirth() {
+        // given
+        Member member = createTestMember();
+
+        // when
+        memberRepository.saveMember(member);
+
+        // then
+        assertThat(memberRepository.getMembersByNameAndBirth(member.getName(), member.getBirth()))
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(List.of(member));
+    }
+
+    @DisplayName("이름과 생일이 중복되는 멤버 모두 찾기")
+    @Test
+    public void findAllByNameAndBirth() {
+        // given
+        Member member1 = createTestMember();
+        String commonName = member1.getName();
+        LocalDate commonBirth = member1.getBirth();
+        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).birth(commonBirth).build();
+
+        // when
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
+
+        // then
+        assertThat(memberRepository.getMembersByBirth(commonBirth))
+                .usingRecursiveComparison()
+                .ignoringFields("identifier")
+                .isEqualTo(List.of(member1, member2));
+    }
+
     @DisplayName("멤버 식별자로 찾기")
     @Test
     public void findByIdentifier() {

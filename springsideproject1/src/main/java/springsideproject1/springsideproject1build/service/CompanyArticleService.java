@@ -46,7 +46,7 @@ public class CompanyArticleService {
     /**
      * INSERT CompanyArticle
      */
-    @Transactional
+    @Transactional // returns the names of the newly joined articles
     public List<String> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<String> linkList = parseLinkString(linkString);

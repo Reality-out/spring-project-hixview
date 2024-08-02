@@ -18,10 +18,16 @@ public class MainUtility {
      * Convert
      */
     public static String toStringForUrl(List<?> list) {
-        Pattern pattern = Pattern.compile("[\\[\\] ]"); // Regex pattern for [, ], and space
         return Pattern.compile("").splitAsStream(list.toString())
-                .filter(c -> !pattern.matcher(c).matches())
-                .collect(Collectors.joining());
+                .map(str -> {
+                    if (str.equals("[") || str.equals("]") || str.equals(" ")) {
+                        return "";
+                    } else if (str.equals("!")) {
+                        return "%21";
+                    } else {
+                        return str;
+                    }
+                }).collect(Collectors.joining());
     }
 
     /**

@@ -36,7 +36,6 @@ class MemberServiceJdbcTest implements MemberTest {
         resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-
     @DisplayName("회원 가입")
     @Test
     public void membership() {
