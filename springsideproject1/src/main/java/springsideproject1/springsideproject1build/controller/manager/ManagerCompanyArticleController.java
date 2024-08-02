@@ -13,9 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -23,9 +20,9 @@ import java.util.stream.Collectors;
 
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 
 @Controller
@@ -49,7 +46,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH);
-        model.addAttribute("name", URLDecoder.decode(name, StandardCharsets.UTF_8));
+        model.addAttribute("name", decodeUTF8(name));
         return ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage";
     }
 
@@ -58,7 +55,7 @@ public class ManagerCompanyArticleController {
     public String submitAddSingleCompanyArticle(RedirectAttributes redirect,
                                                 String name, String press, String subjectCompany,
                                                 String link, Integer year, Integer month, Integer date, Integer importance) {
-        redirect.addAttribute("name", URLEncoder.encode(name, StandardCharsets.UTF_8));
+        redirect.addAttribute("name", encodeUTF8(name));
         articleService.joinArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -126,7 +123,7 @@ public class ManagerCompanyArticleController {
                                             String link, Integer year, Integer month, Integer date, Integer importance) {
         articleService.updateArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
-        redirect.addAttribute("name", URLEncoder.encode(name, StandardCharsets.UTF_8));
+        redirect.addAttribute("name", encodeUTF8(name));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -134,7 +131,7 @@ public class ManagerCompanyArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishUpdateCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute("layoutPath", FINISH_UPDATE_COMPANY_ARTICLE_PATH);
-        model.addAttribute("name", URLDecoder.decode(name, StandardCharsets.UTF_8));
+        model.addAttribute("name", decodeUTF8(name));
 		return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
@@ -155,14 +152,14 @@ public class ManagerCompanyArticleController {
     public String finishRemoveCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute("dataTypeKor", "기사");
         model.addAttribute("key", "제목");
-        model.addAttribute("value", URLDecoder.decode(name, StandardCharsets.UTF_8));
+        model.addAttribute("value", decodeUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRemoveSingleArticle(RedirectAttributes redirect, @RequestParam String name) {
-        redirect.addAttribute("name", URLEncoder.encode(name, StandardCharsets.UTF_8));
+        redirect.addAttribute("name", encodeUTF8(name));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 }

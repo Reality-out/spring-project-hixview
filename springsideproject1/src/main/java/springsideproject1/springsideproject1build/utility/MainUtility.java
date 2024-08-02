@@ -34,16 +34,24 @@ public class MainUtility {
      * Decode
      */
     public static List<String> decodeUTF8(List<String> list) {
-        list.replaceAll(s -> URLDecoder.decode(s, StandardCharsets.UTF_8));
+        list.replaceAll(MainUtility::decodeUTF8);
         return list;
+    }
+
+    public static String decodeUTF8(String str) {
+        return URLDecoder.decode(str, StandardCharsets.UTF_8);
     }
 
     /**
      * Encode
      */
     public static List<String> encodeUTF8(List<String> list) {
-        list.replaceAll(s -> URLEncoder.encode(s, StandardCharsets.UTF_8));
+        list.replaceAll(MainUtility::encodeUTF8);
         return list;
+    }
+
+    public static String encodeUTF8(String str) {
+        return URLEncoder.encode(str, StandardCharsets.UTF_8);
     }
 
     /**

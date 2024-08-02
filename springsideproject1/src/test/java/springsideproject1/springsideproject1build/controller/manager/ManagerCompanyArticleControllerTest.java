@@ -15,8 +15,6 @@ import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTest;
 
 import javax.sql.DataSource;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,10 +78,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)));
+                .andExpect(model().attribute("name", encodeUTF8(article.getName())));
 
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)))
+                        .param("name", encodeUTF8(article.getName())))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
@@ -189,10 +187,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         .param("importance", String.valueOf(article.getImportance())))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)));
+                .andExpect(model().attribute("name", encodeUTF8(article.getName())));
 
         mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", URLEncoder.encode(article.getName(), StandardCharsets.UTF_8)))
+                        .param("name", encodeUTF8(article.getName())))
                 .andExpect(status().isOk())
                 .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("layoutPath", FINISH_UPDATE_COMPANY_ARTICLE_PATH))
@@ -226,10 +224,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         .param("name", name))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", URLEncoder.encode(name, StandardCharsets.UTF_8)));
+                .andExpect(model().attribute("name", encodeUTF8(name)));
 
         mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", URLEncoder.encode(name, StandardCharsets.UTF_8)))
+                        .param("name", encodeUTF8(name)))
                 .andExpect(status().isOk())
                 .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))
