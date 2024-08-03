@@ -101,9 +101,9 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTest {
 
     @DisplayName("존재하지 않는 이름을 포함하는 단일 기사 갱신")
     @Test
-    public void updateArticleWithFaultName() {
+    public void renewArticleWithFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> articleService.updateArticle(createTestArticle()));
+                () -> articleService.renewArticle(createTestArticle()));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
 

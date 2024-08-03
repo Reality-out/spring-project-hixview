@@ -102,7 +102,7 @@ public class ManagerCompanyArticleController {
     }
 
     /**
-     * Update - Single
+     * Update
      */
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
@@ -113,7 +113,7 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processUpdateSingleArticle(Model model, @RequestParam String name) {
+    public String processUpdateCompanyArticle(Model model, @RequestParam String name) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByName(name);
         if (articleOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME);
@@ -131,10 +131,10 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitUpdateSingleArticle(RedirectAttributes redirect,
+    public String submitUpdateCompanyArticle(RedirectAttributes redirect,
                                             String name, String press, String subjectCompany,
                                             String link, Integer year, Integer month, Integer date, Integer importance) {
-        articleService.updateArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
+        articleService.renewArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
                 .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
         redirect.addAttribute(NAME, encodeUTF8(name));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -149,7 +149,7 @@ public class ManagerCompanyArticleController {
 	}
 
     /**
-     * Remove - Single
+     * Remove
      */
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
@@ -171,7 +171,7 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitRemoveSingleArticle(RedirectAttributes redirect, @RequestParam String name) {
+    public String submitRemoveCompanyArticle(RedirectAttributes redirect, @RequestParam String name) {
         redirect.addAttribute(NAME, encodeUTF8(name));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }

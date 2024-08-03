@@ -24,6 +24,12 @@ public class ManagerMainController {
         model.addAttribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL);
         model.addAttribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL);
         model.addAttribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL);
+
+        model.addAttribute("addSingleCompany", ADD_SINGLE_COMPANY_URL);
+        model.addAttribute("updateCompany", UPDATE_COMPANY_URL);
+        model.addAttribute("removeCompany", REMOVE_COMPANY_URL);
+        model.addAttribute("selectCompanies", SELECT_COMPANY_URL);
+
         model.addAttribute("removeMember", REMOVE_MEMBER_URL);
         model.addAttribute("selectMembers", SELECT_MEMBER_URL);
         return "manager/mainPage";

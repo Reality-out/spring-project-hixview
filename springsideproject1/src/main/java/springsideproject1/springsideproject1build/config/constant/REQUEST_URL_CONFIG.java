@@ -18,6 +18,12 @@ public class REQUEST_URL_CONFIG {
     public static final String UPDATE_COMPANY_ARTICLE_URL = "/manager/article/company/update";
     public static final String REMOVE_COMPANY_ARTICLE_URL = "/manager/article/company/remove";
 
+    // Company
+    public static final String ADD_SINGLE_COMPANY_URL = "/manager/company/add/single";
+    public static final String SELECT_COMPANY_URL = "/manager/company/select";
+    public static final String UPDATE_COMPANY_URL = "/manager/company/update";
+    public static final String REMOVE_COMPANY_URL = "/manager/company/remove";
+
     // Member
     public static final String SELECT_MEMBER_URL = "/manager/member/select";
     public static final String REMOVE_MEMBER_URL = "/manager/member/remove";

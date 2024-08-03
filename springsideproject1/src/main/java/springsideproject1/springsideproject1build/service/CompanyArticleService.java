@@ -87,7 +87,7 @@ public class CompanyArticleService {
      * UPDATE CompanyArticle
      */
     @Transactional
-    public void updateArticle(CompanyArticle article) {
+    public void renewArticle(CompanyArticle article) {
         existentCheck(article.getName());
         articleRepository.updateArticle(article);
     }

@@ -11,10 +11,10 @@
         <ol>
             <li>기업 기사 관련 기능</li>
             <ol>
-                <li>단일</li> <!-- CREATE, DELETE 구현 -->
+                <li>단일</li> <!-- CREATE, UPDATE, DELETE 구현 -->
                 <li><a th:href="${addSingleCompanyArticle}">단일 기사 등록</a></li>
-                <li><a th:href="${removeCompanyArticle}">단일 기사 삭제</a></li>
                 <li><a th:href="${updateCompanyArticle}">단일 기사 갱신</a></li>
+                <li><a th:href="${removeCompanyArticle}">단일 기사 삭제</a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- CREATE, READ 구현 -->
@@ -25,6 +25,21 @@
                 </li>
                 <li>
                     <a th:href="${selectCompanyArticles}">모든 기사 조회</a>
+                </li>
+            </ol>
+        </ol>
+        <ol>
+            <li>기업 관련 기능</li>
+            <ol>
+                <li>단일</li>
+                <li><a th:href="${addSingleCompany}">단일 기업 등록</a></li>
+                <li><a th:href="${updateCompany}">단일 기업 갱신</a></li>
+                <li><a th:href="${removeCompany}">단일 기업 삭제</a></li>
+            </ol>
+            <ol>
+                <li>다수</li>
+                <li>
+                    <a th:href="${selectCompanies}">모든 기업 조회</a>
                 </li>
             </ol>
         </ol>
