@@ -61,6 +61,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * REMOVE Company
      */
     @Override
+    @Transactional
     public void deleteCompanyByCode(String code) {
         jdbcTemplate.execute("delete from " + companyTable + " where code = '" + code + "'");
     }

@@ -37,6 +37,28 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTest {
         resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
+    @DisplayName("다수의 기사를 통한 기사 동시 등록")
+    @Test
+    public void registerArticles() {
+        assertThat(articleService.joinArticles(createTestArticle(), createTestNewArticle()))
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(List.of(createTestArticle(), createTestNewArticle()));
+    }
+
+    @DisplayName("단일 문자열을 통한 기사 동시 등록")
+    @Test
+    public void registerArticlesWithString() {
+        // given
+        List<String> articleString = createTestStringArticle();
+
+        // then
+        assertThat(articleService.joinArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast()))
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
+    }
+
     @DisplayName("단일 기사 등록")
     @Test
     public void registerArticle() {
@@ -52,31 +74,11 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTest {
                 .isEqualTo(article);
     }
 
-    @DisplayName("단일 문자열을 통한 기사 동시 등록")
-    @Test
-    public void registerArticlesWithString() {
-        // given
-        List<String> articleString = createTestStringArticle();
-
-        // then
-        assertThat(articleService.joinArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast()))
-                .usingRecursiveComparison()
-                .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
-    }
-
-    @DisplayName("중복 기사 제목을 사용하는 단일 기사 등록")
+    @DisplayName("중복 기사 제목을 사용하는 다수 기사 등록")
     @Test
     public void registerArticleWithSameName() {
-        // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestArticle();
-
-        // when
-        articleService.joinArticle(article1);
-
-        // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> articleService.joinArticle(article2));
+                () -> articleService.joinArticles(createTestArticle(), createTestArticle()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 

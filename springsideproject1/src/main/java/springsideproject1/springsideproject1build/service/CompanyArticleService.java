@@ -45,6 +45,15 @@ public class CompanyArticleService {
      * INSERT CompanyArticle
      */
     @Transactional
+    public List<CompanyArticle> joinArticles(CompanyArticle... articles) {
+        List<CompanyArticle> articleList = new ArrayList<>();
+        for (CompanyArticle article : articles) {
+            articleList.add(CompanyArticle.builder().article(article).number(joinArticle(article).getNumber()).build());
+        }
+        return articleList;
+    }
+
+    @Transactional
     public List<CompanyArticle> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<String> linkList = parseLinkString(linkString);
@@ -53,7 +62,7 @@ public class CompanyArticleService {
         for (int i = 0; i < linkList.size(); i++){
             List<String> partialArticle = partialArticleLists.get(i);
 
-            CompanyArticle article = CompanyArticle.builder()
+            returnList.add(joinArticle(CompanyArticle.builder()
                     .name(partialArticle.get(0))
                     .press(partialArticle.get(4))
                     .subjectCompany(subjectCompany)
@@ -62,10 +71,7 @@ public class CompanyArticleService {
                             parseInt(partialArticle.get(2)),
                             parseInt(partialArticle.get(3))))
                     .importance(0)
-                    .build();
-
-            joinArticle(article);
-            returnList.add(article);
+                    .build()));
         }
 
         return returnList;
