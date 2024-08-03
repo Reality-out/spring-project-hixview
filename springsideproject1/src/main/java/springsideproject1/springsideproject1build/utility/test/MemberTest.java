@@ -1,8 +1,12 @@
 package springsideproject1.springsideproject1build.utility.test;
 
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import springsideproject1.springsideproject1build.domain.Member;
 
 import java.time.LocalDate;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 public interface MemberTest extends ObjectTest {
 
@@ -20,5 +24,19 @@ public interface MemberTest extends ObjectTest {
     default Member createTestNewMember() {
         return Member.builder().id("abCD4321!").password("OPqr4321!").name("박하진")
                 .birth(LocalDate.of(1999, 9, 1)).phoneNumber("010-2345-6789").build();
+    }
+
+    /**
+     * Request
+     */
+    default MockHttpServletRequestBuilder processPostWithMember(String url, Member member) {
+        return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", member.getId())
+                .param("password", member.getPassword())
+                .param("name", member.getName())
+                .param("year", String.valueOf(member.getBirth().getYear()))
+                .param("month", String.valueOf(member.getBirth().getMonthValue()))
+                .param("date", String.valueOf(member.getBirth().getDayOfMonth()))
+                .param("phoneNumber", member.getPhoneNumber().toString());
     }
 }

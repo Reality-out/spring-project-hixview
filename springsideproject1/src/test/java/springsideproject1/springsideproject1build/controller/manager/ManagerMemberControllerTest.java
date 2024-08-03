@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.REMOVE_MEMBER_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
@@ -91,15 +89,12 @@ class ManagerMemberControllerTest implements MemberTest {
         // then
         String id = member.getId();
 
-        mockMvc.perform(post(REMOVE_MEMBER_URL)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("id", id))
+        mockMvc.perform(processPostWithSingleParam(REMOVE_MEMBER_URL, "id", id))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?*"))
                 .andExpect(model().attribute("id", id));
 
-        mockMvc.perform(get(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
-                        .param("id", id))
+        mockMvc.perform(processGetWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, "id", id))
                 .andExpect(status().isOk())
                 .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "회원"))
