@@ -51,26 +51,26 @@ class UserMainControllerTest implements MemberTest {
     @Test
     public void accessMainPage() throws Exception {
         mockMvc.perform(get(""))
-                .andExpect(status().isOk())
-                .andExpect(view().name("user/mainPage"))
-                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
+                .andExpectAll(status().isOk(),
+                        view().name("user/mainPage"),
+                        model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("로그인 페이지 접속")
     @Test
     public void accessLoginPage() throws Exception {
         mockMvc.perform(get("/login"))
-                .andExpect(status().isOk())
-                .andExpect(view().name(USER_LOGIN_VIEW + "loginPage"))
-                .andExpect(model().attribute("findId", FIND_ID_URL));
+                .andExpectAll(status().isOk(),
+                        view().name(USER_LOGIN_VIEW + "loginPage"),
+                        model().attribute("findId", FIND_ID_URL));
     }
 
     @DisplayName("아이디 찾기 페이지 접속")
     @Test
     public void accessFindIdPage() throws Exception {
         mockMvc.perform(get(FIND_ID_URL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX));
+                .andExpectAll(status().isOk(),
+                        view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX));
     }
 
     @DisplayName("아이디 찾기 완료 페이지 접속")
@@ -95,15 +95,15 @@ class UserMainControllerTest implements MemberTest {
             put("month", String.valueOf(commonBirth.getMonthValue()));
             put("date", String.valueOf(commonBirth.getDayOfMonth()));
         }}))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + "?*"))
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + "?*"))
                 .andReturn().getModelAndView().getModelMap().get("idList"))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
 
         mockMvc.perform(processGetWithSingleParam(FIND_ID_URL + URL_FINISH_SUFFIX, "idList", idListForUrl))
-                .andExpect(status().isOk())
-                .andExpect(view().name(USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX))
-                .andExpect(model().attribute("idList", idList));
+                .andExpectAll(status().isOk(),
+                        view().name(USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute("idList", idList));
     }
 }

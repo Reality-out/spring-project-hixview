@@ -53,9 +53,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
     @Test
     public void accessArticleRegisterPage() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "singleProcessPage"))
-                .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
+                .andExpectAll(status().isOk(),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "singleProcessPage"),
+                        model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
     @DisplayName("단일 기사 등록 완료 페이지 접속")
@@ -66,25 +66,25 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
         // then
         mockMvc.perform(processPostWithCompanyArticle(ADD_SINGLE_COMPANY_ARTICLE_URL, article))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", encodeUTF8(article.getName())));
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"),
+                        model().attribute("name", encodeUTF8(article.getName())));
 
         mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         "name", encodeUTF8(article.getName())))
-                .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage"))
-                .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
-                .andExpect(model().attribute("name", article.getName()));
+                .andExpectAll(status().isOk(),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage"),
+                        model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH),
+                        model().attribute("name", article.getName()));
     }
 
     @DisplayName("단일 문자열을 사용하는 기사 등록 페이지 접속")
     @Test
     public void StringArticleRegisterPage() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleProcessStringPage"))
-                .andExpect(model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
+                .andExpectAll(status().isOk(),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleProcessStringPage"),
+                        model().attribute("layoutPath", PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
     @DisplayName("단일 문자열을 사용하는 기사 등록 완료 페이지 접속")
@@ -105,17 +105,17 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                     put("articleString", articleString.get(1));
                     put("linkString", articleString.getLast());
                 }}))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + "?*"))
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + "?*"))
                 .andReturn().getModelAndView().getModelMap().get("nameList"))
                 .usingRecursiveComparison()
                 .isEqualTo(nameListForURL);
 
         assertThat(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         "nameList", nameListForURL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishStringPage"))
-                .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
+                .andExpectAll(status().isOk(),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishStringPage"),
+                        model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
                 .andReturn().getModelAndView().getModelMap().get("nameList"))
                 .usingRecursiveComparison()
                 .isEqualTo(decodeUTF8(nameList));
@@ -125,9 +125,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
     @Test
     public void accessArticleUpdatePage() throws Exception {
         mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX))
-                .andExpect(model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH));
+                .andExpectAll(status().isOk(),
+                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX),
+                        model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH));
     }
 
     @DisplayName("단일 기사 갱신 페이지 내 이름 검색")
@@ -141,13 +141,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
         // then
         assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "name", article.getName()))
-                .andExpect(status().isOk())
-                .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + "after" + VIEW_PASCAL_PROCESS_SUFFIX))
-                .andExpect(model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH))
-                .andExpect(model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
-                .andExpect(model().attribute("year", article.getDate().getYear()))
-                .andExpect(model().attribute("month", article.getDate().getMonthValue()))
-                .andExpect(model().attribute("date", article.getDate().getDayOfMonth()))
+                .andExpectAll(status().isOk(),
+                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + "after" + VIEW_PASCAL_PROCESS_SUFFIX),
+                        model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH),
+                        model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX),
+                        model().attribute("year", article.getDate().getYear()),
+                        model().attribute("month", article.getDate().getMonthValue()),
+                        model().attribute("date", article.getDate().getDayOfMonth()))
                 .andReturn().getModelAndView().getModelMap().get("article"))
                 .usingRecursiveComparison()
                 .isEqualTo(article);
@@ -164,27 +164,27 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
         // then
         mockMvc.perform(processPostWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", encodeUTF8(article.getName())));
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"),
+                        model().attribute("name", encodeUTF8(article.getName())));
 
         mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         "name", encodeUTF8(article.getName())))
-                .andExpect(status().isOk())
-                .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX))
-                .andExpect(model().attribute("layoutPath", FINISH_UPDATE_COMPANY_ARTICLE_PATH))
-                .andExpect(model().attribute("name", article.getName()));
+                .andExpectAll(status().isOk(),
+                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute("layoutPath", FINISH_UPDATE_COMPANY_ARTICLE_PATH),
+                        model().attribute("name", article.getName()));
     }
 
     @DisplayName("단일 기사 삭제 페이지 접속")
     @Test
     public void accessArticleRemovePage() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX))
-                .andExpect(model().attribute("dataTypeKor", "기사"))
-                .andExpect(model().attribute("dataTypeEng", "article"))
-                .andExpect(model().attribute("key", "name"));
+                .andExpectAll(status().isOk(),
+                        view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute("dataTypeKor", "기사"),
+                        model().attribute("dataTypeEng", "article"),
+                        model().attribute("key", "name"));
     }
 
     @DisplayName("단일 기사 삭제 완료 페이지 접속")
@@ -199,15 +199,15 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
         // then
         mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "name", name))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("name", encodeUTF8(name)));
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"),
+                        model().attribute("name", encodeUTF8(name)));
 
         mockMvc.perform(processGetWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, "name", encodeUTF8(name)))
-                .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
-                .andExpect(model().attribute("dataTypeKor", "기사"))
-                .andExpect(model().attribute("key", "제목"))
-                .andExpect(model().attribute("value", name));
+                .andExpectAll(status().isOk(),
+                        view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute("dataTypeKor", "기사"),
+                        model().attribute("key", "제목"),
+                        model().attribute("value", name));
     }
 }

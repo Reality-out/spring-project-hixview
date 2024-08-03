@@ -59,8 +59,8 @@ class ManagerMemberControllerTest implements MemberTest {
 
         // then
         assertThat(mockMvc.perform(get("/manager/member/all"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("manager/select/membersPage"))
+                .andExpectAll(status().isOk(),
+                        view().name("manager/select/membersPage"))
                 .andReturn().getModelAndView().getModelMap().get("members"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(member1, member2));
@@ -70,11 +70,11 @@ class ManagerMemberControllerTest implements MemberTest {
     @Test
     public void accessMembershipWithdrawPage() throws Exception {
         mockMvc.perform(get(REMOVE_MEMBER_URL))
-                .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX))
-                .andExpect(model().attribute("dataTypeKor", "회원"))
-                .andExpect(model().attribute("dataTypeEng", "member"))
-                .andExpect(model().attribute("key", "id"));
+                .andExpectAll(status().isOk(),
+                        view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute("dataTypeKor", "회원"),
+                        model().attribute("dataTypeEng", "member"),
+                        model().attribute("key", "id"));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")
@@ -90,15 +90,15 @@ class ManagerMemberControllerTest implements MemberTest {
         String id = member.getId();
 
         mockMvc.perform(processPostWithSingleParam(REMOVE_MEMBER_URL, "id", id))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?*"))
-                .andExpect(model().attribute("id", id));
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?*"),
+                        model().attribute("id", id));
 
         mockMvc.perform(processGetWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, "id", id))
-                .andExpect(status().isOk())
-                .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
-                .andExpect(model().attribute("dataTypeKor", "회원"))
-                .andExpect(model().attribute("key", "id"))
-                .andExpect(model().attribute("value", id));
+                .andExpectAll(status().isOk(),
+                        view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute("dataTypeKor", "회원"),
+                        model().attribute("key", "id"),
+                        model().attribute("value", id));
     }
 }

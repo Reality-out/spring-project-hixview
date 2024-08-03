@@ -26,19 +26,19 @@ class UserMemberControllerTest implements MemberTest {
     @Test
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get("/membership"))
-                .andExpect(status().isOk())
-                .andExpect(view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX));
+                .andExpectAll(status().isOk(),
+                        view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
     @Test
     public void accessMembershipSucceedPage() throws Exception {
         mockMvc.perform(processPostWithMember("/membership", createTestMember()))
-                .andExpect(status().isSeeOther())
-                .andExpect(redirectedUrl("/membership" + URL_FINISH_SUFFIX));
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrl("/membership" + URL_FINISH_SUFFIX));
 
         mockMvc.perform(get("/membership" + URL_FINISH_SUFFIX))
-                .andExpect(status().isOk())
-                .andExpect(view().name(MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX));
+                .andExpectAll(status().isOk(),
+                        view().name(MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX));
     }
 }

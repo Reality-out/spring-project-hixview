@@ -24,7 +24,7 @@ class ManagerMainControllerTest {
     @Test
     public void accessMainPage() throws Exception {
         mockMvc.perform(get("/manager"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("manager/mainPage"));
+                .andExpectAll(status().isOk(),
+                        view().name("manager/mainPage"));
     }
 }

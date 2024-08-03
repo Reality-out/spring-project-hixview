@@ -48,9 +48,9 @@ class UserCompanyControllerTest implements CompanyTest {
     @Test
     public void accessCompanyPage() throws Exception {
         mockMvc.perform(get("/company"))
-                .andExpect(status().isOk())
-                .andExpect(view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX))
-                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH));
+                .andExpectAll(status().isOk(),
+                        view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
+                        model().attribute("layoutPath", BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("기업 코드로 검색")
@@ -64,9 +64,9 @@ class UserCompanyControllerTest implements CompanyTest {
 
         // then
         assertThat(mockMvc.perform(get("/company/" + company.getCode()))
-                .andExpect(status().isOk())
-                .andExpect(view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX))
-                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH))
+                .andExpectAll(status().isOk(),
+                        view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
+                        model().attribute("layoutPath", BASIC_LAYOUT_PATH))
                 .andReturn().getModelAndView().getModelMap().get("company"))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
@@ -83,9 +83,9 @@ class UserCompanyControllerTest implements CompanyTest {
 
         // then
         assertThat(mockMvc.perform(get("/company/" + company.getName()))
-                .andExpect(status().isOk())
-                .andExpect(view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX))
-                .andExpect(model().attribute("layoutPath", BASIC_LAYOUT_PATH))
+                .andExpectAll(status().isOk(),
+                        view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
+                        model().attribute("layoutPath", BASIC_LAYOUT_PATH))
                 .andReturn().getModelAndView().getModelMap().get("company"))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
