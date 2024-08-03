@@ -1,4 +1,4 @@
-.memberWrapperDiv {
+.tableWrapperDiv {
     /* 
      * block
      */
@@ -21,11 +21,11 @@
     display: block;
     
     /* size */
-    width: 90vw;
+    width: 95vw;
     min-width: 1200px;
 }
 
-.memberTable {
+.table {
     /* 
      * block
      */
@@ -50,7 +50,7 @@
     width: 900px;
 }
 
-.memberTable > Caption {
+.table > caption {
     /* 
      * block
      */
@@ -76,7 +76,7 @@
     font-weight: 700;
 }
 
-.memberTable th {
+.table th {
     /* 
      * block
      */
@@ -109,7 +109,7 @@
     font-weight: 700;
 }
 
-.memberTable td {
+.table td {
     /* 
      * block
      */

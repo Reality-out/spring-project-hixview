@@ -28,5 +28,6 @@ public class VIEW_NAME_CONFIG {
     // Others
     public static String ADD_COMPANY_ARTICLE_VIEW = "manager/add/article/company/";
     public static String UPDATE_COMPANY_ARTICLE_VIEW = "manager/update/article/company/";
+    public static String MANAGER_SELECT_VIEW = "manager/select/";
     public static String MANAGER_REMOVE_VIEW = "manager/remove/";
 }

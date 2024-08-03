@@ -180,6 +180,21 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         model().attribute(NAME, article.getName()));
     }
 
+    @DisplayName("모든 기사 테이블 페이지 접속")
+    @Test
+    public void accessCompanyArticlesPage() throws Exception {
+        // given
+        List<CompanyArticle> articleList = articleService.joinArticles(createTestArticle(), createTestNewArticle());
+
+        // then
+        assertThat(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
+                .andExpectAll(status().isOk(),
+                        view().name(MANAGER_SELECT_VIEW + "companyArticlesPage"))
+                .andReturn().getModelAndView().getModelMap().get("articles"))
+                .usingRecursiveComparison()
+                .isEqualTo(articleList);
+    }
+
     @DisplayName("단일 기사 삭제 페이지 접속")
     @Test
     public void accessArticleRemovePage() throws Exception {

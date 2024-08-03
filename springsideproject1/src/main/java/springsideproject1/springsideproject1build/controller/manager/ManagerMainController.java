@@ -20,10 +20,12 @@ public class ManagerMainController {
     @ResponseStatus(HttpStatus.OK)
     public String mainPage(Model model) {
         model.addAttribute("addSingleCompanyArticle", ADD_SINGLE_COMPANY_ARTICLE_URL);
-        model.addAttribute("addCompanyArticleWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL);
         model.addAttribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL);
         model.addAttribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL);
+        model.addAttribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL);
+        model.addAttribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL);
         model.addAttribute("removeMember", REMOVE_MEMBER_URL);
+        model.addAttribute("selectMembers", SELECT_MEMBER_URL);
         return "manager/mainPage";
     }
 }

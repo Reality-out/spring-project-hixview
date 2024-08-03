@@ -24,11 +24,11 @@ public class ManagerMemberController {
     /**
      * Select
      */
-    @GetMapping("/manager/member/all")
+    @GetMapping(SELECT_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
     public String showMemberList(Model model) {
         model.addAttribute("members", memberService.findMembers());
-        return "manager/select/membersPage";
+        return MANAGER_SELECT_VIEW + "/membersPage";
     }
 
     /**

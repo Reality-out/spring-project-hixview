@@ -19,8 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.REMOVE_MEMBER_URL;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 
@@ -47,7 +46,7 @@ class ManagerMemberControllerTest implements MemberTest {
         resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    @DisplayName("멤버 리스트 페이지 접속")
+    @DisplayName("모든 멤버 테이블 페이지 접속")
     @Test
     public void accessMembersPage() throws Exception {
         // given
@@ -59,9 +58,9 @@ class ManagerMemberControllerTest implements MemberTest {
         member2 = memberService.joinMember(member2);
 
         // then
-        assertThat(mockMvc.perform(get("/manager/member/all"))
+        assertThat(mockMvc.perform(get(SELECT_MEMBER_URL))
                 .andExpectAll(status().isOk(),
-                        view().name("manager/select/membersPage"))
+                        view().name(MANAGER_SELECT_VIEW + "/membersPage"))
                 .andReturn().getModelAndView().getModelMap().get("members"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(member1, member2));

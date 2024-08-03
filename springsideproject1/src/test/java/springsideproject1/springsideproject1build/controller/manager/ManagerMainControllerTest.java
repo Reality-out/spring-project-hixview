@@ -9,8 +9,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.REMOVE_MEMBER_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,6 +26,13 @@ class ManagerMainControllerTest {
     public void accessMainPage() throws Exception {
         mockMvc.perform(get("/manager"))
                 .andExpectAll(status().isOk(),
-                        view().name("manager/mainPage"));
+                        view().name("manager/mainPage"),
+                        model().attribute("addSingleCompanyArticle", ADD_SINGLE_COMPANY_ARTICLE_URL),
+                        model().attribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL),
+                        model().attribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL),
+                        model().attribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL),
+                        model().attribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL),
+                        model().attribute("removeMember", REMOVE_MEMBER_URL),
+                        model().attribute("selectMembers", SELECT_MEMBER_URL));
     }
 }

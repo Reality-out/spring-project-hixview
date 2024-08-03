@@ -92,6 +92,16 @@ public class ManagerCompanyArticleController {
     }
 
     /**
+     * Select
+     */
+    @GetMapping(SELECT_COMPANY_ARTICLE_URL)
+    @ResponseStatus(HttpStatus.OK)
+    public String selectCompanyArticle(Model model) {
+        model.addAttribute("articles", articleService.findArticles());
+        return MANAGER_SELECT_VIEW + "companyArticlesPage";
+    }
+
+    /**
      * Update - Single
      */
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL)
