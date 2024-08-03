@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @SpringBootTest
@@ -50,7 +51,7 @@ class UserCompanyControllerTest implements CompanyTest {
         mockMvc.perform(get("/company"))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
-                        model().attribute("layoutPath", BASIC_LAYOUT_PATH));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("기업 코드로 검색")
@@ -66,7 +67,7 @@ class UserCompanyControllerTest implements CompanyTest {
         assertThat(mockMvc.perform(get("/company/" + company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
-                        model().attribute("layoutPath", BASIC_LAYOUT_PATH))
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
                 .andReturn().getModelAndView().getModelMap().get("company"))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
@@ -85,7 +86,7 @@ class UserCompanyControllerTest implements CompanyTest {
         assertThat(mockMvc.perform(get("/company/" + company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
-                        model().attribute("layoutPath", BASIC_LAYOUT_PATH))
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
                 .andReturn().getModelAndView().getModelMap().get("company"))
                 .usingRecursiveComparison()
                 .isEqualTo(company);

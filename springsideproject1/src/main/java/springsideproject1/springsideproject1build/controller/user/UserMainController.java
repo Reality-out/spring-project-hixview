@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
@@ -36,7 +37,7 @@ public class UserMainController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String mainPage(Model model) {
-        model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
+        model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         return "user/mainPage";
     }
 
@@ -46,6 +47,7 @@ public class UserMainController {
     @GetMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     public String loginPage(Model model) {
+        model.addAttribute("membership", MEMBERSHIP_URL);
         model.addAttribute("findId", FIND_ID_URL);
         return USER_LOGIN_VIEW + "loginPage";
     }

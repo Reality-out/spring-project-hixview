@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 
 @SpringBootTest
 @Transactional
@@ -25,6 +26,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
     CompanyArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
+    private final String NUMBER = "number";
 
     @Autowired
     public CompanyArticleRepositoryJdbcTest(DataSource dataSource) {
@@ -50,7 +52,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
         // then
         assertThat(articleRepository.getArticles())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2));
     }
 
@@ -68,12 +70,12 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
         // then
         assertThat(articleRepository.getArticleByName(article1.getName()).get())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(article1);
 
         assertThat(articleRepository.getArticleByName(article2.getName()).get())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(article2);
     }
 
@@ -91,7 +93,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
         // then
         assertThat(articleRepository.getArticlesByDate(article1.getDate()))
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2));
     }
 
@@ -117,7 +119,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
         assertThat(articleRepository
                 .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2, article3));
     }
 
@@ -133,7 +135,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
         // then
         assertThat(articleRepository.getArticleByName(article.getName()).get())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(article);
     }
 
@@ -141,17 +143,16 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTest {
     @Test
     public void update() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        articleRepository.saveArticle(article1);
+        CompanyArticle article = createTestArticle();
 
         // when
-        article1 = CompanyArticle.builder().article(createTestNewArticle()).name(article1.getName()).build();
+        articleRepository.saveArticle(article);
 
         // then
-        articleRepository.updateArticle(article1);
-        assertThat(articleRepository.getArticleByName(article1.getName()).get())
+        articleRepository.updateArticle(CompanyArticle.builder().article(createTestNewArticle()).name(article.getName()).build());
+        assertThat(articleRepository.getArticleByName(article.getName()).get())
                 .usingRecursiveComparison()
-                .ignoringFields("number", "name")
+                .ignoringFields(NUMBER, NAME)
                 .isEqualTo(createTestNewArticle());
     }
 

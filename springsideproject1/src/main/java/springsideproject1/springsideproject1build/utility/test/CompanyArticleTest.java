@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 
 public interface CompanyArticleTest extends ObjectTest {
 
@@ -69,13 +70,13 @@ public interface CompanyArticleTest extends ObjectTest {
      */
     default MockHttpServletRequestBuilder processPostWithCompanyArticle(String url, CompanyArticle article) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("name", article.getName())
+                .param(NAME, article.getName())
                 .param("press", article.getPress())
                 .param("subjectCompany", article.getSubjectCompany())
                 .param("link", article.getLink())
-                .param("year", String.valueOf(article.getDate().getYear()))
-                .param("month", String.valueOf(article.getDate().getMonthValue()))
-                .param("date", String.valueOf(article.getDate().getDayOfMonth()))
+                .param(YEAR, String.valueOf(article.getDate().getYear()))
+                .param(MONTH, String.valueOf(article.getDate().getMonthValue()))
+                .param(DATE, String.valueOf(article.getDate().getDayOfMonth()))
                 .param("importance", String.valueOf(article.getImportance()));
     }
 }

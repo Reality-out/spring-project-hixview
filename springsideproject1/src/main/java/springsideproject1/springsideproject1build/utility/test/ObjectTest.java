@@ -12,6 +12,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public interface ObjectTest {
 
     /**
+     * Constant
+     */
+    String ALL_QUERY_STRING = "?*";
+
+    /**
      * For DB
      */
     default void resetTable(JdbcTemplate jdbcTemplateTest, String tableName) {

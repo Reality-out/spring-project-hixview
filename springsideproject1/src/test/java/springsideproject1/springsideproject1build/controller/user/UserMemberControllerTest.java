@@ -11,6 +11,7 @@ import springsideproject1.springsideproject1build.utility.test.MemberTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.MEMBERSHIP_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
@@ -25,7 +26,7 @@ class UserMemberControllerTest implements MemberTest {
     @DisplayName("회원가입 페이지 접속")
     @Test
     public void accessMembershipPage() throws Exception {
-        mockMvc.perform(get("/membership"))
+        mockMvc.perform(get(MEMBERSHIP_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX));
     }
@@ -33,11 +34,11 @@ class UserMemberControllerTest implements MemberTest {
     @DisplayName("회원가입 완료 페이지 접속")
     @Test
     public void accessMembershipSucceedPage() throws Exception {
-        mockMvc.perform(processPostWithMember("/membership", createTestMember()))
+        mockMvc.perform(processPostWithMember(MEMBERSHIP_URL, createTestMember()))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrl("/membership" + URL_FINISH_SUFFIX));
+                        redirectedUrl(MEMBERSHIP_URL + URL_FINISH_SUFFIX));
 
-        mockMvc.perform(get("/membership" + URL_FINISH_SUFFIX))
+        mockMvc.perform(get(MEMBERSHIP_URL + URL_FINISH_SUFFIX))
                 .andExpectAll(status().isOk(),
                         view().name(MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX));
     }

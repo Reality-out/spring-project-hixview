@@ -22,9 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.FIND_ID_URL;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 import static springsideproject1.springsideproject1build.utility.MainUtility.toStringForUrl;
 
 @SpringBootTest
@@ -53,7 +54,7 @@ class UserMainControllerTest implements MemberTest {
         mockMvc.perform(get(""))
                 .andExpectAll(status().isOk(),
                         view().name("user/mainPage"),
-                        model().attribute("layoutPath", BASIC_LAYOUT_PATH));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
     }
 
     @DisplayName("로그인 페이지 접속")
@@ -62,6 +63,7 @@ class UserMainControllerTest implements MemberTest {
         mockMvc.perform(get("/login"))
                 .andExpectAll(status().isOk(),
                         view().name(USER_LOGIN_VIEW + "loginPage"),
+                        model().attribute("membership", MEMBERSHIP_URL),
                         model().attribute("findId", FIND_ID_URL));
     }
 
@@ -89,21 +91,23 @@ class UserMainControllerTest implements MemberTest {
         // then
         List<String> idList = List.of(member1.getId(), member2.getId());
         String idListForUrl = toStringForUrl(idList);
+        String idListString = "idList";
+
         assertThat(mockMvc.perform(processPostWithMultipleParam(FIND_ID_URL, new HashMap<>(){{
-            put("name", commonName);
-            put("year", String.valueOf(commonBirth.getYear()));
-            put("month", String.valueOf(commonBirth.getMonthValue()));
-            put("date", String.valueOf(commonBirth.getDayOfMonth()));
+            put(NAME, commonName);
+            put(YEAR, String.valueOf(commonBirth.getYear()));
+            put(MONTH, String.valueOf(commonBirth.getMonthValue()));
+            put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
         }}))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + "?*"))
-                .andReturn().getModelAndView().getModelMap().get("idList"))
+                        redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                .andReturn().getModelAndView().getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
 
-        mockMvc.perform(processGetWithSingleParam(FIND_ID_URL + URL_FINISH_SUFFIX, "idList", idListForUrl))
+        mockMvc.perform(processGetWithSingleParam(FIND_ID_URL + URL_FINISH_SUFFIX, idListString, idListForUrl))
                 .andExpectAll(status().isOk(),
                         view().name(USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute("idList", idList));
+                        model().attribute(idListString, idList));
     }
 }

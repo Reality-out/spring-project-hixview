@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.ID;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 import static springsideproject1.springsideproject1build.utility.test.MemberTest.memberTable;
 
 @Repository
@@ -86,9 +88,9 @@ public class MemberRepositoryJdbc implements MemberRepository {
     private RowMapper<Member> memberRowMapper() {
         return (resultSet, rowNumber) -> Member.builder()
                         .identifier(resultSet.getLong("identifier"))
-                        .id(resultSet.getString("id"))
+                        .id(resultSet.getString(ID))
                         .password(resultSet.getString("password"))
-                        .name(resultSet.getString("name"))
+                        .name(resultSet.getString(NAME))
                         .birth(resultSet.getDate("birth").toLocalDate())
                         .phoneNumber(resultSet.getString("phoneNumber"))
                         .build();

@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.REMOVE_MEMBER_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -72,9 +73,9 @@ class ManagerMemberControllerTest implements MemberTest {
         mockMvc.perform(get(REMOVE_MEMBER_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute("dataTypeKor", "회원"),
-                        model().attribute("dataTypeEng", "member"),
-                        model().attribute("key", "id"));
+                        model().attribute(DATA_TYPE_KOREAN, "회원"),
+                        model().attribute(DATA_TYPE_ENGLISH, "member"),
+                        model().attribute(KEY, ID));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")
@@ -89,16 +90,16 @@ class ManagerMemberControllerTest implements MemberTest {
         // then
         String id = member.getId();
 
-        mockMvc.perform(processPostWithSingleParam(REMOVE_MEMBER_URL, "id", id))
+        mockMvc.perform(processPostWithSingleParam(REMOVE_MEMBER_URL, ID, id))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + "?*"),
-                        model().attribute("id", id));
+                        redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        model().attribute(ID, id));
 
-        mockMvc.perform(processGetWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, "id", id))
+        mockMvc.perform(processGetWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, ID, id))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute("dataTypeKor", "회원"),
-                        model().attribute("key", "id"),
-                        model().attribute("value", id));
+                        model().attribute(DATA_TYPE_KOREAN, "회원"),
+                        model().attribute(KEY, ID),
+                        model().attribute(VALUE, id));
     }
 }

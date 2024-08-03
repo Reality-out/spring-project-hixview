@@ -5,6 +5,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.ID;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,9 +28,9 @@ public class Member {
 
     public HashMap<String, Object> toMapWithNoIdentifier() {
         return new HashMap<>() {{
-            put("id", id);
+            put(ID, id);
             put("password", password);
-            put("name", name);
+            put(NAME, name);
             put("birth", birth);
             put("phoneNumber", phoneNumber);
         }};

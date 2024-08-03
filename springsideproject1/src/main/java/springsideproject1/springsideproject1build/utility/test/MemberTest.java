@@ -7,6 +7,7 @@ import springsideproject1.springsideproject1build.domain.Member;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 
 public interface MemberTest extends ObjectTest {
 
@@ -31,12 +32,12 @@ public interface MemberTest extends ObjectTest {
      */
     default MockHttpServletRequestBuilder processPostWithMember(String url, Member member) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("id", member.getId())
+                .param(ID, member.getId())
                 .param("password", member.getPassword())
-                .param("name", member.getName())
-                .param("year", String.valueOf(member.getBirth().getYear()))
-                .param("month", String.valueOf(member.getBirth().getMonthValue()))
-                .param("date", String.valueOf(member.getBirth().getDayOfMonth()))
+                .param(NAME, member.getName())
+                .param(YEAR, String.valueOf(member.getBirth().getYear()))
+                .param(MONTH, String.valueOf(member.getBirth().getMonthValue()))
+                .param(DATE, String.valueOf(member.getBirth().getDayOfMonth()))
                 .param("phoneNumber", member.getPhoneNumber().toString());
     }
 }

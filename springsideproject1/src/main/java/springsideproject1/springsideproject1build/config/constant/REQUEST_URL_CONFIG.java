@@ -4,6 +4,7 @@ public class REQUEST_URL_CONFIG {
     /**
      * User
      */
+    public static final String MEMBERSHIP_URL = "/membership";
     public static final String FIND_ID_URL = "/login/find/id";
 
     /**

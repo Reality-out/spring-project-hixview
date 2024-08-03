@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.utility.MainUtility.isNumeric;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
@@ -29,7 +30,7 @@ public class UserCompanyController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String companySubPage(Model model) {
-        model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
+        model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         return USER_COMPANY_VIEW + VIEW_SUB_SUFFIX;
     }
 
@@ -40,7 +41,7 @@ public class UserCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String companyLookUp(
             @PathVariable String nameOrCode, Model model) {
-        model.addAttribute("layoutPath", BASIC_LAYOUT_PATH);
+        model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         model.addAttribute("company", (isNumeric(nameOrCode)) ?
                 companyService.findCompanyByCode(nameOrCode).get() :
                 companyService.findCompanyByName(nameOrCode).get());

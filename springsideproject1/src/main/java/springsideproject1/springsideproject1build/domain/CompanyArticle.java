@@ -8,6 +8,9 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.DATE;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -29,11 +32,11 @@ public class CompanyArticle {
 
     public HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
-            put("name", name);
+            put(NAME, name);
             put("press", press);
             put("subjectCompany", subjectCompany);
             put("link", link);
-            put("date", date);
+            put(DATE, date);
             put("importance", importance);
         }};
     }

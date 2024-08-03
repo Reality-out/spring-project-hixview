@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.DATE;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTest.companyArticleTable;
 
 @Repository
@@ -84,11 +86,11 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
     private RowMapper<CompanyArticle> articleRowMapper() {
         return (resultSet, rowNumber) -> CompanyArticle.builder()
                         .number(resultSet.getLong("number"))
-                        .name(resultSet.getString("name"))
+                        .name(resultSet.getString(NAME))
                         .press(resultSet.getString("press"))
                         .subjectCompany(resultSet.getString("subjectcompany"))
                         .link(resultSet.getString("link"))
-                        .date(resultSet.getDate("date").toLocalDate())
+                        .date(resultSet.getDate(DATE).toLocalDate())
                         .importance(resultSet.getInt("importance"))
                         .build();
     }

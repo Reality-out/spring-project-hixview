@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyTest.companyTable;
 
 @Repository
@@ -72,7 +73,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
                         .code(resultSet.getString("code"))
                         .country(resultSet.getString("country"))
                         .scale(resultSet.getString("scale"))
-                        .name(resultSet.getString("name"))
+                        .name(resultSet.getString(NAME))
                         .category1st(resultSet.getString("category1st"))
                         .category2nd(resultSet.getString("category2nd"))
                         .build();

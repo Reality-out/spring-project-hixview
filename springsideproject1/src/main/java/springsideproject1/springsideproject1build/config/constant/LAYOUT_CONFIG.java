@@ -1,6 +1,9 @@
 package springsideproject1.springsideproject1build.config.constant;
 
 public class LAYOUT_CONFIG {
+    // Simple String
+    public static String LAYOUT_PATH = "layoutPath";
+
     // User
     public static String BASIC_LAYOUT_PATH = "/layout/user/basicLayout";
 

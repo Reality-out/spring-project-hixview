@@ -12,8 +12,7 @@ import springsideproject1.springsideproject1build.service.MemberService;
 
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_REDIRECT_PREFIX;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 
 @Controller
@@ -26,24 +25,24 @@ public class UserMemberController {
     /**
      * Membership
      */
-    @GetMapping("/membership")
+    @GetMapping(MEMBERSHIP_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processMembership() {
         return MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @GetMapping("/membership" + URL_FINISH_SUFFIX)
+    @GetMapping(MEMBERSHIP_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishMembership() {
         return MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX;
     }
 
-    @PostMapping("/membership")
+    @PostMapping(MEMBERSHIP_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMembership(String id, String password, String name,
                                    Integer year, Integer month, Integer date, String phoneNumber) {
         memberService.joinMember(Member.builder().id(id).password(password).name(name)
                 .birth(LocalDate.of(year, month, date)).phoneNumber(phoneNumber).build());
-        return URL_REDIRECT_PREFIX + "/membership" + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + MEMBERSHIP_URL + URL_FINISH_SUFFIX;
     }
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,7 +25,7 @@ public class Company {
             put("code", code);
             put("country", country);
             put("scale", scale);
-            put("name", name);
+            put(NAME, name);
             put("category1st", category1st);
             put("category2nd", category2nd);
         }};

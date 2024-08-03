@@ -11,6 +11,7 @@ import springsideproject1.springsideproject1build.service.MemberService;
 
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 
 @Controller
 @RequestMapping("")
@@ -36,18 +37,18 @@ public class ManagerMemberController {
     @GetMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processMemberWithdraw(Model model) {
-        model.addAttribute("dataTypeKor", "회원");
-        model.addAttribute("dataTypeEng", "member");
-        model.addAttribute("key", "id");
+        model.addAttribute(DATA_TYPE_KOREAN, "회원");
+        model.addAttribute(DATA_TYPE_ENGLISH, "member");
+        model.addAttribute(KEY, ID);
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishMemberWithdraw(@RequestParam String id, Model model) {
-        model.addAttribute("dataTypeKor", "회원");
-        model.addAttribute("key", "id");
-        model.addAttribute("value", id);
+        model.addAttribute(DATA_TYPE_KOREAN, "회원");
+        model.addAttribute(KEY, ID);
+        model.addAttribute(VALUE, id);
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
@@ -55,7 +56,7 @@ public class ManagerMemberController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMemberWithdraw(RedirectAttributes redirect, @RequestParam String id) {
         memberService.removeMember(id);
-        redirect.addAttribute("id", id);
+        redirect.addAttribute(ID, id);
         return URL_REDIRECT_PREFIX + REMOVE_MEMBER_URL + URL_FINISH_SUFFIX;
     }
 }
