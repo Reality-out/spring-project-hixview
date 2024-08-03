@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +14,12 @@ import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTest;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
@@ -66,22 +65,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         CompanyArticle article = createTestArticle();
 
         // then
-        mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", article.getName())
-                        .param("press", article.getPress())
-                        .param("subjectCompany", article.getSubjectCompany())
-                        .param("link", article.getLink())
-                        .param("year", String.valueOf(article.getDate().getYear()))
-                        .param("month", String.valueOf(article.getDate().getMonthValue()))
-                        .param("date", String.valueOf(article.getDate().getDayOfMonth()))
-                        .param("importance", String.valueOf(article.getImportance())))
+        mockMvc.perform(processPostWithCompanyArticle(ADD_SINGLE_COMPANY_ARTICLE_URL, article))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
                 .andExpect(model().attribute("name", encodeUTF8(article.getName())));
 
-        mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", encodeUTF8(article.getName())))
+        mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+                        "name", encodeUTF8(article.getName())))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
@@ -110,19 +100,19 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
 
         // then
         String nameListForURL = toStringForUrl(encodeUTF8(nameList));
-        assertThat(mockMvc.perform(post(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("subjectCompany", articleString.getFirst())
-                        .param("articleString", articleString.get(1))
-                        .param("linkString", articleString.getLast()))
+        assertThat(mockMvc.perform(processPostWithMultipleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>(){{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", articleString.getLast());
+                }}))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + "?*"))
                 .andReturn().getModelAndView().getModelMap().get("nameList"))
                 .usingRecursiveComparison()
                 .isEqualTo(nameListForURL);
 
-        assertThat(mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
-                        .param("nameList", nameListForURL))
+        assertThat(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+                        "nameList", nameListForURL))
                 .andExpect(status().isOk())
                 .andExpect(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishStringPage"))
                 .andExpect(model().attribute("layoutPath", FINISH_ADD_COMPANY_ARTICLE_PATH))
@@ -150,9 +140,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         article = articleService.joinArticle(article);
 
         // then
-        assertThat(mockMvc.perform(post(UPDATE_COMPANY_ARTICLE_URL)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", article.getName()))
+        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "name", article.getName()))
                 .andExpect(status().isOk())
                 .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + "after" + VIEW_PASCAL_PROCESS_SUFFIX))
                 .andExpect(model().attribute("layoutPath", PROCESS_UPDATE_COMPANY_ARTICLE_PATH))
@@ -175,22 +163,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         article = articleService.joinArticle(article);
 
         // then
-        mockMvc.perform(post(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", article.getName())
-                        .param("press", article.getPress())
-                        .param("subjectCompany", article.getSubjectCompany())
-                        .param("link", article.getLink())
-                        .param("year", String.valueOf(article.getDate().getYear()))
-                        .param("month", String.valueOf(article.getDate().getMonthValue()))
-                        .param("date", String.valueOf(article.getDate().getDayOfMonth()))
-                        .param("importance", String.valueOf(article.getImportance())))
+        mockMvc.perform(processPostWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
                 .andExpect(model().attribute("name", encodeUTF8(article.getName())));
 
-        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", encodeUTF8(article.getName())))
+        mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+                        "name", encodeUTF8(article.getName())))
                 .andExpect(status().isOk())
                 .andExpect(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("layoutPath", FINISH_UPDATE_COMPANY_ARTICLE_PATH))
@@ -219,15 +198,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         articleService.joinArticle(article);
 
         // then
-        mockMvc.perform(post(REMOVE_COMPANY_ARTICLE_URL)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", name))
+        mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "name", name))
                 .andExpect(status().isSeeOther())
                 .andExpect(redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + "?*"))
                 .andExpect(model().attribute("name", encodeUTF8(name)));
 
-        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-                        .param("name", encodeUTF8(name)))
+        mockMvc.perform(processGetWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, "name", encodeUTF8(name)))
                 .andExpect(status().isOk())
                 .andExpect(view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX))
                 .andExpect(model().attribute("dataTypeKor", "기사"))

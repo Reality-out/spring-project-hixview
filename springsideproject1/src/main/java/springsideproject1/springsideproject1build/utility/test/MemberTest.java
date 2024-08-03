@@ -6,8 +6,12 @@ import java.time.LocalDate;
 
 public interface MemberTest extends ObjectTest {
 
+    // DB table name
     String memberTable = "testmembers";
 
+    /**
+     * Create
+     */
     default Member createTestMember() {
         return Member.builder().id("ABcd1234!").password("EFgh1234!").name("박진하")
                 .birth(LocalDate.of(2000, 4, 1)).phoneNumber("010-1234-5678").build();

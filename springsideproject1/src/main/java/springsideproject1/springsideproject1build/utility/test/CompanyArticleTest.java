@@ -1,15 +1,23 @@
 package springsideproject1.springsideproject1build.utility.test;
 
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 public interface CompanyArticleTest extends ObjectTest {
 
+    // DB table name
     String companyArticleTable = "testcompanyarticles";
 
+    /**
+     * Create
+     */
     default CompanyArticle createTestArticle() {
         return CompanyArticle.builder()
                 .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
@@ -54,5 +62,21 @@ public interface CompanyArticleTest extends ObjectTest {
                 String.join(System.lineSeparator(),
                         Arrays.asList("https://www.businesspost.co.kr/BP?command=article_view&num=355822",
                                 "https://biz.heraldcorp.com/view.php?ud=20240617050050")));
+    }
+
+    /**
+     * Request
+     */
+    default MockHttpServletRequestBuilder processPostWithCompanyArticle(String url, CompanyArticle article) {
+        return post(url)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("name", article.getName())
+                .param("press", article.getPress())
+                .param("subjectCompany", article.getSubjectCompany())
+                .param("link", article.getLink())
+                .param("year", String.valueOf(article.getDate().getYear()))
+                .param("month", String.valueOf(article.getDate().getMonthValue()))
+                .param("date", String.valueOf(article.getDate().getDayOfMonth()))
+                .param("importance", String.valueOf(article.getImportance()));
     }
 }
