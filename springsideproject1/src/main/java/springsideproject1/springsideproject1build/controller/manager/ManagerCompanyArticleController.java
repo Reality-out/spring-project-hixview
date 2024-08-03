@@ -32,6 +32,8 @@ public class ManagerCompanyArticleController {
 
     @Autowired
     private final CompanyArticleService articleService;
+    private final String nameList = "nameList";
+    private final String multipleString = "multipleString";
 
     /**
      * Add - Single
@@ -40,7 +42,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH);
-        return ADD_COMPANY_ARTICLE_VIEW + "singleProcessPage";
+        return ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_PROCESS_SUFFIX;
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
@@ -48,7 +50,7 @@ public class ManagerCompanyArticleController {
     public String finishAddSingleCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH);
         model.addAttribute(NAME, decodeUTF8(name));
-        return ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage";
+        return ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
@@ -69,22 +71,22 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompanyArticlesUsingString(Model model) {
         model.addAttribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH);
-        return ADD_COMPANY_ARTICLE_VIEW + "multipleProcessStringPage";
+        return ADD_COMPANY_ARTICLE_VIEW + multipleString + VIEW_PASCAL_PROCESS_SUFFIX;
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesUsingString(@RequestParam List<String> nameList, Model model) {
         model.addAttribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH);
-        model.addAttribute("nameList", decodeUTF8(nameList));
-        return ADD_COMPANY_ARTICLE_VIEW + "multipleFinishStringPage";
+        model.addAttribute(this.nameList, decodeUTF8(nameList));
+        return ADD_COMPANY_ARTICLE_VIEW + multipleString + VIEW_PASCAL_FINISH_SUFFIX;
     }
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticlesUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
                                                       @RequestParam String articleString, @RequestParam String linkString) {
-        redirect.addAttribute("nameList", encodeUTF8(articleService.joinArticlesWithString(
+        redirect.addAttribute(nameList, encodeUTF8(articleService.joinArticlesWithString(
                 subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }

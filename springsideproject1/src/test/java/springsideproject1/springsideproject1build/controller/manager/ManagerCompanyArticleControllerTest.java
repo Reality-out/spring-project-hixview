@@ -56,7 +56,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
     public void accessArticleRegisterPage() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "singleProcessPage"),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -75,7 +75,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "singleFinishPage"),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH),
                         model().attribute(NAME, article.getName()));
     }
@@ -85,7 +85,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
     public void StringArticleRegisterPage() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleProcessStringPage"),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleString" + VIEW_PASCAL_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH));
     }
 
@@ -118,7 +118,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         assertThat(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         nameListString, nameListForURL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishStringPage"),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleString" + VIEW_PASCAL_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH))
                 .andReturn().getModelAndView().getModelMap().get(nameListString))
                 .usingRecursiveComparison()

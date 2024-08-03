@@ -30,6 +30,7 @@ public class UserMainController {
 
     @Autowired
     private final MemberService memberService;
+    private final String idListString = "idList";
 
     /**
      * Main
@@ -64,7 +65,7 @@ public class UserMainController {
     @GetMapping(FIND_ID_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
-        model.addAttribute("idList", decodeUTF8(idList));
+        model.addAttribute(idListString, decodeUTF8(idList));
         return USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX;
     }
 
@@ -72,7 +73,7 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect,
             @RequestParam String name, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer date) {
-        redirect.addAttribute("idList", encodeUTF8(memberService.findMembersByNameAndBirth(
+        redirect.addAttribute(idListString, encodeUTF8(memberService.findMembersByNameAndBirth(
                 name, LocalDate.of(year, month, date)).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;
     }
