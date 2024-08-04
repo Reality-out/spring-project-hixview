@@ -29,6 +29,8 @@ public class ManagerCompanyController {
 
     @Autowired
     private final CompanyService companyService;
+    private final String dataTypeKorValue = "기업";
+    private final String keyValue = "기업명";
 
     /**
      * Add - Single
@@ -37,19 +39,19 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, "기업");
-        return ADD_COMPANY_VIEW + "single" + VIEW_PASCAL_PROCESS_SUFFIX;
+        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, "기업");
-        model.addAttribute(KEY, "기업명");
+        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
 
-        return MANAGER_ADD_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX;
+        return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
@@ -81,8 +83,8 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String initiateUpdateCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, "기업");
-        return UPDATE_COMPANY_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX;
+        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
     }
 
     @PostMapping(UPDATE_COMPANY_URL)
@@ -95,11 +97,11 @@ public class ManagerCompanyController {
         } else {
             Company company = companyOrEmpty.get();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(DATA_TYPE_KOREAN, "기업");
+            model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             model.addAttribute(COMPANY, company);
         }
-        return UPDATE_COMPANY_VIEW + "after" + VIEW_PASCAL_PROCESS_SUFFIX;
+        return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
@@ -116,8 +118,8 @@ public class ManagerCompanyController {
     @GetMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishUpdateCompany(@RequestParam String name, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, "기업");
-        model.addAttribute(NAME, "기업명");
+        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
     }
@@ -128,7 +130,7 @@ public class ManagerCompanyController {
     @GetMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processRemoveCompany(Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, "기업");
+        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         model.addAttribute(DATA_TYPE_ENGLISH, COMPANY);
         model.addAttribute(KEY, "nameOrCode");
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
@@ -137,8 +139,8 @@ public class ManagerCompanyController {
     @GetMapping(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishRemoveCompany(@RequestParam String name, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, "기업");
-        model.addAttribute(KEY, "기업명");
+        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }

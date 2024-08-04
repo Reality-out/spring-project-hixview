@@ -21,9 +21,11 @@ public class VIEW_NAME_CONFIG {
 
     // Suffix
     public static String VIEW_PROCESS_SUFFIX = "processPage";
-    public static String VIEW_PASCAL_PROCESS_SUFFIX = "ProcessPage";
     public static String VIEW_FINISH_SUFFIX = "finishPage";
-    public static String VIEW_PASCAL_FINISH_SUFFIX = "FinishPage";
+    public static String VIEW_BEFORE_PROCESS_SUFFIX = "beforeProcessPage";
+    public static String VIEW_AFTER_PROCESS_SUFFIX = "afterProcessPage";
+    public static String VIEW_SINGLE_PROCESS_SUFFIX = "singleProcessPage";
+    public static String VIEW_SINGLE_FINISH_SUFFIX = "singleFinishPage";
 
     // Others
     public static String MANAGER_ADD_VIEW = "manager/add/";
