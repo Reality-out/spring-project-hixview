@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout (table)" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>힉스뷰 - 세상 경제사를 한눈에</title>
@@ -7,8 +7,8 @@
 </head>
 <body>
 <div>
-    <p>다음 제목의 기업 등록이 완료되었습니다:</p>
-    <table th:replace="${table}"></table>
+    <p>다음 [[${name}]]의 [[${dataTypeKor}]] 갱신이 완료되었습니다:</p>
+    <p th:text="${value}"></p>
 </div>
 <form action="/manager" method="get">
     <button type="submit">첫 페이지로 이동</button>

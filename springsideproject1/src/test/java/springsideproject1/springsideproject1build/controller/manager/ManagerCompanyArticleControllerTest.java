@@ -57,7 +57,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH));
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"));
     }
 
     @DisplayName("단일 기사 등록 완료 페이지 접속")
@@ -75,9 +76,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH),
-                        model().attribute(NAME, article.getName()));
+                        view().name(MANAGER_ADD_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"),
+                        model().attribute(KEY, "제목"),
+                        model().attribute(VALUE, article.getName()));
     }
 
     @DisplayName("단일 문자열을 사용하는 기사 등록 페이지 접속")
@@ -86,7 +89,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleString" + VIEW_PASCAL_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH));
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"));
     }
 
     @DisplayName("단일 문자열을 사용하는 기사 등록 완료 페이지 접속")
@@ -118,8 +122,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         assertThat(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         nameListString, nameListForURL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleString" + VIEW_PASCAL_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH))
+                        view().name(MANAGER_ADD_VIEW + "multiple" + VIEW_PASCAL_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"),
+                        model().attribute(KEY, "제목"),
+                        model().attribute(nameListString, decodeUTF8(nameList)))
                 .andReturn().getModelAndView().getModelMap().get(nameListString))
                 .usingRecursiveComparison()
                 .isEqualTo(decodeUTF8(nameList));
@@ -131,7 +138,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, PROCESS_UPDATE_COMPANY_ARTICLE_PATH));
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"));
+
     }
 
     @DisplayName("단일 기사 갱신 페이지 내 이름 검색")
@@ -147,7 +156,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, NAME, article.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + "after" + VIEW_PASCAL_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, PROCESS_UPDATE_COMPANY_ARTICLE_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"),
                         model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX),
                         model().attribute(YEAR, article.getDate().getYear()),
                         model().attribute(MONTH, article.getDate().getMonthValue()),
@@ -175,9 +185,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
         mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, FINISH_UPDATE_COMPANY_ARTICLE_PATH),
-                        model().attribute(NAME, article.getName()));
+                        view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(DATA_TYPE_KOREAN, "기사"),
+                        model().attribute(NAME, "제목"),
+                        model().attribute(VALUE, article.getName()));
     }
 
     @DisplayName("모든 기사 테이블 페이지 접속")

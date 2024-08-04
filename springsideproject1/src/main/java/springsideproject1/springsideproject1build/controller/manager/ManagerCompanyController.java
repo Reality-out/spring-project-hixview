@@ -36,16 +36,20 @@ public class ManagerCompanyController {
     @GetMapping(ADD_SINGLE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleCompany(Model model) {
-        model.addAttribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_PATH);
+        model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기업");
         return ADD_COMPANY_VIEW + "single" + VIEW_PASCAL_PROCESS_SUFFIX;
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleCompany(@RequestParam String name, Model model) {
-        model.addAttribute(LAYOUT_PATH, FINISH_ADD_COMPANY_PATH);
-        model.addAttribute(NAME, decodeUTF8(name));
-        return ADD_COMPANY_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX;
+        model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기업");
+        model.addAttribute(KEY, "기업명");
+        model.addAttribute(VALUE, decodeUTF8(name));
+
+        return MANAGER_ADD_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
@@ -65,6 +69,7 @@ public class ManagerCompanyController {
     @GetMapping(SELECT_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String selectCompany(Model model) {
+        model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("companies", companyService.findCompanies());
         return MANAGER_SELECT_VIEW + "companiesPage";
     }
@@ -75,7 +80,8 @@ public class ManagerCompanyController {
     @GetMapping(UPDATE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String initiateUpdateCompany(Model model) {
-        model.addAttribute(LAYOUT_PATH, PROCESS_UPDATE_COMPANY_PATH);
+        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기업");
         return UPDATE_COMPANY_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX;
     }
 
@@ -88,7 +94,8 @@ public class ManagerCompanyController {
             throw new IllegalStateException(NO_COMPANY_WITH_THAT_CODE);
         } else {
             Company company = companyOrEmpty.get();
-            model.addAttribute(LAYOUT_PATH, PROCESS_UPDATE_COMPANY_PATH);
+            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+            model.addAttribute(DATA_TYPE_KOREAN, "기업");
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             model.addAttribute(COMPANY, company);
         }
@@ -109,9 +116,10 @@ public class ManagerCompanyController {
     @GetMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishUpdateCompany(@RequestParam String name, Model model) {
-        model.addAttribute(LAYOUT_PATH, FINISH_UPDATE_COMPANY_PATH);
-        model.addAttribute(NAME, decodeUTF8(name));
-        return UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX;
+        model.addAttribute(DATA_TYPE_KOREAN, "기업");
+        model.addAttribute(NAME, "기업명");
+        model.addAttribute(VALUE, decodeUTF8(name));
+        return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**

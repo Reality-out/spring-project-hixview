@@ -1,46 +1,34 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name=”viewport” content=”width=device-width”>
-    <title>힉스뷰 - 세상 경제사를 한눈에</title>
-    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
-    <link href="/styles/manager/tableStyle.css" rel="stylesheet"/>
-</head>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div class="tableWrapperDiv">
-        <table class="table">
-            <caption>
-                <strong><< Company Article Data >></strong>
-            </caption>
-            <thead>
-                <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col">이름</th>
-                    <th scope="col">언론</th>
-                    <th scope="col">대상 기업</th>
-                    <th scope="col">링크</th>
-                    <th scope="col">날짜</th>
-                    <th scope="col">중요도</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="article : ${articles}">
-                    <td th:text="${article.number}">articleNumber</td>
-                    <td th:text="${article.name}">articleName</td>
-                    <td th:text="${article.press}">articlePress</td>
-                    <td th:text="${article.subjectCompany}">articleSubjectCompany</td>
-                    <td th:text="${article.link}">articleLink</td>
-                    <td th:text="${article.date}">articleDate</td>
-                    <td th:text="${article.importance}">articleImportance</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <form action="/manager" method="get">
-            <button type="submit">첫 페이지로 이동</button>
-        </form>
-    </div>
+<div class="tableWrapperDiv">
+    <table class="table">
+        <caption>
+            <strong><< Company Article Data >></strong>
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col">번호</th>
+                <th scope="col">이름</th>
+                <th scope="col">언론</th>
+                <th scope="col">대상 기업</th>
+                <th scope="col">링크</th>
+                <th scope="col">날짜</th>
+                <th scope="col">중요도</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.number}">articleNumber</td>
+                <td th:text="${article.name}">articleName</td>
+                <td th:text="${article.press}">articlePress</td>
+                <td th:text="${article.subjectCompany}">articleSubjectCompany</td>
+                <td th:text="${article.link}">articleLink</td>
+                <td th:text="${article.date}">articleDate</td>
+                <td th:text="${article.importance}">articleImportance</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

@@ -4,8 +4,10 @@
 <table>
     <tbody>
     <tr>
-        <th>name</th>
-        <td th:text="${name}">name</td>
+        <th scope="col">[[${key}]]</th>
+    </tr>
+    <tr>
+        <td th:text="${value}">value</td>
     </tr>
     </tbody>
 </table>

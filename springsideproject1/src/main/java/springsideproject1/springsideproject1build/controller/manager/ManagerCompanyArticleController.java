@@ -32,8 +32,7 @@ public class ManagerCompanyArticleController {
 
     @Autowired
     private final CompanyArticleService articleService;
-    private final String nameList = "nameList";
-    private final String multipleString = "multipleString";
+    private final String nameListString = "nameList";
 
     /**
      * Add - Single
@@ -41,16 +40,19 @@ public class ManagerCompanyArticleController {
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleCompanyArticle(Model model) {
-        model.addAttribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH);
+        model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기사");
         return ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_PROCESS_SUFFIX;
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleCompanyArticle(@RequestParam String name, Model model) {
-        model.addAttribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH);
-        model.addAttribute(NAME, decodeUTF8(name));
-        return ADD_COMPANY_ARTICLE_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX;
+        model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기사");
+        model.addAttribute(KEY, "제목");
+        model.addAttribute(VALUE, decodeUTF8(name));
+        return MANAGER_ADD_VIEW + "single" + VIEW_PASCAL_FINISH_SUFFIX;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
@@ -70,23 +72,27 @@ public class ManagerCompanyArticleController {
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompanyArticlesUsingString(Model model) {
-        model.addAttribute(LAYOUT_PATH, PROCESS_ADD_COMPANY_ARTICLE_PATH);
-        return ADD_COMPANY_ARTICLE_VIEW + multipleString + VIEW_PASCAL_PROCESS_SUFFIX;
+        model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기사");
+        return ADD_COMPANY_ARTICLE_VIEW + "multipleString" + VIEW_PASCAL_PROCESS_SUFFIX;
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesUsingString(@RequestParam List<String> nameList, Model model) {
-        model.addAttribute(LAYOUT_PATH, FINISH_ADD_COMPANY_ARTICLE_PATH);
-        model.addAttribute(this.nameList, decodeUTF8(nameList));
-        return ADD_COMPANY_ARTICLE_VIEW + multipleString + VIEW_PASCAL_FINISH_SUFFIX;
+        model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기사");
+        model.addAttribute(KEY, "제목");
+        model.addAttribute(nameListString, decodeUTF8(nameList));
+
+        return MANAGER_ADD_VIEW + "multiple" + VIEW_PASCAL_FINISH_SUFFIX;
     }
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticlesUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
                                                       @RequestParam String articleString, @RequestParam String linkString) {
-        redirect.addAttribute(nameList, encodeUTF8(articleService.joinArticlesWithString(
+        redirect.addAttribute(nameListString, encodeUTF8(articleService.joinArticlesWithString(
                 subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
@@ -97,6 +103,7 @@ public class ManagerCompanyArticleController {
     @GetMapping(SELECT_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
     public String selectCompanyArticle(Model model) {
+        model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articles", articleService.findArticles());
         return MANAGER_SELECT_VIEW + "companyArticlesPage";
     }
@@ -107,7 +114,8 @@ public class ManagerCompanyArticleController {
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateUpdateCompanyArticle(Model model) {
-        model.addAttribute(LAYOUT_PATH, PROCESS_UPDATE_COMPANY_ARTICLE_PATH);
+        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+        model.addAttribute(DATA_TYPE_KOREAN, "기사");
 		return UPDATE_COMPANY_ARTICLE_VIEW + "before" + VIEW_PASCAL_PROCESS_SUFFIX;
 	}
 
@@ -119,7 +127,8 @@ public class ManagerCompanyArticleController {
             throw new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME);
         } else {
             CompanyArticle article = articleOrEmpty.get();
-            model.addAttribute(LAYOUT_PATH, PROCESS_UPDATE_COMPANY_ARTICLE_PATH);
+            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+            model.addAttribute(DATA_TYPE_KOREAN, "기사");
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             model.addAttribute(ARTICLE, article);
             model.addAttribute(YEAR, article.getDate().getYear());
@@ -143,9 +152,11 @@ public class ManagerCompanyArticleController {
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishUpdateCompanyArticle(@RequestParam String name, Model model) {
-        model.addAttribute(LAYOUT_PATH, FINISH_UPDATE_COMPANY_ARTICLE_PATH);
-        model.addAttribute(NAME, decodeUTF8(name));
-		return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
+        model.addAttribute(DATA_TYPE_KOREAN, "기사");
+        model.addAttribute(NAME, "제목");
+        model.addAttribute(VALUE, decodeUTF8(name));
+
+        return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
     /**
@@ -172,6 +183,7 @@ public class ManagerCompanyArticleController {
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRemoveCompanyArticle(RedirectAttributes redirect, @RequestParam String name) {
+        articleService.removeArticle(name);
         redirect.addAttribute(NAME, encodeUTF8(name));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }

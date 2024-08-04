@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.service.MemberService;
 
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.SELECT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
@@ -27,8 +29,9 @@ public class ManagerMemberController {
     @GetMapping(SELECT_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
     public String showMemberList(Model model) {
+        model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("members", memberService.findMembers());
-        return MANAGER_SELECT_VIEW + "/membersPage";
+        return MANAGER_SELECT_VIEW + "membersPage";
     }
 
     /**

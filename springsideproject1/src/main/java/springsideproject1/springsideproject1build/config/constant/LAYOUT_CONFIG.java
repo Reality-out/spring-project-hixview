@@ -8,13 +8,8 @@ public class LAYOUT_CONFIG {
     public static String BASIC_LAYOUT_PATH = "/layout/user/basicLayout";
 
     // Manager
-    public static String PROCESS_ADD_COMPANY_ARTICLE_PATH = "/layout/manager/add/article/company/processLayout";
-    public static String FINISH_ADD_COMPANY_ARTICLE_PATH = "/layout/manager/add/article/company/finishLayout";
-    public static String PROCESS_UPDATE_COMPANY_ARTICLE_PATH = "/layout/manager/update/article/company/processLayout";
-    public static String FINISH_UPDATE_COMPANY_ARTICLE_PATH = "/layout/manager/update/article/company/finishLayout";
-
-    public static String PROCESS_ADD_COMPANY_PATH = "/layout/manager/add/company/processLayout";
-    public static String FINISH_ADD_COMPANY_PATH = "/layout/manager/add/company/finishLayout";
-    public static String PROCESS_UPDATE_COMPANY_PATH = "/layout/manager/update/company/processLayout";
-    public static String FINISH_UPDATE_COMPANY_PATH = "/layout/manager/update/company/finishLayout";
+    public static String ADD_PROCESS_PATH = "/layout/manager/add/processLayout";
+    public static String ADD_FINISH_PATH = "/layout/manager/add/finishLayout";
+    public static String SELECT_PATH = "/layout/manager/selectLayout";
+    public static String UPDATE_PROCESS_PATH = "/layout/manager/update/processLayout";
 }

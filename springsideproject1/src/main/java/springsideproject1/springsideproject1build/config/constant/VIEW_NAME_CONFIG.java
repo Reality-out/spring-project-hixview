@@ -26,10 +26,14 @@ public class VIEW_NAME_CONFIG {
     public static String VIEW_PASCAL_FINISH_SUFFIX = "FinishPage";
 
     // Others
+    public static String MANAGER_ADD_VIEW = "manager/add/";
+    public static String MANAGER_SELECT_VIEW = "manager/select/";
+    public static String MANAGER_UPDATE_VIEW = "manager/update/";
+    public static String MANAGER_REMOVE_VIEW = "manager/remove/";
+
     public static String ADD_COMPANY_ARTICLE_VIEW = "manager/add/article/company/";
     public static String UPDATE_COMPANY_ARTICLE_VIEW = "manager/update/article/company/";
+
     public static String ADD_COMPANY_VIEW = "manager/add/company/";
     public static String UPDATE_COMPANY_VIEW = "manager/update/company/";
-    public static String MANAGER_SELECT_VIEW = "manager/select/";
-    public static String MANAGER_REMOVE_VIEW = "manager/remove/";
 }
