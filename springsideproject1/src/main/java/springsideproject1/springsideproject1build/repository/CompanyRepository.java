@@ -21,6 +21,11 @@ public interface CompanyRepository {
     void saveCompany(Company company);
 
     /**
+     * UPDATE Company
+     */
+    void updateCompany(Company company);
+
+    /**
      * REMOVE Company
      */
     void deleteCompanyByCode(String code);

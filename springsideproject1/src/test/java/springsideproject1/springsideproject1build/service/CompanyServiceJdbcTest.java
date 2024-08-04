@@ -65,6 +65,14 @@ class CompanyServiceJdbcTest implements CompanyTest {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
     }
 
+    @DisplayName("존재하지 않는 코드 번호를 통한 기업 갱신")
+    @Test
+    public void renewCompanyByFaultCode() {
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> companyService.renewCompany(createSamsungElectronics()));
+        assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
+    }
+
     @DisplayName("존재하지 않는 코드 번호를 통한 기업 삭제")
     @Test
     public void removeCompanyByFaultCode() {

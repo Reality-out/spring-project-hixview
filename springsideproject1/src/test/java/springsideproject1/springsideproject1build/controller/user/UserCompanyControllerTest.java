@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.COMPANY;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -68,7 +69,7 @@ class UserCompanyControllerTest implements CompanyTest {
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
-                .andReturn().getModelAndView().getModelMap().get("company"))
+                .andReturn().getModelAndView().getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
     }
@@ -87,7 +88,7 @@ class UserCompanyControllerTest implements CompanyTest {
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
-                .andReturn().getModelAndView().getModelMap().get("company"))
+                .andReturn().getModelAndView().getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
     }

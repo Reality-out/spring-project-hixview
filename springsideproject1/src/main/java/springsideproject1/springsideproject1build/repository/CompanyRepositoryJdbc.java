@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.CODE;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyTest.companyTable;
 
@@ -58,6 +59,17 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
     }
 
     /**
+     * UPDATE Company
+     */
+    @Override
+    public void updateCompany(Company company) {
+        jdbcTemplate.update("update " + companyTable +
+                        " set country = ?, scale = ?, name = ?, category1st = ?, category2nd = ? where code = ?",
+                company.getCountry(), company.getScale(), company.getName(),
+                company.getCategory1st(), company.getCategory2nd(), company.getCode());
+    }
+
+    /**
      * REMOVE Company
      */
     @Override
@@ -71,7 +83,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      */
     private RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> Company.builder()
-                        .code(resultSet.getString("code"))
+                        .code(resultSet.getString(CODE))
                         .country(resultSet.getString("country"))
                         .scale(resultSet.getString("scale"))
                         .name(resultSet.getString(NAME))

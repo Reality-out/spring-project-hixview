@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name=”viewport” content=”width=device-width”>
+    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
+    <link href="/styles/manager/tableStyle.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="tableWrapperDiv">
+        <table class="table">
+            <caption>
+                <strong><< Company Data >></strong>
+            </caption>
+            <thead>
+                <tr>
+                    <th scope="col">코드</th>
+                    <th scope="col">국가</th>
+                    <th scope="col">크기</th>
+                    <th scope="col">기업명</th>
+                    <th scope="col">1차 분류</th>
+                    <th scope="col">2차 분류</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="company : ${companies}">
+                    <td th:text="${company.code}">companyCode</td>
+                    <td th:text="${company.country}">companyCountry</td>
+                    <td th:text="${company.scale}">companyScale</td>
+                    <td th:text="${company.name}">companyName</td>
+                    <td th:text="${company.category1st}">companyCategory1st</td>
+                    <td th:text="${company.category2nd}">companyCategory2nd</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <form action="/manager" method="get">
+            <button type="submit">첫 페이지로 이동</button>
+        </form>
+    </div>
+</body>
+</html>

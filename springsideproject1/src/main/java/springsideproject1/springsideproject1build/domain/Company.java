@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.CODE;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 
 @Getter
@@ -22,7 +23,7 @@ public class Company {
 
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
-            put("code", code);
+            put(CODE, code);
             put("country", country);
             put("scale", scale);
             put(NAME, name);

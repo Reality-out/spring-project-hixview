@@ -4,6 +4,8 @@ public class ConstantUtility {
     public static String DATA_TYPE_KOREAN = "dataTypeKor";
     public static String DATA_TYPE_ENGLISH = "dataTypeEng";
     public static String ARTICLE = "article";
+    public static String CODE = "code";
+    public static String COMPANY = "company";
     public static String DATE = "date";
     public static String ID = "id";
     public static String KEY = "key";

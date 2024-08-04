@@ -14,26 +14,26 @@
                 <strong><< Company Article Data >></strong>
             </caption>
             <thead>
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">이름</th>
-                <th scope="col">언론</th>
-                <th scope="col">대상 기업</th>
-                <th scope="col">링크</th>
-                <th scope="col">날짜</th>
-                <th scope="col">중요도</th>
-            </tr>
+                <tr>
+                    <th scope="col">번호</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">언론</th>
+                    <th scope="col">대상 기업</th>
+                    <th scope="col">링크</th>
+                    <th scope="col">날짜</th>
+                    <th scope="col">중요도</th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="article : ${articles}">
-                <td th:text="${article.number}">articleNumber</td>
-                <td th:text="${article.name}">articleName</td>
-                <td th:text="${article.press}">articlePress</td>
-                <td th:text="${article.subjectCompany}">articleSubjectCompany</td>
-                <td th:text="${article.link}">articleLink</td>
-                <td th:text="${article.date}">articleDate</td>
-                <td th:text="${article.importance}">articleImportance</td>
-            </tr>
+                <tr th:each="article : ${articles}">
+                    <td th:text="${article.number}">articleNumber</td>
+                    <td th:text="${article.name}">articleName</td>
+                    <td th:text="${article.press}">articlePress</td>
+                    <td th:text="${article.subjectCompany}">articleSubjectCompany</td>
+                    <td th:text="${article.link}">articleLink</td>
+                    <td th:text="${article.date}">articleDate</td>
+                    <td th:text="${article.importance}">articleImportance</td>
+                </tr>
             </tbody>
         </table>
     </div>

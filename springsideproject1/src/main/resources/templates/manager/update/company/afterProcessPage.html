@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<p>해당 문자열에 해당하는 기업이 확인되었습니다.</p>
+<form th:action="${updateUrl}" method="POST">
+    <div>
+        <div class="partialForm">
+            <label for="code">코드</label>
+            <input type="text" id="code" name="code" size="20" th:value="${company.code}" readonly>
+        </div>
+        <div class="partialForm">
+            <label for="country">국가</label>
+            <input type="text" id="country" name="country" size="20" th:value="${company.country}">
+        </div>
+        <div class="partialForm">
+            <label for="scale">크기</label>
+            <input type="text" id="scale" name="scale" size="20" th:value="${company.scale}">
+        </div>
+        <div class="partialForm">
+            <label for="name">기업명</label>
+            <input type="text" id="name" name="name" size="20" th:value="${company.name}">
+        </div>
+        <div class="partialForm">
+            <label for="category1st">1차 구분</label>
+            <input type="text" id="category1st" name="category1st" size="20" th:value="${company.category1st}">
+        </div>
+        <div class="partialForm">
+            <label for="category2nd">2차 구분</label>
+            <input type="text" id="category2nd" name="category2nd" size="20" th:value="${company.category2nd}">
+        </div>
+    </div>
+    <button type="submit">갱신</button>
+</form>
+</body>
+</html>

@@ -81,7 +81,7 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         assertThat(companyRepository.getCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
-    @DisplayName("기업 저장")
+    @DisplayName("기업 저장하기")
     @Test
     public void save() {
         // given
@@ -93,6 +93,23 @@ class CompanyRepositoryJdbcTest implements CompanyTest {
         // then
         assertThat(companyRepository.getCompanyByCode(company.getCode()).get())
                 .usingRecursiveComparison().isEqualTo(company);
+    }
+
+    @DisplayName("기업 갱신하기")
+    @Test
+    public void update() {
+        // given
+        Company updateCompany = createSamsungElectronics();
+        String commonCode = updateCompany.getCode();
+        Company initialCompany = Company.builder().company(createSKHynix()).code(commonCode).build();
+        companyRepository.saveCompany(initialCompany);
+
+        // when
+        companyRepository.updateCompany(updateCompany);
+
+        // then
+        assertThat(companyRepository.getCompanyByCode(commonCode).get())
+                .usingRecursiveComparison().isEqualTo(updateCompany);
     }
 
     @DisplayName("기업 코드로 제거하기")
