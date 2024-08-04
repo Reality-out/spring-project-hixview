@@ -42,6 +42,13 @@ public class CompanyService {
      * INSERT Company
      */
     @Transactional
+    public void joinCompanies(Company... articles) {
+        for (Company article : articles) {
+            joinCompany(article);
+        }
+    }
+
+    @Transactional
     public void joinCompany(Company company) {
         duplicateCheck(company);
         companyRepository.saveCompany(company);

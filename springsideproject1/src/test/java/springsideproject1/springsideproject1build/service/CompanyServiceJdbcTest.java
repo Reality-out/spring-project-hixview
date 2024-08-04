@@ -12,6 +12,8 @@ import springsideproject1.springsideproject1build.utility.test.CompanyTest;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_COMPANY_CODE;
@@ -36,7 +38,7 @@ class CompanyServiceJdbcTest implements CompanyTest {
         resetTable(jdbcTemplateTest, companyTable);
     }
 
-    @DisplayName("기업 등록")
+    @DisplayName("단일한 기업 등록")
     @Test
     public void registerCompany() {
         // given
@@ -49,19 +51,25 @@ class CompanyServiceJdbcTest implements CompanyTest {
         assertThat(companyService.findCompanies().getFirst()).usingRecursiveComparison().isEqualTo(company);
     }
 
+    @DisplayName("다수의 기업 등록")
+    @Test
+    public void registerCompanies() {
+        // given
+        companyService.joinCompanies(createSamsungElectronics(), createSKHynix());
+
+        // then
+        assertThat(companyService.findCompanies())
+                .usingRecursiveComparison().isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
+    }
+
+
     @DisplayName("중복 코드 번호를 사용하는 기업 등록")
     @Test
     public void registerCompanyWithSameCode() {
-        // given
-        Company company1 = createSamsungElectronics();
-        Company company2 = createSamsungElectronics();
-
-        // when
-        companyService.joinCompany(company1);
-
-        // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.joinCompany(company2));
+                () -> companyService.joinCompanies(createSamsungElectronics(),
+                        Company.builder().company(createSKHynix()).code(createSamsungElectronics().getCode()).build()));
+
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
     }
 
