@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
 import springsideproject1.springsideproject1build.service.CompanyService;
-import springsideproject1.springsideproject1build.utility.test.CompanyTest;
+import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -28,7 +28,7 @@ import static springsideproject1.springsideproject1build.utility.MainUtility.enc
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerCompanyControllerTest implements CompanyTest {
+class ManagerCompanyControllerTest implements CompanyTestUtility {
 
     @Autowired
     private MockMvc mockMvc;

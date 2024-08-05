@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.utility.test.MemberTest;
+import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -18,7 +18,7 @@ import static springsideproject1.springsideproject1build.config.constant.VIEW_NA
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMemberControllerTest implements MemberTest {
+class UserMemberControllerTest implements MemberTestUtility {
 
     @Autowired
     private MockMvc mockMvc;

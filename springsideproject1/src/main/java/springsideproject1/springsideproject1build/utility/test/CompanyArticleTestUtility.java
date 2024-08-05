@@ -11,7 +11,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
 
-public interface CompanyArticleTest extends ObjectTest {
+public interface CompanyArticleTestUtility extends ObjectTestUtility {
 
     // DB table name
     String companyArticleTable = "testcompanyarticles";
@@ -74,9 +74,9 @@ public interface CompanyArticleTest extends ObjectTest {
                 .param("press", article.getPress())
                 .param("subjectCompany", article.getSubjectCompany())
                 .param("link", article.getLink())
-                .param(YEAR, String.valueOf(article.getDate().getYear()))
-                .param(MONTH, String.valueOf(article.getDate().getMonthValue()))
-                .param(DATE, String.valueOf(article.getDate().getDayOfMonth()))
+                .param("year", String.valueOf(article.getDate().getYear()))
+                .param("month", String.valueOf(article.getDate().getMonthValue()))
+                .param("date", String.valueOf(article.getDate().getDayOfMonth()))
                 .param("importance", String.valueOf(article.getImportance()));
     }
 }

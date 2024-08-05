@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.ID;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
-import static springsideproject1.springsideproject1build.utility.test.MemberTest.memberTable;
+import static springsideproject1.springsideproject1build.utility.test.MemberTestUtility.memberTable;
 
 @Repository
 public class MemberRepositoryJdbc implements MemberRepository {

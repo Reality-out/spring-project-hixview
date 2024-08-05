@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
-import springsideproject1.springsideproject1build.utility.test.CompanyArticleTest;
+import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import static springsideproject1.springsideproject1build.utility.MainUtility.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
+class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
 
     @Autowired
     private MockMvc mockMvc;
@@ -158,13 +158,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTest {
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX),
-                        model().attribute(YEAR, article.getDate().getYear()),
-                        model().attribute(MONTH, article.getDate().getMonthValue()),
-                        model().attribute(DATE, article.getDate().getDayOfMonth()))
+                        model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView().getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(article);
+                .isEqualTo(article.toCompanyArticleDto());
     }
 
     @DisplayName("단일 기사 갱신 완료 페이지 접속")

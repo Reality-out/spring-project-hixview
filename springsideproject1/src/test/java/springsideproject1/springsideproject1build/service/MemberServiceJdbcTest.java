@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.utility.test.MemberTest;
+import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
 
 import javax.sql.DataSource;
 
@@ -19,7 +19,7 @@ import static springsideproject1.springsideproject1build.config.constant.EXCEPTI
 
 @SpringBootTest
 @Transactional
-class MemberServiceJdbcTest implements MemberTest {
+class MemberServiceJdbcTest implements MemberTestUtility {
 
     @Autowired
     MemberService memberService;

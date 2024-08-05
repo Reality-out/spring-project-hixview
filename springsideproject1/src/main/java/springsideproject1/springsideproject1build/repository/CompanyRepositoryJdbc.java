@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.CODE;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
-import static springsideproject1.springsideproject1build.utility.test.CompanyTest.companyTable;
+import static springsideproject1.springsideproject1build.utility.test.CompanyTestUtility.companyTable;
 
 @Repository
 public class CompanyRepositoryJdbc implements CompanyRepository {

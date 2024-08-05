@@ -7,7 +7,7 @@ import springsideproject1.springsideproject1build.domain.Company;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.utility.ConstantUtility.CODE;
 
-public interface CompanyTest extends ObjectTest {
+public interface CompanyTestUtility extends ObjectTestUtility {
 
     // DB table name
     String companyTable = "testcompanies";

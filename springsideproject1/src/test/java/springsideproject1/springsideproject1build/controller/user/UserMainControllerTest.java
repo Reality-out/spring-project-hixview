@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.service.MemberService;
-import springsideproject1.springsideproject1build.utility.test.MemberTest;
+import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -31,7 +31,7 @@ import static springsideproject1.springsideproject1build.utility.MainUtility.toS
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMainControllerTest implements MemberTest {
+class UserMainControllerTest implements MemberTestUtility {
 
     @Autowired private MockMvc mockMvc;
     @Autowired MemberService memberService;
@@ -95,8 +95,8 @@ class UserMainControllerTest implements MemberTest {
 
         assertThat(mockMvc.perform(processPostWithMultipleParam(FIND_ID_URL, new HashMap<>(){{
             put(NAME, commonName);
-            put(YEAR, String.valueOf(commonBirth.getYear()));
-            put(MONTH, String.valueOf(commonBirth.getMonthValue()));
+            put("year", String.valueOf(commonBirth.getYear()));
+            put("month", String.valueOf(commonBirth.getMonthValue()));
             put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
         }}))
                 .andExpectAll(status().isSeeOther(),

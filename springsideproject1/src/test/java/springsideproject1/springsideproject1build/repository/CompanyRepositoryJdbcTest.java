@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Company;
-import springsideproject1.springsideproject1build.utility.test.CompanyTest;
+import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class CompanyRepositoryJdbcTest implements CompanyTest {
+class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @Autowired
     CompanyRepository companyRepository;

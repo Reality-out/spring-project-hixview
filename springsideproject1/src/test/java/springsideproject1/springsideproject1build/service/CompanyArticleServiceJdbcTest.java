@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
-import springsideproject1.springsideproject1build.utility.test.CompanyArticleTest;
+import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -20,7 +20,7 @@ import static springsideproject1.springsideproject1build.config.constant.EXCEPTI
 
 @SpringBootTest
 @Transactional
-class CompanyArticleServiceJdbcTest implements CompanyArticleTest {
+class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @Autowired
     CompanyArticleService articleService;

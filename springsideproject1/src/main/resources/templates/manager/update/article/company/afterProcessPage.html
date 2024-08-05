@@ -22,11 +22,11 @@
         </div>
         <div class="partialForm">
             <label for="year">연</label>
-            <input type="number" min="1900" max="2024" id="year" name="year" size="4" th:value="${year}">
+            <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
             <label for="month">월</label>
-            <input type="number" min="1" max="12" id="month" name="month" size="2" th:value="${month}">
+            <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
             <label for="date">일</label>
-            <input type="number" min="1" max="31" id="date" name="date" size="2" th:value="${date}">
+            <input type="number" min="1" max="31" id="date" th:field="*{date}" size="2">
         </div>
         <div class="partialForm">
             <label for="importance">중요도</label>

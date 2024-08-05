@@ -23,6 +23,20 @@ public class CompanyArticle {
     private final LocalDate date;
     private final Integer importance;
 
+    public CompanyArticleDto toCompanyArticleDto() {
+        CompanyArticleDto companyArticleDto = new CompanyArticleDto();
+        companyArticleDto.setNumber(number);
+        companyArticleDto.setName(name);
+        companyArticleDto.setPress(press);
+        companyArticleDto.setSubjectCompany(subjectCompany);
+        companyArticleDto.setLink(link);
+        companyArticleDto.setYear(String.valueOf(date.getYear()));
+        companyArticleDto.setMonth(String.valueOf(date.getMonthValue()));
+        companyArticleDto.setDate(String.valueOf(date.getDayOfMonth()));
+        companyArticleDto.setImportance(importance);
+        return companyArticleDto;
+    }
+
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
             put("number", number);

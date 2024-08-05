@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.Member;
 import springsideproject1.springsideproject1build.service.MemberService;
-import springsideproject1.springsideproject1build.utility.test.MemberTest;
+import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -28,7 +28,7 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtility
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerMemberControllerTest implements MemberTest {
+class ManagerMemberControllerTest implements MemberTestUtility {
 
     @Autowired
     private MockMvc mockMvc;

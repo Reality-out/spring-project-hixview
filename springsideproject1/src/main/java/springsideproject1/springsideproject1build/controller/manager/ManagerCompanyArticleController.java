@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.CompanyArticleDto;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
 import java.time.LocalDate;
@@ -128,14 +129,11 @@ public class ManagerCompanyArticleController {
         if (articleOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME);
         } else {
-            CompanyArticle article = articleOrEmpty.get();
+            CompanyArticleDto article = articleOrEmpty.get().toCompanyArticleDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             model.addAttribute(ARTICLE, article);
-            model.addAttribute(YEAR, article.getDate().getYear());
-            model.addAttribute(MONTH, article.getDate().getMonthValue());
-            model.addAttribute(DATE, article.getDate().getDayOfMonth());
         }
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
