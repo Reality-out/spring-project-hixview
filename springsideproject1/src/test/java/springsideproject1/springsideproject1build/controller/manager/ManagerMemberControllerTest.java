@@ -76,7 +76,7 @@ class ManagerMemberControllerTest implements MemberTestUtility {
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, "회원"),
-                        model().attribute(DATA_TYPE_ENGLISH, "member"),
+                        model().attribute(DATA_TYPE_ENGLISH, MEMBER),
                         model().attribute(KEY, ID));
     }
 

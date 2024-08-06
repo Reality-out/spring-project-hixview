@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<form th:action method="POST">
+<form th:action th:object="${company}" method="POST">
     <div>
         <div class="partialForm">
             <label for="code">코드</label>
-            <input type="text" id="code" name="code" size="20">
+            <input type="text" id="code" th:field="*{code}" size="20">
         </div>
         <div class="partialForm">
             <label for="country">국가</label>
-            <input type="text" id="country" name="country" size="20">
+            <input type="text" id="country" th:field="*{country}" size="20">
         </div>
         <div class="partialForm">
             <label for="scale">크기</label>
-            <input type="text" id="scale" name="scale" size="20">
+            <input type="text" id="scale" th:field="*{scale}" size="20">
         </div>
         <div class="partialForm">
             <label for="name">기업명</label>
-            <input type="text" id="name" name="name" size="20">
+            <input type="text" id="name" th:field="*{name}" size="20">
         </div>
         <div class="partialForm">
             <label for="category1st">1차 구분</label>
-            <input type="text" id="category1st" name="category1st" size="20">
+            <input type="text" id="category1st" th:field="*{category1st}" size="20">
         </div>
         <div class="partialForm">
             <label for="category2nd">2차 구분</label>
-            <input type="text" id="category2nd" name="category2nd" size="20">
+            <input type="text" id="category2nd" th:field="*{category2nd}" size="20">
         </div>
     </div>
     <button type="submit">등록</button>

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
 
 public interface CompanyArticleTestUtility extends ObjectTestUtility {
 

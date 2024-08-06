@@ -72,7 +72,8 @@ class UserMainControllerTest implements MemberTestUtility {
     public void accessFindIdPage() throws Exception {
         mockMvc.perform(get(FIND_ID_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX));
+                        view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attributeExists(MEMBER));
     }
 
     @DisplayName("아이디 찾기 완료 페이지 접속")

@@ -5,15 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.domain.MemberDto;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +18,7 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT_
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.MEMBER;
 import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
 
@@ -58,7 +56,8 @@ public class UserMainController {
      */
     @GetMapping(FIND_ID_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processFindIdPage() {
+    public String processFindIdPage(Model model) {
+        model.addAttribute(MEMBER, new MemberDto());
         return USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
@@ -71,10 +70,10 @@ public class UserMainController {
 
     @PostMapping(FIND_ID_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitFindIdPage(RedirectAttributes redirect,
-            @RequestParam String name, @RequestParam Integer year, @RequestParam Integer month, @RequestParam Integer date) {
+    public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
+        Member member = Member.builder().memberDto(memberDto).build();
         redirect.addAttribute(idListString, encodeUTF8(memberService.findMembersByNameAndBirth(
-                name, LocalDate.of(year, month, date)).stream().map(Member::getId).collect(Collectors.toList())));
+                member.getName(), member.getBirth()).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;
     }
 }

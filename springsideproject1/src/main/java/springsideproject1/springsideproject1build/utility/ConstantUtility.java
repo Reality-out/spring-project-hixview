@@ -10,6 +10,7 @@ public class ConstantUtility {
     public static String ID = "id";
     public static String KEY = "key";
     public static String NAME = "name";
+    public static String MEMBER = "member";
     public static String MONTH = "month";
     public static String VALUE = "value";
     public static String YEAR = "year";

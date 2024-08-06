@@ -21,6 +21,17 @@ public class Company {
     private final String category1st;
     private final String category2nd;
 
+    public CompanyDto toCompanyDto() {
+        CompanyDto companyDto = new CompanyDto();
+        companyDto.setCode(code);
+        companyDto.setCountry(country);
+        companyDto.setScale(scale);
+        companyDto.setName(name);
+        companyDto.setCategory1st(category1st);
+        companyDto.setCategory2nd(category2nd);
+        return companyDto;
+    }
+
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
             put(CODE, code);
@@ -42,6 +53,16 @@ public class Company {
             name = company.getName();
             category1st = company.getCategory1st();
             category2nd = company.getCategory2nd();
+            return this;
+        }
+
+        public CompanyBuilder companyDto(CompanyDto companyDto) {
+            code = companyDto.getCode();
+            country = companyDto.getCountry();
+            scale = companyDto.getScale();
+            name = companyDto.getName();
+            category1st = companyDto.getCategory1st();
+            category2nd = companyDto.getCategory2nd();
             return this;
         }
     }

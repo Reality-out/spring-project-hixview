@@ -59,7 +59,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE));
     }
 
     @DisplayName("단일 기사 등록 완료 페이지 접속")

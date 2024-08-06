@@ -1,6 +1,9 @@
 package springsideproject1.springsideproject1build.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -18,6 +21,19 @@ public class Member {
     private final String name;
     private final LocalDate birth;
     private final PhoneNumber phoneNumber;
+
+    public MemberDto toMemberDto() {
+        MemberDto memberDto = new MemberDto();
+        memberDto.setIdentifier(identifier);
+        memberDto.setId(id);
+        memberDto.setPassword(password);
+        memberDto.setName(name);
+        memberDto.setYear(String.valueOf(birth.getYear()));
+        memberDto.setMonth(String.valueOf(birth.getMonthValue()));
+        memberDto.setDate(String.valueOf(birth.getDayOfMonth()));
+        memberDto.setPhoneNumber(phoneNumber.toString());
+        return memberDto;
+    }
 
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
@@ -56,6 +72,17 @@ public class Member {
             name = member.getName();
             birth = member.getBirth();
             phoneNumber = member.getPhoneNumber();
+            return this;
+        }
+
+        public MemberBuilder memberDto(MemberDto memberDto) {
+            identifier = memberDto.getIdentifier();
+            id = memberDto.getId();
+            password = memberDto.getPassword();
+            name = memberDto.getName();
+            birth = LocalDate.of(Integer.parseInt(memberDto.getYear()),
+                    Integer.parseInt(memberDto.getMonth()), Integer.parseInt(memberDto.getDate()));
+            phoneNumber = PhoneNumber.builder().phoneNumber(memberDto.getPhoneNumber()).build();
             return this;
         }
     }

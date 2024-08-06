@@ -40,6 +40,12 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
         }
         
         public PhoneNumberBuilder phoneNumber(String phoneNumber) {
+            if (phoneNumber == null) {
+                countryCode = "000";
+                areaCode = "0000";
+                subscriberNumber = "0000";
+                return this;
+            }
             String[] splitPhoneNumber = phoneNumber.split("-");
             countryCode = splitPhoneNumber[0];
             areaCode = splitPhoneNumber[1];

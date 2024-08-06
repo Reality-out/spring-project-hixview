@@ -5,12 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.Company;
+import springsideproject1.springsideproject1build.domain.CompanyDto;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
 import java.util.Optional;
@@ -40,6 +38,7 @@ public class ManagerCompanyController {
     public String processAddSingleCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        model.addAttribute(COMPANY, new CompanyDto());
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
@@ -56,12 +55,9 @@ public class ManagerCompanyController {
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleCompany(RedirectAttributes redirect,
-                                         String code, String country, String scale,
-                                         String name, String category1st, String category2nd) {
-        redirect.addAttribute(NAME, encodeUTF8(name));
-        companyService.joinCompany(Company.builder().code(code).country(country).scale(scale)
-                .name(name).category1st(category1st).category2nd(category2nd).build());
+    public String submitAddSingleCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
+        companyService.joinCompany(Company.builder().companyDto(companyDto).build());
+        redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
 
@@ -95,7 +91,7 @@ public class ManagerCompanyController {
         if (companyOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_COMPANY_WITH_THAT_CODE);
         } else {
-            Company company = companyOrEmpty.get();
+            CompanyDto company = companyOrEmpty.get().toCompanyDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
@@ -106,12 +102,9 @@ public class ManagerCompanyController {
 
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitUpdateCompany(RedirectAttributes redirect,
-                                      String code, String country, String scale,
-                                      String name, String category1st, String category2nd) {
-        companyService.renewCompany(Company.builder().code(code).country(country).scale(scale)
-                .name(name).category1st(category1st).category2nd(category2nd).build());
-        redirect.addAttribute(NAME, encodeUTF8(name));
+    public String submitUpdateCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
+        companyService.renewCompany(Company.builder().companyDto(companyDto).build());
+        redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
 

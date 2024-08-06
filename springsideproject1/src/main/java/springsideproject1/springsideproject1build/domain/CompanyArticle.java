@@ -68,5 +68,17 @@ public class CompanyArticle {
             importance = article.getImportance();
             return this;
         }
+
+        public CompanyArticleBuilder articleDto(CompanyArticleDto articleDto) {
+            number = articleDto.getNumber();
+            name = articleDto.getName();
+            press = articleDto.getPress();
+            subjectCompany = articleDto.getSubjectCompany();
+            link = articleDto.getLink();
+            date = LocalDate.of(Integer.parseInt(articleDto.getYear()),
+                    Integer.parseInt(articleDto.getMonth()), Integer.parseInt(articleDto.getDate()));
+            importance = articleDto.getImportance();
+            return this;
+        }
     }
 }

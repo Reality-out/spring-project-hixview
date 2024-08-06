@@ -41,7 +41,7 @@ public class ManagerMemberController {
     @ResponseStatus(HttpStatus.OK)
     public String processMemberWithdraw(Model model) {
         model.addAttribute(DATA_TYPE_KOREAN, "회원");
-        model.addAttribute(DATA_TYPE_ENGLISH, "member");
+        model.addAttribute(DATA_TYPE_ENGLISH, MEMBER);
         model.addAttribute(KEY, ID);
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }

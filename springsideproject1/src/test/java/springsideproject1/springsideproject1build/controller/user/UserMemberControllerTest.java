@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.MEMBERSHIP_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtility.MEMBER;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,12 +29,14 @@ class UserMemberControllerTest implements MemberTestUtility {
     public void accessMembershipPage() throws Exception {
         mockMvc.perform(get(MEMBERSHIP_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX));
+                        view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attributeExists(MEMBER));
     }
 
     @DisplayName("회원가입 완료 페이지 접속")
     @Test
     public void accessMembershipSucceedPage() throws Exception {
+//        https://www.phind.com/search?cache=frqfabsta8ulm4h1p4lzke58
         mockMvc.perform(processPostWithMember(MEMBERSHIP_URL, createTestMember()))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrl(MEMBERSHIP_URL + URL_FINISH_SUFFIX));

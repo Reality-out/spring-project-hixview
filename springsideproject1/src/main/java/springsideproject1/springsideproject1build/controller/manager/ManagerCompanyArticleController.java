@@ -5,16 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.CompanyArticleDto;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +41,7 @@ public class ManagerCompanyArticleController {
     public String processAddSingleCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
+        model.addAttribute(ARTICLE, new CompanyArticleDto());
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
@@ -60,12 +57,9 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleCompanyArticle(RedirectAttributes redirect,
-                                                String name, String press, String subjectCompany,
-                                                String link, Integer year, Integer month, Integer date, Integer importance) {
-        redirect.addAttribute(NAME, encodeUTF8(name));
-        articleService.joinArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
-                .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
+    public String submitAddSingleCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
+        redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
+        articleService.joinArticle(CompanyArticle.builder().articleDto(articleDto).build());
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -140,12 +134,9 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitUpdateCompanyArticle(RedirectAttributes redirect,
-                                            String name, String press, String subjectCompany,
-                                            String link, Integer year, Integer month, Integer date, Integer importance) {
-        articleService.renewArticle(CompanyArticle.builder().name(name).press(press).subjectCompany(subjectCompany)
-                .link(link).date(LocalDate.of(year, month, date)).importance(importance).build());
-        redirect.addAttribute(NAME, encodeUTF8(name));
+    public String submitUpdateCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
+        articleService.renewArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
