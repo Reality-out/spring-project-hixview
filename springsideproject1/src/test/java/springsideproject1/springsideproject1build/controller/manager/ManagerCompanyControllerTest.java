@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Company;
+import springsideproject1.springsideproject1build.domain.company.Company;
 import springsideproject1.springsideproject1build.service.CompanyService;
 import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
@@ -111,7 +111,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView().getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(company);
+                .isEqualTo(company.toCompanyDto());
     }
 
     @DisplayName("단일 기업 갱신 페이지 내 코드 검색")
@@ -132,7 +132,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView().getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(company);
+                .isEqualTo(company.toCompanyDto());
     }
 
     @DisplayName("단일 기업 갱신 완료 페이지 접속")

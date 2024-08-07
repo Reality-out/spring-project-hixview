@@ -1,6 +1,6 @@
 package springsideproject1.springsideproject1build.repository;
 
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.domain.member.Member;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,6 +1,6 @@
 package springsideproject1.springsideproject1build.repository;
 
-import springsideproject1.springsideproject1build.domain.Company;
+import springsideproject1.springsideproject1build.domain.company.Company;
 
 import java.util.List;
 import java.util.Optional;

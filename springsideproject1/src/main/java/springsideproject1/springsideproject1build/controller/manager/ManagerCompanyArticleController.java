@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 
 import java.util.List;

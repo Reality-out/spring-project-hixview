@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.domain.member.Member;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;

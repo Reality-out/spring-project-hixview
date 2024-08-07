@@ -2,7 +2,7 @@ package springsideproject1.springsideproject1build.utility.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.domain.member.Member;
 
 import java.time.LocalDate;
 

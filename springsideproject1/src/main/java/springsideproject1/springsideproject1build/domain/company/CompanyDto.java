@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain;
+package springsideproject1.springsideproject1build.domain.company;
 
 import lombok.Getter;
 import lombok.Setter;

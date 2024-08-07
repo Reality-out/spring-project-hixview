@@ -1,6 +1,6 @@
 package springsideproject1.springsideproject1build.repository;
 
-import springsideproject1.springsideproject1build.domain.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 
 import java.time.LocalDate;
 import java.util.List;

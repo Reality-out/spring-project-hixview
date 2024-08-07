@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import springsideproject1.springsideproject1build.domain.Member;
-import springsideproject1.springsideproject1build.domain.MemberDto;
-import springsideproject1.springsideproject1build.domain.PhoneNumber;
+import springsideproject1.springsideproject1build.domain.member.Member;
+import springsideproject1.springsideproject1build.domain.member.MemberDto;
+import springsideproject1.springsideproject1build.domain.member.PhoneNumber;
 import springsideproject1.springsideproject1build.service.MemberService;
 
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;

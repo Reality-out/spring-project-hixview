@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain;
+package springsideproject1.springsideproject1build.domain.company;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtility
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Company {
     private final String code;
-    private final String country;
+    private final Country country;
     private final String scale;
     private final String name;
     private final String category1st;
@@ -24,7 +24,7 @@ public class Company {
     public CompanyDto toCompanyDto() {
         CompanyDto companyDto = new CompanyDto();
         companyDto.setCode(code);
-        companyDto.setCountry(country);
+        companyDto.setCountry(country.name());
         companyDto.setScale(scale);
         companyDto.setName(name);
         companyDto.setCategory1st(category1st);
@@ -58,7 +58,7 @@ public class Company {
 
         public CompanyBuilder companyDto(CompanyDto companyDto) {
             code = companyDto.getCode();
-            country = companyDto.getCountry();
+            country = Country.valueOf(companyDto.getCountry());
             scale = companyDto.getScale();
             name = companyDto.getName();
             category1st = companyDto.getCategory1st();

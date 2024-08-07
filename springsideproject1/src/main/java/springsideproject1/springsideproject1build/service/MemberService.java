@@ -3,7 +3,7 @@ package springsideproject1.springsideproject1build.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.Member;
+import springsideproject1.springsideproject1build.domain.member.Member;
 import springsideproject1.springsideproject1build.repository.MemberRepository;
 
 import java.time.LocalDate;
