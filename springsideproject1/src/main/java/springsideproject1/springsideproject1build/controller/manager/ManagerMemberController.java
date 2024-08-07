@@ -23,6 +23,11 @@ public class ManagerMemberController {
     @Autowired
     private final MemberService memberService;
 
+    @ModelAttribute(DATA_TYPE_KOREAN)
+    public String dataTypeKor() {
+        return "회원";
+    }
+
     /**
      * Select
      */
@@ -40,16 +45,14 @@ public class ManagerMemberController {
     @GetMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processMemberWithdraw(Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, "회원");
         model.addAttribute(DATA_TYPE_ENGLISH, MEMBER);
-        model.addAttribute(KEY, ID);
+        model.addAttribute(REMOVE_KEY, ID);
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishMemberWithdraw(@RequestParam String id, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, "회원");
         model.addAttribute(KEY, ID);
         model.addAttribute(VALUE, id);
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;

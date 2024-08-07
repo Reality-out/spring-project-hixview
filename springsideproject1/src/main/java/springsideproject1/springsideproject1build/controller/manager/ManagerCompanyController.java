@@ -25,10 +25,18 @@ import static springsideproject1.springsideproject1build.utility.MainUtility.enc
 @RequiredArgsConstructor
 public class ManagerCompanyController {
 
+    @ModelAttribute(DATA_TYPE_KOREAN)
+    public String dataTypeKor() {
+        return "기업";
+    }
+
+    @ModelAttribute(KEY)
+    public String key() {
+        return "기업명";
+    }
+
     @Autowired
     private final CompanyService companyService;
-    private final String dataTypeKorValue = "기업";
-    private final String keyValue = "기업명";
 
     /**
      * Add - Single
@@ -37,7 +45,6 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         model.addAttribute(COMPANY, new CompanyDto());
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
@@ -46,8 +53,6 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
 
         return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
@@ -79,7 +84,6 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String initiateUpdateCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
     }
 
@@ -93,7 +97,6 @@ public class ManagerCompanyController {
         } else {
             CompanyDto company = companyOrEmpty.get().toCompanyDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             model.addAttribute(COMPANY, company);
         }
@@ -111,8 +114,6 @@ public class ManagerCompanyController {
     @GetMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishUpdateCompany(@RequestParam String name, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
     }
@@ -123,17 +124,14 @@ public class ManagerCompanyController {
     @GetMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processRemoveCompany(Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         model.addAttribute(DATA_TYPE_ENGLISH, COMPANY);
-        model.addAttribute(KEY, "nameOrCode");
+        model.addAttribute(REMOVE_KEY, "nameOrCode");
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishRemoveCompany(@RequestParam String name, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }

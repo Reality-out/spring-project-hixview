@@ -29,9 +29,18 @@ public class ManagerCompanyArticleController {
 
     @Autowired
     private final CompanyArticleService articleService;
+
+    @ModelAttribute(DATA_TYPE_KOREAN)
+    public String dataTypeKor() {
+        return "기사";
+    }
+
+    @ModelAttribute(KEY)
+    public String key() {
+        return "제목";
+    }
+
     private final String nameListString = "nameList";
-    private final String dataTypeKorValue = "기사";
-    private final String keyValue = "제목";
 
     /**
      * Add - Single
@@ -40,7 +49,6 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddSingleCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         model.addAttribute(ARTICLE, new CompanyArticleDto());
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
@@ -49,8 +57,6 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddSingleCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
     }
@@ -70,7 +76,6 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompanyArticlesUsingString(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
     }
 
@@ -78,8 +83,6 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesUsingString(@RequestParam List<String> nameList, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(nameListString, decodeUTF8(nameList));
 
         return MANAGER_ADD_VIEW + "multipleFinishPage";
@@ -112,7 +115,6 @@ public class ManagerCompanyArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateUpdateCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
 		return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
 	}
 
@@ -125,7 +127,6 @@ public class ManagerCompanyArticleController {
         } else {
             CompanyArticleDto article = articleOrEmpty.get().toCompanyArticleDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             model.addAttribute(ARTICLE, article);
         }
@@ -143,8 +144,6 @@ public class ManagerCompanyArticleController {
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishUpdateCompanyArticle(@RequestParam String name, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
 
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
@@ -156,17 +155,14 @@ public class ManagerCompanyArticleController {
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processRemoveCompanyArticle(Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
         model.addAttribute(DATA_TYPE_ENGLISH, ARTICLE);
-        model.addAttribute(KEY, NAME);
+        model.addAttribute(REMOVE_KEY, NAME);
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishRemoveCompanyArticle(@RequestParam String name, Model model) {
-        model.addAttribute(DATA_TYPE_KOREAN, dataTypeKorValue);
-        model.addAttribute(KEY, keyValue);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }

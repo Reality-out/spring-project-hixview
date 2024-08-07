@@ -77,7 +77,7 @@ class ManagerMemberControllerTest implements MemberTestUtility {
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, "회원"),
                         model().attribute(DATA_TYPE_ENGLISH, MEMBER),
-                        model().attribute(KEY, ID));
+                        model().attribute(REMOVE_KEY, ID));
     }
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")

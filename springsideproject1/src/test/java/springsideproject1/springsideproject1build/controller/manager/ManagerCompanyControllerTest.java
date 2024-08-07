@@ -182,7 +182,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(DATA_TYPE_ENGLISH, COMPANY),
-                        model().attribute(KEY, "nameOrCode"));
+                        model().attribute(REMOVE_KEY, "nameOrCode"));
     }
 
     @DisplayName("단일 기업 삭제 완료 페이지 접속")

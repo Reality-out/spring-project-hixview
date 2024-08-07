@@ -212,7 +212,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(DATA_TYPE_ENGLISH, ARTICLE),
-                        model().attribute(KEY, NAME));
+                        model().attribute(REMOVE_KEY, NAME));
     }
 
     @DisplayName("단일 기사 삭제 완료 페이지 접속")
