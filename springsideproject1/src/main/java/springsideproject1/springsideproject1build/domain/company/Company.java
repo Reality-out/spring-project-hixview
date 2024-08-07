@@ -16,7 +16,7 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtility
 public class Company {
     private final String code;
     private final Country country;
-    private final String scale;
+    private final Scale scale;
     private final String name;
     private final String category1st;
     private final String category2nd;
@@ -25,7 +25,7 @@ public class Company {
         CompanyDto companyDto = new CompanyDto();
         companyDto.setCode(code);
         companyDto.setCountry(country.name());
-        companyDto.setScale(scale);
+        companyDto.setScale(scale.name());
         companyDto.setName(name);
         companyDto.setCategory1st(category1st);
         companyDto.setCategory2nd(category2nd);
@@ -59,7 +59,7 @@ public class Company {
         public CompanyBuilder companyDto(CompanyDto companyDto) {
             code = companyDto.getCode();
             country = Country.valueOf(companyDto.getCountry());
-            scale = companyDto.getScale();
+            scale = Scale.valueOf(companyDto.getScale());
             name = companyDto.getName();
             category1st = companyDto.getCategory1st();
             category2nd = companyDto.getCategory2nd();
