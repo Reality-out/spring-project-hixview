@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.company.Company;
 import springsideproject1.springsideproject1build.domain.company.CompanyDto;
+import springsideproject1.springsideproject1build.domain.company.Country;
+import springsideproject1.springsideproject1build.domain.company.Scale;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
 import java.util.Optional;
@@ -46,6 +48,8 @@ public class ManagerCompanyController {
     public String processAddSingleCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         model.addAttribute(COMPANY, new CompanyDto());
+        model.addAttribute("countries", Country.values());
+        model.addAttribute("scales", Scale.values());
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
@@ -99,6 +103,8 @@ public class ManagerCompanyController {
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             model.addAttribute(COMPANY, company);
+            model.addAttribute("countries", Country.values());
+            model.addAttribute("scales", Scale.values());
         }
         return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }

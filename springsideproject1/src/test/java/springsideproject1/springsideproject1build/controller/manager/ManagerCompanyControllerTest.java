@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.company.Company;
+import springsideproject1.springsideproject1build.domain.company.Country;
+import springsideproject1.springsideproject1build.domain.company.Scale;
 import springsideproject1.springsideproject1build.service.CompanyService;
 import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
@@ -58,7 +60,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attributeExists(COMPANY));
+                        model().attributeExists(COMPANY),
+                        model().attribute("countries", Country.values()),
+                        model().attribute("scales", Scale.values()));
     }
 
     @DisplayName("단일 기업 등록 완료 페이지 접속")
@@ -108,7 +112,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
+                        model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX),
+                        model().attribute("countries", Country.values()),
+                        model().attribute("scales", Scale.values()))
                 .andReturn().getModelAndView().getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company.toCompanyDto());

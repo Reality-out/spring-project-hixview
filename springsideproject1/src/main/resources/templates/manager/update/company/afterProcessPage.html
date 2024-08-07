@@ -8,14 +8,14 @@
             <label for="code">코드</label>
             <input type="text" id="code" th:field="*{code}" size="20" readonly>
         </div>
-        <div class="partialForm">
-            <label for="country">국가</label>
-            <input type="text" id="country" th:field="*{country}" size="20">
-        </div>
-        <div class="partialForm">
-            <label for="scale">크기</label>
-            <input type="text" id="scale" th:field="*{scale}" size="20">
-        </div>
+        <div>국가</div>
+        <select class="partialForm" th:field="*{country}">
+            <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.countryValue}"></option>
+        </select>
+        <div>크기</div>
+        <select class="partialForm" th:field="*{scale}">
+            <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
+        </select>
         <div class="partialForm">
             <label for="name">기업명</label>
             <input type="text" id="name" th:field="*{name}" size="20" readonly>
