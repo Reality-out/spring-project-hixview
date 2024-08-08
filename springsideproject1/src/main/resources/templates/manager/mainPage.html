@@ -2,56 +2,56 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <div>
         <h3>관리자 인터페이스</h3>
         <ol>
-            <li>기업 기사 관련 기능</li>
+            <li th:text="|#{company} #{article} 관련 기능|"></li>
             <ol>
-                <li>단일</li> <!-- CREATE, UPDATE, DELETE 구현 -->
-                <li><a th:href="${addSingleCompanyArticle}">단일 기사 등록</a></li>
-                <li><a th:href="${updateCompanyArticle}">단일 기사 갱신</a></li>
-                <li><a th:href="${removeCompanyArticle}">단일 기사 삭제</a></li>
+                <li th:text="#{database.data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
+                <li><a th:href="${addSingleCompanyArticle}" th:text="|#{database.data.single} #{article} #{function.add}|"></a></li>
+                <li><a th:href="${updateCompanyArticle}" th:text="|#{database.data.single} #{article} #{function.update}|"></a></li>
+                <li><a th:href="${removeCompanyArticle}" th:text="|#{database.data.single} #{article} #{function.remove}|"></a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- CREATE, READ 구현 -->
                 <li>
-                    <a th:href="${addCompanyArticlesWithString}">
-                        기사 동시 등록(단일 문자열, subjectCompany 및 importance 고정)
+                    <a th:href="${addCompanyArticlesWithString}"
+                       th:text="|#{database.data.multiple} #{article} #{function.add} (단일 문자열, subjectCompany 및 importance 고정)|">
                     </a>
                 </li>
                 <li>
-                    <a th:href="${selectCompanyArticles}">모든 기사 조회</a>
+                    <a th:href="${selectCompanyArticles}" th:text="|#{database.data.all} #{article} #{function.find}|"></a>
                 </li>
             </ol>
         </ol>
         <ol>
-            <li>기업 관련 기능</li>
+            <li th:text="|#{company} 관련 기능|"></li>
             <ol>
-                <li>단일</li>
-                <li><a th:href="${addSingleCompany}">단일 기업 등록</a></li>
-                <li><a th:href="${updateCompany}">단일 기업 갱신</a></li>
-                <li><a th:href="${removeCompany}">단일 기업 삭제</a></li>
+                <li th:text="#{database.data.single}"></li>
+                <li><a th:href="${addSingleCompany}" th:text="|#{database.data.single} #{company} #{function.add}|"></a></li>
+                <li><a th:href="${updateCompany}" th:text="|#{database.data.single} #{company} #{function.update}|"></a></li>
+                <li><a th:href="${removeCompany}" th:text="|#{database.data.single} #{company} #{function.remove}|"></a></li>
             </ol>
             <ol>
                 <li>다수</li>
                 <li>
-                    <a th:href="${selectCompanies}">모든 기업 조회</a>
+                    <a th:href="${selectCompanies}" th:text="|#{database.data.all} #{company} #{function.find}|"></a>
                 </li>
             </ol>
         </ol>
         <ol>
-            <li>회원 관련 기능</li>
+            <li th:text="|#{member} 관련 기능|"></li>
             <ol>
-                <li>단일</li> <!-- DELETE 구현 -->
-                <li><a th:href="${removeMember}">회원 제거</a></li>
+                <li th:text="#{database.data.single}"></li> <!-- DELETE 구현 -->
+                <li><a th:href="${removeMember}" th:text="|#{database.data.single} #{member} #{function.remove}|"></a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- READ 구현 -->
-                <li><a th:href="${selectMembers}">전체 회원 조회</a></li>
+                <li><a th:href="${selectMembers}" th:text="|#{database.data.all} #{member} #{function.find}|"></a></li>
             </ol>
         </ol>
     </div>

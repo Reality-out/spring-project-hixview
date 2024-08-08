@@ -4,26 +4,26 @@
 <div class="tableWrapperDiv">
     <table class="table">
         <caption>
-            <strong><< Company Data >></strong>
+            <strong>&lt;&lt; [[#{company}]] [[#{database.data}]] &gt;&gt;</strong>
         </caption>
         <thead>
             <tr>
-                <th scope="col">코드</th>
-                <th scope="col">국가</th>
-                <th scope="col">크기</th>
-                <th scope="col">기업명</th>
-                <th scope="col">1차 분류</th>
-                <th scope="col">2차 분류</th>
+                <th scope="col" th:text="#{company.code}"></th>
+                <th scope="col" th:text="#{company.country}"></th>
+                <th scope="col" th:text="#{company.scale}"></th>
+                <th scope="col" th:text="#{company.name}"></th>
+                <th scope="col" th:text="#{company.category1st}"></th>
+                <th scope="col" th:text="#{company.category2nd}"></th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="company : ${companies}">
-                <td th:text="${company.code}">companyCode</td>
-                <td th:text="${company.country}">companyCountry</td>
-                <td th:text="${company.scale}">companyScale</td>
-                <td th:text="${company.name}">companyName</td>
-                <td th:text="${company.category1st}">companyCategory1st</td>
-                <td th:text="${company.category2nd}">companyCategory2nd</td>
+                <td th:text="${company.code}"></td>
+                <td th:text="${company.country}"></td>
+                <td th:text="${company.scale}"></td>
+                <td th:text="${company.name}"></td>
+                <td th:text="${company.category1st}"></td>
+                <td th:text="${company.category2nd}"></td>
             </tr>
         </tbody>
     </table>

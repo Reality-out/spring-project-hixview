@@ -2,18 +2,18 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
 <div>
-    <p>정말로 [[${dataTypeKor}]]을/를 제거하시겠습니까?</p>
+    <p>정말로 [[${dataTypeKor}]]을/를 [[#{function.remove}]]하시겠습니까?</p>
     <form th:action method="POST">
         <div>
-            <label th:for="${removeKey}">[[${dataTypeKor}]]</label>
+            <label th:for="${removeKey}" th:text="${dataTypeKor}"></label>
             <input type="text" th:id="${removeKey}" th:name="${removeKey}">
         </div>
-        <button type="submit">제거</button>
+        <button type="submit" th:text="#{function.remove}"></button>
     </form>
 </div>
 </body>

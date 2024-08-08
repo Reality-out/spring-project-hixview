@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<p>해당 문자열에 해당하는 기업이 확인되었습니다.</p>
+<p>해당 [[#{company.code}]] 또는 [[#{company.name}]]에 해당하는 [[#{company}]]이 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${company}" method="POST">
     <div>
         <div class="partialForm">
-            <label for="code">코드</label>
+            <label for="code" th:text="#{company.code}"></label>
             <input type="text" id="code" th:field="*{code}" size="20" readonly>
         </div>
-        <div>국가</div>
+        <div th:text="#{company.country}"></div>
         <select class="partialForm" th:field="*{country}">
             <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.countryValue}"></option>
         </select>
-        <div>크기</div>
+        <div th:text="#{company.scale}"></div>
         <select class="partialForm" th:field="*{scale}">
             <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
         </select>
         <div class="partialForm">
-            <label for="name">기업명</label>
+            <label for="name" th:text="#{company.name}"></label>
             <input type="text" id="name" th:field="*{name}" size="20" readonly>
         </div>
         <div class="partialForm">
-            <label for="category1st">1차 구분</label>
+            <label for="category1st" th:text="#{company.category1st}"></label>
             <input type="text" id="category1st" th:field="*{category1st}" size="20">
         </div>
         <div class="partialForm">
-            <label for="category2nd">2차 구분</label>
+            <label for="category2nd" th:text="#{company.category2nd}"></label>
             <input type="text" id="category2nd" th:field="*{category2nd}" size="20">
         </div>
     </div>
-    <button type="submit">갱신</button>
+    <button type="submit" th:text="#{function.update}"></button>
 </form>
 </body>
 </html>

@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<p>제목과 일치하는 기사가 확인되었습니다.</p>
+<p>[[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${article}" method="POST">
     <div>
         <div class="partialForm">
-            <label for="name">이름</label>
+            <label for="name" th:text="#{article.name}"></label>
             <input type="text" id="name" th:field="*{name}" size="20" readonly>
         </div>
         <div class="partialForm">
-            <label for="press">언론사</label>
+            <label for="press" th:text="#{article.press}"></label>
             <input type="text" id="press" th:field="*{press}" size="20">
         </div>
         <div class="partialForm">
-            <label for="subjectCompany">대상 기업</label>
+            <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
             <input type="text" id="subjectCompany" th:field="*{subjectCompany}" size="20">
         </div>
         <div class="partialForm">
-            <label for="link">링크</label>
+            <label for="link" th:text="#{article.link}"></label>
             <input type="url" id="link" th:field="*{link}" size="20">
         </div>
         <div class="partialForm">
-            <label for="year">연</label>
+            <label for="year" th:text="#{article.year}"></label>
             <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-            <label for="month">월</label>
+            <label for="month" th:text="#{article.month}"></label>
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-            <label for="date">일</label>
+            <label for="date" th:text="#{article.date}"></label>
             <input type="number" min="1" max="31" id="date" th:field="*{date}" size="2">
         </div>
         <div class="partialForm">
-            <label for="importance">중요도</label>
+            <label for="importance" th:text="#{article.importance}"></label>
             <input type="text" id="importance" th:field="*{importance}" size="20">
         </div>
     </div>
-    <button type="submit">갱신</button>
+    <button type="submit" th:text="#{function.update}"></button>
 </form>
 </body>
 </html>

@@ -4,26 +4,26 @@
 <div class="tableWrapperDiv">
     <table class="table">
         <caption>
-            <strong><< Member Data >></strong>
+            <strong>&lt;&lt; [[#{member}]] [[#{database.data}]] &gt;&gt;</strong>
         </caption>
         <thead>
             <tr>
-                <th scope="col">식별자</th>
-                <th scope="col">ID</th>
-                <th scope="col">패스워드</th>
-                <th scope="col">이름</th>
-                <th scope="col">생일</th>
-                <th scope="col">전화번호</th>
+                <th scope="col" th:text="#{member.identifier}"></th>
+                <th scope="col" th:text="#{member.id}"></th>
+                <th scope="col" th:text="#{member.pw}"></th>
+                <th scope="col" th:text="#{member.name}"></th>
+                <th scope="col" th:text="#{member.birth}"></th>
+                <th scope="col" th:text="#{member.phoneNumber}"></th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="member : ${members}">
-                <td th:text="${member.identifier}">memberIdentifier</td>
-                <td th:text="${member.id}">memberId</td>
-                <td th:text="${member.password}">memberPassword</td>
-                <td th:text="${member.name}">memberName</td>
-                <td th:text="${member.birth}">memberBirth</td>
-                <td th:text="${member.phoneNumber}">memberPhoneNumber</td>
+                <td th:text="${member.identifier}"></td>
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.password}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.birth}"></td>
+                <td th:text="${member.phoneNumber}"></td>
             </tr>
         </tbody>
     </table>

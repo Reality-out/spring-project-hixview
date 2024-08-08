@@ -2,14 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>힉스뷰 - 세상 경제사를 한눈에</title>
+    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <div>
         <p>회원 가입이 완료되었습니다.</p>
         <form action="/" method="get">
-            <button type="submit">첫 페이지로 이동</button>
+            <button type="submit" th:text="|#{page.main}로 이동|"></button>
         </form>
     </div>
 </body>
