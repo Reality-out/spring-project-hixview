@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
-import static springsideproject1.springsideproject1build.utility.MainUtility.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
+import static springsideproject1.springsideproject1build.utility.MainUtils.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -107,7 +107,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleService.removeArticle(createTestNewArticle().getName());
 
         // then
-        String nameListForURL = toStringForUrl(encodeUTF8(nameList));
+        String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
         assertThat(mockMvc.perform(processPostWithMultipleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>(){{

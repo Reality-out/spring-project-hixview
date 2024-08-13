@@ -13,8 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.DATE;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.DATE;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility.companyArticleTable;
 
 @Repository

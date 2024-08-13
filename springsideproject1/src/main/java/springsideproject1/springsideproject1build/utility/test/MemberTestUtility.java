@@ -7,7 +7,7 @@ import springsideproject1.springsideproject1build.domain.member.Member;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
 
 public interface MemberTestUtility extends ObjectTestUtility {
 

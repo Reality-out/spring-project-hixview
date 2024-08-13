@@ -7,7 +7,7 @@ import springsideproject1.springsideproject1build.domain.company.Country;
 import springsideproject1.springsideproject1build.domain.company.Scale;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.CODE;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.CODE;
 
 public interface CompanyTestUtility extends ObjectTestUtility {
 

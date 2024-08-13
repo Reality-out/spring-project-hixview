@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
 
 @SpringBootTest
 @Transactional

@@ -25,8 +25,7 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT_
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
-import static springsideproject1.springsideproject1build.utility.MainUtility.toStringForUrl;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,6 +45,37 @@ class UserMainControllerTest implements MemberTestUtility {
     @BeforeEach
     public void beforeEach() {
         resetTable(jdbcTemplateTest, memberTable, true);
+    }
+
+    @DisplayName("쿼리 문자열에서의 특수문자 처리 방식 확인")
+    @Test
+    public void checkSpecialCharacterLogic() throws Exception {
+        // given
+        Member member1 = Member.builder().member(createTestMember()).id("a1!@#$%^&*()-_+=").build();
+        String commonName = member1.getName();
+        LocalDate commonBirth = member1.getBirth();
+        Member member2 = Member.builder().member(createTestNewMember()).id("b2{[}]\\|;:'\"<,>.?/").name(commonName).birth(commonBirth).build();
+
+        // when
+        memberService.joinMember(member1);
+        memberService.joinMember(member2);
+
+        // then
+        List<String> idList = List.of(member1.getId(), member2.getId());
+        String idListForUrl = toStringForUrl(idList);
+        String idListString = "idList";
+
+        assertThat(mockMvc.perform(processPostWithMultipleParam(FIND_ID_URL, new HashMap<>(){{
+                    put(NAME, commonName);
+                    put("year", String.valueOf(commonBirth.getYear()));
+                    put("month", String.valueOf(commonBirth.getMonthValue()));
+                    put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
+                }}))
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                .andReturn().getModelAndView().getModelMap().get(idListString))
+                .usingRecursiveComparison()
+                .isEqualTo(idListForUrl);
     }
 
     @DisplayName("메인 페이지 접속")

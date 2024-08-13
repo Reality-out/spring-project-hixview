@@ -13,7 +13,7 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT_
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.SELECT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.*;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
 
 @Controller
 @RequestMapping("")

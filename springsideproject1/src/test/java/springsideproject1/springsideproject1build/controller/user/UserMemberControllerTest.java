@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.MEMBERSHIP_URL;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.MEMBER;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.MEMBER;
 
 @SpringBootTest
 @AutoConfigureMockMvc

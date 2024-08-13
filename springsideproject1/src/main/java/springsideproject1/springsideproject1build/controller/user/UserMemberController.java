@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.domain.member.Member;
 import springsideproject1.springsideproject1build.domain.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.member.PhoneNumber;
@@ -13,7 +16,7 @@ import springsideproject1.springsideproject1build.service.MemberService;
 
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.MEMBER;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.MEMBER;
 
 @Controller
 @RequiredArgsConstructor

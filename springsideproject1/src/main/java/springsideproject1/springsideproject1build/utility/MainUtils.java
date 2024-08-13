@@ -12,30 +12,14 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 @Transactional
-public class MainUtility {
-
-    /**
-     * Convert
-     */
-    public static String toStringForUrl(List<?> list) {
-        return Pattern.compile("").splitAsStream(list.toString())
-                .map(str -> {
-                    if (str.equals("[") || str.equals("]") || str.equals(" ")) {
-                        return "";
-                    } else if (str.equals("!")) {
-                        return "%21";
-                    } else {
-                        return str;
-                    }
-                }).collect(Collectors.joining());
-    }
-
+public class MainUtils {
     /**
      * Decode
      */
     public static List<String> decodeUTF8(List<String> list) {
-        list.replaceAll(MainUtility::decodeUTF8);
-        return list;
+        return list.stream()
+                .map(MainUtils::decodeUTF8)
+                .collect(Collectors.toList());
     }
 
     public static String decodeUTF8(String str) {
@@ -46,8 +30,9 @@ public class MainUtility {
      * Encode
      */
     public static List<String> encodeUTF8(List<String> list) {
-        list.replaceAll(MainUtility::encodeUTF8);
-        return list;
+        return list.stream()
+                .map(MainUtils::encodeUTF8)
+                .collect(Collectors.toList());
     }
 
     public static String encodeUTF8(String str) {

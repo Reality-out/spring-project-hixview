@@ -14,7 +14,7 @@ import springsideproject1.springsideproject1build.service.CompanyService;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.COMPANY;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.COMPANY;
 
 @Controller
 @RequestMapping("/company")

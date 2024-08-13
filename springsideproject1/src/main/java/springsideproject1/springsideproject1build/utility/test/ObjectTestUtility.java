@@ -3,8 +3,11 @@ package springsideproject1.springsideproject1build.utility.test;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import springsideproject1.springsideproject1build.utility.MainUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,5 +50,14 @@ public interface ObjectTestUtility {
             requestBuilder = requestBuilder.param(str, map.get(str));
         }
         return requestBuilder;
+    }
+
+    /**
+     * URL Encoding
+     */
+    default String toStringForUrl(List<String> list) {
+        return list.stream()
+                .map(MainUtils::encodeUTF8)
+                .collect(Collectors.joining(","));
     }
 }

@@ -7,8 +7,8 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.CODE;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.CODE;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

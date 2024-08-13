@@ -18,9 +18,9 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT_
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.MEMBER;
-import static springsideproject1.springsideproject1build.utility.MainUtility.decodeUTF8;
-import static springsideproject1.springsideproject1build.utility.MainUtility.encodeUTF8;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.MEMBER;
+import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
+import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 
 @Controller
 @RequiredArgsConstructor

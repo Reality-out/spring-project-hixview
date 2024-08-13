@@ -8,8 +8,8 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.DATE;
-import static springsideproject1.springsideproject1build.utility.ConstantUtility.NAME;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.DATE;
+import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
