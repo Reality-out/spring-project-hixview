@@ -7,10 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.company.Company;
-import springsideproject1.springsideproject1build.domain.company.Country;
-import springsideproject1.springsideproject1build.domain.company.FirstCategory;
-import springsideproject1.springsideproject1build.domain.company.Scale;
+import springsideproject1.springsideproject1build.domain.company.*;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -69,7 +66,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
         jdbcTemplate.update("update " + companyTable +
                         " set country = ?, scale = ?, name = ?, category1st = ?, category2nd = ? where code = ?",
                 company.getCountry().name(), company.getScale().name(), company.getName(),
-                company.getCategory1st().name(), company.getCategory2nd(), company.getCode());
+                company.getCategory1st().name(), company.getCategory2nd().name(), company.getCode());
     }
 
     /**
@@ -91,7 +88,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
                         .scale(Scale.valueOf(resultSet.getString("scale")))
                         .name(resultSet.getString(NAME))
                         .category1st(FirstCategory.valueOf(resultSet.getString("category1st")))
-                        .category2nd(resultSet.getString("category2nd"))
+                        .category2nd(SecondCategory.valueOf(resultSet.getString("category2nd")))
                         .build();
     }
 }

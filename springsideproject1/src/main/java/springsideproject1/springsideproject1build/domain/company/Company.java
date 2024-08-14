@@ -19,7 +19,7 @@ public class Company {
     private final Scale scale;
     private final String name;
     private final FirstCategory category1st;
-    private final String category2nd;
+    private final SecondCategory category2nd;
 
     public CompanyDto toCompanyDto() {
         CompanyDto companyDto = new CompanyDto();
@@ -28,7 +28,7 @@ public class Company {
         companyDto.setScale(scale.name());
         companyDto.setName(name);
         companyDto.setCategory1st(category1st.name());
-        companyDto.setCategory2nd(category2nd);
+        companyDto.setCategory2nd(category2nd.name());
         return companyDto;
     }
 
@@ -62,7 +62,7 @@ public class Company {
             scale = Scale.valueOf(companyDto.getScale());
             name = companyDto.getName();
             category1st = FirstCategory.valueOf(companyDto.getCategory1st());
-            category2nd = companyDto.getCategory2nd();
+            category2nd = SecondCategory.valueOf(companyDto.getCategory2nd());
             return this;
         }
     }
