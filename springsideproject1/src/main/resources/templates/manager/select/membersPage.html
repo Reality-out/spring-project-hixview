@@ -23,7 +23,7 @@
                 <td th:text="${member.password}"></td>
                 <td th:text="${member.name}"></td>
                 <td th:text="${member.birth}"></td>
-                <td th:text="${member.phoneNumber}"></td>
+                <td th:text="${member.phoneNumber.toStringWithDash()}"></td>
             </tr>
         </tbody>
     </table>
