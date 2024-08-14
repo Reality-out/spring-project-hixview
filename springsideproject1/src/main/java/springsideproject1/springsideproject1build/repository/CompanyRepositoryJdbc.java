@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.company.Company;
 import springsideproject1.springsideproject1build.domain.company.Country;
+import springsideproject1.springsideproject1build.domain.company.FirstCategory;
 import springsideproject1.springsideproject1build.domain.company.Scale;
 
 import javax.sql.DataSource;
@@ -68,7 +69,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
         jdbcTemplate.update("update " + companyTable +
                         " set country = ?, scale = ?, name = ?, category1st = ?, category2nd = ? where code = ?",
                 company.getCountry().name(), company.getScale().name(), company.getName(),
-                company.getCategory1st(), company.getCategory2nd(), company.getCode());
+                company.getCategory1st().name(), company.getCategory2nd(), company.getCode());
     }
 
     /**
@@ -89,7 +90,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
                         .country(Country.valueOf(resultSet.getString("country")))
                         .scale(Scale.valueOf(resultSet.getString("scale")))
                         .name(resultSet.getString(NAME))
-                        .category1st(resultSet.getString("category1st"))
+                        .category1st(FirstCategory.valueOf(resultSet.getString("category1st")))
                         .category2nd(resultSet.getString("category2nd"))
                         .build();
     }
