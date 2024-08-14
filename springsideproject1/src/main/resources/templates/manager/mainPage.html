@@ -11,47 +11,51 @@
         <ol>
             <li th:text="|#{company} #{article} 관련 기능|"></li>
             <ol>
-                <li th:text="#{database.data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
-                <li><a th:href="${addSingleCompanyArticle}" th:text="|#{database.data.single} #{article} #{function.add}|"></a></li>
-                <li><a th:href="${updateCompanyArticle}" th:text="|#{database.data.single} #{article} #{function.update}|"></a></li>
-                <li><a th:href="${removeCompanyArticle}" th:text="|#{database.data.single} #{article} #{function.remove}|"></a></li>
+                <li th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
+                <li><a th:href="${addSingleCompanyArticle}" th:text="|#{data.single} #{article} #{function.add}|"></a></li>
+                <li><a th:href="${updateCompanyArticleWithNumber}"
+                       th:text="|#{data.single} #{article} #{function.update} (#{article.number})|"></a></li>
+                <li><a th:href="${updateCompanyArticleWithName}"
+                       th:text="|#{data.single} #{article} #{function.update} (#{article.name})|"></a></li>
+                <li><a th:href="${removeCompanyArticle}" th:text="|#{data.single} #{article} #{function.remove}|"></a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- CREATE, READ 구현 -->
                 <li>
                     <a th:href="${addCompanyArticlesWithString}"
-                       th:text="|#{database.data.multiple} #{article} #{function.add} (단일 문자열, subjectCompany 및 importance 고정)|">
+                       th:text="|#{data.multiple} #{article} #{function.add}
+                       (#{data.single.string}, #{article.subjectCompany} 및 #{article.importance} 고정)|">
                     </a>
                 </li>
                 <li>
-                    <a th:href="${selectCompanyArticles}" th:text="|#{database.data.all} #{article} #{function.find}|"></a>
+                    <a th:href="${selectCompanyArticles}" th:text="|#{data.all} #{article} #{function.find}|"></a>
                 </li>
             </ol>
         </ol>
         <ol>
             <li th:text="|#{company} 관련 기능|"></li>
             <ol>
-                <li th:text="#{database.data.single}"></li>
-                <li><a th:href="${addSingleCompany}" th:text="|#{database.data.single} #{company} #{function.add}|"></a></li>
-                <li><a th:href="${updateCompany}" th:text="|#{database.data.single} #{company} #{function.update}|"></a></li>
-                <li><a th:href="${removeCompany}" th:text="|#{database.data.single} #{company} #{function.remove}|"></a></li>
+                <li th:text="#{data.single}"></li>
+                <li><a th:href="${addSingleCompany}" th:text="|#{data.single} #{company} #{function.add}|"></a></li>
+                <li><a th:href="${updateCompany}" th:text="|#{data.single} #{company} #{function.update}|"></a></li>
+                <li><a th:href="${removeCompany}" th:text="|#{data.single} #{company} #{function.remove}|"></a></li>
             </ol>
             <ol>
                 <li>다수</li>
                 <li>
-                    <a th:href="${selectCompanies}" th:text="|#{database.data.all} #{company} #{function.find}|"></a>
+                    <a th:href="${selectCompanies}" th:text="|#{data.all} #{company} #{function.find}|"></a>
                 </li>
             </ol>
         </ol>
         <ol>
             <li th:text="|#{member} 관련 기능|"></li>
             <ol>
-                <li th:text="#{database.data.single}"></li> <!-- DELETE 구현 -->
-                <li><a th:href="${removeMember}" th:text="|#{database.data.single} #{member} #{function.remove}|"></a></li>
+                <li th:text="#{data.single}"></li> <!-- DELETE 구현 -->
+                <li><a th:href="${removeMember}" th:text="|#{data.single} #{member} #{function.remove}|"></a></li>
             </ol>
             <ol>
                 <li>다수</li> <!-- READ 구현 -->
-                <li><a th:href="${selectMembers}" th:text="|#{database.data.all} #{member} #{function.find}|"></a></li>
+                <li><a th:href="${selectMembers}" th:text="|#{data.all} #{member} #{function.find}|"></a></li>
             </ol>
         </ol>
     </div>

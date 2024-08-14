@@ -20,7 +20,8 @@ public class ManagerMainController {
     @ResponseStatus(HttpStatus.OK)
     public String mainPage(Model model) {
         model.addAttribute("addSingleCompanyArticle", ADD_SINGLE_COMPANY_ARTICLE_URL);
-        model.addAttribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL);
+        model.addAttribute("updateCompanyArticleWithNumber", UPDATE_COMPANY_ARTICLE_URL_WITH_NUMBER);
+        model.addAttribute("updateCompanyArticleWithName", UPDATE_COMPANY_ARTICLE_URL_WITH_NAME);
         model.addAttribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL);
         model.addAttribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL);
         model.addAttribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL);

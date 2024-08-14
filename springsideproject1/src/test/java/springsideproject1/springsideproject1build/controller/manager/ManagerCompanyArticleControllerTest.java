@@ -137,7 +137,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @DisplayName("단일 기사 갱신 페이지 접속")
     @Test
     public void accessArticleUpdatePage() throws Exception {
-        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
+        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -154,12 +154,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         article = articleService.joinArticle(article);
 
         // then
-        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, NAME, article.getName()))
+        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME, NAME, article.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
+                        model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView().getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toCompanyArticleDto());
@@ -175,12 +175,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         article = articleService.joinArticle(article);
 
         // then
-        mockMvc.perform(processPostWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
+        mockMvc.perform(processPostWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX, article))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(article.getName())));
 
-        mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+        mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),

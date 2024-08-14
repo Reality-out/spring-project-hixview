@@ -28,7 +28,7 @@ class ManagerMainControllerTest {
                 .andExpectAll(status().isOk(),
                         view().name("manager/mainPage"),
                         model().attribute("addSingleCompanyArticle", ADD_SINGLE_COMPANY_ARTICLE_URL),
-                        model().attribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL),
+                        model().attribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL_WITH_NAME),
                         model().attribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL),
                         model().attribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL),
                         model().attribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL),
