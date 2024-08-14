@@ -11,7 +11,6 @@ import springsideproject1.springsideproject1build.domain.company.Company;
 import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,6 +37,21 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         resetTable(jdbcTemplateTest, companyTable);
     }
 
+    @DisplayName("기업 코드와 기업명을 사용하는 단일한 기업 조회")
+    @Test
+    public void inquiryCompanyWithCodeAndName() {
+        // given
+        Company company = createSamsungElectronics();
+
+        // when
+        companyService.joinCompany(company);
+
+        // then
+        assertThat(companyService.findCompanyByCodeOrName(company.getCode()))
+                .usingRecursiveComparison()
+                .isEqualTo(companyService.findCompanyByCodeOrName(company.getName()));
+    }
+
     @DisplayName("단일한 기업 등록")
     @Test
     public void registerCompany() {
@@ -61,7 +75,6 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         assertThat(companyService.findCompanies())
                 .usingRecursiveComparison().isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
     }
-
 
     @DisplayName("중복 코드 번호를 사용하는 기업 등록")
     @Test

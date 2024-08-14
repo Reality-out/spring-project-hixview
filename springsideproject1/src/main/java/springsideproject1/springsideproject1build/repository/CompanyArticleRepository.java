@@ -16,6 +16,8 @@ public interface CompanyArticleRepository {
 
     List<CompanyArticle> getArticlesByDate(LocalDate startDate, LocalDate endDate);
 
+    Optional<CompanyArticle> getArticleByNumber(Long number);
+
     Optional<CompanyArticle> getArticleByName(String name);
 
     /**

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.REMOVE_MEMBER_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -28,7 +27,7 @@ class ManagerMainControllerTest {
                 .andExpectAll(status().isOk(),
                         view().name("manager/mainPage"),
                         model().attribute("addSingleCompanyArticle", ADD_SINGLE_COMPANY_ARTICLE_URL),
-                        model().attribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL_WITH_NAME),
+                        model().attribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL),
                         model().attribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL),
                         model().attribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL),
                         model().attribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL),

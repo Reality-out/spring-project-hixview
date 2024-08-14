@@ -54,7 +54,6 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
                 .isEqualTo(List.of(member1, member2));
     }
 
-
     @DisplayName("멤버 이름으로 찾기")
     @Test
     public void findByName() {

@@ -13,10 +13,7 @@
             <ol>
                 <li th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
                 <li><a th:href="${addSingleCompanyArticle}" th:text="|#{data.single} #{article} #{function.add}|"></a></li>
-                <li><a th:href="${updateCompanyArticleWithNumber}"
-                       th:text="|#{data.single} #{article} #{function.update} (#{article.number})|"></a></li>
-                <li><a th:href="${updateCompanyArticleWithName}"
-                       th:text="|#{data.single} #{article} #{function.update} (#{article.name})|"></a></li>
+                <li><a th:href="${updateCompanyArticle}" th:text="|#{data.single} #{article} #{function.update}|"></a></li>
                 <li><a th:href="${removeCompanyArticle}" th:text="|#{data.single} #{article} #{function.remove}|"></a></li>
             </ol>
             <ol>

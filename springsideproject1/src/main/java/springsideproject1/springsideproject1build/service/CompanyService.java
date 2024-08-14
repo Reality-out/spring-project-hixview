@@ -34,8 +34,8 @@ public class CompanyService {
         return companyRepository.getCompanyByName(name);
     }
 
-    public Optional<Company> findCompanyByCodeOrName(String nameOrCode) {
-        return isNumeric(nameOrCode) ? findCompanyByCode(nameOrCode) : findCompanyByName(nameOrCode);
+    public Optional<Company> findCompanyByCodeOrName(String codeOrName) {
+        return isNumeric(codeOrName) ? findCompanyByCode(codeOrName) : findCompanyByName(codeOrName);
     }
 
     /**

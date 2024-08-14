@@ -37,11 +37,11 @@ public class UserCompanyController {
     /**
      * Select
      */
-    @GetMapping("/{nameOrCode}")
+    @GetMapping("/{codeOrName}")
     @ResponseStatus(HttpStatus.OK)
-    public String companyLookUp(@PathVariable String nameOrCode, Model model) {
+    public String companyLookUp(@PathVariable String codeOrName, Model model) {
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
-        model.addAttribute(COMPANY, companyService.findCompanyByCodeOrName(nameOrCode).get());
+        model.addAttribute(COMPANY, companyService.findCompanyByCodeOrName(codeOrName).get());
         return USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX;
     }
 }

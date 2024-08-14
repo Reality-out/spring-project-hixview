@@ -37,6 +37,21 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
+    @DisplayName("기사 번호와 기사명을 사용하는 단일한 기사 조회")
+    @Test
+    public void inquiryArticleWithNumberAndName() {
+        // given
+        CompanyArticle article = createTestArticle();
+
+        // when
+        article = articleService.joinArticle(article);
+
+        // then
+        assertThat(articleService.findArticleByNumberOrName(article.getNumber().toString()))
+                .usingRecursiveComparison()
+                .isEqualTo(articleService.findArticleByNumberOrName(article.getName()));
+    }
+
     @DisplayName("다수의 기사를 통한 기사 동시 등록")
     @Test
     public void registerArticles() {

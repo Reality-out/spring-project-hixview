@@ -15,6 +15,7 @@ import java.util.Optional;
 import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.utility.MainUtils.isNumeric;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +38,16 @@ public class CompanyArticleService {
         return articleRepository.getArticlesByDate(startDate, endDate);
     }
 
+    public Optional<CompanyArticle> findArticleByNumber(Long number) {
+        return articleRepository.getArticleByNumber(number);
+    }
+
     public Optional<CompanyArticle> findArticleByName(String name) {
         return articleRepository.getArticleByName(name);
+    }
+
+    public Optional<CompanyArticle> findArticleByNumberOrName(String numberOrName) {
+        return isNumeric(numberOrName) ? findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 
     /**

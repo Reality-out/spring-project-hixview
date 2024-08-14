@@ -93,8 +93,8 @@ public class ManagerCompanyController {
 
     @PostMapping(UPDATE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processUpdateCompany(@RequestParam String nameOrCode, Model model) {
-        Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(nameOrCode);
+    public String processUpdateCompany(@RequestParam String codeOrName, Model model) {
+        Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
 
         if (companyOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_COMPANY_WITH_THAT_CODE);
@@ -131,7 +131,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processRemoveCompany(Model model) {
         model.addAttribute(DATA_TYPE_ENGLISH, COMPANY);
-        model.addAttribute(REMOVE_KEY, "nameOrCode");
+        model.addAttribute(REMOVE_KEY, "codeOrName");
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
@@ -144,8 +144,8 @@ public class ManagerCompanyController {
 
     @PostMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitRemoveCompany(RedirectAttributes redirect, @RequestParam String nameOrCode) {
-        Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(nameOrCode);
+    public String submitRemoveCompany(RedirectAttributes redirect, @RequestParam String codeOrName) {
+        Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
 
         if (companyOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_COMPANY_WITH_THAT_CODE);

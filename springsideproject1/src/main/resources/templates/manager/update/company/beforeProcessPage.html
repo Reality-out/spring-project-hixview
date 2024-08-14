@@ -5,8 +5,8 @@
 <form th:action method="POST">
     <div>
         <div class="partialForm">
-            <label for="nameOrCode">[[#{company.code}]] 또는 [[#{company.name}]]</label>
-            <input type="text" id="nameOrCode" name="nameOrCode" size="20">
+            <label for="codeOrName">[[#{company.code}]] 또는 [[#{company.name}]]</label>
+            <input type="text" id="codeOrName" name="codeOrName" size="20">
         </div>
     </div>
     <button type="submit" th:text="#{function.search}"></button>

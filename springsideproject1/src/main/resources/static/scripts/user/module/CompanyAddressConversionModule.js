@@ -13,8 +13,8 @@ class CompanyAddressConversionModule {
 
     handleSubmit(event) {
         event.preventDefault();
-        const nameOrCode = document.getElementById('nameOrCode').value;
-        const url = "/company/" + encodeURIComponent(nameOrCode);
+        const codeOrName = document.getElementById('codeOrName').value;
+        const url = "/company/" + encodeURIComponent(codeOrName);
         window.location.href = url;
     }
 }

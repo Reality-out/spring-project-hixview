@@ -111,37 +111,38 @@ public class ManagerCompanyArticleController {
     /**
      * Update
      */
-    @GetMapping(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME)
+    @GetMapping(UPDATE_COMPANY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateUpdateCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
 		return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
 	}
 
-    @PostMapping(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME)
+    @PostMapping(UPDATE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processUpdateCompanyArticle(Model model, @RequestParam String name) {
-        Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByName(name);
+    public String processUpdateCompanyArticle(Model model, @RequestParam String numberOrName) {
+
+        Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME);
         } else {
             CompanyArticleDto article = articleOrEmpty.get().toCompanyArticleDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX);
+            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             model.addAttribute(ARTICLE, article);
         }
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 
-    @PostMapping(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX)
+    @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitUpdateCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
         articleService.renewArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
-        return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(UPDATE_COMPANY_ARTICLE_URL_WITH_NAME + URL_FINISH_SUFFIX)
+    @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishUpdateCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(VALUE, decodeUTF8(name));

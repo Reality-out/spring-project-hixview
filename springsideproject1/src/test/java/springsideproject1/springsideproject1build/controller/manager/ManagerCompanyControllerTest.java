@@ -107,7 +107,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.joinCompany(company);
 
         // then
-        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "nameOrCode", company.getName()))
+        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -130,7 +130,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.joinCompany(company);
 
         // then
-        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "nameOrCode", company.getCode()))
+        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -188,7 +188,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(DATA_TYPE_ENGLISH, COMPANY),
-                        model().attribute(REMOVE_KEY, "nameOrCode"));
+                        model().attribute(REMOVE_KEY, "codeOrName"));
     }
 
     @DisplayName("단일 기업 삭제 완료 페이지 접속")
@@ -202,7 +202,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.joinCompany(article);
 
         // then
-        mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_URL, "nameOrCode", name))
+        mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(name)));

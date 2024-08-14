@@ -47,6 +47,13 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
     }
 
     @Override
+    public Optional<CompanyArticle> getArticleByNumber(Long number) {
+        List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
+                "select * from " + companyArticleTable + " where number = ?", articleRowMapper(), number);
+        return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
+    }
+
+    @Override
     public Optional<CompanyArticle> getArticleByName(String name) {
         List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
                 "select * from " + companyArticleTable + " where name = ?", articleRowMapper(), name);

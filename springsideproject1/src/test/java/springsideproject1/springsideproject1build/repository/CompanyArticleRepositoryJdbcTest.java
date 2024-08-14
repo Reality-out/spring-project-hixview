@@ -56,6 +56,29 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
                 .isEqualTo(List.of(article1, article2));
     }
 
+    @DisplayName("기사 번호로 찾기")
+    @Test
+    public void findByNumber() {
+        // given
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestNewArticle();
+
+        // when
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
+
+        // then
+        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).get())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article1);
+
+        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).get())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article2);
+    }
+
     @DisplayName("기사 이름으로 찾기")
     @Test
     public void findByName() {

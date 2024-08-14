@@ -15,8 +15,7 @@ public class REQUEST_URL_CONFIG {
     public static final String ADD_SINGLE_COMPANY_ARTICLE_URL = "/manager/article/company/add/single";
     public static final String ADD_COMPANY_ARTICLE_WITH_STRING_URL = "/manager/article/company/add/string";
     public static final String SELECT_COMPANY_ARTICLE_URL = "/manager/article/company/select";
-    public static final String UPDATE_COMPANY_ARTICLE_URL_WITH_NUMBER = "/manager/article/company/update/number";
-    public static final String UPDATE_COMPANY_ARTICLE_URL_WITH_NAME = "/manager/article/company/update/name";
+    public static final String UPDATE_COMPANY_ARTICLE_URL = "/manager/article/company/update";
     public static final String REMOVE_COMPANY_ARTICLE_URL = "/manager/article/company/remove";
 
     // Company

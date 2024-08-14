@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<p>[[#{article.name}]]을 통해 [[#{article}]]를 [[#{function.search}]]합니다.</p>
+<p>[[#{article.number}]] 또는 [[#{article.name}]]을 통해 [[#{article}]]를 [[#{function.search}]]합니다.</p>
 <form th:action method="POST">
     <div>
         <div class="partialForm">
-            <label for="name" th:text="#{article}"></label>
-            <input type="text" id="name" name="name" size="20">
+            <label for="numberOrName" th:text="#{article}"></label>
+            <input type="text" id="numberOrName" name="numberOrName" size="20">
         </div>
     </div>
     <button type="submit" th:text="#{function.search}"></button>
