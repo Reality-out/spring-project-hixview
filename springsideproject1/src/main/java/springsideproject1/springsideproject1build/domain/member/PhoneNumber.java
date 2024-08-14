@@ -24,9 +24,12 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
         return subscriberNumber.compareTo(number.getSubscriberNumber());
     }
 
-    @Override
-    public String toString() {
+    public String toStringWithDash() {
         return countryCode + "-" + areaCode + "-" + subscriberNumber;
+    }
+
+    public String toStringWithNoDash() {
+        return countryCode + areaCode + subscriberNumber;
     }
 
     public static class PhoneNumberBuilder {
@@ -44,6 +47,12 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
                 countryCode = "000";
                 areaCode = "0000";
                 subscriberNumber = "0000";
+                return this;
+            }
+            if (!phoneNumber.contains("-") && (phoneNumber.length() == 11)) {
+                countryCode = phoneNumber.substring(0, 3);
+                areaCode = phoneNumber.substring(3, 7);
+                subscriberNumber = phoneNumber.substring(7, 11);
                 return this;
             }
             String[] splitPhoneNumber = phoneNumber.split("-");

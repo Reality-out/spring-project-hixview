@@ -48,7 +48,7 @@ public class Member {
             put("password", password);
             put(NAME, name);
             put("birth", birth);
-            put("phoneNumber", phoneNumber);
+            put("phoneNumber", phoneNumber.toStringWithDash());
         }};
     }
 

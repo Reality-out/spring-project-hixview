@@ -38,6 +38,6 @@ public interface MemberTestUtility extends ObjectTestUtility {
                 .param("year", String.valueOf(member.getBirth().getYear()))
                 .param("month", String.valueOf(member.getBirth().getMonthValue()))
                 .param(DATE, String.valueOf(member.getBirth().getDayOfMonth()))
-                .param("phoneNumber", member.getPhoneNumber().toString());
+                .param("phoneNumber", member.getPhoneNumber().toStringWithDash());
     }
 }
