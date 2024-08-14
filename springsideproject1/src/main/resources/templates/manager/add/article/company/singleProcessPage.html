@@ -20,11 +20,11 @@
             <input type="url" id="link" th:field="*{link}" size="20">
         </div>
         <div class="partialForm">
-            <label for="year" th:text="#{article.year}"></label>
+            <label for="year" th:text="#{article.date.year}"></label>
             <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-            <label for="month" th:text="#{article.month}"></label>
+            <label for="month" th:text="#{article.date.month}"></label>
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-            <label for="date" th:text="#{article.date}"></label>
+            <label for="date" th:text="#{article.date.day}"></label>
             <input type="number" min="1" max="31" id="date" th:field="*{date}" size="2">
         </div>
         <div class="partialForm">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<p>[[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
+<p>해당 [[#{article.number}]] 또는 [[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${article}" method="POST">
     <div>
         <div class="partialForm">
@@ -21,11 +21,11 @@
             <input type="url" id="link" th:field="*{link}" size="20">
         </div>
         <div class="partialForm">
-            <label for="year" th:text="#{article.year}"></label>
+            <label for="year" th:text="#{article.date.year}"></label>
             <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-            <label for="month" th:text="#{article.month}"></label>
+            <label for="month" th:text="#{article.date.month}"></label>
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-            <label for="date" th:text="#{article.date}"></label>
+            <label for="date" th:text="#{article.date.day}"></label>
             <input type="number" min="1" max="31" id="date" th:field="*{date}" size="2">
         </div>
         <div class="partialForm">
