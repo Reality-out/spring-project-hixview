@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.Press;
 import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
 import java.time.LocalDate;
@@ -73,7 +74,7 @@ public class CompanyArticleService {
 
             returnList.add(joinArticle(CompanyArticle.builder()
                     .name(partialArticle.get(0))
-                    .press(partialArticle.get(4))
+                    .press(Press.valueOf(partialArticle.get(4)))
                     .subjectCompany(subjectCompany)
                     .link(linkList.get(i))
                     .date(LocalDate.of(parseInt(partialArticle.get(1)),

@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.Press;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -76,7 +77,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
     public void updateArticle(CompanyArticle article) {
         jdbcTemplate.update("update " + companyArticleTable +
                         " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
-                article.getPress(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(), article.getName());
+                article.getPress().name(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(), article.getName());
     }
 
     /**
@@ -94,7 +95,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
         return (resultSet, rowNumber) -> CompanyArticle.builder()
                         .number(resultSet.getLong("number"))
                         .name(resultSet.getString(NAME))
-                        .press(resultSet.getString("press"))
+                        .press(Press.valueOf(resultSet.getString("press")))
                         .subjectCompany(resultSet.getString("subjectcompany"))
                         .link(resultSet.getString("link"))
                         .date(resultSet.getDate(DATE).toLocalDate())

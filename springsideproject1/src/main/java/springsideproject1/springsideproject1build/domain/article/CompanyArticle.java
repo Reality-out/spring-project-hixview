@@ -17,7 +17,7 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtils.N
 public class CompanyArticle {
     private final Long number;
     private final String name;
-    private final String press;
+    private final Press press;
     private final String subjectCompany;
     private final String link;
     private final LocalDate date;
@@ -27,7 +27,7 @@ public class CompanyArticle {
         CompanyArticleDto companyArticleDto = new CompanyArticleDto();
         companyArticleDto.setNumber(number);
         companyArticleDto.setName(name);
-        companyArticleDto.setPress(press);
+        companyArticleDto.setPress(press.name());
         companyArticleDto.setSubjectCompany(subjectCompany);
         companyArticleDto.setLink(link);
         companyArticleDto.setYear(String.valueOf(date.getYear()));
@@ -72,7 +72,7 @@ public class CompanyArticle {
         public CompanyArticleBuilder articleDto(CompanyArticleDto articleDto) {
             number = articleDto.getNumber();
             name = articleDto.getName();
-            press = articleDto.getPress();
+            press = Press.valueOf(articleDto.getPress());
             subjectCompany = articleDto.getSubjectCompany();
             link = articleDto.getLink();
             date = LocalDate.of(Integer.parseInt(articleDto.getYear()),
