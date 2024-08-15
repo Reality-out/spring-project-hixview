@@ -20,9 +20,9 @@ class ManagerMainControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @DisplayName("메인 페이지 접속")
+    @DisplayName("관리자 메인 페이지 접속")
     @Test
-    public void accessMainPage() throws Exception {
+    public void accessManagerMainPage() throws Exception {
         mockMvc.perform(get("/manager"))
                 .andExpectAll(status().isOk(),
                         view().name("manager/mainPage"),

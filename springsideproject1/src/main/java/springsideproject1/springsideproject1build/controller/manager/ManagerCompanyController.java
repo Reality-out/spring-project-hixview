@@ -75,7 +75,7 @@ public class ManagerCompanyController {
      */
     @GetMapping(SELECT_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String selectCompany(Model model) {
+    public String processSelectCompanies(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("companies", companyService.findCompanies());
         return MANAGER_SELECT_VIEW + "companiesPage";

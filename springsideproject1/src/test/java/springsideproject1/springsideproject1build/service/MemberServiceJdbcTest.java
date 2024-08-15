@@ -49,9 +49,9 @@ class MemberServiceJdbcTest implements MemberTestUtility {
         assertThat(memberService.findMembers().getFirst()).usingRecursiveComparison().isEqualTo(member);
     }
 
-    @DisplayName("중복 ID를 사용하는 회원가입")
+    @DisplayName("회원 중복 ID로 가입")
     @Test
-    public void membershipWithSameID() {
+    public void duplicatedMembershipWithSameID() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestMember();
@@ -65,9 +65,9 @@ class MemberServiceJdbcTest implements MemberTestUtility {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_MEMBER_ID);
     }
 
-    @DisplayName("잘못된 ID를 통한 회원 삭제")
+    @DisplayName("회원 존재하지 않는 ID로 제거")
     @Test
-    public void removeByFaultID() {
+    public void removeMemberByFaultID() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.removeMember("NoneID123"));
         assertThat(e.getMessage()).isEqualTo(NO_MEMBER_WITH_THAT_ID);

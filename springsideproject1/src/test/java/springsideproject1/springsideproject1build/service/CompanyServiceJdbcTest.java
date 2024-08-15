@@ -37,9 +37,9 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         resetTable(jdbcTemplateTest, companyTable);
     }
 
-    @DisplayName("기업 코드와 기업명을 사용하는 단일한 기업 조회")
+    @DisplayName("기업 코드와 이름으로 찾기")
     @Test
-    public void inquiryCompanyWithCodeAndName() {
+    public void findCompanyWithCodeAndName() {
         // given
         Company company = createSamsungElectronics();
 
@@ -52,7 +52,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
                 .isEqualTo(companyService.findCompanyByCodeOrName(company.getName()));
     }
 
-    @DisplayName("단일한 기업 등록")
+    @DisplayName("기업 등록")
     @Test
     public void registerCompany() {
         // given
@@ -65,7 +65,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         assertThat(companyService.findCompanies().getFirst()).usingRecursiveComparison().isEqualTo(company);
     }
 
-    @DisplayName("다수의 기업 등록")
+    @DisplayName("기업들 등록")
     @Test
     public void registerCompanies() {
         // given
@@ -76,9 +76,9 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
                 .usingRecursiveComparison().isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
     }
 
-    @DisplayName("중복 코드 번호를 사용하는 기업 등록")
+    @DisplayName("기업 중복 코드로 등록")
     @Test
-    public void registerCompanyWithSameCode() {
+    public void registerDuplicatedCompanyWithSameCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.registerCompanies(createSamsungElectronics(),
                         Company.builder().company(createSKHynix()).code(createSamsungElectronics().getCode()).build()));
@@ -86,7 +86,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
     }
 
-    @DisplayName("존재하지 않는 코드 번호를 통한 기업 갱신")
+    @DisplayName("기업 존재하지 않는 코드로 수정")
     @Test
     public void correctCompanyByFaultCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
@@ -94,7 +94,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 
-    @DisplayName("존재하지 않는 코드 번호를 통한 기업 삭제")
+    @DisplayName("기업 존재하지 않는 코드로 제거")
     @Test
     public void removeCompanyByFaultCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,

@@ -44,7 +44,7 @@ public interface ObjectTestUtility {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED).param(key, value);
     }
 
-    default MockHttpServletRequestBuilder processPostWithMultipleParam(String url, Map<String, String> map) {
+    default MockHttpServletRequestBuilder processPostWithMultipleParams(String url, Map<String, String> map) {
         MockHttpServletRequestBuilder requestBuilder = post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED);
         for (String str : map.keySet()) {
             requestBuilder = requestBuilder.param(str, map.get(str));

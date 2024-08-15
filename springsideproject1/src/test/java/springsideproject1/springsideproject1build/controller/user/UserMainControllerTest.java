@@ -49,7 +49,7 @@ class UserMainControllerTest implements MemberTestUtility {
 
     @DisplayName("쿼리 문자열에서의 특수문자 처리 방식 확인")
     @Test
-    public void checkSpecialCharacterLogic() throws Exception {
+    public void checkSpecialCharacterLogicInQueryString() throws Exception {
         // given
         Member member1 = Member.builder().member(createTestMember()).id("a1!@#$%^&*()-_+=").build();
         String commonName = member1.getName();
@@ -65,7 +65,7 @@ class UserMainControllerTest implements MemberTestUtility {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(mockMvc.perform(processPostWithMultipleParam(FIND_ID_URL, new HashMap<>(){{
+        assertThat(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>(){{
                     put(NAME, commonName);
                     put("year", String.valueOf(commonBirth.getYear()));
                     put("month", String.valueOf(commonBirth.getMonthValue()));
@@ -78,9 +78,9 @@ class UserMainControllerTest implements MemberTestUtility {
                 .isEqualTo(idListForUrl);
     }
 
-    @DisplayName("메인 페이지 접속")
+    @DisplayName("유저 메인 페이지 접속")
     @Test
-    public void accessMainPage() throws Exception {
+    public void accessUserMainPage() throws Exception {
         mockMvc.perform(get(""))
                 .andExpectAll(status().isOk(),
                         view().name("user/mainPage"),
@@ -99,7 +99,7 @@ class UserMainControllerTest implements MemberTestUtility {
 
     @DisplayName("아이디 찾기 페이지 접속")
     @Test
-    public void accessFindIdPage() throws Exception {
+    public void accessFindId() throws Exception {
         mockMvc.perform(get(FIND_ID_URL))
                 .andExpectAll(status().isOk(),
                         view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX),
@@ -108,7 +108,7 @@ class UserMainControllerTest implements MemberTestUtility {
 
     @DisplayName("아이디 찾기 완료 페이지 접속")
     @Test
-    public void accessFindIdFinishPage() throws Exception {
+    public void accessFindIdFinish() throws Exception {
         // given
         Member member1 = createTestMember();
         String commonName = member1.getName();
@@ -124,7 +124,7 @@ class UserMainControllerTest implements MemberTestUtility {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(mockMvc.perform(processPostWithMultipleParam(FIND_ID_URL, new HashMap<>(){{
+        assertThat(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>(){{
             put(NAME, commonName);
             put("year", String.valueOf(commonBirth.getYear()));
             put("month", String.valueOf(commonBirth.getMonthValue()));

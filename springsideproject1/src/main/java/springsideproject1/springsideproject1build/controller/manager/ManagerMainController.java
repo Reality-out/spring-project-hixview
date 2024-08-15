@@ -18,7 +18,7 @@ public class ManagerMainController {
      */
     @GetMapping("/manager")
     @ResponseStatus(HttpStatus.OK)
-    public String mainPage(Model model) {
+    public String processManagerMainPage(Model model) {
         model.addAttribute("addSingleCompanyArticle", ADD_SINGLE_COMPANY_ARTICLE_URL);
         model.addAttribute("updateCompanyArticle", UPDATE_COMPANY_ARTICLE_URL);
         model.addAttribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL);

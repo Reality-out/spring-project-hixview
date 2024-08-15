@@ -23,27 +23,27 @@ public class MemberService {
      * SELECT Member
      */
     public List<Member> findMembers() {
-        return memberRepository.selectMembers();
+        return memberRepository.getMembers();
     }
 
     public List<Member> findMembersByName(String name) {
-        return memberRepository.selectMembersByName(name);
+        return memberRepository.getMembersByName(name);
     }
 
     public List<Member> findMembersByBirth(LocalDate birth) {
-        return memberRepository.selectMembersByBirth(birth);
+        return memberRepository.getMembersByBirth(birth);
     }
 
     public List<Member> findMembersByNameAndBirth(String name, LocalDate birth) {
-        return memberRepository.selectMembersByNameAndBirth(name, birth);
+        return memberRepository.getMembersByNameAndBirth(name, birth);
     }
 
     public Optional<Member> findMemberByIdentificationNumber(Long identificationNumber) {
-        return memberRepository.selectMemberByIdentifier(identificationNumber);
+        return memberRepository.getMemberByIdentifier(identificationNumber);
     }
 
     public Optional<Member> findMemberByID(String Id) {
-        return memberRepository.selectMemberByID(Id);
+        return memberRepository.getMemberByID(Id);
     }
 
     /**
@@ -52,7 +52,7 @@ public class MemberService {
     @Transactional
     public Member registerMember(Member member) {
         duplicateCheck(member);
-        return Member.builder().member(member).identifier(memberRepository.insertMember(member)).build();
+        return Member.builder().member(member).identifier(memberRepository.saveMember(member)).build();
     }
 
     /**
@@ -69,14 +69,14 @@ public class MemberService {
      */
     @Transactional
     private void duplicateCheck(Member member) {
-        memberRepository.selectMemberByID(member.getId()).ifPresent(
+        memberRepository.getMemberByID(member.getId()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_MEMBER_ID);}
         );
     }
 
     @Transactional
     private void existentCheck(String Id) {
-        memberRepository.selectMemberByID(Id).orElseThrow(
+        memberRepository.getMemberByID(Id).orElseThrow(
                 () -> new IllegalStateException(NO_MEMBER_WITH_THAT_ID)
         );
     }

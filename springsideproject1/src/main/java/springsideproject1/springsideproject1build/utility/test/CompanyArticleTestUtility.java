@@ -31,17 +31,6 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
                 .build();
     }
 
-    default CompanyArticle createTestEqualDateArticle() {
-        return CompanyArticle.builder()
-                .name("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회")
-                .press(Press.BUSINESS_POST)
-                .subjectCompany("삼성전자")
-                .link("https://www.businesspost.co.kr/BP?command=article_view&num=355822")
-                .date(LocalDate.of(2024, 6, 18))
-                .importance(0)
-                .build();
-    }
-
     default CompanyArticle createTestNewArticle() {
         return CompanyArticle.builder()
                 .name("[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치")
@@ -49,6 +38,17 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
                 .subjectCompany("삼성전자")
                 .link("https://biz.heraldcorp.com/view.php?ud=20240617050050")
                 .date(LocalDate.of(2024, 6, 17))
+                .importance(0)
+                .build();
+    }
+
+    default CompanyArticle createTestEqualDateArticle() {
+        return CompanyArticle.builder()
+                .name("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회")
+                .press(Press.BUSINESS_POST)
+                .subjectCompany("삼성전자")
+                .link("https://www.businesspost.co.kr/BP?command=article_view&num=355822")
+                .date(LocalDate.of(2024, 6, 18))
                 .importance(0)
                 .build();
     }

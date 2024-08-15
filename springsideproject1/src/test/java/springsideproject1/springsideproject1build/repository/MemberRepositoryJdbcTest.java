@@ -36,125 +36,125 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
         resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    @DisplayName("멤버 모두 가져오기")
+    @DisplayName("회원들 획득")
     @Test
-    public void findAll() {
+    public void getMembers() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMembers())
+        assertThat(memberRepository.getMembers())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("멤버 이름으로 찾기")
+    @DisplayName("회원 이름으로 획득")
     @Test
-    public void findByName() {
+    public void getMemberByName() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMembersByName(member1.getName()).getFirst())
+        assertThat(memberRepository.getMembersByName(member1.getName()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
-        assertThat(memberRepository.selectMembersByName(member2.getName()).getFirst())
+        assertThat(memberRepository.getMembersByName(member2.getName()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
     }
 
-    @DisplayName("이름이 중복되는 멤버 모두 찾기")
+    @DisplayName("회원들 이름으로 획득")
     @Test
-    public void findAllByName() {
+    public void getMembersByName() {
         // given
         Member member1 = createTestMember();
         String commonName = member1.getName();
         Member member2 = Member.builder().member(createTestNewMember()).name(commonName).build();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMembersByName(commonName))
+        assertThat(memberRepository.getMembersByName(commonName))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("멤버 생일로 찾기")
+    @DisplayName("회원 생일로 획득")
     @Test
-    public void findByBirth() {
+    public void getMemberByBirth() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMembersByBirth(member1.getBirth()).getFirst())
+        assertThat(memberRepository.getMembersByBirth(member1.getBirth()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
-        assertThat(memberRepository.selectMembersByBirth(member2.getBirth()).getFirst())
+        assertThat(memberRepository.getMembersByBirth(member2.getBirth()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
     }
 
-    @DisplayName("생일이 중복되는 멤버 모두 찾기")
+    @DisplayName("회원들 생일로 획득")
     @Test
-    public void findAllByBirth() {
+    public void getMembersByBirth() {
         // given
         Member member1 = createTestMember();
         LocalDate commonBirth = member1.getBirth();
         Member member2 = Member.builder().member(createTestNewMember()).birth(commonBirth).build();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMembersByBirth(commonBirth))
+        assertThat(memberRepository.getMembersByBirth(commonBirth))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("멤버 이름과 생일로 찾기")
+    @DisplayName("회원 이름과 생일로 획득")
     @Test
-    public void findByNameAndBirth() {
+    public void getMemberByNameAndBirth() {
         // given
         Member member = createTestMember();
 
         // when
-        memberRepository.insertMember(member);
+        memberRepository.saveMember(member);
 
         // then
-        assertThat(memberRepository.selectMembersByNameAndBirth(member.getName(), member.getBirth()))
+        assertThat(memberRepository.getMembersByNameAndBirth(member.getName(), member.getBirth()))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member));
     }
 
-    @DisplayName("이름과 생일이 중복되는 멤버 모두 찾기")
+    @DisplayName("회원들 이름과 생일로 획득")
     @Test
-    public void findAllByNameAndBirth() {
+    public void getMembersByNameAndBirth() {
         // given
         Member member1 = createTestMember();
         String commonName = member1.getName();
@@ -162,90 +162,90 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
         Member member2 = Member.builder().member(createTestNewMember()).name(commonName).birth(commonBirth).build();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMembersByBirth(commonBirth))
+        assertThat(memberRepository.getMembersByBirth(commonBirth))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("멤버 식별자로 찾기")
+    @DisplayName("회원 식별자로 획득")
     @Test
-    public void findByIdentifier() {
+    public void getMemberByIdentifier() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMemberByIdentifier(1L).get())
+        assertThat(memberRepository.getMemberByIdentifier(1L).get())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
-        assertThat(memberRepository.selectMemberByIdentifier(2L).get())
+        assertThat(memberRepository.getMemberByIdentifier(2L).get())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
     }
 
-    @DisplayName("멤버 ID로 찾기")
+    @DisplayName("회원 ID로 획득")
     @Test
-    public void findByID() {
+    public void getMemberByID() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.selectMemberByID(member1.getId()).get())
+        assertThat(memberRepository.getMemberByID(member1.getId()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
-        assertThat(memberRepository.selectMemberByID(member2.getId()).get())
+        assertThat(memberRepository.getMemberByID(member2.getId()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
     }
 
-    @DisplayName("멤버 저장하기")
+    @DisplayName("회원 저장")
     @Test
-    public void save() {
+    public void saveMember() {
         // given
         Member member = createTestMember();
 
         // when
-        memberRepository.insertMember(member);
+        memberRepository.saveMember(member);
 
         // then
-        assertThat(memberRepository.selectMembersByName(member.getName()).getFirst())
+        assertThat(memberRepository.getMembersByName(member.getName()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member);
     }
 
-    @DisplayName("멤버 ID로 제거하기")
+    @DisplayName("회원 ID로 제거")
     @Test
-    public void removeByID() {
+    public void removeMemberByID() {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
 
         // when
-        memberRepository.insertMember(member1);
-        memberRepository.insertMember(member2);
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
 
         // then
         memberRepository.deleteMember(member1.getId());
         memberRepository.deleteMember(member2.getId());
-        assertThat(memberRepository.selectMembers()).isEmpty();
+        assertThat(memberRepository.getMembers()).isEmpty();
     }
 }

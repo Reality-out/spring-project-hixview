@@ -52,9 +52,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         resetTable(jdbcTemplateTest, companyTable, true);
     }
 
-    @DisplayName("단일 기업 등록 페이지 접속")
+    @DisplayName("기업 등록 페이지 접속")
     @Test
-    public void accessCompanyRegisterPage() throws Exception {
+    public void accessCompanyRegister() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
@@ -65,9 +65,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute("scales", Scale.values()));
     }
 
-    @DisplayName("단일 기업 등록 완료 페이지 접속")
+    @DisplayName("기업 등록 완료 페이지 접속")
     @Test
-    public void accessCompanyRegisterFinishPage() throws Exception {
+    public void accessCompanyRegisterFinish() throws Exception {
         // given
         Company company = createSamsungElectronics();
 
@@ -87,9 +87,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute(VALUE, company.getName()));
     }
 
-    @DisplayName("단일 기업 갱신 페이지 접속")
+    @DisplayName("기업 갱신 페이지 접속")
     @Test
-    public void accessCompanyUpdatePage() throws Exception {
+    public void accessCompanyUpdate() throws Exception {
         mockMvc.perform(get(UPDATE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
@@ -97,9 +97,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
     }
 
-    @DisplayName("단일 기업 갱신 페이지 내 이름 검색")
+    @DisplayName("기업 갱신 페이지 내 이름 검색")
     @Test
-    public void searchNameInCompanyUpdatePage() throws Exception {
+    public void searchNameCompanyUpdate() throws Exception {
         // given
         Company company = createSamsungElectronics();
 
@@ -120,9 +120,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                 .isEqualTo(company.toCompanyDto());
     }
 
-    @DisplayName("단일 기업 갱신 페이지 내 코드 검색")
+    @DisplayName("기업 갱신 페이지 내 코드 검색")
     @Test
-    public void searchCodeInCompanyUpdatePage() throws Exception {
+    public void searchCodeCompanyUpdate() throws Exception {
         // given
         Company company = createSamsungElectronics();
 
@@ -141,9 +141,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                 .isEqualTo(company.toCompanyDto());
     }
 
-    @DisplayName("단일 기업 갱신 완료 페이지 접속")
+    @DisplayName("기업 갱신 완료 페이지 접속")
     @Test
-    public void accessCompanyUpdateFinishPage() throws Exception {
+    public void accessCompanyUpdateFinish() throws Exception {
         // given
         Company company = createSamsungElectronics();
 
@@ -165,9 +165,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute(VALUE, company.getName()));
     }
 
-    @DisplayName("모든 기업 테이블 페이지 접속")
+    @DisplayName("기업들 찾기 페이지 접속")
     @Test
-    public void accessCompaniesPage() throws Exception {
+    public void accessCompaniesSelect() throws Exception {
         // given
         companyService.registerCompanies(createSKHynix(), createSamsungElectronics());
 
@@ -180,9 +180,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                 .isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
     }
 
-    @DisplayName("단일 기업 삭제 페이지 접속")
+    @DisplayName("기업 삭제 페이지 접속")
     @Test
-    public void accessCompanyRemovePage() throws Exception {
+    public void accessCompanyRemove() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
@@ -191,9 +191,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute(REMOVE_KEY, "codeOrName"));
     }
 
-    @DisplayName("단일 기업 삭제 완료 페이지 접속")
+    @DisplayName("기업 삭제 완료 페이지 접속")
     @Test
-    public void accessCompanyRemoveFinishPage() throws Exception {
+    public void accessCompanyRemoveFinish() throws Exception {
         // given
         Company article = createSamsungElectronics();
         String name = article.getName();

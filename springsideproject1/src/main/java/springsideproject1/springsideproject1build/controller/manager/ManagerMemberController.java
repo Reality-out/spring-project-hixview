@@ -33,7 +33,7 @@ public class ManagerMemberController {
      */
     @GetMapping(SELECT_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String showMemberList(Model model) {
+    public String processSelectMembers(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("members", memberService.findMembers());
         return MANAGER_SELECT_VIEW + "membersPage";

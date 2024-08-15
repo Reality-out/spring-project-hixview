@@ -9,16 +9,16 @@ public interface CompanyRepository {
     /**
      * SELECT Company
      */
-    List<Company> selectCompanies();
+    List<Company> getCompanies();
 
-    Optional<Company> selectCompanyByCode(String code);
+    Optional<Company> getCompanyByCode(String code);
 
-    Optional<Company> selectCompanyByName(String name);
+    Optional<Company> getCompanyByName(String name);
 
     /**
      * INSERT Company
      */
-    void insertCompany(Company company);
+    void saveCompany(Company company);
 
     /**
      * UPDATE Company

@@ -102,7 +102,7 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping(SELECT_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String selectCompanyArticle(Model model) {
+    public String processSelectCompanyArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articles", articleService.findArticles());
         return MANAGER_SELECT_VIEW + "companyArticlesPage";

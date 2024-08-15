@@ -46,9 +46,9 @@ class UserCompanyControllerTest implements CompanyTestUtility {
         resetTable(jdbcTemplateTest, companyTable);
     }
 
-    @DisplayName("기업 페이지 접속")
+    @DisplayName("기업 서브 페이지 접속")
     @Test
-    public void accessCompanyPage() throws Exception {
+    public void accessCompanySubPage() throws Exception {
         mockMvc.perform(get("/company"))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),

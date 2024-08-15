@@ -38,91 +38,45 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
-    @DisplayName("기사 모두 가져오기")
+    @DisplayName("기업 기사들 획득")
     @Test
-    public void findAll() {
+    public void getCompanyArticles() {
         // given
         CompanyArticle article1 = createTestArticle();
         CompanyArticle article2 = createTestNewArticle();
 
         // when
-        articleRepository.insertArticle(article1);
-        articleRepository.insertArticle(article2);
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
 
         // then
-        assertThat(articleRepository.selectArticles())
+        assertThat(articleRepository.getArticles())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2));
     }
 
-    @DisplayName("기사 번호로 찾기")
+    @DisplayName("기업 기사들 날짜로 획득")
     @Test
-    public void findByNumber() {
-        // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestNewArticle();
-
-        // when
-        article1 = CompanyArticle.builder().article(article1).number(articleRepository.insertArticle(article1)).build();
-        article2 = CompanyArticle.builder().article(article2).number(articleRepository.insertArticle(article2)).build();
-
-        // then
-        assertThat(articleRepository.selectArticleByNumber(article1.getNumber()).get())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.selectArticleByNumber(article2.getNumber()).get())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
-    }
-
-    @DisplayName("기사 이름으로 찾기")
-    @Test
-    public void findByName() {
-        // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestNewArticle();
-
-        // when
-        articleRepository.insertArticle(article1);
-        articleRepository.insertArticle(article2);
-
-        // then
-        assertThat(articleRepository.selectArticleByName(article1.getName()).get())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.selectArticleByName(article2.getName()).get())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
-    }
-
-    @DisplayName("특정 날짜의 기사 모두 찾기")
-    @Test
-    public void searchByOneDate() {
+    public void getCompanyArticleByDate() {
         // given
         CompanyArticle article1 = createTestArticle();
         CompanyArticle article2 = createTestEqualDateArticle();
 
         // when
-        articleRepository.insertArticle(article1);
-        articleRepository.insertArticle(article2);
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
 
         // then
-        assertThat(articleRepository.selectArticlesByDate(article1.getDate()))
+        assertThat(articleRepository.getArticlesByDate(article1.getDate()))
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2));
     }
 
-    @DisplayName("특정 기간의 기사 모두 찾기")
+    @DisplayName("기업 기사들 날짜 범위로 획득")
     @Test
-    public void searchByDateRange() {
+    public void getCompanyArticleByDateRange() {
         // given
         CompanyArticle article1 = createTestArticle();
         CompanyArticle article2 = createTestEqualDateArticle();
@@ -134,65 +88,111 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
                 .toList();
 
         // when
-        articleRepository.insertArticle(article1);
-        articleRepository.insertArticle(article2);
-        articleRepository.insertArticle(article3);
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
+        articleRepository.saveArticle(article3);
 
         // then
         assertThat(articleRepository
-                .selectArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
+                .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2, article3));
     }
 
-    @DisplayName("기사 저장하기")
+    @DisplayName("기업 기사 번호로 획득")
     @Test
-    public void save() {
+    public void getCompanyArticleByNumber() {
+        // given
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestNewArticle();
+
+        // when
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
+
+        // then
+        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).get())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article1);
+
+        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).get())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article2);
+    }
+
+    @DisplayName("기업 기사 이름으로 획득")
+    @Test
+    public void getCompanyArticleByName() {
+        // given
+        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article2 = createTestNewArticle();
+
+        // when
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
+
+        // then
+        assertThat(articleRepository.getArticleByName(article1.getName()).get())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article1);
+
+        assertThat(articleRepository.getArticleByName(article2.getName()).get())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article2);
+    }
+
+    @DisplayName("기업 기사 저장")
+    @Test
+    public void saveCompanyArticle() {
         // given
         CompanyArticle article = createTestArticle();
 
         // when
-        articleRepository.insertArticle(article);
+        articleRepository.saveArticle(article);
 
         // then
-        assertThat(articleRepository.selectArticleByName(article.getName()).get())
+        assertThat(articleRepository.getArticleByName(article.getName()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article);
     }
 
-    @DisplayName("기사 갱신하기")
+    @DisplayName("기업 기사 갱신")
     @Test
-    public void update() {
+    public void updateCompanyArticle() {
         // given
         CompanyArticle article = createTestArticle();
 
         // when
-        articleRepository.insertArticle(article);
+        articleRepository.saveArticle(article);
 
         // then
         articleRepository.updateArticle(CompanyArticle.builder().article(createTestNewArticle()).name(article.getName()).build());
-        assertThat(articleRepository.selectArticleByName(article.getName()).get())
+        assertThat(articleRepository.getArticleByName(article.getName()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER, NAME)
                 .isEqualTo(createTestNewArticle());
     }
 
-    @DisplayName("기사 이름으로 제거하기")
+    @DisplayName("기업 기사 이름으로 제거")
     @Test
-    public void removeByName() {
+    public void removeCompanyArticleByName() {
         // given
         CompanyArticle article1 = createTestArticle();
         CompanyArticle article2 = createTestEqualDateArticle();
 
         // when
-        articleRepository.insertArticle(article1);
-        articleRepository.insertArticle(article2);
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
 
         // then
         articleRepository.deleteArticleByName(article1.getName());
         articleRepository.deleteArticleByName(article2.getName());
-        assertThat(articleRepository.selectArticles()).isEmpty();
+        assertThat(articleRepository.getArticles()).isEmpty();
     }
 }

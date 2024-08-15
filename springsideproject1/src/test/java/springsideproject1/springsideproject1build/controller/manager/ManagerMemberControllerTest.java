@@ -48,9 +48,9 @@ class ManagerMemberControllerTest implements MemberTestUtility {
         resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    @DisplayName("모든 멤버 테이블 페이지 접속")
+    @DisplayName("멤버들 찾기 페이지 접속")
     @Test
-    public void accessMembersPage() throws Exception {
+    public void accessMembersSelect() throws Exception {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();
@@ -71,7 +71,7 @@ class ManagerMemberControllerTest implements MemberTestUtility {
 
     @DisplayName("회원 탈퇴 페이지 접속")
     @Test
-    public void accessMembershipWithdrawPage() throws Exception {
+    public void accessMembershipWithdraw() throws Exception {
         mockMvc.perform(get(REMOVE_MEMBER_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
@@ -82,7 +82,7 @@ class ManagerMemberControllerTest implements MemberTestUtility {
 
     @DisplayName("회원 탈퇴 완료 페이지 접속")
     @Test
-    public void accessMembershipWithdrawFinishPage() throws Exception {
+    public void accessMembershipWithdrawFinish() throws Exception {
         // given
         Member member = createTestMember();
 

@@ -28,23 +28,23 @@ public class CompanyArticleService {
      * SELECT CompanyArticle
      */
     public List<CompanyArticle> findArticles() {
-        return articleRepository.selectArticles();
+        return articleRepository.getArticles();
     }
 
     public List<CompanyArticle> findArticlesByDate(LocalDate date) {
-        return articleRepository.selectArticlesByDate(date);
+        return articleRepository.getArticlesByDate(date);
     }
 
     public List<CompanyArticle> findArticlesByDate(LocalDate startDate, LocalDate endDate) {
-        return articleRepository.selectArticlesByDate(startDate, endDate);
+        return articleRepository.getArticlesByDate(startDate, endDate);
     }
 
     public Optional<CompanyArticle> findArticleByNumber(Long number) {
-        return articleRepository.selectArticleByNumber(number);
+        return articleRepository.getArticleByNumber(number);
     }
 
     public Optional<CompanyArticle> findArticleByName(String name) {
-        return articleRepository.selectArticleByName(name);
+        return articleRepository.getArticleByName(name);
     }
 
     public Optional<CompanyArticle> findArticleByNumberOrName(String numberOrName) {
@@ -90,7 +90,7 @@ public class CompanyArticleService {
     @Transactional
     public CompanyArticle registerArticle(CompanyArticle article) {
         duplicateCheck(article);
-        return CompanyArticle.builder().article(article).number(articleRepository.insertArticle(article)).build();
+        return CompanyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
     }
 
     /**
@@ -116,14 +116,14 @@ public class CompanyArticleService {
      */
     @Transactional
     private void duplicateCheck(CompanyArticle article) {
-        articleRepository.selectArticleByName(article.getName()).ifPresent(
+        articleRepository.getArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
         );
     }
 
     @Transactional
     private void existentCheck(String name) {
-        articleRepository.selectArticleByName(name).orElseThrow(
+        articleRepository.getArticleByName(name).orElseThrow(
                 () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
         );
     }

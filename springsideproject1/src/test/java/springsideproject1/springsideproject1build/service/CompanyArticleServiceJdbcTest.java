@@ -37,9 +37,9 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
-    @DisplayName("기사 번호와 기사명을 사용하는 단일한 기사 조회")
+    @DisplayName("기업 기사 번호와 이름으로 찾기")
     @Test
-    public void inquiryArticleWithNumberAndName() {
+    public void findCompanyArticleWithNumberAndName() {
         // given
         CompanyArticle article = createTestArticle();
 
@@ -52,18 +52,18 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleService.findArticleByNumberOrName(article.getName()));
     }
 
-    @DisplayName("다수의 기사를 통한 기사 동시 등록")
+    @DisplayName("기업 기사들 동시 등록")
     @Test
-    public void registerArticles() {
+    public void registerCompanyArticles() {
         assertThat(articleService.registerArticles(createTestArticle(), createTestNewArticle()))
                 .usingRecursiveComparison()
                 .ignoringFields("number")
                 .isEqualTo(List.of(createTestArticle(), createTestNewArticle()));
     }
 
-    @DisplayName("단일 문자열을 통한 기사 동시 등록")
+    @DisplayName("기업 기사들 단일 문자열로 동시 등록")
     @Test
-    public void registerArticlesWithString() {
+    public void registerCompanyArticlesWithString() {
         // given
         List<String> articleString = createTestStringArticle();
 
@@ -74,9 +74,9 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
                 .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
     }
 
-    @DisplayName("단일 기사 등록")
+    @DisplayName("기업 기사 등록")
     @Test
-    public void registerArticle() {
+    public void registerCompanyArticle() {
         // given
         CompanyArticle article = createTestArticle();
 
@@ -89,17 +89,18 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
                 .isEqualTo(article);
     }
 
-    @DisplayName("중복 기사 제목을 사용하는 다수 기사 등록")
+    @DisplayName("기업 기사 중복 이름으로 등록")
     @Test
-    public void registerArticleWithSameName() {
+    public void registerDuplicatedCompanyArticleWithSameName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> articleService.registerArticles(createTestArticle(), createTestArticle()));
+                () -> articleService.registerArticles(createTestArticle(),
+                        CompanyArticle.builder().article(createTestNewArticle()).name(createTestArticle().getName()).build()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
-    @DisplayName("중복 기사 제목과 단일 문자열을 사용하는 기사 동시 등록")
+    @DisplayName("기업 기사 단일 문자열로 중복으로 등록")
     @Test
-    public void registerArticlesWithSameNameAndString() {
+    public void registerDuplicatedCompanyArticleWithString() {
         // given
         CompanyArticle article = createTestNewArticle();
         List<String> articleString = createTestStringArticle();
@@ -114,17 +115,17 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
-    @DisplayName("존재하지 않는 이름을 포함하는 단일 기사 갱신")
+    @DisplayName("기업 기사 존재하지 않는 이름으로 수정")
     @Test
-    public void correctArticleWithFaultName() {
+    public void correctCompanyArticleWithFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> articleService.correctArticle(createTestArticle()));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
 
-    @DisplayName("존재하지 않는 이름을 통한 단일 기사 삭제")
+    @DisplayName("기업 기사 존재하지 않는 이름으로 제거")
     @Test
-    public void removeArticleByFaultName() {
+    public void removeCompanyArticleByFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> articleService.removeArticle("123456"));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);

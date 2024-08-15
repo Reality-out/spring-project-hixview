@@ -26,7 +26,7 @@ class UserMemberControllerTest implements MemberTestUtility {
 
     @DisplayName("회원가입 페이지 접속")
     @Test
-    public void accessMembershipPage() throws Exception {
+    public void accessMembership() throws Exception {
         mockMvc.perform(get(MEMBERSHIP_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX),
@@ -35,7 +35,7 @@ class UserMemberControllerTest implements MemberTestUtility {
 
     @DisplayName("회원가입 완료 페이지 접속")
     @Test
-    public void accessMembershipSucceedPage() throws Exception {
+    public void accessMembershipSucceed() throws Exception {
         mockMvc.perform(processPostWithMember(MEMBERSHIP_URL, createTestMember()))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrl(MEMBERSHIP_URL + URL_FINISH_SUFFIX));

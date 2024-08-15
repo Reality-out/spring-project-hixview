@@ -10,20 +10,20 @@ public interface CompanyArticleRepository {
     /**
      * SELECT CompanyArticle
      */
-    List<CompanyArticle> selectArticles();
+    List<CompanyArticle> getArticles();
 
-    List<CompanyArticle> selectArticlesByDate(LocalDate date);
+    List<CompanyArticle> getArticlesByDate(LocalDate date);
 
-    List<CompanyArticle> selectArticlesByDate(LocalDate startDate, LocalDate endDate);
+    List<CompanyArticle> getArticlesByDate(LocalDate startDate, LocalDate endDate);
 
-    Optional<CompanyArticle> selectArticleByNumber(Long number);
+    Optional<CompanyArticle> getArticleByNumber(Long number);
 
-    Optional<CompanyArticle> selectArticleByName(String name);
+    Optional<CompanyArticle> getArticleByName(String name);
 
     /**
      * INSERT CompanyArticle
      */
-    Long insertArticle(CompanyArticle article);
+    Long saveArticle(CompanyArticle article);
 
     /**
      * UPDATE CompanyArticle

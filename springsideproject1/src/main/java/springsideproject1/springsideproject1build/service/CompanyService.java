@@ -23,15 +23,15 @@ public class CompanyService {
      * SELECT Company
      */
     public List<Company> findCompanies() {
-        return companyRepository.selectCompanies();
+        return companyRepository.getCompanies();
     }
 
     public Optional<Company> findCompanyByCode(String code) {
-        return companyRepository.selectCompanyByCode(code);
+        return companyRepository.getCompanyByCode(code);
     }
 
     public Optional<Company> findCompanyByName(String name) {
-        return companyRepository.selectCompanyByName(name);
+        return companyRepository.getCompanyByName(name);
     }
 
     public Optional<Company> findCompanyByCodeOrName(String codeOrName) {
@@ -51,7 +51,7 @@ public class CompanyService {
     @Transactional
     public void registerCompany(Company company) {
         duplicateCheck(company);
-        companyRepository.insertCompany(company);
+        companyRepository.saveCompany(company);
     }
 
     /**
@@ -77,13 +77,13 @@ public class CompanyService {
      */
     @Transactional
     private void duplicateCheck(Company company) {
-        companyRepository.selectCompanyByCode(company.getCode()).ifPresent(
+        companyRepository.getCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
         );
     }
     @Transactional
     private void existentCheck(String code) {
-        companyRepository.selectCompanyByCode(code).orElseThrow(
+        companyRepository.getCompanyByCode(code).orElseThrow(
                 () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)
         );
     }

@@ -29,7 +29,7 @@ public class UserCompanyController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public String companySubPage(Model model) {
+    public String processCompanySubPage(Model model) {
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         return USER_COMPANY_VIEW + VIEW_SUB_SUFFIX;
     }
@@ -39,7 +39,7 @@ public class UserCompanyController {
      */
     @GetMapping("/{codeOrName}")
     @ResponseStatus(HttpStatus.OK)
-    public String companyLookUp(@PathVariable String codeOrName, Model model) {
+    public String processCompanyLookUpPage(@PathVariable String codeOrName, Model model) {
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         model.addAttribute(COMPANY, companyService.findCompanyByCodeOrName(codeOrName).get());
         return USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX;

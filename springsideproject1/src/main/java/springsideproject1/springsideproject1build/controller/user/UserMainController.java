@@ -35,7 +35,7 @@ public class UserMainController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public String mainPage(Model model) {
+    public String processUserMainPage(Model model) {
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         return "user/mainPage";
     }
@@ -45,7 +45,7 @@ public class UserMainController {
      */
     @GetMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public String loginPage(Model model) {
+    public String processLoginPage(Model model) {
         model.addAttribute("membership", MEMBERSHIP_URL);
         model.addAttribute("findId", FIND_ID_URL);
         return USER_LOGIN_VIEW + "loginPage";
