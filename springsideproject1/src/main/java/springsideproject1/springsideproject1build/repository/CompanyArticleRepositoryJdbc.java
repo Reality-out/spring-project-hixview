@@ -32,30 +32,30 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
      * SELECT CompanyArticle
      */
     @Override
-    public List<CompanyArticle> getArticles() {
+    public List<CompanyArticle> selectArticles() {
         return jdbcTemplate.query("select * from " + companyArticleTable, articleRowMapper());
     }
 
     @Override
-    public List<CompanyArticle> getArticlesByDate(LocalDate date) {
+    public List<CompanyArticle> selectArticlesByDate(LocalDate date) {
         return jdbcTemplate.query("select * from " + companyArticleTable + " where date = ?", articleRowMapper(), date);
     }
 
     @Override
-    public List<CompanyArticle> getArticlesByDate(LocalDate startDate, LocalDate endDate) {
+    public List<CompanyArticle> selectArticlesByDate(LocalDate startDate, LocalDate endDate) {
         return jdbcTemplate.query(
                 "select * from " + companyArticleTable + " where date between ? and ?", articleRowMapper(), startDate, endDate);
     }
 
     @Override
-    public Optional<CompanyArticle> getArticleByNumber(Long number) {
+    public Optional<CompanyArticle> selectArticleByNumber(Long number) {
         List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
                 "select * from " + companyArticleTable + " where number = ?", articleRowMapper(), number);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
-    public Optional<CompanyArticle> getArticleByName(String name) {
+    public Optional<CompanyArticle> selectArticleByName(String name) {
         List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
                 "select * from " + companyArticleTable + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
@@ -65,7 +65,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
      * INSERT CompanyArticle
      */
     @Override
-    public Long saveArticle(CompanyArticle article) {
+    public Long insertArticle(CompanyArticle article) {
         return new SimpleJdbcInsert(jdbcTemplate).withTableName(companyArticleTable).usingGeneratedKeyColumns("number")
                 .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }

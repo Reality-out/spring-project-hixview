@@ -44,7 +44,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article = createTestArticle();
 
         // when
-        article = articleService.joinArticle(article);
+        article = articleService.registerArticle(article);
 
         // then
         assertThat(articleService.findArticleByNumberOrName(article.getNumber().toString()))
@@ -55,7 +55,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @DisplayName("다수의 기사를 통한 기사 동시 등록")
     @Test
     public void registerArticles() {
-        assertThat(articleService.joinArticles(createTestArticle(), createTestNewArticle()))
+        assertThat(articleService.registerArticles(createTestArticle(), createTestNewArticle()))
                 .usingRecursiveComparison()
                 .ignoringFields("number")
                 .isEqualTo(List.of(createTestArticle(), createTestNewArticle()));
@@ -68,7 +68,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         List<String> articleString = createTestStringArticle();
 
         // then
-        assertThat(articleService.joinArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast()))
+        assertThat(articleService.registerArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast()))
                 .usingRecursiveComparison()
                 .ignoringFields("number")
                 .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
@@ -81,7 +81,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article = createTestArticle();
 
         // when
-        article = articleService.joinArticle(article);
+        article = articleService.registerArticle(article);
 
         // then
         assertThat(articleService.findArticles().getFirst())
@@ -93,7 +93,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void registerArticleWithSameName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> articleService.joinArticles(createTestArticle(), createTestArticle()));
+                () -> articleService.registerArticles(createTestArticle(), createTestArticle()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
@@ -105,20 +105,20 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         List<String> articleString = createTestStringArticle();
 
         // when
-        articleService.joinArticle(article);
+        articleService.registerArticle(article);
 
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> articleService.joinArticlesWithString(
+                () -> articleService.registerArticlesWithString(
                         articleString.getFirst(), articleString.get(1), articleString.getLast()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
     @DisplayName("존재하지 않는 이름을 포함하는 단일 기사 갱신")
     @Test
-    public void renewArticleWithFaultName() {
+    public void correctArticleWithFaultName() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> articleService.renewArticle(createTestArticle()));
+                () -> articleService.correctArticle(createTestArticle()));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
 

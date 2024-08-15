@@ -46,11 +46,11 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article2 = createTestNewArticle();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        articleRepository.insertArticle(article1);
+        articleRepository.insertArticle(article2);
 
         // then
-        assertThat(articleRepository.getArticles())
+        assertThat(articleRepository.selectArticles())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2));
@@ -64,16 +64,16 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article2 = createTestNewArticle();
 
         // when
-        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
-        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.insertArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.insertArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).get())
+        assertThat(articleRepository.selectArticleByNumber(article1.getNumber()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article1);
 
-        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).get())
+        assertThat(articleRepository.selectArticleByNumber(article2.getNumber()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article2);
@@ -87,16 +87,16 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article2 = createTestNewArticle();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        articleRepository.insertArticle(article1);
+        articleRepository.insertArticle(article2);
 
         // then
-        assertThat(articleRepository.getArticleByName(article1.getName()).get())
+        assertThat(articleRepository.selectArticleByName(article1.getName()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article1);
 
-        assertThat(articleRepository.getArticleByName(article2.getName()).get())
+        assertThat(articleRepository.selectArticleByName(article2.getName()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article2);
@@ -110,11 +110,11 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article2 = createTestEqualDateArticle();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        articleRepository.insertArticle(article1);
+        articleRepository.insertArticle(article2);
 
         // then
-        assertThat(articleRepository.getArticlesByDate(article1.getDate()))
+        assertThat(articleRepository.selectArticlesByDate(article1.getDate()))
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2));
@@ -134,13 +134,13 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
                 .toList();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
-        articleRepository.saveArticle(article3);
+        articleRepository.insertArticle(article1);
+        articleRepository.insertArticle(article2);
+        articleRepository.insertArticle(article3);
 
         // then
         assertThat(articleRepository
-                .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
+                .selectArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(List.of(article1, article2, article3));
@@ -153,10 +153,10 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article = createTestArticle();
 
         // when
-        articleRepository.saveArticle(article);
+        articleRepository.insertArticle(article);
 
         // then
-        assertThat(articleRepository.getArticleByName(article.getName()).get())
+        assertThat(articleRepository.selectArticleByName(article.getName()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article);
@@ -169,11 +169,11 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article = createTestArticle();
 
         // when
-        articleRepository.saveArticle(article);
+        articleRepository.insertArticle(article);
 
         // then
         articleRepository.updateArticle(CompanyArticle.builder().article(createTestNewArticle()).name(article.getName()).build());
-        assertThat(articleRepository.getArticleByName(article.getName()).get())
+        assertThat(articleRepository.selectArticleByName(article.getName()).get())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER, NAME)
                 .isEqualTo(createTestNewArticle());
@@ -187,12 +187,12 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article2 = createTestEqualDateArticle();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        articleRepository.insertArticle(article1);
+        articleRepository.insertArticle(article2);
 
         // then
         articleRepository.deleteArticleByName(article1.getName());
         articleRepository.deleteArticleByName(article2.getName());
-        assertThat(articleRepository.getArticles()).isEmpty();
+        assertThat(articleRepository.selectArticles()).isEmpty();
     }
 }

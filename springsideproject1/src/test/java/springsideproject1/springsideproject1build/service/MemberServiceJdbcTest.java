@@ -43,7 +43,7 @@ class MemberServiceJdbcTest implements MemberTestUtility {
         Member member = createTestMember();
 
         // when
-        member = memberService.joinMember(member);
+        member = memberService.registerMember(member);
 
         // then
         assertThat(memberService.findMembers().getFirst()).usingRecursiveComparison().isEqualTo(member);
@@ -57,11 +57,11 @@ class MemberServiceJdbcTest implements MemberTestUtility {
         Member member2 = createTestMember();
 
         // when
-        memberService.joinMember(member1);
+        memberService.registerMember(member1);
 
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> memberService.joinMember(member2));
+                () -> memberService.registerMember(member2));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_MEMBER_ID);
     }
 

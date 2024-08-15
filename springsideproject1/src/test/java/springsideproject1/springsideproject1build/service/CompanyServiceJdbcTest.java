@@ -44,7 +44,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         assertThat(companyService.findCompanyByCodeOrName(company.getCode()))
@@ -59,7 +59,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         assertThat(companyService.findCompanies().getFirst()).usingRecursiveComparison().isEqualTo(company);
@@ -69,7 +69,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @Test
     public void registerCompanies() {
         // given
-        companyService.joinCompanies(createSamsungElectronics(), createSKHynix());
+        companyService.registerCompanies(createSamsungElectronics(), createSKHynix());
 
         // then
         assertThat(companyService.findCompanies())
@@ -80,7 +80,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @Test
     public void registerCompanyWithSameCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.joinCompanies(createSamsungElectronics(),
+                () -> companyService.registerCompanies(createSamsungElectronics(),
                         Company.builder().company(createSKHynix()).code(createSamsungElectronics().getCode()).build()));
 
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
@@ -88,9 +88,9 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("존재하지 않는 코드 번호를 통한 기업 갱신")
     @Test
-    public void renewCompanyByFaultCode() {
+    public void correctCompanyByFaultCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.renewCompany(createSamsungElectronics()));
+                () -> companyService.correctCompany(createSamsungElectronics()));
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 

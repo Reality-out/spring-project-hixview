@@ -57,8 +57,8 @@ class UserMainControllerTest implements MemberTestUtility {
         Member member2 = Member.builder().member(createTestNewMember()).id("b2{[}]\\|;:'\"<,>.?/").name(commonName).birth(commonBirth).build();
 
         // when
-        memberService.joinMember(member1);
-        memberService.joinMember(member2);
+        memberService.registerMember(member1);
+        memberService.registerMember(member2);
 
         // then
         List<String> idList = List.of(member1.getId(), member2.getId());
@@ -116,8 +116,8 @@ class UserMainControllerTest implements MemberTestUtility {
         Member member2 = Member.builder().member(createTestNewMember()).name(commonName).birth(commonBirth).build();
 
         // when
-        memberService.joinMember(member1);
-        memberService.joinMember(member2);
+        memberService.registerMember(member1);
+        memberService.registerMember(member2);
 
         // then
         List<String> idList = List.of(member1.getId(), member2.getId());

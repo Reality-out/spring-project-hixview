@@ -42,11 +42,11 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         Company company2 = createSKHynix();
 
         // when
-        companyRepository.saveCompany(company1);
-        companyRepository.saveCompany(company2);
+        companyRepository.insertCompany(company1);
+        companyRepository.insertCompany(company2);
 
         // then
-        assertThat(companyRepository.getCompanies()).usingRecursiveComparison().isEqualTo(List.of(company2, company1));
+        assertThat(companyRepository.selectCompanies()).usingRecursiveComparison().isEqualTo(List.of(company2, company1));
     }
 
     @DisplayName("기업 코드로 찾기")
@@ -57,12 +57,12 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         Company company2 = createSKHynix();
 
         // when
-        companyRepository.saveCompany(company1);
-        companyRepository.saveCompany(company2);
+        companyRepository.insertCompany(company1);
+        companyRepository.insertCompany(company2);
 
         // then
-        assertThat(companyRepository.getCompanyByCode(company1.getCode()).get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.getCompanyByCode(company2.getCode()).get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.selectCompanyByCode(company1.getCode()).get()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.selectCompanyByCode(company2.getCode()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 이름으로 찾기")
@@ -73,12 +73,12 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         Company company2 = createSKHynix();
 
         // when
-        companyRepository.saveCompany(company1);
-        companyRepository.saveCompany(company2);
+        companyRepository.insertCompany(company1);
+        companyRepository.insertCompany(company2);
 
         // then
-        assertThat(companyRepository.getCompanyByName(company1.getName()).get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.getCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.selectCompanyByName(company1.getName()).get()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.selectCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 저장하기")
@@ -88,10 +88,10 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyRepository.saveCompany(company);
+        companyRepository.insertCompany(company);
 
         // then
-        assertThat(companyRepository.getCompanyByCode(company.getCode()).get())
+        assertThat(companyRepository.selectCompanyByCode(company.getCode()).get())
                 .usingRecursiveComparison().isEqualTo(company);
     }
 
@@ -102,13 +102,13 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         Company updateCompany = createSamsungElectronics();
         String commonCode = updateCompany.getCode();
         Company initialCompany = Company.builder().company(createSKHynix()).code(commonCode).build();
-        companyRepository.saveCompany(initialCompany);
+        companyRepository.insertCompany(initialCompany);
 
         // when
         companyRepository.updateCompany(updateCompany);
 
         // then
-        assertThat(companyRepository.getCompanyByCode(commonCode).get())
+        assertThat(companyRepository.selectCompanyByCode(commonCode).get())
                 .usingRecursiveComparison().isEqualTo(updateCompany);
     }
 
@@ -120,12 +120,12 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         Company company2 = createSKHynix();
 
         // when
-        companyRepository.saveCompany(company1);
-        companyRepository.saveCompany(company2);
+        companyRepository.insertCompany(company1);
+        companyRepository.insertCompany(company2);
 
         // then
         companyRepository.deleteCompanyByCode(company1.getCode());
         companyRepository.deleteCompanyByCode(company2.getCode());
-        assertThat(companyRepository.getCompanies()).isEmpty();
+        assertThat(companyRepository.selectCompanies()).isEmpty();
     }
 }

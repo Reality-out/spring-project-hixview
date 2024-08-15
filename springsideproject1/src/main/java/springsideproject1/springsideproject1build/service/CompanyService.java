@@ -23,15 +23,15 @@ public class CompanyService {
      * SELECT Company
      */
     public List<Company> findCompanies() {
-        return companyRepository.getCompanies();
+        return companyRepository.selectCompanies();
     }
 
     public Optional<Company> findCompanyByCode(String code) {
-        return companyRepository.getCompanyByCode(code);
+        return companyRepository.selectCompanyByCode(code);
     }
 
     public Optional<Company> findCompanyByName(String name) {
-        return companyRepository.getCompanyByName(name);
+        return companyRepository.selectCompanyByName(name);
     }
 
     public Optional<Company> findCompanyByCodeOrName(String codeOrName) {
@@ -42,23 +42,23 @@ public class CompanyService {
      * INSERT Company
      */
     @Transactional
-    public void joinCompanies(Company... articles) {
+    public void registerCompanies(Company... articles) {
         for (Company article : articles) {
-            joinCompany(article);
+            registerCompany(article);
         }
     }
 
     @Transactional
-    public void joinCompany(Company company) {
+    public void registerCompany(Company company) {
         duplicateCheck(company);
-        companyRepository.saveCompany(company);
+        companyRepository.insertCompany(company);
     }
 
     /**
      * UPDATE Company
      */
     @Transactional
-    public void renewCompany(Company company) {
+    public void correctCompany(Company company) {
         existentCheck(company.getCode());
         companyRepository.updateCompany(company);
     }
@@ -77,13 +77,13 @@ public class CompanyService {
      */
     @Transactional
     private void duplicateCheck(Company company) {
-        companyRepository.getCompanyByCode(company.getCode()).ifPresent(
+        companyRepository.selectCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
         );
     }
     @Transactional
     private void existentCheck(String code) {
-        companyRepository.getCompanyByCode(code).orElseThrow(
+        companyRepository.selectCompanyByCode(code).orElseThrow(
                 () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)
         );
     }

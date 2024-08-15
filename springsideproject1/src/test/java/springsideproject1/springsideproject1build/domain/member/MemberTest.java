@@ -41,11 +41,11 @@ class MemberTest implements MemberTestUtility {
         Member member2 = Member.builder().member(createTestNewMember()).phoneNumber("01023456789").build();
         
         // when
-        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
-        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
+        member1 = Member.builder().member(member1).identifier(memberRepository.insertMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.insertMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMemberByID(member1.getId()).get()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.getMemberByID(member2.getId()).get()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.selectMemberByID(member1.getId()).get()).usingRecursiveComparison().isEqualTo(member1);
+        assertThat(memberRepository.selectMemberByID(member2.getId()).get()).usingRecursiveComparison().isEqualTo(member2);
     }
 }

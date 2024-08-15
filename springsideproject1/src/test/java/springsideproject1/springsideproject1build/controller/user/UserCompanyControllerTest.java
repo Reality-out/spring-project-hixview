@@ -62,7 +62,7 @@ class UserCompanyControllerTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         assertThat(mockMvc.perform(get("/company/" + company.getCode()))
@@ -81,7 +81,7 @@ class UserCompanyControllerTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         assertThat(mockMvc.perform(get("/company/" + company.getName()))

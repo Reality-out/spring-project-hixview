@@ -104,7 +104,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
@@ -127,7 +127,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
@@ -148,7 +148,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // when
-        companyService.joinCompany(company);
+        companyService.registerCompany(company);
 
         // then
         mockMvc.perform(processPostWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, company))
@@ -169,7 +169,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void accessCompaniesPage() throws Exception {
         // given
-        companyService.joinCompanies(createSKHynix(), createSamsungElectronics());
+        companyService.registerCompanies(createSKHynix(), createSamsungElectronics());
 
         // then
         assertThat(mockMvc.perform(get(SELECT_COMPANY_URL))
@@ -199,7 +199,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         String name = article.getName();
 
         // when
-        companyService.joinCompany(article);
+        companyService.registerCompany(article);
 
         // then
         mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))

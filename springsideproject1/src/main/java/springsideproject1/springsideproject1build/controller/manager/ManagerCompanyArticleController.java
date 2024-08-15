@@ -65,7 +65,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddSingleCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
         redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
-        articleService.joinArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -92,7 +92,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticlesUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
                                                       @RequestParam String articleString, @RequestParam String linkString) {
-        redirect.addAttribute(nameListString, encodeUTF8(articleService.joinArticlesWithString(
+        redirect.addAttribute(nameListString, encodeUTF8(articleService.registerArticlesWithString(
                 subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
@@ -137,7 +137,7 @@ public class ManagerCompanyArticleController {
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitUpdateCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
-        articleService.renewArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }

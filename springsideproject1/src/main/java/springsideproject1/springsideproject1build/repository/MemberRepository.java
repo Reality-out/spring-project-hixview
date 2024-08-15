@@ -10,22 +10,22 @@ public interface MemberRepository {
     /**
      * SELECT Member
      */
-    List<Member> getMembers();
+    List<Member> selectMembers();
 
-    List<Member> getMembersByName(String name);
+    List<Member> selectMembersByName(String name);
 
-    List<Member> getMembersByBirth(LocalDate birth);
+    List<Member> selectMembersByBirth(LocalDate birth);
 
-    List<Member> getMembersByNameAndBirth(String name, LocalDate birth);
+    List<Member> selectMembersByNameAndBirth(String name, LocalDate birth);
 
-    Optional<Member> getMemberByIdentifier(Long identifier);
+    Optional<Member> selectMemberByIdentifier(Long identifier);
 
-    Optional<Member> getMemberByID(String id);
+    Optional<Member> selectMemberByID(String id);
 
     /**
      * INSERT Member
      */
-    Long saveMember(Member member);
+    Long insertMember(Member member);
 
     /**
      * REMOVE Member

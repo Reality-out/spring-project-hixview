@@ -45,7 +45,7 @@ public class UserMemberController {
     @PostMapping(MEMBERSHIP_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMembership(@ModelAttribute MemberDto memberDto) {
-        memberService.joinMember(Member.builder().memberDto(memberDto)
+        memberService.registerMember(Member.builder().memberDto(memberDto)
                 .phoneNumber(PhoneNumber.builder().build()).build());
         return URL_REDIRECT_PREFIX + MEMBERSHIP_URL + URL_FINISH_SUFFIX;
     }

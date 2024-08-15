@@ -31,19 +31,19 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      * SELECT Company
      */
     @Override
-    public List<Company> getCompanies() {
+    public List<Company> selectCompanies() {
         return jdbcTemplate.query("select * from " + companyTable, companyRowMapper());
     }
 
     @Override
-    public Optional<Company> getCompanyByCode(String code) {
+    public Optional<Company> selectCompanyByCode(String code) {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
                 "select * from " + companyTable + "  where code = ?", companyRowMapper(), code);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
     }
 
     @Override
-    public Optional<Company> getCompanyByName(String name) {
+    public Optional<Company> selectCompanyByName(String name) {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
                 "select * from " + companyTable + " where name = ?", companyRowMapper(), name);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
@@ -54,7 +54,7 @@ public class CompanyRepositoryJdbc implements CompanyRepository {
      */
     @Override
     @Transactional
-    public void saveCompany(Company company) {
+    public void insertCompany(Company company) {
         new SimpleJdbcInsert(jdbcTemplate).withTableName(companyTable).execute(new MapSqlParameterSource(company.toMap()));
     }
 

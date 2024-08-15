@@ -101,7 +101,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     public void StringArticleRegisterFinishPage() throws Exception {
         // given
         List<String> articleString = createTestStringArticle();
-        List<String> nameList = articleService.joinArticlesWithString(
+        List<String> nameList = articleService.registerArticlesWithString(
                 articleString.getFirst(), articleString.get(1), articleString.getLast())
                 .stream().map(CompanyArticle::getName).collect(Collectors.toList());
         articleService.removeArticle(createTestEqualDateArticle().getName());
@@ -152,7 +152,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         CompanyArticle article = createTestArticle();
 
         // when
-        article = articleService.joinArticle(article);
+        article = articleService.registerArticle(article);
 
         // then
         assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
@@ -173,7 +173,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         CompanyArticle article = createTestArticle();
 
         // when
-        article = articleService.joinArticle(article);
+        article = articleService.registerArticle(article);
 
         // then
         mockMvc.perform(processPostWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
@@ -194,7 +194,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void accessCompanyArticlesPage() throws Exception {
         // given
-        List<CompanyArticle> articleList = articleService.joinArticles(createTestArticle(), createTestNewArticle());
+        List<CompanyArticle> articleList = articleService.registerArticles(createTestArticle(), createTestNewArticle());
 
         // then
         assertThat(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
@@ -224,7 +224,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         String name = article.getName();
 
         // when
-        articleService.joinArticle(article);
+        articleService.registerArticle(article);
 
         // then
         mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NAME, name))

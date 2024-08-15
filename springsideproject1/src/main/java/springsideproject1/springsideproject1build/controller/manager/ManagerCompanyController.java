@@ -65,7 +65,7 @@ public class ManagerCompanyController {
     @PostMapping(ADD_SINGLE_COMPANY_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddSingleCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
-        companyService.joinCompany(Company.builder().companyDto(companyDto).build());
+        companyService.registerCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
@@ -112,7 +112,7 @@ public class ManagerCompanyController {
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitUpdateCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
-        companyService.renewCompany(Company.builder().companyDto(companyDto).build());
+        companyService.correctCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;
     }

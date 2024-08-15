@@ -32,33 +32,33 @@ public class MemberRepositoryJdbc implements MemberRepository {
      * SELECT Member
      */
     @Override
-    public List<Member> getMembers() {
+    public List<Member> selectMembers() {
         return jdbcTemplate.query("select * from " + memberTable, memberRowMapper());
     }
 
     @Override
-    public List<Member> getMembersByName(String name) {
+    public List<Member> selectMembersByName(String name) {
         return jdbcTemplate.query("select * from " + memberTable + " where name = ?", memberRowMapper(), name);
     }
 
     @Override
-    public List<Member> getMembersByBirth(LocalDate birth) {
+    public List<Member> selectMembersByBirth(LocalDate birth) {
         return jdbcTemplate.query("select * from " + memberTable + " where birth = ?", memberRowMapper(), birth);
     }
 
     @Override
-    public List<Member> getMembersByNameAndBirth(String name, LocalDate birth) {
+    public List<Member> selectMembersByNameAndBirth(String name, LocalDate birth) {
         return jdbcTemplate.query("select * from " + memberTable + " where name = ? and birth = ?", memberRowMapper(), name, birth);
     }
 
     @Override
-    public Optional<Member> getMemberByIdentifier(Long identifier) {
+    public Optional<Member> selectMemberByIdentifier(Long identifier) {
         List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where identifier = ?", memberRowMapper(), identifier);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
 
     @Override
-    public Optional<Member> getMemberByID(String id) {
+    public Optional<Member> selectMemberByID(String id) {
         List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + memberTable + " where id = ?", memberRowMapper(), id);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
@@ -68,7 +68,7 @@ public class MemberRepositoryJdbc implements MemberRepository {
      */
     @Override
     @Transactional
-    public Long saveMember(Member member) {
+    public Long insertMember(Member member) {
         return new SimpleJdbcInsert(jdbcTemplate).withTableName(memberTable).usingGeneratedKeyColumns("identifier")
                 .executeAndReturnKey(new MapSqlParameterSource(member.toMapWithNoIdentifier())).longValue();
     }

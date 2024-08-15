@@ -56,8 +56,8 @@ class ManagerMemberControllerTest implements MemberTestUtility {
         Member member2 = createTestNewMember();
 
         // when
-        member1 = memberService.joinMember(member1);
-        member2 = memberService.joinMember(member2);
+        member1 = memberService.registerMember(member1);
+        member2 = memberService.registerMember(member2);
 
         // then
         assertThat(mockMvc.perform(get(SELECT_MEMBER_URL))
@@ -87,7 +87,7 @@ class ManagerMemberControllerTest implements MemberTestUtility {
         Member member = createTestMember();
 
         // when
-        memberService.joinMember(member);
+        memberService.registerMember(member);
 
         // then
         String id = member.getId();

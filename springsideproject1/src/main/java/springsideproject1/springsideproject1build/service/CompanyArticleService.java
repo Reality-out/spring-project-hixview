@@ -28,23 +28,23 @@ public class CompanyArticleService {
      * SELECT CompanyArticle
      */
     public List<CompanyArticle> findArticles() {
-        return articleRepository.getArticles();
+        return articleRepository.selectArticles();
     }
 
     public List<CompanyArticle> findArticlesByDate(LocalDate date) {
-        return articleRepository.getArticlesByDate(date);
+        return articleRepository.selectArticlesByDate(date);
     }
 
     public List<CompanyArticle> findArticlesByDate(LocalDate startDate, LocalDate endDate) {
-        return articleRepository.getArticlesByDate(startDate, endDate);
+        return articleRepository.selectArticlesByDate(startDate, endDate);
     }
 
     public Optional<CompanyArticle> findArticleByNumber(Long number) {
-        return articleRepository.getArticleByNumber(number);
+        return articleRepository.selectArticleByNumber(number);
     }
 
     public Optional<CompanyArticle> findArticleByName(String name) {
-        return articleRepository.getArticleByName(name);
+        return articleRepository.selectArticleByName(name);
     }
 
     public Optional<CompanyArticle> findArticleByNumberOrName(String numberOrName) {
@@ -55,16 +55,16 @@ public class CompanyArticleService {
      * INSERT CompanyArticle
      */
     @Transactional
-    public List<CompanyArticle> joinArticles(CompanyArticle... articles) {
+    public List<CompanyArticle> registerArticles(CompanyArticle... articles) {
         List<CompanyArticle> articleList = new ArrayList<>();
         for (CompanyArticle article : articles) {
-            articleList.add(CompanyArticle.builder().article(article).number(joinArticle(article).getNumber()).build());
+            articleList.add(CompanyArticle.builder().article(article).number(registerArticle(article).getNumber()).build());
         }
         return articleList;
     }
 
     @Transactional
-    public List<CompanyArticle> joinArticlesWithString(String subjectCompany, String articleString, String linkString) {
+    public List<CompanyArticle> registerArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<String> linkList = parseLinkString(linkString);
         List<CompanyArticle> returnList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class CompanyArticleService {
         for (int i = 0; i < linkList.size(); i++){
             List<String> partialArticle = partialArticleLists.get(i);
 
-            returnList.add(joinArticle(CompanyArticle.builder()
+            returnList.add(registerArticle(CompanyArticle.builder()
                     .name(partialArticle.get(0))
                     .press(Press.valueOf(partialArticle.get(4)))
                     .subjectCompany(subjectCompany)
@@ -88,16 +88,16 @@ public class CompanyArticleService {
     }
 
     @Transactional
-    public CompanyArticle joinArticle(CompanyArticle article) {
+    public CompanyArticle registerArticle(CompanyArticle article) {
         duplicateCheck(article);
-        return CompanyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
+        return CompanyArticle.builder().article(article).number(articleRepository.insertArticle(article)).build();
     }
 
     /**
      * UPDATE CompanyArticle
      */
     @Transactional
-    public void renewArticle(CompanyArticle article) {
+    public void correctArticle(CompanyArticle article) {
         existentCheck(article.getName());
         articleRepository.updateArticle(article);
     }
@@ -116,14 +116,14 @@ public class CompanyArticleService {
      */
     @Transactional
     private void duplicateCheck(CompanyArticle article) {
-        articleRepository.getArticleByName(article.getName()).ifPresent(
+        articleRepository.selectArticleByName(article.getName()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
         );
     }
 
     @Transactional
     private void existentCheck(String name) {
-        articleRepository.getArticleByName(name).orElseThrow(
+        articleRepository.selectArticleByName(name).orElseThrow(
                 () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
         );
     }
