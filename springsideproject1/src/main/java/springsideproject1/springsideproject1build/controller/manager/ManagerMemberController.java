@@ -29,18 +29,18 @@ public class ManagerMemberController {
     }
 
     /**
-     * Select
+     * See
      */
     @GetMapping(SELECT_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processSelectMembers(Model model) {
+    public String processSeeMembers(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("members", memberService.findMembers());
         return MANAGER_SELECT_VIEW + "membersPage";
     }
 
     /**
-     * Remove
+     * Get rid of
      */
     @GetMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.OK)

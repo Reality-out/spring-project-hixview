@@ -48,9 +48,9 @@ class ManagerMemberControllerTest implements MemberTestUtility {
         resetTable(jdbcTemplateTest, memberTable, true);
     }
 
-    @DisplayName("멤버들 찾기 페이지 접속")
+    @DisplayName("멤버들 보기 페이지 접속")
     @Test
-    public void accessMembersSelect() throws Exception {
+    public void accessMembersSee() throws Exception {
         // given
         Member member1 = createTestMember();
         Member member2 = createTestNewMember();

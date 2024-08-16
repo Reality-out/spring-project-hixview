@@ -45,7 +45,7 @@ public class ManagerCompanyController {
      */
     @GetMapping(ADD_SINGLE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddSingleCompany(Model model) {
+    public String processAddCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         model.addAttribute(COMPANY, new CompanyDto());
         model.addAttribute("countries", Country.values());
@@ -55,7 +55,7 @@ public class ManagerCompanyController {
 
     @GetMapping(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddSingleCompany(@RequestParam String name, Model model) {
+    public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeUTF8(name));
 
@@ -64,36 +64,36 @@ public class ManagerCompanyController {
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
+    public String submitAddCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
 
     /**
-     * Select
+     * See
      */
     @GetMapping(SELECT_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processSelectCompanies(Model model) {
+    public String processSeeCompanies(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("companies", companyService.findCompanies());
         return MANAGER_SELECT_VIEW + "companiesPage";
     }
 
     /**
-     * Update
+     * Modify
      */
     @GetMapping(UPDATE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String initiateUpdateCompany(Model model) {
+    public String initiateModifyCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
     }
 
     @PostMapping(UPDATE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processUpdateCompany(@RequestParam String codeOrName, Model model) {
+    public String processModifyCompany(@RequestParam String codeOrName, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
 
         if (companyOrEmpty.isEmpty()) {
@@ -111,7 +111,7 @@ public class ManagerCompanyController {
 
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitUpdateCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
+    public String submitModifyCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
         companyService.correctCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;
@@ -119,17 +119,17 @@ public class ManagerCompanyController {
 
     @GetMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishUpdateCompany(@RequestParam String name, Model model) {
+    public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**
-     * Remove
+     * Get rid of
      */
     @GetMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processRemoveCompany(Model model) {
+    public String processRidCompany(Model model) {
         model.addAttribute(DATA_TYPE_ENGLISH, COMPANY);
         model.addAttribute(REMOVE_KEY, "codeOrName");
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
@@ -137,14 +137,14 @@ public class ManagerCompanyController {
 
     @GetMapping(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishRemoveCompany(@RequestParam String name, Model model) {
+    public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     @PostMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitRemoveCompany(RedirectAttributes redirect, @RequestParam String codeOrName) {
+    public String submitRidCompany(RedirectAttributes redirect, @RequestParam String codeOrName) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
 
         if (companyOrEmpty.isEmpty()) {

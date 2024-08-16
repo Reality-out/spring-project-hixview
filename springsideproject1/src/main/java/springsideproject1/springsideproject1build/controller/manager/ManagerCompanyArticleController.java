@@ -47,7 +47,7 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddSingleCompanyArticle(Model model) {
+    public String processAddCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         model.addAttribute(ARTICLE, new CompanyArticleDto());
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
@@ -55,7 +55,7 @@ public class ManagerCompanyArticleController {
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddSingleCompanyArticle(@RequestParam String name, Model model) {
+    public String finishAddCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
@@ -63,7 +63,7 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddSingleCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
+    public String submitAddCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
         redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -74,14 +74,14 @@ public class ManagerCompanyArticleController {
      */
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddCompanyArticlesUsingString(Model model) {
+    public String processAddCompanyArticlesWithString(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddCompanyArticlesUsingString(@RequestParam List<String> nameList, Model model) {
+    public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(nameListString, decodeUTF8(nameList));
 
@@ -90,37 +90,37 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticlesUsingString(RedirectAttributes redirect, @RequestParam String subjectCompany,
-                                                      @RequestParam String articleString, @RequestParam String linkString) {
+    public String submitAddCompanyArticlesWithString(RedirectAttributes redirect, @RequestParam String subjectCompany,
+                                                     @RequestParam String articleString, @RequestParam String linkString) {
         redirect.addAttribute(nameListString, encodeUTF8(articleService.registerArticlesWithString(
                 subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
 
     /**
-     * Select
+     * See
      */
     @GetMapping(SELECT_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processSelectCompanyArticles(Model model) {
+    public String processSeeCompanyArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articles", articleService.findArticles());
         return MANAGER_SELECT_VIEW + "companyArticlesPage";
     }
 
     /**
-     * Update
+     * Modify
      */
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
-	public String initiateUpdateCompanyArticle(Model model) {
+	public String initiateModifyCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
 		return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
 	}
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processUpdateCompanyArticle(Model model, @RequestParam String numberOrName) {
+    public String processModifyCompanyArticle(Model model, @RequestParam String numberOrName) {
 
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
@@ -136,7 +136,7 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitUpdateCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
+    public String submitModifyCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -144,18 +144,18 @@ public class ManagerCompanyArticleController {
 
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
-	public String finishUpdateCompanyArticle(@RequestParam String name, Model model) {
+	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(VALUE, decodeUTF8(name));
 
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
     /**
-     * Remove
+     * Get Rid of
      */
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processRemoveCompanyArticle(Model model) {
+    public String processRidCompanyArticle(Model model) {
         model.addAttribute(DATA_TYPE_ENGLISH, ARTICLE);
         model.addAttribute(REMOVE_KEY, NAME);
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
@@ -163,14 +163,14 @@ public class ManagerCompanyArticleController {
 
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishRemoveCompanyArticle(@RequestParam String name, Model model) {
+    public String finishRidCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(VALUE, decodeUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitRemoveCompanyArticle(RedirectAttributes redirect, @RequestParam String name) {
+    public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String name) {
         articleService.removeArticle(name);
         redirect.addAttribute(NAME, encodeUTF8(name));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;

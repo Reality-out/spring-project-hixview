@@ -53,9 +53,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         resetTable(jdbcTemplateTest, companyArticleTable, true);
     }
 
-    @DisplayName("기업 기사 등록 페이지 접속")
+    @DisplayName("기업 기사 추가 페이지 접속")
     @Test
-    public void accessCompanyArticleRegister() throws Exception {
+    public void accessCompanyArticleAdd() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
@@ -64,9 +64,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attributeExists(ARTICLE));
     }
 
-    @DisplayName("기업 기사 등록 완료 페이지 접속")
+    @DisplayName("기업 기사 추가 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleRegisterFinish() throws Exception {
+    public void accessCompanyArticleAddFinish() throws Exception {
         // given
         CompanyArticle article = createTestArticle();
 
@@ -86,9 +86,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(VALUE, article.getName()));
     }
 
-    @DisplayName("문자열을 사용하는 기업 기사들 등록 페이지 접속")
+    @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
     @Test
-    public void accessCompanyArticleRegisterWithString() throws Exception {
+    public void accessCompanyArticleAddWithString() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
@@ -96,9 +96,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
     }
 
-    @DisplayName("문자열을 사용하는 기업 기사들 등록 완료 페이지 접속")
+    @DisplayName("문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleRegisterWithStringFinish() throws Exception {
+    public void accessCompanyArticleAddWithStringFinish() throws Exception {
         // given
         List<String> articleString = createTestStringArticle();
         List<String> nameList = articleService.registerArticlesWithString(
@@ -135,9 +135,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(decodeUTF8(nameList));
     }
 
-    @DisplayName("기업 기사 갱신 페이지 접속")
+    @DisplayName("기업 기사 변경 페이지 접속")
     @Test
-    public void accessCompanyArticleUpdate() throws Exception {
+    public void accessCompanyArticleModify() throws Exception {
         mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
@@ -145,9 +145,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
     }
 
-    @DisplayName("기업 기사 갱신 페이지 내 이름 검색")
+    @DisplayName("기업 기사 변경 페이지 내 이름 검색")
     @Test
-    public void searchNameCompanyArticleUpdate() throws Exception {
+    public void searchNameCompanyArticleModify() throws Exception {
         // given
         CompanyArticle article = createTestArticle();
 
@@ -166,9 +166,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(article.toCompanyArticleDto());
     }
 
-    @DisplayName("기업 기사 갱신 완료 페이지 접속")
+    @DisplayName("기업 기사 변경 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleUpdateFinish() throws Exception {
+    public void accessCompanyArticleModifyFinish() throws Exception {
         // given
         CompanyArticle article = createTestArticle();
 
@@ -190,9 +190,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(VALUE, article.getName()));
     }
 
-    @DisplayName("기업 기사들 찾기 페이지 접속")
+    @DisplayName("기업 기사들 보기 페이지 접속")
     @Test
-    public void accessCompanyArticlesSelect() throws Exception {
+    public void accessCompanyArticlesSee() throws Exception {
         // given
         List<CompanyArticle> articleList = articleService.registerArticles(createTestArticle(), createTestNewArticle());
 
@@ -205,9 +205,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleList);
     }
 
-    @DisplayName("기업 기사 삭제 페이지 접속")
+    @DisplayName("기업 기사 없애기 페이지 접속")
     @Test
-    public void accessCompanyArticleRemove() throws Exception {
+    public void accessCompanyArticleRid() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
@@ -216,9 +216,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(REMOVE_KEY, NAME));
     }
 
-    @DisplayName("기업 기사 삭제 완료 페이지 접속")
+    @DisplayName("기업 기사 없애기 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleRemoveFinish() throws Exception {
+    public void accessCompanyArticleRidFinish() throws Exception {
         // given
         CompanyArticle article = createTestArticle();
         String name = article.getName();
