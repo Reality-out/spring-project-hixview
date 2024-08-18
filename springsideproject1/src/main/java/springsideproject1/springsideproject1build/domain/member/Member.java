@@ -1,9 +1,12 @@
 package springsideproject1.springsideproject1build.domain.member;
 
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -16,10 +19,24 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtils.N
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {
     private final Long identifier;
+
+    @NotBlank
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).{8,20}$")
     private final String id;
+
+    @NotBlank
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,64}$")
     private final String password;
+
+    @NotBlank
     private final String name;
+
+    @NotBlank
+    @PastOrPresent
     private final LocalDate birth;
+
+    @NotBlank
+    @Pattern(regexp = "^01([0|1|6|7|8|9])-([0-9]{4})-([0-9]{4})+$")
     private final PhoneNumber phoneNumber;
 
     public MemberDto toMemberDto() {
