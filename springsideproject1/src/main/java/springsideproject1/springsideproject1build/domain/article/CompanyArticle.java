@@ -1,11 +1,9 @@
 package springsideproject1.springsideproject1build.domain.article;
 
-import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -18,24 +16,11 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtils.N
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompanyArticle {
     private final Long number;
-
-    @NotBlank
     private final String name;
-
-    @NotBlank
     private final Press press;
-
-    @NotBlank
     private final String subjectCompany;
-
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9]+@[0-9a-zA-Z]+\\.[a-z]{2,3}$")
     private final String link;
-
-    @NotBlank
     private final LocalDate date;
-
-    @NotBlank
     private final Integer importance;
 
     public CompanyArticleDto toCompanyArticleDto() {

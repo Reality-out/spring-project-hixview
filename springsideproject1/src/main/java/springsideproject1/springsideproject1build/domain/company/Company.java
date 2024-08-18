@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 import java.util.HashMap;
 
@@ -16,24 +15,13 @@ import static springsideproject1.springsideproject1build.utility.ConstantUtils.N
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Company {
-
-    @NotBlank
     @Size(min = 6, max = 6)
     private final String code;
 
-    @NotBlank
     private final Country country;
-
-    @NotBlank
     private final Scale scale;
-
-    @NotBlank
     private final String name;
-
-    @NotBlank
     private final FirstCategory category1st;
-
-    @NotBlank
     private final SecondCategory category2nd;
 
     public CompanyDto toCompanyDto() {

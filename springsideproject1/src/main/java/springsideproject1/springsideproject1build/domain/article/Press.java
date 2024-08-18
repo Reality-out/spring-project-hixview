@@ -53,4 +53,13 @@ public enum Press {
     Press(String pressValue) {
         this.pressValue = pressValue;
     }
+
+    public static boolean containsWithPress(String str) {
+        for (Press enumValue : Press.values()) {
+            if (enumValue.name().equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
