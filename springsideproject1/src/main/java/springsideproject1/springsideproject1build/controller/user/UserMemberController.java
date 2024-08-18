@@ -36,17 +36,17 @@ public class UserMemberController {
         return MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @GetMapping(MEMBERSHIP_URL + URL_FINISH_SUFFIX)
-    @ResponseStatus(HttpStatus.OK)
-    public String finishMembership() {
-        return MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX;
-    }
-
     @PostMapping(MEMBERSHIP_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMembership(@ModelAttribute MemberDto memberDto) {
         memberService.registerMember(Member.builder().memberDto(memberDto)
                 .phoneNumber(PhoneNumber.builder().build()).build());
         return URL_REDIRECT_PREFIX + MEMBERSHIP_URL + URL_FINISH_SUFFIX;
+    }
+
+    @GetMapping(MEMBERSHIP_URL + URL_FINISH_SUFFIX)
+    @ResponseStatus(HttpStatus.OK)
+    public String finishMembership() {
+        return MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

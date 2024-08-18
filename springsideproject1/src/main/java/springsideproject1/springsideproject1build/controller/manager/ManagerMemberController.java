@@ -50,19 +50,19 @@ public class ManagerMemberController {
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
-    @ResponseStatus(HttpStatus.OK)
-    public String finishMemberWithdraw(@RequestParam String id, Model model) {
-        model.addAttribute(KEY, ID);
-        model.addAttribute(VALUE, id);
-        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
-    }
-
     @PostMapping(REMOVE_MEMBER_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMemberWithdraw(RedirectAttributes redirect, @RequestParam String id) {
         memberService.removeMember(id);
         redirect.addAttribute(ID, id);
         return URL_REDIRECT_PREFIX + REMOVE_MEMBER_URL + URL_FINISH_SUFFIX;
+    }
+
+    @GetMapping(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX)
+    @ResponseStatus(HttpStatus.OK)
+    public String finishMemberWithdraw(@RequestParam String id, Model model) {
+        model.addAttribute(KEY, ID);
+        model.addAttribute(VALUE, id);
+        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

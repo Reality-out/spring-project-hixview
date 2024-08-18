@@ -53,6 +53,14 @@ public class ManagerCompanyController {
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
+    @PostMapping(ADD_SINGLE_COMPANY_URL)
+    @ResponseStatus(HttpStatus.SEE_OTHER)
+    public String submitAddCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
+        companyService.registerCompany(Company.builder().companyDto(companyDto).build());
+        redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
+        return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
+    }
+
     @GetMapping(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompany(@RequestParam String name, Model model) {
@@ -60,14 +68,6 @@ public class ManagerCompanyController {
         model.addAttribute(VALUE, decodeUTF8(name));
 
         return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
-    }
-
-    @PostMapping(ADD_SINGLE_COMPANY_URL)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompany(RedirectAttributes redirect, @ModelAttribute CompanyDto companyDto) {
-        companyService.registerCompany(Company.builder().companyDto(companyDto).build());
-        redirect.addAttribute(NAME, encodeUTF8(companyDto.getName()));
-        return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
 
     /**
@@ -135,13 +135,6 @@ public class ManagerCompanyController {
         return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @GetMapping(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX)
-    @ResponseStatus(HttpStatus.OK)
-    public String finishRidCompany(@RequestParam String name, Model model) {
-        model.addAttribute(VALUE, decodeUTF8(name));
-        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
-    }
-
     @PostMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRidCompany(RedirectAttributes redirect, @RequestParam String codeOrName) {
@@ -155,5 +148,12 @@ public class ManagerCompanyController {
             redirect.addAttribute(NAME, encodeUTF8(company.getName()));
             return URL_REDIRECT_PREFIX + REMOVE_COMPANY_URL + URL_FINISH_SUFFIX;
         }
+    }
+
+    @GetMapping(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX)
+    @ResponseStatus(HttpStatus.OK)
+    public String finishRidCompany(@RequestParam String name, Model model) {
+        model.addAttribute(VALUE, decodeUTF8(name));
+        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 }
