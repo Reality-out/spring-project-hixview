@@ -6,18 +6,22 @@
         <div class="partialForm">
             <label for="name" th:text="#{article.name}"></label>
             <input type="text" id="name" th:field="*{name}" size="20">
+            <div class="fieldError" th:errors="*{name}"></div>
         </div>
         <div class="partialForm">
             <label for="press" th:text="#{article.press}"></label>
-            <input type="text" id="press" th:field="*{press}" size="20">
+            <input type="text" id="press" th:field="*{press}" size="20" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{press}"></div>
         </div>
         <div class="partialForm">
             <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
             <input type="text" id="subjectCompany" th:field="*{subjectCompany}" size="20">
+            <div class="fieldError" th:errors="*{subjectCompany}"></div>
         </div>
         <div class="partialForm">
             <label for="link" th:text="#{article.link}"></label>
-            <input type="url" id="link" th:field="*{link}" size="20">
+            <input type="url" id="link" th:field="*{link}" size="20" th:errorclass="fieldError">
+            <div class="fieldError" th:errors="*{link}"></div>
         </div>
         <div class="partialForm">
             <label for="year" th:text="#{article.date.year}"></label>
@@ -26,10 +30,12 @@
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
             <label for="date" th:text="#{article.date.day}"></label>
             <input type="number" min="1" max="31" id="date" th:field="*{date}" size="2">
+            <div class="fieldError" th:errors="${article.date}"></div>
         </div>
         <div class="partialForm">
             <label for="importance" th:text="#{article.importance}"></label>
             <input type="text" id="importance" th:field="*{importance}" size="20">
+            <div class="fieldError" th:errors="*{importance}"></div>
         </div>
     </div>
     <button type="submit" th:text="#{function.add}"></button>
