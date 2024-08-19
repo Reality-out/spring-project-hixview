@@ -73,12 +73,12 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         Company company = createSamsungElectronics();
 
         // then
-        mockMvc.perform(processPostWithCompany(ADD_SINGLE_COMPANY_URL, company))
+        mockMvc.perform(postWithCompany(ADD_SINGLE_COMPANY_URL, company))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(company.getName())));
 
-        mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
+        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
@@ -108,7 +108,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
+        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -131,7 +131,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
+        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -152,12 +152,12 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        mockMvc.perform(processPostWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, company))
+        mockMvc.perform(postWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, company))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(company.getName())));
 
-        mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX,
+        mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
@@ -203,12 +203,12 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(article);
 
         // then
-        mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
+        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(name)));
 
-        mockMvc.perform(processGetWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeUTF8(name)))
+        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeUTF8(name)))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),

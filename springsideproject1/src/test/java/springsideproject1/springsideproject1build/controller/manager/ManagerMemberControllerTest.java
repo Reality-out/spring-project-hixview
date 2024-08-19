@@ -93,12 +93,12 @@ class ManagerMemberControllerTest implements MemberTestUtility {
         // then
         String id = member.getId();
 
-        mockMvc.perform(processPostWithSingleParam(REMOVE_MEMBER_URL, ID, id))
+        mockMvc.perform(postWithSingleParam(REMOVE_MEMBER_URL, ID, id))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(ID, id));
 
-        mockMvc.perform(processGetWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, ID, id))
+        mockMvc.perform(getWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, ID, id))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, "회원"),

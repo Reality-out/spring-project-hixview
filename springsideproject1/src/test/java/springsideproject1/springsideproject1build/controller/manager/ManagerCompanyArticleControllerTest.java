@@ -73,12 +73,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
 
         // then
-        mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        mockMvc.perform(postWithCompanyArticleDtoNoNumber(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(articleDto.getName())));
 
-        mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(articleDto.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
@@ -99,7 +99,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setLink(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -112,7 +112,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @DisplayName("null에 대한 기업 기사 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDtoNoNumber()))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -131,7 +131,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setLink("NotUrl");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -152,7 +152,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setDate(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -171,7 +171,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -192,7 +192,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setDate(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -211,7 +211,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+        mockMvc.perform(postWithCompanyArticleDtoNoNumber(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto)
                         .param("year", INVALID_VALUE)
                         .param("month", INVALID_VALUE)
@@ -248,7 +248,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
-        assertThat(requireNonNull(mockMvc.perform(processPostWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put("subjectCompany", articleString.getFirst());
                     put("articleString", articleString.get(1));
                     put("linkString", articleString.getLast());
@@ -259,7 +259,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .usingRecursiveComparison()
                 .isEqualTo(nameListForURL);
 
-        assertThat(requireNonNull(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+        assertThat(requireNonNull(mockMvc.perform(getWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         nameListString, nameListForURL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + "multipleFinishPage"),
@@ -292,7 +292,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
+        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -313,12 +313,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         article = articleService.registerArticle(article);
 
         // then
-        mockMvc.perform(processPostWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
+        mockMvc.perform(postWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(article.getName())));
 
-        mockMvc.perform(processGetWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+        mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
                         NAME, encodeUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
@@ -364,12 +364,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleService.registerArticle(article);
 
         // then
-        mockMvc.perform(processPostWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NAME, name))
+        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NAME, name))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(name)));
 
-        mockMvc.perform(processGetWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, encodeUTF8(name)))
+        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, encodeUTF8(name)))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),

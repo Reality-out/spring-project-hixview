@@ -66,7 +66,7 @@ class UserMainControllerTest implements MemberTestUtility {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(requireNonNull(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
+        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
                     put("year", String.valueOf(commonBirth.getYear()));
                     put("month", String.valueOf(commonBirth.getMonthValue()));
@@ -125,7 +125,7 @@ class UserMainControllerTest implements MemberTestUtility {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(requireNonNull(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
+        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
                     put("year", String.valueOf(commonBirth.getYear()));
                     put("month", String.valueOf(commonBirth.getMonthValue()));
@@ -137,7 +137,7 @@ class UserMainControllerTest implements MemberTestUtility {
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
 
-        mockMvc.perform(processGetWithSingleParam(FIND_ID_URL + URL_FINISH_SUFFIX, idListString, idListForUrl))
+        mockMvc.perform(getWithSingleParam(FIND_ID_URL + URL_FINISH_SUFFIX, idListString, idListForUrl))
                 .andExpectAll(status().isOk(),
                         view().name(USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(idListString, idList));
