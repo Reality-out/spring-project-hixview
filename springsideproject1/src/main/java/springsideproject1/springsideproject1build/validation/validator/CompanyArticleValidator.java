@@ -1,11 +1,13 @@
 package springsideproject1.springsideproject1build.validation.validator;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 
 import static java.lang.Integer.parseInt;
@@ -15,15 +17,14 @@ import static springsideproject1.springsideproject1build.domain.article.Press.co
 public class CompanyArticleValidator implements Validator {
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(@NonNull Class<?> clazz) {
         return CompanyArticle.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(@NonNull Object target, @NonNull Errors errors) {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
         LocalDate minDate = LocalDate.of(1960, 1, 1);
-        LocalDate inputDate = LocalDate.of(parseInt(articleDto.getYear()), parseInt(articleDto.getMonth()), parseInt(articleDto.getDate()));
         LocalDate maxDate = LocalDate.now();
 
         // press
@@ -32,8 +33,14 @@ public class CompanyArticleValidator implements Validator {
         }
 
         // date
-        if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
-            errors.rejectValue("date", "Range.date", new Object[]{minDate, maxDate}, null);
+        try {
+            LocalDate inputDate = LocalDate.of(parseInt(articleDto.getYear()), parseInt(articleDto.getMonth()), parseInt(articleDto.getDate()));
+
+            if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
+                errors.rejectValue("date", "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
+            }
+        } catch (DateTimeException e) {
+            errors.rejectValue("date", "NotExist.java.lang.LocalDate");
         }
 
         // importance

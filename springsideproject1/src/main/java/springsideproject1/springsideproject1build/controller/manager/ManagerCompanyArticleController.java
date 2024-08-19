@@ -64,13 +64,14 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDto articleDto, BindingResult bindingResult,
                                            RedirectAttributes redirect, Model model) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {                                        // Bean Validation
             log.info("errors={}", bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+            model.addAttribute("beanValidationError", true);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        companyArticleValidator.validate(articleDto, bindingResult);
+        companyArticleValidator.validate(articleDto, bindingResult);            // Custom Validation
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);

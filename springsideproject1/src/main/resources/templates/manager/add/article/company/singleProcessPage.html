@@ -2,6 +2,9 @@
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <form th:action th:object="${article}" method="POST">
+    <div th:if="${beanValidationError != null}">
+        <p class="fieldError" th:text="#{BeanValidation}"></p>
+    </div>
     <div>
         <div class="partialForm">
             <label for="name" th:text="#{article.name}"></label>
