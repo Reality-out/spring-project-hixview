@@ -92,7 +92,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateSpaceCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setName(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
@@ -127,7 +127,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateURLCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setLink("NotUrl");
 
         // then
@@ -146,7 +146,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
         articleDto.setDate(1);
@@ -167,7 +167,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateRestrictCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setImportance(3);
 
         // then
@@ -186,7 +186,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
         articleDto.setDate(31);
@@ -207,7 +207,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setPress(INVALID_VALUE);
 
         // then
@@ -306,7 +306,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
+        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
+                UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
