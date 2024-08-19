@@ -30,7 +30,7 @@ public class UserMemberController {
      */
     @GetMapping(MEMBERSHIP_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processMembership(Model model) {
+    public String processMembershipPage(Model model) {
         model.addAttribute(MEMBER, new MemberDto());
         model.addAttribute("phoneNumber", PhoneNumber.builder().build());
         return MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
@@ -38,7 +38,7 @@ public class UserMemberController {
 
     @PostMapping(MEMBERSHIP_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitMembership(@ModelAttribute MemberDto memberDto) {
+    public String submitMembershipPage(@ModelAttribute MemberDto memberDto) {
         memberService.registerMember(Member.builder().memberDto(memberDto)
                 .phoneNumber(PhoneNumber.builder().build()).build());
         return URL_REDIRECT_PREFIX + MEMBERSHIP_URL + URL_FINISH_SUFFIX;
@@ -46,7 +46,7 @@ public class UserMemberController {
 
     @GetMapping(MEMBERSHIP_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishMembership() {
+    public String finishMembershipPage() {
         return MEMBERSHIP_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

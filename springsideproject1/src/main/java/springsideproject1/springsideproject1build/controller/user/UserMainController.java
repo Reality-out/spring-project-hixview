@@ -61,13 +61,6 @@ public class UserMainController {
         return USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @GetMapping(FIND_ID_URL + URL_FINISH_SUFFIX)
-    @ResponseStatus(HttpStatus.OK)
-    public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
-        model.addAttribute(idListString, decodeUTF8(idList));
-        return USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX;
-    }
-
     @PostMapping(FIND_ID_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
@@ -75,5 +68,12 @@ public class UserMainController {
         redirect.addAttribute(idListString, encodeUTF8(memberService.findMembersByNameAndBirth(
                 member.getName(), member.getBirth()).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;
+    }
+
+    @GetMapping(FIND_ID_URL + URL_FINISH_SUFFIX)
+    @ResponseStatus(HttpStatus.OK)
+    public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
+        model.addAttribute(idListString, decodeUTF8(idList));
+        return USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

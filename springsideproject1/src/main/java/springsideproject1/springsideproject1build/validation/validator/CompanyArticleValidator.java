@@ -40,7 +40,7 @@ public class CompanyArticleValidator implements Validator {
                 errors.rejectValue("date", "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
             }
         } catch (DateTimeException e) {
-            errors.rejectValue("date", "NotExist.java.lang.LocalDate");
+            errors.rejectValue("date", "TypeButInvalid.java.lang.LocalDate");
         }
 
         // importance

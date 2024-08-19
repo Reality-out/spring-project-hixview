@@ -89,7 +89,7 @@ class UserMainControllerTest implements MemberTestUtility {
 
     @DisplayName("로그인 페이지 접속")
     @Test
-    public void accessLoginPage() throws Exception {
+    public void accessLogin() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpectAll(status().isOk(),
                         view().name(USER_LOGIN_VIEW + "loginPage"),
