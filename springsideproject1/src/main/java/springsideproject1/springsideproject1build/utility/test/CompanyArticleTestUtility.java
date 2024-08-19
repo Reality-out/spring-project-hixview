@@ -3,6 +3,7 @@ package springsideproject1.springsideproject1build.utility.test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.article.Press;
 
 import java.time.LocalDate;
@@ -79,5 +80,17 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
                 .param("month", String.valueOf(article.getDate().getMonthValue()))
                 .param("date", String.valueOf(article.getDate().getDayOfMonth()))
                 .param("importance", String.valueOf(article.getImportance()));
+    }
+
+    default MockHttpServletRequestBuilder processPostWithCompanyArticleDto(String url, CompanyArticleDto articleDto) {
+        return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(NAME, articleDto.getName())
+                .param("press", articleDto.getPress())
+                .param("subjectCompany", articleDto.getSubjectCompany())
+                .param("link", articleDto.getLink())
+                .param("year", String.valueOf(articleDto.getYear()))
+                .param("month", String.valueOf(articleDto.getMonth()))
+                .param("date", String.valueOf(articleDto.getDate()))
+                .param("importance", String.valueOf(articleDto.getImportance()));
     }
 }

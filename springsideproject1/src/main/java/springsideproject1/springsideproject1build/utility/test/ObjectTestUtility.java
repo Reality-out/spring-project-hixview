@@ -17,6 +17,7 @@ public interface ObjectTestUtility {
     /**
      * Constant
      */
+    String INVALID_VALUE = "invalid value";
     String ALL_QUERY_STRING = "?*";
 
     /**

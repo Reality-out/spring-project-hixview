@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
 
@@ -84,6 +85,134 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(VALUE, article.getName()));
+    }
+
+    @DisplayName("공백에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateSpaceCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        articleDto.setName(" ");
+        articleDto.setPress(" ");
+        articleDto.setSubjectCompany(" ");
+        articleDto.setLink(" ");
+
+        // then
+        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue))
+                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("null에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateNullCompanyArticleAdd() throws Exception {
+        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE))
+                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(new CompanyArticleDto());
+    }
+
+    @DisplayName("URL에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateURLCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        articleDto.setLink("NotUrl");
+
+        // then
+        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE))
+                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Range에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateRangeCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        articleDto.setYear(1950);
+        articleDto.setMonth(1);
+        articleDto.setDate(1);
+
+        // then
+        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE))
+                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Restrict에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateRestrictCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        articleDto.setImportance(3);
+
+        // then
+        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE))
+                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("TypeButInvalid에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        articleDto.setYear(2000);
+        articleDto.setMonth(2);
+        articleDto.setDate(31);
+
+        // then
+        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE))
+                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("typeMismatch에 대한 기업 기사 유효성 검증")
+    @Test
+    public void validateTypeMismatchCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        articleDto.setPress(INVALID_VALUE);
+
+        // then
+        mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto)
+                        .param("year", INVALID_VALUE)
+                        .param("month", INVALID_VALUE)
+                        .param("date", INVALID_VALUE)
+                        .param("importance", INVALID_VALUE))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE));
     }
 
     @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
