@@ -30,9 +30,9 @@ public class CompanyArticle {
         companyArticleDto.setPress(press.name());
         companyArticleDto.setSubjectCompany(subjectCompany);
         companyArticleDto.setLink(link);
-        companyArticleDto.setYear(String.valueOf(date.getYear()));
-        companyArticleDto.setMonth(String.valueOf(date.getMonthValue()));
-        companyArticleDto.setDate(String.valueOf(date.getDayOfMonth()));
+        companyArticleDto.setYear(date.getYear());
+        companyArticleDto.setMonth(date.getMonthValue());
+        companyArticleDto.setDate(date.getDayOfMonth());
         companyArticleDto.setImportance(importance);
         return companyArticleDto;
     }
@@ -75,8 +75,7 @@ public class CompanyArticle {
             press = Press.valueOf(articleDto.getPress());
             subjectCompany = articleDto.getSubjectCompany();
             link = articleDto.getLink();
-            date = LocalDate.of(Integer.parseInt(articleDto.getYear()),
-                    Integer.parseInt(articleDto.getMonth()), Integer.parseInt(articleDto.getDate()));
+            date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDate());
             importance = articleDto.getImportance();
             return this;
         }

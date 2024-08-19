@@ -10,8 +10,8 @@ public class MemberDto {
     private String id;
     private String password;
     private String name;
-    private String year;
-    private String month;
-    private String date;
+    private Integer year;
+    private Integer month;
+    private Integer date;
     private String phoneNumber;
 }

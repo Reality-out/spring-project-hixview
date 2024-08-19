@@ -39,9 +39,9 @@ public class Member {
         memberDto.setId(id);
         memberDto.setPassword(password);
         memberDto.setName(name);
-        memberDto.setYear(String.valueOf(birth.getYear()));
-        memberDto.setMonth(String.valueOf(birth.getMonthValue()));
-        memberDto.setDate(String.valueOf(birth.getDayOfMonth()));
+        memberDto.setYear(birth.getYear());
+        memberDto.setMonth(birth.getMonthValue());
+        memberDto.setDate(birth.getDayOfMonth());
         memberDto.setPhoneNumber(phoneNumber.toString());
         return memberDto;
     }
@@ -91,8 +91,7 @@ public class Member {
             id = memberDto.getId();
             password = memberDto.getPassword();
             name = memberDto.getName();
-            birth = LocalDate.of(Integer.parseInt(memberDto.getYear()),
-                    Integer.parseInt(memberDto.getMonth()), Integer.parseInt(memberDto.getDate()));
+            birth = LocalDate.of(memberDto.getYear(), memberDto.getMonth(), memberDto.getDate());
             phoneNumber = PhoneNumber.builder().phoneNumber(memberDto.getPhoneNumber()).build();
             return this;
         }

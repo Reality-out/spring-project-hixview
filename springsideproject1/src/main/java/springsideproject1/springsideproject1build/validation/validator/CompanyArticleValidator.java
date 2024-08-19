@@ -10,7 +10,6 @@ import springsideproject1.springsideproject1build.domain.article.CompanyArticleD
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.domain.article.Press.containsWithPress;
 
 @Component
@@ -34,7 +33,7 @@ public class CompanyArticleValidator implements Validator {
 
         // date
         try {
-            LocalDate inputDate = LocalDate.of(parseInt(articleDto.getYear()), parseInt(articleDto.getMonth()), parseInt(articleDto.getDate()));
+            LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDate());
 
             if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
                 errors.rejectValue("date", "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);

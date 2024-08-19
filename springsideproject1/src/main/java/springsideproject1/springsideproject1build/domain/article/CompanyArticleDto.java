@@ -25,14 +25,14 @@ public class CompanyArticleDto {
     @URL
     private String link;
 
-    @NotBlank
-    private String year;
+    @NotNull
+    private Integer year;
 
-    @NotBlank
-    private String month;
+    @NotNull
+    private Integer month;
 
-    @NotBlank
-    private String date;
+    @NotNull
+    private Integer date;
 
     @NotNull
     private Integer importance;
