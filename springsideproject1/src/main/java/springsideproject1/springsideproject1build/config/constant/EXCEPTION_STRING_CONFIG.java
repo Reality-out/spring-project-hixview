@@ -4,5 +4,6 @@ public class EXCEPTION_STRING_CONFIG {
     public static final String ERRORS_ARE = "errors = {}";
 
     public static final String BEAN_VALIDATION_ERROR = "beanValidationError";
-    public static final String COMPANY_NOT_FOUND_ERROR = "companyNotFoundError";
+    public static final String EXIST_COMPANY_ARTICLE_NAME_ERROR = "existCompanyArticleNameError";
+    public static final String COMPANY_ARTICLE_NOT_FOUND_ERROR = "companyArticleNotFoundError";
 }

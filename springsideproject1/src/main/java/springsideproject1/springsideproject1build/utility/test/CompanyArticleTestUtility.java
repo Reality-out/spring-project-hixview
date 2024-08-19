@@ -76,6 +76,14 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
         return testNewArticle;
     }
 
+    default CompanyArticleDto createTestNewArticleDto() {
+        return testNewArticle.toDto();
+    }
+
+    default CompanyArticleDtoNoNumber createTestNewArticleDtoNoNumber() {
+        return testNewArticle.toDtoNoNumber();
+    }
+
     default CompanyArticle createTestEqualDateArticle() {
         return testEqualDateArticle;
     }

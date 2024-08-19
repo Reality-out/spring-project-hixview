@@ -5,6 +5,9 @@
     <div th:if="${beanValidationError} != null">
         <p class="fieldError" th:text="#{BeanValidation}"></p>
     </div>
+    <div th:if="${existCompanyArticleNameError} != null">
+        <p class="fieldError" th:text="#{Exist.CompanyArticle.name}"></p>
+    </div>
     <div>
         <div class="partialForm">
             <label for="name" th:text="#{article.name}"></label>

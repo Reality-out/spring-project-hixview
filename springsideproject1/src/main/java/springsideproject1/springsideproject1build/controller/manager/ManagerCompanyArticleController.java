@@ -80,9 +80,15 @@ public class ManagerCompanyArticleController {
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
-        articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(articleDto).build());
-        return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+        try {
+            articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(articleDto).build());
+            redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
+            return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+        } catch (IllegalStateException e) {
+            model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+            model.addAttribute(EXIST_COMPANY_ARTICLE_NAME_ERROR, true);
+            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+        }
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
@@ -149,7 +155,7 @@ public class ManagerCompanyArticleController {
         if (articleOrEmpty.isEmpty()) {
             log.info(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(COMPANY_NOT_FOUND_ERROR, true);
+            model.addAttribute(COMPANY_ARTICLE_NOT_FOUND_ERROR, true);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         } else {
             CompanyArticleDto article = articleOrEmpty.get().toDto();

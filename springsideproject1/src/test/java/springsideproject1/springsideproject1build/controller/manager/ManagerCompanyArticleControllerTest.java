@@ -223,6 +223,27 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attributeExists(ARTICLE));
     }
 
+    @DisplayName("중복 기업 기사명을 사용하는 기사 추가")
+    @Test
+    public void duplicatedNameCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticle article1 = createTestArticle();
+        String commonName = article1.getName();
+        CompanyArticleDtoNoNumber articleDto2 = createTestNewArticleDtoNoNumber();
+        articleDto2.setName(commonName);
+
+        // when
+        articleService.registerArticle(article1);
+
+        // then
+        mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attributeExists(ARTICLE));
+    }
+
     @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
     @Test
     public void accessCompanyArticleAddWithString() throws Exception {
