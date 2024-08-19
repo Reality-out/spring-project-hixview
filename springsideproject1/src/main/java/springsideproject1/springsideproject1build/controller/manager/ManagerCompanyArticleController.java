@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME;
+import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_STRING_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
@@ -45,7 +46,7 @@ public class ManagerCompanyArticleController {
 
     @ModelAttribute(KEY)
     public String key() {
-        return "제목";
+        return "기사명";
     }
 
     private final String nameListString = "nameList";
@@ -65,16 +66,16 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDtoNoNumber articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        if (bindingResult.hasErrors()) {                                        // Bean Validation
-            log.info("errors={}", bindingResult.getAllErrors());
+        if (bindingResult.hasErrors()) {                                            // Bean Validation
+            log.info(ERRORS_ARE, bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(BEAN_VALIDATION_ERROR, true);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        companyArticleDtoNoNumberValidator.validate(articleDto, bindingResult);            // Custom Validation
+        companyArticleDtoNoNumberValidator.validate(articleDto, bindingResult);     // Custom Validation
         if (bindingResult.hasErrors()) {
-            log.info("errors={}", bindingResult.getAllErrors());
+            log.info(ERRORS_ARE, bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
@@ -143,11 +144,13 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processModifyCompanyArticle(Model model, @RequestParam String numberOrName) {
-
+    public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            throw new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME);
+            log.info(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
+            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+            model.addAttribute(COMPANY_NOT_FOUND_ERROR, true);
+            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         } else {
             CompanyArticleDto article = articleOrEmpty.get().toDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);

@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <form th:action th:object="${article}" method="POST">
-    <div th:if="${beanValidationError != null}">
+    <div th:if="${beanValidationError} != null">
         <p class="fieldError" th:text="#{BeanValidation}"></p>
     </div>
     <div>
@@ -33,7 +33,9 @@
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
             <label for="date" th:text="#{article.date.day}"></label>
             <input type="number" min="1" max="31" id="date" th:field="*{date}" size="2">
-            <div class="fieldError" th:errors="${article.date}"></div>
+            <div class="fieldError" th:errors="*{year}"></div>
+            <div class="fieldError" th:errors="*{month}"></div>
+            <div class="fieldError" th:errors="*{date}"></div>
         </div>
         <div class="partialForm">
             <label for="importance" th:text="#{article.importance}"></label>

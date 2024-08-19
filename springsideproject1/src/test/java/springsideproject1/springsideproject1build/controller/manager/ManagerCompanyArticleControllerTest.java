@@ -43,7 +43,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
 
     private final JdbcTemplate jdbcTemplateTest;
     private final String dataTypeKorValue = "기사";
-    private final String keyValue = "제목";
+    private final String keyValue = "기사명";
 
     @Autowired
     public ManagerCompanyArticleControllerTest(DataSource dataSource) {
@@ -88,7 +88,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(VALUE, articleDto.getName()));
     }
 
-    @DisplayName("공백에 대한 기업 기사 유효성 검증")
+    @DisplayName("공백에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateSpaceCompanyArticleAdd() throws Exception {
         // given
@@ -109,7 +109,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("null에 대한 기업 기사 유효성 검증")
+    @DisplayName("null에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
@@ -123,7 +123,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(new CompanyArticleDtoNoNumber());
     }
 
-    @DisplayName("URL에 대한 기업 기사 유효성 검증")
+    @DisplayName("URL에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateURLCompanyArticleAdd() throws Exception {
         // given
@@ -142,7 +142,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Range에 대한 기업 기사 유효성 검증")
+    @DisplayName("Range에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
         // given
@@ -163,7 +163,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Restrict에 대한 기업 기사 유효성 검증")
+    @DisplayName("Restrict에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateRestrictCompanyArticleAdd() throws Exception {
         // given
@@ -182,7 +182,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("TypeButInvalid에 대한 기업 기사 유효성 검증")
+    @DisplayName("TypeButInvalid에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
         // given
@@ -203,7 +203,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("typeMismatch에 대한 기업 기사 유효성 검증")
+    @DisplayName("typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given
@@ -280,6 +280,20 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
+    }
+
+    @DisplayName("NotFound에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validateNotFoundCompanyArticleModify() throws Exception {
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue)));
+
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue)));
     }
 
     @DisplayName("기업 기사 변경 페이지 내 이름 검색")
