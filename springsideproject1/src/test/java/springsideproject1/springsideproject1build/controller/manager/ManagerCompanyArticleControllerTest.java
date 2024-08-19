@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
 
@@ -70,36 +70,37 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void accessCompanyArticleAddFinish() throws Exception {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
 
         // then
-        mockMvc.perform(processPostWithCompanyArticle(ADD_SINGLE_COMPANY_ARTICLE_URL, article))
+        mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeUTF8(article.getName())));
+                        model().attribute(NAME, encodeUTF8(articleDto.getName())));
 
         mockMvc.perform(processGetWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeUTF8(article.getName())))
+                        NAME, encodeUTF8(articleDto.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
-                        model().attribute(VALUE, article.getName()));
+                        model().attribute(VALUE, articleDto.getName()));
     }
 
     @DisplayName("공백에 대한 기업 기사 유효성 검증")
     @Test
     public void validateSpaceCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
         articleDto.setName(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
         articleDto.setLink(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue))
@@ -111,25 +112,27 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @DisplayName("null에 대한 기업 기사 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDtoNoNumber()))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(new CompanyArticleDto());
+                .isEqualTo(new CompanyArticleDtoNoNumber());
     }
 
     @DisplayName("URL에 대한 기업 기사 유효성 검증")
     @Test
     public void validateURLCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
         articleDto.setLink("NotUrl");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -143,13 +146,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
         articleDto.setDate(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -163,11 +167,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateRestrictCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -181,13 +186,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
         articleDto.setDate(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -201,11 +207,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticle().toCompanyArticleDto();
+        CompanyArticleDtoNoNumber articleDto = createTestArticle().toDtoNoNumber();
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto)
+        mockMvc.perform(processPostWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto)
                         .param("year", INVALID_VALUE)
                         .param("month", INVALID_VALUE)
                         .param("date", INVALID_VALUE)
@@ -293,7 +300,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(article.toCompanyArticleDto());
+                .isEqualTo(article.toDto());
     }
 
     @DisplayName("기업 기사 변경 완료 페이지 접속")

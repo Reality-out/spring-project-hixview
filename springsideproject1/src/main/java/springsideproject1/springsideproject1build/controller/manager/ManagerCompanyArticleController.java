@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
-import springsideproject1.springsideproject1build.validation.validator.CompanyArticleValidator;
+import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoNoNumberValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class ManagerCompanyArticleController {
 
     private final CompanyArticleService articleService;
 
-    private final CompanyArticleValidator companyArticleValidator;
+    private final CompanyArticleDtoNoNumberValidator companyArticleDtoNoNumberValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
 
@@ -56,22 +57,22 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(ARTICLE, new CompanyArticleDto());
+        model.addAttribute(ARTICLE, new CompanyArticleDtoNoNumber());
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDto articleDto, BindingResult bindingResult,
-                                           RedirectAttributes redirect, Model model) {
+    public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDtoNoNumber articleDto,
+                                          BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (bindingResult.hasErrors()) {                                        // Bean Validation
             log.info("errors={}", bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-            model.addAttribute("beanValidationError", true);
+            model.addAttribute(BEAN_VALIDATION_ERROR, true);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        companyArticleValidator.validate(articleDto, bindingResult);            // Custom Validation
+        companyArticleDtoNoNumberValidator.validate(articleDto, bindingResult);            // Custom Validation
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
@@ -79,7 +80,7 @@ public class ManagerCompanyArticleController {
         }
 
         redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
-        articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(articleDto).build());
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -148,7 +149,7 @@ public class ManagerCompanyArticleController {
         if (articleOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME);
         } else {
-            CompanyArticleDto article = articleOrEmpty.get().toCompanyArticleDto();
+            CompanyArticleDto article = articleOrEmpty.get().toDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             model.addAttribute(ARTICLE, article);

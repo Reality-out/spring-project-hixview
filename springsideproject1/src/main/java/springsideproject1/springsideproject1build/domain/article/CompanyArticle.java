@@ -23,9 +23,22 @@ public class CompanyArticle {
     private final LocalDate date;
     private final Integer importance;
 
-    public CompanyArticleDto toCompanyArticleDto() {
+    public CompanyArticleDto toDto() {
         CompanyArticleDto companyArticleDto = new CompanyArticleDto();
         companyArticleDto.setNumber(number);
+        companyArticleDto.setName(name);
+        companyArticleDto.setPress(press.name());
+        companyArticleDto.setSubjectCompany(subjectCompany);
+        companyArticleDto.setLink(link);
+        companyArticleDto.setYear(date.getYear());
+        companyArticleDto.setMonth(date.getMonthValue());
+        companyArticleDto.setDate(date.getDayOfMonth());
+        companyArticleDto.setImportance(importance);
+        return companyArticleDto;
+    }
+
+    public CompanyArticleDtoNoNumber toDtoNoNumber() {
+        CompanyArticleDtoNoNumber companyArticleDto = new CompanyArticleDtoNoNumber();
         companyArticleDto.setName(name);
         companyArticleDto.setPress(press.name());
         companyArticleDto.setSubjectCompany(subjectCompany);
@@ -71,6 +84,16 @@ public class CompanyArticle {
 
         public CompanyArticleBuilder articleDto(CompanyArticleDto articleDto) {
             number = articleDto.getNumber();
+            name = articleDto.getName();
+            press = Press.valueOf(articleDto.getPress());
+            subjectCompany = articleDto.getSubjectCompany();
+            link = articleDto.getLink();
+            date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDate());
+            importance = articleDto.getImportance();
+            return this;
+        }
+
+        public CompanyArticleBuilder articleDtoNoNumber(CompanyArticleDtoNoNumber articleDto) {
             name = articleDto.getName();
             press = Press.valueOf(articleDto.getPress());
             subjectCompany = articleDto.getSubjectCompany();

@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.domain.article.Press;
 
 import java.time.LocalDate;
@@ -30,6 +31,14 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
                 .date(LocalDate.of(2024, 6, 18))
                 .importance(0)
                 .build();
+    }
+
+    default CompanyArticleDto createTestArticleDto() {
+        return createTestArticle().toDto();
+    }
+
+    default CompanyArticleDtoNoNumber createTestArticleDtoNoNumber() {
+        return createTestArticle().toDtoNoNumber();
     }
 
     default CompanyArticle createTestNewArticle() {
@@ -72,6 +81,7 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
      */
     default MockHttpServletRequestBuilder processPostWithCompanyArticle(String url, CompanyArticle article) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("number", String.valueOf(article.getNumber()))
                 .param(NAME, article.getName())
                 .param("press", article.getPress().name())
                 .param("subjectCompany", article.getSubjectCompany())
@@ -83,6 +93,20 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
     }
 
     default MockHttpServletRequestBuilder processPostWithCompanyArticleDto(String url, CompanyArticleDto articleDto) {
+        return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("number", String.valueOf(articleDto.getNumber()))
+                .param(NAME, articleDto.getName())
+                .param("press", articleDto.getPress())
+                .param("subjectCompany", articleDto.getSubjectCompany())
+                .param("link", articleDto.getLink())
+                .param("year", String.valueOf(articleDto.getYear()))
+                .param("month", String.valueOf(articleDto.getMonth()))
+                .param("date", String.valueOf(articleDto.getDate()))
+                .param("importance", String.valueOf(articleDto.getImportance()));
+    }
+
+    default MockHttpServletRequestBuilder processPostWithCompanyArticleDtoNoNumber(
+            String url, CompanyArticleDtoNoNumber articleDto) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param(NAME, articleDto.getName())
                 .param("press", articleDto.getPress())

@@ -1,6 +1,7 @@
 package springsideproject1.springsideproject1build.utility;
 
 public class ConstantUtils {
+    public static final String BEAN_VALIDATION_ERROR = "beanValidationError";
     public static final String DATA_TYPE_KOREAN = "dataTypeKor";
     public static final String DATA_TYPE_ENGLISH = "dataTypeEng";
     public static final String ARTICLE = "article";

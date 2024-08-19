@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import static springsideproject1.springsideproject1build.domain.article.Press.containsWithPress;
 
 @Component
-public class CompanyArticleValidator implements Validator {
+public class CompanyArticleDtoNoNumberValidator implements Validator {
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {
@@ -22,7 +22,7 @@ public class CompanyArticleValidator implements Validator {
 
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
-        CompanyArticleDto articleDto = (CompanyArticleDto) target;
+        CompanyArticleDtoNoNumber articleDto = (CompanyArticleDtoNoNumber) target;
         LocalDate minDate = LocalDate.of(1960, 1, 1);
         LocalDate maxDate = LocalDate.now();
 
