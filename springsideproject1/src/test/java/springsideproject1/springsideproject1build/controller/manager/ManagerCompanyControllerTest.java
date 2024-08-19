@@ -18,6 +18,7 @@ import springsideproject1.springsideproject1build.utility.test.CompanyTestUtilit
 import javax.sql.DataSource;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -107,7 +108,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -115,7 +116,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX),
                         model().attribute("countries", Country.values()),
                         model().attribute("scales", Scale.values()))
-                .andReturn().getModelAndView().getModelMap().get(COMPANY))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company.toCompanyDto());
     }
@@ -130,13 +131,13 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
-                .andReturn().getModelAndView().getModelMap().get(COMPANY))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company.toCompanyDto());
     }
@@ -172,10 +173,10 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompanies(createSKHynix(), createSamsungElectronics());
 
         // then
-        assertThat(mockMvc.perform(get(SELECT_COMPANY_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_SELECT_VIEW + "companiesPage"))
-                .andReturn().getModelAndView().getModelMap().get("companies"))
+                .andReturn().getModelAndView()).getModelMap().get("companies"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
     }

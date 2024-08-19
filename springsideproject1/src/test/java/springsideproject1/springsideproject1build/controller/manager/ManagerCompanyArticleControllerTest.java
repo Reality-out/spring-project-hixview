@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -98,11 +99,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setLink(" ");
 
         // then
-        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
@@ -110,12 +111,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @DisplayName("null에 대한 기업 기사 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
-        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(new CompanyArticleDto());
     }
@@ -128,12 +129,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setLink("NotUrl");
 
         // then
-        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
@@ -148,12 +149,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setDate(1);
 
         // then
-        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
@@ -166,12 +167,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setImportance(3);
 
         // then
-        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
@@ -186,12 +187,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         articleDto.setDate(31);
 
         // then
-        assertThat(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
@@ -240,18 +241,18 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
-        assertThat(mockMvc.perform(processPostWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>(){{
+        assertThat(requireNonNull(mockMvc.perform(processPostWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put("subjectCompany", articleString.getFirst());
                     put("articleString", articleString.get(1));
                     put("linkString", articleString.getLast());
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView().getModelMap().get(nameListString))
+                .andReturn().getModelAndView()).getModelMap().get(nameListString))
                 .usingRecursiveComparison()
                 .isEqualTo(nameListForURL);
 
-        assertThat(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+        assertThat(requireNonNull(mockMvc.perform(processGetWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         nameListString, nameListForURL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + "multipleFinishPage"),
@@ -259,7 +260,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(nameListString, decodeUTF8(nameList)))
-                .andReturn().getModelAndView().getModelMap().get(nameListString))
+                .andReturn().getModelAndView()).getModelMap().get(nameListString))
                 .usingRecursiveComparison()
                 .isEqualTo(decodeUTF8(nameList));
     }
@@ -284,13 +285,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
-                .andReturn().getModelAndView().getModelMap().get(ARTICLE))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toCompanyArticleDto());
     }
@@ -326,10 +327,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
         List<CompanyArticle> articleList = articleService.registerArticles(createTestArticle(), createTestNewArticle());
 
         // then
-        assertThat(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_SELECT_VIEW + "companyArticlesPage"))
-                .andReturn().getModelAndView().getModelMap().get("articles"))
+                .andReturn().getModelAndView()).getModelMap().get("articles"))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
     }

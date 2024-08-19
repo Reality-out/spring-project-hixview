@@ -15,6 +15,7 @@ import springsideproject1.springsideproject1build.utility.test.CompanyTestUtilit
 
 import javax.sql.DataSource;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -65,11 +66,11 @@ class UserCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        assertThat(mockMvc.perform(get("/company/" + company.getCode()))
+        assertThat(requireNonNull(mockMvc.perform(get("/company/" + company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
-                .andReturn().getModelAndView().getModelMap().get(COMPANY))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
     }
@@ -84,11 +85,11 @@ class UserCompanyControllerTest implements CompanyTestUtility {
         companyService.registerCompany(company);
 
         // then
-        assertThat(mockMvc.perform(get("/company/" + company.getName()))
+        assertThat(requireNonNull(mockMvc.perform(get("/company/" + company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
-                .andReturn().getModelAndView().getModelMap().get(COMPANY))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
     }

@@ -16,6 +16,7 @@ import springsideproject1.springsideproject1build.utility.test.MemberTestUtility
 import javax.sql.DataSource;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -60,11 +61,11 @@ class ManagerMemberControllerTest implements MemberTestUtility {
         member2 = memberService.registerMember(member2);
 
         // then
-        assertThat(mockMvc.perform(get(SELECT_MEMBER_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_MEMBER_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_SELECT_VIEW + "membersPage"),
                         model().attribute(LAYOUT_PATH, SELECT_PATH))
-                .andReturn().getModelAndView().getModelMap().get("members"))
+                .andReturn().getModelAndView()).getModelMap().get("members"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(member1, member2));
     }

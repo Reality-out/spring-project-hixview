@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -65,7 +66,7 @@ class UserMainControllerTest implements MemberTestUtility {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>(){{
+        assertThat(requireNonNull(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
                     put("year", String.valueOf(commonBirth.getYear()));
                     put("month", String.valueOf(commonBirth.getMonthValue()));
@@ -73,7 +74,7 @@ class UserMainControllerTest implements MemberTestUtility {
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView().getModelMap().get(idListString))
+                .andReturn().getModelAndView()).getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
     }
@@ -124,15 +125,15 @@ class UserMainControllerTest implements MemberTestUtility {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>(){{
-            put(NAME, commonName);
-            put("year", String.valueOf(commonBirth.getYear()));
-            put("month", String.valueOf(commonBirth.getMonthValue()));
-            put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
-        }}))
+        assertThat(requireNonNull(mockMvc.perform(processPostWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
+                    put(NAME, commonName);
+                    put("year", String.valueOf(commonBirth.getYear()));
+                    put("month", String.valueOf(commonBirth.getMonthValue()));
+                    put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
+                }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView().getModelMap().get(idListString))
+                .andReturn().getModelAndView()).getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
 
