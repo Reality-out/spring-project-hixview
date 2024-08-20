@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
+import springsideproject1.springsideproject1build.error.AlreadyExistException;
+import springsideproject1.springsideproject1build.error.NotMatchException;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoNoNumberValidator;
 
@@ -20,12 +22,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_STRING_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 
@@ -84,7 +86,7 @@ public class ManagerCompanyArticleController {
             articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(articleDto).build());
             redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
             return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
-        } catch (IllegalStateException e) {
+        } catch (AlreadyExistException e) {
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(EXIST_COMPANY_ARTICLE_NAME_ERROR, true);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
@@ -111,11 +113,17 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticlesWithString(RedirectAttributes redirect, @RequestParam String subjectCompany,
-                                                     @RequestParam String articleString, @RequestParam String linkString) {
-        redirect.addAttribute(nameListString, encodeUTF8(articleService.registerArticlesWithString(
-                subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
-        return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+    public String submitAddCompanyArticlesWithString(@RequestParam String subjectCompany, @RequestParam String articleString,
+                                                     @RequestParam String linkString, RedirectAttributes redirect, Model model) {
+        try {
+            redirect.addAttribute(nameListString, encodeUTF8(articleService.registerArticlesWithString(
+                    subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
+            return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+        } catch (NotMatchException e) {
+            model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+            model.addAttribute(NOT_MATCHING_LINK_ERROR, true);
+            return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+        }
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
@@ -155,7 +163,7 @@ public class ManagerCompanyArticleController {
         if (articleOrEmpty.isEmpty()) {
             log.info(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(COMPANY_ARTICLE_NOT_FOUND_ERROR, true);
+            model.addAttribute(NOT_FOUND_COMPANY_ARTICLE_ERROR, true);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         } else {
             CompanyArticleDto article = articleOrEmpty.get().toDto();

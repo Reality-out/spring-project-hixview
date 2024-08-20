@@ -1,6 +1,6 @@
 package springsideproject1.springsideproject1build.config.constant;
 
-public class VIEW_NAME_CONFIG {
+public class VIEW_NAME {
     /**
      * User
      */

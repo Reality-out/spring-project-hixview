@@ -14,11 +14,11 @@ import springsideproject1.springsideproject1build.service.MemberService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.MEMBER;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.utility.WordUtils.MEMBER;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 

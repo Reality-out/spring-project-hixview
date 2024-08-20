@@ -13,8 +13,8 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.CODE;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
+import static springsideproject1.springsideproject1build.utility.WordUtils.CODE;
+import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyTestUtility.companyTable;
 
 @Repository

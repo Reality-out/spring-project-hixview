@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-    <form th:action method="POST">
+<form th:action method="POST">
+    <div>
         <div>
-            <div>
-                <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
-                <input type="text" id="subjectCompany" name="subjectCompany">
-            </div>
-            <div>
-                <label for="articleString" th:text="|#{data.single} #{article}|"></label>
-                <textarea id="articleString" name="articleString" spellcheck="false" wrap="soft"></textarea>
-            </div>
-            <div>
-                <label for="linkString" th:text="|#{data.single} #{article.link}|"></label>
-                <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
-            </div>
+            <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
+            <input type="text" id="subjectCompany" name="subjectCompany">
         </div>
-        <button type="submit" th:text="#{function.add}"></button>
-    </form>
+        <div>
+            <label for="articleString" th:text="|#{data.single} #{article}|"></label>
+            <textarea id="articleString" name="articleString" spellcheck="false" wrap="soft"></textarea>
+        </div>
+        <div>
+            <label for="linkString" th:text="|#{data.single} #{article.link}|"></label>
+            <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+        </div>
+        <div th:if="${notMatchingLinkError} != null">
+            <p class="fieldError" th:text="#{NotMatch.link}"></p>
+        </div>
+    </div>
+    <button type="submit" th:text="#{function.add}"></button>
+</form>
 </body>
 </html>

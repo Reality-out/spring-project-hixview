@@ -5,17 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.Press;
+import springsideproject1.springsideproject1build.error.AlreadyExistException;
+import springsideproject1.springsideproject1build.error.NotFoundException;
+import springsideproject1.springsideproject1build.error.NotMatchException;
 import springsideproject1.springsideproject1build.repository.CompanyArticleRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.config.constant.REGEX.EMAIL_REGEX;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.isNumeric;
 
 @Service
@@ -67,6 +69,8 @@ public class CompanyArticleService {
     public List<CompanyArticle> registerArticlesWithString(String subjectCompany, String articleString, String linkString) {
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<String> linkList = parseLinkString(linkString);
+        validateLinkList(linkList);
+
         List<CompanyArticle> returnList = new ArrayList<>();
 
         for (int i = 0; i < linkList.size(); i++){
@@ -117,14 +121,14 @@ public class CompanyArticleService {
     @Transactional
     private void duplicateCheck(CompanyArticle article) {
         articleRepository.getArticleByName(article.getName()).ifPresent(
-                v -> {throw new IllegalStateException(ALREADY_EXIST_ARTICLE_NAME);}
+                v -> {throw new AlreadyExistException(ALREADY_EXIST_ARTICLE_NAME);}
         );
     }
 
     @Transactional
     private void existentCheck(String name) {
         articleRepository.getArticleByName(name).orElseThrow(
-                () -> new IllegalStateException(NO_ARTICLE_WITH_THAT_NAME)
+                () -> new NotFoundException(NO_ARTICLE_WITH_THAT_NAME)
         );
     }
 
@@ -137,7 +141,7 @@ public class CompanyArticleService {
             if (i % 2 == 0) {
                 returnArticle.add(new ArrayList<>(List.of(dividedArticle.get(i))));
             } else {
-                returnArticle.getLast().addAll(Arrays.asList(dividedArticle.get(i)
+                returnArticle.getLast().addAll(List.of(dividedArticle.get(i)
                         .replaceAll("^\\(|\\)$", "").split(",\\s|-")));
             }
         }
@@ -148,4 +152,13 @@ public class CompanyArticleService {
     private List<String> parseLinkString(String linkString) {
         return List.of(linkString.split("\\R"));
     }
+
+    private void validateLinkList(List<String> linkList) {
+        for (String link : linkList) {
+            if (!EMAIL_REGEX.matcher(link).find()) {
+                throw new NotMatchException(LINK_NOT_MATCHING_PATTERN);
+            }
+        }
+    }
+
 }

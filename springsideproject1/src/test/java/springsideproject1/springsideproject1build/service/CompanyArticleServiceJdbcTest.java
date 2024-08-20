@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.error.AlreadyExistException;
+import springsideproject1.springsideproject1build.error.NotFoundException;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
 
 import javax.sql.DataSource;
@@ -15,8 +17,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
 
 @SpringBootTest
 @Transactional
@@ -92,7 +94,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @DisplayName("기업 기사 중복 이름으로 등록")
     @Test
     public void registerDuplicatedCompanyArticleWithSameName() {
-        IllegalStateException e = assertThrows(IllegalStateException.class,
+        AlreadyExistException e = assertThrows(AlreadyExistException.class,
                 () -> articleService.registerArticles(createTestArticle(),
                         CompanyArticle.builder().article(createTestNewArticle()).name(createTestArticle().getName()).build()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
@@ -109,7 +111,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         articleService.registerArticle(article);
 
         // then
-        IllegalStateException e = assertThrows(IllegalStateException.class,
+        AlreadyExistException e = assertThrows(AlreadyExistException.class,
                 () -> articleService.registerArticlesWithString(
                         articleString.getFirst(), articleString.get(1), articleString.getLast()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
@@ -118,7 +120,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @DisplayName("기업 기사 존재하지 않는 이름으로 수정")
     @Test
     public void correctCompanyArticleWithFaultName() {
-        IllegalStateException e = assertThrows(IllegalStateException.class,
+        NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.correctArticle(createTestArticle()));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
@@ -126,7 +128,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @DisplayName("기업 기사 존재하지 않는 이름으로 제거")
     @Test
     public void removeCompanyArticleByFaultName() {
-        IllegalStateException e = assertThrows(IllegalStateException.class,
+        NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.removeArticle("123456"));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }

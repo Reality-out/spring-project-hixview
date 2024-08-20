@@ -14,8 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.DATE;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
+import static springsideproject1.springsideproject1build.utility.WordUtils.DATE;
+import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility.companyArticleTable;
 
 @Repository

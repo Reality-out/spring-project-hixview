@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +23,13 @@ import java.util.stream.Collectors;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 
@@ -103,7 +106,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue))
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(BEAN_VALIDATION_ERROR, true))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -117,6 +121,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(BEAN_VALIDATION_ERROR, true),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -136,6 +141,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(BEAN_VALIDATION_ERROR, true),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -208,15 +214,34 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+
+        // then
+        mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .param(NAME, articleDto.getName())
+                                .param("press", articleDto.getPress())
+                                .param("subjectCompany", articleDto.getSubjectCompany())
+                                .param("link", articleDto.getLink())
+                                .param("year", INVALID_VALUE)
+                                .param("month", INVALID_VALUE)
+                                .param("date", INVALID_VALUE)
+                                .param("importance", INVALID_VALUE))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(BEAN_VALIDATION_ERROR, true),
+                        model().attributeExists(ARTICLE));
+    }
+
+    @DisplayName("Press의 typeMismatch에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setPress(INVALID_VALUE);
 
         // then
         mockMvc.perform(postWithCompanyArticleDtoNoNumber(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto)
-                        .param("year", INVALID_VALUE)
-                        .param("month", INVALID_VALUE)
-                        .param("date", INVALID_VALUE)
-                        .param("importance", INVALID_VALUE))
+                        ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -241,6 +266,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(EXIST_COMPANY_ARTICLE_NAME_ERROR, true),
                         model().attributeExists(ARTICLE));
     }
 
@@ -291,6 +317,49 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andReturn().getModelAndView()).getModelMap().get(nameListString))
                 .usingRecursiveComparison()
                 .isEqualTo(decodeUTF8(nameList));
+    }
+
+    @DisplayName("서식이 올바르지 않은 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가 검증")
+    @Test
+    public void validateNotMatchLinkCompanyArticleAddWithString() throws Exception {
+        // given
+        List<String> articleString = createTestStringArticle();
+        List<String> nameList = articleService.registerArticlesWithString(
+                articleString.getFirst(), articleString.get(1), articleString.getLast())
+                .stream().map(CompanyArticle::getName).toList();
+        articleService.removeArticle(createTestEqualDateArticle().getName());
+        articleService.removeArticle(createTestNewArticle().getName());
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", String.valueOf(List.of("", "")));
+                }}))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(NOT_MATCHING_LINK_ERROR, true)));
+
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", String.valueOf(List.of(" ", " ")));
+                }}))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(NOT_MATCHING_LINK_ERROR, true)));
+
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", String.valueOf(List.of(INVALID_VALUE, INVALID_VALUE)));
+                }}))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(NOT_MATCHING_LINK_ERROR, true)));
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")

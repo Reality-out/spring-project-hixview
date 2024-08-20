@@ -5,7 +5,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import springsideproject1.springsideproject1build.domain.company.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.CODE;
+import static springsideproject1.springsideproject1build.utility.WordUtils.CODE;
 
 public interface CompanyTestUtility extends ObjectTestUtility {
 

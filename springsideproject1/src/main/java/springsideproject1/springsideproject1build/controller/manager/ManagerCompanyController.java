@@ -15,11 +15,11 @@ import springsideproject1.springsideproject1build.service.CompanyService;
 
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_COMPANY_WITH_THAT_CODE;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 

@@ -8,11 +8,10 @@ import springsideproject1.springsideproject1build.domain.article.CompanyArticleD
 import springsideproject1.springsideproject1build.domain.article.Press;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
+import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 
 public interface CompanyArticleTestUtility extends ObjectTestUtility {
 
@@ -49,12 +48,12 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
 
     List<String> testStringArticle = List.of("삼성전자",
             String.join(System.lineSeparator(),
-                    Arrays.asList("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
+                    List.of("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
                             "(2024-6-18, BUSINESS_POST)",
                             "[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치",
                             "(2024-6-17, HERALD_ECONOMY)")),
             String.join(System.lineSeparator(),
-                    Arrays.asList("https://www.businesspost.co.kr/BP?command=article_view&num=355822",
+                    List.of("https://www.businesspost.co.kr/BP?command=article_view&num=355822",
                             "https://biz.heraldcorp.com/view.php?ud=20240617050050")));
 
     /**

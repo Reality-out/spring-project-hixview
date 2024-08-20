@@ -11,12 +11,11 @@ import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.NAME;
+import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 
 @SpringBootTest
 @Transactional
@@ -82,7 +81,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
         CompanyArticle article2 = createTestEqualDateArticle();
         CompanyArticle article3 = createTestNewArticle();
 
-        List<CompanyArticle> articles = Arrays.asList(article1, article2, article3);
+        List<CompanyArticle> articles = List.of(article1, article2, article3);
         List<CompanyArticle> sortedArticles = articles.stream()
                 .sorted(Comparator.comparingLong(article -> article.getDate().toEpochDay()))
                 .toList();

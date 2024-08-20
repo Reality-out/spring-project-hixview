@@ -10,8 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.ALREADY_EXIST_MEMBER_ID;
-import static springsideproject1.springsideproject1build.config.constant.EXCEPTION_MESSAGE_CONFIG.NO_MEMBER_WITH_THAT_ID;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_MEMBER_ID;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_MEMBER_WITH_THAT_ID;
 
 @Service
 @RequiredArgsConstructor

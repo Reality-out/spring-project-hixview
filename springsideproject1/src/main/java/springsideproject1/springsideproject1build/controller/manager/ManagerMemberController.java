@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT_CONFIG.SELECT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL_CONFIG.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME_CONFIG.*;
-import static springsideproject1.springsideproject1build.utility.ConstantUtils.*;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.LAYOUT.SELECT_PATH;
+import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 
 @Controller
 @RequestMapping("")

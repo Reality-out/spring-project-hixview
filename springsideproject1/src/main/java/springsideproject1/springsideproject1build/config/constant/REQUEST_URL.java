@@ -1,6 +1,6 @@
 package springsideproject1.springsideproject1build.config.constant;
 
-public class REQUEST_URL_CONFIG {
+public class REQUEST_URL {
     /**
      * User
      */
