@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.service.CompanyService;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
+import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -29,20 +31,23 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT.
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
+import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
+class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, CompanyTestUtility {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     CompanyArticleService articleService;
+
+    @Autowired
+    CompanyService companyService;
 
     private final JdbcTemplate jdbcTemplateTest;
     private final String dataTypeKorValue = "기사";
@@ -56,6 +61,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
     @BeforeEach
     public void beforeEach() {
         resetTable(jdbcTemplateTest, companyArticleTable, true);
+        resetTable(jdbcTemplateTest, companyTable, true);
     }
 
     @DisplayName("기업 기사 추가 페이지 접속")
@@ -107,7 +113,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(BEAN_VALIDATION_ERROR, true))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -121,7 +127,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(BEAN_VALIDATION_ERROR, true),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -141,7 +147,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(BEAN_VALIDATION_ERROR, true),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -228,7 +234,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(BEAN_VALIDATION_ERROR, true),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
 
@@ -266,7 +272,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(EXIST_COMPANY_ARTICLE_NAME_ERROR, true),
+                        model().attribute(ERROR, EXIST_COMPANY_ARTICLE_ERROR),
                         model().attributeExists(ARTICLE));
     }
 
@@ -290,6 +296,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .stream().map(CompanyArticle::getName).collect(Collectors.toList());
         articleService.removeArticle(createTestEqualDateArticle().getName());
         articleService.removeArticle(createTestNewArticle().getName());
+
+        // when
+        companyService.registerCompany(createSamsungElectronics());
 
         // then
         String nameListForURL = toStringForUrl(nameList);
@@ -319,16 +328,32 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .isEqualTo(decodeUTF8(nameList));
     }
 
+    @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void addCompanyArticleWithStringNotExistSubject() throws Exception {
+        // given
+        List<String> articleString = createTestStringArticle();
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", INVALID_VALUE);
+                    put("articleString", articleString.get(1));
+                    put("linkString", String.valueOf(articleString.getLast()));
+                }}))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
+    }
+
     @DisplayName("서식이 올바르지 않은 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void validateNotMatchLinkCompanyArticleAddWithString() throws Exception {
         // given
         List<String> articleString = createTestStringArticle();
-        List<String> nameList = articleService.registerArticlesWithString(
-                articleString.getFirst(), articleString.get(1), articleString.getLast())
-                .stream().map(CompanyArticle::getName).toList();
-        articleService.removeArticle(createTestEqualDateArticle().getName());
-        articleService.removeArticle(createTestNewArticle().getName());
+
+        // when
+        companyService.registerCompany(createSamsungElectronics());
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
@@ -339,7 +364,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(NOT_MATCHING_LINK_ERROR, true)));
+                        model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put("subjectCompany", articleString.getFirst());
@@ -349,7 +374,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(NOT_MATCHING_LINK_ERROR, true)));
+                        model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put("subjectCompany", articleString.getFirst());
@@ -359,7 +384,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(NOT_MATCHING_LINK_ERROR, true)));
+                        model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")
@@ -370,20 +395,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
-    }
-
-    @DisplayName("NotFound에 대한 기업 기사 변경 유효성 검증")
-    @Test
-    public void validateNotFoundCompanyArticleModify() throws Exception {
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue)));
-
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue)));
     }
 
     @DisplayName("기업 기사 변경 페이지 내 이름 검색")
@@ -406,6 +417,22 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility {
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
+    }
+
+    @DisplayName("NotFound에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validateNotFoundCompanyArticleModify() throws Exception {
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
 
     @DisplayName("기업 기사 변경 완료 페이지 접속")

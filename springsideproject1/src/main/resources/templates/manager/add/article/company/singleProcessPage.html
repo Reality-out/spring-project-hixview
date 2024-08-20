@@ -2,11 +2,11 @@
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <form th:action th:object="${article}" method="POST">
-    <div th:if="${beanValidationError} != null">
-        <p class="fieldError" th:text="#{BeanValidation}"></p>
-    </div>
-    <div th:if="${existCompanyArticleNameError} != null">
-        <p class="fieldError" th:text="#{Exist.CompanyArticle.name}"></p>
+    <div th:if="${error} != null">
+        <th:block th:switch="${error}">
+            <p th:case="beanValidationError" th:text="#{BeanValidation}"></p>
+            <p th:case="companyArticleExistError" th:text="Exist.CompanyArticle.name"></p>
+        </th:block>
     </div>
     <div>
         <div class="partialForm">

@@ -22,7 +22,7 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
     CompanyArticle testArticle = CompanyArticle.builder()
             .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
             .press(Press.SBS)
-            .subjectCompany("삼성디스플레이")
+            .subjectCompany("삼성전자")
             .link("https://biz.sbs.co.kr/article/20000176881")
             .date(LocalDate.of(2024, 6, 18))
             .importance(0)

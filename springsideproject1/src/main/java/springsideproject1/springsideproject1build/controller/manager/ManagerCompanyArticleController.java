@@ -16,6 +16,7 @@ import springsideproject1.springsideproject1build.domain.article.CompanyArticleD
 import springsideproject1.springsideproject1build.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.error.NotMatchException;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.service.CompanyService;
 import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoNoNumberValidator;
 
 import java.util.List;
@@ -36,6 +37,7 @@ import static springsideproject1.springsideproject1build.utility.MainUtils.encod
 public class ManagerCompanyArticleController {
 
     private final CompanyArticleService articleService;
+    private final CompanyService companyService;
 
     private final CompanyArticleDtoNoNumberValidator companyArticleDtoNoNumberValidator;
 
@@ -71,7 +73,7 @@ public class ManagerCompanyArticleController {
         if (bindingResult.hasErrors()) {                                            // Bean Validation
             log.info(ERRORS_ARE, bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-            model.addAttribute(BEAN_VALIDATION_ERROR, true);
+            model.addAttribute(ERROR, BEAN_VALIDATION_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
@@ -88,7 +90,7 @@ public class ManagerCompanyArticleController {
             return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
         } catch (AlreadyExistException e) {
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-            model.addAttribute(EXIST_COMPANY_ARTICLE_NAME_ERROR, true);
+            model.addAttribute(ERROR, EXIST_COMPANY_ARTICLE_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
     }
@@ -115,13 +117,18 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticlesWithString(@RequestParam String subjectCompany, @RequestParam String articleString,
                                                      @RequestParam String linkString, RedirectAttributes redirect, Model model) {
+        if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
+            model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
+            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ERROR);
+            return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+        }
         try {
             redirect.addAttribute(nameListString, encodeUTF8(articleService.registerArticlesWithString(
                     subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
             return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         } catch (NotMatchException e) {
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-            model.addAttribute(NOT_MATCHING_LINK_ERROR, true);
+            model.addAttribute(ERROR, NOT_MATCHING_LINK_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
         }
     }
@@ -163,7 +170,7 @@ public class ManagerCompanyArticleController {
         if (articleOrEmpty.isEmpty()) {
             log.info(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(NOT_FOUND_COMPANY_ARTICLE_ERROR, true);
+            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         } else {
             CompanyArticleDto article = articleOrEmpty.get().toDto();
