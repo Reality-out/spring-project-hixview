@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
@@ -71,15 +71,19 @@ public class ManagerCompanyArticleController {
     public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDtoNoNumber articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (bindingResult.hasErrors()) {                                            // Bean Validation
-            log.info(ERRORS_ARE, bindingResult.getAllErrors());
+            log.error(ERRORS_ARE, bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(ERROR, BEAN_VALIDATION_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
         companyArticleDtoNoNumberValidator.validate(articleDto, bindingResult);     // Custom Validation
+        if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
+            bindingResult.rejectValue("subjectCompany", "NotFound.CompanyArticle.subjectCompany");
+        }
+
         if (bindingResult.hasErrors()) {
-            log.info(ERRORS_ARE, bindingResult.getAllErrors());
+            log.error(ERRORS_ARE, bindingResult.getAllErrors());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
@@ -89,6 +93,7 @@ public class ManagerCompanyArticleController {
             redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
             return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
         } catch (AlreadyExistException e) {
+            log.error(ERRORS_ARE, e.getMessage());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(ERROR, EXIST_COMPANY_ARTICLE_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
@@ -118,6 +123,7 @@ public class ManagerCompanyArticleController {
     public String submitAddCompanyArticlesWithString(@RequestParam String subjectCompany, @RequestParam String articleString,
                                                      @RequestParam String linkString, RedirectAttributes redirect, Model model) {
         if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
+            log.error(ERRORS_ARE, NO_COMPANY_WITH_THAT_NAME);
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(ERROR, NOT_FOUND_COMPANY_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
@@ -127,6 +133,7 @@ public class ManagerCompanyArticleController {
                     subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
             return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         } catch (NotMatchException e) {
+            log.error(ERRORS_ARE, e.getMessage());
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(ERROR, NOT_MATCHING_LINK_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
@@ -168,16 +175,15 @@ public class ManagerCompanyArticleController {
     public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            log.info(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
+            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
-        } else {
-            CompanyArticleDto article = articleOrEmpty.get().toDto();
-            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
-            model.addAttribute(ARTICLE, article);
         }
+        CompanyArticleDto article = articleOrEmpty.get().toDto();
+        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+        model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
+        model.addAttribute(ARTICLE, article);
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 

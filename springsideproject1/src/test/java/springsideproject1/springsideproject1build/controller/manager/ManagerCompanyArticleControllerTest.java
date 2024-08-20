@@ -81,6 +81,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         // given
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
 
+        // when
+        companyService.registerCompany(createSamsungElectronics());
+
         // then
         mockMvc.perform(postWithCompanyArticleDtoNoNumber(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(status().isSeeOther(),
@@ -97,7 +100,25 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         model().attribute(VALUE, articleDto.getName()));
     }
 
-    @DisplayName("공백에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("대상 기업의 NotFound에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validateNotFoundSubjectCompanyArticleAdd() throws Exception {
+        // given
+        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        articleDto.setSubjectCompany(INVALID_VALUE);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("NotNull(공백)에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateSpaceCompanyArticleAdd() throws Exception {
         // given
@@ -119,7 +140,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("null에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("NotNull(null)에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
@@ -127,7 +148,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -265,6 +285,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
 
         // when
         articleService.registerArticle(article1);
+        companyService.registerCompany(createSamsungElectronics());
 
         // then
         mockMvc.perform(postWithCompanyArticleDtoNoNumber(

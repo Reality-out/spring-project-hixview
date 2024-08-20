@@ -15,7 +15,7 @@
             <label for="linkString" th:text="|#{data.single} #{article.link}|"></label>
             <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
         </div>
-        <div th:if="${error} != null">
+        <div th:if="${error} != null" th:classappend="fieldError">
             <th:block th:switch="${error}">
                 <p th:case="companyNotFoundError" th:text="#{NotFound.CompanyArticle.subjectCompany}"></p>
                 <p th:case="notMatchingLinkError" th:text="#{NotMatch.link}"></p>
