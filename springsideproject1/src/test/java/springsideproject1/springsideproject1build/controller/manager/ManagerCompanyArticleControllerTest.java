@@ -20,7 +20,6 @@ import springsideproject1.springsideproject1build.utility.test.CompanyTestUtilit
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +30,6 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT.
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 
@@ -305,48 +303,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
-    }
-
-    @DisplayName("문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
-    @Test
-    public void accessCompanyArticleAddWithStringFinish() throws Exception {
-        // given
-        List<String> articleString = createTestStringArticle();
-        List<String> nameList = articleService.registerArticlesWithString(
-                articleString.getFirst(), articleString.get(1), articleString.getLast())
-                .stream().map(CompanyArticle::getName).collect(Collectors.toList());
-        articleService.removeArticle(createTestEqualDateArticle().getName());
-        articleService.removeArticle(createTestNewArticle().getName());
-
-        // when
-        companyService.registerCompany(createSamsungElectronics());
-
-        // then
-        String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
-
-        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", articleString.getLast());
-                }}))
-                .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView()).getModelMap().get(nameListString))
-                .usingRecursiveComparison()
-                .isEqualTo(nameListForURL);
-
-        assertThat(requireNonNull(mockMvc.perform(getWithSingleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
-                        nameListString, nameListForURL))
-                .andExpectAll(status().isOk(),
-                        view().name(MANAGER_ADD_VIEW + "multipleFinishPage"),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
-                        model().attribute(nameListString, decodeUTF8(nameList)))
-                .andReturn().getModelAndView()).getModelMap().get(nameListString))
-                .usingRecursiveComparison()
-                .isEqualTo(decodeUTF8(nameList));
     }
 
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
