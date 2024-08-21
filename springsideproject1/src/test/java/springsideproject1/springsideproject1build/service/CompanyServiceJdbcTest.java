@@ -68,7 +68,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @DisplayName("기업들 등록")
     @Test
     public void registerCompanies() {
-        // given
+        // given & when
         companyService.registerCompanies(createSamsungElectronics(), createSKHynix());
 
         // then

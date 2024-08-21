@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
@@ -18,8 +19,11 @@ import springsideproject1.springsideproject1build.utility.test.CompanyArticleTes
 import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +34,7 @@ import static springsideproject1.springsideproject1build.config.constant.LAYOUT.
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 
@@ -101,7 +106,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("대상 기업의 NotFound에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateNotFoundSubjectCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setSubjectCompany(INVALID_VALUE);
 
@@ -119,7 +124,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("NotNull(공백)에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateSpaceCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setName(" ");
         articleDto.setPress(" ");
@@ -155,7 +160,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("URL에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateURLCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setLink("NotUrl");
 
@@ -175,7 +180,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("Range에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
@@ -196,7 +201,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("Restrict에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateRestrictCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setImportance(3);
 
@@ -215,7 +220,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("TypeButInvalid에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
@@ -236,7 +241,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
 
         // then
@@ -259,7 +264,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("Press의 typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
         articleDto.setPress(INVALID_VALUE);
 
@@ -275,7 +280,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("중복 기업 기사명을 사용하는 기사 추가")
     @Test
     public void duplicatedNameCompanyArticleAdd() throws Exception {
-        // given
+        // given & when
         CompanyArticle article1 = createTestArticle();
         String commonName = article1.getName();
         CompanyArticleDtoNoNumber articleDto2 = createTestNewArticleDtoNoNumber();
@@ -305,10 +310,56 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
     }
 
+    @DisplayName("문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
+    @Test
+    public void accessCompanyArticleAddWithStringFinish() throws Exception {
+        // given
+        List<String> articleString = createTestStringArticle();
+        List<String> nameList = Stream.of(createTestEqualDateArticle(), createTestNewArticle())
+                .map(CompanyArticle::getName).collect(Collectors.toList());
+
+        // when
+        companyService.registerCompany(createSamsungElectronics());
+
+        // then
+        String nameListForURL = toStringForUrl(nameList);
+        String nameListString = "nameList";
+
+        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", articleString.getLast());
+                }}))
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                .andReturn().getModelAndView()).getModelMap();
+
+        assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+        assertThat(modelMapPost.get(BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+        assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+
+        ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+                        new HashMap<>() {{
+                            put(nameListString, nameListForURL);
+                            put(BEAN_VALIDATION_ERROR, String.valueOf(false));
+                            put(ERROR_SINGLE, null);
+                        }}))
+                .andExpectAll(status().isOk(),
+                        view().name(MANAGER_ADD_VIEW + "multipleFinishPage"),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
+                        model().attribute(nameListString, decodeUTF8(nameList)))
+                .andReturn().getModelAndView()).getModelMap();
+
+        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(decodeUTF8(nameList));
+        assertThat(modelMapGet.get(BEAN_VALIDATION_ERROR)).isEqualTo(false);
+        assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
+    }
+
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
     @Test
     public void addCompanyArticleWithStringNotExistSubject() throws Exception {
-        // given
+        // given & when
         List<String> articleString = createTestStringArticle();
 
         // then
@@ -362,6 +413,53 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
+    }
+
+    @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가 검증")
+    @Test
+    public void registerNotCorrectNumberFormatDateCompanyArticleWithString() throws Exception {
+        // given
+        List<String> articleString = new ArrayList<>(createTestStringArticle());
+        articleString.set(1, articleString.get(1).replace("2024", INVALID_VALUE));
+
+        // when
+        companyService.registerCompany(createSamsungElectronics());
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", articleString.getLast());
+                }}))
+                .andExpectAll(view().name(
+                                URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                        model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                        model().attribute(ERROR_SINGLE, TYPE_MISMATCH_LOCAL_DATE_ERROR)));
+    }
+
+    @DisplayName("기업 기사 단일 문자열로 중복으로 등록")
+    @Test
+    public void registerDuplicatedCompanyArticleWithString() throws Exception {
+        // given
+        CompanyArticle article = createTestNewArticle();
+        List<String> articleString = createTestStringArticle();
+
+        // when
+        articleService.registerArticle(article);
+        companyService.registerCompany(createSamsungElectronics());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", articleString.getLast());
+                }}))
+                .andExpectAll(view().name(
+                                URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                        model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                        model().attribute(ERROR_SINGLE, EXIST_COMPANY_ARTICLE_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get("nameList"))
+                .usingRecursiveComparison().isEqualTo(toStringForUrl(List.of(createTestEqualDateArticle().getName())));
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")
@@ -439,7 +537,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("기업 기사들 보기 페이지 접속")
     @Test
     public void accessCompanyArticlesSee() throws Exception {
-        // given
+        // given & when
         List<CompanyArticle> articleList = articleService.registerArticles(createTestArticle(), createTestNewArticle());
 
         // then
@@ -465,7 +563,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("기업 기사 없애기 완료 페이지 접속")
     @Test
     public void accessCompanyArticleRidFinish() throws Exception {
-        // given
+        // given & when
         CompanyArticle article = createTestArticle();
         String name = article.getName();
 

@@ -133,10 +133,10 @@ public class ManagerCompanyArticleController {
             handleErrorForModel(LINK_NOT_MATCHING_PATTERN, ADD_PROCESS_PATH, NOT_MATCHING_LINK_ERROR, model);
             return senderPage;
         }
-        List<List<String>> partialArticleLists = parseArticleString(articleString);
-        CompanyArticleDtoNoNumber companyArticleDto = new CompanyArticleDtoNoNumber();
-        List<CompanyArticle> returnList = new ArrayList<>();
 
+        List<List<String>> partialArticleLists = parseArticleString(articleString);
+        List<CompanyArticle> returnList = new ArrayList<>();
+        CompanyArticleDtoNoNumber companyArticleDto = new CompanyArticleDtoNoNumber();
         String receiverPage = URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         try {
             for (int i = 0; i < linkList.size(); i++) {
@@ -160,25 +160,31 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(companyArticleDto).build()));
+                returnList.add(articleService.registerArticle(CompanyArticle.builder()
+                        .articleDtoNoNumber(companyArticleDto).build()));
             }
-            redirect.addAttribute(nameListString, encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())));
+            handleErrorForRedirect("", redirect, encodeUTF8(returnList.stream()
+                    .map(CompanyArticle::getName).collect(Collectors.toList())), false, null);
             return receiverPage;
         } catch (NumberFormatException e) {
-            if (isNumeric(String.valueOf(companyArticleDto.getImportance()))) {
-                handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
+            if (companyArticleDto.getImportance() == null || isNumeric(String.valueOf(companyArticleDto.getImportance()))) {
+                handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream()
+                                .map(CompanyArticle::getName).collect(Collectors.toList())),
                         false, TYPE_MISMATCH_LOCAL_DATE_ERROR);
             } else {
-                handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
+                handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream()
+                                .map(CompanyArticle::getName).collect(Collectors.toList())),
                         false, TYPE_MISMATCH_INTEGER_ERROR);
             }
             return receiverPage;
         } catch (ConstraintValidationException e) {
             handleErrorForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
-                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())), e.isBeanValidationViolated(), null);
+                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
+                    e.isBeanValidationViolated(), null);
             return receiverPage;
         } catch (AlreadyExistException e) {
-            handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
+            handleErrorForRedirect(e.getMessage(), redirect,
+                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
                     false, EXIST_COMPANY_ARTICLE_ERROR);
             return receiverPage;
         }
@@ -187,10 +193,10 @@ public class ManagerCompanyArticleController {
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
-                                                     Boolean beanValidationViolated, String errorSingle) {
+                                                     Boolean beanValidationError, String errorSingle) {
         model.addAttribute(nameListString, decodeUTF8(nameList));
+        model.addAttribute(BEAN_VALIDATION_ERROR, beanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
-        model.addAttribute(BEAN_VALIDATION_ERROR, beanValidationViolated);
         return MANAGER_ADD_VIEW + "multipleFinishPage";
     }
 
@@ -287,7 +293,9 @@ public class ManagerCompanyArticleController {
 
     private void handleErrorForRedirect(String logMessage, RedirectAttributes redirect,
                                         List<String> nameListString, boolean beanValidationError, String errorSingle) {
-        log.error(ERRORS_ARE, logMessage);
+        if (!logMessage.isEmpty()) {
+            log.error(ERRORS_ARE, logMessage);
+        }
         redirect.addAttribute(this.nameListString, nameListString);
         redirect.addAttribute(BEAN_VALIDATION_ERROR, beanValidationError);
         redirect.addAttribute(ERROR_SINGLE, errorSingle);

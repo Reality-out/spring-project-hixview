@@ -17,7 +17,7 @@ public interface ObjectTestUtility {
     /**
      * Constant
      */
-    String INVALID_VALUE = "invalid value";
+    String INVALID_VALUE = "invalidValue";
     String ALL_QUERY_STRING = "?*";
 
     /**
@@ -39,6 +39,14 @@ public interface ObjectTestUtility {
      */
     default MockHttpServletRequestBuilder getWithSingleParam(String url, String key, String value) {
         return get(url).contentType(MediaType.APPLICATION_FORM_URLENCODED).param(key, value);
+    }
+
+    default MockHttpServletRequestBuilder getWithMultipleParam(String url, Map<String, String> map) {
+        MockHttpServletRequestBuilder requestBuilder = get(url).contentType(MediaType.APPLICATION_FORM_URLENCODED);
+        for (String str : map.keySet()) {
+            requestBuilder = requestBuilder.param(str, map.get(str));
+        }
+        return requestBuilder;
     }
 
     default MockHttpServletRequestBuilder postWithSingleParam(String url, String key, String value) {

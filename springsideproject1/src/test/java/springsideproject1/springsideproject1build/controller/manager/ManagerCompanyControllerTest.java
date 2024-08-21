@@ -69,7 +69,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @DisplayName("기업 추가 완료 페이지 접속")
     @Test
     public void accessCompanyAddFinish() throws Exception {
-        // given
+        // given & when
         Company company = createSamsungElectronics();
 
         // then
@@ -169,7 +169,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @DisplayName("기업들 보기 페이지 접속")
     @Test
     public void accessCompaniesSee() throws Exception {
-        // given
+        // given & when
         companyService.registerCompanies(createSKHynix(), createSamsungElectronics());
 
         // then

@@ -46,6 +46,7 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
             .importance(0)
             .build();
 
+    // These codes consist of two contents, createTestEqualDateArticle and createTestNewArticle
     List<String> testStringArticle = List.of("삼성전자",
             String.join(System.lineSeparator(),
                     List.of("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
@@ -87,7 +88,6 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
         return testEqualDateArticle;
     }
 
-    // These codes consist of two contents, createTestEqualDateArticle and createTestNewArticle
     default List<String> createTestStringArticle() {
         return testStringArticle;
     }
