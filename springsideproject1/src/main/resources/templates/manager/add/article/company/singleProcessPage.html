@@ -4,8 +4,8 @@
 <form th:action th:object="${article}" method="POST">
     <div th:if="${error} != null" th:classappend="fieldError">
         <th:block th:switch="${error}">
-            <p th:case="beanValidationError" th:text="#{BeanValidation}"></p>YONHAP_NEWS
-            <p th:case="companyArticleExistError" th:text="Exist.CompanyArticle.name"></p>
+            <p th:case="beanValidationError" th:text="#{BeanValidation}"></p>
+            <p th:case="existCompanyArticleError" th:text="Exist.CompanyArticle.name"></p>
         </th:block>
     </div>
     <div>

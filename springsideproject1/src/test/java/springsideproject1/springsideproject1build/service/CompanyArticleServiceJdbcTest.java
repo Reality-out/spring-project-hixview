@@ -63,19 +63,6 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
                 .isEqualTo(List.of(createTestArticle(), createTestNewArticle()));
     }
 
-    @DisplayName("기업 기사들 단일 문자열로 동시 등록")
-    @Test
-    public void registerCompanyArticlesWithString() {
-        // given
-        List<String> articleString = createTestStringArticle();
-
-        // then
-        assertThat(articleService.registerArticlesWithString(articleString.getFirst(), articleString.get(1), articleString.getLast()))
-                .usingRecursiveComparison()
-                .ignoringFields("number")
-                .isEqualTo(List.of(createTestEqualDateArticle(), createTestNewArticle()));
-    }
-
     @DisplayName("기업 기사 등록")
     @Test
     public void registerCompanyArticle() {
@@ -97,23 +84,6 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
                 () -> articleService.registerArticles(createTestArticle(),
                         CompanyArticle.builder().article(createTestNewArticle()).name(createTestArticle().getName()).build()));
-        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
-    }
-
-    @DisplayName("기업 기사 단일 문자열로 중복으로 등록")
-    @Test
-    public void registerDuplicatedCompanyArticleWithString() {
-        // given
-        CompanyArticle article = createTestNewArticle();
-        List<String> articleString = createTestStringArticle();
-
-        // when
-        articleService.registerArticle(article);
-
-        // then
-        AlreadyExistException e = assertThrows(AlreadyExistException.class,
-                () -> articleService.registerArticlesWithString(
-                        articleString.getFirst(), articleString.get(1), articleString.getLast()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 

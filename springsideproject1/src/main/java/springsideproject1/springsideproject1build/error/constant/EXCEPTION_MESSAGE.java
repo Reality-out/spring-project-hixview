@@ -7,6 +7,9 @@ public class EXCEPTION_MESSAGE {
     public static final String ALREADY_EXIST_COMPANY_CODE = "이미 존재하는 기업 코드입니다.";
     public static final String ALREADY_EXIST_MEMBER_ID = "이미 존재하는 ID입니다.";
 
+    // ConstraintValidationException
+    public static final String CONSTRAINT_VALIDATION_VIOLATED = "제약 조건 위반이 발생하였습니다.";
+
     // NotFoundException
     public static final String NO_ARTICLE_WITH_THAT_NAME = "해당 기사명과 일치하는 기사가 없습니다.";
     public static final String NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME = "해당 기사 번호 또는 기사명과 일치하는 기사가 없습니다.";

@@ -5,8 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -14,23 +17,26 @@ import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.error.AlreadyExistException;
+import springsideproject1.springsideproject1build.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.error.NotMatchException;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.service.CompanyService;
 import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoNoNumberValidator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.*;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
+import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
+import static springsideproject1.springsideproject1build.config.constant.REGEX.EMAIL_REGEX;
 import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.*;
+import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.utility.MainUtils.*;
 import static springsideproject1.springsideproject1build.utility.WordUtils.*;
-import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
-import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,6 +45,7 @@ public class ManagerCompanyArticleController {
     private final CompanyArticleService articleService;
     private final CompanyService companyService;
 
+    private final Validator defaultValidator;
     private final CompanyArticleDtoNoNumberValidator companyArticleDtoNoNumberValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
@@ -128,25 +135,119 @@ public class ManagerCompanyArticleController {
             model.addAttribute(ERROR, NOT_FOUND_COMPANY_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
         }
+
+        List<List<String>> partialArticleLists = parseArticleString(articleString);
+        List<String> linkList = parseLinkString(linkString);
         try {
-            redirect.addAttribute(nameListString, encodeUTF8(articleService.registerArticlesWithString(
-                    subjectCompany, articleString, linkString).stream().map(CompanyArticle::getName).collect(Collectors.toList())));
-            return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+            validateLinkList(linkList);
         } catch (NotMatchException e) {
-            log.error(ERRORS_ARE, e.getMessage());
+            log.error(ERRORS_ARE, LINK_NOT_MATCHING_PATTERN);
             model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
             model.addAttribute(ERROR, NOT_MATCHING_LINK_ERROR);
             return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+        }
+
+        CompanyArticleDtoNoNumber companyArticleDto = new CompanyArticleDtoNoNumber();
+        List<CompanyArticle> returnList = new ArrayList<>();
+        try {
+            for (int i = 0; i < linkList.size(); i++) {
+                List<String> partialArticle = partialArticleLists.get(i);
+
+                companyArticleDto.setName(partialArticle.get(0));
+                companyArticleDto.setPress(partialArticle.get(4));
+                companyArticleDto.setSubjectCompany(subjectCompany);
+                companyArticleDto.setLink(linkList.get(i));
+                companyArticleDto.setYear(parseInt(partialArticle.get(1)));
+                companyArticleDto.setMonth(parseInt(partialArticle.get(2)));
+                companyArticleDto.setDate(parseInt(partialArticle.get(3)));
+                companyArticleDto.setImportance(0);
+
+                BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(companyArticleDto, "article");
+                defaultValidator.validate(companyArticleDto, bindingResult);
+                if (bindingResult.hasErrors()) {
+                    throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
+                }
+                companyArticleDtoNoNumberValidator.validate(companyArticleDto, bindingResult);
+                if (bindingResult.hasErrors()) {
+                    throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
+                }
+                returnList.add(articleService.registerArticle(
+                        CompanyArticle.builder().articleDtoNoNumber(companyArticleDto).build()));
+            }
+
+            redirect.addAttribute(nameListString,
+                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())));
+            return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+        } catch (AlreadyExistException e) {
+            log.error(ERRORS_ARE, e.getMessage());
+            redirect.addAttribute(nameListString,
+                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())));
+            redirect.addAttribute(BEAN_VALIDATION_ERROR, false);
+            redirect.addAttribute(ERROR_SINGLE, EXIST_COMPANY_ARTICLE_ERROR);
+            return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+        } catch (NumberFormatException e) {
+            log.error(ERRORS_ARE, e.getMessage());
+            redirect.addAttribute(nameListString,
+                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())));
+            redirect.addAttribute(BEAN_VALIDATION_ERROR, false);
+            if (isNumeric(String.valueOf(companyArticleDto.getImportance()))) {
+                redirect.addAttribute(ERROR_SINGLE, TYPE_MISMATCH_LOCAL_DATE_ERROR);
+            } else {
+                redirect.addAttribute(ERROR_SINGLE, TYPE_MISMATCH_INTEGER_ERROR);
+            }
+            return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+        } catch (ConstraintValidationException e) {
+            log.error(ERRORS_ARE, CONSTRAINT_VALIDATION_VIOLATED);
+            log.error(ERRORS_ARE, e.getError());
+            if (e.isBeanValidationViolated()) {
+                redirect.addAttribute(BEAN_VALIDATION_ERROR, true);
+            } else {
+                redirect.addAttribute(BEAN_VALIDATION_ERROR, false);
+            }
+            redirect.addAttribute(ERROR_SINGLE, null);
+            redirect.addAttribute(nameListString,
+                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())));
+            return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         }
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model) {
-        model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
+    public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
+                                                     Boolean beanValidationViolated, String errorSingle) {
         model.addAttribute(nameListString, decodeUTF8(nameList));
-
+        model.addAttribute(ERROR_SINGLE, errorSingle);
+        model.addAttribute(BEAN_VALIDATION_ERROR, beanValidationViolated);
         return MANAGER_ADD_VIEW + "multipleFinishPage";
+    }
+
+    @Transactional
+    private List<List<String>> parseArticleString(String articleString) {
+        List<String> dividedArticle = List.of(articleString.split("\\R"));
+        List<List<String>> returnArticle = new ArrayList<>();
+
+        for (int i = 0; i < dividedArticle.size(); i++) {
+            if (i % 2 == 0) {
+                returnArticle.add(new ArrayList<>(List.of(dividedArticle.get(i))));
+            } else {
+                returnArticle.getLast().addAll(List.of(dividedArticle.get(i)
+                        .replaceAll("^\\(|\\)$", "").split(",\\s|-")));
+            }
+        }
+        return returnArticle;
+    }
+
+    @Transactional
+    private List<String> parseLinkString(String linkString) {
+        return List.of(linkString.split("\\R"));
+    }
+
+    private void validateLinkList(List<String> linkList) {
+        for (String link : linkList) {
+            if (!EMAIL_REGEX.matcher(link).find()) {
+                throw new NotMatchException(LINK_NOT_MATCHING_PATTERN);
+            }
+        }
     }
 
     /**

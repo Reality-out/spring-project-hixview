@@ -1,9 +1,12 @@
 package springsideproject1.springsideproject1build.domain.article;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -15,12 +18,26 @@ import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompanyArticle {
+
     private final Long number;
+
+    @NotBlank
     private final String name;
+
+    @NotBlank
     private final Press press;
+
+    @NotBlank
     private final String subjectCompany;
+
+    @NotBlank
+    @URL
     private final String link;
+
+    @NotNull
     private final LocalDate date;
+
+    @NotNull
     private final Integer importance;
 
     public CompanyArticleDto toDto() {
