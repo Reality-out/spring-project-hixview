@@ -150,9 +150,7 @@ public class ManagerCompanyArticleController {
         try {
             for (int i = 0; i < linkList.size(); i++) {
                 List<String> partialArticle = partialArticleLists.get(i);
-                if (partialArticle.size() != 5) {
-                    throw new NotMatchException(ARTICLE_NOT_MATCHING_PATTERN);
-                }
+
                 companyArticleDto.setName(partialArticle.get(0));
                 companyArticleDto.setPress(partialArticle.get(4));
                 companyArticleDto.setSubjectCompany(subjectCompany);
@@ -321,6 +319,10 @@ public class ManagerCompanyArticleController {
             } else {
                 returnArticle.getLast().addAll(List.of(dividedArticle.get(i)
                         .replaceAll("^\\(|\\)$", "").split(",\\s|-")));
+                if (returnArticle.getLast().size() != 5) {
+                    returnArticle.remove(i);
+                    break;
+                }
             }
         }
         return returnArticle;
