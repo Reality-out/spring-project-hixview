@@ -10,8 +10,8 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.utility.WordUtils.ID;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
+import static springsideproject1.springsideproject1build.vo.WORD.ID;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

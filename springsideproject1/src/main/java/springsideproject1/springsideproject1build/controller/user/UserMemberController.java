@@ -14,9 +14,9 @@ import springsideproject1.springsideproject1build.domain.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.member.PhoneNumber;
 import springsideproject1.springsideproject1build.service.MemberService;
 
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.utility.WordUtils.MEMBER;
+import static springsideproject1.springsideproject1build.vo.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
 
 @Controller
 @RequiredArgsConstructor

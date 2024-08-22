@@ -1,7 +1,9 @@
-package springsideproject1.springsideproject1build.config.constant;
+package springsideproject1.springsideproject1build.vo;
 
 public class LAYOUT {
     // Simple String
+    public static final String DATA_TYPE_KOREAN = "dataTypeKor";
+    public static final String DATA_TYPE_ENGLISH = "dataTypeEng";
     public static String LAYOUT_PATH = "layoutPath";
 
     // User

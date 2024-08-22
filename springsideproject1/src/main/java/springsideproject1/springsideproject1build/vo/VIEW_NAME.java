@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.config.constant;
+package springsideproject1.springsideproject1build.vo;
 
 public class VIEW_NAME {
     /**

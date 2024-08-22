@@ -45,7 +45,7 @@ class MemberTest implements MemberTestUtility {
         member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMemberByID(member1.getId()).get()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.getMemberByID(member2.getId()).get()).usingRecursiveComparison().isEqualTo(member2);
+        assertThat(memberRepository.getMemberByID(member1.getId()).orElseThrow()).usingRecursiveComparison().isEqualTo(member1);
+        assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow()).usingRecursiveComparison().isEqualTo(member2);
     }
 }

@@ -30,13 +30,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
-import static springsideproject1.springsideproject1build.utility.WordUtils.*;
+import static springsideproject1.springsideproject1build.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.vo.WORD.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -247,12 +248,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         // then
         mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .param(NAME, articleDto.getName())
-                                .param("press", articleDto.getPress())
+                                .param(PRESS, articleDto.getPress())
                                 .param("subjectCompany", articleDto.getSubjectCompany())
                                 .param("link", articleDto.getLink())
                                 .param("year", INVALID_VALUE)
                                 .param("month", INVALID_VALUE)
-                                .param("date", INVALID_VALUE)
+                                .param(DATE, INVALID_VALUE)
                                 .param("importance", INVALID_VALUE))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),

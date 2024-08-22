@@ -13,9 +13,9 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.WordUtils.CODE;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyTestUtility.companyTable;
+import static springsideproject1.springsideproject1build.vo.CLASS.CODE;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
 
 @Repository
 public class CompanyRepositoryJdbc implements CompanyRepository {

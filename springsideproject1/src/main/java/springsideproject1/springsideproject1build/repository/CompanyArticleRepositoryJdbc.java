@@ -14,9 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.WordUtils.DATE;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 import static springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility.companyArticleTable;
+import static springsideproject1.springsideproject1build.vo.CLASS.*;
 
 @Repository
 public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
@@ -95,7 +94,7 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
         return (resultSet, rowNumber) -> CompanyArticle.builder()
                         .number(resultSet.getLong("number"))
                         .name(resultSet.getString(NAME))
-                        .press(Press.valueOf(resultSet.getString("press")))
+                        .press(Press.valueOf(resultSet.getString(PRESS)))
                         .subjectCompany(resultSet.getString("subjectcompany"))
                         .link(resultSet.getString("link"))
                         .date(resultSet.getDate(DATE).toLocalDate())

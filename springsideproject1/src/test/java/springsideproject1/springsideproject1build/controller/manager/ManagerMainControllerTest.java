@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

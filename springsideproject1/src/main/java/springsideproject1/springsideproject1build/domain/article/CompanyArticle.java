@@ -11,8 +11,7 @@ import org.hibernate.validator.constraints.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.utility.WordUtils.DATE;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
+import static springsideproject1.springsideproject1build.vo.CLASS.*;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
@@ -77,7 +76,7 @@ public class CompanyArticle {
     public HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
             put(NAME, name);
-            put("press", press);
+            put(PRESS, press);
             put("subjectCompany", subjectCompany);
             put("link", link);
             put(DATE, date);

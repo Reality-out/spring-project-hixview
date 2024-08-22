@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_CODE;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
-import static springsideproject1.springsideproject1build.utility.MainUtils.isNumeric;
+import static springsideproject1.springsideproject1build.vo.REGEX.NUMBER_REGEX;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class CompanyService {
     }
 
     public Optional<Company> findCompanyByCodeOrName(String codeOrName) {
-        return isNumeric(codeOrName) ? findCompanyByCode(codeOrName) : findCompanyByName(codeOrName);
+        return NUMBER_REGEX.matcher(codeOrName).matches() ? findCompanyByCode(codeOrName) : findCompanyByName(codeOrName);
     }
 
     /**

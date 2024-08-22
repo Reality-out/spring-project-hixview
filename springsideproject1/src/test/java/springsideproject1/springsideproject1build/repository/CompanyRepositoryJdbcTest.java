@@ -61,8 +61,8 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.getCompanyByCode(company1.getCode()).get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.getCompanyByCode(company2.getCode()).get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.getCompanyByCode(company1.getCode()).orElseThrow()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.getCompanyByCode(company2.getCode()).orElseThrow()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 이름으로 획득")
@@ -77,8 +77,8 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.getCompanyByName(company1.getName()).get()).usingRecursiveComparison().isEqualTo(company1);
-        assertThat(companyRepository.getCompanyByName(company2.getName()).get()).usingRecursiveComparison().isEqualTo(company2);
+        assertThat(companyRepository.getCompanyByName(company1.getName()).orElseThrow()).usingRecursiveComparison().isEqualTo(company1);
+        assertThat(companyRepository.getCompanyByName(company2.getName()).orElseThrow()).usingRecursiveComparison().isEqualTo(company2);
     }
 
     @DisplayName("기업 저장")
@@ -91,7 +91,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         companyRepository.saveCompany(company);
 
         // then
-        assertThat(companyRepository.getCompanyByCode(company.getCode()).get())
+        assertThat(companyRepository.getCompanyByCode(company.getCode()).orElseThrow())
                 .usingRecursiveComparison().isEqualTo(company);
     }
 
@@ -108,7 +108,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
         companyRepository.updateCompany(updateCompany);
 
         // then
-        assertThat(companyRepository.getCompanyByCode(commonCode).get())
+        assertThat(companyRepository.getCompanyByCode(commonCode).orElseThrow())
                 .usingRecursiveComparison().isEqualTo(updateCompany);
     }
 

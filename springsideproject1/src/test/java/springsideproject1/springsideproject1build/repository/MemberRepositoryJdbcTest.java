@@ -184,11 +184,11 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.getMemberByIdentifier(1L).get())
+        assertThat(memberRepository.getMemberByIdentifier(1L).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
-        assertThat(memberRepository.getMemberByIdentifier(2L).get())
+        assertThat(memberRepository.getMemberByIdentifier(2L).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
@@ -206,11 +206,11 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.getMemberByID(member1.getId()).get())
+        assertThat(memberRepository.getMemberByID(member1.getId()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
-        assertThat(memberRepository.getMemberByID(member2.getId()).get())
+        assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);

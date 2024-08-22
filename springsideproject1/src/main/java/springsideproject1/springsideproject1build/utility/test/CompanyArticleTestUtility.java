@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
+import static springsideproject1.springsideproject1build.vo.CLASS.*;
 
 public interface CompanyArticleTestUtility extends ObjectTestUtility {
 
@@ -99,12 +99,12 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("number", String.valueOf(article.getNumber()))
                 .param(NAME, article.getName())
-                .param("press", article.getPress().name())
+                .param(PRESS, article.getPress().name())
                 .param("subjectCompany", article.getSubjectCompany())
                 .param("link", article.getLink())
                 .param("year", String.valueOf(article.getDate().getYear()))
                 .param("month", String.valueOf(article.getDate().getMonthValue()))
-                .param("date", String.valueOf(article.getDate().getDayOfMonth()))
+                .param(DATE, String.valueOf(article.getDate().getDayOfMonth()))
                 .param("importance", String.valueOf(article.getImportance()));
     }
 
@@ -112,12 +112,12 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("number", String.valueOf(articleDto.getNumber()))
                 .param(NAME, articleDto.getName())
-                .param("press", articleDto.getPress())
+                .param(PRESS, articleDto.getPress())
                 .param("subjectCompany", articleDto.getSubjectCompany())
                 .param("link", articleDto.getLink())
                 .param("year", String.valueOf(articleDto.getYear()))
                 .param("month", String.valueOf(articleDto.getMonth()))
-                .param("date", String.valueOf(articleDto.getDate()))
+                .param(DATE, String.valueOf(articleDto.getDate()))
                 .param("importance", String.valueOf(articleDto.getImportance()));
     }
 
@@ -125,12 +125,12 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
             String url, CompanyArticleDtoNoNumber articleDto) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param(NAME, articleDto.getName())
-                .param("press", articleDto.getPress())
+                .param(PRESS, articleDto.getPress())
                 .param("subjectCompany", articleDto.getSubjectCompany())
                 .param("link", articleDto.getLink())
                 .param("year", String.valueOf(articleDto.getYear()))
                 .param("month", String.valueOf(articleDto.getMonth()))
-                .param("date", String.valueOf(articleDto.getDate()))
+                .param(DATE, String.valueOf(articleDto.getDate()))
                 .param("importance", String.valueOf(articleDto.getImportance()));
     }
 }

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
-import static springsideproject1.springsideproject1build.utility.MainUtils.isNumeric;
+import static springsideproject1.springsideproject1build.vo.REGEX.NUMBER_REGEX;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +47,7 @@ public class CompanyArticleService {
     }
 
     public Optional<CompanyArticle> findArticleByNumberOrName(String numberOrName) {
-        return isNumeric(numberOrName) ? findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
+        return NUMBER_REGEX.matcher(numberOrName).matches() ? findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 
     /**

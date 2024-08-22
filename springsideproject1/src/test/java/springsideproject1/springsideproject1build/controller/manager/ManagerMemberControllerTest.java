@@ -20,11 +20,11 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.SELECT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.utility.WordUtils.*;
+import static springsideproject1.springsideproject1build.vo.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.vo.WORD.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

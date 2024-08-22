@@ -8,8 +8,8 @@ import lombok.Getter;
 
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.utility.WordUtils.CODE;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
+import static springsideproject1.springsideproject1build.vo.CLASS.CODE;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

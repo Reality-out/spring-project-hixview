@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.utility.WordUtils.ID;
-import static springsideproject1.springsideproject1build.utility.WordUtils.NAME;
 import static springsideproject1.springsideproject1build.utility.test.MemberTestUtility.memberTable;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
+import static springsideproject1.springsideproject1build.vo.WORD.ID;
 
 @Repository
 public class MemberRepositoryJdbc implements MemberRepository {

@@ -28,14 +28,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
-import static springsideproject1.springsideproject1build.config.constant.REGEX.EMAIL_REGEX;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.utility.MainUtils.*;
-import static springsideproject1.springsideproject1build.utility.WordUtils.*;
+import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
+import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
+import static springsideproject1.springsideproject1build.vo.CLASS.ARTICLE;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
+import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.vo.REGEX.EMAIL_REGEX;
+import static springsideproject1.springsideproject1build.vo.REGEX.NUMBER_REGEX;
+import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.vo.WORD.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -173,7 +177,7 @@ public class ManagerCompanyArticleController {
         } catch (NotMatchException e) {
             handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),false, NOT_MATCH_ARTICLE_ERROR);
         } catch (NumberFormatException e) {
-            if (companyArticleDto.getImportance() == null || isNumeric(String.valueOf(companyArticleDto.getImportance()))) {
+            if (companyArticleDto.getImportance() == null || NUMBER_REGEX.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
                 handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),
                         false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
@@ -231,7 +235,7 @@ public class ManagerCompanyArticleController {
             model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
-        CompanyArticleDto article = articleOrEmpty.get().toDto();
+        CompanyArticleDto article = articleOrEmpty.orElseThrow().toDto();
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, article);
@@ -329,7 +333,7 @@ public class ManagerCompanyArticleController {
     // Validate
     private void validateLinkList(List<String> linkList) {
         for (String link : linkList) {
-            if (!EMAIL_REGEX.matcher(link).find()) {
+            if (!EMAIL_REGEX.matcher(link).matches()) {
                 throw new NotMatchException(LINK_NOT_MATCHING_PATTERN);
             }
         }

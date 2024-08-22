@@ -11,6 +11,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 import static springsideproject1.springsideproject1build.domain.article.Press.containsWithPress;
+import static springsideproject1.springsideproject1build.vo.CLASS.DATE;
+import static springsideproject1.springsideproject1build.vo.CLASS.PRESS;
 
 @Component
 public class CompanyArticleDtoNoNumberValidator implements Validator {
@@ -28,7 +30,7 @@ public class CompanyArticleDtoNoNumberValidator implements Validator {
 
         // press
         if (!containsWithPress(articleDto.getPress())) {
-            errors.rejectValue("press", "typeMismatch.enum");
+            errors.rejectValue(PRESS, "typeMismatch.enum");
         }
 
         // date
@@ -36,10 +38,10 @@ public class CompanyArticleDtoNoNumberValidator implements Validator {
             LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDate());
 
             if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
-                errors.rejectValue("date", "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
+                errors.rejectValue(DATE, "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
             }
         } catch (DateTimeException e) {
-            errors.rejectValue("date", "TypeButInvalid.java.lang.LocalDate");
+            errors.rejectValue(DATE, "TypeButInvalid.java.lang.LocalDate");
         }
 
         // importance

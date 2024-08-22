@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.service.CompanyService;
 
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.utility.WordUtils.COMPANY;
+import static springsideproject1.springsideproject1build.vo.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.vo.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
 
 @Controller
 @RequestMapping("/company")
@@ -41,7 +41,7 @@ public class UserCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processCompanyLookUpPage(@PathVariable String codeOrName, Model model) {
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
-        model.addAttribute(COMPANY, companyService.findCompanyByCodeOrName(codeOrName).get());
+        model.addAttribute(COMPANY, companyService.findCompanyByCodeOrName(codeOrName).orElseThrow());
         return USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX;
     }
 }

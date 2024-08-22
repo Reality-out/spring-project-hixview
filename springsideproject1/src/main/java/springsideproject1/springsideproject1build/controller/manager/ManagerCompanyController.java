@@ -16,12 +16,14 @@ import springsideproject1.springsideproject1build.service.CompanyService;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
-import static springsideproject1.springsideproject1build.config.constant.LAYOUT.*;
-import static springsideproject1.springsideproject1build.config.constant.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.config.constant.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.utility.WordUtils.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
+import static springsideproject1.springsideproject1build.vo.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
+import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.vo.WORD.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -99,7 +101,7 @@ public class ManagerCompanyController {
         if (companyOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_COMPANY_WITH_THAT_CODE);
         } else {
-            CompanyDto company = companyOrEmpty.get().toCompanyDto();
+            CompanyDto company = companyOrEmpty.orElseThrow().toCompanyDto();
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             model.addAttribute(COMPANY, company);
@@ -143,7 +145,7 @@ public class ManagerCompanyController {
         if (companyOrEmpty.isEmpty()) {
             throw new IllegalStateException(NO_COMPANY_WITH_THAT_CODE);
         } else {
-            Company company = companyOrEmpty.get();
+            Company company = companyOrEmpty.orElseThrow();
             companyService.removeCompany(company.getCode());
             redirect.addAttribute(NAME, encodeUTF8(company.getName()));
             return URL_REDIRECT_PREFIX + REMOVE_COMPANY_URL + URL_FINISH_SUFFIX;
