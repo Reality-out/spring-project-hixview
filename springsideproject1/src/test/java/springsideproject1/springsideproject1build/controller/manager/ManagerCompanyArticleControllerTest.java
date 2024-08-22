@@ -374,7 +374,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 
-    @DisplayName("서식이 올바르지 않은 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가 검증")
+    @DisplayName("URL 값이 아닌 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void validateNotMatchLinkCompanyArticleAddWithString() throws Exception {
         // given
@@ -392,7 +392,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
+                        model().attribute(ERROR, NOT_MATCH_LINK_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put("subjectCompany", articleString.getFirst());
@@ -402,7 +402,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
+                        model().attribute(ERROR, NOT_MATCH_LINK_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put("subjectCompany", articleString.getFirst());
@@ -412,7 +412,53 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, NOT_MATCHING_LINK_ERROR)));
+                        model().attribute(ERROR, NOT_MATCH_LINK_ERROR)));
+    }
+
+    @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가 검증")
+    @Test
+    public void registerArticleListBiggerThanLinkListCompanyArticleWithString() throws Exception {
+        // given
+        List<String> articleString = new ArrayList<>(createTestStringArticle());
+        articleString.set(2, createTestEqualDateArticle().getLink());
+
+        // when
+        companyService.registerCompany(createSamsungElectronics());
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", articleString.getLast());
+                }}))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+    }
+
+    @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가 검증")
+    @Test
+    public void registerLinkListBiggerThanArticleListCompanyArticleWithString() throws Exception {
+        // given
+        List<String> articleString = new ArrayList<>(createTestStringArticle());
+        articleString.set(1, String.join(System.lineSeparator(),
+                List.of("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
+                        "(2024-6-18, BUSINESS_POST)")));
+
+        // when
+        companyService.registerCompany(createSamsungElectronics());
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put("subjectCompany", articleString.getFirst());
+                    put("articleString", articleString.get(1));
+                    put("linkString", articleString.getLast());
+                }}))
+                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가 검증")
@@ -434,7 +480,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
                         model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, TYPE_MISMATCH_LOCAL_DATE_ERROR)));
+                        model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
     }
 
     @DisplayName("기업 기사 단일 문자열로 중복으로 등록")

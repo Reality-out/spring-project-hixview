@@ -130,12 +130,17 @@ public class ManagerCompanyArticleController {
         try {
             validateLinkList(linkList);
         } catch (NotMatchException e) {
-            handleErrorForModel(LINK_NOT_MATCHING_PATTERN, ADD_PROCESS_PATH, NOT_MATCHING_LINK_ERROR, model);
+            handleErrorForModel(LINK_NOT_MATCHING_PATTERN, ADD_PROCESS_PATH, NOT_MATCH_LINK_ERROR, model);
             return senderPage;
         }
 
         List<List<String>> partialArticleLists = parseArticleString(articleString);
         List<CompanyArticle> returnList = new ArrayList<>();
+        if (partialArticleLists.size() != linkList.size()) {
+            handleErrorForModel(NOT_EQUAL_LIST_SIZE, ADD_PROCESS_PATH, INDEX_OUT_OF_BOUND_ERROR, model);
+            return senderPage;
+        }
+
         CompanyArticleDtoNoNumber companyArticleDto = new CompanyArticleDtoNoNumber();
         String receiverPage = URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         try {
@@ -170,11 +175,11 @@ public class ManagerCompanyArticleController {
             if (companyArticleDto.getImportance() == null || isNumeric(String.valueOf(companyArticleDto.getImportance()))) {
                 handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream()
                                 .map(CompanyArticle::getName).collect(Collectors.toList())),
-                        false, TYPE_MISMATCH_LOCAL_DATE_ERROR);
+                        false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
                 handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream()
                                 .map(CompanyArticle::getName).collect(Collectors.toList())),
-                        false, TYPE_MISMATCH_INTEGER_ERROR);
+                        false, NUMBER_FORMAT_INTEGER_ERROR);
             }
             return receiverPage;
         } catch (ConstraintValidationException e) {

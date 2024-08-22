@@ -1,24 +1,20 @@
 package springsideproject1.springsideproject1build.error.constant;
 
 public class EXCEPTION_STRING {
+    // Simple String
     public static final String ERROR = "error";
     public static final String ERROR_SINGLE = "errorSingle";
     public static final String ERRORS_ARE = "errors = {}";
 
-    // AlreadyExistException
-    public static final String EXIST_COMPANY_ARTICLE_ERROR = "existCompanyArticleError";
+    // Not Relative with any Exception class
+    public static final String BEAN_VALIDATION_ERROR = "beanValidationError";
 
-    // NotFoundException
+    // Relative with an Exception class
+    public static final String EXIST_COMPANY_ARTICLE_ERROR = "existCompanyArticleError";
+    public static final String INDEX_OUT_OF_BOUND_ERROR = "indexOutOfBoundError";
     public static final String NOT_FOUND_COMPANY_ARTICLE_ERROR = "companyArticleNotFoundError";
     public static final String NOT_FOUND_COMPANY_ERROR = "companyNotFoundError";
-
-    // NotMatchException
-    public static final String NOT_MATCHING_LINK_ERROR = "notMatchingLinkError";
-
-    // NumberFormatException
-    public static final String TYPE_MISMATCH_INTEGER_ERROR = "typeMismatchIntegerError";
-    public static final String TYPE_MISMATCH_LOCAL_DATE_ERROR = "typeMismatchLocalDateError";
-
-    // Others
-    public static final String BEAN_VALIDATION_ERROR = "beanValidationError";
+    public static final String NOT_MATCH_LINK_ERROR = "notMatchLinkError";
+    public static final String NUMBER_FORMAT_INTEGER_ERROR = "numberFormatIntegerError";
+    public static final String NUMBER_FORMAT_LOCAL_DATE_ERROR = "numberFormatLocalDateError";
 }
