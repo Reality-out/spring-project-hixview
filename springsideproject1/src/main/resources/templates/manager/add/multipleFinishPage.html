@@ -23,6 +23,7 @@
     <div th:if="${errorSingle} != null" th:classappend="fieldError">
         <th:block th:switch="${errorSingle}">
             <p th:case="existCompanyArticleError" th:text="#{Exist.CompanyArticle.name}"></p>
+            <p th:case="notMatchArticleError" th:text="#{NotMatch.article}"></p>
             <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.CompanyArticle.importance}"></p>
             <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.CompanyArticle.date}"></p>
         </th:block>

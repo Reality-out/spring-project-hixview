@@ -461,6 +461,38 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
+    @DisplayName("기사 리스트 매칭에 문제가 있는, 문자열을 사용하는 기업 기사들 추가 검증")
+    @Test
+    public void registerNotMatchArticleCompanyArticleWithString() throws Exception {
+        // given & when
+        companyService.registerCompany(createSamsungElectronics());
+        List<String> articleString = new ArrayList<>(createTestStringArticle());
+
+        // then
+        for (int i = 0; i < 4; i++){
+            switch (i) {
+                case 0:
+                    articleString.set(1, articleString.get(1).replace("2024-", ""));
+                case 1:
+                    articleString.set(1, articleString.get(1).replace("6-", ""));
+                case 2:
+                    articleString.set(1, articleString.get(1).replace("-18", ""));
+                case 3:
+                    articleString.set(1, articleString.get(1).replace(", BUSINESS_POST", ""));
+            }
+
+            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                        put("subjectCompany", articleString.getFirst());
+                        put("articleString", articleString.get(1));
+                        put("linkString", articleString.getLast());
+                    }}))
+                    .andExpectAll(view().name(
+                                    URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                            model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                            model().attribute(ERROR_SINGLE, NOT_MATCH_ARTICLE_ERROR)));
+        }
+    }
+
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void registerNotCorrectNumberFormatDateCompanyArticleWithString() throws Exception {

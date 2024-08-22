@@ -83,7 +83,7 @@ public class ManagerCompanyArticleController {
         }
         companyArticleDtoNoNumberValidator.validate(articleDto, bindingResult);     // Custom Validation
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            bindingResult.rejectValue("subjectCompany", "NotFound.CompanyArticle.subjectCompany");
+            bindingResult.rejectValue("subjectCompany", "NotFound.companyArticle.subjectCompany");
         }
         if (bindingResult.hasErrors()) {
             handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
@@ -146,7 +146,9 @@ public class ManagerCompanyArticleController {
         try {
             for (int i = 0; i < linkList.size(); i++) {
                 List<String> partialArticle = partialArticleLists.get(i);
-
+                if (partialArticle.size() != 5) {
+                    throw new NotMatchException(ARTICLE_NOT_MATCHING_PATTERN);
+                }
                 companyArticleDto.setName(partialArticle.get(0));
                 companyArticleDto.setPress(partialArticle.get(4));
                 companyArticleDto.setSubjectCompany(subjectCompany);
@@ -156,7 +158,7 @@ public class ManagerCompanyArticleController {
                 companyArticleDto.setDate(parseInt(partialArticle.get(3)));
                 companyArticleDto.setImportance(0);
 
-                BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(companyArticleDto, "article");
+                BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(companyArticleDto, ARTICLE);
                 defaultValidator.validate(companyArticleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
@@ -165,34 +167,27 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                returnList.add(articleService.registerArticle(CompanyArticle.builder()
-                        .articleDtoNoNumber(companyArticleDto).build()));
+                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(companyArticleDto).build()));
             }
-            handleErrorForRedirect("", redirect, encodeUTF8(returnList.stream()
-                    .map(CompanyArticle::getName).collect(Collectors.toList())), false, null);
-            return receiverPage;
+            handleErrorForRedirect("", redirect, getEncodedNameList(returnList), false, null);
+        } catch (NotMatchException e) {
+            handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),false, NOT_MATCH_ARTICLE_ERROR);
         } catch (NumberFormatException e) {
             if (companyArticleDto.getImportance() == null || isNumeric(String.valueOf(companyArticleDto.getImportance()))) {
-                handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream()
-                                .map(CompanyArticle::getName).collect(Collectors.toList())),
+                handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),
                         false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
-                handleErrorForRedirect(e.getMessage(), redirect, encodeUTF8(returnList.stream()
-                                .map(CompanyArticle::getName).collect(Collectors.toList())),
+                handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),
                         false, NUMBER_FORMAT_INTEGER_ERROR);
             }
-            return receiverPage;
         } catch (ConstraintValidationException e) {
             handleErrorForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
-                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
-                    e.isBeanValidationViolated(), null);
-            return receiverPage;
+                    getEncodedNameList(returnList), e.isBeanValidationViolated(), null);
         } catch (AlreadyExistException e) {
             handleErrorForRedirect(e.getMessage(), redirect,
-                    encodeUTF8(returnList.stream().map(CompanyArticle::getName).collect(Collectors.toList())),
-                    false, EXIST_COMPANY_ARTICLE_ERROR);
-            return receiverPage;
+                    getEncodedNameList(returnList),false, EXIST_COMPANY_ARTICLE_ERROR);
         }
+        return receiverPage;
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
@@ -285,11 +280,16 @@ public class ManagerCompanyArticleController {
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
-    // private methods
-
     /**
-     * Handle Error
+     * Other private methods
      */
+    // Encode
+    private List<String> getEncodedNameList(List<CompanyArticle> returnList) {
+        return encodeUTF8(returnList.stream()
+                .map(CompanyArticle::getName).collect(Collectors.toList()));
+    }
+
+    // Handle Error
     private void handleErrorForModel(String logMessage, String layoutPath, String error, Model model) {
         log.error(ERRORS_ARE, logMessage);
         model.addAttribute(LAYOUT_PATH, layoutPath);
@@ -306,9 +306,7 @@ public class ManagerCompanyArticleController {
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
     }
 
-    /**
-     * Parse
-     */
+    // Parse
     private List<List<String>> parseArticleString(String articleString) {
         List<String> dividedArticle = List.of(articleString.split("\\R"));
         List<List<String>> returnArticle = new ArrayList<>();
@@ -328,9 +326,7 @@ public class ManagerCompanyArticleController {
         return List.of(linkString.split("\\R"));
     }
 
-    /**
-     * Validate
-     */
+    // Validate
     private void validateLinkList(List<String> linkList) {
         for (String link : linkList) {
             if (!EMAIL_REGEX.matcher(link).find()) {

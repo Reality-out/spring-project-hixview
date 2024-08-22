@@ -12,7 +12,7 @@
     <button type="submit" th:text="#{function.search}"></button>
     <div th:if="${error} != null" th:classappend="fieldError">
         <th:block th:switch="${error}">
-            <span th:case="companyArticleNotFoundError" th:text="#{NotFound.CompanyArticle}"></span>
+            <span th:case="companyArticleNotFoundError" th:text="#{NotFound.companyArticle}"></span>
         </th:block>
     </div>
 </form>

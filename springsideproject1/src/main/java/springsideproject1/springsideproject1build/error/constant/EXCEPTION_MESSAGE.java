@@ -21,5 +21,6 @@ public class EXCEPTION_MESSAGE {
     public static final String NO_MEMBER_WITH_THAT_ID = "해당 ID와 일치하는 회원이 없습니다.";
 
     // NotMatchException
+    public static final String ARTICLE_NOT_MATCHING_PATTERN = "패턴과 매칭되지 않는 기사가 포함되어 있습니다.";
     public static final String LINK_NOT_MATCHING_PATTERN = "패턴과 매칭되지 않는 링크가 포함되어 있습니다.";
 }
