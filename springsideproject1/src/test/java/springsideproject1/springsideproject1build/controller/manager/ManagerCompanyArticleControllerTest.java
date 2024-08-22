@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.service.CompanyService;
 import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
@@ -83,13 +83,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void accessCompanyArticleAddFinish() throws Exception {
         // given
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
 
         // when
         companyService.registerCompany(createSamsungElectronics());
 
         // then
-        mockMvc.perform(postWithCompanyArticleDtoNoNumber(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(articleDto.getName())));
@@ -108,11 +108,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validateNotFoundSubjectCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setSubjectCompany(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -126,14 +126,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validateSpaceCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setName(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
         articleDto.setLink(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -147,26 +147,26 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("NotNull(null)에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDtoNoNumber()))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
+                ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(new CompanyArticleDtoNoNumber());
+                .isEqualTo(new CompanyArticleDto());
     }
 
     @DisplayName("URL에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateURLCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setLink("NotUrl");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -182,13 +182,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
         articleDto.setDate(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -203,11 +203,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validateRestrictCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -222,13 +222,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
         articleDto.setDate(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -243,7 +243,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
 
         // then
         mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -266,11 +266,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDtoNoNumber articleDto = createTestArticleDtoNoNumber();
+        CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        mockMvc.perform(postWithCompanyArticleDto(
                         ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -284,7 +284,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         // given & when
         CompanyArticle article1 = createTestArticle();
         String commonName = article1.getName();
-        CompanyArticleDtoNoNumber articleDto2 = createTestNewArticleDtoNoNumber();
+        CompanyArticleDto articleDto2 = createTestNewArticleDto();
         articleDto2.setName(commonName);
 
         // when
@@ -292,7 +292,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         companyService.registerCompany(createSamsungElectronics());
 
         // then
-        mockMvc.perform(postWithCompanyArticleDtoNoNumber(
+        mockMvc.perform(postWithCompanyArticleDto(
                 ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
                 .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),

@@ -10,8 +10,6 @@ import org.hibernate.validator.constraints.URL;
 @Setter
 public class CompanyArticleDto {
 
-    private Long number;
-
     @NotBlank
     private String name;
 
@@ -36,4 +34,5 @@ public class CompanyArticleDto {
 
     @NotNull
     private Integer importance;
+
 }

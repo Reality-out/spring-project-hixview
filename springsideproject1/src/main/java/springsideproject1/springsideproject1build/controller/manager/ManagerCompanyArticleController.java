@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticleDtoNoNumber;
 import springsideproject1.springsideproject1build.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.error.NotMatchException;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.service.CompanyService;
-import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoNoNumberValidator;
+import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ public class ManagerCompanyArticleController {
     private final CompanyService companyService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleDtoNoNumberValidator companyArticleDtoNoNumberValidator;
+    private final CompanyArticleDtoValidator companyArticleDtoValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
 
@@ -72,20 +71,20 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(ARTICLE, new CompanyArticleDtoNoNumber());
+        model.addAttribute(ARTICLE, new CompanyArticleDto());
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDtoNoNumber articleDto,
+    public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         String senderPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         if (bindingResult.hasErrors()) {                                            // Bean Validation
             handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return senderPage;
         }
-        companyArticleDtoNoNumberValidator.validate(articleDto, bindingResult);     // Custom Validation
+        companyArticleDtoValidator.validate(articleDto, bindingResult);             // Custom Validation
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
             bindingResult.rejectValue("subjectCompany", "NotFound.companyArticle.subjectCompany");
         }
@@ -94,7 +93,7 @@ public class ManagerCompanyArticleController {
             return senderPage;
         }                                                                           // Errors are reflected directly
         try {
-            articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(articleDto).build());
+            articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
             redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
             return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
         } catch (AlreadyExistException e) {
@@ -145,7 +144,7 @@ public class ManagerCompanyArticleController {
             return senderPage;
         }
 
-        CompanyArticleDtoNoNumber companyArticleDto = new CompanyArticleDtoNoNumber();
+        CompanyArticleDto companyArticleDto = new CompanyArticleDto();
         String receiverPage = URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         try {
             for (int i = 0; i < linkList.size(); i++) {
@@ -165,11 +164,11 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
                 }
-                companyArticleDtoNoNumberValidator.validate(companyArticleDto, bindingResult);
+                companyArticleDtoValidator.validate(companyArticleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDtoNoNumber(companyArticleDto).build()));
+                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDto(companyArticleDto).build()));
             }
             handleErrorForRedirect("", redirect, getEncodedNameList(returnList), false, null);
         } catch (NotMatchException e) {
