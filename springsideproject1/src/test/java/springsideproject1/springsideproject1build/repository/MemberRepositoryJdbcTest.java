@@ -38,7 +38,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원들 획득")
     @Test
-    public void getMembers() {
+    public void getMembersTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -56,7 +56,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 이름으로 획득")
     @Test
-    public void getMemberByName() {
+    public void getMemberByNameTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -78,7 +78,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원들 이름으로 획득")
     @Test
-    public void getMembersByName() {
+    public void getMembersByNameTest() {
         // given
         Member member1 = testMember;
         String commonName = member1.getName();
@@ -97,7 +97,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 생일로 획득")
     @Test
-    public void getMemberByBirth() {
+    public void getMemberByBirthTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -119,7 +119,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원들 생일로 획득")
     @Test
-    public void getMembersByBirth() {
+    public void getMembersByBirthTest() {
         // given
         Member member1 = testMember;
         LocalDate commonBirth = member1.getBirth();
@@ -138,7 +138,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 이름과 생일로 획득")
     @Test
-    public void getMemberByNameAndBirth() {
+    public void getMemberByNameAndBirthTest() {
         // given
         Member member = testMember;
 
@@ -154,7 +154,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원들 이름과 생일로 획득")
     @Test
-    public void getMembersByNameAndBirth() {
+    public void getMembersByNameAndBirthTest() {
         // given
         Member member1 = testMember;
         String commonName = member1.getName();
@@ -174,7 +174,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 식별자로 획득")
     @Test
-    public void getMemberByIdentifier() {
+    public void getMemberByIdentifierTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -196,7 +196,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 ID로 획득")
     @Test
-    public void getMemberByID() {
+    public void getMemberByIDTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -218,7 +218,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 저장")
     @Test
-    public void saveMember() {
+    public void saveMemberTest() {
         // given
         Member member = testMember;
 
@@ -234,7 +234,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 ID로 제거")
     @Test
-    public void removeMemberByID() {
+    public void removeMemberByIDTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;

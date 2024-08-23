@@ -36,7 +36,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업들 획득")
     @Test
-    public void getCompanies() {
+    public void getCompaniesTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;
@@ -51,7 +51,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 코드로 획득")
     @Test
-    public void getCompanyByCode() {
+    public void getCompanyByCodeTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;
@@ -67,7 +67,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 이름으로 획득")
     @Test
-    public void getCompanyByName() {
+    public void getCompanyByNameTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;
@@ -83,7 +83,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 저장")
     @Test
-    public void saveCompany() {
+    public void saveCompanyTest() {
         // given
         Company company = samsungElectronics;
 
@@ -97,7 +97,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 갱신")
     @Test
-    public void updateCompany() {
+    public void updateCompanyTest() {
         // given
         Company updateCompany = samsungElectronics;
         String commonCode = updateCompany.getCode();
@@ -114,7 +114,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 코드로 제거")
     @Test
-    public void removeCompanyByCode() {
+    public void removeCompanyByCodeTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;

@@ -39,7 +39,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사들 획득")
     @Test
-    public void getCompanyArticles() {
+    public void getCompanyArticlesTest() {
         // given
         CompanyArticle article1 = testArticle;
         CompanyArticle article2 = testNewArticle;
@@ -57,7 +57,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사들 날짜로 획득")
     @Test
-    public void getCompanyArticleByDate() {
+    public void getCompanyArticleByDateTest() {
         // given
         CompanyArticle article1 = testArticle;
         CompanyArticle article2 = testEqualDateArticle;
@@ -75,7 +75,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사들 날짜 범위로 획득")
     @Test
-    public void getCompanyArticleByDateRange() {
+    public void getCompanyArticleByDateRangeTest() {
         // given
         CompanyArticle article1 = testArticle;
         CompanyArticle article2 = testEqualDateArticle;
@@ -101,7 +101,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 번호로 획득")
     @Test
-    public void getCompanyArticleByNumber() {
+    public void getCompanyArticleByNumberTest() {
         // given
         CompanyArticle article1 = testArticle;
         CompanyArticle article2 = testNewArticle;
@@ -124,7 +124,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 이름으로 획득")
     @Test
-    public void getCompanyArticleByName() {
+    public void getCompanyArticleByNameTest() {
         // given
         CompanyArticle article1 = testArticle;
         CompanyArticle article2 = testNewArticle;
@@ -145,9 +145,32 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
                 .isEqualTo(article2);
     }
 
+    @DisplayName("기업 기사 링크로 획득")
+    @Test
+    public void getCompanyArticleByLinkTest() {
+        // given
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testNewArticle;
+
+        // when
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
+
+        // then
+        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article1);
+
+        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article2);
+    }
+
     @DisplayName("기업 기사 저장")
     @Test
-    public void saveCompanyArticle() {
+    public void saveCompanyArticleTest() {
         // given
         CompanyArticle article = testArticle;
 
@@ -163,7 +186,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 갱신")
     @Test
-    public void updateCompanyArticle() {
+    public void updateCompanyArticleTest() {
         // given
         CompanyArticle article = testArticle;
 
@@ -180,7 +203,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 이름으로 제거")
     @Test
-    public void removeCompanyArticleByName() {
+    public void removeCompanyArticleByNameTest() {
         // given
         CompanyArticle article1 = testArticle;
         CompanyArticle article2 = testEqualDateArticle;

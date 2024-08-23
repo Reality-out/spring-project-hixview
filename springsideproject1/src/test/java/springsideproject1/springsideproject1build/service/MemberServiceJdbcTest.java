@@ -51,7 +51,7 @@ class MemberServiceJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 중복 ID로 가입")
     @Test
-    public void duplicatedMembershipWithSameID() {
+    public void duplicatedMembershipWithSameIDTest() {
         // given & when
         memberService.registerMember(testMember);
 
@@ -63,7 +63,7 @@ class MemberServiceJdbcTest implements MemberTestUtility {
 
     @DisplayName("회원 존재하지 않는 ID로 제거")
     @Test
-    public void removeMemberByFaultID() {
+    public void removeMemberByFaultIDTest() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.removeMember("NoneID123"));
         assertThat(e.getMessage()).isEqualTo(NO_MEMBER_WITH_THAT_ID);

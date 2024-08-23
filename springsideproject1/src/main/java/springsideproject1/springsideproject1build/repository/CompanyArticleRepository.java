@@ -20,6 +20,8 @@ public interface CompanyArticleRepository {
 
     Optional<CompanyArticle> getArticleByName(String name);
 
+    Optional<CompanyArticle> getArticleByLink(String link);
+
     /**
      * INSERT CompanyArticle
      */

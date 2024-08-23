@@ -41,7 +41,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 번호와 이름으로 찾기")
     @Test
-    public void findCompanyArticleWithNumberAndName() {
+    public void findCompanyArticleWithNumberAndNameTest() {
         // given
         CompanyArticle article = testArticle;
 
@@ -56,7 +56,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사들 동시 등록")
     @Test
-    public void registerCompanyArticles() {
+    public void registerCompanyArticlesTest() {
         assertThat(articleService.registerArticles(testArticle, testNewArticle))
                 .usingRecursiveComparison()
                 .ignoringFields("number")
@@ -65,7 +65,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 등록")
     @Test
-    public void registerCompanyArticle() {
+    public void registerCompanyArticleTest() {
         // given
         CompanyArticle article = testArticle;
 
@@ -80,7 +80,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 중복 이름으로 등록")
     @Test
-    public void registerDuplicatedCompanyArticleWithSameName() {
+    public void registerDuplicatedCompanyArticleWithSameNameTest() {
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
                 () -> articleService.registerArticles(testArticle,
                         CompanyArticle.builder().article(testNewArticle).name(testArticle.getName()).build()));
@@ -89,7 +89,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 존재하지 않는 이름으로 수정")
     @Test
-    public void correctCompanyArticleWithFaultName() {
+    public void correctCompanyArticleWithFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.correctArticle(testArticle));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
@@ -97,7 +97,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
 
     @DisplayName("기업 기사 존재하지 않는 이름으로 제거")
     @Test
-    public void removeCompanyArticleByFaultName() {
+    public void removeCompanyArticleByFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.removeArticle("123456"));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);

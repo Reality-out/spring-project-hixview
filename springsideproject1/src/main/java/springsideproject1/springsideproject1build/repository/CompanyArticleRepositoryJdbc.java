@@ -60,6 +60,13 @@ public class CompanyArticleRepositoryJdbc implements CompanyArticleRepository {
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
+    @Override
+    public Optional<CompanyArticle> getArticleByLink(String link) {
+        List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
+                "select * from " + companyArticleTable + " where link = ?", articleRowMapper(), link);
+        return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
+    }
+
     /**
      * INSERT CompanyArticle
      */

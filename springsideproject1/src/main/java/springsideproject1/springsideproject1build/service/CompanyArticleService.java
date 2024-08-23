@@ -50,6 +50,10 @@ public class CompanyArticleService {
         return NUMBER_REGEX.matcher(numberOrName).matches() ? findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 
+    public Optional<CompanyArticle> findArticleByLink(String link) {
+        return articleRepository.getArticleByLink(link);
+    }
+
     /**
      * INSERT CompanyArticle
      */

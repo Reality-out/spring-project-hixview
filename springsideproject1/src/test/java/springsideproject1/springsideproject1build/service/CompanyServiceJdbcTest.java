@@ -39,7 +39,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 코드와 이름으로 찾기")
     @Test
-    public void findCompanyWithCodeAndName() {
+    public void findCompanyWithCodeAndNameTest() {
         // given
         Company company = samsungElectronics;
 
@@ -54,7 +54,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 등록")
     @Test
-    public void registerCompany() {
+    public void registerCompanyTest() {
         // given
         Company company = samsungElectronics;
 
@@ -67,7 +67,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업들 등록")
     @Test
-    public void registerCompanies() {
+    public void registerCompaniesTest() {
         // given & when
         companyService.registerCompanies(samsungElectronics, skHynix);
 
@@ -78,7 +78,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 중복 코드로 등록")
     @Test
-    public void registerDuplicatedCompanyWithSameCode() {
+    public void registerDuplicatedCompanyWithSameCodeTest() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.registerCompanies(samsungElectronics,
                         Company.builder().company(skHynix).code(samsungElectronics.getCode()).build()));
@@ -88,7 +88,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 존재하지 않는 코드로 수정")
     @Test
-    public void correctCompanyByFaultCode() {
+    public void correctCompanyByFaultCodeTest() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.correctCompany(samsungElectronics));
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
@@ -96,7 +96,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
 
     @DisplayName("기업 존재하지 않는 코드로 제거")
     @Test
-    public void removeCompanyByFaultCode() {
+    public void removeCompanyByFaultCodeTest() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.removeCompany("123456"));
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
