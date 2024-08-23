@@ -2,9 +2,11 @@ package springsideproject1.springsideproject1build.domain.article;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
+
+import static springsideproject1.springsideproject1build.vo.REGEX.URL_REGEX;
 
 @Getter
 @Setter
@@ -20,7 +22,7 @@ public class CompanyArticleDto {
     private String subjectCompany;
 
     @NotBlank
-    @URL
+    @Pattern(regexp = URL_REGEX)
     private String link;
 
     @NotNull

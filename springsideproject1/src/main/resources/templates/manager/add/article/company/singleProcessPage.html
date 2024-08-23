@@ -2,6 +2,9 @@
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <form th:action th:object="${article}" method="POST">
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="fieldError" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
     <div th:if="${error} != null" th:classappend="fieldError">
         <th:block th:switch="${error}">
             <p th:case="beanValidationError" th:text="#{BeanValidation}"></p>

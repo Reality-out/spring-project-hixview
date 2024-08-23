@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.validation.validator;
+package springsideproject1.springsideproject1build.validation;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import static springsideproject1.springsideproject1build.vo.CLASS.DATE;
 import static springsideproject1.springsideproject1build.vo.CLASS.PRESS;
 
 @Component
-public class CompanyArticleDtoValidator implements Validator {
+public class CompanyArticleDtoFieldValidator implements Validator {
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {

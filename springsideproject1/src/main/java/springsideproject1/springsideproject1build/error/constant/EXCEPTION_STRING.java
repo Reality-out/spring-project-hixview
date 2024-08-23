@@ -14,8 +14,6 @@ public class EXCEPTION_STRING {
     public static final String INDEX_OUT_OF_BOUND_ERROR = "indexOutOfBoundError";
     public static final String NOT_FOUND_COMPANY_ARTICLE_ERROR = "companyArticleNotFoundError";
     public static final String NOT_FOUND_COMPANY_ERROR = "companyNotFoundError";
-    public static final String NOT_MATCH_ARTICLE_ERROR = "notMatchArticleError";
-    public static final String NOT_MATCH_LINK_ERROR = "notMatchLinkError";
     public static final String NUMBER_FORMAT_INTEGER_ERROR = "numberFormatIntegerError";
     public static final String NUMBER_FORMAT_LOCAL_DATE_ERROR = "numberFormatLocalDateError";
 }

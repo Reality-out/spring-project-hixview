@@ -18,7 +18,6 @@
         <div th:if="${error} != null" th:classappend="fieldError">
             <th:block th:switch="${error}">
                 <p th:case="companyNotFoundError" th:text="#{NotFound.companyArticle.subjectCompany}"></p>
-                <p th:case="notMatchLinkError" th:text="#{NotMatch.link}"></p>
                 <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
             </th:block>
         </div>

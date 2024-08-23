@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
-import springsideproject1.springsideproject1build.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.error.ConstraintValidationException;
-import springsideproject1.springsideproject1build.error.NotMatchException;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.service.CompanyService;
-import springsideproject1.springsideproject1build.validation.validator.CompanyArticleDtoValidator;
+import springsideproject1.springsideproject1build.validation.CompanyArticleDtoFieldValidator;
+import springsideproject1.springsideproject1build.validation.CompanyArticleDtoObjectComplexValidator;
+import springsideproject1.springsideproject1build.validation.CompanyArticleDtoObjectSimpleValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ import static springsideproject1.springsideproject1build.error.constant.EXCEPTIO
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
-import static springsideproject1.springsideproject1build.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.vo.CLASS.ARTICLE;
+import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
 import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.vo.REGEX.EMAIL_REGEX;
 import static springsideproject1.springsideproject1build.vo.REGEX.NUMBER_REGEX;
 import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
@@ -46,7 +46,9 @@ public class ManagerCompanyArticleController {
     private final CompanyService companyService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleDtoValidator companyArticleDtoValidator;
+    private final CompanyArticleDtoFieldValidator fieldValidator;
+    private final CompanyArticleDtoObjectComplexValidator objectComplexValidator;
+    private final CompanyArticleDtoObjectSimpleValidator objectSimpleValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
 
@@ -78,26 +80,19 @@ public class ManagerCompanyArticleController {
     public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         String senderPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-        if (bindingResult.hasErrors()) {                                            // Bean Validation
+        if (bindingResult.hasErrors()) {
             handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return senderPage;
         }
-        companyArticleDtoValidator.validate(articleDto, bindingResult);             // Custom Validation
-        if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            bindingResult.rejectValue(SUBJECT_COMPANY, "NotFound.companyArticle.subjectCompany");
-        }
+        fieldValidator.validate(articleDto, bindingResult);
+        objectComplexValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return senderPage;                                                      // Errors are reflected directly
-        }
-        try {
-            articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
-            redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
-            return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
-        } catch (AlreadyExistException e) {
-            handleErrorForModel(e.getMessage(), ADD_PROCESS_PATH, EXIST_COMPANY_ARTICLE_ERROR, model);
             return senderPage;
         }
+        articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
+        return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
@@ -127,15 +122,8 @@ public class ManagerCompanyArticleController {
             handleErrorForModel(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
             return senderPage;
         }
-        List<String> linkList = parseLinkString(linkString);
-        try {
-            validateLinkList(linkList);
-        } catch (NotMatchException e) {
-            handleErrorForModel(LINK_NOT_MATCHING_PATTERN, ADD_PROCESS_PATH, NOT_MATCH_LINK_ERROR, model);
-            return senderPage;
-        }
-
         List<List<String>> partialArticleLists = parseArticleString(nameDatePressString);
+        List<String> linkList = parseLinkString(linkString);
         if (partialArticleLists.size() != linkList.size()) {
             handleErrorForModel(NOT_EQUAL_LIST_SIZE, ADD_PROCESS_PATH, INDEX_OUT_OF_BOUND_ERROR, model);
             return senderPage;
@@ -162,7 +150,8 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
                 }
-                companyArticleDtoValidator.validate(companyArticleDto, bindingResult);
+                fieldValidator.validate(companyArticleDto, bindingResult);
+                objectSimpleValidator.validate(companyArticleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
@@ -170,19 +159,15 @@ public class ManagerCompanyArticleController {
             }
             handleForRedirect("", redirect, encodeUTF8(returnList), false, null);
         } catch (NumberFormatException e) {
-            if (companyArticleDto.getImportance() == null || NUMBER_REGEX.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
-                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList),
-                        false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
+            if (companyArticleDto.getImportance() == null ||
+                    NUMBER_REGEX.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
+                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList), false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
-                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList),
-                        false, NUMBER_FORMAT_INTEGER_ERROR);
+                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList), false, NUMBER_FORMAT_INTEGER_ERROR);
             }
         } catch (ConstraintValidationException e) {
             handleForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
                     encodeUTF8(returnList), e.isBeanValidationViolated(), null);
-        } catch (AlreadyExistException e) {
-            handleForRedirect(e.getMessage(), redirect,
-                    encodeUTF8(returnList),false, EXIST_COMPANY_ARTICLE_ERROR);
         }
         return receiverPage;
     }
@@ -319,14 +304,5 @@ public class ManagerCompanyArticleController {
 
     private List<String> parseLinkString(String linkString) {
         return List.of(linkString.split("\\R"));
-    }
-
-    // Validate
-    private void validateLinkList(List<String> linkList) {
-        for (String link : linkList) {
-            if (!EMAIL_REGEX.matcher(link).matches()) {
-                throw new NotMatchException(LINK_NOT_MATCHING_PATTERN);
-            }
-        }
     }
 }
