@@ -7,19 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.member.Member;
-import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
+import springsideproject1.springsideproject1build.domain.entity.member.Member;
+import springsideproject1.springsideproject1build.domain.service.MemberService;
+import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_MEMBER_ID;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_MEMBER_WITH_THAT_ID;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_MEMBER_ID;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_MEMBER_WITH_THAT_ID;
 
 @SpringBootTest
 @Transactional
-class MemberServiceJdbcTest implements MemberTestUtility {
+class MemberServiceJdbcTest implements MemberTestUtils {
 
     @Autowired
     MemberService memberService;

@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import springsideproject1.springsideproject1build.service.CompanyService;
+import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
-import static springsideproject1.springsideproject1build.vo.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.vo.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.vo.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @Controller
 @RequestMapping("/company")

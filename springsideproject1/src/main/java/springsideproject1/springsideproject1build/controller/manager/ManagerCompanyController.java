@@ -7,23 +7,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.company.Company;
-import springsideproject1.springsideproject1build.domain.company.CompanyDto;
-import springsideproject1.springsideproject1build.domain.company.Country;
-import springsideproject1.springsideproject1build.domain.company.Scale;
-import springsideproject1.springsideproject1build.service.CompanyService;
+import springsideproject1.springsideproject1build.domain.entity.company.Company;
+import springsideproject1.springsideproject1build.domain.entity.company.CompanyDto;
+import springsideproject1.springsideproject1build.domain.entity.company.Country;
+import springsideproject1.springsideproject1build.domain.entity.company.Scale;
+import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
-import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
-import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
-import static springsideproject1.springsideproject1build.vo.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
-import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
+import static springsideproject1.springsideproject1build.util.MainUtils.decodeUTF8;
+import static springsideproject1.springsideproject1build.util.MainUtils.encodeUTF8;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 @Controller
 @RequiredArgsConstructor

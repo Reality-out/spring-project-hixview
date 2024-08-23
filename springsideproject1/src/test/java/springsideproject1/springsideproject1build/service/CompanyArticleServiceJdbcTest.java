@@ -7,22 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
-import springsideproject1.springsideproject1build.error.AlreadyExistException;
-import springsideproject1.springsideproject1build.error.NotFoundException;
-import springsideproject1.springsideproject1build.utility.test.CompanyArticleTestUtility;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.error.AlreadyExistException;
+import springsideproject1.springsideproject1build.domain.error.NotFoundException;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
 
 @SpringBootTest
 @Transactional
-class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
+class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtils {
 
     @Autowired
     CompanyArticleService articleService;

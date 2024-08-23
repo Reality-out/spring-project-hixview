@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.repository.MemberRepository;
-import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
+import springsideproject1.springsideproject1build.domain.entity.member.Member;
+import springsideproject1.springsideproject1build.domain.repository.MemberRepository;
+import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import javax.sql.DataSource;
 
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class MemberTest implements MemberTestUtility {
+class MemberTest implements MemberTestUtils {
 
     @Autowired
     MemberRepository memberRepository;

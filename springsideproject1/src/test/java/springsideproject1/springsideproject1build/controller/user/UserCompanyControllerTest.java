@@ -9,9 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.company.Company;
-import springsideproject1.springsideproject1build.service.CompanyService;
-import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
+import springsideproject1.springsideproject1build.domain.entity.company.Company;
+import springsideproject1.springsideproject1build.domain.service.CompanyService;
+import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
 
@@ -19,15 +19,15 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.vo.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.vo.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.vo.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserCompanyControllerTest implements CompanyTestUtility {
+class UserCompanyControllerTest implements CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

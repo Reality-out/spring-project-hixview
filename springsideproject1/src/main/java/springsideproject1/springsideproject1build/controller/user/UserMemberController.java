@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import springsideproject1.springsideproject1build.domain.member.Member;
-import springsideproject1.springsideproject1build.domain.member.MemberDto;
-import springsideproject1.springsideproject1build.domain.member.PhoneNumber;
-import springsideproject1.springsideproject1build.service.MemberService;
+import springsideproject1.springsideproject1build.domain.entity.member.Member;
+import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
+import springsideproject1.springsideproject1build.domain.entity.member.PhoneNumber;
+import springsideproject1.springsideproject1build.domain.service.MemberService;
 
-import static springsideproject1.springsideproject1build.vo.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @Controller
 @RequiredArgsConstructor

@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import static springsideproject1.springsideproject1build.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 
 @Controller
 @RequiredArgsConstructor

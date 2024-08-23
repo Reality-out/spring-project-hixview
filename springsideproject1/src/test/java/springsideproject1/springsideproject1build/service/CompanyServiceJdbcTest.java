@@ -7,20 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.company.Company;
-import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
+import springsideproject1.springsideproject1build.domain.entity.company.Company;
+import springsideproject1.springsideproject1build.domain.service.CompanyService;
+import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_CODE;
-import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_CODE;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
 
 @SpringBootTest
 @Transactional
-class CompanyServiceJdbcTest implements CompanyTestUtility {
+class CompanyServiceJdbcTest implements CompanyTestUtils {
 
     @Autowired
     CompanyService companyService;

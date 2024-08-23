@@ -7,19 +7,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.utility.test.MemberTestUtility;
+import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.vo.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.vo.REQUEST_URL.MEMBERSHIP_URL;
-import static springsideproject1.springsideproject1build.vo.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.MEMBERSHIP_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMemberControllerTest implements MemberTestUtility {
+class UserMemberControllerTest implements MemberTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
