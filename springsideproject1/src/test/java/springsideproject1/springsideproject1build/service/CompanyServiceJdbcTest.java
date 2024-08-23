@@ -41,7 +41,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @Test
     public void findCompanyWithCodeAndName() {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);
@@ -56,7 +56,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @Test
     public void registerCompany() {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);
@@ -69,19 +69,19 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @Test
     public void registerCompanies() {
         // given & when
-        companyService.registerCompanies(createSamsungElectronics(), createSKHynix());
+        companyService.registerCompanies(samsungElectronics, skHynix);
 
         // then
         assertThat(companyService.findCompanies())
-                .usingRecursiveComparison().isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
+                .usingRecursiveComparison().isEqualTo(List.of(skHynix, samsungElectronics));
     }
 
     @DisplayName("기업 중복 코드로 등록")
     @Test
     public void registerDuplicatedCompanyWithSameCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.registerCompanies(createSamsungElectronics(),
-                        Company.builder().company(createSKHynix()).code(createSamsungElectronics().getCode()).build()));
+                () -> companyService.registerCompanies(samsungElectronics,
+                        Company.builder().company(skHynix).code(samsungElectronics.getCode()).build()));
 
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
     }
@@ -90,7 +90,7 @@ class CompanyServiceJdbcTest implements CompanyTestUtility {
     @Test
     public void correctCompanyByFaultCode() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.correctCompany(createSamsungElectronics()));
+                () -> companyService.correctCompany(samsungElectronics));
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 

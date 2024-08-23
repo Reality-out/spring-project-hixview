@@ -41,8 +41,8 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void getCompanyArticles() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestNewArticle();
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testNewArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -59,8 +59,8 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void getCompanyArticleByDate() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestEqualDateArticle();
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testEqualDateArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -77,9 +77,9 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void getCompanyArticleByDateRange() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestEqualDateArticle();
-        CompanyArticle article3 = createTestNewArticle();
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testEqualDateArticle;
+        CompanyArticle article3 = testNewArticle;
 
         List<CompanyArticle> articles = List.of(article1, article2, article3);
         List<CompanyArticle> sortedArticles = articles.stream()
@@ -103,8 +103,8 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void getCompanyArticleByNumber() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestNewArticle();
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testNewArticle;
 
         // when
         article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
@@ -126,8 +126,8 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void getCompanyArticleByName() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestNewArticle();
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testNewArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -149,7 +149,7 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void saveCompanyArticle() {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
 
         // when
         articleRepository.saveArticle(article);
@@ -165,25 +165,25 @@ class CompanyArticleRepositoryJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void updateCompanyArticle() {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
 
         // when
         articleRepository.saveArticle(article);
 
         // then
-        articleRepository.updateArticle(CompanyArticle.builder().article(createTestNewArticle()).name(article.getName()).build());
+        articleRepository.updateArticle(CompanyArticle.builder().article(testNewArticle).name(article.getName()).build());
         assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER, NAME)
-                .isEqualTo(createTestNewArticle());
+                .isEqualTo(testNewArticle);
     }
 
     @DisplayName("기업 기사 이름으로 제거")
     @Test
     public void removeCompanyArticleByName() {
         // given
-        CompanyArticle article1 = createTestArticle();
-        CompanyArticle article2 = createTestEqualDateArticle();
+        CompanyArticle article1 = testArticle;
+        CompanyArticle article2 = testEqualDateArticle;
 
         // when
         articleRepository.saveArticle(article1);

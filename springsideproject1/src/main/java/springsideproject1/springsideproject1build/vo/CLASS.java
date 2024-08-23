@@ -3,8 +3,9 @@ package springsideproject1.springsideproject1build.vo;
 public class CLASS {
     // Article
     public static final String ARTICLE = "article";
-    public static final String DATE = "date";
     public static final String PRESS = "press";
+    public static final String SUBJECT_COMPANY = "subjectCompany";
+    public static final String DATE = "date";
 
     // Company
     public static final String COMPANY = "company";

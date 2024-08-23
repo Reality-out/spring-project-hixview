@@ -72,7 +72,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void accessCompanyAddFinish() throws Exception {
         // given & when
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // then
         mockMvc.perform(postWithCompany(ADD_SINGLE_COMPANY_URL, company))
@@ -104,7 +104,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void searchNameCompanyModify() throws Exception {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);
@@ -127,7 +127,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void searchCodeCompanyModify() throws Exception {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);
@@ -148,7 +148,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void accessCompanyModifyFinish() throws Exception {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);
@@ -172,7 +172,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void accessCompaniesSee() throws Exception {
         // given & when
-        companyService.registerCompanies(createSKHynix(), createSamsungElectronics());
+        companyService.registerCompanies(skHynix, samsungElectronics);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
@@ -180,7 +180,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
                         view().name(MANAGER_SELECT_VIEW + "companiesPage"))
                 .andReturn().getModelAndView()).getModelMap().get("companies"))
                 .usingRecursiveComparison()
-                .isEqualTo(List.of(createSKHynix(), createSamsungElectronics()));
+                .isEqualTo(List.of(skHynix, samsungElectronics));
     }
 
     @DisplayName("기업 없애기 페이지 접속")
@@ -198,7 +198,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void accessCompanyRidFinish() throws Exception {
         // given
-        Company article = createSamsungElectronics();
+        Company article = samsungElectronics;
         String name = article.getName();
 
         // when

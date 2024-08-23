@@ -37,8 +37,8 @@ class MemberTest implements MemberTestUtility {
     @Test
     public void saveMemberWithVariousPhoneNumber() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = Member.builder().member(createTestNewMember()).phoneNumber("01023456789").build();
+        Member member1 = testMember;
+        Member member2 = Member.builder().member(testNewMember).phoneNumber("01023456789").build();
         
         // when
         member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();

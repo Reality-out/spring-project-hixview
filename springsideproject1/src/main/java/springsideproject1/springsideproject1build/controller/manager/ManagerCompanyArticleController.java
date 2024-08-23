@@ -24,15 +24,13 @@ import springsideproject1.springsideproject1build.validation.validator.CompanyAr
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.utility.MainUtils.decodeUTF8;
 import static springsideproject1.springsideproject1build.utility.MainUtils.encodeUTF8;
-import static springsideproject1.springsideproject1build.vo.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.vo.CLASS.NAME;
+import static springsideproject1.springsideproject1build.vo.CLASS.*;
 import static springsideproject1.springsideproject1build.vo.LAYOUT.*;
 import static springsideproject1.springsideproject1build.vo.REGEX.EMAIL_REGEX;
 import static springsideproject1.springsideproject1build.vo.REGEX.NUMBER_REGEX;
@@ -86,12 +84,12 @@ public class ManagerCompanyArticleController {
         }
         companyArticleDtoValidator.validate(articleDto, bindingResult);             // Custom Validation
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            bindingResult.rejectValue("subjectCompany", "NotFound.companyArticle.subjectCompany");
+            bindingResult.rejectValue(SUBJECT_COMPANY, "NotFound.companyArticle.subjectCompany");
         }
         if (bindingResult.hasErrors()) {
             handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return senderPage;
-        }                                                                           // Errors are reflected directly
+            return senderPage;                                                      // Errors are reflected directly
+        }
         try {
             articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
             redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
@@ -122,8 +120,8 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticlesWithString(@RequestParam String subjectCompany, @RequestParam String articleString,
-                                                     @RequestParam String linkString, RedirectAttributes redirect, Model model) {
+    public String submitAddCompanyArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
+                                                     @RequestParam String subjectCompany, RedirectAttributes redirect, Model model) {
         String senderPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
         if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
             handleErrorForModel(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
@@ -137,13 +135,13 @@ public class ManagerCompanyArticleController {
             return senderPage;
         }
 
-        List<List<String>> partialArticleLists = parseArticleString(articleString);
-        List<CompanyArticle> returnList = new ArrayList<>();
+        List<List<String>> partialArticleLists = parseArticleString(nameDatePressString);
         if (partialArticleLists.size() != linkList.size()) {
             handleErrorForModel(NOT_EQUAL_LIST_SIZE, ADD_PROCESS_PATH, INDEX_OUT_OF_BOUND_ERROR, model);
             return senderPage;
         }
 
+        List<String> returnList = new ArrayList<>();
         CompanyArticleDto companyArticleDto = new CompanyArticleDto();
         String receiverPage = URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         try {
@@ -168,25 +166,23 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDto(companyArticleDto).build()));
+                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDto(companyArticleDto).build()).getName());
             }
-            handleErrorForRedirect("", redirect, getEncodedNameList(returnList), false, null);
-        } catch (NotMatchException e) {
-            handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),false, NOT_MATCH_ARTICLE_ERROR);
+            handleForRedirect("", redirect, encodeUTF8(returnList), false, null);
         } catch (NumberFormatException e) {
             if (companyArticleDto.getImportance() == null || NUMBER_REGEX.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
-                handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),
+                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList),
                         false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
-                handleErrorForRedirect(e.getMessage(), redirect, getEncodedNameList(returnList),
+                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList),
                         false, NUMBER_FORMAT_INTEGER_ERROR);
             }
         } catch (ConstraintValidationException e) {
-            handleErrorForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
-                    getEncodedNameList(returnList), e.isBeanValidationViolated(), null);
+            handleForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
+                    encodeUTF8(returnList), e.isBeanValidationViolated(), null);
         } catch (AlreadyExistException e) {
-            handleErrorForRedirect(e.getMessage(), redirect,
-                    getEncodedNameList(returnList),false, EXIST_COMPANY_ARTICLE_ERROR);
+            handleForRedirect(e.getMessage(), redirect,
+                    encodeUTF8(returnList),false, EXIST_COMPANY_ARTICLE_ERROR);
         }
         return receiverPage;
     }
@@ -284,12 +280,6 @@ public class ManagerCompanyArticleController {
     /**
      * Other private methods
      */
-    // Encode
-    private List<String> getEncodedNameList(List<CompanyArticle> returnList) {
-        return encodeUTF8(returnList.stream()
-                .map(CompanyArticle::getName).collect(Collectors.toList()));
-    }
-
     // Handle Error
     private void handleErrorForModel(String logMessage, String layoutPath, String error, Model model) {
         log.error(ERRORS_ARE, logMessage);
@@ -297,8 +287,8 @@ public class ManagerCompanyArticleController {
         model.addAttribute(ERROR, error);
     }
 
-    private void handleErrorForRedirect(String logMessage, RedirectAttributes redirect,
-                                        List<String> nameListString, boolean beanValidationError, String errorSingle) {
+    private void handleForRedirect(String logMessage, RedirectAttributes redirect,
+                                   List<String> nameListString, boolean beanValidationError, String errorSingle) {
         if (!logMessage.isEmpty()) {
             log.error(ERRORS_ARE, logMessage);
         }

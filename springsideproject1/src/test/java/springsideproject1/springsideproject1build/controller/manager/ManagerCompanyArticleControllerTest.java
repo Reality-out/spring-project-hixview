@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.article.CompanyArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.service.CompanyService;
@@ -19,7 +20,6 @@ import springsideproject1.springsideproject1build.utility.test.CompanyArticleTes
 import springsideproject1.springsideproject1build.utility.test.CompanyTestUtility;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,9 +53,22 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Autowired
     CompanyService companyService;
 
-    private final JdbcTemplate jdbcTemplateTest;
+    // Request Key
+    private final String nameDatePress = "nameDatePressString";
+    private final String link = "linkString";
+
+    // Request Value
     private final String dataTypeKorValue = "기사";
     private final String keyValue = "기사명";
+    private final String requestNameDatePress = testArticleStringBuffer.getNameDatePressString();
+    private final String requestLink = testArticleStringBuffer.getLinkString();
+    private final String requestSubjectCompany = testArticleStringBuffer.getSubjectCompany();
+
+    // Assertion
+    private final String singleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    private final String stringProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+
+    private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
     public ManagerCompanyArticleControllerTest(DataSource dataSource) {
@@ -73,7 +86,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     public void accessCompanyArticleAdd() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE));
@@ -86,7 +99,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         CompanyArticleDto articleDto = createTestArticleDto();
 
         // when
-        companyService.registerCompany(createSamsungElectronics());
+        companyService.registerCompany(samsungElectronics);
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -94,8 +107,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeUTF8(articleDto.getName())));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeUTF8(articleDto.getName())))
+        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, 
+                        encodeUTF8(articleDto.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
@@ -112,9 +125,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setSubjectCompany(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -133,9 +145,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setLink(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -147,9 +158,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("NotNull(null)에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
@@ -166,9 +176,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setLink("NotUrl");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
@@ -188,9 +197,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setDate(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
@@ -207,9 +215,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
@@ -228,9 +235,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setDate(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE))
@@ -249,13 +255,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .param(NAME, articleDto.getName())
                                 .param(PRESS, articleDto.getPress())
-                                .param("subjectCompany", articleDto.getSubjectCompany())
+                                .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
                                 .param("link", articleDto.getLink())
                                 .param("year", INVALID_VALUE)
                                 .param("month", INVALID_VALUE)
                                 .param(DATE, INVALID_VALUE)
                                 .param("importance", INVALID_VALUE))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
@@ -270,9 +276,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(
-                        ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE));
@@ -282,19 +287,18 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void duplicatedNameCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticle article1 = createTestArticle();
+        CompanyArticle article1 = testArticle;
         String commonName = article1.getName();
         CompanyArticleDto articleDto2 = createTestNewArticleDto();
         articleDto2.setName(commonName);
 
         // when
         articleService.registerArticle(article1);
-        companyService.registerCompany(createSamsungElectronics());
+        companyService.registerCompany(samsungElectronics);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(
-                ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
+                .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, EXIST_COMPANY_ARTICLE_ERROR),
@@ -306,7 +310,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     public void accessCompanyArticleAddWithString() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
     }
@@ -315,21 +319,20 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void accessCompanyArticleAddWithStringFinish() throws Exception {
         // given
-        List<String> articleString = createTestStringArticle();
-        List<String> nameList = Stream.of(createTestEqualDateArticle(), createTestNewArticle())
+        List<String> nameList = Stream.of(testEqualDateArticle, testNewArticle)
                 .map(CompanyArticle::getName).collect(Collectors.toList());
 
         // when
-        companyService.registerCompany(createSamsungElectronics());
+        companyService.registerCompany(samsungElectronics);
 
         // then
         String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
         ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", articleString.getLast());
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, requestLink);
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
@@ -360,16 +363,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
     @Test
     public void addCompanyArticleWithStringNotExistSubject() throws Exception {
-        // given & when
-        List<String> articleString = createTestStringArticle();
-
-        // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", INVALID_VALUE);
-                    put("articleString", articleString.get(1));
-                    put("linkString", String.valueOf(articleString.getLast()));
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, INVALID_VALUE);
+                    put(link, requestLink);
                 }}))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                .andExpectAll(view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
@@ -378,39 +377,36 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("URL 값이 아닌 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void validateNotMatchLinkCompanyArticleAddWithString() throws Exception {
-        // given
-        List<String> articleString = createTestStringArticle();
-
-        // when
-        companyService.registerCompany(createSamsungElectronics());
+        // given & when
+        companyService.registerCompany(samsungElectronics);
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", String.valueOf(List.of("", "")));
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, String.valueOf(List.of("", "")));
                 }}))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                .andExpectAll(view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, NOT_MATCH_LINK_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", String.valueOf(List.of(" ", " ")));
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, String.valueOf(List.of(" ", " ")));
                 }}))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                .andExpectAll(view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, NOT_MATCH_LINK_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", String.valueOf(List.of(INVALID_VALUE, INVALID_VALUE)));
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, String.valueOf(List.of(INVALID_VALUE, INVALID_VALUE)));
                 }}))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                .andExpectAll(view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, NOT_MATCH_LINK_ERROR)));
@@ -419,20 +415,16 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void registerArticleListBiggerThanLinkListCompanyArticleWithString() throws Exception {
-        // given
-        List<String> articleString = new ArrayList<>(createTestStringArticle());
-        articleString.set(2, createTestEqualDateArticle().getLink());
-
-        // when
-        companyService.registerCompany(createSamsungElectronics());
+        // given & when
+        companyService.registerCompany(samsungElectronics);
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", articleString.getLast());
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, testEqualDateArticle.getLink());
                 }}))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                .andExpectAll(view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
@@ -441,22 +433,16 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void registerLinkListBiggerThanArticleListCompanyArticleWithString() throws Exception {
-        // given
-        List<String> articleString = new ArrayList<>(createTestStringArticle());
-        articleString.set(1, String.join(System.lineSeparator(),
-                List.of("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
-                        "(2024-6-18, BUSINESS_POST)")));
-
-        // when
-        companyService.registerCompany(createSamsungElectronics());
+        // given & when
+        companyService.registerCompany(samsungElectronics);
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", articleString.getLast());
+                    put(nameDatePress, CompanyArticleBufferSimple.builder().article(testNewArticle).build().getNameDatePressString());
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, requestLink);
                 }}))
-                .andExpectAll(view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                .andExpectAll(view().name(stringProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
@@ -465,18 +451,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
     public void registerNotCorrectNumberFormatDateCompanyArticleWithString() throws Exception {
-        // given
-        List<String> articleString = new ArrayList<>(createTestStringArticle());
-        articleString.set(1, articleString.get(1).replace("2024", INVALID_VALUE));
-
-        // when
-        companyService.registerCompany(createSamsungElectronics());
+        // given & when
+        companyService.registerCompany(samsungElectronics);
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", articleString.getLast());
+                    put(nameDatePress, requestNameDatePress.replace("2024", INVALID_VALUE));
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, requestLink);
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
@@ -487,26 +469,21 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @DisplayName("기업 기사 단일 문자열로 중복으로 등록")
     @Test
     public void registerDuplicatedCompanyArticleWithString() throws Exception {
-        // given
-        CompanyArticle article = createTestNewArticle();
-        List<String> articleString = createTestStringArticle();
-
-        // when
-        articleService.registerArticle(article);
-        companyService.registerCompany(createSamsungElectronics());
+        // given & when
+        articleService.registerArticle(testNewArticle);
+        companyService.registerCompany(samsungElectronics);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("subjectCompany", articleString.getFirst());
-                    put("articleString", articleString.get(1));
-                    put("linkString", articleString.getLast());
+                    put(nameDatePress, requestNameDatePress);
+                    put(SUBJECT_COMPANY, requestSubjectCompany);
+                    put(link, requestLink);
                 }}))
-                .andExpectAll(view().name(
-                                URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                .andExpectAll(view().name(URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
                         model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, EXIST_COMPANY_ARTICLE_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get("nameList"))
-                .usingRecursiveComparison().isEqualTo(toStringForUrl(List.of(createTestEqualDateArticle().getName())));
+                .usingRecursiveComparison().isEqualTo(toStringForUrl(List.of(testEqualDateArticle.getName())));
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")
@@ -523,7 +500,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void searchNameCompanyArticleModify() throws Exception {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
 
         // when
         article = articleService.registerArticle(article);
@@ -561,7 +538,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void accessCompanyArticleModifyFinish() throws Exception {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
 
         // when
         article = articleService.registerArticle(article);
@@ -585,7 +562,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void accessCompanyArticlesSee() throws Exception {
         // given & when
-        List<CompanyArticle> articleList = articleService.registerArticles(createTestArticle(), createTestNewArticle());
+        List<CompanyArticle> articleList = articleService.registerArticles(testArticle, testNewArticle);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
@@ -611,7 +588,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtility, 
     @Test
     public void accessCompanyArticleRidFinish() throws Exception {
         // given & when
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
         String name = article.getName();
 
         // when

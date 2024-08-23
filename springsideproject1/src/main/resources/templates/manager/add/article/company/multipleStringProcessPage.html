@@ -4,16 +4,16 @@
 <form th:action method="POST">
     <div>
         <div>
-            <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
-            <input type="text" id="subjectCompany" name="subjectCompany">
-        </div>
-        <div>
-            <label for="articleString" th:text="|#{data.multiple} #{article}|"></label>
-            <textarea id="articleString" name="articleString" spellcheck="false" wrap="soft"></textarea>
+            <label for="nameDatePressString" th:text="|#{data.multiple} #{article}|"></label>
+            <textarea id="nameDatePressString" name="nameDatePressString" spellcheck="false" wrap="soft"></textarea>
         </div>
         <div>
             <label for="linkString" th:text="|#{data.multiple} #{article.link}|"></label>
             <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+        </div>
+        <div>
+            <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
+            <input type="text" id="subjectCompany" name="subjectCompany">
         </div>
         <div th:if="${error} != null" th:classappend="fieldError">
             <th:block th:switch="${error}">

@@ -20,17 +20,6 @@ public interface CompanyTestUtility extends ObjectTestUtility {
             .category1st(FirstCategory.SEMICONDUCTOR).category2nd(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();
 
     /**
-     * Create
-     */
-    default Company createSamsungElectronics() {
-        return samsungElectronics;
-    }
-
-    default Company createSKHynix() {
-        return skHynix;
-    }
-
-    /**
      * Request
      */
     default MockHttpServletRequestBuilder postWithCompany(String url, Company company) {

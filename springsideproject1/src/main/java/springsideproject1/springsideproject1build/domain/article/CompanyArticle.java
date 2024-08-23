@@ -63,7 +63,7 @@ public class CompanyArticle {
         return new HashMap<>() {{
             put(NAME, name);
             put(PRESS, press);
-            put("subjectCompany", subjectCompany);
+            put(SUBJECT_COMPANY, subjectCompany);
             put("link", link);
             put(DATE, date);
             put("importance", importance);

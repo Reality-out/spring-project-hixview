@@ -40,7 +40,7 @@ class MemberServiceJdbcTest implements MemberTestUtility {
     @Test
     public void membership() {
         // given
-        Member member = createTestMember();
+        Member member = testMember;
 
         // when
         member = memberService.registerMember(member);
@@ -52,16 +52,12 @@ class MemberServiceJdbcTest implements MemberTestUtility {
     @DisplayName("회원 중복 ID로 가입")
     @Test
     public void duplicatedMembershipWithSameID() {
-        // given
-        Member member1 = createTestMember();
-        Member member2 = createTestMember();
-
-        // when
-        memberService.registerMember(member1);
+        // given & when
+        memberService.registerMember(testMember);
 
         // then
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> memberService.registerMember(member2));
+                () -> memberService.registerMember(testMember));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_MEMBER_ID);
     }
 

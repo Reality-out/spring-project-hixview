@@ -38,8 +38,8 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
     @Test
     public void getCompanies() {
         // given
-        Company company1 = createSamsungElectronics();
-        Company company2 = createSKHynix();
+        Company company1 = samsungElectronics;
+        Company company2 = skHynix;
 
         // when
         companyRepository.saveCompany(company1);
@@ -53,8 +53,8 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
     @Test
     public void getCompanyByCode() {
         // given
-        Company company1 = createSamsungElectronics();
-        Company company2 = createSKHynix();
+        Company company1 = samsungElectronics;
+        Company company2 = skHynix;
 
         // when
         companyRepository.saveCompany(company1);
@@ -69,8 +69,8 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
     @Test
     public void getCompanyByName() {
         // given
-        Company company1 = createSamsungElectronics();
-        Company company2 = createSKHynix();
+        Company company1 = samsungElectronics;
+        Company company2 = skHynix;
 
         // when
         companyRepository.saveCompany(company1);
@@ -85,7 +85,7 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
     @Test
     public void saveCompany() {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyRepository.saveCompany(company);
@@ -99,9 +99,9 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
     @Test
     public void updateCompany() {
         // given
-        Company updateCompany = createSamsungElectronics();
+        Company updateCompany = samsungElectronics;
         String commonCode = updateCompany.getCode();
-        Company initialCompany = Company.builder().company(createSKHynix()).code(commonCode).build();
+        Company initialCompany = Company.builder().company(skHynix).code(commonCode).build();
         companyRepository.saveCompany(initialCompany);
 
         // when
@@ -116,8 +116,8 @@ class CompanyRepositoryJdbcTest implements CompanyTestUtility {
     @Test
     public void removeCompanyByCode() {
         // given
-        Company company1 = createSamsungElectronics();
-        Company company2 = createSKHynix();
+        Company company1 = samsungElectronics;
+        Company company2 = skHynix;
 
         // when
         companyRepository.saveCompany(company1);

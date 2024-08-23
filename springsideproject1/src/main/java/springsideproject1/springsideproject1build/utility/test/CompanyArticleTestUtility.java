@@ -2,12 +2,9 @@ package springsideproject1.springsideproject1build.utility.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.article.CompanyArticleDto;
-import springsideproject1.springsideproject1build.domain.article.Press;
+import springsideproject1.springsideproject1build.domain.article.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.vo.CLASS.*;
@@ -45,42 +42,18 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
             .importance(0)
             .build();
 
-    // These codes consist of two contents, createTestEqualDateArticle and createTestNewArticle
-    List<String> testStringArticle = List.of("삼성전자",
-            String.join(System.lineSeparator(),
-                    List.of("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회",
-                            "(2024-6-18, BUSINESS_POST)",
-                            "[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치",
-                            "(2024-6-17, HERALD_ECONOMY)")),
-            String.join(System.lineSeparator(),
-                    List.of("https://www.businesspost.co.kr/BP?command=article_view&num=355822",
-                            "https://biz.heraldcorp.com/view.php?ud=20240617050050")));
+    CompanyArticleBufferSimple testArticleStringBuffer = CompanyArticleBufferSimple.builder()
+            .articles(testEqualDateArticle, testNewArticle).build();
 
     /**
      * Create
      */
-    default CompanyArticle createTestArticle() {
-        return testArticle;
-    }
-
     default CompanyArticleDto createTestArticleDto() {
         return testArticle.toDto();
     }
 
-    default CompanyArticle createTestNewArticle() {
-        return testNewArticle;
-    }
-
     default CompanyArticleDto createTestNewArticleDto() {
         return testNewArticle.toDto();
-    }
-
-    default CompanyArticle createTestEqualDateArticle() {
-        return testEqualDateArticle;
-    }
-
-    default List<String> createTestStringArticle() {
-        return testStringArticle;
     }
 
     /**
@@ -91,7 +64,7 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
                 .param("number", String.valueOf(article.getNumber()))
                 .param(NAME, article.getName())
                 .param(PRESS, article.getPress().name())
-                .param("subjectCompany", article.getSubjectCompany())
+                .param(SUBJECT_COMPANY, article.getSubjectCompany())
                 .param("link", article.getLink())
                 .param("year", String.valueOf(article.getDate().getYear()))
                 .param("month", String.valueOf(article.getDate().getMonthValue()))
@@ -104,7 +77,7 @@ public interface CompanyArticleTestUtility extends ObjectTestUtility {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param(NAME, articleDto.getName())
                 .param(PRESS, articleDto.getPress())
-                .param("subjectCompany", articleDto.getSubjectCompany())
+                .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
                 .param("link", articleDto.getLink())
                 .param("year", String.valueOf(articleDto.getYear()))
                 .param("month", String.valueOf(articleDto.getMonth()))

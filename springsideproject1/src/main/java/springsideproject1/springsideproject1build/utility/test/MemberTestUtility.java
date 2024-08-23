@@ -24,17 +24,6 @@ public interface MemberTestUtility extends ObjectTestUtility {
             .birth(LocalDate.of(1999, 9, 1)).phoneNumber("010-2345-6789").build();
 
     /**
-     * Create
-     */
-    default Member createTestMember() {
-        return testMember;
-    }
-
-    default Member createTestNewMember() {
-        return testNewMember;
-    }
-
-    /**
      * Request
      */
     default MockHttpServletRequestBuilder postWithMember(String url, Member member) {

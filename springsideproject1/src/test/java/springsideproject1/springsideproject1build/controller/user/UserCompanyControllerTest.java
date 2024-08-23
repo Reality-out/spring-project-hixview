@@ -60,7 +60,7 @@ class UserCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void searchCompanyByCode() throws Exception {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);
@@ -79,7 +79,7 @@ class UserCompanyControllerTest implements CompanyTestUtility {
     @Test
     public void searchCompanyByName() throws Exception {
         // given
-        Company company = createSamsungElectronics();
+        Company company = samsungElectronics;
 
         // when
         companyService.registerCompany(company);

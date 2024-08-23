@@ -53,8 +53,8 @@ class ManagerMemberControllerTest implements MemberTestUtility {
     @Test
     public void accessMembersSee() throws Exception {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         member1 = memberService.registerMember(member1);
@@ -85,7 +85,7 @@ class ManagerMemberControllerTest implements MemberTestUtility {
     @Test
     public void accessMembershipWithdrawFinish() throws Exception {
         // given
-        Member member = createTestMember();
+        Member member = testMember;
 
         // when
         memberService.registerMember(member);

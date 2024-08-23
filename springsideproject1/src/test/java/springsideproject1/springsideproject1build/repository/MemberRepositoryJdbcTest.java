@@ -40,8 +40,8 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMembers() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         memberRepository.saveMember(member1);
@@ -58,8 +58,8 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMemberByName() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         memberRepository.saveMember(member1);
@@ -80,9 +80,9 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMembersByName() {
         // given
-        Member member1 = createTestMember();
+        Member member1 = testMember;
         String commonName = member1.getName();
-        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).build();
+        Member member2 = Member.builder().member(testNewMember).name(commonName).build();
 
         // when
         memberRepository.saveMember(member1);
@@ -99,8 +99,8 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMemberByBirth() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         memberRepository.saveMember(member1);
@@ -121,9 +121,9 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMembersByBirth() {
         // given
-        Member member1 = createTestMember();
+        Member member1 = testMember;
         LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(createTestNewMember()).birth(commonBirth).build();
+        Member member2 = Member.builder().member(testNewMember).birth(commonBirth).build();
 
         // when
         memberRepository.saveMember(member1);
@@ -140,7 +140,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMemberByNameAndBirth() {
         // given
-        Member member = createTestMember();
+        Member member = testMember;
 
         // when
         memberRepository.saveMember(member);
@@ -156,10 +156,10 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMembersByNameAndBirth() {
         // given
-        Member member1 = createTestMember();
+        Member member1 = testMember;
         String commonName = member1.getName();
         LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).birth(commonBirth).build();
+        Member member2 = Member.builder().member(testNewMember).name(commonName).birth(commonBirth).build();
 
         // when
         memberRepository.saveMember(member1);
@@ -176,8 +176,8 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMemberByIdentifier() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         memberRepository.saveMember(member1);
@@ -198,8 +198,8 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void getMemberByID() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         memberRepository.saveMember(member1);
@@ -220,7 +220,7 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void saveMember() {
         // given
-        Member member = createTestMember();
+        Member member = testMember;
 
         // when
         memberRepository.saveMember(member);
@@ -236,8 +236,8 @@ class MemberRepositoryJdbcTest implements MemberTestUtility {
     @Test
     public void removeMemberByID() {
         // given
-        Member member1 = createTestMember();
-        Member member2 = createTestNewMember();
+        Member member1 = testMember;
+        Member member2 = testNewMember;
 
         // when
         memberRepository.saveMember(member1);

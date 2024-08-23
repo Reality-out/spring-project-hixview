@@ -43,7 +43,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void findCompanyArticleWithNumberAndName() {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
 
         // when
         article = articleService.registerArticle(article);
@@ -57,17 +57,17 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @DisplayName("기업 기사들 동시 등록")
     @Test
     public void registerCompanyArticles() {
-        assertThat(articleService.registerArticles(createTestArticle(), createTestNewArticle()))
+        assertThat(articleService.registerArticles(testArticle, testNewArticle))
                 .usingRecursiveComparison()
                 .ignoringFields("number")
-                .isEqualTo(List.of(createTestArticle(), createTestNewArticle()));
+                .isEqualTo(List.of(testArticle, testNewArticle));
     }
 
     @DisplayName("기업 기사 등록")
     @Test
     public void registerCompanyArticle() {
         // given
-        CompanyArticle article = createTestArticle();
+        CompanyArticle article = testArticle;
 
         // when
         article = articleService.registerArticle(article);
@@ -82,8 +82,8 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void registerDuplicatedCompanyArticleWithSameName() {
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
-                () -> articleService.registerArticles(createTestArticle(),
-                        CompanyArticle.builder().article(createTestNewArticle()).name(createTestArticle().getName()).build()));
+                () -> articleService.registerArticles(testArticle,
+                        CompanyArticle.builder().article(testNewArticle).name(testArticle.getName()).build()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
     }
 
@@ -91,7 +91,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtility {
     @Test
     public void correctCompanyArticleWithFaultName() {
         NotFoundException e = assertThrows(NotFoundException.class,
-                () -> articleService.correctArticle(createTestArticle()));
+                () -> articleService.correctArticle(testArticle));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
 

@@ -36,7 +36,7 @@ class UserMemberControllerTest implements MemberTestUtility {
     @DisplayName("회원가입 완료 페이지 접속")
     @Test
     public void accessMembershipFinish() throws Exception {
-        mockMvc.perform(postWithMember(MEMBERSHIP_URL, createTestMember()))
+        mockMvc.perform(postWithMember(MEMBERSHIP_URL, testMember))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrl(MEMBERSHIP_URL + URL_FINISH_SUFFIX));
 

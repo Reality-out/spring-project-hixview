@@ -52,10 +52,10 @@ class UserMainControllerTest implements MemberTestUtility {
     @Test
     public void checkSpecialCharacterLogicInQueryString() throws Exception {
         // given
-        Member member1 = Member.builder().member(createTestMember()).id("a1!@#$%^&*()-_+=").build();
+        Member member1 = Member.builder().member(testMember).id("a1!@#$%^&*()-_+=").build();
         String commonName = member1.getName();
         LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(createTestNewMember()).id("b2{[}]\\|;:'\"<,>.?/").name(commonName).birth(commonBirth).build();
+        Member member2 = Member.builder().member(testNewMember).id("b2{[}]\\|;:'\"<,>.?/").name(commonName).birth(commonBirth).build();
 
         // when
         memberService.registerMember(member1);
@@ -111,10 +111,10 @@ class UserMainControllerTest implements MemberTestUtility {
     @Test
     public void accessFindIdFinish() throws Exception {
         // given
-        Member member1 = createTestMember();
+        Member member1 = testMember;
         String commonName = member1.getName();
         LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(createTestNewMember()).name(commonName).birth(commonBirth).build();
+        Member member2 = Member.builder().member(testNewMember).name(commonName).birth(commonBirth).build();
 
         // when
         memberService.registerMember(member1);
