@@ -9,7 +9,7 @@ import lombok.Getter;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

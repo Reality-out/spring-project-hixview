@@ -10,12 +10,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
+import springsideproject1.springsideproject1build.util.MainUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.util.MainUtils.decodeUTF8;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeUTF8;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
@@ -65,7 +64,7 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
         Member member = Member.builder().memberDto(memberDto).build();
-        redirect.addAttribute(idListString, encodeUTF8(memberService.findMembersByNameAndBirth(
+        redirect.addAttribute(idListString, MainUtils.encodeWithUTF8(memberService.findMembersByNameAndBirth(
                 member.getName(), member.getBirth()).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;
     }
@@ -73,7 +72,7 @@ public class UserMainController {
     @GetMapping(FIND_ID_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
-        model.addAttribute(idListString, decodeUTF8(idList));
+        model.addAttribute(idListString, MainUtils.decodeWithUTF8(idList));
         return USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

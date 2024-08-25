@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.service;
+package springsideproject1.springsideproject1build.domain.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
-import springsideproject1.springsideproject1build.domain.service.MemberService;
 import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import javax.sql.DataSource;
@@ -17,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_MEMBER_ID;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_MEMBER_WITH_THAT_ID;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -34,7 +34,7 @@ class MemberServiceJdbcTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, memberTable, true);
+        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
     }
 
     @DisplayName("회원 가입")

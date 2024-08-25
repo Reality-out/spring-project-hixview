@@ -11,8 +11,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.DATE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 
 @Component
 public class CompanyArticleDtoFieldValidator implements Validator {
@@ -46,7 +45,7 @@ public class CompanyArticleDtoFieldValidator implements Validator {
 
         // importance
         if (!(articleDto.getImportance() == 0 || articleDto.getImportance() == 1)) {
-            errors.rejectValue("importance", "Restrict");
+            errors.rejectValue(IMPORTANCE, "Restrict");
         }
     }
 }

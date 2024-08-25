@@ -20,6 +20,7 @@ import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.domain.validation.CompanyArticleDtoFieldValidator;
 import springsideproject1.springsideproject1build.domain.validation.CompanyArticleDtoObjectComplexValidator;
 import springsideproject1.springsideproject1build.domain.validation.CompanyArticleDtoObjectSimpleValidator;
+import springsideproject1.springsideproject1build.util.MainUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,15 +29,14 @@ import java.util.Optional;
 import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.util.MainUtils.decodeUTF8;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeUTF8;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX;
+import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.util.MainUtils.decodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
 
 @Controller
 @RequiredArgsConstructor
@@ -91,7 +91,7 @@ public class ManagerCompanyArticleController {
             return senderPage;
         }
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
+        redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -99,7 +99,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute(VALUE, decodeUTF8(name));
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
     }
 
@@ -157,17 +157,17 @@ public class ManagerCompanyArticleController {
                 }
                 returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDto(companyArticleDto).build()).getName());
             }
-            handleForRedirect("", redirect, encodeUTF8(returnList), false, null);
+            handleForRedirect("", redirect, MainUtils.encodeWithUTF8(returnList), false, null);
         } catch (NumberFormatException e) {
             if (companyArticleDto.getImportance() == null ||
-                    NUMBER_REGEX.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
-                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList), false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
+                    NUMBER_REGEX_PATTERN.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
+                handleForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(returnList), false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
-                handleForRedirect(e.getMessage(), redirect, encodeUTF8(returnList), false, NUMBER_FORMAT_INTEGER_ERROR);
+                handleForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(returnList), false, NUMBER_FORMAT_INTEGER_ERROR);
             }
         } catch (ConstraintValidationException e) {
             handleForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
-                    encodeUTF8(returnList), e.isBeanValidationViolated(), null);
+                    MainUtils.encodeWithUTF8(returnList), e.isBeanValidationViolated(), null);
         }
         return receiverPage;
     }
@@ -176,7 +176,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean beanValidationError, String errorSingle) {
-        model.addAttribute(nameListString, decodeUTF8(nameList));
+        model.addAttribute(nameListString, MainUtils.decodeWithUTF8(nameList));
         model.addAttribute(BEAN_VALIDATION_ERROR, beanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return MANAGER_ADD_VIEW + "multipleFinishPage";
@@ -224,14 +224,14 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitModifyCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        redirect.addAttribute(NAME, encodeUTF8(articleDto.getName()));
+        redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
-        model.addAttribute(VALUE, decodeUTF8(name));
+        model.addAttribute(VALUE, decodeWithUTF8(name));
 
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
 	}
@@ -251,14 +251,14 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String name) {
         articleService.removeArticle(name);
-        redirect.addAttribute(NAME, encodeUTF8(name));
+        redirect.addAttribute(NAME, encodeWithUTF8(name));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompanyArticle(@RequestParam String name, Model model) {
-        model.addAttribute(VALUE, decodeUTF8(name));
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
     }
 

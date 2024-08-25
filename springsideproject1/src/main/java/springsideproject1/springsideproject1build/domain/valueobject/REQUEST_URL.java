@@ -1,6 +1,6 @@
 package springsideproject1.springsideproject1build.domain.valueobject;
 
-public class REQUEST_URL {
+public abstract class REQUEST_URL {
     /**
      * User
      */

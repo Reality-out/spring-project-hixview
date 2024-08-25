@@ -66,7 +66,7 @@ public interface ObjectTestUtils {
      */
     default String toStringForUrl(List<String> list) {
         return list.stream()
-                .map(MainUtils::encodeUTF8)
+                .map(MainUtils::encodeWithUTF8)
                 .collect(Collectors.joining(","));
     }
 }

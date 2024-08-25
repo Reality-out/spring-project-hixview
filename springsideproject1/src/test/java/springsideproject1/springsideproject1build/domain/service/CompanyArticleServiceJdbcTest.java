@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.service;
+package springsideproject1.springsideproject1build.domain.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 
 import javax.sql.DataSource;
@@ -20,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -37,7 +37,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, companyArticleTable, true);
+        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
     }
 
     @DisplayName("기업 기사 번호와 이름으로 찾기")

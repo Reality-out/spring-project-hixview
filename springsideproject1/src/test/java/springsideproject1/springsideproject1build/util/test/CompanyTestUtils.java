@@ -8,10 +8,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
 
 public interface CompanyTestUtils extends ObjectTestUtils {
-
-    // DB table name
-    String companyTable = "testcompanies";
-
     // Test Object
     Company samsungElectronics = Company.builder().code("005930").country(Country.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")
             .category1st(FirstCategory.SEMICONDUCTOR).category2nd(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();

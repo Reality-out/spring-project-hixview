@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.repository;
+package springsideproject1.springsideproject1build.repository.jdbc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,16 +9,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.company.Company;
 import springsideproject1.springsideproject1build.domain.repository.CompanyRepository;
-import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
+import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.samsungElectronics;
+import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.skHynix;
 
 @SpringBootTest
 @Transactional
-class CompanyRepositoryImplTest implements CompanyTestUtils {
+class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @Autowired
     CompanyRepository companyRepository;
@@ -32,7 +35,7 @@ class CompanyRepositoryImplTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, companyTable);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("기업들 획득")

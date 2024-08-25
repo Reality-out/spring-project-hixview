@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_CODE;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX;
+import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class CompanyService {
     }
 
     public Optional<Company> findCompanyByCodeOrName(String codeOrName) {
-        return NUMBER_REGEX.matcher(codeOrName).matches() ? findCompanyByCode(codeOrName) : findCompanyByName(codeOrName);
+        return NUMBER_REGEX_PATTERN.matcher(codeOrName).matches() ? findCompanyByCode(codeOrName) : findCompanyByName(codeOrName);
     }
 
     /**

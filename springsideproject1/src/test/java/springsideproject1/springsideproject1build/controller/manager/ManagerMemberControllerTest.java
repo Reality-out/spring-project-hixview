@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
@@ -46,7 +47,7 @@ class ManagerMemberControllerTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, memberTable, true);
+        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
     }
 
     @DisplayName("멤버들 보기 페이지 접속")

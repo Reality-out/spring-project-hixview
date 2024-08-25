@@ -8,14 +8,10 @@ import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.DATE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.ID;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 public interface MemberTestUtils extends ObjectTestUtils {
-
-    // DB table name
-    String memberTable = "testmembers";
-
     // Test Object
     Member testMember = Member.builder().id("ABcd1234!").password("EFgh1234!").name("박진하")
             .birth(LocalDate.of(2000, 4, 1)).phoneNumber("010-1234-5678").build();

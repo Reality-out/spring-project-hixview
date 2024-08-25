@@ -11,12 +11,9 @@ import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
-
-    // DB table name
-    String companyArticleTable = "testcompanyarticles";
-
     // Test Object
     CompanyArticle testArticle = CompanyArticle.builder()
             .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
@@ -68,11 +65,11 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
                 .param(NAME, article.getName())
                 .param(PRESS, article.getPress().name())
                 .param(SUBJECT_COMPANY, article.getSubjectCompany())
-                .param("link", article.getLink())
+                .param(LINK, article.getLink())
                 .param("year", String.valueOf(article.getDate().getYear()))
                 .param("month", String.valueOf(article.getDate().getMonthValue()))
                 .param(DATE, String.valueOf(article.getDate().getDayOfMonth()))
-                .param("importance", String.valueOf(article.getImportance()));
+                .param(IMPORTANCE, String.valueOf(article.getImportance()));
     }
 
     default MockHttpServletRequestBuilder postWithCompanyArticleDto(
@@ -81,10 +78,10 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
                 .param(NAME, articleDto.getName())
                 .param(PRESS, articleDto.getPress())
                 .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
-                .param("link", articleDto.getLink())
+                .param(LINK, articleDto.getLink())
                 .param("year", String.valueOf(articleDto.getYear()))
                 .param("month", String.valueOf(articleDto.getMonth()))
                 .param(DATE, String.valueOf(articleDto.getDate()))
-                .param("importance", String.valueOf(articleDto.getImportance()));
+                .param(IMPORTANCE, String.valueOf(articleDto.getImportance()));
     }
 }

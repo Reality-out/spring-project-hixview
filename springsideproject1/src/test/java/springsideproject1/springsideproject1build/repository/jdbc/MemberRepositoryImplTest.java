@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.repository;
+package springsideproject1.springsideproject1build.repository.jdbc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -34,7 +35,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, memberTable, true);
+        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
     }
 
     @DisplayName("회원들 획득")
@@ -231,6 +232,22 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member);
+    }
+
+    @DisplayName("대시가 있는 버전과 없는 버전의 전화번호를 사용하는 회원 저장")
+    @Test
+    public void saveMemberWithVariousPhoneNumber() {
+        // given
+        Member member1 = testMember;
+        Member member2 = Member.builder().member(testNewMember).phoneNumber("01023456789").build();
+
+        // when
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
+
+        // then
+        assertThat(memberRepository.getMemberByID(member1.getId()).orElseThrow()).usingRecursiveComparison().isEqualTo(member1);
+        assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow()).usingRecursiveComparison().isEqualTo(member2);
     }
 
     @DisplayName("회원 ID로 제거")

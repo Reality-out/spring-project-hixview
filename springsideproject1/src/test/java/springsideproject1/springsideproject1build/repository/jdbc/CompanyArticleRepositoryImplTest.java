@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.repository;
+package springsideproject1.springsideproject1build.repository.jdbc;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @SpringBootTest
 @Transactional
@@ -35,7 +36,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, companyArticleTable, true);
+        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
     }
 
     @DisplayName("기업 기사들 획득")

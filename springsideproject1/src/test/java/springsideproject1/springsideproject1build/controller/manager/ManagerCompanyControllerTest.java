@@ -22,13 +22,14 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeUTF8;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -52,7 +53,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, companyTable, true);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE, true);
     }
 
     @DisplayName("기업 추가 페이지 접속")
@@ -78,10 +79,10 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(postWithCompany(ADD_SINGLE_COMPANY_URL, company))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeUTF8(company.getName())));
+                        model().attribute(NAME, encodeWithUTF8(company.getName())));
 
         mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeUTF8(company.getName())))
+                        NAME, encodeWithUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
@@ -157,10 +158,10 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(postWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, company))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeUTF8(company.getName())));
+                        model().attribute(NAME, encodeWithUTF8(company.getName())));
 
         mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeUTF8(company.getName())))
+                        NAME, encodeWithUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -208,9 +209,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeUTF8(name)));
+                        model().attribute(NAME, encodeWithUTF8(name)));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeUTF8(name)))
+        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),

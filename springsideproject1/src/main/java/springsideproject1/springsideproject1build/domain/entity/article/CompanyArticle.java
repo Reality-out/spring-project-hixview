@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
@@ -64,9 +65,9 @@ public class CompanyArticle {
             put(NAME, name);
             put(PRESS, press);
             put(SUBJECT_COMPANY, subjectCompany);
-            put("link", link);
+            put(LINK, link);
             put(DATE, date);
-            put("importance", importance);
+            put(IMPORTANCE, importance);
         }};
     }
 
