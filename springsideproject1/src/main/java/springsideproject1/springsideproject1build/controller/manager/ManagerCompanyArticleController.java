@@ -79,17 +79,8 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        String senderPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-        if (bindingResult.hasErrors()) {
-            handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
-            return senderPage;
-        }
-        fieldValidator.validate(articleDto, bindingResult);
-        objectComplexValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            handleErrorForModel(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return senderPage;
-        }
+        if (processBindingError(bindingResult, model) || processValidationError(articleDto, bindingResult, model))
+            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -119,22 +110,21 @@ public class ManagerCompanyArticleController {
                                                      @RequestParam String subjectCompany, RedirectAttributes redirect, Model model) {
         String senderPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
         if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
-            handleErrorForModel(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
+            finishForRollback(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
             return senderPage;
         }
-        List<List<String>> partialArticleLists = parseArticleString(nameDatePressString);
+        List<List<String>> nameDatePressList = parseArticleString(nameDatePressString);
         List<String> linkList = parseLinkString(linkString);
-        if (partialArticleLists.size() != linkList.size()) {
-            handleErrorForModel(NOT_EQUAL_LIST_SIZE, ADD_PROCESS_PATH, INDEX_OUT_OF_BOUND_ERROR, model);
+        if (nameDatePressList.size() - linkList.size() != 0) {
+            finishForRollback(NOT_EQUAL_LIST_SIZE, ADD_PROCESS_PATH, INDEX_OUT_OF_BOUND_ERROR, model);
             return senderPage;
         }
 
-        List<String> returnList = new ArrayList<>();
+        List<String> nameList = new ArrayList<>();
         CompanyArticleDto companyArticleDto = new CompanyArticleDto();
-        String receiverPage = URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
         try {
             for (int i = 0; i < linkList.size(); i++) {
-                List<String> partialArticle = partialArticleLists.get(i);
+                List<String> partialArticle = nameDatePressList.get(i);
 
                 companyArticleDto.setName(partialArticle.get(0));
                 companyArticleDto.setPress(partialArticle.get(4));
@@ -155,21 +145,25 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                returnList.add(articleService.registerArticle(CompanyArticle.builder().articleDto(companyArticleDto).build()).getName());
+                nameList.add(articleService.registerArticle(
+                        CompanyArticle.builder().articleDto(companyArticleDto).build()).getName());
             }
-            handleForRedirect("", redirect, MainUtils.encodeWithUTF8(returnList), false, null);
+            finishForRedirect("", redirect, MainUtils.encodeWithUTF8(nameList),
+                    false, null);
         } catch (NumberFormatException e) {
             if (companyArticleDto.getImportance() == null ||
                     NUMBER_REGEX_PATTERN.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
-                handleForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(returnList), false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
+                finishForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(nameList),
+                        false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
-                handleForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(returnList), false, NUMBER_FORMAT_INTEGER_ERROR);
+                finishForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(nameList),
+                        false, NUMBER_FORMAT_INTEGER_ERROR);
             }
         } catch (ConstraintValidationException e) {
-            handleForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
-                    MainUtils.encodeWithUTF8(returnList), e.isBeanValidationViolated(), null);
+            finishForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
+                    MainUtils.encodeWithUTF8(nameList), e.isBeanValidationViolated(), null);
         }
-        return receiverPage;
+        return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
 
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
@@ -207,16 +201,11 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
-        if (articleOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
+        if (validateEmpty(articleOrEmpty.isEmpty(), model))
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
-        }
-        CompanyArticleDto article = articleOrEmpty.orElseThrow().toDto();
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
-        model.addAttribute(ARTICLE, article);
+        model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 
@@ -266,13 +255,31 @@ public class ManagerCompanyArticleController {
      * Other private methods
      */
     // Handle Error
-    private void handleErrorForModel(String logMessage, String layoutPath, String error, Model model) {
+    private boolean processBindingError(BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean processValidationError(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
+        fieldValidator.validate(articleDto, bindingResult);
+        objectComplexValidator.validate(articleDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
+            return true;
+        }
+        return false;
+    }
+
+    private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
         log.error(ERRORS_ARE, logMessage);
         model.addAttribute(LAYOUT_PATH, layoutPath);
         model.addAttribute(ERROR, error);
     }
 
-    private void handleForRedirect(String logMessage, RedirectAttributes redirect,
+    private void finishForRedirect(String logMessage, RedirectAttributes redirect,
                                    List<String> nameListString, boolean beanValidationError, String errorSingle) {
         if (!logMessage.isEmpty()) {
             log.error(ERRORS_ARE, logMessage);
@@ -280,6 +287,16 @@ public class ManagerCompanyArticleController {
         redirect.addAttribute(this.nameListString, nameListString);
         redirect.addAttribute(BEAN_VALIDATION_ERROR, beanValidationError);
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
+    }
+
+    private boolean validateEmpty(boolean articleOrEmptyIsEmpty, Model model) {
+        if (articleOrEmptyIsEmpty) {
+            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
+            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
+            return true;
+        }
+        return false;
     }
 
     // Parse
