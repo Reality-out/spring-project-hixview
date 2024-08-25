@@ -12,6 +12,6 @@ public class MemberDto {
     private String name;
     private Integer year;
     private Integer month;
-    private Integer date;
+    private Integer days;
     private String phoneNumber;
 }

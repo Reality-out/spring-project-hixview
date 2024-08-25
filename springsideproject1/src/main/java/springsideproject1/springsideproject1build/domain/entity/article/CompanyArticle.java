@@ -48,7 +48,7 @@ public class CompanyArticle {
         companyArticleDto.setLink(link);
         companyArticleDto.setYear(date.getYear());
         companyArticleDto.setMonth(date.getMonthValue());
-        companyArticleDto.setDate(date.getDayOfMonth());
+        companyArticleDto.setDays(date.getDayOfMonth());
         companyArticleDto.setImportance(importance);
         return companyArticleDto;
     }
@@ -90,7 +90,7 @@ public class CompanyArticle {
             press = Press.valueOf(articleDto.getPress());
             subjectCompany = articleDto.getSubjectCompany();
             link = articleDto.getLink();
-            date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDate());
+            date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
             importance = articleDto.getImportance();
             return this;
         }

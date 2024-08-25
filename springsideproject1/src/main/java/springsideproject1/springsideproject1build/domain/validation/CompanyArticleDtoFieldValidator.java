@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
 
 @Component
 public class CompanyArticleDtoFieldValidator implements Validator {
@@ -34,13 +35,13 @@ public class CompanyArticleDtoFieldValidator implements Validator {
 
         // date
         try {
-            LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDate());
+            LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
 
             if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
-                errors.rejectValue(DATE, "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
+                errors.rejectValue(DAYS, "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
             }
         } catch (DateTimeException e) {
-            errors.rejectValue(DATE, "TypeButInvalid.java.lang.LocalDate");
+            errors.rejectValue(DAYS, "TypeButInvalid.java.lang.LocalDate");
         }
 
         // importance

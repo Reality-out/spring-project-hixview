@@ -22,14 +22,13 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.DATE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -71,9 +70,9 @@ class UserMainControllerTest implements MemberTestUtils {
 
         assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
-                    put("year", String.valueOf(commonBirth.getYear()));
-                    put("month", String.valueOf(commonBirth.getMonthValue()));
-                    put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
+                    put(YEAR, String.valueOf(commonBirth.getYear()));
+                    put(MONTH, String.valueOf(commonBirth.getMonthValue()));
+                    put(DAYS, String.valueOf(commonBirth.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
@@ -130,9 +129,9 @@ class UserMainControllerTest implements MemberTestUtils {
 
         assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
-                    put("year", String.valueOf(commonBirth.getYear()));
-                    put("month", String.valueOf(commonBirth.getMonthValue()));
-                    put(DATE, String.valueOf(commonBirth.getDayOfMonth()));
+                    put(YEAR, String.valueOf(commonBirth.getYear()));
+                    put(MONTH, String.valueOf(commonBirth.getMonthValue()));
+                    put(DAYS, String.valueOf(commonBirth.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))

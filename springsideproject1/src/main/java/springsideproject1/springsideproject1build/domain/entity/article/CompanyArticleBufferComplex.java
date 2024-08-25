@@ -133,7 +133,7 @@ public class CompanyArticleBufferComplex {
 
         public CompanyArticleBufferComplexBuilder articleDto(CompanyArticleDto articleDto) {
             String concatenatedNameDatePress = articleDto.getName() + lineSeparator() +
-                    "(" + articleDto.getYear() + "-" + articleDto.getMonth() + "-" + articleDto.getDate() + ", " + articleDto.getPress() + ")";
+                    "(" + articleDto.getYear() + "-" + articleDto.getMonth() + "-" + articleDto.getDays() + ", " + articleDto.getPress() + ")";
             if (nameDatePressBuffer == null) {
                 nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
                 subjectCompanyBuffer = new StringBuffer(articleDto.getSubjectCompany());

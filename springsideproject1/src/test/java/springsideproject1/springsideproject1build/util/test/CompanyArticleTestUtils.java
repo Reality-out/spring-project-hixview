@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
     // Test Object
@@ -66,9 +66,9 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
                 .param(PRESS, article.getPress().name())
                 .param(SUBJECT_COMPANY, article.getSubjectCompany())
                 .param(LINK, article.getLink())
-                .param("year", String.valueOf(article.getDate().getYear()))
-                .param("month", String.valueOf(article.getDate().getMonthValue()))
-                .param(DATE, String.valueOf(article.getDate().getDayOfMonth()))
+                .param(YEAR, String.valueOf(article.getDate().getYear()))
+                .param(MONTH, String.valueOf(article.getDate().getMonthValue()))
+                .param(DAYS, String.valueOf(article.getDate().getDayOfMonth()))
                 .param(IMPORTANCE, String.valueOf(article.getImportance()));
     }
 
@@ -79,9 +79,9 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
                 .param(PRESS, articleDto.getPress())
                 .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
                 .param(LINK, articleDto.getLink())
-                .param("year", String.valueOf(articleDto.getYear()))
-                .param("month", String.valueOf(articleDto.getMonth()))
-                .param(DATE, String.valueOf(articleDto.getDate()))
+                .param(YEAR, String.valueOf(articleDto.getYear()))
+                .param(MONTH, String.valueOf(articleDto.getMonth()))
+                .param(DAYS, String.valueOf(articleDto.getDays()))
                 .param(IMPORTANCE, String.valueOf(articleDto.getImportance()));
     }
 }

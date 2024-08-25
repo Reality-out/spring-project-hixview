@@ -142,7 +142,7 @@ public class ManagerCompanyArticleController {
                 companyArticleDto.setLink(linkList.get(i));
                 companyArticleDto.setYear(parseInt(partialArticle.get(1)));
                 companyArticleDto.setMonth(parseInt(partialArticle.get(2)));
-                companyArticleDto.setDate(parseInt(partialArticle.get(3)));
+                companyArticleDto.setDays(parseInt(partialArticle.get(3)));
                 companyArticleDto.setImportance(0);
 
                 BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(companyArticleDto, ARTICLE);

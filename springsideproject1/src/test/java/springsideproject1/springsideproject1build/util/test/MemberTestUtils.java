@@ -7,9 +7,7 @@ import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.DATE;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 public interface MemberTestUtils extends ObjectTestUtils {
     // Test Object
@@ -27,9 +25,9 @@ public interface MemberTestUtils extends ObjectTestUtils {
                 .param(ID, member.getId())
                 .param("password", member.getPassword())
                 .param(NAME, member.getName())
-                .param("year", String.valueOf(member.getBirth().getYear()))
-                .param("month", String.valueOf(member.getBirth().getMonthValue()))
-                .param(DATE, String.valueOf(member.getBirth().getDayOfMonth()))
+                .param(YEAR, String.valueOf(member.getBirth().getYear()))
+                .param(MONTH, String.valueOf(member.getBirth().getMonthValue()))
+                .param(DAYS, String.valueOf(member.getBirth().getDayOfMonth()))
                 .param("phoneNumber", member.getPhoneNumber().toStringWithDash());
     }
 }

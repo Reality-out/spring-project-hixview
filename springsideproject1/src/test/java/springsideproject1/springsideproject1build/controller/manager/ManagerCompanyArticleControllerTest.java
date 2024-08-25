@@ -180,7 +180,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
-        articleDto.setDate(1);
+        articleDto.setDays(1);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -220,7 +220,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
-        articleDto.setDate(31);
+        articleDto.setDays(31);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -246,9 +246,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                                 .param(PRESS, articleDto.getPress())
                                 .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
                                 .param(LINK, articleDto.getLink())
-                                .param("year", INVALID_VALUE)
-                                .param("month", INVALID_VALUE)
-                                .param(DATE, INVALID_VALUE)
+                                .param(YEAR, INVALID_VALUE)
+                                .param(MONTH, INVALID_VALUE)
+                                .param(DAYS, INVALID_VALUE)
                                 .param(IMPORTANCE, INVALID_VALUE))
                 .andExpectAll(view().name(singleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),

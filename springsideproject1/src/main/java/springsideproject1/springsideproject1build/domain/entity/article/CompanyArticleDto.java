@@ -32,7 +32,7 @@ public class CompanyArticleDto {
     private Integer month;
 
     @NotNull
-    private Integer date;
+    private Integer days;
 
     @NotNull
     private Integer importance;
