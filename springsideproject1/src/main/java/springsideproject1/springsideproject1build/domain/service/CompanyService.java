@@ -15,6 +15,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REGE
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
@@ -75,13 +76,11 @@ public class CompanyService {
     /**
      * Other private methods
      */
-    @Transactional
     private void duplicateCheck(Company company) {
         companyRepository.getCompanyByCode(company.getCode()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_COMPANY_CODE);}
         );
     }
-    @Transactional
     private void existentCheck(String code) {
         companyRepository.getCompanyByCode(code).orElseThrow(
                 () -> new IllegalStateException(NO_COMPANY_WITH_THAT_CODE)

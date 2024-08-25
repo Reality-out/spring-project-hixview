@@ -15,6 +15,7 @@ import static springsideproject1.springsideproject1build.domain.error.constant.E
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -67,14 +68,12 @@ public class MemberService {
     /**
      * Other private methods
      */
-    @Transactional
     private void duplicateCheck(Member member) {
         memberRepository.getMemberByID(member.getId()).ifPresent(
                 v -> {throw new IllegalStateException(ALREADY_EXIST_MEMBER_ID);}
         );
     }
 
-    @Transactional
     private void existentCheck(String Id) {
         memberRepository.getMemberByID(Id).orElseThrow(
                 () -> new IllegalStateException(NO_MEMBER_WITH_THAT_ID)

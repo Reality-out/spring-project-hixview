@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.repository.MemberRepository;
 
@@ -15,9 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.util.test.MemberTestUtils.memberTable;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.ID;
+import static springsideproject1.springsideproject1build.util.test.MemberTestUtils.memberTable;
 
 @Repository
 public class MemberRepositoryImpl implements MemberRepository {
@@ -68,7 +67,6 @@ public class MemberRepositoryImpl implements MemberRepository {
      * INSERT Member
      */
     @Override
-    @Transactional
     public Long saveMember(Member member) {
         return new SimpleJdbcInsert(jdbcTemplate).withTableName(memberTable).usingGeneratedKeyColumns("identifier")
                 .executeAndReturnKey(new MapSqlParameterSource(member.toMapWithNoIdentifier())).longValue();
@@ -78,7 +76,6 @@ public class MemberRepositoryImpl implements MemberRepository {
      * REMOVE Member
      */
     @Override
-    @Transactional
     public void deleteMember(String id) {
         jdbcTemplate.execute("delete from " + memberTable + " where id = '" + id + "'");
     }

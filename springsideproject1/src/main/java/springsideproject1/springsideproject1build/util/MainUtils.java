@@ -1,7 +1,6 @@
 package springsideproject1.springsideproject1build.util;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @UtilityClass
-@Transactional
 public class MainUtils {
     /**
      * Decode

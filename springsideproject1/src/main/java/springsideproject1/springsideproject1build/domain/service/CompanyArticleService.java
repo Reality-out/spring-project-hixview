@@ -19,6 +19,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REGE
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CompanyArticleService {
 
     private final CompanyArticleRepository articleRepository;
@@ -93,14 +94,12 @@ public class CompanyArticleService {
     /**
      * Other private methods
      */
-    @Transactional
     private void duplicateCheck(CompanyArticle article) {
         articleRepository.getArticleByName(article.getName()).ifPresent(
                 v -> {throw new AlreadyExistException(ALREADY_EXIST_ARTICLE_NAME);}
         );
     }
 
-    @Transactional
     private void existentCheck(String name) {
         articleRepository.getArticleByName(name).orElseThrow(
                 () -> new NotFoundException(NO_ARTICLE_WITH_THAT_NAME)

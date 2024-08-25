@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.company.*;
 import springsideproject1.springsideproject1build.domain.repository.CompanyRepository;
 
@@ -54,7 +53,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
      * INSERT Company
      */
     @Override
-    @Transactional
     public void saveCompany(Company company) {
         new SimpleJdbcInsert(jdbcTemplate).withTableName(companyTable).execute(new MapSqlParameterSource(company.toMap()));
     }
@@ -74,7 +72,6 @@ public class CompanyRepositoryImpl implements CompanyRepository {
      * REMOVE Company
      */
     @Override
-    @Transactional
     public void deleteCompanyByCode(String code) {
         jdbcTemplate.execute("delete from " + companyTable + " where code = '" + code + "'");
     }
