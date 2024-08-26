@@ -55,18 +55,6 @@ public class ManagerCompanyArticleController {
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
 
-    @ModelAttribute(DATA_TYPE_KOREAN)
-    public String dataTypeKor() {
-        return "기사";
-    }
-
-    @ModelAttribute(KEY)
-    public String key() {
-        return "기사명";
-    }
-
-    private final String nameListString = "nameList";
-
     /**
      * Add - Single
      */
@@ -180,7 +168,7 @@ public class ManagerCompanyArticleController {
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute(nameListString, MainUtils.decodeWithUTF8(nameList));
+        model.addAttribute("nameList", MainUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage";
@@ -246,8 +234,6 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processRidCompanyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_ENGLISH, ARTICLE);
-        model.addAttribute(REMOVE_KEY, NAME);
         return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
@@ -315,7 +301,7 @@ public class ManagerCompanyArticleController {
         if (!logMessage.isEmpty()) {
             log.error(ERRORS_ARE, logMessage);
         }
-        redirect.addAttribute(this.nameListString, nameListString);
+        redirect.addAttribute("nameList", nameListString);
         redirect.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
     }

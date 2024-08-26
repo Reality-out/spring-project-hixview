@@ -7,6 +7,7 @@ import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 public interface MemberTestUtils extends ObjectTestUtils {

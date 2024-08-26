@@ -28,7 +28,8 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR_SINGLE;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.IS_BEAN_VALIDATION_ERROR;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
@@ -53,10 +54,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Autowired
     CompanyService companyService;
 
-    // Request Value
-    private final String dataTypeKorValue = "기사";
-    private final String keyValue = "기사명";
-
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
@@ -77,8 +74,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attributeExists(ARTICLE));
     }
 
@@ -97,13 +92,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, 
+        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME,
                         encodeWithUTF8(articleDto.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(VALUE, articleDto.getName()));
     }
 
@@ -113,9 +106,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
                         view().name(addStringArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue));
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH));
     }
 
     @DisplayName("문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
@@ -146,7 +137,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
-                ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+                        ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         new HashMap<>() {{
                             put(nameListString, nameListForURL);
                             put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
@@ -155,8 +146,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 
@@ -171,9 +160,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue));
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
     @DisplayName("기업 기사 변경 페이지 내 이름 검색")
@@ -191,8 +178,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute("updateUrl", modifySingleArticleFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -219,8 +204,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(VALUE, article.getName()));
     }
 
@@ -245,11 +228,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
-                        model().attribute(DATA_TYPE_ENGLISH, ARTICLE),
-                        model().attribute(REMOVE_KEY, NAME));
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
     @DisplayName("기업 기사 없애기 완료 페이지 접속")
@@ -272,8 +251,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(VALUE, name));
     }
 }

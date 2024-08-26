@@ -46,10 +46,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Autowired
     CompanyService companyService;
 
-    // Request Value
-    private final String dataTypeKorValue = "기사";
-    private final String keyValue = "기사명";
-
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
@@ -77,8 +73,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -91,8 +85,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -110,8 +102,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -131,8 +121,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -150,8 +138,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -171,8 +157,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -197,8 +181,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
                         .param(IMPORTANCE, INVALID_VALUE))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
@@ -214,8 +196,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));
     }
@@ -234,8 +214,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -248,8 +226,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, new CompanyArticleDto()))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -267,8 +243,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -288,8 +262,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -307,8 +279,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -328,8 +298,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -354,8 +322,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
                         .param(IMPORTANCE, INVALID_VALUE))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
@@ -371,8 +337,6 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));
     }

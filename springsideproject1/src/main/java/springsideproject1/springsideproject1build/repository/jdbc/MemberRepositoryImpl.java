@@ -14,8 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.ID;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Repository

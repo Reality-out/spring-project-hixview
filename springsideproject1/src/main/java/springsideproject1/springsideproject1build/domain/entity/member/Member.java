@@ -10,7 +10,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.ID;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter

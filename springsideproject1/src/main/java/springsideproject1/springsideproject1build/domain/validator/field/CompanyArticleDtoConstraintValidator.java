@@ -11,7 +11,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.IMPORTANCE;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
 
 @Component

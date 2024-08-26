@@ -28,10 +28,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.LAYO
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
-
-
-@SpringBootTest
+import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;@SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 class ManagerCompanyControllerTest implements CompanyTestUtils {
@@ -43,8 +40,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     CompanyService companyService;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String dataTypeKorValue = "기업";
-    private final String keyValue = "기업명";
 
     @Autowired
     public ManagerCompanyControllerTest(DataSource dataSource) {
@@ -63,7 +58,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(COMPANY),
                         model().attribute("countries", Country.values()),
                         model().attribute("scales", Scale.values()));
@@ -86,8 +80,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(VALUE, company.getName()));
     }
 
@@ -97,8 +89,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(get(UPDATE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
     @DisplayName("기업 변경 페이지 내 이름 검색")
@@ -115,7 +106,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX),
                         model().attribute("countries", Country.values()),
                         model().attribute("scales", Scale.values()))
@@ -138,7 +128,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
@@ -165,8 +154,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(VALUE, company.getName()));
     }
 
@@ -191,10 +178,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(get(REMOVE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(DATA_TYPE_ENGLISH, COMPANY),
-                        model().attribute(REMOVE_KEY, "codeOrName"));
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
     @DisplayName("기업 없애기 완료 페이지 접속")
@@ -217,8 +201,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(VALUE, name));
     }
 }

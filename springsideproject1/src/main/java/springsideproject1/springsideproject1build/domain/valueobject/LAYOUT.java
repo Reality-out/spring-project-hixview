@@ -2,8 +2,6 @@ package springsideproject1.springsideproject1build.domain.valueobject;
 
 public abstract class LAYOUT {
     // Simple String
-    public static final String DATA_TYPE_KOREAN = "dataTypeKor";
-    public static final String DATA_TYPE_ENGLISH = "dataTypeEng";
     public static final String LAYOUT_PATH = "layoutPath";
 
     // User

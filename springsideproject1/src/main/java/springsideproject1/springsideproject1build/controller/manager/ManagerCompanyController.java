@@ -1,7 +1,6 @@
 package springsideproject1.springsideproject1build.controller.manager;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,17 +27,6 @@ import static springsideproject1.springsideproject1build.util.MainUtils.encodeWi
 @RequiredArgsConstructor
 public class ManagerCompanyController {
 
-    @ModelAttribute(DATA_TYPE_KOREAN)
-    public String dataTypeKor() {
-        return "기업";
-    }
-
-    @ModelAttribute(KEY)
-    public String key() {
-        return "기업명";
-    }
-
-    @Autowired
     private final CompanyService companyService;
 
     /**
@@ -133,8 +121,6 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processRidCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-        model.addAttribute(DATA_TYPE_ENGLISH, COMPANY);
-        model.addAttribute(REMOVE_KEY, "codeOrName");
         return REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX;
     }
 

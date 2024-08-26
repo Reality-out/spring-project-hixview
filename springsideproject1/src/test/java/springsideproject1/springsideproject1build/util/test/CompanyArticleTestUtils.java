@@ -14,7 +14,6 @@ import static springsideproject1.springsideproject1build.domain.valueobject.CLAS
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.UPDATE_COMPANY_ARTICLE_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_AFTER_PROCESS_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {

@@ -15,4 +15,5 @@ public abstract class CLASS {
 
     // Member
     public static final String MEMBER = "member";
+    public static final String ID = "id";
 }

@@ -29,7 +29,6 @@ import static springsideproject1.springsideproject1build.domain.valueobject.LAYO
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.UPDATE_COMPANY_ARTICLE_VIEW;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_BEFORE_PROCESS_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.KEY;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -44,10 +43,6 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @Autowired
     CompanyService companyService;
-
-    // Request Value
-    private final String dataTypeKorValue = "기사";
-    private final String keyValue = "기사명";
 
     private final JdbcTemplate jdbcTemplateTest;
 
@@ -72,8 +67,6 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 
@@ -91,8 +84,6 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -110,8 +101,6 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -129,8 +118,6 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
     }
 
@@ -158,14 +145,11 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
 }
