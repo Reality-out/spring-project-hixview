@@ -173,9 +173,9 @@ public class ManagerCompanyArticleController {
     @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
-                                                     Boolean beanValidationError, String errorSingle) {
+                                                     Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(nameListString, MainUtils.decodeWithUTF8(nameList));
-        model.addAttribute(BEAN_VALIDATION_ERROR, beanValidationError);
+        model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return MANAGER_ADD_VIEW + "multipleFinishPage";
     }
@@ -302,12 +302,12 @@ public class ManagerCompanyArticleController {
     }
 
     private void finishForRedirect(String logMessage, RedirectAttributes redirect,
-                                   List<String> nameListString, boolean beanValidationError, String errorSingle) {
+                                   List<String> nameListString, boolean isBeanValidationError, String errorSingle) {
         if (!logMessage.isEmpty()) {
             log.error(ERRORS_ARE, logMessage);
         }
         redirect.addAttribute(this.nameListString, nameListString);
-        redirect.addAttribute(BEAN_VALIDATION_ERROR, beanValidationError);
+        redirect.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
     }
 

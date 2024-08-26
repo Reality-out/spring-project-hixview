@@ -2,6 +2,12 @@
 <html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <form th:action method="POST">
+    <div th:if="${error} != null" th:classappend="fieldError">
+        <th:block th:switch="${error}">
+            <p th:case="notFoundCompanyError" th:text="#{NotFound.companyArticle.subjectCompany}"></p>
+            <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
+        </th:block>
+    </div>
     <div>
         <div>
             <label for="nameDatePressString" th:text="|#{data.multiple} #{article}|"></label>
@@ -14,12 +20,6 @@
         <div>
             <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
             <input type="text" id="subjectCompany" name="subjectCompany">
-        </div>
-        <div th:if="${error} != null" th:classappend="fieldError">
-            <th:block th:switch="${error}">
-                <p th:case="companyNotFoundError" th:text="#{NotFound.companyArticle.subjectCompany}"></p>
-                <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
-            </th:block>
         </div>
     </div>
     <button type="submit" th:text="#{function.add}"></button>

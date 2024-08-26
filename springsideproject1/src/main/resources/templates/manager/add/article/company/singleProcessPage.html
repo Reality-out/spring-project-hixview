@@ -6,10 +6,7 @@
         <p class="fieldError" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
     </div>
     <div th:if="${error} != null" th:classappend="fieldError">
-        <th:block th:switch="${error}">
-            <p th:case="beanValidationError" th:text="#{BeanValidation}"></p>
-            <p th:case="existCompanyArticleError" th:text="Exist.CompanyArticle.name"></p>
-        </th:block>
+        <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
     </div>
     <div>
         <div class="partialForm">

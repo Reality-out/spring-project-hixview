@@ -3,22 +3,32 @@
 <body>
 <p>해당 [[#{article.number}]] 또는 [[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${article}" method="POST">
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="fieldError" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
+    <div th:if="${error} != null" th:classappend="fieldError">
+        <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
+    </div>
     <div>
         <div class="partialForm">
             <label for="name" th:text="#{article.name}"></label>
             <input type="text" id="name" th:field="*{name}" size="20" readonly>
+            <div class="fieldError" th:errors="*{name}"></div>
         </div>
         <div class="partialForm">
             <label for="press" th:text="#{article.press}"></label>
             <input type="text" id="press" th:field="*{press}" size="20">
+            <div class="fieldError" th:errors="*{press}"></div>
         </div>
         <div class="partialForm">
             <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
             <input type="text" id="subjectCompany" th:field="*{subjectCompany}" size="20">
+            <div class="fieldError" th:errors="*{subjectCompany}"></div>
         </div>
         <div class="partialForm">
             <label for="link" th:text="#{article.link}"></label>
             <input type="url" id="link" th:field="*{link}" size="20">
+            <div class="fieldError" th:errors="*{link}"></div>
         </div>
         <div class="partialForm">
             <label for="year" th:text="#{article.date.year}"></label>
@@ -27,10 +37,14 @@
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
             <label for="days" th:text="#{article.date.days}"></label>
             <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
+            <div class="fieldError" th:errors="*{year}"></div>
+            <div class="fieldError" th:errors="*{month}"></div>
+            <div class="fieldError" th:errors="*{days}"></div>
         </div>
         <div class="partialForm">
             <label for="importance" th:text="#{article.importance}"></label>
             <input type="text" id="importance" th:field="*{importance}" size="20">
+            <div class="fieldError" th:errors="*{importance}"></div>
         </div>
     </div>
     <button type="submit" th:text="#{function.update}"></button>

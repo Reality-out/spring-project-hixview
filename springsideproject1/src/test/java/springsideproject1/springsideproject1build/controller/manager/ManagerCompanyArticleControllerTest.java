@@ -142,14 +142,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andReturn().getModelAndView()).getModelMap();
 
         assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-        assertThat(modelMapPost.get(BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+        assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
         assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
                 ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         new HashMap<>() {{
                             put(nameListString, nameListForURL);
-                            put(BEAN_VALIDATION_ERROR, String.valueOf(false));
+                            put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
                             put(ERROR_SINGLE, null);
                         }}))
                 .andExpectAll(status().isOk(),
@@ -160,7 +160,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andReturn().getModelAndView()).getModelMap();
 
         assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
-        assertThat(modelMapGet.get(BEAN_VALIDATION_ERROR)).isEqualTo(false);
+        assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
     }
 

@@ -146,7 +146,7 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
-                        model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
 
@@ -165,7 +165,7 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
-                        model().attribute(BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
 

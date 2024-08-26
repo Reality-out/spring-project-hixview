@@ -8,6 +8,15 @@
 </head>
 <body>
 <div>
+    <div th:if="${isBeanValidationError} == true" th:classappend="fieldError">
+        <p th:text="#{BeanValidation}"></p>
+    </div>
+    <div th:if="${errorSingle} != null" th:classappend="fieldError">
+        <th:block th:switch="${errorSingle}">
+            <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.CompanyArticle.importance}"></p>
+            <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.CompanyArticle.date}"></p>
+        </th:block>
+    </div>
     <p>다음 [[${key}]]의 [[${dataTypeKor}]] [[#{function.add}]]이 완료되었습니다:</p>
     <table>
         <tbody>
@@ -17,17 +26,6 @@
             </tr>
         </tbody>
     </table>
-    <div th:if="${beanValidationError} == true" th:classappend="fieldError">
-        <p th:text="#{BeanValidation}"></p>
-    </div>
-    <div th:if="${errorSingle} != null" th:classappend="fieldError">
-        <th:block th:switch="${errorSingle}">
-            <p th:case="existCompanyArticleError" th:text="#{Exist.CompanyArticle.name}"></p>
-            <p th:case="notMatchArticleError" th:text="#{NotMatch.article}"></p>
-            <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.CompanyArticle.importance}"></p>
-            <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.CompanyArticle.date}"></p>
-        </th:block>
-    </div>
 </div>
 <form action="/manager" method="get">
     <button type="submit" th:text="|#{page.main}로 이동|"></button>

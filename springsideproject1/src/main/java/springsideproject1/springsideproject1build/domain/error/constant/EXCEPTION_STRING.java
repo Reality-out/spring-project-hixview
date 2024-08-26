@@ -8,12 +8,13 @@ public interface EXCEPTION_STRING {
 
     // Not Relative with any Exception class
     String BEAN_VALIDATION_ERROR = "beanValidationError";
+    String IS_BEAN_VALIDATION_ERROR = "isBeanValidationError";
 
     // Relative with an Exception class
     String EXIST_COMPANY_ARTICLE_ERROR = "existCompanyArticleError";
     String INDEX_OUT_OF_BOUND_ERROR = "indexOutOfBoundError";
-    String NOT_FOUND_COMPANY_ARTICLE_ERROR = "companyArticleNotFoundError";
-    String NOT_FOUND_COMPANY_ERROR = "companyNotFoundError";
+    String NOT_FOUND_COMPANY_ARTICLE_ERROR = "notFoundCompanyArticleError";
+    String NOT_FOUND_COMPANY_ERROR = "notFoundCompanyError";
     String NUMBER_FORMAT_INTEGER_ERROR = "numberFormatIntegerError";
     String NUMBER_FORMAT_LOCAL_DATE_ERROR = "numberFormatLocalDateError";
 }
