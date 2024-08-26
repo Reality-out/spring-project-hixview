@@ -68,7 +68,7 @@ public class ManagerCompanyController {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
 
-        return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
+        return ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
     }
 
     /**
@@ -121,8 +121,9 @@ public class ManagerCompanyController {
     @GetMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishModifyCompany(@RequestParam String name, Model model) {
+        model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
+        return UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**
@@ -131,9 +132,10 @@ public class ManagerCompanyController {
     @GetMapping(REMOVE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processRidCompany(Model model) {
+        model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
         model.addAttribute(DATA_TYPE_ENGLISH, COMPANY);
         model.addAttribute(REMOVE_KEY, "codeOrName");
-        return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
+        return REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @PostMapping(REMOVE_COMPANY_URL)
@@ -154,7 +156,8 @@ public class ManagerCompanyController {
     @GetMapping(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompany(@RequestParam String name, Model model) {
+        model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
+        return REMOVE_COMPANY_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

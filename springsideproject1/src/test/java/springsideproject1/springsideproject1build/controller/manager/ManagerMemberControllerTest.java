@@ -20,12 +20,11 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.SELECT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.SELECT_MEMBER_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.MANAGER_SELECT_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,7 +49,7 @@ class ManagerMemberControllerTest implements MemberTestUtils {
         resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
     }
 
-    @DisplayName("멤버들 보기 페이지 접속")
+    @DisplayName("회원들 보기 페이지 접속")
     @Test
     public void accessMembersSee() throws Exception {
         // given
@@ -69,41 +68,5 @@ class ManagerMemberControllerTest implements MemberTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get("members"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(member1, member2));
-    }
-
-    @DisplayName("회원 탈퇴 페이지 접속")
-    @Test
-    public void accessMembershipWithdraw() throws Exception {
-        mockMvc.perform(get(REMOVE_MEMBER_URL))
-                .andExpectAll(status().isOk(),
-                        view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(DATA_TYPE_KOREAN, "회원"),
-                        model().attribute(DATA_TYPE_ENGLISH, MEMBER),
-                        model().attribute(REMOVE_KEY, ID));
-    }
-
-    @DisplayName("회원 탈퇴 완료 페이지 접속")
-    @Test
-    public void accessMembershipWithdrawFinish() throws Exception {
-        // given
-        Member member = testMember;
-
-        // when
-        memberService.registerMember(member);
-
-        // then
-        String id = member.getId();
-
-        mockMvc.perform(postWithSingleParam(REMOVE_MEMBER_URL, ID, id))
-                .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(ID, id));
-
-        mockMvc.perform(getWithSingleParam(REMOVE_MEMBER_URL + URL_FINISH_SUFFIX, ID, id))
-                .andExpectAll(status().isOk(),
-                        view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(DATA_TYPE_KOREAN, "회원"),
-                        model().attribute(KEY, ID),
-                        model().attribute(VALUE, id));
     }
 }

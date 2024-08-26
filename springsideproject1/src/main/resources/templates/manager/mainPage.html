@@ -47,10 +47,6 @@
         <ol>
             <li th:text="|#{member} 관련 기능|"></li>
             <ol>
-                <li th:text="#{data.single}"></li> <!-- DELETE 구현 -->
-                <li><a th:href="${removeMember}" th:text="|#{data.single} #{member} #{function.remove}|"></a></li>
-            </ol>
-            <ol>
                 <li>다수</li> <!-- READ 구현 -->
                 <li><a th:href="${selectMembers}" th:text="|#{data.all} #{member} #{function.find}|"></a></li>
             </ol>

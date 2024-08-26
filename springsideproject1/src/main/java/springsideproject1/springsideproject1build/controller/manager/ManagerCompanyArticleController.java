@@ -95,7 +95,7 @@ public class ManagerCompanyArticleController {
     public String finishAddCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
+        return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
     }
 
     /**
@@ -183,7 +183,7 @@ public class ManagerCompanyArticleController {
         model.addAttribute(nameListString, MainUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
-        return MANAGER_ADD_VIEW + "multipleFinishPage";
+        return ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage";
     }
 
     /**
@@ -234,8 +234,9 @@ public class ManagerCompanyArticleController {
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
+        model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
+        return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
     /**
@@ -244,9 +245,10 @@ public class ManagerCompanyArticleController {
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processRidCompanyArticle(Model model) {
+        model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
         model.addAttribute(DATA_TYPE_ENGLISH, ARTICLE);
         model.addAttribute(REMOVE_KEY, NAME);
-        return MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX;
+        return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
@@ -260,8 +262,9 @@ public class ManagerCompanyArticleController {
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompanyArticle(@RequestParam String name, Model model) {
+        model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX;
+        return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**

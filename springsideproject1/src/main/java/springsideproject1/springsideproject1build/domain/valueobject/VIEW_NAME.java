@@ -28,14 +28,13 @@ public abstract class VIEW_NAME {
     public static final String VIEW_SINGLE_FINISH_SUFFIX = "singleFinishPage";
 
     // Others
-    public static final String MANAGER_ADD_VIEW = "manager/add/";
     public static final String MANAGER_SELECT_VIEW = "manager/select/";
-    public static final String MANAGER_UPDATE_VIEW = "manager/update/";
-    public static final String MANAGER_REMOVE_VIEW = "manager/remove/";
 
     public static final String ADD_COMPANY_ARTICLE_VIEW = "manager/add/article/company/";
     public static final String UPDATE_COMPANY_ARTICLE_VIEW = "manager/update/article/company/";
+    public static final String REMOVE_COMPANY_ARTICLE_VIEW = "manager/remove/article/company/";
 
     public static final String ADD_COMPANY_VIEW = "manager/add/company/";
     public static final String UPDATE_COMPANY_VIEW = "manager/update/company/";
+    public static final String REMOVE_COMPANY_VIEW = "manager/remove/company/";
 }

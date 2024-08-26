@@ -84,7 +84,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
                         NAME, encodeWithUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
+                        view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
@@ -163,7 +163,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX,
                         NAME, encodeWithUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(VALUE, company.getName()));
@@ -189,7 +190,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyRid() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
+                        view().name(REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(DATA_TYPE_ENGLISH, COMPANY),
                         model().attribute(REMOVE_KEY, "codeOrName"));
@@ -213,7 +215,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(REMOVE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(VALUE, name));

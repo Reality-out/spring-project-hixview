@@ -100,7 +100,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, 
                         encodeWithUTF8(articleDto.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_ADD_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
@@ -153,7 +153,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                             put(ERROR_SINGLE, null);
                         }}))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_ADD_VIEW + "multipleFinishPage"),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
@@ -217,7 +217,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         mockMvc.perform(getWithSingleParam(modifySingleArticleFinishUrl, NAME, encodeWithUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(VALUE, article.getName()));
@@ -243,7 +244,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     public void accessCompanyArticleRid() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
+                        view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(DATA_TYPE_ENGLISH, ARTICLE),
@@ -268,7 +270,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_REMOVE_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(VALUE, name));
