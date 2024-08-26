@@ -1,0 +1,171 @@
+package springsideproject1.springsideproject1build.domain.error;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleBufferSimple;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.domain.service.CompanyService;
+import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
+import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
+
+import javax.sql.DataSource;
+import java.util.HashMap;
+
+import static java.util.Objects.requireNonNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.UPDATE_COMPANY_ARTICLE_VIEW;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_BEFORE_PROCESS_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.KEY;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, CompanyTestUtils {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    CompanyArticleService articleService;
+
+    @Autowired
+    CompanyService companyService;
+
+    // Request Value
+    private final String dataTypeKorValue = "기사";
+    private final String keyValue = "기사명";
+
+    private final JdbcTemplate jdbcTemplateTest;
+
+    @Autowired
+    public CompanyArticleErrorHandleTest(DataSource dataSource) {
+        jdbcTemplateTest = new JdbcTemplate(dataSource);
+    }
+
+    @BeforeEach
+    public void beforeEach() {
+        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+    }
+
+    @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void notExistSubjectCompanyArticleAddWithString() throws Exception {
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, INVALID_VALUE);
+                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
+                }}))
+                .andExpectAll(view().name(addStringArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
+    }
+
+    @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void articleListBiggerCompanyArticleAddWithString() throws Exception {
+        // given & when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put(nameDatePressString, testArticleStringBuffers.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
+                    put(linkString, testEqualDateArticle.getLink());
+                }}))
+                .andExpectAll(view().name(addStringArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
+                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+    }
+
+    @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void linkListBiggerCompanyArticleAddWithString() throws Exception {
+        // given & when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewArticle).build().getNameDatePressString());
+                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
+                    put(linkString, testArticleStringBuffers.getLinkString());
+                }}))
+                .andExpectAll(view().name(addStringArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
+                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+    }
+
+    @DisplayName("비어 있는 기사를 사용하는, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void emptyCompanyArticleAddWithString() throws Exception {
+        // given & when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put(nameDatePressString, "");
+                    put(SUBJECT_COMPANY, samsungElectronics.getName());
+                    put(linkString, "");
+                }}))
+                .andExpectAll(view().name(addStringArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
+                        model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
+    }
+
+    @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void dateFormatCompanyArticleAddWithString() throws Exception {
+        // given & when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString().replace("2024", INVALID_VALUE));
+                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
+                }}))
+                .andExpectAll(view().name(
+                                URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                        model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
+    }
+
+    @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 기업 기사 변경")
+    @Test
+    public void notExistArticleNumberOrNameCompanyArticleModify() throws Exception {
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+    }
+}

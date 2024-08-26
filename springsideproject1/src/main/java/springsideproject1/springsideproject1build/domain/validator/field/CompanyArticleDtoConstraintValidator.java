@@ -15,7 +15,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.CLAS
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
 
 @Component
-public class CompanyArticleDtoValidator implements Validator {
+public class CompanyArticleDtoConstraintValidator implements Validator {
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {

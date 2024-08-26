@@ -17,13 +17,14 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validator.field.CompanyArticleDtoValidator;
-import springsideproject1.springsideproject1build.domain.validator.object.CompanyArticleDtoLinkValidator;
-import springsideproject1.springsideproject1build.domain.validator.object.CompanyArticleDtoNameValidator;
-import springsideproject1.springsideproject1build.domain.validator.object.CompanyArticleDtoSubjectCompanyValidator;
+import springsideproject1.springsideproject1build.domain.validator.field.CompanyArticleDtoConstraintValidator;
+import springsideproject1.springsideproject1build.domain.validator.field.CompanyArticleDtoLinkValidator;
+import springsideproject1.springsideproject1build.domain.validator.field.CompanyArticleDtoNameValidator;
+import springsideproject1.springsideproject1build.domain.validator.field.CompanyArticleDtoSubjectCompanyValidator;
 import springsideproject1.springsideproject1build.util.MainUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class ManagerCompanyArticleController {
     private final CompanyService companyService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleDtoValidator fieldValidator;
+    private final CompanyArticleDtoConstraintValidator fieldValidator;
     private final CompanyArticleDtoNameValidator nameValidator;
     private final CompanyArticleDtoLinkValidator linkValidator;
     private final CompanyArticleDtoSubjectCompanyValidator subjectCompanyValidator;
@@ -118,8 +119,12 @@ public class ManagerCompanyArticleController {
         }
         List<List<String>> nameDatePressList = parseArticleString(nameDatePressString);
         List<String> linkList = parseLinkString(linkString);
-        if (nameDatePressList.size() - linkList.size() != 0) {
+        if (nameDatePressList.size() != linkList.size()) {
             finishForRollback(NOT_EQUAL_LIST_SIZE, ADD_PROCESS_PATH, INDEX_OUT_OF_BOUND_ERROR, model);
+            return senderPage;
+        }
+        if (linkList.isEmpty()) {
+            finishForRollback(EMPTY_ARTICLE, ADD_PROCESS_PATH, NOT_BLANK_ARTICLE_ERROR, model);
             return senderPage;
         }
 
@@ -311,8 +316,8 @@ public class ManagerCompanyArticleController {
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
     }
 
-    private boolean validateEmpty(boolean articleOrEmptyIsEmpty, Model model) {
-        if (articleOrEmptyIsEmpty) {
+    private boolean validateEmpty(boolean isEmpty, Model model) {
+        if (isEmpty) {
             log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
@@ -338,10 +343,16 @@ public class ManagerCompanyArticleController {
                 }
             }
         }
+        if (returnArticle.getLast().size() != 5) {
+            returnArticle.removeLast();
+        }
         return returnArticle;
     }
 
     private List<String> parseLinkString(String linkString) {
+        if (linkString.isEmpty()) {
+            return Collections.emptyList();
+        }
         return List.of(linkString.split("\\R"));
     }
 }

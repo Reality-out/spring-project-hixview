@@ -3,9 +3,6 @@
 <body>
 <p>해당 [[#{article.number}]] 또는 [[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${article}" method="POST">
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p class="fieldError" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
-    </div>
     <div th:if="${error} != null" th:classappend="fieldError">
         <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
     </div>

@@ -12,6 +12,9 @@ public interface EXCEPTION_MESSAGE {
     // IndexOutOfBoundsException
     String NOT_EQUAL_LIST_SIZE = "리스트의 크기가 일치하지 않습니다.";
 
+    // NotBlankException
+    String EMPTY_ARTICLE = "기사가 비어 있습니다.";
+
     // NotFoundException
     String NO_ARTICLE_WITH_THAT_NAME = "해당 기사명과 일치하는 기사가 없습니다.";
     String NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME = "해당 기사 번호 또는 기사명과 일치하는 기사가 없습니다.";

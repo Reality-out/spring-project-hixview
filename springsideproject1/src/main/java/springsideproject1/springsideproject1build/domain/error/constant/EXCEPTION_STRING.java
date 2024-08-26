@@ -13,6 +13,7 @@ public interface EXCEPTION_STRING {
     // Relative with an Exception class
     String EXIST_COMPANY_ARTICLE_ERROR = "existCompanyArticleError";
     String INDEX_OUT_OF_BOUND_ERROR = "indexOutOfBoundError";
+    String NOT_BLANK_ARTICLE_ERROR = "notBlankArticleError";
     String NOT_FOUND_COMPANY_ARTICLE_ERROR = "notFoundCompanyArticleError";
     String NOT_FOUND_COMPANY_ERROR = "notFoundCompanyError";
     String NUMBER_FORMAT_INTEGER_ERROR = "numberFormatIntegerError";

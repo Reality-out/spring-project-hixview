@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator.object;
+package springsideproject1.springsideproject1build.domain.validator.field;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -27,7 +27,7 @@ public class CompanyArticleDtoNameValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.reject("Exist.CompanyArticle.name");
+            errors.rejectValue("name", "Exist.CompanyArticle.name");
         }
     }
 }
