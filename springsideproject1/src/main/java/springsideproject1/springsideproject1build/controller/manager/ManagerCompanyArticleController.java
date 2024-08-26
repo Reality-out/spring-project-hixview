@@ -36,7 +36,8 @@ import static springsideproject1.springsideproject1build.domain.valueobject.LAYO
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
 import static springsideproject1.springsideproject1build.util.MainUtils.decodeWithUTF8;
 import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
 
@@ -199,8 +200,12 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
-        if (validateEmpty(articleOrEmpty.isEmpty(), model))
+        if (articleOrEmpty.isEmpty()) {
+            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
+            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
+            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
+        }
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
@@ -239,9 +244,20 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String name) {
-        articleService.removeArticle(name);
-        redirect.addAttribute(NAME, encodeWithUTF8(name));
+    public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
+        Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
+        if (articleOrEmpty.isEmpty()) {
+            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
+            model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
+            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
+            return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
+        }
+        if (NUMBER_REGEX_PATTERN.matcher(numberOrName).matches()) {
+            redirect.addAttribute(NAME, encodeWithUTF8(
+                    articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName()));
+        } else {
+            redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
+        }
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -304,16 +320,6 @@ public class ManagerCompanyArticleController {
         redirect.addAttribute("nameList", nameListString);
         redirect.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
-    }
-
-    private boolean validateEmpty(boolean isEmpty, Model model) {
-        if (isEmpty) {
-            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
-            return true;
-        }
-        return false;
     }
 
     // Parse

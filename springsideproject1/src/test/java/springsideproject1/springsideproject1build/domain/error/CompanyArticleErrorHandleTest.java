@@ -27,8 +27,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.DATA
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.UPDATE_COMPANY_ARTICLE_VIEW;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_BEFORE_PROCESS_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -150,6 +149,20 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+    }
+
+    @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 기업 기사 없애기")
+    @Test
+    public void notExistArticleNumberOrNameCompanyArticleRid() throws Exception {
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", ""))
+                .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
+                .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
 }
