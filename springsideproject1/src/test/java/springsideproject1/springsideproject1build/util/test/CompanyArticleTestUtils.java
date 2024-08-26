@@ -42,7 +42,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .importance(0)
             .build();
 
-    CompanyArticleBufferSimple testArticleStringBuffer = CompanyArticleBufferSimple.builder()
+    CompanyArticleBufferSimple testArticleStringBuffers = CompanyArticleBufferSimple.builder()
             .articles(testEqualDateArticle, testNewArticle).build();
 
     /**

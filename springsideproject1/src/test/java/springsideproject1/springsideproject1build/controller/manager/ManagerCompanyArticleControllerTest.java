@@ -57,10 +57,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     private final String dataTypeKorValue = "기사";
     private final String keyValue = "기사명";
 
-    // Assertion
-    private final String singleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-    private final String stringProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
-
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
@@ -79,7 +75,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     public void accessCompanyArticleAdd() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(singleProcessPage),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attributeExists(ARTICLE));
@@ -110,77 +106,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         model().attribute(VALUE, articleDto.getName()));
     }
 
-    @DisplayName("대상 기업이 등록되지 않은 기업 기사 추가")
-    @Test
-    public void notRegisteredSubjectCompanyArticleAdd() throws Exception {
-        // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(singleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
-    }
-
-    @DisplayName("중복 기사명을 사용하는 기업 기사 추가")
-    @Test
-    public void duplicatedNameCompanyArticleAdd() throws Exception {
-        // given & when
-        CompanyArticle article1 = testArticle;
-        String commonName = article1.getName();
-        CompanyArticleDto articleDto2 = createTestNewArticleDto();
-        articleDto2.setName(commonName);
-
-        // when
-        articleService.registerArticle(article1);
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(singleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto2);
-    }
-
-    @DisplayName("중복 기사 링크를 사용하는 기업 기사 추가")
-    @Test
-    public void duplicatedLinkCompanyArticleAdd() throws Exception {
-        // given & when
-        CompanyArticle article1 = testArticle;
-        String commonLink = article1.getLink();
-        CompanyArticleDto articleDto2 = createTestNewArticleDto();
-        articleDto2.setLink(commonLink);
-
-        // when
-        articleService.registerArticle(article1);
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(singleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto2);
-    }
-
     @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
     @Test
     public void accessCompanyArticleAddWithString() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(stringProcessPage),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
     }
@@ -200,9 +131,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         String nameListString = "nameList";
 
         ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("nameDatePressString", testArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testArticleStringBuffer.getSubjectCompany());
-                    put("linkString", testArticleStringBuffer.getLinkString());
+                    put("nameDatePressString", testArticleStringBuffers.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
+                    put("linkString", testArticleStringBuffers.getLinkString());
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
@@ -228,20 +159,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
         assertThat(modelMapGet.get(BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
-    }
-
-    @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
-    @Test
-    public void addCompanyArticleWithStringNotExistSubject() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("nameDatePressString", testArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, INVALID_VALUE);
-                    put("linkString", testArticleStringBuffer.getLinkString());
-                }}))
-                .andExpectAll(view().name(stringProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")

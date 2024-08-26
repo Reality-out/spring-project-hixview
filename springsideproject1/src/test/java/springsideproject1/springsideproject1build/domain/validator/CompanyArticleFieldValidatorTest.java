@@ -37,7 +37,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,9 +54,9 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
 
     // Request Value
     private final String dataTypeKorValue = "기사";
-    private final String requestNameDatePress = testArticleStringBuffer.getNameDatePressString();
-    private final String requestLink = testArticleStringBuffer.getLinkString();
-    private final String requestSubjectCompany = testArticleStringBuffer.getSubjectCompany();
+    private final String requestNameDatePress = testArticleStringBuffers.getNameDatePressString();
+    private final String requestLink = testArticleStringBuffers.getLinkString();
+    private final String requestSubjectCompany = testArticleStringBuffers.getSubjectCompany();
 
     // Assertion
     private final String addSingleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
@@ -67,7 +67,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleValidatorTest(DataSource dataSource) {
+    public CompanyArticleFieldValidatorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -228,7 +228,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
 
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
-    public void registerArticleListBiggerThanLinkListCompanyArticleWithString() throws Exception {
+    public void articleListBiggerCompanyArticleAddWithString() throws Exception {
         // given & when
         companyService.registerCompany(samsungElectronics);
 
@@ -246,7 +246,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
 
     @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
-    public void registerLinkListBiggerThanArticleListCompanyArticleWithString() throws Exception {
+    public void linkListBiggerCompanyArticleAddWithString() throws Exception {
         // given & when
         companyService.registerCompany(samsungElectronics);
 
@@ -264,7 +264,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
 
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가 검증")
     @Test
-    public void registerNotCorrectNumberFormatDateCompanyArticleWithString() throws Exception {
+    public void dateFormatCompanyArticleAddWithString() throws Exception {
         // given & when
         companyService.registerCompany(samsungElectronics);
 
