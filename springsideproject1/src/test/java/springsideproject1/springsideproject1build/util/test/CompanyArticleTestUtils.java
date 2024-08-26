@@ -11,9 +11,23 @@ import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.UPDATE_COMPANY_ARTICLE_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_AFTER_PROCESS_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
+    // Assertion
+    String addSingleArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    String addStringArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+    String modifySingleArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+    String modifySingleArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+
+    // Request Key
+    String nameDatePressString = "nameDatePressString";
+    String linkString = "linkString";
+
     // Test Object
     CompanyArticle testArticle = CompanyArticle.builder()
             .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
@@ -41,6 +55,9 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .date(LocalDate.of(2024, 6, 18))
             .importance(0)
             .build();
+
+    CompanyArticleBufferSimple testEqualDateArticleStringBuffer = CompanyArticleBufferSimple.builder()
+            .articles(testEqualDateArticle).build();
 
     CompanyArticleBufferSimple testArticleStringBuffers = CompanyArticleBufferSimple.builder()
             .articles(testEqualDateArticle, testNewArticle).build();

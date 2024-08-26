@@ -75,9 +75,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     public void accessCompanyArticleAdd() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attributeExists(ARTICLE));
     }
 
@@ -111,9 +112,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     public void accessCompanyArticleAddWithString() throws Exception {
         mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage"),
+                        view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue));
     }
 
     @DisplayName("문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
@@ -131,9 +133,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         String nameListString = "nameList";
 
         ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("nameDatePressString", testArticleStringBuffers.getNameDatePressString());
+                    put(nameDatePressString, testArticleStringBuffers.getNameDatePressString());
                     put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
-                    put("linkString", testArticleStringBuffers.getLinkString());
+                    put(linkString, testArticleStringBuffers.getLinkString());
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
@@ -143,7 +145,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(modelMapPost.get(BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
         assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
-        ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+        ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
+                ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
                         new HashMap<>() {{
                             put(nameListString, nameListForURL);
                             put(BEAN_VALIDATION_ERROR, String.valueOf(false));
@@ -168,7 +171,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue));
+                        model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue));
     }
 
     @DisplayName("기업 기사 변경 페이지 내 이름 검색")
@@ -184,10 +188,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
                         UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                        view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
-                        model().attribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX))
+                        model().attribute(KEY, keyValue),
+                        model().attribute("updateUrl", modifySingleArticleFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
@@ -204,13 +209,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         article = articleService.registerArticle(article);
 
         // then
-        mockMvc.perform(postWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, article))
+        mockMvc.perform(postWithCompanyArticle(modifySingleArticleFinishUrl, article))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(modifySingleArticleFinishUrl + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(article.getName())));
 
-        mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeWithUTF8(article.getName())))
+        mockMvc.perform(getWithSingleParam(modifySingleArticleFinishUrl, NAME, encodeWithUTF8(article.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
@@ -240,6 +244,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_REMOVE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(DATA_TYPE_ENGLISH, ARTICLE),
                         model().attribute(REMOVE_KEY, NAME));
     }

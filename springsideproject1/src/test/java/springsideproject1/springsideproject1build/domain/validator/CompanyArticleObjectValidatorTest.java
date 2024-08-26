@@ -30,8 +30,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.DATA
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.ADD_COMPANY_ARTICLE_VIEW;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_SINGLE_PROCESS_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.KEY;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -49,9 +48,7 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
 
     // Request Value
     private final String dataTypeKorValue = "기사";
-
-    // Assertion
-    private final String singleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    private final String keyValue = "기사명";
 
     private final JdbcTemplate jdbcTemplateTest;
 
@@ -81,9 +78,10 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(singleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -105,9 +103,10 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(singleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -122,9 +121,10 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(singleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -140,9 +140,9 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("nameDatePressString", testArticleStringBuffers.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
-                    put("linkString", testArticleStringBuffers.getLinkString());
+                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
@@ -159,9 +159,9 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("nameDatePressString", testArticleStringBuffers.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
-                    put("linkString", testArticleStringBuffers.getLinkString());
+                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
@@ -172,15 +172,15 @@ public class CompanyArticleObjectValidatorTest implements CompanyArticleTestUtil
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
     @Test
     public void notExistSubjectCompanyArticleAddWithString() throws Exception {
-        String stringProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put("nameDatePressString", testArticleStringBuffers.getNameDatePressString());
+                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
                     put(SUBJECT_COMPANY, INVALID_VALUE);
-                    put("linkString", testArticleStringBuffers.getLinkString());
+                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
                 }}))
-                .andExpectAll(view().name(stringProcessPage),
+                .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 }

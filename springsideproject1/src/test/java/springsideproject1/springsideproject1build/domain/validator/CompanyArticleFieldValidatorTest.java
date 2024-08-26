@@ -48,21 +48,9 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Autowired
     CompanyService companyService;
 
-    // Request Key
-    private final String nameDatePress = "nameDatePressString";
-    private final String link = "linkString";
-
     // Request Value
     private final String dataTypeKorValue = "기사";
-    private final String requestNameDatePress = testArticleStringBuffers.getNameDatePressString();
-    private final String requestLink = testArticleStringBuffers.getLinkString();
-    private final String requestSubjectCompany = testArticleStringBuffers.getSubjectCompany();
-
-    // Assertion
-    private final String addSingleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-    private final String addStringProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
-    private final String modifySingleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    private final String modifySingleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+    private final String keyValue = "기사명";
 
     private final JdbcTemplate jdbcTemplateTest;
 
@@ -89,9 +77,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -102,9 +91,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Test
     public void validateNullCompanyArticleAdd() throws Exception {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, new CompanyArticleDto()))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -120,9 +110,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -140,9 +131,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -158,9 +150,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -178,9 +171,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -203,9 +197,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
                         .param(MONTH, INVALID_VALUE)
                         .param(DAYS, INVALID_VALUE)
                         .param(IMPORTANCE, INVALID_VALUE))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
@@ -219,9 +214,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleProcessPage),
+                .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));
     }
@@ -234,13 +230,14 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePress, requestNameDatePress);
-                    put(SUBJECT_COMPANY, requestSubjectCompany);
-                    put(link, testEqualDateArticle.getLink());
+                    put(nameDatePressString, testArticleStringBuffers.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
+                    put(linkString, testEqualDateArticle.getLink());
                 }}))
-                .andExpectAll(view().name(addStringProcessPage),
+                .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -252,13 +249,14 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePress, CompanyArticleBufferSimple.builder().article(testNewArticle).build().getNameDatePressString());
-                    put(SUBJECT_COMPANY, requestSubjectCompany);
-                    put(link, requestLink);
+                    put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewArticle).build().getNameDatePressString());
+                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
+                    put(linkString, testArticleStringBuffers.getLinkString());
                 }}))
-                .andExpectAll(view().name(addStringProcessPage),
+                .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -270,9 +268,9 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePress, requestNameDatePress.replace("2024", INVALID_VALUE));
-                    put(SUBJECT_COMPANY, requestSubjectCompany);
-                    put(link, requestLink);
+                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString().replace("2024", INVALID_VALUE));
+                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
@@ -293,6 +291,7 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
 
@@ -307,10 +306,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         articleDto.setLink(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -320,10 +320,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @DisplayName("NotNull(null)에 대한 기업 기사 변경 유효성 검증")
     @Test
     public void validateNullCompanyArticleModify() throws Exception {
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, new CompanyArticleDto()))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, new CompanyArticleDto()))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -338,10 +339,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         articleDto.setLink("NotUrl");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -358,10 +360,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         articleDto.setDays(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -376,10 +379,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -396,10 +400,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         articleDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -413,7 +418,7 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         CompanyArticleDto articleDto = createTestArticleDto();
 
         // then
-        mockMvc.perform(post(modifySingleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+        mockMvc.perform(post(modifySingleArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param(NAME, articleDto.getName())
                         .param(PRESS, articleDto.getPress())
                         .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
@@ -422,9 +427,10 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
                         .param(MONTH, INVALID_VALUE)
                         .param(DAYS, INVALID_VALUE)
                         .param(IMPORTANCE, INVALID_VALUE))
-                .andExpectAll(view().name(modifySingleProcessPage),
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
@@ -437,10 +443,11 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(modifySingleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleProcessPage),
+        mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifySingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
+                        model().attribute(KEY, keyValue),
                         model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));
     }
