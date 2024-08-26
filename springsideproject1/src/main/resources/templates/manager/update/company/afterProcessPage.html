@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
+<div>
+<p>[[#{company}]]을 [[#{function.update}]]합니다.</p>
 <p>해당 [[#{company.code}]] 또는 [[#{company.name}]]에 해당하는 [[#{company}]]이 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${company}" method="POST">
     <div>
@@ -31,5 +33,6 @@
     </div>
     <button type="submit" th:text="#{function.update}"></button>
 </form>
+</div>
 </body>
 </html>

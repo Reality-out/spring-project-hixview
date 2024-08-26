@@ -179,6 +179,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
+        model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(nameListString, MainUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);

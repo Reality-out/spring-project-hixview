@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::table})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
+<div>
+<p>다음 [[${key}]]의 [[${dataTypeKor}]] [[#{function.add}]]이 완료되었습니다:</p>
 <table>
     <tbody>
     <tr>
@@ -11,5 +13,6 @@
     </tr>
     </tbody>
 </table>
+</div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::p}, ~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
+<div>
+<p>[[#{article}]]를 [[#{function.update}]]합니다.</p>
 <p>해당 [[#{article.number}]] 또는 [[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
 <form th:action="${updateUrl}" th:object="${article}" method="POST">
     <div th:if="${error} != null" th:classappend="fieldError">
@@ -46,5 +48,6 @@
     </div>
     <button type="submit" th:text="#{function.update}"></button>
 </form>
+</div>
 </body>
 </html>

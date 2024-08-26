@@ -154,6 +154,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         }}))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_ADD_VIEW + "multipleFinishPage"),
+                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(DATA_TYPE_KOREAN, dataTypeKorValue),
                         model().attribute(KEY, keyValue),
                         model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))

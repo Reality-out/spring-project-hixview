@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout (table)" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (div)" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
@@ -7,10 +7,7 @@
     <link href="/styles/originalErrorStyle.css" rel="stylesheet"/>
 </head>
 <body>
-<div>
-    <p>다음 [[${key}]]의 [[${dataTypeKor}]] [[#{function.add}]]이 완료되었습니다:</p>
-    <table th:replace="${table}"></table>
-</div>
+<div th:replace="${div}"></div>
 <form action="/manager" method="get">
     <button type="submit" th:text="|#{page.main}로 이동|"></button>
 </form>

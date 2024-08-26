@@ -1,34 +1,25 @@
 <!DOCTYPE html>
-<html th:fragment="layout (table, div)" lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
-    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
-    <link href="/styles/originalErrorStyle.css" rel="stylesheet"/>
-</head>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <div th:if="${isBeanValidationError} == true" th:classappend="fieldError">
-        <p th:text="#{BeanValidation}"></p>
-    </div>
-    <div th:if="${errorSingle} != null" th:classappend="fieldError">
-        <th:block th:switch="${errorSingle}">
-            <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.CompanyArticle.importance}"></p>
-            <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.CompanyArticle.date}"></p>
-        </th:block>
-    </div>
-    <p>다음 [[${key}]]의 [[${dataTypeKor}]] [[#{function.add}]]이 완료되었습니다:</p>
-    <table>
-        <tbody>
-            <tr th:each="name : ${nameList}">
-                <th th:text="#{article.name}"></th>
-                <td th:text="${name}"></td>
-            </tr>
-        </tbody>
-    </table>
+<div th:if="${isBeanValidationError} == true" th:classappend="fieldError">
+    <p th:text="#{BeanValidation}"></p>
 </div>
-<form action="/manager" method="get">
-    <button type="submit" th:text="|#{page.main}로 이동|"></button>
-</form>
+<div th:if="${errorSingle} != null" th:classappend="fieldError">
+    <th:block th:switch="${errorSingle}">
+        <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.CompanyArticle.importance}"></p>
+        <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.CompanyArticle.date}"></p>
+    </th:block>
+</div>
+<p>다음 [[${key}]]의 [[${dataTypeKor}]] [[#{function.add}]]이 완료되었습니다:</p>
+<table>
+    <tbody>
+        <tr th:each="name : ${nameList}">
+            <th th:text="#{article.name}"></th>
+            <td th:text="${name}"></td>
+        </tr>
+    </tbody>
+</table>
+</div>
 </body>
 </html>

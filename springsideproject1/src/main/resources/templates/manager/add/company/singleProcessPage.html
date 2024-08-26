@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::form})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
+<div>
+<p>[[#{company}]]을 [[#{function.add}]]합니다.</p>
 <form th:action th:object="${company}" method="POST">
     <div>
         <div class="partialForm">
@@ -30,5 +32,6 @@
     </div>
     <button type="submit" th:text="#{function.add}"></button>
 </form>
+</div>
 </body>
 </html>
