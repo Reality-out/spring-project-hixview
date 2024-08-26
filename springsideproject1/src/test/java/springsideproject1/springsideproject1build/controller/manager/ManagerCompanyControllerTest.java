@@ -53,7 +53,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, true);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
     }
 
     @DisplayName("기업 추가 페이지 접속")

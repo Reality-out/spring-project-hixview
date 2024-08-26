@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validation;
+package springsideproject1.springsideproject1build.domain.validator.field;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.CLAS
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
 
 @Component
-public class CompanyArticleDtoFieldValidator implements Validator {
+public class CompanyArticleDtoValidator implements Validator {
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {

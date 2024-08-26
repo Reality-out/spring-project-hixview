@@ -17,9 +17,10 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validation.CompanyArticleDtoFieldValidator;
-import springsideproject1.springsideproject1build.domain.validation.CompanyArticleDtoObjectComplexValidator;
-import springsideproject1.springsideproject1build.domain.validation.CompanyArticleDtoObjectSimpleValidator;
+import springsideproject1.springsideproject1build.domain.validator.field.CompanyArticleDtoValidator;
+import springsideproject1.springsideproject1build.domain.validator.object.CompanyArticleDtoLinkValidator;
+import springsideproject1.springsideproject1build.domain.validator.object.CompanyArticleDtoNameValidator;
+import springsideproject1.springsideproject1build.domain.validator.object.CompanyArticleDtoSubjectCompanyValidator;
 import springsideproject1.springsideproject1build.util.MainUtils;
 
 import java.util.ArrayList;
@@ -46,9 +47,10 @@ public class ManagerCompanyArticleController {
     private final CompanyService companyService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleDtoFieldValidator fieldValidator;
-    private final CompanyArticleDtoObjectComplexValidator objectComplexValidator;
-    private final CompanyArticleDtoObjectSimpleValidator objectSimpleValidator;
+    private final CompanyArticleDtoValidator fieldValidator;
+    private final CompanyArticleDtoNameValidator nameValidator;
+    private final CompanyArticleDtoLinkValidator linkValidator;
+    private final CompanyArticleDtoSubjectCompanyValidator subjectCompanyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
 
@@ -77,9 +79,10 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitAddCompanyArticle(@ModelAttribute("article") @Validated CompanyArticleDto articleDto,
+    public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        if (processBindingError(bindingResult, model) || processValidationError(articleDto, bindingResult, model))
+        if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
+                processValidationErrorAdd(articleDto, bindingResult, model))
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
@@ -141,7 +144,8 @@ public class ManagerCompanyArticleController {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
                 }
                 fieldValidator.validate(companyArticleDto, bindingResult);
-                objectSimpleValidator.validate(companyArticleDto, bindingResult);
+                nameValidator.validate(companyArticleDto, bindingResult);
+                linkValidator.validate(companyArticleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
@@ -211,7 +215,11 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitModifyCompanyArticle(RedirectAttributes redirect, @ModelAttribute CompanyArticleDto articleDto) {
+    public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
+                                             BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
+                processValidationErrorModify(articleDto, bindingResult, model))
+            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -221,7 +229,6 @@ public class ManagerCompanyArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(VALUE, decodeWithUTF8(name));
-
         return MANAGER_UPDATE_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
@@ -255,19 +262,34 @@ public class ManagerCompanyArticleController {
      * Other private methods
      */
     // Handle Error
-    private boolean processBindingError(BindingResult bindingResult, Model model) {
+    private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
         if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
+            finishForRollback(bindingResult.getAllErrors().toString(), layoutPath, BEAN_VALIDATION_ERROR, model);
             return true;
         }
         return false;
     }
 
-    private boolean processValidationError(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
+    private boolean processValidationErrorAdd(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
         fieldValidator.validate(articleDto, bindingResult);
-        objectComplexValidator.validate(articleDto, bindingResult);
+        nameValidator.validate(articleDto, bindingResult);
+        linkValidator.validate(articleDto, bindingResult);
+        subjectCompanyValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean processValidationErrorModify(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
+        fieldValidator.validate(articleDto, bindingResult);
+        subjectCompanyValidator.validate(articleDto, bindingResult);
+        if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
+            bindingResult.rejectValue("name", "NotExist.article.name");
+        }
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
             return true;
         }
         return false;

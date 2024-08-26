@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validation;
+package springsideproject1.springsideproject1build.domain.validator.object;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -12,7 +12,7 @@ import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
 @Component
 @RequiredArgsConstructor
-public class CompanyArticleDtoObjectSimpleValidator implements Validator {
+public class CompanyArticleDtoNameValidator implements Validator {
 
     private final CompanyArticleService articleService;
     private final CompanyService companyService;
@@ -26,14 +26,8 @@ public class CompanyArticleDtoObjectSimpleValidator implements Validator {
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
-        // name
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
             errors.reject("Exist.CompanyArticle.name");
-        }
-
-        // link
-        if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
-            errors.reject("Exist.CompanyArticle.link");
         }
     }
 }
