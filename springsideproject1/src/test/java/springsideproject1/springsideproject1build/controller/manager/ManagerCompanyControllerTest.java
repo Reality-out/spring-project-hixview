@@ -84,6 +84,10 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(VALUE, company.getName()));
+
+        assertThat(companyService.findCompanyByName(company.getName()).orElseThrow())
+                .usingRecursiveComparison()
+                .isEqualTo(company);
     }
 
     @DisplayName("기업 변경 페이지 접속")
@@ -114,7 +118,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         model().attribute("scales", Scale.values()))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(company.toCompanyDto());
+                .isEqualTo(company.toDto());
     }
 
     @DisplayName("기업 변경 페이지 내 코드 검색")
@@ -134,7 +138,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(company.toCompanyDto());
+                .isEqualTo(company.toDto());
     }
 
     @DisplayName("기업 변경 완료 페이지 접속")
@@ -142,22 +146,29 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyModifyFinish() throws Exception {
         // given
         Company company = samsungElectronics;
+        String commonName = samsungElectronics.getName();
+        Company modifiedCompany = Company.builder().company(company)
+                .name(commonName).code(company.getCode()).build();
 
         // when
         companyService.registerCompany(company);
 
         // then
-        mockMvc.perform(postWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, company))
+        mockMvc.perform(postWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, modifiedCompany))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(company.getName())));
+                        model().attribute(NAME, encodeWithUTF8(commonName)));
 
         mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX,
                         NAME, encodeWithUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(VALUE, company.getName()));
+                        model().attribute(VALUE, commonName));
+
+        assertThat(companyService.findCompanyByName(commonName).orElseThrow())
+                .usingRecursiveComparison()
+                .isEqualTo(modifiedCompany);
     }
 
     @DisplayName("기업들 보기 페이지 접속")

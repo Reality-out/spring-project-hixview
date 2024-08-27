@@ -111,7 +111,7 @@ public class ManagerCompanyController {
         }
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
-        model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toCompanyDto());
+        model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
         model.addAttribute("countries", Country.values());
         model.addAttribute("scales", Scale.values());
         return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;

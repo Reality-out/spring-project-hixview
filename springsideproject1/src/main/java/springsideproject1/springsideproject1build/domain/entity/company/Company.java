@@ -34,7 +34,7 @@ public class Company {
     @NotBlank
     private final SecondCategory secondCategory;
 
-    public CompanyDto toCompanyDto() {
+    public CompanyDto toDto() {
         CompanyDto companyDto = new CompanyDto();
         companyDto.setCode(code);
         companyDto.setCountry(country.name());

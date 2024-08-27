@@ -99,6 +99,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(VALUE, articleDto.getName()));
+
+        assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(articleDto);
     }
 
     @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
@@ -153,6 +158,16 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
         assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
+
+        assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(testEqualDateArticle);
+
+        assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(testNewArticle);
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")
@@ -162,6 +177,27 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
+    }
+
+    @DisplayName("기업 기사 변경 페이지 내 번호 검색")
+    @Test
+    public void searchNumberCompanyArticleModify() throws Exception {
+        // given
+        CompanyArticle article = testArticle;
+
+        // when
+        article = articleService.registerArticle(article);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
+                        UPDATE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
+                .andExpectAll(status().isOk(),
+                        view().name(modifySingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute("updateUrl", modifySingleArticleFinishUrl))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(article.toDto());
     }
 
     @DisplayName("기업 기사 변경 페이지 내 이름 검색")
@@ -190,22 +226,30 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     public void accessCompanyArticleModifyFinish() throws Exception {
         // given
         CompanyArticle article = testArticle;
+        String commonName = article.getName();
+        CompanyArticle modifiedArticle = CompanyArticle.builder().article(article)
+                .name(commonName).link(article.getLink()).build();
 
         // when
         companyService.registerCompany(samsungElectronics);
-        article = articleService.registerArticle(article);
+        articleService.registerArticle(article);
 
         // then
-        mockMvc.perform(postWithCompanyArticle(modifySingleArticleFinishUrl, article))
+        mockMvc.perform(postWithCompanyArticle(modifySingleArticleFinishUrl, modifiedArticle))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(modifySingleArticleFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(article.getName())));
+                        model().attribute(NAME, encodeWithUTF8(commonName)));
 
-        mockMvc.perform(getWithSingleParam(modifySingleArticleFinishUrl, NAME, encodeWithUTF8(article.getName())))
+        mockMvc.perform(getWithSingleParam(modifySingleArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(VALUE, article.getName()));
+                        model().attribute(VALUE, commonName));
+
+        assertThat(articleService.findArticleByName(commonName).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields("number")
+                .isEqualTo(modifiedArticle);
     }
 
     @DisplayName("기업 기사들 보기 페이지 접속")
