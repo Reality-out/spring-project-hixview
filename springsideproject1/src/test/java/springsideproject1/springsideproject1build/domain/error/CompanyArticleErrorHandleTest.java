@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
@@ -138,9 +139,9 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                         model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
     }
 
-    @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 기업 기사 변경")
+    @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하여 기업 기사를 검색하는, 기업 기사 변경")
     @Test
-    public void notExistArticleNumberOrNameCompanyArticleModify() throws Exception {
+    public void notExistNumberOrNameProcessCompanyArticleModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -150,6 +151,26 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+    }
+
+    @DisplayName("기사명 또는 기사 링크까지 변경을 시도하는, 기업 기사 변경")
+    @Test
+    public void changeNameOrLinkCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticle article = articleService.registerArticle(testArticle);
+        companyService.registerCompany(samsungElectronics);
+
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+                        CompanyArticle.builder().article(article).name(testNewArticle.getName()).build()))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null)));
+
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+                        CompanyArticle.builder().article(article).link(testNewArticle.getLink()).build()))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null)));
     }
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 기업 기사 없애기")

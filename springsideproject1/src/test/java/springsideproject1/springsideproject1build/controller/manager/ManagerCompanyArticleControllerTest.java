@@ -276,9 +276,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
-    @DisplayName("기업 기사 없애기 완료 페이지 접속")
+    @DisplayName("기사 번호로 기업 기사 없애기 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleRidFinish() throws Exception {
+    public void numberAccessCompanyArticleRidFinish() throws Exception {
         // given & when
         CompanyArticle article = testArticle;
         String name = article.getName();
@@ -287,11 +287,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         article = articleService.registerArticle(article);
 
         // then
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", name))
-                .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(name)));
-
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
@@ -302,5 +297,32 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
                         model().attribute(VALUE, name));
+
+        assertThat(articleService.findArticles()).isEmpty();
+    }
+
+    @DisplayName("기사명으로 기업 기사 없애기 완료 페이지 접속")
+    @Test
+    public void nameAccessCompanyArticleRidFinish() throws Exception {
+        // given & when
+        CompanyArticle article = testArticle;
+        String name = article.getName();
+
+        // when
+        articleService.registerArticle(article);
+
+        // then
+        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", name))
+                .andExpectAll(status().isSeeOther(),
+                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        model().attribute(NAME, encodeWithUTF8(name)));
+
+        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
+                .andExpectAll(status().isOk(),
+                        view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
+                        model().attribute(VALUE, name));
+
+        assertThat(articleService.findArticles()).isEmpty();
     }
 }

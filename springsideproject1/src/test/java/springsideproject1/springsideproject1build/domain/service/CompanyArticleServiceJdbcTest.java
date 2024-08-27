@@ -100,7 +100,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtils {
     @Test
     public void removeCompanyArticleByFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
-                () -> articleService.removeArticle("123456"));
+                () -> articleService.removeArticleByName("123456"));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
     }
 }

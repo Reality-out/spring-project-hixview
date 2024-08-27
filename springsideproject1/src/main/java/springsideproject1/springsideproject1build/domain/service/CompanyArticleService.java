@@ -86,7 +86,7 @@ public class CompanyArticleService {
      * REMOVE CompanyArticle
      */
     @Transactional
-    public void removeArticle(String name) {
+    public void removeArticleByName(String name) {
         existentCheck(name);
         articleRepository.deleteArticleByName(name);
     }

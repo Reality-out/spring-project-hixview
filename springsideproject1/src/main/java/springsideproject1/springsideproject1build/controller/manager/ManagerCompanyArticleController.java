@@ -253,9 +253,11 @@ public class ManagerCompanyArticleController {
             return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
         }
         if (NUMBER_REGEX_PATTERN.matcher(numberOrName).matches()) {
-            redirect.addAttribute(NAME, encodeWithUTF8(
-                    articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName()));
+            String removedName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
+            articleService.removeArticleByName(removedName);
+            redirect.addAttribute(NAME, encodeWithUTF8(removedName));
         } else {
+            articleService.removeArticleByName(numberOrName);
             redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
         }
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;

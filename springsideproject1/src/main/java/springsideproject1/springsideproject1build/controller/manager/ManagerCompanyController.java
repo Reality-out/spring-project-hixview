@@ -160,8 +160,10 @@ public class ManagerCompanyController {
         if (NUMBER_REGEX_PATTERN.matcher(codeOrName).matches()) {
             redirect.addAttribute(NAME, encodeWithUTF8(
                     companyService.findCompanyByCode(codeOrName).orElseThrow().getName()));
+            companyService.removeCompanyByCode(codeOrName);
         } else {
             redirect.addAttribute(NAME, encodeWithUTF8(codeOrName));
+            companyService.removeCompanyByCode(companyService.findCompanyByName(codeOrName).orElseThrow().getCode());
         }
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
