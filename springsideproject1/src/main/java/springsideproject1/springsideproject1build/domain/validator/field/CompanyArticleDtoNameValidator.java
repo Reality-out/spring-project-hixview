@@ -10,6 +10,8 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+
 @Component
 @RequiredArgsConstructor
 public class CompanyArticleDtoNameValidator implements Validator {
@@ -27,7 +29,7 @@ public class CompanyArticleDtoNameValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.rejectValue("name", "Exist");
+            errors.rejectValue(NAME, "Exist");
         }
     }
 }

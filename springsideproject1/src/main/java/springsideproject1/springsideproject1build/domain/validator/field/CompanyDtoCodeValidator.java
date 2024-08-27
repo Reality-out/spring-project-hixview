@@ -9,6 +9,8 @@ import springsideproject1.springsideproject1build.domain.entity.company.Company;
 import springsideproject1.springsideproject1build.domain.entity.company.CompanyDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
+
 @Component
 @RequiredArgsConstructor
 public class CompanyDtoCodeValidator implements Validator {
@@ -25,7 +27,7 @@ public class CompanyDtoCodeValidator implements Validator {
         CompanyDto companyDto = (CompanyDto) target;
 
         if (companyService.findCompanyByCode(companyDto.getCode()).isPresent()) {
-            errors.rejectValue("code", "Exist");
+            errors.rejectValue(CODE, "Exist");
         }
     }
 }

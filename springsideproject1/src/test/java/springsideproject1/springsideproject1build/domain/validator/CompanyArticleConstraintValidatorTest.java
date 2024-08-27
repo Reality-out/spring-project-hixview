@@ -135,8 +135,8 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         articleDto.setDays(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -152,8 +152,8 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -171,8 +171,8 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         articleDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -188,8 +188,8 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));

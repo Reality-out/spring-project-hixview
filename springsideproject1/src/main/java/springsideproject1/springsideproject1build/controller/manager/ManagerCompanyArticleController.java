@@ -32,6 +32,7 @@ import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.LINK;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -299,10 +300,10 @@ public class ManagerCompanyArticleController {
         fieldValidator.validate(articleDto, bindingResult);
         subjectCompanyValidator.validate(articleDto, bindingResult);
         if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            bindingResult.rejectValue("name", "NotExist");
+            bindingResult.rejectValue(NAME, "NotExist");
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            bindingResult.rejectValue("link", "NotExist");
+            bindingResult.rejectValue(LINK, "NotExist");
         }
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);

@@ -121,7 +121,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
 
     @DisplayName("Pattern에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateURLCompanyArticleAdd() throws Exception {
+    public void validatePatternCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setLink(INVALID_VALUE);
@@ -169,8 +169,8 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
         articleDto.setLink(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -189,8 +189,8 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
         articleDto.setLink(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -220,14 +220,14 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
 
     @DisplayName("Pattern에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateURLCompanyArticleModify() throws Exception {
+    public void validatePatternCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
         articleDto.setLink(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifySingleArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -242,7 +242,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
         CompanyArticleDto articleDto = createTestArticleDto();
 
         // then
-        mockMvc.perform(post(modifySingleArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+        mockMvc.perform(post(modifyArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param(NAME, articleDto.getName())
                         .param(PRESS, articleDto.getPress())
                         .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
@@ -251,7 +251,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                         .param(MONTH, INVALID_VALUE)
                         .param(DAYS, INVALID_VALUE)
                         .param(IMPORTANCE, INVALID_VALUE))
-                .andExpectAll(view().name(modifySingleArticleProcessPage),
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));

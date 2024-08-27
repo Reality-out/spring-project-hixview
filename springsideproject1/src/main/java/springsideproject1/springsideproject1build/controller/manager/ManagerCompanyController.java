@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
@@ -202,10 +203,10 @@ public class ManagerCompanyController {
     private boolean processValidationErrorModify(CompanyDto companyDto, BindingResult bindingResult, Model model) {
         fieldValidator.validate(companyDto, bindingResult);
         if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
-            bindingResult.rejectValue("code", "NotExist");
+            bindingResult.rejectValue(CODE, "NotExist");
         }
         if (companyService.findCompanyByName(companyDto.getName()).isEmpty()) {
-            bindingResult.rejectValue("name", "NotExist");
+            bindingResult.rejectValue(NAME, "NotExist");
         }
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);

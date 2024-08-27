@@ -9,6 +9,8 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
+
 @Component
 @RequiredArgsConstructor
 public class CompanyArticleDtoSubjectCompanyValidator implements Validator {
@@ -25,7 +27,7 @@ public class CompanyArticleDtoSubjectCompanyValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            errors.rejectValue("subjectCompany", "NotFound");
+            errors.rejectValue(SUBJECT_COMPANY, "NotFound");
         }
     }
 }

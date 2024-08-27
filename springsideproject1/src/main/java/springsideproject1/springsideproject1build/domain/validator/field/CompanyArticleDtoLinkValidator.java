@@ -10,6 +10,8 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.LINK;
+
 @Component
 @RequiredArgsConstructor
 public class CompanyArticleDtoLinkValidator implements Validator {
@@ -27,7 +29,7 @@ public class CompanyArticleDtoLinkValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
-            errors.rejectValue("link", "Exist");
+            errors.rejectValue(LINK, "Exist");
         }
     }
 }

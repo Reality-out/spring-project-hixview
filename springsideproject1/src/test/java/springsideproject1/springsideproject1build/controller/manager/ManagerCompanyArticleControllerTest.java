@@ -191,9 +191,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
                         UPDATE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
                 .andExpectAll(status().isOk(),
-                        view().name(modifySingleArticleProcessPage),
+                        view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute("updateUrl", modifySingleArticleFinishUrl))
+                        model().attribute("updateUrl", modifyArticleFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
@@ -212,9 +212,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
                         UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
-                        view().name(modifySingleArticleProcessPage),
+                        view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute("updateUrl", modifySingleArticleFinishUrl))
+                        model().attribute("updateUrl", modifyArticleFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
@@ -234,12 +234,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         articleService.registerArticle(article);
 
         // then
-        mockMvc.perform(postWithCompanyArticle(modifySingleArticleFinishUrl, modifiedArticle))
+        mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl, modifiedArticle))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(modifySingleArticleFinishUrl + ALL_QUERY_STRING),
+                        redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(commonName)));
 
-        mockMvc.perform(getWithSingleParam(modifySingleArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
+        mockMvc.perform(getWithSingleParam(modifyArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),

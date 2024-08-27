@@ -1,6 +1,7 @@
 package springsideproject1.springsideproject1build.domain.entity.company;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,13 +11,16 @@ import lombok.Getter;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Company {
+    @NotBlank
     @Size(min = 6, max = 6)
+    @Pattern(regexp = NUMBER_REGEX)
     private final String code;
 
     @NotBlank

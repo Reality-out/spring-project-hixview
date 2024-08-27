@@ -20,8 +20,8 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
     // Assertion
     String addSingleArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     String addStringArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
-    String modifySingleArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifySingleArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+    String modifyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+    String modifyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
 
     // Request Key
     String nameDatePressString = "nameDatePressString";
