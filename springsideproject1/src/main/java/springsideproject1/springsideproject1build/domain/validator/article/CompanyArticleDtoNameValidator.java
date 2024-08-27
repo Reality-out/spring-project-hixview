@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator.field;
+package springsideproject1.springsideproject1build.domain.validator.article;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -7,14 +7,16 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Component
 @RequiredArgsConstructor
-public class CompanyArticleDtoSubjectCompanyValidator implements Validator {
+public class CompanyArticleDtoNameValidator implements Validator {
 
+    private final CompanyArticleService articleService;
     private final CompanyService companyService;
 
     @Override
@@ -26,8 +28,8 @@ public class CompanyArticleDtoSubjectCompanyValidator implements Validator {
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
-        if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            errors.rejectValue(SUBJECT_COMPANY, "NotFound");
+        if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
+            errors.rejectValue(NAME, "Exist");
         }
     }
 }

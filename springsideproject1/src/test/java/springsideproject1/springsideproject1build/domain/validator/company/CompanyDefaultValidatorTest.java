@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator;
+package springsideproject1.springsideproject1build.domain.validator.company;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,9 +24,7 @@ import static springsideproject1.springsideproject1build.domain.error.constant.E
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.ADD_COMPANY_VIEW;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_SINGLE_PROCESS_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -65,7 +63,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                .andExpectAll(view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))

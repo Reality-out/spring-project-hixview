@@ -141,8 +141,13 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하여 기업 기사를 검색하는, 기업 기사 변경")
     @Test
-    public void notExistNumberOrNameProcessCompanyArticleModify() throws Exception {
+    public void notExistNumberOrNameCompanyArticleModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", "1"))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
@@ -160,15 +165,15 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         CompanyArticle article = articleService.registerArticle(testArticle);
         companyService.registerCompany(samsungElectronics);
 
-        requireNonNull(mockMvc.perform(postWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
                         CompanyArticle.builder().article(article).name(testNewArticle.getName()).build()))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null)));
 
-        requireNonNull(mockMvc.perform(postWithCompanyArticle(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
                         CompanyArticle.builder().article(article).link(testNewArticle.getLink()).build()))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null)));
     }
@@ -177,6 +182,11 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void notExistArticleNumberOrNameCompanyArticleRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", ""))
+                .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", "1"))
                 .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));

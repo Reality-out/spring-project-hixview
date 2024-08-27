@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator.field;
+package springsideproject1.springsideproject1build.domain.validator.company;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;

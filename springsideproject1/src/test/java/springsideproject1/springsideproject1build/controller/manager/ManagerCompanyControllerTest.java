@@ -59,7 +59,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyAdd() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX),
+                        view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attributeExists(COMPANY),
                         model().attribute("countries", Country.values()),
@@ -111,9 +111,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                        view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX))
+                        model().attribute("updateUrl", modifyCompanyFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company.toDto());
@@ -131,9 +131,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX),
+                        view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX),
+                        model().attribute("updateUrl", modifyCompanyFinishUrl),
                         model().attribute("countries", Country.values()),
                         model().attribute("scales", Scale.values()))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
@@ -154,13 +154,12 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         companyService.registerCompany(company);
 
         // then
-        mockMvc.perform(postWithCompany(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, modifiedCompany))
+        mockMvc.perform(postWithCompany(modifyCompanyFinishUrl, modifiedCompany))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(commonName)));
 
-        mockMvc.perform(getWithSingleParam(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeWithUTF8(company.getName())))
+        mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(company.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),

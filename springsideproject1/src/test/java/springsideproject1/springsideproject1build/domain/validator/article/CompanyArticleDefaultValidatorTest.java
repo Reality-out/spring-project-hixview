@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator;
+package springsideproject1.springsideproject1build.domain.validator.article;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +20,22 @@ import javax.sql.DataSource;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_ARTICLE_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleConstraintValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,7 +49,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleConstraintValidatorTest(DataSource dataSource) {
+    public CompanyArticleDefaultValidatorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -55,143 +59,201 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
         resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
     }
 
-    @DisplayName("Range에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("NotBlank(공백)에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateRangeCompanyArticleAdd() throws Exception {
+    public void validateNotBlankSpaceCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setYear(1950);
-        articleDto.setMonth(1);
-        articleDto.setDays(1);
+        articleDto.setName(" ");
+        articleDto.setPress(" ");
+        articleDto.setSubjectCompany(" ");
+        articleDto.setLink(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Restrict에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("NotBlank(null)에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateRestrictCompanyArticleAdd() throws Exception {
+    public void validateNotBlankNullCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setImportance(3);
+        articleDto.setName(null);
+        articleDto.setPress(null);
+        articleDto.setSubjectCompany(null);
+        articleDto.setLink(null);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("TypeButInvalid에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
+    public void validateNotNullCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
+        articleDto.setYear(null);
+        articleDto.setMonth(null);
+        articleDto.setDays(null);
+        articleDto.setImportance(null);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Press의 typeMismatch에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("Pattern에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
+    public void validatePatternCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setPress(INVALID_VALUE);
+        articleDto.setLink(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("typeMismatch에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validateTypeMismatchCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestArticleDto();
+
+        // then
+        mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param(NAME, articleDto.getName())
+                        .param(PRESS, articleDto.getPress())
+                        .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
+                        .param(LINK, articleDto.getLink())
+                        .param(YEAR, INVALID_VALUE)
+                        .param(MONTH, INVALID_VALUE)
+                        .param(DAYS, INVALID_VALUE)
+                        .param(IMPORTANCE, INVALID_VALUE))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
 
-    @DisplayName("Range에 대한 기업 기사 변경 유효성 검증")
+    @DisplayName("NotBlank(공백)에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateRangeCompanyArticleModify() throws Exception {
+    public void validateNotBlankSpaceCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setYear(1950);
-        articleDto.setMonth(1);
-        articleDto.setDays(1);
+        articleDto.setName(" ");
+        articleDto.setPress(" ");
+        articleDto.setSubjectCompany(" ");
+        articleDto.setLink(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Restrict에 대한 기업 기사 변경 유효성 검증")
+    @DisplayName("NotBlank(null)에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateRestrictCompanyArticleModify() throws Exception {
+    public void validateNotBlankNullCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setImportance(3);
+        articleDto.setName(null);
+        articleDto.setPress(null);
+        articleDto.setSubjectCompany(null);
+        articleDto.setLink(null);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("TypeButInvalid에 대한 기업 기사 변경 유효성 검증")
+    @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateTypeButInvalidCompanyArticleModify() throws Exception {
+    public void validateNotNullCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
+        articleDto.setYear(null);
+        articleDto.setMonth(null);
+        articleDto.setDays(null);
+        articleDto.setImportance(null);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Pattern에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validatePatternCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestArticleDto();
+        articleDto.setLink(INVALID_VALUE);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Press의 typeMismatch에 대한 기업 기사 변경 유효성 검증")
+    @DisplayName("typeMismatch에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validatePressTypeMismatchCompanyArticleModify() throws Exception {
+    public void validateTypeMismatchCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestArticleDto();
-        articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+        mockMvc.perform(post(modifyArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param(NAME, articleDto.getName())
+                        .param(PRESS, articleDto.getPress())
+                        .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
+                        .param(LINK, articleDto.getLink())
+                        .param(YEAR, INVALID_VALUE)
+                        .param(MONTH, INVALID_VALUE)
+                        .param(DAYS, INVALID_VALUE)
+                        .param(IMPORTANCE, INVALID_VALUE))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
 }

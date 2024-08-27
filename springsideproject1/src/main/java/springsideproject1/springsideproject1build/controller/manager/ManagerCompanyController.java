@@ -15,9 +15,9 @@ import springsideproject1.springsideproject1build.domain.entity.company.CompanyD
 import springsideproject1.springsideproject1build.domain.entity.company.Country;
 import springsideproject1.springsideproject1build.domain.entity.company.Scale;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validator.field.CompanyDtoCodeValidator;
-import springsideproject1.springsideproject1build.domain.validator.field.CompanyDtoConstraintValidator;
-import springsideproject1.springsideproject1build.domain.validator.field.CompanyDtoNameValidator;
+import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoCodeValidator;
+import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoConstraintValidator;
+import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoNameValidator;
 
 import java.util.Optional;
 

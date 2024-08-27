@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator;
+package springsideproject1.springsideproject1build.domain.validator.article;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -105,7 +105,7 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
                 .isEqualTo(articleDto2);
     }
 
-    @DisplayName("대상 기업이 등록되지 않은 기업 기사 추가")
+    @DisplayName("대상 기업이 추가되지 않은 기업 기사 추가")
     @Test
     public void notRegisteredSubjectCompanyArticleAdd() throws Exception {
         // given & when

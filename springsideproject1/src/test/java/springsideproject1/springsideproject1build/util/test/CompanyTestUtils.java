@@ -6,9 +6,9 @@ import springsideproject1.springsideproject1build.domain.entity.company.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.UPDATE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_AFTER_PROCESS_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 public interface CompanyTestUtils extends ObjectTestUtils {
@@ -23,6 +23,17 @@ public interface CompanyTestUtils extends ObjectTestUtils {
 
     Company skHynix = Company.builder().code("000660").country(Country.SOUTH_KOREA).scale(Scale.BIG).name("SK하이닉스")
             .firstCategory(FirstCategory.SEMICONDUCTOR).secondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();
+
+    /**
+     * Create
+     */
+    default CompanyDto createSamsungElectronicsDto() {
+        return samsungElectronics.toDto();
+    }
+
+    default CompanyDto createSKHynixDto() {
+        return skHynix.toDto();
+    }
 
     /**
      * Request

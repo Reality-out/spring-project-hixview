@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator.field;
+package springsideproject1.springsideproject1build.domain.validator.article;
 
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
