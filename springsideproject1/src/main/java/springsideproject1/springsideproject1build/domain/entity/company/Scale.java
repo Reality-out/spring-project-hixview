@@ -13,4 +13,13 @@ public enum Scale {
     Scale(String scaleValue) {
         this.scaleValue = scaleValue;
     }
+
+    public static boolean containsWithScale(String str) {
+        for (Scale enumValue : Scale.values()) {
+            if (enumValue.name().equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

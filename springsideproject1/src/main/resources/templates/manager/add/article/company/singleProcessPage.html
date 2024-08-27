@@ -2,51 +2,51 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-<p>[[#{article}]]를 [[#{function.add}]]합니다.</p>
-<form th:action th:object="${article}" method="POST">
-    <div th:if="${error} != null" th:classappend="fieldError">
-        <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
-    </div>
-    <div>
-        <div class="partialForm">
-            <label for="name" th:text="#{article.name}"></label>
-            <input type="text" id="name" th:field="*{name}" size="20">
-            <div class="fieldError" th:errors="*{name}"></div>
+    <p>[[#{article}]]를 [[#{function.add}]]합니다.</p>
+    <form th:action th:object="${article}" method="POST">
+        <div th:if="${error} != null" th:classappend="fieldError">
+            <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
-        <div class="partialForm">
-            <label for="press" th:text="#{article.press}"></label>
-            <input type="text" id="press" th:field="*{press}" size="20" th:errorclass="fieldError">
-            <div class="fieldError" th:errors="*{press}"></div>
+        <div>
+            <div class="partialForm">
+                <label for="name" th:text="#{article.name}"></label>
+                <input type="text" id="name" th:field="*{name}" size="20">
+                <div class="fieldError" th:errors="*{name}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="press" th:text="#{article.press}"></label>
+                <input type="text" id="press" th:field="*{press}" size="20" th:errorclass="fieldError">
+                <div class="fieldError" th:errors="*{press}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
+                <input type="text" id="subjectCompany" th:field="*{subjectCompany}" size="20">
+                <div class="fieldError" th:errors="*{subjectCompany}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="link" th:text="#{article.link}"></label>
+                <input type="url" id="link" th:field="*{link}" size="20" th:errorclass="fieldError">
+                <div class="fieldError" th:errors="*{link}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="year" th:text="#{article.date.year}"></label>
+                <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
+                <label for="month" th:text="#{article.date.month}"></label>
+                <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
+                <label for="days" th:text="#{article.date.days}"></label>
+                <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
+                <div class="fieldError" th:errors="*{year}"></div>
+                <div class="fieldError" th:errors="*{month}"></div>
+                <div class="fieldError" th:errors="*{days}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="importance" th:text="#{article.importance}"></label>
+                <input type="text" id="importance" th:field="*{importance}" size="20">
+                <div class="fieldError" th:errors="*{importance}"></div>
+            </div>
         </div>
-        <div class="partialForm">
-            <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
-            <input type="text" id="subjectCompany" th:field="*{subjectCompany}" size="20">
-            <div class="fieldError" th:errors="*{subjectCompany}"></div>
-        </div>
-        <div class="partialForm">
-            <label for="link" th:text="#{article.link}"></label>
-            <input type="url" id="link" th:field="*{link}" size="20" th:errorclass="fieldError">
-            <div class="fieldError" th:errors="*{link}"></div>
-        </div>
-        <div class="partialForm">
-            <label for="year" th:text="#{article.date.year}"></label>
-            <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-            <label for="month" th:text="#{article.date.month}"></label>
-            <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-            <label for="days" th:text="#{article.date.days}"></label>
-            <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-            <div class="fieldError" th:errors="*{year}"></div>
-            <div class="fieldError" th:errors="*{month}"></div>
-            <div class="fieldError" th:errors="*{days}"></div>
-        </div>
-        <div class="partialForm">
-            <label for="importance" th:text="#{article.importance}"></label>
-            <input type="text" id="importance" th:field="*{importance}" size="20">
-            <div class="fieldError" th:errors="*{importance}"></div>
-        </div>
-    </div>
-    <button type="submit" th:text="#{function.add}"></button>
-</form>
+        <button type="submit" th:text="#{function.add}"></button>
+    </form>
 </div>
 </body>
 </html>

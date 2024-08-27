@@ -14,4 +14,13 @@ public enum Country {
     Country(String countryValue) {
         this.countryValue = countryValue;
     }
+
+    public static boolean containsWithCountry(String str) {
+        for (Country enumValue : Country.values()) {
+            if (enumValue.name().equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

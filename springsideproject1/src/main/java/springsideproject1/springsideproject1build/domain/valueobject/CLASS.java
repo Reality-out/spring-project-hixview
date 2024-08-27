@@ -12,6 +12,10 @@ public abstract class CLASS {
     // Company
     public static final String COMPANY = "company";
     public static final String CODE = "code";
+    public static final String COUNTRY = "country";
+    public static final String SCALE = "scale";
+    public static final String FIRST_CATEGORY = "firstCategory";
+    public static final String SECOND_CATEGORY = "secondCategory";
 
     // Member
     public static final String MEMBER = "member";

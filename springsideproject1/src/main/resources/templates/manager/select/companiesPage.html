@@ -12,8 +12,8 @@
                 <th scope="col" th:text="#{company.country}"></th>
                 <th scope="col" th:text="#{company.scale}"></th>
                 <th scope="col" th:text="#{company.name}"></th>
-                <th scope="col" th:text="#{company.category1st}"></th>
-                <th scope="col" th:text="#{company.category2nd}"></th>
+                <th scope="col" th:text="#{company.firstCategory}"></th>
+                <th scope="col" th:text="#{company.secondCategory}"></th>
             </tr>
         </thead>
         <tbody>
@@ -22,8 +22,8 @@
                 <td th:text="${company.country.countryValue}"></td>
                 <td th:text="${company.scale.scaleValue}"></td>
                 <td th:text="${company.name}"></td>
-                <td th:text="${company.category1st.firstCategoryValue}"></td>
-                <td th:text="${company.category2nd.secondCategoryValue}"></td>
+                <td th:text="${company.firstCategory.firstCategoryValue}"></td>
+                <td th:text="${company.secondCategory.secondCategoryValue}"></td>
             </tr>
         </tbody>
     </table>

@@ -19,4 +19,13 @@ public enum SecondCategory {
     SecondCategory(String secondCategoryValue) {
         this.secondCategoryValue = secondCategoryValue;
     }
+
+    public static boolean containsWithSecondCategory(String str) {
+        for (SecondCategory enumValue : SecondCategory.values()) {
+            if (enumValue.name().equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

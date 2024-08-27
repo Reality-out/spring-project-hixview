@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
@@ -63,9 +63,9 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     @Override
     public void updateCompany(Company company) {
         jdbcTemplate.update("update " + COMPANY_TABLE +
-                        " set country = ?, scale = ?, name = ?, category1st = ?, category2nd = ? where code = ?",
+                        " set country = ?, scale = ?, name = ?, firstCategory = ?, secondCategory = ? where code = ?",
                 company.getCountry().name(), company.getScale().name(), company.getName(),
-                company.getCategory1st().name(), company.getCategory2nd().name(), company.getCode());
+                company.getFirstCategory().name(), company.getSecondCategory().name(), company.getCode());
     }
 
     /**
@@ -82,11 +82,11 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     private RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> Company.builder()
                         .code(resultSet.getString(CODE))
-                        .country(Country.valueOf(resultSet.getString("country")))
-                        .scale(Scale.valueOf(resultSet.getString("scale")))
+                        .country(Country.valueOf(resultSet.getString(COUNTRY)))
+                        .scale(Scale.valueOf(resultSet.getString(SCALE)))
                         .name(resultSet.getString(NAME))
-                        .category1st(FirstCategory.valueOf(resultSet.getString("category1st")))
-                        .category2nd(SecondCategory.valueOf(resultSet.getString("category2nd")))
+                        .firstCategory(FirstCategory.valueOf(resultSet.getString(FIRST_CATEGORY)))
+                        .secondCategory(SecondCategory.valueOf(resultSet.getString(SECOND_CATEGORY)))
                         .build();
     }
 }

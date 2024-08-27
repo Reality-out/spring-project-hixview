@@ -10,6 +10,6 @@ public class CompanyDto {
     private String country;
     private String scale;
     private String name;
-    private String category1st;
-    private String category2nd;
+    private String firstCategory;
+    private String secondCategory;
 }

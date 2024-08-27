@@ -26,7 +26,7 @@
         </div>
         <div class="partialForm">
             <label for="link" th:text="#{article.link}"></label>
-            <input type="url" id="link" th:field="*{link}" size="20">
+            <input type="url" id="link" th:field="*{link}" size="20" readonly>
             <div class="fieldError" th:errors="*{link}"></div>
         </div>
         <div class="partialForm">

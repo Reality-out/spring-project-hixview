@@ -21,4 +21,13 @@ public enum FirstCategory {
     FirstCategory(String firstCategoryValue) {
         this.firstCategoryValue = firstCategoryValue;
     }
+
+    public static boolean containsWithFirstCategory(String str) {
+        for (FirstCategory enumValue : FirstCategory.values()) {
+            if (enumValue.name().equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
