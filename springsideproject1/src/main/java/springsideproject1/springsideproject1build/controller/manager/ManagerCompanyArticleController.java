@@ -299,10 +299,10 @@ public class ManagerCompanyArticleController {
         fieldValidator.validate(articleDto, bindingResult);
         subjectCompanyValidator.validate(articleDto, bindingResult);
         if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            bindingResult.rejectValue("name", "NotExist.article.name");
+            bindingResult.rejectValue("name", "NotExist");
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            bindingResult.rejectValue("link", "NotExist.article.link");
+            bindingResult.rejectValue("link", "NotExist");
         }
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);

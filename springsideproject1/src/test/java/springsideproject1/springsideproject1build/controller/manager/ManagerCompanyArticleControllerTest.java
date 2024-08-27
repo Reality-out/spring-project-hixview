@@ -30,8 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR_SINGLE;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.IS_BEAN_VALIDATION_ERROR;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
@@ -102,7 +101,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(articleDto);
     }
 
@@ -161,12 +160,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(testEqualDateArticle);
 
         assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(testNewArticle);
     }
 
@@ -248,7 +247,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         assertThat(articleService.findArticleByName(commonName).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(modifiedArticle);
     }
 

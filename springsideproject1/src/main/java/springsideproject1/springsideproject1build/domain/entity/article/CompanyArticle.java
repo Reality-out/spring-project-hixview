@@ -2,16 +2,17 @@ package springsideproject1.springsideproject1build.domain.entity.article;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
@@ -31,7 +32,7 @@ public class CompanyArticle {
     private final String subjectCompany;
 
     @NotBlank
-    @URL
+    @Pattern(regexp = URL_REGEX)
     private final String link;
 
     @NotNull
@@ -55,7 +56,7 @@ public class CompanyArticle {
 
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
-            put("number", number);
+            put(NUMBER, number);
             putAll(toMapWithNoNumber());
         }};
     }

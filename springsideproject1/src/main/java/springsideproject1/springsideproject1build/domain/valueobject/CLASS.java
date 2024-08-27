@@ -3,6 +3,7 @@ package springsideproject1.springsideproject1build.domain.valueobject;
 public abstract class CLASS {
     // Article
     public static final String ARTICLE = "article";
+    public static final String NUMBER = "number";
     public static final String PRESS = "press";
     public static final String SUBJECT_COMPANY = "subjectCompany";
     public static final String DATE = "date";

@@ -77,7 +77,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
      */
     default MockHttpServletRequestBuilder postWithCompanyArticle(String url, CompanyArticle article) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("number", String.valueOf(article.getNumber()))
+                .param(NUMBER, String.valueOf(article.getNumber()))
                 .param(NAME, article.getName())
                 .param(PRESS, article.getPress().name())
                 .param(SUBJECT_COMPANY, article.getSubjectCompany())

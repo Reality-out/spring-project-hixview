@@ -6,7 +6,7 @@
     <p>[[#{company.code}]] 또는 [[#{company.name}]]을 통해 [[#{company}]]을 [[#{function.search}]]합니다.</p>
     <form th:action method="POST">
         <div th:if="${error} != null" th:classappend="fieldError">
-            <span th:if="${error} == notFoundCompanyError" th:text="#{NotFound.company}"></span>
+            <span th:if="${error} == 'notFoundCompanyError'" th:text="#{NotFound.company}"></span>
         </div>
         <div>
             <div class="partialForm">

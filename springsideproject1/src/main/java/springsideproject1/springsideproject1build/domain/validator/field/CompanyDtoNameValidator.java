@@ -25,7 +25,7 @@ public class CompanyDtoNameValidator implements Validator {
         CompanyDto companyDto = (CompanyDto) target;
 
         if (companyService.findCompanyByName(companyDto.getName()).isPresent()) {
-            errors.rejectValue("name", "Exist.Company.name");
+            errors.rejectValue("name", "Exist");
         }
     }
 }

@@ -7,7 +7,7 @@
     <div th:if="${error} != null" th:classappend="fieldError">
         <th:block th:switch="${error}">
             <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
-            <p th:case="notFoundCompanyError" th:text="#{NotFound.companyArticle.subjectCompany}"></p>
+            <p th:case="notFoundCompanyError" th:text="#{NotFound.company}"></p>
             <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
         </th:block>
     </div>

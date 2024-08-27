@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
@@ -27,7 +28,6 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     CompanyArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String NUMBER = "number";
 
     @Autowired
     public CompanyArticleRepositoryImplTest(DataSource dataSource) {

@@ -7,8 +7,8 @@
 </div>
 <div th:if="${errorSingle} != null" th:classappend="fieldError">
     <th:block th:switch="${errorSingle}">
-        <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.CompanyArticle.importance}"></p>
-        <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.CompanyArticle.date}"></p>
+        <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.article.importance}"></p>
+        <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.article.date}"></p>
     </th:block>
 </div>
 <p>다음 [[#{article.name}]]의 [[#{article}]] [[#{function.add}]]이 [[#{function.finish}]]되었습니다:</p>

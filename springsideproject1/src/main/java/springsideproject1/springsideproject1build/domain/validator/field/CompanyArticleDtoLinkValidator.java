@@ -27,7 +27,7 @@ public class CompanyArticleDtoLinkValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
-            errors.rejectValue("link", "Exist.CompanyArticle.link");
+            errors.rejectValue("link", "Exist");
         }
     }
 }

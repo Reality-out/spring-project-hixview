@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
 
 @SpringBootTest
@@ -60,7 +61,7 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtils {
     public void registerCompanyArticlesTest() {
         assertThat(articleService.registerArticles(testArticle, testNewArticle))
                 .usingRecursiveComparison()
-                .ignoringFields("number")
+                .ignoringFields(NUMBER)
                 .isEqualTo(List.of(testArticle, testNewArticle));
     }
 

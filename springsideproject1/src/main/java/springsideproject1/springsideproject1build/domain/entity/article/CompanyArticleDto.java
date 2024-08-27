@@ -11,7 +11,6 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REGE
 @Getter
 @Setter
 public class CompanyArticleDto {
-
     @NotBlank
     private String name;
 
@@ -36,5 +35,4 @@ public class CompanyArticleDto {
 
     @NotNull
     private Integer importance;
-
 }

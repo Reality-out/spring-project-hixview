@@ -27,7 +27,7 @@ public class CompanyArticleDtoNameValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.rejectValue("name", "Exist.CompanyArticle.name");
+            errors.rejectValue("name", "Exist");
         }
     }
 }

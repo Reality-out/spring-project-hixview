@@ -25,7 +25,7 @@ public class CompanyDtoCodeValidator implements Validator {
         CompanyDto companyDto = (CompanyDto) target;
 
         if (companyService.findCompanyByCode(companyDto.getCode()).isPresent()) {
-            errors.rejectValue("code", "Exist.Company.code");
+            errors.rejectValue("code", "Exist");
         }
     }
 }

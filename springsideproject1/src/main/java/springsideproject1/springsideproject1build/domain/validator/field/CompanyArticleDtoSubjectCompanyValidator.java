@@ -25,7 +25,7 @@ public class CompanyArticleDtoSubjectCompanyValidator implements Validator {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
 
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            errors.rejectValue("subjectCompany", "NotFound.companyArticle.subjectCompany");
+            errors.rejectValue("subjectCompany", "NotFound");
         }
     }
 }

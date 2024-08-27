@@ -101,7 +101,7 @@ public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
      */
     private RowMapper<CompanyArticle> articleRowMapper() {
         return (resultSet, rowNumber) -> CompanyArticle.builder()
-                        .number(resultSet.getLong("number"))
+                        .number(resultSet.getLong(NUMBER))
                         .name(resultSet.getString(NAME))
                         .press(Press.valueOf(resultSet.getString(PRESS)))
                         .subjectCompany(resultSet.getString(SUBJECT_COMPANY))
