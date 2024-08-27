@@ -26,7 +26,6 @@ public abstract class REQUEST_URL {
 
     // Member
     public static final String SELECT_MEMBER_URL = "/manager/member/select";
-    public static final String REMOVE_MEMBER_URL = "/manager/member/remove";
 
     /**
      * Common

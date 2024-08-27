@@ -30,7 +30,6 @@ public class ManagerMainController {
         model.addAttribute("removeCompany", REMOVE_COMPANY_URL);
         model.addAttribute("selectCompanies", SELECT_COMPANY_URL);
 
-        model.addAttribute("removeMember", REMOVE_MEMBER_URL);
         model.addAttribute("selectMembers", SELECT_MEMBER_URL);
         return "manager/mainPage";
     }

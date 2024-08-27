@@ -107,7 +107,7 @@ public class ManagerCompanyController {
             log.error(ERRORS_ARE, NO_COMPANY_WITH_THAT_CODE_OR_NAME);
             model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
             model.addAttribute(ERROR, NOT_FOUND_COMPANY_ERROR);
-            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
+            return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);

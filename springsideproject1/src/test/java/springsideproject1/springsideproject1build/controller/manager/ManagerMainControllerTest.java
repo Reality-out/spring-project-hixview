@@ -31,7 +31,6 @@ class ManagerMainControllerTest {
                         model().attribute("removeCompanyArticle", REMOVE_COMPANY_ARTICLE_URL),
                         model().attribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL),
                         model().attribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL),
-                        model().attribute("removeMember", REMOVE_MEMBER_URL),
                         model().attribute("selectMembers", SELECT_MEMBER_URL));
     }
 }
