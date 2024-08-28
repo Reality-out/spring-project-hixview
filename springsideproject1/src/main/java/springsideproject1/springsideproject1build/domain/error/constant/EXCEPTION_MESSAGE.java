@@ -22,7 +22,4 @@ public interface EXCEPTION_MESSAGE {
     String NO_COMPANY_WITH_THAT_NAME = "해당 기업명과 일치하는 기업이 없습니다.";
     String NO_COMPANY_WITH_THAT_CODE_OR_NAME = "해당 기업 코드 또는 기업명과 일치하는 기업이 없습니다.";
     String NO_MEMBER_WITH_THAT_ID = "해당 ID와 일치하는 회원이 없습니다.";
-
-    // NotMatchException
-    String ARTICLE_NOT_MATCHING_PATTERN = "패턴과 매칭되지 않는 기사가 포함되어 있습니다.";
 }

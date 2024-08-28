@@ -296,10 +296,10 @@ public class ManagerCompanyArticleController {
         constraintValidator.validate(articleDto, bindingResult);
         subjectCompanyValidator.validate(articleDto, bindingResult);
         if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            bindingResult.rejectValue(NAME, "NotExist");
+            bindingResult.rejectValue(NAME, "NotFound");
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            bindingResult.rejectValue(LINK, "NotExist");
+            bindingResult.rejectValue(LINK, "NotFound");
         }
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);

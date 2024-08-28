@@ -251,9 +251,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .isEqualTo(modifiedArticle);
     }
 
-    @DisplayName("기업 기사들 보기 페이지 접속")
+    @DisplayName("기업 기사들 조회 페이지 접속")
     @Test
-    public void accessCompanyArticlesSee() throws Exception {
+    public void accessCompanyArticlesInquiry() throws Exception {
         // given & when
         List<CompanyArticle> articleList = articleService.registerArticles(testArticle, testNewArticle);
 

@@ -170,9 +170,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .isEqualTo(modifiedCompany);
     }
 
-    @DisplayName("기업들 보기 페이지 접속")
+    @DisplayName("기업들 조회 페이지 접속")
     @Test
-    public void accessCompaniesSee() throws Exception {
+    public void accessCompaniesInquiry() throws Exception {
         // given & when
         companyService.registerCompanies(skHynix, samsungElectronics);
 

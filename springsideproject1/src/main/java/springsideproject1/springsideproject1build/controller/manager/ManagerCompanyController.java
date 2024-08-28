@@ -200,10 +200,10 @@ public class ManagerCompanyController {
     private boolean processValidationErrorModify(CompanyDto companyDto, BindingResult bindingResult, Model model) {
         constraintValidator.validate(companyDto, bindingResult);
         if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
-            bindingResult.rejectValue(CODE, "NotExist");
+            bindingResult.rejectValue(CODE, "NotFound");
         }
         if (companyService.findCompanyByName(companyDto.getName()).isEmpty()) {
-            bindingResult.rejectValue(NAME, "NotExist");
+            bindingResult.rejectValue(NAME, "NotFound");
         }
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);

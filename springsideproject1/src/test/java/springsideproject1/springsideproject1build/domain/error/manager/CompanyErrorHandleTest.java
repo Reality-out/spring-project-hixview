@@ -49,7 +49,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @DisplayName("존재하지 않는 기업 코드 또는 기업명을 사용하여 기업을 검색하는, 기업 변경")
     @Test
-    public void notExistCodeOrNameCompanyModify() throws Exception {
+    public void NotFoundCodeOrNameCompanyModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -87,7 +87,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @DisplayName("존재하지 않는 기업 코드 또는 기업명을 사용하는, 기업 없애기")
     @Test
-    public void notExistCodeOrNameCompanyRid() throws Exception {
+    public void NotFoundCodeOrNameCompanyRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", ""))
                 .andExpectAll(view().name(REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),

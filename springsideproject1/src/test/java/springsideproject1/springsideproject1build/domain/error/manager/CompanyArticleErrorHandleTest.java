@@ -59,7 +59,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
     @Test
-    public void notExistSubjectCompanyArticleAddWithString() throws Exception {
+    public void NotFoundSubjectCompanyArticleAddWithString() throws Exception {
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
                     put(SUBJECT_COMPANY, INVALID_VALUE);
@@ -141,7 +141,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하여 기업 기사를 검색하는, 기업 기사 변경")
     @Test
-    public void notExistNumberOrNameCompanyArticleModify() throws Exception {
+    public void NotFoundNumberOrNameCompanyArticleModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -180,7 +180,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 기업 기사 없애기")
     @Test
-    public void notExistArticleNumberOrNameCompanyArticleRid() throws Exception {
+    public void NotFoundArticleNumberOrNameCompanyArticleRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", ""))
                 .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),

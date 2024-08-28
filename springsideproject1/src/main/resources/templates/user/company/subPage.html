@@ -17,7 +17,7 @@
                         <div>
                             <input type="text" id="codeOrName" name="codeOrName">
                             <div th:if="${error} != null" th:switch="${error}">
-                                <span th:classappend="errorMessage" th:case="notExistCompanyError"
+                                <span th:classappend="errorMessage" th:case="NotFoundCompanyError"
                                       th:text="|#{function.search}될 #{company}을 #{function.fillIn}해 주세요.|"></span>
                                 <span th:classappend="errorMessage" th:case="notFoundCompanyError"
                                       th:text="|#{function.search}된 #{company}이 없습니다.|"></span>
