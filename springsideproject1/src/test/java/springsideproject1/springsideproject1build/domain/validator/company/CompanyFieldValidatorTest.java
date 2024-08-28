@@ -46,7 +46,7 @@ public class CompanyFieldValidatorTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("중복 기업 코드를 사용하는 기업 추가")

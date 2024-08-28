@@ -45,7 +45,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("code의 Exist에 대한 기업 추가 유효성 검증")

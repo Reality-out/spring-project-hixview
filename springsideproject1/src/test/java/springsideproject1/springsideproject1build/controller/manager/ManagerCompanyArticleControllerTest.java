@@ -64,7 +64,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @BeforeEach
     public void beforeEach() {
         resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("기업 기사 추가 페이지 접속")
@@ -88,7 +88,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
 
@@ -133,7 +133,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                     put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
                     put(linkString, testArticleStringBuffers.getLinkString());
                 }}))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
                 .andReturn().getModelAndView()).getModelMap();
 
@@ -235,7 +235,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl, modifiedArticle))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(commonName)));
 
@@ -287,7 +287,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
@@ -312,7 +312,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", name))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 

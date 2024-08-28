@@ -56,7 +56,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @BeforeEach
     public void beforeEach() {
         resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("NotBlank(공백)에 대한 기업 기사 추가 유효성 검증")

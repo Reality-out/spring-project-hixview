@@ -56,7 +56,7 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @BeforeEach
     public void beforeEach() {
         resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("중복 기사명을 사용하는 기업 기사 추가")

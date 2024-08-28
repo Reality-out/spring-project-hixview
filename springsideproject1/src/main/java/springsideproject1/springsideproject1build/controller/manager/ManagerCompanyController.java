@@ -60,7 +60,6 @@ public class ManagerCompanyController {
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                    BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
@@ -119,7 +118,6 @@ public class ManagerCompanyController {
     }
 
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitModifyCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                       BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
@@ -149,7 +147,6 @@ public class ManagerCompanyController {
     }
 
     @PostMapping(REMOVE_COMPANY_URL)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRidCompany(@RequestParam String codeOrName, RedirectAttributes redirect, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {

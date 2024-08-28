@@ -51,7 +51,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("기업 추가 페이지 접속")
@@ -74,7 +74,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         // then
         mockMvc.perform(postWithCompany(ADD_SINGLE_COMPANY_URL, company))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(company.getName())));
 
@@ -155,7 +155,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         // then
         mockMvc.perform(postWithCompany(modifyCompanyFinishUrl, modifiedCompany))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(commonName)));
 
@@ -206,7 +206,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", company.getCode()))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
@@ -231,7 +231,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
-                .andExpectAll(status().isSeeOther(),
+                .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 

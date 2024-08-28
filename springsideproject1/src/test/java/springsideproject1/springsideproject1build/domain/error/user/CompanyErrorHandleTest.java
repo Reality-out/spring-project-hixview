@@ -15,15 +15,12 @@ import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 import javax.sql.DataSource;
 
 import static java.util.Objects.requireNonNull;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SEARCH_URL;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.USER_COMPANY_VIEW;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_SUB_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SUB_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,32 +42,26 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("비어 있는 값을 사용하는 기업 검색")
     @Test
     public void emptyCompanySearch() throws Exception {
         requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL))
-                .andExpectAll(view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH),
-                        model().attribute("companySearch", COMPANY_SEARCH_URL),
-                        model().attribute(ERROR, NOT_EXIST_COMPANY_ERROR)));
+                .andExpectAll(redirectedUrl(COMPANY_SUB_URL),
+                        flash().attribute(ERROR, NOT_EXIST_COMPANY_ERROR)));
     }
 
     @DisplayName("존재하지 않는 기업 코드 또는 기업명을 사용하는 기업 검색")
     @Test
     public void notExistCodeOrNameCompanySearch() throws Exception {
         requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL + "000000"))
-                .andExpectAll(view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH),
-                        model().attribute("companySearch", COMPANY_SEARCH_URL),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
+                .andExpectAll(redirectedUrl(COMPANY_SUB_URL),
+                        flash().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL + INVALID_VALUE))
-                .andExpectAll(view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH),
-                        model().attribute("companySearch", COMPANY_SEARCH_URL),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
+                .andExpectAll(redirectedUrl(COMPANY_SUB_URL),
+                        flash().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 }

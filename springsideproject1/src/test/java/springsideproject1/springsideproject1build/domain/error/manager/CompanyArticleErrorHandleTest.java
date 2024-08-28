@@ -54,7 +54,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @BeforeEach
     public void beforeEach() {
         resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")

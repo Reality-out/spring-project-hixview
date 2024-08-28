@@ -69,7 +69,6 @@ public class ManagerCompanyArticleController {
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
@@ -99,7 +98,6 @@ public class ManagerCompanyArticleController {
     }
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitAddCompanyArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
                                                      @RequestParam String subjectCompany, RedirectAttributes redirect, Model model) {
         String senderPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
@@ -214,7 +212,6 @@ public class ManagerCompanyArticleController {
     }
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
@@ -244,7 +241,6 @@ public class ManagerCompanyArticleController {
     }
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {

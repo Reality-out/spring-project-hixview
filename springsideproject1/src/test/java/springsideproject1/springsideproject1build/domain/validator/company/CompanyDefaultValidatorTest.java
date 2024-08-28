@@ -46,7 +46,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE, false);
+        resetTable(jdbcTemplateTest, COMPANY_TABLE);
     }
 
     @DisplayName("NotBlank(공백)에 대한 기업 추가 유효성 검증")
