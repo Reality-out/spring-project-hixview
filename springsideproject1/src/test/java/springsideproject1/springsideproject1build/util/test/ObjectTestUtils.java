@@ -37,6 +37,10 @@ public interface ObjectTestUtils {
     /**
      * Request
      */
+    default MockHttpServletRequestBuilder getWithNoParam(String url) {
+        return get(url).contentType(MediaType.TEXT_HTML);
+    }
+
     default MockHttpServletRequestBuilder getWithSingleParam(String url, String key, String value) {
         return get(url).contentType(MediaType.APPLICATION_FORM_URLENCODED).param(key, value);
     }

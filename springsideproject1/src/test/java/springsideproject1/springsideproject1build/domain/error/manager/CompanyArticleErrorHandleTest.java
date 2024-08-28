@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.error;
+package springsideproject1.springsideproject1build.domain.error.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

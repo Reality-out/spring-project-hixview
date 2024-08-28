@@ -102,27 +102,82 @@
     color: #2D2A40;
 }
 
-.searchBox > form > input {
+.searchBox > form > div {
     /* 
      * block
      */
-    
+
     /* background */
     background-color: white;
-    
-    /* border */
-    border: 2px solid #42414D;
-    border-collapse: collapse;
 
     /* empty space */
     margin: 0 5px;
     
     /* positioning */
     display: inline-flex;
+    position: relative;
     
     /* size */
     width: 180px;
     height: 60px;
+}
+
+.searchBox > form > div > input {
+    /* 
+     * block
+     */
+    
+    /* background */
+    background-color: transparent;
+
+    /* border */
+    border: 2px solid #42414D;
+    border-collapse: collapse;
+
+    /* positioning */
+    display: inline-flex;
+    position: absolute;
+    z-index: 2;
+    
+    /* size */
+    width: 180px;
+    height: 60px;
+}
+
+.searchBox > form > div > div {
+    /* 
+     * block
+     */
+    
+    /* positioning */
+    display: inline-flex;
+    position: relative;
+
+    /* size */
+    width: 180px;
+    height: 60px;
+}
+
+.searchBox > form > div > div > span {
+    /* 
+     * block
+     */
+
+    /* empty space */
+    margin-top: -24px;
+    margin-left: -90px;
+
+    /* positioning */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+
+    /* size */
+    width: 180px;
+
+    /* sorting */
+    text-align: center;
 }
 
 .searchBox > form > button {

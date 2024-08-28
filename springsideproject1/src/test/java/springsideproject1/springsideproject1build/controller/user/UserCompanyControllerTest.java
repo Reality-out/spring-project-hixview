@@ -23,6 +23,8 @@ import static springsideproject1.springsideproject1build.domain.valueobject.CLAS
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SEARCH_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SUB_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @SpringBootTest
@@ -51,10 +53,11 @@ class UserCompanyControllerTest implements CompanyTestUtils {
     @DisplayName("기업 서브 페이지 접속")
     @Test
     public void accessCompanySubPage() throws Exception {
-        mockMvc.perform(get("/company"))
+        mockMvc.perform(get(COMPANY_SUB_URL))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH),
+                        model().attribute("companySearch", COMPANY_SEARCH_URL));
     }
 
     @DisplayName("기업 코드로 검색")
@@ -67,7 +70,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
         companyService.registerCompany(company);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get("/company/" + company.getCode()))
+        assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
@@ -86,7 +89,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
         companyService.registerCompany(company);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get("/company/" + company.getName()))
+        assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
