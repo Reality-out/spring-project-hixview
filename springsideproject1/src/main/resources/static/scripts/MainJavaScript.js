@@ -1,2 +1,2 @@
-import { checkOverflow } from './user/DynamicHorizontalScrollbar.js';
+import { checkOverflow } from './user/module/DynamicHorizontalScrollbar.js';
 checkOverflow();

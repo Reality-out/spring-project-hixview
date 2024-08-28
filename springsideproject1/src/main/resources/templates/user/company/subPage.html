@@ -70,15 +70,15 @@
         </div>
     </section>
     <script>
-        let CompanyAddressConversionModule;
+        let CompanyAddressConversion;
 
         if (window.location.pathname.includes('/company')) {
-            import('/scripts/user/module/CompanyAddressConversionModule.js')
+            import('/scripts/user/module/CompanyAddressConversion.js')
                 .then((module) => {
-                    CompanyAddressConversionModule = new module.default();
-                    CompanyAddressConversionModule.init();
+                    CompanyAddressConversion = new module.default();
+                    CompanyAddressConversion.init();
                 })
-                .catch((error) => console.error("Failed to load CompanyAddressConversionModule: ", error));
+                .catch((error) => console.error("Failed to load CompanyAddressConversion: ", error));
         }
     </script>
 </body>

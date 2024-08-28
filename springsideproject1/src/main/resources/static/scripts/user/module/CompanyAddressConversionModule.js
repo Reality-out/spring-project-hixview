@@ -1,4 +1,4 @@
-class CompanyAddressConversionModule {
+class CompanyAddressConversion {
     constructor() {
         this.init();
     }
@@ -19,4 +19,4 @@ class CompanyAddressConversionModule {
     }
 }
 
-export default CompanyAddressConversionModule;
+export default CompanyAddressConversion;
