@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
+    <title>[[#{site.title}]]</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
@@ -11,32 +11,32 @@
         <form th:action th:object="${member}" method="post">
             <div>
                 <div class="partialForm">
-                    <label for="id">ID</label>
+                    <label for="id">[[#{member.ID}]]</label>
                     <input type="text" id="id" th:field="*{id}" size="20">
                 </div>
                 <div class="partialForm">
-                    <label for="password">password</label>
+                    <label for="password">[[#{member.PW}]]</label>
                     <input type="password" id="password" th:field="*{password}" size="20">
                 </div>
                 <div class="partialForm">
-                    <label for="name">이름</label>
+                    <label for="name">[[#{member.NAME}]]</label>
                     <input type="text" id="name" th:field="*{name}" size="20">
                 </div>
                 <p>생일</p>
                 <div class="partialForm">
-                    <label for="year">년</label>
+                    <label for="year">[[#{year}]]</label>
                     <input type="text" id="year" th:field="*{year}" size="4">
-                    <label for="month">월</label>
+                    <label for="month">[[#{month}]]</label>
                     <input type="text" id="month" th:field="*{month}" size="4">
-                    <label for="days">일</label>
+                    <label for="days">[[#{days}]]</label>
                     <input type="text" id="days" th:field="*{days}" size="4">
                 </div>
                 <div class="partialForm">
-                    <label for="phoneNumber">전화번호</label>
+                    <label for="phoneNumber">[[#{member.cellphoneNumber}]]</label>
                     <input type="text" id="phoneNumber" th:field="*{phoneNumber}" size="13">
                 </div>
             </div>
-            <button type="submit">등록</button>
+            <button type="submit">[[#{function.register}]]</button>
         </form>
     </div>
 </body>

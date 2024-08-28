@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <p>[[#{article.number}]] 또는 [[#{article.name}]]을 통해 [[#{article}]]를 [[#{function.remove}]]합니다.</p>
+    <p th:text="|#{article.number} 또는 #{article.name}을 통해 #{article}를 #{function.remove}합니다.|"></p>
     <div th:if="${error} != null" th:classappend="fieldError">
         <p th:if="${error} == 'notFoundCompanyArticleError'" th:text="#{NotFound.article}"></p>
     </div>

@@ -2,12 +2,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
+    <title>[[#{site.title}]]</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <div>
-        <p>회원 가입이 완료되었습니다.</p>
+        <p>[[#{member.membership}]]이 [[#{function.finish}]]되었습니다.</p>
         <form action="/" method="get">
             <button type="submit" th:text="|#{page.main}로 이동|"></button>
         </form>

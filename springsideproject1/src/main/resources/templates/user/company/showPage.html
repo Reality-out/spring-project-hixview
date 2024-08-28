@@ -19,71 +19,71 @@
                 <nl>
                     <nl>
                         <nl>
-                            <li>주가</li>
+                            <li th:text="#{company.stockPrice}"></li>
                             <li></li>
                         </nl>
                         <nl>
-                            <li>시총</li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li>52주 최저가</li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li>52주 최고가</li>
+                            <li th:text="#{company.marketCap}"></li>
                             <li></li>
                         </nl>
                     </nl>
                     <nl>
                         <nl>
-                            <li>1차 구분</li>
+                            <li th:text="#{company.52weekLow}"></li>
                             <li></li>
                         </nl>
                         <nl>
-                            <li>2차 구분</li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li>PER</li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li>PBR</li>
+                            <li th:text="#{company.52weekHigh}"></li>
                             <li></li>
                         </nl>
                     </nl>
                     <nl>
                         <nl>
-                            <li>ROE</li>
+                            <li th:text="#{company.firstCategory}"></li>
                             <li></li>
                         </nl>
                         <nl>
-                            <li>PEG</li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li>EPS</li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li>주당 배당금</li>
+                            <li th:text="#{company.secondCategory}"></li>
                             <li></li>
                         </nl>
                     </nl>
                     <nl>
                         <nl>
-                            <li>배당 성향</li>
+                            <li th:text="#{company.PER}"></li>
                             <li></li>
                         </nl>
                         <nl>
-                            <li>주가 수익률</li>
+                            <li th:text="#{company.PBR}"></li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li th:text="#{company.ROE}"></li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li th:text="#{company.PEG}"></li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li th:text="#{company.EPS}"></li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li th:text="#{company.divPerShare}"></li>
+                            <li></li>
+                        </nl>
+                    </nl>
+                    <nl>
+                        <nl>
+                            <li th:text="#{company.payoutRatio}"></li>
+                            <li></li>
+                        </nl>
+                        <nl>
+                            <li th:text="#{company.divYieldRatio}"></li>
                             <li></li>
                         </nl>
                     </nl>
@@ -91,13 +91,13 @@
             </div>
             <div id="bottomRightComponent">
                 <div>
-                    <h5>최신 뉴스</h5>
+                    <h5 th:text="|#{newest} #{article.news}|"></h5>
                     <nl>
                         <li></li>
                         <li></li>
                         <li></li>
                     </nl>
-                    <h5>2024년 2분기 뉴스 TOP 3</h5>
+                    <h5 th:text="|#{newest.year} #{newest.quarter} TOP 3|"></h5>
                     <nl>
                         <li></li>
                         <li></li>

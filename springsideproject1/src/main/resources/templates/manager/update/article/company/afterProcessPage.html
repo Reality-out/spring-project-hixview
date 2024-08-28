@@ -2,8 +2,8 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-<p>[[#{article}]]를 [[#{function.update}]]합니다.</p>
-<p>해당 [[#{article.number}]] 또는 [[#{article.name}]]과 일치하는 [[#{article}]]가 확인되었습니다.</p>
+<p th:text="|#{article}를 #{function.correct}합니다.|"></p>
+<p th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
 <form th:action="${updateUrl}" th:object="${article}" method="POST">
     <div th:if="${error} != null" th:classappend="fieldError">
         <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
@@ -30,11 +30,11 @@
             <div class="fieldError" th:errors="*{link}"></div>
         </div>
         <div class="partialForm">
-            <label for="year" th:text="#{article.date.year}"></label>
+            <label for="year" th:text="#{year}"></label>
             <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-            <label for="month" th:text="#{article.date.month}"></label>
+            <label for="month" th:text="#{month}"></label>
             <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-            <label for="days" th:text="#{article.date.days}"></label>
+            <label for="days" th:text="#{days}"></label>
             <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
             <div class="fieldError" th:errors="*{year}"></div>
             <div class="fieldError" th:errors="*{month}"></div>
@@ -46,7 +46,7 @@
             <div class="fieldError" th:errors="*{importance}"></div>
         </div>
     </div>
-    <button type="submit" th:text="#{function.update}"></button>
+    <button type="submit" th:text="#{function.correct}"></button>
 </form>
 </div>
 </body>

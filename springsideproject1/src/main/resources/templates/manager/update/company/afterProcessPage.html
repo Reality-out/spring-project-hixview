@@ -2,37 +2,37 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-<p>[[#{company}]]을 [[#{function.update}]]합니다.</p>
-<p>해당 [[#{company.code}]] 또는 [[#{company.name}]]에 해당하는 [[#{company}]]이 확인되었습니다.</p>
-<form th:action="${updateUrl}" th:object="${company}" method="POST">
-    <div>
-        <div class="partialForm">
-            <label for="code" th:text="#{company.code}"></label>
-            <input type="text" id="code" th:field="*{code}" size="20" readonly>
+    <p th:text="|#{company}을 #{function.correct}합니다.|"></p>
+    <p th:text="|해당 #{company.code} 또는 #{company.name}에 해당하는 #{company}이 확인되었습니다.|"></p>
+    <form th:action="${updateUrl}" th:object="${company}" method="POST">
+        <div>
+            <div class="partialForm">
+                <label for="code" th:text="#{company.code}"></label>
+                <input type="text" id="code" th:field="*{code}" size="20" readonly>
+            </div>
+            <div th:text="#{company.country}"></div>
+            <select class="partialForm" th:field="*{country}">
+                <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.countryValue}"></option>
+            </select>
+            <div th:text="#{company.scale}"></div>
+            <select class="partialForm" th:field="*{scale}">
+                <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
+            </select>
+            <div class="partialForm">
+                <label for="name" th:text="#{company.name}"></label>
+                <input type="text" id="name" th:field="*{name}" size="20" readonly>
+            </div>
+            <div class="partialForm">
+                <label for="firstCategory" th:text="#{company.firstCategory}"></label>
+                <input type="text" id="firstCategory" th:field="*{firstCategory}" size="20">
+            </div>
+            <div class="partialForm">
+                <label for="secondCategory" th:text="#{company.secondCategory}"></label>
+                <input type="text" id="secondCategory" th:field="*{secondCategory}" size="20">
+            </div>
         </div>
-        <div th:text="#{company.country}"></div>
-        <select class="partialForm" th:field="*{country}">
-            <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.countryValue}"></option>
-        </select>
-        <div th:text="#{company.scale}"></div>
-        <select class="partialForm" th:field="*{scale}">
-            <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
-        </select>
-        <div class="partialForm">
-            <label for="name" th:text="#{company.name}"></label>
-            <input type="text" id="name" th:field="*{name}" size="20" readonly>
-        </div>
-        <div class="partialForm">
-            <label for="firstCategory" th:text="#{company.firstCategory}"></label>
-            <input type="text" id="firstCategory" th:field="*{firstCategory}" size="20">
-        </div>
-        <div class="partialForm">
-            <label for="secondCategory" th:text="#{company.secondCategory}"></label>
-            <input type="text" id="secondCategory" th:field="*{secondCategory}" size="20">
-        </div>
-    </div>
-    <button type="submit" th:text="#{function.update}"></button>
-</form>
+        <button type="submit" th:text="#{function.correct}"></button>
+    </form>
 </div>
 </body>
 </html>

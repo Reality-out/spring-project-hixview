@@ -2,26 +2,26 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
+    <title>[[#{site.title}]]</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <div>
-        <p>이름 / 생년월일로 아이디를 찾습니다.</p>
+        <p>[[#{member.NAME}]] / [[#{member.DATE}]]로 [[#{member.ID}]]를 찾습니다.</p>
         <form th:action th:object="${member}" method="POST">
             <div>
-                <label for="name">이름</label>
+                <label for="name">[[#{member.NAME}]]</label>
                 <input type="text" id="name" th:field="*{name}">
             </div>
             <div>
-                <label for="year">년</label>
+                <label for="year">[[#{year}]]</label>
                 <input type="number" id="year" th:field="*{year}" min="1900" step="1" max="2024">
-                <label for="month">월</label>
+                <label for="month">[[#{month}]]</label>
                 <input type="number" id="month" th:field="*{month}" min="1" step="1" max="12">
-                <label for="days">일</label>
+                <label for="days">[[#{date}]]</label>
                 <input type="number" id="days" th:field="*{days}" min="1" step="1" max="31">
             </div>
-            <button type="submit">찾기</button>
+            <button type="submit">[[#{function.find}]]</button>
         </form>
     </div>
 </body>

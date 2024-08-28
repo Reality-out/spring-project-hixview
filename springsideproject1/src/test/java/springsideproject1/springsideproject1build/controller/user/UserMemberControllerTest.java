@@ -24,7 +24,7 @@ class UserMemberControllerTest implements MemberTestUtils {
     @Autowired
     private MockMvc mockMvc;
 
-    @DisplayName("회원가입 페이지 접속")
+    @DisplayName("회원 가입 페이지 접속")
     @Test
     public void accessMembership() throws Exception {
         mockMvc.perform(get(MEMBERSHIP_URL))
@@ -33,7 +33,7 @@ class UserMemberControllerTest implements MemberTestUtils {
                         model().attributeExists(MEMBER));
     }
 
-    @DisplayName("회원가입 완료 페이지 접속")
+    @DisplayName("회원 가입 완료 페이지 접속")
     @Test
     public void accessMembershipFinish() throws Exception {
         mockMvc.perform(postWithMember(MEMBERSHIP_URL, testMember))

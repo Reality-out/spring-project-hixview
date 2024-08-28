@@ -2,12 +2,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
+    <title>[[#{site.title}]]</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
     <div>
-        <p>다음 아이디가 검색되었습니다.</p>
+        <p>다음 [[#{member.ID}]]가 검색되었습니다.</p>
         <table>
             <tbody>
                 <tr th:each="id : ${idList}">
@@ -16,7 +16,7 @@
             </tbody>
         </table>
         <form action="/login" method="get">
-            <button type="submit">로그인</button>
+            <button type="submit">[[#{function.login}]]</button>
         </form>
         <form action="/" method="get">
             <button type="submit" th:text="|#{page.main}로 이동|"></button>

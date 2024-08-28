@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <p>[[#{company}]]을 [[#{function.add}]]합니다.</p>
+    <p th:text="|#{company}을 #{function.register}합니다.|"></p>
     <form th:action th:object="${company}" method="POST">
         <div th:if="${error} != null" th:classappend="fieldError">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
@@ -39,7 +39,7 @@
                 <div class="fieldError" th:errors="*{secondCategory}"></div>
             </div>
         </div>
-        <button type="submit" th:text="#{function.add}"></button>
+        <button type="submit" th:text="#{function.register}"></button>
     </form>
 </div>
 </body>

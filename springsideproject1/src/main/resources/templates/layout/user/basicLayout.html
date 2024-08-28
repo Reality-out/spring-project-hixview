@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html th:fragment="layout (link, section, script)" lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="~{layout/layout}"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
+    <title>[[#{site.title}]]</title>
 
     <!--/* Link - Original */-->
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
@@ -20,53 +22,53 @@
     <link th:replace="${link}"/>
 </head>
 <body>
-    <!--/* Header */-->
-    <header>
-        <div class="headerWrapper">
-            <div class="headerTop">
-                <div class="headerTopLeft">
-                    <!-- Empty Grid -->
-                </div>
-                <div class="headerTopMiddle">
-                    <a href="/">
-                        <h1 th:text="#{site.name}"></h1>
-                    </a>
-                </div>
-                <div class="headerTopRight">
-                    <a href="/login" th:text="#{function.login}"></a>
-                </div>
+<!--/* Header */-->
+<header>
+    <div class="headerWrapper">
+        <div class="headerTop">
+            <div class="headerTopLeft">
+                <!-- Empty Grid -->
             </div>
-            <div class="headerMiddle">
-                <nav id="headerNavigator">
-                    <ul>
-                        <li><a href="/company" th:text="#{company}"></a></li>
-                        <li><a href="/industry" th:text="#{industry}"></a></li>
-                        <li><a href="/economy" th:text="#{economy}"></a></li>
-                    </ul>
-                </nav>
+            <div class="headerTopMiddle">
+                <a href="/">
+                    <h1 th:text="#{site.name}"></h1>
+                </a>
+            </div>
+            <div class="headerTopRight">
+                <a href="/login" th:text="#{function.login}"></a>
             </div>
         </div>
-    </header>
-
-    <!--/* Section - Added */-->
-    <section th:replace="${section}"></section>
-
-    <!--/* Footer */-->
-    <footer>
-        <div class="footerWrapper">
-            <div class="footerTop">
-                <nav class="footerNavigator">
-                    <ul>
-                        <li><a href="/introduce" th:text="#{page.introduction.site}"></a></li>
-                        <li><a href="/notify" th:text="#{page.inform}"></a></li>
-                        <li><a href="/question-answer" th:text="#{page.qna}"></a></li>
-                    </ul>
-                </nav>
-            </div>
+        <div class="headerMiddle">
+            <nav id="headerNavigator">
+                <ul>
+                    <li><a href="/company" th:text="#{company}"></a></li>
+                    <li><a href="/industry" th:text="#{industry}"></a></li>
+                    <li><a href="/economy" th:text="#{economy}"></a></li>
+                </ul>
+            </nav>
         </div>
-    </footer>
+    </div>
+</header>
 
-    <!--/* Script - Added */-->
-    <script th:replace="${script}"></script>
+<!--/* Section - Added */-->
+<section th:replace="${section}"></section>
+
+<!--/* Footer */-->
+<footer>
+    <div class="footerWrapper">
+        <div class="footerTop">
+            <nav class="footerNavigator">
+                <ul>
+                    <li><a href="/introduce" th:text="#{page.introduction.site}"></a></li>
+                    <li><a href="/notify" th:text="#{page.inform}"></a></li>
+                    <li><a href="/question-answer" th:text="#{page.qna}"></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</footer>
+
+<!--/* Script - Added */-->
+<script th:replace="${script}"></script>
 </body>
 </html>

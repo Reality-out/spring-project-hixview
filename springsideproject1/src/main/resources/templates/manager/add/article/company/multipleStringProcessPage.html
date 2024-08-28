@@ -2,31 +2,31 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-<p>[[#{article}]]를 [[#{function.add}]]합니다.</p>
-<form th:action method="POST">
-    <div th:if="${error} != null" th:classappend="fieldError">
-        <th:block th:switch="${error}">
-            <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
-            <p th:case="notFoundCompanyError" th:text="#{NotFound.company}"></p>
-            <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
-        </th:block>
-    </div>
-    <div>
-        <div>
-            <label for="nameDatePressString" th:text="|#{data.multiple} #{article}|"></label>
-            <textarea id="nameDatePressString" name="nameDatePressString" spellcheck="false" wrap="soft"></textarea>
+    <p th:text="|#{article}를 #{function.register}합니다.|"></p>
+    <form th:action method="POST">
+        <div th:if="${error} != null" th:classappend="fieldError">
+            <th:block th:switch="${error}">
+                <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
+                <p th:case="notFoundCompanyError" th:text="#{NotFound.company}"></p>
+                <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
+            </th:block>
         </div>
         <div>
-            <label for="linkString" th:text="|#{data.multiple} #{article.link}|"></label>
-            <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+            <div>
+                <label for="nameDatePressString" th:text="|#{data.multiple} #{article}|"></label>
+                <textarea id="nameDatePressString" name="nameDatePressString" spellcheck="false" wrap="soft"></textarea>
+            </div>
+            <div>
+                <label for="linkString" th:text="|#{data.multiple} #{article.link}|"></label>
+                <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+            </div>
+            <div>
+                <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
+                <input type="text" id="subjectCompany" name="subjectCompany">
+            </div>
         </div>
-        <div>
-            <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
-            <input type="text" id="subjectCompany" name="subjectCompany">
-        </div>
-    </div>
-    <button type="submit" th:text="#{function.add}"></button>
-</form>
+        <button type="submit" th:text="#{function.register}"></button>
+    </form>
 </div>
 </body>
 </html>

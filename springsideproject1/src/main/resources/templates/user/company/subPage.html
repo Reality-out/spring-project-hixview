@@ -14,16 +14,18 @@
                 <div class="searchBox">
                     <form id="searchCompanyForm" method="get"
                           action="/company/{codeOrName}" th:action="@{|/company/${codeOrName}|}">
-                        <label for="codeOrName">기업</label>
+                        <label for="codeOrName">[[#{company}]]</label>
                         <input type="text" id="codeOrName" name="codeOrName">
-                        <button type="submit">검색</button>
+                        <button type="submit">[[#{function.search}]]</button>
                     </form>
+                    <div th:if="${error} == 'notFoundCompanyError'" th:classappend="fieldError"
+                         th:text="|#{function.search}된 #{company}이 없습니다.|"></div>
                 </div>
             </div>
             <div class="companyListWrapper">
                 <div class="firstLayer">
                     <div class="row1">
-                        <h3>반도체 대표 기업</h3>
+                        <h3>[[#{industry.semiconductor}]] 대표 [[#{company}]]</h3>
                         <p>삼성전자</p>
                         <a class="logo logoSamsungElectronics" href="/company/005930">
                         </a>
@@ -32,7 +34,7 @@
                         </a>
                     </div>
                     <div class="row1">
-                        <h3>전기차 대표 기업</h3>
+                        <h3>[[#{industry.electricVehicle}]] 대표 [[#{company}]]</h3>
                         <p>현대차</p>
                         <a class="logo logoHyundaiMotorCompany" href="/company/005380">
                         </a>
@@ -41,7 +43,7 @@
                         </a>
                     </div>
                     <div class="row1">
-                        <h3>2차전지 대표 기업</h3>
+                        <h3>[[#{industry.secondaryBattery}]] 대표 [[#{company}]]</h3>
                         <p>LG에너지솔루션</p>
                         <a class="logo logoLGEnergySolution" href="/company/373220">
                         </a>
@@ -50,7 +52,7 @@
                         </a>
                     </div>
                     <div class="row1">
-                        <h3>IT 대표 기업</h3>
+                        <h3>[[#{industry.IT}]] 대표 [[#{company}]]</h3>
                         <p>NAVER</p>
                         <a class="logo logoNaver" href="/company/035420">
                         </a>

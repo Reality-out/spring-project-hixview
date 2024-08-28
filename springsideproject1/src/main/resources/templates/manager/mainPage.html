@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>[[#{site.name}]] - 세상 경제사를 한눈에</title>
+    <title>[[#{site.title}]]</title>
     <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
 </head>
 <body>
@@ -12,43 +12,43 @@
             <li th:text="|#{company} #{article} 관련 기능|"></li>
             <ol>
                 <li th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
-                <li><a th:href="${addSingleCompanyArticle}" th:text="|#{data.single} #{article} #{function.add}|"></a></li>
-                <li><a th:href="${updateCompanyArticle}" th:text="|#{data.single} #{article} #{function.update}|"></a></li>
+                <li><a th:href="${addSingleCompanyArticle}" th:text="|#{data.single} #{article} #{function.register}|"></a></li>
+                <li><a th:href="${updateCompanyArticle}" th:text="|#{data.single} #{article} #{function.correct}|"></a></li>
                 <li><a th:href="${removeCompanyArticle}" th:text="|#{data.single} #{article} #{function.remove}|"></a></li>
             </ol>
             <ol>
-                <li>다수</li> <!-- CREATE, READ 구현 -->
+                <li th:text="#{data.multiple}"></li> <!-- CREATE, READ 구현 -->
                 <li>
                     <a th:href="${addCompanyArticlesWithString}"
-                       th:text="|#{data.multiple} #{article} #{function.add}
+                       th:text="|#{data.multiple} #{article} #{function.register}
                        (#{data.single.string}, #{article.subjectCompany} 및 #{article.importance} 고정)|">
                     </a>
                 </li>
                 <li>
-                    <a th:href="${selectCompanyArticles}" th:text="|#{data.all} #{article} #{function.find}|"></a>
+                    <a th:href="${selectCompanyArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a>
                 </li>
             </ol>
         </ol>
         <ol>
             <li th:text="|#{company} 관련 기능|"></li>
             <ol>
-                <li th:text="#{data.single}"></li>
-                <li><a th:href="${addSingleCompany}" th:text="|#{data.single} #{company} #{function.add}|"></a></li>
-                <li><a th:href="${updateCompany}" th:text="|#{data.single} #{company} #{function.update}|"></a></li>
+                <li th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
+                <li><a th:href="${addSingleCompany}" th:text="|#{data.single} #{company} #{function.register}|"></a></li>
+                <li><a th:href="${updateCompany}" th:text="|#{data.single} #{company} #{function.correct}|"></a></li>
                 <li><a th:href="${removeCompany}" th:text="|#{data.single} #{company} #{function.remove}|"></a></li>
             </ol>
             <ol>
-                <li>다수</li>
+                <li th:text="#{data.multiple}"></li> <!-- READ 구현 -->
                 <li>
-                    <a th:href="${selectCompanies}" th:text="|#{data.all} #{company} #{function.find}|"></a>
+                    <a th:href="${selectCompanies}" th:text="|#{data.all} #{company} #{function.inquiry}|"></a>
                 </li>
             </ol>
         </ol>
         <ol>
             <li th:text="|#{member} 관련 기능|"></li>
             <ol>
-                <li>다수</li> <!-- READ 구현 -->
-                <li><a th:href="${selectMembers}" th:text="|#{data.all} #{member} #{function.find}|"></a></li>
+                <li th:text="#{data.multiple}"></li> <!-- READ 구현 -->
+                <li><a th:href="${selectMembers}" th:text="|#{data.all} #{member} #{function.inquiry}|"></a></li>
             </ol>
         </ol>
     </div>
