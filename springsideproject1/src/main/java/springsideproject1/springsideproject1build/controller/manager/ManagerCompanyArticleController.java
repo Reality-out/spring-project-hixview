@@ -50,7 +50,7 @@ public class ManagerCompanyArticleController {
     private final CompanyService companyService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleDtoConstraintValidator fieldValidator;
+    private final CompanyArticleDtoConstraintValidator constraintValidator;
     private final CompanyArticleDtoNameValidator nameValidator;
     private final CompanyArticleDtoLinkValidator linkValidator;
     private final CompanyArticleDtoSubjectCompanyValidator subjectCompanyValidator;
@@ -136,7 +136,7 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
                 }
-                fieldValidator.validate(companyArticleDto, bindingResult);
+                constraintValidator.validate(companyArticleDto, bindingResult);
                 nameValidator.validate(companyArticleDto, bindingResult);
                 linkValidator.validate(companyArticleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
@@ -281,7 +281,7 @@ public class ManagerCompanyArticleController {
     }
 
     private boolean processValidationErrorAdd(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
-        fieldValidator.validate(articleDto, bindingResult);
+        constraintValidator.validate(articleDto, bindingResult);
         nameValidator.validate(articleDto, bindingResult);
         linkValidator.validate(articleDto, bindingResult);
         subjectCompanyValidator.validate(articleDto, bindingResult);
@@ -293,7 +293,7 @@ public class ManagerCompanyArticleController {
     }
 
     private boolean processValidationErrorModify(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
-        fieldValidator.validate(articleDto, bindingResult);
+        constraintValidator.validate(articleDto, bindingResult);
         subjectCompanyValidator.validate(articleDto, bindingResult);
         if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
             bindingResult.rejectValue(NAME, "NotExist");

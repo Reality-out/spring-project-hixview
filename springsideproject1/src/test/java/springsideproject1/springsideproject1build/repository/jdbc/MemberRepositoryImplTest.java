@@ -234,7 +234,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .isEqualTo(member);
     }
 
-    @DisplayName("대시가 있는 버전과 없는 버전의 전화번호를 사용하는 회원 저장")
+    @DisplayName("대시가 있는 버전과 없는 버전의 휴대폰 번호를 사용하는 회원 저장")
     @Test
     public void saveMemberWithVariousPhoneNumber() {
         // given

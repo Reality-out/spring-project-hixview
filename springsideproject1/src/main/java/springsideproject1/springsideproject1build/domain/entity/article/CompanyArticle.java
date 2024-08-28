@@ -25,7 +25,7 @@ public class CompanyArticle {
     @NotBlank
     private final String name;
 
-    @NotBlank
+    @NotNull
     private final Press press;
 
     @NotBlank

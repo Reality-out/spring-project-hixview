@@ -53,7 +53,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateNotBlankSpaceCompanyAdd() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(" ");
         companyDto.setCountry(" ");
         companyDto.setScale(" ");
@@ -75,7 +75,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateNotBlankNullCompanyAdd() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(null);
         companyDto.setCountry(null);
         companyDto.setScale(null);
@@ -97,7 +97,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validatePatternCompanyAdd() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(INVALID_VALUE);
 
         // then
@@ -114,7 +114,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateBiggerSizeCompanyAdd() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode("0000000");
 
         // then
@@ -131,7 +131,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateSmallerSizeCompanyAdd() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode("00000");
 
         // then
@@ -148,7 +148,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateNotBlankSpaceCompanyModify() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(" ");
         companyDto.setCountry(" ");
         companyDto.setScale(" ");
@@ -170,7 +170,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateNotBlankNullCompanyModify() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(null);
         companyDto.setCountry(null);
         companyDto.setScale(null);
@@ -192,7 +192,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validatePatternCompanyModify() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(INVALID_VALUE);
 
         // then
@@ -209,7 +209,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateBiggerSizeCompanyModify() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode("0000000");
 
         // then
@@ -226,7 +226,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     @Test
     public void validateSmallerSizeCompanyModify() throws Exception {
         // given & when
-        CompanyDto companyDto = new CompanyDto();
+        CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode("00000");
 
         // then

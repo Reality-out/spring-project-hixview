@@ -40,7 +40,7 @@ public class ManagerCompanyController {
 
     private final CompanyService companyService;
 
-    private final CompanyDtoConstraintValidator fieldValidator;
+    private final CompanyDtoConstraintValidator constraintValidator;
     private final CompanyDtoCodeValidator codeValidator;
     private final CompanyDtoNameValidator nameValidator;
 
@@ -187,7 +187,7 @@ public class ManagerCompanyController {
     }
 
     private boolean processValidationErrorAdd(CompanyDto companyDto, BindingResult bindingResult, Model model) {
-        fieldValidator.validate(companyDto, bindingResult);
+        constraintValidator.validate(companyDto, bindingResult);
         codeValidator.validate(companyDto, bindingResult);
         nameValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -198,7 +198,7 @@ public class ManagerCompanyController {
     }
 
     private boolean processValidationErrorModify(CompanyDto companyDto, BindingResult bindingResult, Model model) {
-        fieldValidator.validate(companyDto, bindingResult);
+        constraintValidator.validate(companyDto, bindingResult);
         if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
             bindingResult.rejectValue(CODE, "NotExist");
         }

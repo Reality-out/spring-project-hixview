@@ -1,5 +1,7 @@
 package springsideproject1.springsideproject1build.domain.entity.member;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
+import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
@@ -19,30 +22,33 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 public class Member {
     private final Long identifier;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).{8,20}$")
+    @NotBlank
+    @Pattern(regexp = ID_REGEX)
     private final String id;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,64}$")
+    @NotBlank
+    @Pattern(regexp = PW_REGEX)
     private final String password;
 
+    @NotBlank
     private final String name;
 
+    @NotNull
     @PastOrPresent
     private final LocalDate birth;
 
-    @Pattern(regexp = "^01([0|1|6|7|8|9])-([0-9]{4})-([0-9]{4})+$")
+    @NotNull
     private final PhoneNumber phoneNumber;
 
-    public MemberDto toMemberDto() {
+    public MemberDto toDto() {
         MemberDto memberDto = new MemberDto();
-        memberDto.setIdentifier(identifier);
         memberDto.setId(id);
         memberDto.setPassword(password);
         memberDto.setName(name);
         memberDto.setYear(birth.getYear());
         memberDto.setMonth(birth.getMonthValue());
         memberDto.setDays(birth.getDayOfMonth());
-        memberDto.setPhoneNumber(phoneNumber.toString());
+        memberDto.setPhoneNumber(phoneNumber.toStringWithDash());
         return memberDto;
     }
 
@@ -87,7 +93,6 @@ public class Member {
         }
 
         public MemberBuilder memberDto(MemberDto memberDto) {
-            identifier = memberDto.getIdentifier();
             id = memberDto.getId();
             password = memberDto.getPassword();
             name = memberDto.getName();

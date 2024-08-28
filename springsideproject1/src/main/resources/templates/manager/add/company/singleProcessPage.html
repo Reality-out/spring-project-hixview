@@ -4,39 +4,39 @@
 <div>
     <p th:text="|#{company}을 #{function.register}합니다.|"></p>
     <form th:action th:object="${company}" method="POST">
-        <div th:if="${error} != null" th:classappend="fieldError">
+        <div th:if="${error} != null" th:classappend="errorMessage">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
         <div>
             <div class="partialForm">
                 <label for="code" th:text="#{company.code}"></label>
                 <input type="text" id="code" th:field="*{code}" size="20">
-                <div class="fieldError" th:errors="*{code}"></div>
+                <div class="errorMessage" th:errors="*{code}"></div>
             </div>
             <div th:text="#{company.country}"></div>
             <select class="partialForm" th:field="*{country}">
                 <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.countryValue}"></option>
             </select>
-            <div class="fieldError" th:errors="*{country}"></div>
+            <div class="errorMessage" th:errors="*{country}"></div>
             <div th:text="#{company.scale}"></div>
             <select class="partialForm" th:field="*{scale}" >
                 <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
             </select>
-            <div class="fieldError" th:errors="*{scale}"></div>
+            <div class="errorMessage" th:errors="*{scale}"></div>
             <div class="partialForm">
                 <label for="name" th:text="#{company.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20">
-                <div class="fieldError" th:errors="*{name}"></div>
+                <div class="errorMessage" th:errors="*{name}"></div>
             </div>
             <div class="partialForm">
                 <label for="firstCategory" th:text="#{company.firstCategory}"></label>
                 <input type="text" id="firstCategory" th:field="*{firstCategory}" size="20">
-                <div class="fieldError" th:errors="*{firstCategory}"></div>
+                <div class="errorMessage" th:errors="*{firstCategory}"></div>
             </div>
             <div class="partialForm">
                 <label for="secondCategory" th:text="#{company.secondCategory}"></label>
                 <input type="text" id="secondCategory" th:field="*{secondCategory}" size="20">
-                <div class="fieldError" th:errors="*{secondCategory}"></div>
+                <div class="errorMessage" th:errors="*{secondCategory}"></div>
             </div>
         </div>
         <button type="submit" th:text="#{function.register}"></button>

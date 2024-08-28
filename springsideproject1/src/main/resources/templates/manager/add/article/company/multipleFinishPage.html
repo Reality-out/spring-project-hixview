@@ -2,10 +2,10 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <div th:if="${isBeanValidationError} == true" th:classappend="fieldError">
+    <div th:if="${isBeanValidationError} == true" th:classappend="errorMessage">
         <p th:text="#{BeanValidation}"></p>
     </div>
-    <div th:if="${errorSingle} != null" th:classappend="fieldError">
+    <div th:if="${errorSingle} != null" th:classappend="errorMessage">
         <th:block th:switch="${errorSingle}">
             <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.article.importance}"></p>
             <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.article.date}"></p>

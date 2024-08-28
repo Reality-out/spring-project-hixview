@@ -29,14 +29,14 @@ class UserMemberControllerTest implements MemberTestUtils {
     public void accessMembership() throws Exception {
         mockMvc.perform(get(MEMBERSHIP_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX),
+                        view().name(membershipProcessPage),
                         model().attributeExists(MEMBER));
     }
 
     @DisplayName("회원 가입 완료 페이지 접속")
     @Test
     public void accessMembershipFinish() throws Exception {
-        mockMvc.perform(postWithMember(MEMBERSHIP_URL, testMember))
+        mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, createTestMemberDto()))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrl(MEMBERSHIP_URL + URL_FINISH_SUFFIX));
 

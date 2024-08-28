@@ -1,6 +1,7 @@
 package springsideproject1.springsideproject1build.domain.entity.company;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -23,19 +24,19 @@ public class Company {
     @Pattern(regexp = NUMBER_REGEX)
     private final String code;
 
-    @NotBlank
+    @NotNull
     private final Country country;
 
-    @NotBlank
+    @NotNull
     private final Scale scale;
 
     @NotBlank
     private final String name;
 
-    @NotBlank
+    @NotNull
     private final FirstCategory firstCategory;
 
-    @NotBlank
+    @NotNull
     private final SecondCategory secondCategory;
 
     public CompanyDto toDto() {
