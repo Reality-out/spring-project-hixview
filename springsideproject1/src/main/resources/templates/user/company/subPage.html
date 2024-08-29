@@ -2,31 +2,12 @@
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
       lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="/styles/user/logoStyle.css" rel="stylesheet"/>
-    <link href="/styles/user/company/search/bodyWrapperStyle.css" rel="stylesheet"/>       <!-- wrap the whole body -->
-    <link href="/styles/user/company/search/bodySearchBoxStyle.css" rel="stylesheet"/>     <!-- wrap the top search box -->
-    <link href="/styles/user/company/search/bodyCompanyListStyle.css" rel="stylesheet"/>   <!-- wrap the middle grid covering the companies -->
+    <link href="/styles/user/company/search/body-wrapper-style.css" rel="stylesheet"/>       <!-- wrap the whole body -->
+    <link href="/styles/user/company/search/body-companylist-style.css" rel="stylesheet"/>   <!-- wrap the middle grid covering the companies -->
 </head>
 <body>
     <section>
         <div class="bodyWrapper">
-            <div class="searchBoxWrapper">
-                <div class="searchBox">
-                    <form id="searchCompanyForm" method="get" th:action="@{|${companySearch}${codeOrName}|}">
-                        <label for="codeOrName">[[#{company}]]</label>
-                        <div>
-                            <input type="text" id="codeOrName" name="codeOrName">
-                            <div th:if="${error} != null" th:switch="${error}">
-                                <span th:classappend="errorMessage" th:case="NotFoundCompanyError"
-                                      th:text="|#{function.search}될 #{company}을 #{function.fillIn}해 주세요.|"></span>
-                                <span th:classappend="errorMessage" th:case="notFoundCompanyError"
-                                      th:text="|#{function.search}된 #{company}이 없습니다.|"></span>
-                            </div>
-                        </div>
-                        <button type="submit">[[#{function.search}]]</button>
-                    </form>
-                </div>
-            </div>
             <div class="companyListWrapper">
                 <div class="firstLayer">
                     <div class="row1">

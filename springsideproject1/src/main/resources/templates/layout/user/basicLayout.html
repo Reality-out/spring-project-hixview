@@ -8,45 +8,46 @@
     <title>[[#{site.title}]]</title>
 
     <!--/* Link - Original */-->
-    <link href="/styles/originalHtmlStyle.css" rel="stylesheet"/>
-    <link href="/styles/originalBodyStyle.css" rel="stylesheet"/>
-    <link href="/styles/errorMessageStyle.css" rel="stylesheet"/>
+    <link href="/styles/html-style.css" rel="stylesheet"/>
+    <link href="/styles/body-style.css" rel="stylesheet"/>
+    <link href="/styles/error-style.css" rel="stylesheet"/>
 
     <!--/* Link - Header */-->
-    <link href="/styles/user/headerStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/header-style.css" rel="stylesheet"/>
 
     <!--/* Link - Footer */-->
-    <link href="/styles/user/footerStyle.css" rel="stylesheet"/>
+    <link href="/styles/user/footer-style.css" rel="stylesheet"/>
 
     <!--/* Link - Added */-->
     <link th:replace="${link}"/>
 </head>
 <body>
 <!--/* Header */-->
-<header>
-    <div class="headerWrapper">
-        <div class="headerTop">
-            <div class="headerTopLeft">
-                <!-- Empty Grid -->
+<header id="header">
+    <div class="header-wrapContent">
+        <a href="/" class="link-home"><h1 class="name-site" th:text="#{site.name}"></h1></a>
+        <nav id="gnbNav">
+            <ul class="gnbNav-list">
+                <li class="gnbNav-list-item"><a href="/company" th:text="#{company}"></a></li>
+                <li class="gnbNav-list-item"><a href="/industry" th:text="#{industry}"></a></li>
+                <li class="gnbNav-list-item"><a href="/economy" th:text="#{economy}"></a></li>
+            </ul>
+        </nav>
+        <div class="header-clearLine"></div>
+        <form id="gnbScb" method="get" th:action="@{|${companySearch}${codeOrName}|}">
+            <div class="gnbScb-wrapInput">
+                <input class="gnbScb-input" type="text" id="codeOrName" name="codeOrName"
+                       th:placeholder="|현재는 #{company} #{function.search}만 #{function.support}됩니다.|">
+                <div class="gnbScb-wrapError" th:if="${error} != null" th:switch="${error}">
+                    <span th:classappend="txt-errorMessage" th:case="NotFoundCompanyError"
+                          th:text="|#{function.search}될 #{company}을 #{function.fillIn}해 주세요.|"></span>
+                    <span th:classappend="txt-errorMessage" th:case="notFoundCompanyError"
+                          th:text="|#{function.search}된 #{company}이 없습니다.|"></span>
+                </div>
             </div>
-            <div class="headerTopMiddle">
-                <a href="/">
-                    <h1 th:text="#{site.name}"></h1>
-                </a>
-            </div>
-            <div class="headerTopRight">
-                <a href="/login" th:text="#{function.login}"></a>
-            </div>
-        </div>
-        <div class="headerMiddle">
-            <nav id="headerNavigator">
-                <ul>
-                    <li><a href="/company" th:text="#{company}"></a></li>
-                    <li><a href="/industry" th:text="#{industry}"></a></li>
-                    <li><a href="/economy" th:text="#{economy}"></a></li>
-                </ul>
-            </nav>
-        </div>
+            <button class="gnbScb-btn" type="submit" value="확대경 아이콘 제작자: Maxim Basinski Premium - Flaticon"></button>
+        </form>
+        <a class="link-login" href="/login" th:text="#{function.login}"></a>
     </div>
 </header>
 
@@ -54,18 +55,14 @@
 <section th:replace="${section}"></section>
 
 <!--/* Footer */-->
-<footer>
-    <div class="footerWrapper">
-        <div class="footerTop">
-            <nav class="footerNavigator">
-                <ul>
-                    <li><a href="/introduce" th:text="#{page.introduction.site}"></a></li>
-                    <li><a href="/notify" th:text="#{page.inform}"></a></li>
-                    <li><a href="/question-answer" th:text="#{page.qna}"></a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+<footer id="footer">
+    <nav id="ftrNav">
+        <ul class="ftrNav-list">
+            <li class="ftrNav-list-item"><a href="/introduce" th:text="#{page.introduction.site}"></a></li>
+            <li class="ftrNav-list-item"><a href="/notify" th:text="#{page.inform}"></a></li>
+            <li class="ftrNav-list-item"><a href="/question-answer" th:text="#{page.qna}"></a></li>
+        </ul>
+    </nav>
 </footer>
 
 <!--/* Script - Added */-->

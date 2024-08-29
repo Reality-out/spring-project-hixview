@@ -1,0 +1,34 @@
+#footer {
+    display: flex;
+    width: calc(100vw - 14px);
+    padding: 2rem 0;
+    border-top: 2px solid black;
+    border-collapse: collapse;
+    background: local padding-box #000980;
+}
+
+#ftrNav {
+    display: flex;
+    width: 80vw;
+    margin: 0 auto;
+    align-items: center;
+}
+
+#ftrNav .ftrNav-list {
+    display: flex;
+    width: inherit;
+    justify-content: space-between;
+}
+
+#ftrNav .ftrNav-list .ftrNav-list-item {
+    display: flex;
+    width: max-content;
+}
+
+#ftrNav .ftrNav-list .ftrNav-list-item > a {
+    display: flex;
+    width: inherit;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}

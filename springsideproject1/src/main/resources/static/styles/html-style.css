@@ -1,0 +1,8 @@
+@import url('/styles/fonts/font-style.css');
+
+html {
+    /* font */
+    font-size: 16px;
+    font-family: 'Noto Sans KR', "Malgun Gothic", "맑은 고딕", "Times New Roman", sans-serif;
+    font-synthesis: style weight;
+}

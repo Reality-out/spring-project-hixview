@@ -1,0 +1,140 @@
+@media screen and (max-width: 1000px) {
+    #header .header-wrapContent {
+        flex-flow: row wrap;
+    }
+    
+    #header .header-wrapContent .link-home {
+        margin-bottom: 0.5rem;
+    }
+    
+    #gnbNav {
+        margin-bottom: 0.5rem;
+    }
+    
+    #header .header-wrapContent .header-clearLine {
+        flex-basis: 100%;
+    }
+}
+
+#header {    
+    display: flex;
+    width: calc(100vw - 14px);
+    padding: 2rem 0;
+    border-bottom: 2px solid black;
+    border-collapse: collapse;
+    background: local padding-box #000980;
+}
+
+#header .header-wrapContent {
+    display: flex;
+    width: 80vw;
+    margin: 0 auto;
+    column-gap: 1rem;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#header .header-wrapContent .link-home {
+    display: flex;
+    width: 100px;
+}
+
+#header .header-wrapContent .link-home .name-site {
+    display: flex;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}
+
+#gnbNav {
+    display: flex;
+    width: min-content;
+}
+
+#gnbNav .gnbNav-list {
+    display: flex;
+    width: inherit;
+    column-gap: 10vw;
+    justify-content: space-between;
+}
+
+#gnbNav .gnbNav-list .gnbNav-list-item {
+    display: flex;
+    width: min-content;
+}
+
+#gnbNav .gnbNav-list .gnbNav-list-item > a {
+    display: flex;
+    width: inherit;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+#header .header-wrapContent .header-clearLine {
+    display: flex;
+    width: 0;
+    height: 0;
+}
+
+#gnbScb {    
+    display: flex;
+    position: relative;
+    margin-right: 2rem;
+    padding-right: 32px;
+    width: 260px;
+    height: 32px;
+}
+
+#gnbScb .gnbScb-wrapInput {
+    display: flex;
+    width: inherit;
+    height: inherit;
+    background-color: white;
+}
+
+#gnbScb .gnbScb-wrapInput .gnbScb-input {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    width: inherit;
+    height: inherit;
+    padding-left: 1rem;
+    border: 2px solid #42414D;
+    border-collapse: collapse;
+}
+
+#gnbScb .gnbScb-wrapInput .gnbScb-wrapError {
+    display: flex;
+    position: relative;
+}
+
+#gnbScb .gnbScb-wrapInput .gnbScb-wrapError .txt-errorMessage {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    margin-top: -24px;
+    margin-left: -90px;
+    top: 50%;
+    left: 50%;
+}
+
+#gnbScb .gnbScb-btn {
+    display: flex;
+    position: absolute;
+    z-index: 3;
+    width: 28px;
+    height: 28px;
+    left: 100%;
+    border: none;
+    border-spacing: 0;
+    background: padding-box center/contain no-repeat transparent url(/images/main/magnifier.png);
+    cursor: pointer;
+}
+
+#header .header-wrapContent .link-login {
+    display: flex;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+}
