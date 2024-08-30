@@ -1,7 +1,7 @@
 #footer {
     display: flex;
     width: calc(100vw - 14px);
-    padding: 2rem 0;
+    padding: 1.2rem 0;
     border-top: 2px solid black;
     border-collapse: collapse;
     background: local padding-box #000980;

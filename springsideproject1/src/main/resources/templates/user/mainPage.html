@@ -2,10 +2,154 @@
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
       lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link/>
+    <link href="/styles/user/main/main-style.css" rel="stylesheet"/>
 </head>
 <body>
-    <section></section>
+    <section class="section-main">
+        <div class="container-main-top">
+            <div class="newest-wrapper">
+                <div class="newest-column">
+                    <div class="newest-row first-row">
+                        <p class="newest-title" th:text="|일간 #{company}|"></p>
+                        <div class="newest-info">
+                            <div class="newest-info-item text subject">
+                                현대차
+                            </div>
+                            <a class="newest-info-item picture-wrapper"
+                               href="https://news.mt.co.kr/mtview.php?no=2024082915393020807">
+                                <div class="picture company-picture"
+                                    style="background-image: url(/images/main/newest/company/newest_company_24_08_30.png)"></div>
+                            </a>
+                            <div class="newest-info-item text title">
+                                시장도 놀란 현대차 통큰 '주주환원'…"최소 1만원 배당" 우선주 '껑충'
+                            </div>
+                            <div class="newest-info-item text newest-info-comment">
+                                한 줄 요약: 시장 예상을 상회하는 주주가치 제고 방안 발표
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newest-row second-row">
+                        <p class="newest-title" th:text="|일간 국내 #{economy}|"></p>
+                        <div class="newest-info">
+                            <div class="newest-info-item text subject">
+                                지구가열화
+                            </div>
+                            <a class="newest-info-item picture-wrapper"
+                               href="https://m.sedaily.com/NewsView/2DD7VN3IT0#cb">
+                                <div class="picture domestic-picture"
+                                     style="background-image: url(/images/main/newest/domestic/newest_domestic_24_08_30.png)"></div>
+                            </a>
+                            <div class="newest-info-item text title">
+                                폭염에 물폭탄 그리고…올여름 ‘이 것’ 사상 최악이었다
+                            </div>
+                            <div class="newest-info-item text newest-info-comment">
+                                한 줄 요약: 대한민국에 찾아온 역대 최악의 여름
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="newest-column">
+                    <div class="newest-row first-row">
+                        <p class="newest-title" th:text="|일간 #{industry}|"></p>
+                        <div class="newest-info">
+                            <div class="newest-info-item text subject">
+                                반도체
+                            </div>
+                            <a class="newest-info-item picture-wrapper"
+                               href="https://biz.chosun.com/it-science/ict/2024/08/30/EFI7ZQXPTZE45D53WKE4DNQ6AU/">
+                                <div class="picture industry-picture"
+                                     style="background-image: url(/images/main/newest/industry/newest_industry_24_08_30.png)"></div>
+                            </a>
+                            <div class="newest-info-item text title">
+                                ASML, 중국 내 장비 유지보수 중단… "中, 반도체 산업 타격 불가피"
+                            </div>
+                            <div class="newest-info-item text newest-info-comment">
+                                한 줄 요약: 미국과 중국의 반도체 관련 디커플링 심화
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newest-row second-row">
+                        <p class="newest-title" th:text="|일간 해외 #{economy}|"></p>
+                        <div class="newest-info">
+                            <div class="newest-info-item text subject">
+                                빅테크 / AI
+                            </div>
+                            <a class="newest-info-item picture-wrapper"
+                               href="https://biz.chosun.com/it-science/ict/2024/08/30/OZO3RRA2KVDSBJBVYWN6QAEH3U/">
+                                <div class="picture foreign-picture"
+                                     style="background-image: url(/images/main/newest/foreign/newest_foreign_24_08_30.png)"></div>
+                            </a>
+                            <div class="newest-info-item text title">
+                                ‘돈 먹는 하마’ AR·MR·XR 접고 AI 집중하는 글로벌 빅테크
+                            </div>
+                            <div class="newest-info-item text newest-info-comment">
+                                한 줄 요약: AI에 전력을 다하다시피 하는 빅테크
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="newest-clearLine"></div>
+                <div class="newest-column">
+                    <div class="newest-row first-row">
+                        <div class="ad"></div>
+                    </div>
+                    <div class="newest-row second-row">
+                        <div class="ad"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-main-bottom">
+            <div class="post-wrapper">
+                <p class="post-title" th:text="|#{company} 주요 포스팅|"></p>
+                <p class="post-subject-name" th:text="이노와이어리스"></p>
+                <div class="post-blog">
+                    <a class="post-image post-company"
+                       style="background-image: url(/images/company/logo/innoWireless.png)"
+                       href="https://blog.naver.com/akdnjs0308/223491404394"></a>
+                    <div class="post-news post-company-news">
+                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="post-wrapper">
+                <p class="post-title" th:text="|#{industry} 주요 포스팅|"></p>
+                <p class="post-subject-name" th:text="디스플레이"></p>
+                <div class="post-blog">
+                    <a class="post-image post-industry"
+                       style="background-image: url(/images/industry/display.png)"
+                       href="https://blog.naver.com/akdnjs0308/223456567261"></a>
+                    <div class="post-news post-industry-news">
+                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="post-wrapper">
+                <p class="post-title" th:text="|#{economy} 주요 포스팅|"></p>
+                <p class="post-subject-name" th:text="중국"></p>
+                <div class="post-blog">
+                    <a class="post-image post-economy"
+                       style="background-image: url(/images/industry/flag/chinese_flag.png)"
+                       href="https://blog.naver.com/akdnjs0308/223527440189"></a>
+                    <div class="post-news post-economy-news">
+                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <script type="module" src="/scripts/MainJavaScript.js"></script>
 </body>
 </html>

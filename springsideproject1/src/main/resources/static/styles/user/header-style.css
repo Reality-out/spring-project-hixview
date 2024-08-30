@@ -1,4 +1,4 @@
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1250px) {
     #header .header-wrapContent {
         flex-flow: row wrap;
     }
@@ -27,7 +27,7 @@
 
 #header .header-wrapContent {
     display: flex;
-    width: 80vw;
+    width: 70vw;
     margin: 0 auto;
     column-gap: 1rem;
     justify-content: space-evenly;
@@ -41,7 +41,7 @@
 
 #header .header-wrapContent .link-home .name-site {
     display: flex;
-    font-size: 24px;
+    font-size: 28px;
     font-weight: 700;
     color: white;
 }
@@ -54,7 +54,7 @@
 #gnbNav .gnbNav-list {
     display: flex;
     width: inherit;
-    column-gap: 10vw;
+    column-gap: 6vw;
     justify-content: space-between;
 }
 
@@ -130,6 +130,14 @@
     border-spacing: 0;
     background: padding-box center/contain no-repeat transparent url(/images/main/magnifier.png);
     cursor: pointer;
+}
+
+#header .header-wrapContent .membership {
+    display: flex;
+    color: white;
+    width: max-content;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 #header .header-wrapContent .link-login {
