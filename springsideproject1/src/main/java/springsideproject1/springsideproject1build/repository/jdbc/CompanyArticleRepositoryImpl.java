@@ -49,6 +49,12 @@ public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
     }
 
     @Override
+    public List<CompanyArticle> getLatestArticles() {
+        return jdbcTemplate.query("select * from " + COMPANY_ARTICLE_TABLE + " where date = " +
+                "(select max(date) from " + COMPANY_ARTICLE_TABLE + ")", articleRowMapper());
+    }
+
+    @Override
     public Optional<CompanyArticle> getArticleByNumber(Long number) {
         List<CompanyArticle> oneArticleOrNull = jdbcTemplate.query(
                 "select * from " + COMPANY_ARTICLE_TABLE + " where number = ?", articleRowMapper(), number);

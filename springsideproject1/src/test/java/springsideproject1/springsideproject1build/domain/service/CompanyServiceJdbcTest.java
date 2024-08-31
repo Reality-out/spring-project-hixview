@@ -101,7 +101,7 @@ class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
     @Test
     public void removeCompanyByFaultCodeTest() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.removeCompanyByCode("123456"));
+                () -> companyService.removeCompanyByCode(INVALID_VALUE));
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 }

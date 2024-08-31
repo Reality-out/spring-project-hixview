@@ -63,9 +63,9 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Test
     public void duplicatedNameCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticle article1 = testArticle;
+        CompanyArticle article1 = testCompanyArticle;
         String commonName = article1.getName();
-        CompanyArticleDto articleDto2 = createTestNewArticleDto();
+        CompanyArticleDto articleDto2 = createTestNewCompanyArticleDto();
         articleDto2.setName(commonName);
 
         // when
@@ -86,9 +86,9 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Test
     public void duplicatedLinkCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticle article1 = testArticle;
+        CompanyArticle article1 = testCompanyArticle;
         String commonLink = article1.getLink();
-        CompanyArticleDto articleDto2 = createTestNewArticleDto();
+        CompanyArticleDto articleDto2 = createTestNewCompanyArticleDto();
         articleDto2.setLink(commonLink);
 
         // when
@@ -109,7 +109,7 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Test
     public void notRegisteredSubjectCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -125,14 +125,14 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Test
     public void duplicatedNameCompanyArticleAddWithString() throws Exception {
         // given & when
-        articleService.registerArticle(CompanyArticle.builder().article(testArticle).name(testEqualDateArticle.getName()).build());
+        articleService.registerArticle(CompanyArticle.builder().article(testCompanyArticle).name(testEqualDateCompanyArticle.getName()).build());
         companyService.registerCompany(samsungElectronics);
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
+                    put(nameDatePressString, testEqualDateCompanyArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
@@ -144,14 +144,14 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
     @Test
     public void duplicatedLinkCompanyArticleAddWithString() throws Exception {
         // given & when
-        articleService.registerArticle(CompanyArticle.builder().article(testArticle).link(testEqualDateArticle.getLink()).build());
+        articleService.registerArticle(CompanyArticle.builder().article(testCompanyArticle).link(testEqualDateCompanyArticle.getLink()).build());
         companyService.registerCompany(samsungElectronics);
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
+                    put(nameDatePressString, testEqualDateCompanyArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),

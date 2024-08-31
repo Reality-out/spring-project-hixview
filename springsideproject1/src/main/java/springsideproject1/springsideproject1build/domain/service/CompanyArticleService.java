@@ -39,6 +39,10 @@ public class CompanyArticleService {
         return articleRepository.getArticlesByDate(startDate, endDate);
     }
 
+    public List<CompanyArticle> findLatestArticles() {
+        return articleRepository.getLatestArticles();
+    }
+
     public Optional<CompanyArticle> findArticleByNumber(Long number) {
         return articleRepository.getArticleByNumber(number);
     }
@@ -48,7 +52,8 @@ public class CompanyArticleService {
     }
 
     public Optional<CompanyArticle> findArticleByNumberOrName(String numberOrName) {
-        return NUMBER_REGEX_PATTERN.matcher(numberOrName).matches() ? findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
+        return NUMBER_REGEX_PATTERN.matcher(numberOrName).matches() ?
+                findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 
     public Optional<CompanyArticle> findArticleByLink(String link) {

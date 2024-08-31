@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <p th:text="|#{article}를 #{function.register}합니다.|"></p>
+    <p th:text="|#{company} #{article}를 #{function.register}합니다.|"></p>
     <form th:action method="POST">
         <div th:if="${error} != null" th:classappend="errorMessage">
             <th:block th:switch="${error}">

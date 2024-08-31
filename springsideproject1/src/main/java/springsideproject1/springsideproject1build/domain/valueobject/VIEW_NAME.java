@@ -34,6 +34,10 @@ public abstract class VIEW_NAME {
     public static final String UPDATE_COMPANY_ARTICLE_VIEW = "manager/update/article/company/";
     public static final String REMOVE_COMPANY_ARTICLE_VIEW = "manager/remove/article/company/";
 
+    public static final String ADD_COMPANY_ARTICLE_MAIN_VIEW = "manager/add/article/company/main/";
+    public static final String UPDATE_COMPANY_ARTICLE_MAIN_VIEW = "manager/update/article/company/main/";
+    public static final String REMOVE_COMPANY_ARTICLE_MAIN_VIEW = "manager/remove/article/company/main/";
+
     public static final String ADD_COMPANY_VIEW = "manager/add/company/";
     public static final String UPDATE_COMPANY_VIEW = "manager/update/company/";
     public static final String REMOVE_COMPANY_VIEW = "manager/remove/company/";

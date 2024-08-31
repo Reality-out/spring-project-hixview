@@ -13,18 +13,18 @@
                         <p class="newest-title" th:text="|일간 #{company}|"></p>
                         <div class="newest-info">
                             <div class="newest-info-item text subject">
-                                현대차
+                                [[${latestCompanyArticle.subjectCompany}]]
                             </div>
                             <a class="newest-info-item picture-wrapper"
-                               href="https://news.mt.co.kr/mtview.php?no=2024082915393020807">
+                               href="${latestCompanyArticle.link}">
                                 <div class="picture company-picture"
-                                    style="background-image: url(/images/main/newest/company/newest_company_24_08_30.png)"></div>
+                                    th:style="|background-image: url(${latestCompanyArticleMain.imagePath})|"></div>
                             </a>
                             <div class="newest-info-item text title">
-                                시장도 놀란 현대차 통큰 '주주환원'…"최소 1만원 배당" 우선주 '껑충'
+                                [[${latestCompanyArticle.name}]]
                             </div>
-                            <div class="newest-info-item text newest-info-comment">
-                                한 줄 요약: 시장 예상을 상회하는 주주가치 제고 방안 발표
+                            <div class="newest-info-item text newest-info-summary">
+                                [[#{article.summary}]]: [[${latestCompanyArticleMain.summary}]]
                             </div>
                         </div>
                     </div>
@@ -37,12 +37,12 @@
                             <a class="newest-info-item picture-wrapper"
                                href="https://m.sedaily.com/NewsView/2DD7VN3IT0#cb">
                                 <div class="picture domestic-picture"
-                                     style="background-image: url(/images/main/newest/domestic/newest_domestic_24_08_30.png)"></div>
+                                     style="background-image: url(/images/main/newest/domestic/Global_Boiling_001.png)"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 폭염에 물폭탄 그리고…올여름 ‘이 것’ 사상 최악이었다
                             </div>
-                            <div class="newest-info-item text newest-info-comment">
+                            <div class="newest-info-item text newest-info-summary">
                                 한 줄 요약: 대한민국에 찾아온 역대 최악의 여름
                             </div>
                         </div>
@@ -58,12 +58,12 @@
                             <a class="newest-info-item picture-wrapper"
                                href="https://biz.chosun.com/it-science/ict/2024/08/30/EFI7ZQXPTZE45D53WKE4DNQ6AU/">
                                 <div class="picture industry-picture"
-                                     style="background-image: url(/images/main/newest/industry/newest_industry_24_08_30.png)"></div>
+                                     style="background-image: url(/images/main/newest/industry/Semiconductor_001.png)"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 ASML, 중국 내 장비 유지보수 중단… "中, 반도체 산업 타격 불가피"
                             </div>
-                            <div class="newest-info-item text newest-info-comment">
+                            <div class="newest-info-item text newest-info-summary">
                                 한 줄 요약: 미국과 중국의 반도체 관련 디커플링 심화
                             </div>
                         </div>
@@ -77,12 +77,12 @@
                             <a class="newest-info-item picture-wrapper"
                                href="https://biz.chosun.com/it-science/ict/2024/08/30/OZO3RRA2KVDSBJBVYWN6QAEH3U/">
                                 <div class="picture foreign-picture"
-                                     style="background-image: url(/images/main/newest/foreign/newest_foreign_24_08_30.png)"></div>
+                                     style="background-image: url(/images/main/newest/foreign/Big_Tech_001.png)"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 ‘돈 먹는 하마’ AR·MR·XR 접고 AI 집중하는 글로벌 빅테크
                             </div>
-                            <div class="newest-info-item text newest-info-comment">
+                            <div class="newest-info-item text newest-info-summary">
                                 한 줄 요약: AI에 전력을 다하다시피 하는 빅테크
                             </div>
                         </div>

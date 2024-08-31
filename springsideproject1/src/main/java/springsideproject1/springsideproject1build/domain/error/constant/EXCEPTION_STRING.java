@@ -16,6 +16,7 @@ public interface EXCEPTION_STRING {
     String NOT_BLANK_ARTICLE_ERROR = "notBlankArticleError";
     String NOT_EXIST_COMPANY_ERROR = "NotFoundCompanyError";
     String NOT_FOUND_COMPANY_ARTICLE_ERROR = "notFoundCompanyArticleError";
+    String NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR = "notFoundCompanyArticleMainError";
     String NOT_FOUND_COMPANY_ERROR = "notFoundCompanyError";
     String NUMBER_FORMAT_INTEGER_ERROR = "numberFormatIntegerError";
     String NUMBER_FORMAT_LOCAL_DATE_ERROR = "numberFormatLocalDateError";

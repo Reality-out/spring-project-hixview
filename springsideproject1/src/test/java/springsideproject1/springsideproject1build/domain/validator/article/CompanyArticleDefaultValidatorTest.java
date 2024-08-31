@@ -63,7 +63,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateNotBlankSpaceCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
@@ -83,7 +83,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateNotBlankNullCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(null);
         articleDto.setPress(null);
         articleDto.setSubjectCompany(null);
@@ -103,7 +103,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateNotNullCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(null);
         articleDto.setMonth(null);
         articleDto.setDays(null);
@@ -123,7 +123,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validatePatternCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setLink(INVALID_VALUE);
 
         // then
@@ -140,7 +140,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
         mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -162,7 +162,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateNotBlankSpaceCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
@@ -182,7 +182,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateNotBlankNullCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(null);
         articleDto.setPress(null);
         articleDto.setSubjectCompany(null);
@@ -202,7 +202,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateNotNullCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(null);
         articleDto.setMonth(null);
         articleDto.setDays(null);
@@ -222,7 +222,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validatePatternCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setLink(INVALID_VALUE);
 
         // then
@@ -239,7 +239,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     @Test
     public void validateTypeMismatchCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
         mockMvc.perform(post(modifyArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)

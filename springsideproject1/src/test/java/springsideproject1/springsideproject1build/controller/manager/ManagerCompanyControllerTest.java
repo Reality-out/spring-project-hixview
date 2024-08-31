@@ -147,7 +147,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // given
         Company company = samsungElectronics;
         String commonName = samsungElectronics.getName();
-        Company modifiedCompany = Company.builder().company(company)
+        Company modifiedCompany = Company.builder().company(skHynix)
                 .name(commonName).code(company.getCode()).build();
 
         // when

@@ -43,8 +43,8 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void getCompanyArticlesTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testNewArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testNewCompanyArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -61,8 +61,8 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void getCompanyArticleByDateTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testEqualDateArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testEqualDateCompanyArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -79,9 +79,9 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void getCompanyArticleByDateRangeTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testEqualDateArticle;
-        CompanyArticle article3 = testNewArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testEqualDateCompanyArticle;
+        CompanyArticle article3 = testNewCompanyArticle;
 
         List<CompanyArticle> articles = List.of(article1, article2, article3);
         List<CompanyArticle> sortedArticles = articles.stream()
@@ -101,12 +101,31 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
                 .isEqualTo(List.of(article1, article2, article3));
     }
 
-    @DisplayName("기업 기사 번호로 획득")
+    @DisplayName("최신 기업 기사들 획득")
+    @Test
+    public void getLatestCompanyArticlesTest() {
+        // given
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testEqualDateCompanyArticle;
+
+        // when
+        articleRepository.saveArticle(article1);
+        articleRepository.saveArticle(article2);
+        articleRepository.saveArticle(testNewCompanyArticle);
+
+        // then
+        assertThat(articleRepository.getLatestArticles())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(List.of(article1, article2));
+    }
+
+    @DisplayName("번호로 기업 기사 획득")
     @Test
     public void getCompanyArticleByNumberTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testNewArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testNewCompanyArticle;
 
         // when
         article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
@@ -128,8 +147,8 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void getCompanyArticleByNameTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testNewArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testNewCompanyArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -151,8 +170,8 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void getCompanyArticleByLinkTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testNewArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testNewCompanyArticle;
 
         // when
         articleRepository.saveArticle(article1);
@@ -174,7 +193,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void saveCompanyArticleTest() {
         // given
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
 
         // when
         articleRepository.saveArticle(article);
@@ -190,25 +209,25 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
     @Test
     public void updateCompanyArticleTest() {
         // given
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
 
         // when
         articleRepository.saveArticle(article);
 
         // then
-        articleRepository.updateArticle(CompanyArticle.builder().article(testNewArticle).name(article.getName()).build());
+        articleRepository.updateArticle(CompanyArticle.builder().article(testNewCompanyArticle).name(article.getName()).build());
         assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER, NAME)
-                .isEqualTo(testNewArticle);
+                .isEqualTo(testNewCompanyArticle);
     }
 
     @DisplayName("기업 기사 이름으로 제거")
     @Test
     public void removeCompanyArticleByNameTest() {
         // given
-        CompanyArticle article1 = testArticle;
-        CompanyArticle article2 = testEqualDateArticle;
+        CompanyArticle article1 = testCompanyArticle;
+        CompanyArticle article2 = testEqualDateCompanyArticle;
 
         // when
         articleRepository.saveArticle(article1);

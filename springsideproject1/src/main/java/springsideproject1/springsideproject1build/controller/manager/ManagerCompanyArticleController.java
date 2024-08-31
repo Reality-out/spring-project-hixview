@@ -215,8 +215,10 @@ public class ManagerCompanyArticleController {
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
-                processValidationErrorModify(articleDto, bindingResult, model))
+                processValidationErrorModify(articleDto, bindingResult, model)) {
+            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        }
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;

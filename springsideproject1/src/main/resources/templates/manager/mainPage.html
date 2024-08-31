@@ -33,6 +33,21 @@
             </ol>
         </ol>
         <ol>
+            <li th:text="|#{company} #{article} #{data.main} 관련 기능|"></li>
+            <ol>
+                <li th:text="#{data.single}"></li>
+                <li><a th:href="${addCompanyArticleMain}" th:text="|#{article} #{data.main} #{function.register}|"></a></li>
+                <li><a th:href="${updateCompanyArticleMain}" th:text="|#{article} #{data.main} #{function.correct}|"></a></li>
+                <li><a th:href="${removeCompanyArticleMain}" th:text="|#{article} #{data.main} #{function.remove}|"></a></li>
+            </ol>
+            <ol>
+                <li th:text="#{data.multiple}"></li>
+                <li>
+                    <a th:href="${selectCompanyArticleMains}" th:text="|#{article} #{data.main} #{function.inquiry}|"></a>
+                </li>
+            </ol>
+        </ol>
+        <ol>
             <li th:text="|#{company} 관련 기능|"></li>
             <ol>
                 <li th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->

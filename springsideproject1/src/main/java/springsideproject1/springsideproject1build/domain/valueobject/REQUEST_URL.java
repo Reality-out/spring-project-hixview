@@ -20,6 +20,12 @@ public abstract class REQUEST_URL {
     public static final String UPDATE_COMPANY_ARTICLE_URL = "/manager/article/company/update";
     public static final String REMOVE_COMPANY_ARTICLE_URL = "/manager/article/company/remove";
 
+    // Article - Company - Main
+    public static final String ADD_COMPANY_ARTICLE_MAIN_URL = "/manager/article/company/main/add";
+    public static final String SELECT_COMPANY_ARTICLE_MAIN_URL = "/manager/article/company/main/select";
+    public static final String UPDATE_COMPANY_ARTICLE_MAIN_URL = "/manager/article/company/main/update";
+    public static final String REMOVE_COMPANY_ARTICLE_MAIN_URL = "/manager/article/company/main/remove";
+
     // Company
     public static final String ADD_SINGLE_COMPANY_URL = "/manager/company/add/single";
     public static final String SELECT_COMPANY_URL = "/manager/company/select";

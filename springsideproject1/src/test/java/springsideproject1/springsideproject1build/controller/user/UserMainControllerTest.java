@@ -9,8 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
+import springsideproject1.springsideproject1build.util.test.CompanyArticleMainTestUtils;
+import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import javax.sql.DataSource;
@@ -23,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -33,10 +38,19 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMainControllerTest implements MemberTestUtils {
+class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, CompanyArticleMainTestUtils {
 
-    @Autowired private MockMvc mockMvc;
-    @Autowired MemberService memberService;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    CompanyArticleService companyArticleService;
+
+    @Autowired
+    CompanyArticleMainService companyArticleMainService;
+
+    @Autowired
+    MemberService memberService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
@@ -47,6 +61,8 @@ class UserMainControllerTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
+        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
         resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
     }
 
@@ -84,7 +100,13 @@ class UserMainControllerTest implements MemberTestUtils {
     @DisplayName("유저 메인 페이지 접속")
     @Test
     public void accessUserMainPage() throws Exception {
-        mockMvc.perform(get(""))
+        // given & when
+        companyArticleMainService.registerArticle(testCompanyArticleMain);
+        companyArticleService.registerArticle(CompanyArticle.builder()
+                .article(testCompanyArticle).name(testCompanyArticleMain.getName()).build());
+
+        // then
+        mockMvc.perform(getWithNoParam(""))
                 .andExpectAll(status().isOk(),
                         view().name("user/mainPage"),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));

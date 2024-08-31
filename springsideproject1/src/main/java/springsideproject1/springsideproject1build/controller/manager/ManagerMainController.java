@@ -25,6 +25,11 @@ public class ManagerMainController {
         model.addAttribute("addCompanyArticlesWithString", ADD_COMPANY_ARTICLE_WITH_STRING_URL);
         model.addAttribute("selectCompanyArticles", SELECT_COMPANY_ARTICLE_URL);
 
+        model.addAttribute("addCompanyArticleMain", ADD_COMPANY_ARTICLE_MAIN_URL);
+        model.addAttribute("updateCompanyArticleMain", UPDATE_COMPANY_ARTICLE_MAIN_URL);
+        model.addAttribute("removeCompanyArticleMain", REMOVE_COMPANY_ARTICLE_MAIN_URL);
+        model.addAttribute("selectCompanyArticleMains", SELECT_COMPANY_ARTICLE_MAIN_URL);
+
         model.addAttribute("addSingleCompany", ADD_SINGLE_COMPANY_URL);
         model.addAttribute("updateCompany", UPDATE_COMPANY_URL);
         model.addAttribute("removeCompany", REMOVE_COMPANY_URL);

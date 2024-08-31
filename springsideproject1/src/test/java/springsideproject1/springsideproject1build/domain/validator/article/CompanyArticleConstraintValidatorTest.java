@@ -59,7 +59,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
         articleDto.setDays(1);
@@ -78,7 +78,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validateRestrictCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setImportance(3);
 
         // then
@@ -95,7 +95,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
         articleDto.setDays(31);
@@ -114,7 +114,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setPress(INVALID_VALUE);
 
         // then
@@ -129,7 +129,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validateRangeCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(1950);
         articleDto.setMonth(1);
         articleDto.setDays(1);
@@ -148,7 +148,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validateRestrictCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setImportance(3);
 
         // then
@@ -165,7 +165,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validateTypeButInvalidCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
         articleDto.setDays(31);
@@ -184,7 +184,7 @@ public class CompanyArticleConstraintValidatorTest implements CompanyArticleTest
     @Test
     public void validatePressTypeMismatchCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setPress(INVALID_VALUE);
 
         // then

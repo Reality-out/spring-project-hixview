@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <p>다음 [[#{article.name}]]의 [[#{article}]] [[#{function.remove}]]가 [[#{function.finish}]]되었습니다:</p>
+    <p th:text="|다음 #{article.name}의 #{company} #{article} #{function.remove}가 #{function.finish}되었습니다:|"></p>
     <p th:text="${value}"></p>
 </div>
 </body>

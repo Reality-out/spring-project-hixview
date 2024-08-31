@@ -28,7 +28,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
     String linkString = "linkString";
 
     // Test Object
-    CompanyArticle testArticle = CompanyArticle.builder()
+    CompanyArticle testCompanyArticle = CompanyArticle.builder()
             .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")
             .press(Press.SBS)
             .subjectCompany("삼성전자")
@@ -37,7 +37,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .importance(0)
             .build();
 
-    CompanyArticle testNewArticle = CompanyArticle.builder()
+    CompanyArticle testNewCompanyArticle = CompanyArticle.builder()
             .name("[단독] 삼성전자 네트워크사업부 인력 700명 전환 배치")
             .press(Press.HERALD_ECONOMY)
             .subjectCompany("삼성전자")
@@ -46,7 +46,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .importance(0)
             .build();
 
-    CompanyArticle testEqualDateArticle = CompanyArticle.builder()
+    CompanyArticle testEqualDateCompanyArticle = CompanyArticle.builder()
             .name("삼성전자도 현대차 이어 인도법인 상장 가능성, '코리아 디스카운트' 해소 기회")
             .press(Press.BUSINESS_POST)
             .subjectCompany("삼성전자")
@@ -55,21 +55,21 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .importance(0)
             .build();
 
-    CompanyArticleBufferSimple testEqualDateArticleStringBuffer = CompanyArticleBufferSimple.builder()
-            .articles(testEqualDateArticle).build();
+    CompanyArticleBufferSimple testEqualDateCompanyArticleStringBuffer = CompanyArticleBufferSimple.builder()
+            .articles(testEqualDateCompanyArticle).build();
 
-    CompanyArticleBufferSimple testArticleStringBuffers = CompanyArticleBufferSimple.builder()
-            .articles(testEqualDateArticle, testNewArticle).build();
+    CompanyArticleBufferSimple testCompanyArticleStringBuffer = CompanyArticleBufferSimple.builder()
+            .articles(testEqualDateCompanyArticle, testNewCompanyArticle).build();
 
     /**
      * Create
      */
-    default CompanyArticleDto createTestArticleDto() {
-        return testArticle.toDto();
+    default CompanyArticleDto createTestCompanyArticleDto() {
+        return testCompanyArticle.toDto();
     }
 
-    default CompanyArticleDto createTestNewArticleDto() {
-        return testNewArticle.toDto();
+    default CompanyArticleDto createTestNewCompanyArticleDto() {
+        return testNewCompanyArticle.toDto();
     }
 
     /**

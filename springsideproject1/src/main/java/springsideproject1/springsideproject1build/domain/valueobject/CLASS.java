@@ -9,6 +9,8 @@ public abstract class CLASS {
     public static final String DATE = "date";
     public static final String LINK = "link";
     public static final String IMPORTANCE = "importance";
+    public static final String IMAGE_PATH = "imagePath";
+    public static final String SUMMARY = "summary";
 
     // Company
     public static final String COMPANY = "company";

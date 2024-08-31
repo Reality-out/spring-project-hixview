@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <p th:text="|#{company} #{article} #{data.main}을 #{function.register}합니다.|"></p>
+    <form th:action th:object="${article}" method="POST">
+        <div th:if="${error} != null" th:classappend="errorMessage">
+            <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
+        </div>
+        <div>
+            <div class="partialForm">
+                <label for="name" th:text="#{article.name}"></label>
+                <input type="text" id="name" th:field="*{name}" size="20">
+                <div class="errorMessage" th:errors="*{name}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="imagePath" th:text="#{article.imagePath}"></label>
+                <input type="text" id="imagePath" th:field="*{imagePath}" size="20" th:errorclass="errorMessage">
+                <div class="errorMessage" th:errors="*{imagePath}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="summary" th:text="#{article.summary}"></label>
+                <input type="text" id="summary" th:field="*{summary}" size="20">
+                <div class="errorMessage" th:errors="*{summary}"></div>
+            </div>
+        </div>
+        <button type="submit" th:text="#{function.register}"></button>
+    </form>
+</div>
+</body>
+</html>

@@ -7,14 +7,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
+import springsideproject1.springsideproject1build.domain.error.NotFoundException;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
+import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
 import springsideproject1.springsideproject1build.util.MainUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_CONDITION;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
@@ -28,13 +34,28 @@ public class UserMainController {
     @Autowired
     private final MemberService memberService;
 
+    @Autowired
+    private final CompanyArticleService companyArticleService;
+
+    @Autowired
+    private final CompanyArticleMainService companyArticleMainService;
+
     /**
      * Main
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String processUserMainPage(Model model) {
+        Optional<CompanyArticle> latestCompanyArticleOrEmpty = companyArticleService.findLatestArticles().stream()
+                .filter(article -> companyArticleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
+        if (latestCompanyArticleOrEmpty.isEmpty()) {
+            throw new NotFoundException(NO_ARTICLE_WITH_THAT_CONDITION);
+        }
+        CompanyArticle latestCompanyArticle = latestCompanyArticleOrEmpty.orElseThrow();
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
+        model.addAttribute("latestCompanyArticle", latestCompanyArticle);
+        model.addAttribute("latestCompanyArticleMain",
+                companyArticleMainService.findArticleByName(latestCompanyArticle.getName()).orElseThrow());
         return "user/mainPage";
     }
 

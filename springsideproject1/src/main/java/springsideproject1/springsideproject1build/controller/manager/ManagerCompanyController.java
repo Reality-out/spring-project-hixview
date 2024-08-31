@@ -121,8 +121,10 @@ public class ManagerCompanyController {
     public String submitModifyCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                       BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
-                (processValidationErrorModify(companyDto, bindingResult, model)))
+                (processValidationErrorModify(companyDto, bindingResult, model))) {
+            model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        }
         companyService.correctCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;

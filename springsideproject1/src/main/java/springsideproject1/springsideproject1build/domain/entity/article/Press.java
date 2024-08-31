@@ -35,6 +35,7 @@ public enum Press {
     MONEY_TODAY("머니투데이"),
     NEWSIS("뉴시스"),
     NEWS_VISION("뉴스비전e"),
+    NEWS_WATCH("뉴스워치"),
     OPINION_NEWS("오피니언뉴스"),
     SBS("SBS"),
     SEOUL_ECONOMY("서울경제"),

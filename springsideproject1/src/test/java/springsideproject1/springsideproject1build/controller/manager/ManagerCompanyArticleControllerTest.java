@@ -81,7 +81,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleAddFinish() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestArticleDto();
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -118,7 +118,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleAddWithStringFinish() throws Exception {
         // given
-        List<String> nameList = Stream.of(testEqualDateArticle, testNewArticle)
+        List<String> nameList = Stream.of(testEqualDateCompanyArticle, testNewCompanyArticle)
                 .map(CompanyArticle::getName).collect(Collectors.toList());
 
         // when
@@ -129,9 +129,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         String nameListString = "nameList";
 
         ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testArticleStringBuffers.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
-                    put(linkString, testArticleStringBuffers.getLinkString());
+                    put(nameDatePressString, testCompanyArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
@@ -161,12 +161,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(testEqualDateArticle);
+                .isEqualTo(testEqualDateCompanyArticle);
 
         assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(testNewArticle);
+                .isEqualTo(testNewCompanyArticle);
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")
@@ -182,7 +182,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void searchNumberCompanyArticleModify() throws Exception {
         // given
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
 
         // when
         article = articleService.registerArticle(article);
@@ -203,7 +203,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void searchNameCompanyArticleModify() throws Exception {
         // given
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
 
         // when
         article = articleService.registerArticle(article);
@@ -224,9 +224,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleModifyFinish() throws Exception {
         // given
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
         String commonName = article.getName();
-        CompanyArticle modifiedArticle = CompanyArticle.builder().article(article)
+        CompanyArticle modifiedArticle = CompanyArticle.builder().article(testNewCompanyArticle)
                 .name(commonName).link(article.getLink()).build();
 
         // when
@@ -255,7 +255,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticlesInquiry() throws Exception {
         // given & when
-        List<CompanyArticle> articleList = articleService.registerArticles(testArticle, testNewArticle);
+        List<CompanyArticle> articleList = articleService.registerArticles(testCompanyArticle, testNewCompanyArticle);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
@@ -279,7 +279,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void numberAccessCompanyArticleRidFinish() throws Exception {
         // given & when
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
         String name = article.getName();
 
         // when
@@ -304,7 +304,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void nameAccessCompanyArticleRidFinish() throws Exception {
         // given & when
-        CompanyArticle article = testArticle;
+        CompanyArticle article = testCompanyArticle;
         String name = article.getName();
 
         // when

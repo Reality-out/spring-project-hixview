@@ -61,9 +61,9 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void NotFoundSubjectCompanyArticleAddWithString() throws Exception {
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString());
+                    put(nameDatePressString, testEqualDateCompanyArticleStringBuffer.getNameDatePressString());
                     put(SUBJECT_COMPANY, INVALID_VALUE);
-                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
+                    put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -78,9 +78,9 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testArticleStringBuffers.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
-                    put(linkString, testEqualDateArticle.getLink());
+                    put(nameDatePressString, testCompanyArticleStringBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateCompanyArticle.getLink());
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -95,9 +95,9 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewArticle).build().getNameDatePressString());
-                    put(SUBJECT_COMPANY, testArticleStringBuffers.getSubjectCompany());
-                    put(linkString, testArticleStringBuffers.getLinkString());
+                    put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewCompanyArticle).build().getNameDatePressString());
+                    put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(addStringArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
@@ -129,9 +129,9 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateArticleStringBuffer.getNameDatePressString().replace("2024", INVALID_VALUE));
-                    put(SUBJECT_COMPANY, testEqualDateArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateArticleStringBuffer.getLinkString());
+                    put(nameDatePressString, testEqualDateCompanyArticleStringBuffer.getNameDatePressString().replace("2024", INVALID_VALUE));
+                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleStringBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
@@ -162,17 +162,17 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void changeNameOrLinkCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticle article = articleService.registerArticle(testArticle);
+        CompanyArticle article = articleService.registerArticle(testCompanyArticle);
         companyService.registerCompany(samsungElectronics);
 
         requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
-                        CompanyArticle.builder().article(article).name(testNewArticle.getName()).build()))
+                        CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null)));
 
         requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
-                        CompanyArticle.builder().article(article).link(testNewArticle.getLink()).build()))
+                        CompanyArticle.builder().article(article).link(testNewCompanyArticle.getLink()).build()))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null)));
