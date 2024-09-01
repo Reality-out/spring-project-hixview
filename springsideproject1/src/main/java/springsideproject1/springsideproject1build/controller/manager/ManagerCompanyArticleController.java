@@ -23,12 +23,10 @@ import springsideproject1.springsideproject1build.domain.validator.article.Compa
 import springsideproject1.springsideproject1build.domain.validator.article.CompanyArticleDtoSubjectCompanyValidator;
 import springsideproject1.springsideproject1build.util.MainUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
+import static springsideproject1.springsideproject1build.domain.entity.article.Press.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
@@ -71,9 +69,12 @@ public class ManagerCompanyArticleController {
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (articleDto.getPress() != null)
+            articleDto.setPress(articleDto.getPress().toUpperCase());
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
                 processValidationErrorAdd(articleDto, bindingResult, model))
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+        checkAndConvertForKoreanPress(articleDto);
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -117,39 +118,40 @@ public class ManagerCompanyArticleController {
         }
 
         List<String> nameList = new ArrayList<>();
-        CompanyArticleDto companyArticleDto = new CompanyArticleDto();
+        CompanyArticleDto articleDto = new CompanyArticleDto();
         try {
             for (int i = 0; i < linkList.size(); i++) {
                 List<String> partialArticle = nameDatePressList.get(i);
 
-                companyArticleDto.setName(partialArticle.get(0));
-                companyArticleDto.setPress(partialArticle.get(4));
-                companyArticleDto.setSubjectCompany(subjectCompany);
-                companyArticleDto.setLink(linkList.get(i));
-                companyArticleDto.setYear(parseInt(partialArticle.get(1)));
-                companyArticleDto.setMonth(parseInt(partialArticle.get(2)));
-                companyArticleDto.setDays(parseInt(partialArticle.get(3)));
-                companyArticleDto.setImportance(0);
+                articleDto.setName(partialArticle.get(0));
+                articleDto.setPress(partialArticle.get(4).toUpperCase());
+                articleDto.setSubjectCompany(subjectCompany);
+                articleDto.setLink(linkList.get(i));
+                articleDto.setYear(parseInt(partialArticle.get(1)));
+                articleDto.setMonth(parseInt(partialArticle.get(2)));
+                articleDto.setDays(parseInt(partialArticle.get(3)));
+                articleDto.setImportance(0);
 
-                BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(companyArticleDto, ARTICLE);
-                defaultValidator.validate(companyArticleDto, bindingResult);
+                BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(articleDto, ARTICLE);
+                defaultValidator.validate(articleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
                 }
-                constraintValidator.validate(companyArticleDto, bindingResult);
-                nameValidator.validate(companyArticleDto, bindingResult);
-                linkValidator.validate(companyArticleDto, bindingResult);
+                constraintValidator.validate(articleDto, bindingResult);
+                nameValidator.validate(articleDto, bindingResult);
+                linkValidator.validate(articleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
+                checkAndConvertForKoreanPress(articleDto);
                 nameList.add(articleService.registerArticle(
-                        CompanyArticle.builder().articleDto(companyArticleDto).build()).getName());
+                        CompanyArticle.builder().articleDto(articleDto).build()).getName());
             }
             finishForRedirect("", redirect, MainUtils.encodeWithUTF8(nameList),
                     false, null);
         } catch (NumberFormatException e) {
-            if (companyArticleDto.getImportance() == null ||
-                    NUMBER_REGEX_PATTERN.matcher(String.valueOf(companyArticleDto.getImportance())).matches()) {
+            if (articleDto.getImportance() == null ||
+                    NUMBER_REGEX_PATTERN.matcher(String.valueOf(articleDto.getImportance())).matches()) {
                 finishForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(nameList),
                         false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
@@ -214,11 +216,14 @@ public class ManagerCompanyArticleController {
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (articleDto.getPress() != null)
+            articleDto.setPress(articleDto.getPress().toUpperCase());
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
                 processValidationErrorModify(articleDto, bindingResult, model)) {
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
+        checkAndConvertForKoreanPress(articleDto);
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -273,6 +278,12 @@ public class ManagerCompanyArticleController {
     /**
      * Other private methods
      */
+    // Check
+    private void checkAndConvertForKoreanPress(CompanyArticleDto articleDto) {
+        if (containsWithPressValue(articleDto.getPress()))
+            articleDto.setPress(convertToPress(articleDto.getPress()).name());
+    }
+
     // Handle Error
     private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
         if (bindingResult.hasErrors()) {

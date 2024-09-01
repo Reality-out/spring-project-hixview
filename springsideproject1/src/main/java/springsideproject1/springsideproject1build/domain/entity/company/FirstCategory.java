@@ -30,4 +30,13 @@ public enum FirstCategory {
         }
         return false;
     }
+
+    public static FirstCategory convertToFirstCategory(String str) {
+        for (FirstCategory enumValue : FirstCategory.values()) {
+            if (enumValue.name().equals(str)) {
+                return enumValue;
+            }
+        }
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 package springsideproject1.springsideproject1build.domain.validator.article;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,12 +13,15 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
+import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.IMPORTANCE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
 
 @Component
 public class CompanyArticleDtoConstraintValidator implements Validator {
+
+    private static final Logger log = LoggerFactory.getLogger(CompanyArticleDtoConstraintValidator.class);
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {
@@ -30,7 +35,7 @@ public class CompanyArticleDtoConstraintValidator implements Validator {
         LocalDate maxDate = LocalDate.now();
 
         // press
-        if (!containsWithPress(articleDto.getPress())) {
+        if (!containsWithPress(articleDto.getPress()) && !containsWithPressValue(articleDto.getPress())) {
             errors.rejectValue(PRESS, "typeMismatch.enum");
         }
 

@@ -17,6 +17,7 @@ public interface EXCEPTION_MESSAGE {
     String EMPTY_ARTICLE = "기사가 비어 있습니다.";
 
     // NotFoundException
+    String NO_PRESS_WITH_THAT_PRESS_VALUE = "해당 한글 언론사와 일치하는 영문 언론사가 없습니다.";
     String NO_ARTICLE_WITH_THAT_NAME = "해당 기사명과 일치하는 기사가 없습니다.";
     String NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME = "해당 기사 번호 또는 기사명과 일치하는 기사가 없습니다.";
     String NO_ARTICLE_WITH_THAT_CONDITION = "해당 조건에 부합하는 기사가 없습니다.";

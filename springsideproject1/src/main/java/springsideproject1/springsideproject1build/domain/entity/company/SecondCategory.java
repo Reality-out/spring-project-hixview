@@ -28,4 +28,13 @@ public enum SecondCategory {
         }
         return false;
     }
+
+    public static SecondCategory convertToSecondCategory(String str) {
+        for (SecondCategory enumValue : SecondCategory.values()) {
+            if (enumValue.name().equals(str)) {
+                return enumValue;
+            }
+        }
+        return null;
+    }
 }
