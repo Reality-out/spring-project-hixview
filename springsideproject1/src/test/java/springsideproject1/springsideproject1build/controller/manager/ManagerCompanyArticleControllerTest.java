@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.article.Press;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
@@ -82,88 +83,36 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleAddFinish() throws Exception {
         // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        CompanyArticleDto articleDtoOriginal = createTestCompanyArticleDto();
+        CompanyArticleDto articleDtoKoreanPress = createTestCompanyArticleDto();
+        articleDtoKoreanPress.setPress(Press.valueOf(articleDtoKoreanPress.getPress()).getPressValue());
+        CompanyArticleDto articleDtoLowercasePress = createTestCompanyArticleDto();
+        articleDtoLowercasePress.setPress(Press.valueOf(articleDtoLowercasePress.getPress()).name().toLowerCase());
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
+        for (CompanyArticleDto articleDto : List.of(articleDtoOriginal, articleDtoKoreanPress, articleDtoLowercasePress)) {
+            mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME,
-                        encodeWithUTF8(articleDto.getName())))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(VALUE, articleDto.getName()));
+            mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME,
+                            encodeWithUTF8(articleDto.getName())))
+                    .andExpectAll(status().isOk(),
+                            view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
+                            model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                            model().attribute(VALUE, articleDto.getName()));
 
-        assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(articleDto);
-    }
+            assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
+                    .usingRecursiveComparison()
+                    .ignoringFields(NUMBER)
+                    .isEqualTo(articleDtoOriginal);
 
-    @DisplayName("언론사가 한글인 기업 기사 추가 완료 페이지 접속")
-    @Test
-    public void accessKoreanPressCompanyArticleAddFinish() throws Exception {
-        // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setPress(Press.valueOf(articleDto.getPress()).getPressValue());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
-
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME,
-                        encodeWithUTF8(articleDto.getName())))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(VALUE, articleDto.getName()));
-
-        assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(articleDto);
-    }
-
-    @DisplayName("언론사가 소문자인 기업 기사 추가 완료 페이지 접속")
-    @Test
-    public void accessLowerCasePressCompanyArticleAddFinish() throws Exception {
-        // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setPress(Press.valueOf(articleDto.getPress()).name().toLowerCase());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
-
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME,
-                        encodeWithUTF8(articleDto.getName())))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(VALUE, articleDto.getName()));
-
-        articleDto.setPress(createTestCompanyArticleDto().getPress());
-
-        assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(articleDto);
+            articleService.removeArticleByName(articleDto.getName());
+        }
     }
 
     @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
@@ -179,173 +128,71 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleAddWithStringFinish() throws Exception {
         // given
-        List<String> nameList = Stream.of(testEqualDateCompanyArticle, testNewCompanyArticle)
-                .map(CompanyArticle::getName).collect(Collectors.toList());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
-
-        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testCompanyArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testCompanyArticleStringBuffer.getLinkString());
-                }}))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView()).getModelMap();
-
-        assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-        assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-        assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
-
-        ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
-                        ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
-                        new HashMap<>() {{
-                            put(nameListString, nameListForURL);
-                            put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
-                            put(ERROR_SINGLE, null);
-                        }}))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
-                .andReturn().getModelAndView()).getModelMap();
-
-        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
-        assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
-        assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
-
-        assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(testEqualDateCompanyArticle);
-
-        assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(testNewCompanyArticle);
-    }
-
-    @DisplayName("언론사가 한글인, 문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
-    @Test
-    public void accessKoreanPressCompanyArticleAddWithStringFinish() throws Exception {
-        // given
         CompanyArticle article1 = testEqualDateCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
+        CompanyArticleBufferSimple articleBuffer = testCompanyArticleStringBuffer;
+
         List<String> nameList = Stream.of(article1, article2)
                 .map(CompanyArticle::getName).collect(Collectors.toList());
+        String nameListForURL = toStringForUrl(nameList);
+        String nameListString = "nameList";
+
+        String articleStringOriginal = articleBuffer.getNameDatePressString();
+        String articleStringKoreanPress = testCompanyArticleStringBuffer.getNameDatePressString()
+                .replace(article1.getPress().name(), article1.getPress().getPressValue())
+                .replace(article2.getPress().name(), article2.getPress().getPressValue());
+        String articleStringLowercasePress = testCompanyArticleStringBuffer.getNameDatePressString()
+                .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
+                .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
+        for (String articleString : List.of(articleStringOriginal, articleStringKoreanPress, articleStringLowercasePress)) {
+            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                        put(nameDatePressString, articleString);
+                        put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
+                        put(linkString, articleBuffer.getLinkString());
+                    }}))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                    .andReturn().getModelAndView()).getModelMap();
 
-        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testCompanyArticleStringBuffer.getNameDatePressString()
-                            .replace(article1.getPress().name(), article1.getPress().getPressValue())
-                            .replace(article2.getPress().name(), article2.getPress().getPressValue()));
-                    put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testCompanyArticleStringBuffer.getLinkString());
-                }}))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView()).getModelMap();
+            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
-        assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-        assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-        assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+            ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
+                            ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
+                            new HashMap<>() {{
+                                put(nameListString, nameListForURL);
+                                put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
+                                put(ERROR_SINGLE, null);
+                            }}))
+                    .andExpectAll(status().isOk(),
+                            view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
+                            model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                            model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
+                    .andReturn().getModelAndView()).getModelMap();
 
-        ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
-                        ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
-                        new HashMap<>() {{
-                            put(nameListString, nameListForURL);
-                            put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
-                            put(ERROR_SINGLE, null);
-                        }}))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
-                .andReturn().getModelAndView()).getModelMap();
+            assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
+            assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
+            assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
 
-        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
-        assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
-        assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
+            assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
+                    .usingRecursiveComparison()
+                    .ignoringFields(NUMBER)
+                    .isEqualTo(article1);
 
-        assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
+            assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
+                    .usingRecursiveComparison()
+                    .ignoringFields(NUMBER)
+                    .isEqualTo(article2);
 
-        assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
-    }
-
-   @DisplayName("언론사가 소문자인, 문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
-    @Test
-    public void accessLowerCasePressCompanyArticleAddWithStringFinish() throws Exception {
-        // given
-        CompanyArticle article1 = testEqualDateCompanyArticle;
-        CompanyArticle article2 = testNewCompanyArticle;
-        List<String> nameList = Stream.of(article1, article2)
-                .map(CompanyArticle::getName).collect(Collectors.toList());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
-
-        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testCompanyArticleStringBuffer.getNameDatePressString()
-                            .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
-                            .replace(article2.getPress().name(), article2.getPress().name().toLowerCase()));
-                    put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testCompanyArticleStringBuffer.getLinkString());
-                }}))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
-                .andReturn().getModelAndView()).getModelMap();
-
-        assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-        assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-        assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
-
-        ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
-                        ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX,
-                        new HashMap<>() {{
-                            put(nameListString, nameListForURL);
-                            put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
-                            put(ERROR_SINGLE, null);
-                        }}))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
-                .andReturn().getModelAndView()).getModelMap();
-
-        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
-        assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
-        assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
-
-        assertThat(articleService.findArticleByName(nameList.getFirst()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(articleService.findArticleByName(nameList.getLast()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
+            articleService.removeArticleByName(article1.getName());
+            articleService.removeArticleByName(article2.getName());
+        }
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")
@@ -403,101 +250,42 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleModifyFinish() throws Exception {
         // given
-        CompanyArticle article = testCompanyArticle;
-        String commonName = article.getName();
-        CompanyArticle modifiedArticle = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(commonName).link(article.getLink()).build();
+        CompanyArticle beforeModifiedArticle = testCompanyArticle;
+        String commonName = beforeModifiedArticle.getName();
+        CompanyArticleDto articleDtoOriginal = CompanyArticle.builder().article(testNewCompanyArticle)
+                .name(commonName).link(beforeModifiedArticle.getLink()).build().toDto();
+        CompanyArticleDto articleDtoKoreanPress = CompanyArticle.builder().article(testNewCompanyArticle)
+                .name(commonName).link(beforeModifiedArticle.getLink()).build().toDto();
+        articleDtoKoreanPress.setPress(Press.valueOf(articleDtoKoreanPress.getPress()).getPressValue());
+        CompanyArticleDto articleDtoLowercasePress = CompanyArticle.builder().article(testNewCompanyArticle)
+                .name(commonName).link(beforeModifiedArticle.getLink()).build().toDto();
+        articleDtoLowercasePress.setPress(
+                Press.valueOf(articleDtoLowercasePress.getPress()).name().toLowerCase());
 
         // when
         companyService.registerCompany(samsungElectronics);
-        articleService.registerArticle(article);
+        articleService.registerArticle(beforeModifiedArticle);
 
         // then
-        mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl, modifiedArticle))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
+        for (CompanyArticleDto articleDto : List.of(articleDtoOriginal, articleDtoKoreanPress, articleDtoLowercasePress)) {
+            mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(commonName)));
 
-        mockMvc.perform(getWithSingleParam(modifyArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
-                .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(VALUE, commonName));
+            mockMvc.perform(getWithSingleParam(modifyArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
+                    .andExpectAll(status().isOk(),
+                            view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
+                            model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
+                            model().attribute(VALUE, commonName));
 
-        assertThat(articleService.findArticleByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(modifiedArticle);
-    }
+            assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDtoOriginal);
 
-    @DisplayName("언론사가 한글인, 기업 기사 변경 완료 페이지 접속")
-    @Test
-    public void accessKoreanPressCompanyArticleModifyFinish() throws Exception {
-        // given
-        CompanyArticle article = testCompanyArticle;
-        String commonName = article.getName();
-        CompanyArticleDto modifiedArticleDto = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(commonName).link(article.getLink()).build().toDto();
-        modifiedArticleDto.setPress(Press.valueOf(modifiedArticleDto.getPress()).getPressValue());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-        articleService.registerArticle(article);
-
-        // then
-        mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, modifiedArticleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
-
-        mockMvc.perform(getWithSingleParam(modifyArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
-                .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(VALUE, commonName));
-
-        modifiedArticleDto.setPress(testNewCompanyArticle.getPress().name());
-
-        assertThat(articleService.findArticleByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(CompanyArticle.builder().articleDto(modifiedArticleDto)
-                        .press(testNewCompanyArticle.getPress()).build());
-    }
-
-    @DisplayName("언론사가 소문자인, 기업 기사 변경 완료 페이지 접속")
-    @Test
-    public void accessLowerCaseCompanyArticleModifyFinish() throws Exception {
-        // given
-        CompanyArticle article = testCompanyArticle;
-        String commonName = article.getName();
-        CompanyArticleDto modifiedArticleDto = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(commonName).link(article.getLink()).build().toDto();
-        modifiedArticleDto.setPress(Press.valueOf(modifiedArticleDto.getPress()).name().toLowerCase());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-        articleService.registerArticle(article);
-
-        // then
-        mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, modifiedArticleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
-
-        mockMvc.perform(getWithSingleParam(modifyArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
-                .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(VALUE, commonName));
-
-        modifiedArticleDto.setPress(testNewCompanyArticle.getPress().name());
-
-        assertThat(articleService.findArticleByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(CompanyArticle.builder().articleDto(modifiedArticleDto)
-                        .press(testNewCompanyArticle.getPress()).build());
+            articleService.removeArticleByName(articleDto.getName());
+            articleService.registerArticle(beforeModifiedArticle);
+        }
     }
 
     @DisplayName("기업 기사들 조회 페이지 접속")

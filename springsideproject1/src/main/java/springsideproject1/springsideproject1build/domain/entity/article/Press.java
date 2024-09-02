@@ -3,7 +3,7 @@ package springsideproject1.springsideproject1build.domain.entity.article;
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_PRESS_WITH_THAT_PRESS_VALUE;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_PRESS_WITH_THAT_VALUE;
 
 @Getter
 public enum Press {
@@ -82,6 +82,6 @@ public enum Press {
                 return enumValue;
             }
         }
-        throw new NotFoundException(NO_PRESS_WITH_THAT_PRESS_VALUE);
+        throw new NotFoundException(NO_PRESS_WITH_THAT_VALUE);
     }
 }

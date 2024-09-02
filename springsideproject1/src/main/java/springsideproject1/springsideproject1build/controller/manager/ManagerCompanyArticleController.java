@@ -74,7 +74,7 @@ public class ManagerCompanyArticleController {
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
                 processValidationErrorAdd(articleDto, bindingResult, model))
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-        checkAndConvertForKoreanPress(articleDto);
+        checkAndConvertForKoreanEnum(articleDto);
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -143,7 +143,7 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                checkAndConvertForKoreanPress(articleDto);
+                checkAndConvertForKoreanEnum(articleDto);
                 nameList.add(articleService.registerArticle(
                         CompanyArticle.builder().articleDto(articleDto).build()).getName());
             }
@@ -223,7 +223,7 @@ public class ManagerCompanyArticleController {
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
-        checkAndConvertForKoreanPress(articleDto);
+        checkAndConvertForKoreanEnum(articleDto);
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -279,7 +279,7 @@ public class ManagerCompanyArticleController {
      * Other private methods
      */
     // Check
-    private void checkAndConvertForKoreanPress(CompanyArticleDto articleDto) {
+    private void checkAndConvertForKoreanEnum(CompanyArticleDto articleDto) {
         if (containsWithPressValue(articleDto.getPress()))
             articleDto.setPress(convertToPress(articleDto.getPress()).name());
     }
