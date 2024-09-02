@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_MAIN_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Repository
@@ -32,20 +32,20 @@ public class CompanyArticleMainRepositoryImpl implements CompanyArticleMainRepos
      */
     @Override
     public List<CompanyArticleMain> getArticles() {
-        return jdbcTemplate.query("select * from " + COMPANY_ARTICLE_MAIN_TABLE, articleRowMapper());
+        return jdbcTemplate.query("select * from " + TEST_COMPANY_ARTICLE_MAIN_TABLE, articleRowMapper());
     }
 
     @Override
     public Optional<CompanyArticleMain> getArticleByNumber(Long number) {
         List<CompanyArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + COMPANY_ARTICLE_MAIN_TABLE + " where number = ?", articleRowMapper(), number);
+                "select * from " + TEST_COMPANY_ARTICLE_MAIN_TABLE + " where number = ?", articleRowMapper(), number);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<CompanyArticleMain> getArticleByName(String name) {
         List<CompanyArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + COMPANY_ARTICLE_MAIN_TABLE + " where name = ?", articleRowMapper(), name);
+                "select * from " + TEST_COMPANY_ARTICLE_MAIN_TABLE + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
@@ -54,7 +54,7 @@ public class CompanyArticleMainRepositoryImpl implements CompanyArticleMainRepos
      */
     @Override
     public Long saveArticle(CompanyArticleMain article) {
-        return new SimpleJdbcInsert(jdbcTemplate).withTableName(COMPANY_ARTICLE_MAIN_TABLE).usingGeneratedKeyColumns("number")
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_COMPANY_ARTICLE_MAIN_TABLE).usingGeneratedKeyColumns("number")
                 .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
@@ -63,7 +63,7 @@ public class CompanyArticleMainRepositoryImpl implements CompanyArticleMainRepos
      */
     @Override
     public void updateArticle(CompanyArticleMain article) {
-        jdbcTemplate.update("update " + COMPANY_ARTICLE_MAIN_TABLE + " set imagePath = ?, summary = ? where name = ?",
+        jdbcTemplate.update("update " + TEST_COMPANY_ARTICLE_MAIN_TABLE + " set imagePath = ?, summary = ? where name = ?",
                 article.getImagePath(), article.getSummary(), article.getName());
     }
 
@@ -72,7 +72,7 @@ public class CompanyArticleMainRepositoryImpl implements CompanyArticleMainRepos
      */
     @Override
     public void deleteArticleByName(String name) {
-        jdbcTemplate.update("delete from " + COMPANY_ARTICLE_MAIN_TABLE + " where name = ?", name);
+        jdbcTemplate.update("delete from " + TEST_COMPANY_ARTICLE_MAIN_TABLE + " where name = ?", name);
     }
 
     /**

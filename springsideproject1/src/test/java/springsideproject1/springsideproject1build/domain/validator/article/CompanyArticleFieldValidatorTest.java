@@ -26,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.ADD_PROCESS_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -55,8 +55,8 @@ public class CompanyArticleFieldValidatorTest implements CompanyArticleTestUtils
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
     @DisplayName("중복 기사명을 사용하는 기업 기사 추가")

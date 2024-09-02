@@ -4,7 +4,7 @@
 <div>
     <p th:text="|#{company} #{article}를 #{function.register}합니다.|"></p>
     <form th:action method="POST">
-        <div th:if="${error} != null" th:classappend="errorMessage">
+        <div th:if="${error} != null" th:classappend="txt-errorMessage">
             <th:block th:switch="${error}">
                 <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
                 <p th:case="notFoundCompanyError" th:text="#{NotFound.company}"></p>

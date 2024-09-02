@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
@@ -53,8 +53,8 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")

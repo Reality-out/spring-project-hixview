@@ -16,6 +16,8 @@ import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.MEMBERSHIP_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 
@@ -47,43 +49,32 @@ public class MemberDefaultValidatorTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
     }
 
-    @DisplayName("NotBlank(공백)에 대한 회원 가입 유효성 검증")
+    @DisplayName("NotBlank에 대한 회원 가입 유효성 검증")
     @Test
-    public void validateNotBlankSpaceMembership() throws Exception {
+    public void validateNotBlankMembership() throws Exception {
         // given & when
-        MemberDto memberDto = createTestMemberDto();
-        memberDto.setId(" ");
-        memberDto.setPassword(" ");
-        memberDto.setName(" ");
-        memberDto.setPhoneNumber(" ");
+        MemberDto memberDtoSpace = createTestMemberDto();
+        memberDtoSpace.setId(" ");
+        memberDtoSpace.setPassword(" ");
+        memberDtoSpace.setName(" ");
+        memberDtoSpace.setPhoneNumber(" ");
+        MemberDto memberDtoNull = createTestMemberDto();
+        memberDtoNull.setId(null);
+        memberDtoNull.setPassword(null);
+        memberDtoNull.setName(null);
+        memberDtoNull.setPhoneNumber(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
-                .andExpectAll(view().name(membershipProcessPage))
-                .andReturn().getModelAndView()).getModelMap().get(MEMBER))
-                .usingRecursiveComparison()
-                .isEqualTo(memberDto);
-    }
-
-    @DisplayName("NotBlank(null)에 대한 회원 가입 유효성 검증")
-    @Test
-    public void validateNotBlankNullMembership() throws Exception {
-        // given & when
-        MemberDto memberDto = createTestMemberDto();
-        memberDto.setId(null);
-        memberDto.setPassword(null);
-        memberDto.setName(null);
-        memberDto.setPhoneNumber(null);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
-                .andExpectAll(view().name(membershipProcessPage))
-                .andReturn().getModelAndView()).getModelMap().get(MEMBER))
-                .usingRecursiveComparison()
-                .isEqualTo(memberDto);
+        for (MemberDto memberDto : List.of(memberDtoSpace, memberDtoNull)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDtoSpace))
+                    .andExpectAll(view().name(membershipProcessPage))
+                    .andReturn().getModelAndView()).getModelMap().get(MEMBER))
+                    .usingRecursiveComparison()
+                    .isEqualTo(memberDtoSpace);
+        }
     }
 
     @DisplayName("NotNull에 대한 회원 가입 유효성 검증")

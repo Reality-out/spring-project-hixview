@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.MEMBERSHIP_URL;
 
 @SpringBootTest
@@ -42,7 +42,7 @@ public class MemberConstraintValidatorTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
     }
 
     @DisplayName("date의 Restrict에 대한 회원 가입 유효성 검증")

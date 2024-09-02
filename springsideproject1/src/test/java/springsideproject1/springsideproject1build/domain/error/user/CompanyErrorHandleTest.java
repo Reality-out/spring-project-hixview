@@ -18,7 +18,7 @@ import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SEARCH_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SUB_URL;
 
@@ -42,7 +42,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
     @DisplayName("비어 있는 값을 사용하는 기업 검색")

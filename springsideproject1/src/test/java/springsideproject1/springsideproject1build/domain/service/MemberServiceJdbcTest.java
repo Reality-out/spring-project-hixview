@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_MEMBER_ID;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_MEMBER_WITH_THAT_ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -34,7 +34,7 @@ class MemberServiceJdbcTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
     }
 
     @DisplayName("회원 가입")

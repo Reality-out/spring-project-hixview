@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
@@ -49,7 +49,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
     @DisplayName("기업 추가 페이지 접속")

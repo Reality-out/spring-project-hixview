@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -35,7 +35,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
     }
 
     @DisplayName("회원들 획득")

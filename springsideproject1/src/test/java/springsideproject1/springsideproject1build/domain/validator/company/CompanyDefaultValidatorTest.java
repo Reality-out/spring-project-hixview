@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_URL;
 
@@ -46,7 +46,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
     @DisplayName("NotBlank(공백)에 대한 기업 추가 유효성 검증")

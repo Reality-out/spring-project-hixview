@@ -16,17 +16,17 @@
                 <div class="partialForm">
                     <label for="id">[[#{member.ID}]]</label>
                     <input type="text" id="id" th:field="*{id}" size="20">
-                    <div class="errorMessage" th:errors="*{id}"></div>
+                    <div class="txt-errorMessage" th:errors="*{id}"></div>
                 </div>
                 <div class="partialForm">
                     <label for="password">[[#{member.PW}]]</label>
                     <input type="password" id="password" th:field="*{password}" size="20">
-                    <div class="errorMessage" th:errors="*{password}"></div>
+                    <div class="txt-errorMessage" th:errors="*{password}"></div>
                 </div>
                 <div class="partialForm">
                     <label for="name">[[#{member.NAME}]]</label>
                     <input type="text" id="name" th:field="*{name}" size="20">
-                    <div class="errorMessage" th:errors="*{name}"></div>
+                    <div class="txt-errorMessage" th:errors="*{name}"></div>
                 </div>
                 <p>[[#{member.birth}]]</p>
                 <div class="partialForm">
@@ -36,14 +36,14 @@
                     <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
                     <label for="days">[[#{days}]]</label>
                     <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-                    <div class="errorMessage" th:errors="*{year}"></div>
-                    <div class="errorMessage" th:errors="*{month}"></div>
-                    <div class="errorMessage" th:errors="*{days}"></div>
+                    <div class="txt-errorMessage" th:errors="*{year}"></div>
+                    <div class="txt-errorMessage" th:errors="*{month}"></div>
+                    <div class="txt-errorMessage" th:errors="*{days}"></div>
                 </div>
                 <div class="partialForm">
                     <label for="phoneNumber">[[#{member.cellphoneNumber}]]</label>
                     <input type="text" id="phoneNumber" th:field="*{phoneNumber}" size="13">
-                    <div class="errorMessage" th:errors="*{phoneNumber}"></div>
+                    <div class="txt-errorMessage" th:errors="*{phoneNumber}"></div>
                 </div>
             </div>
             <button type="submit">[[#{function.register}]]</button>

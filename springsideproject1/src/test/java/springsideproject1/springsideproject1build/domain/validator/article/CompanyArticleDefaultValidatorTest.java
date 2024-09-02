@@ -26,8 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_ARTICLE_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
@@ -55,8 +55,8 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
     @DisplayName("NotBlank(공백)에 대한 기업 기사 추가 유효성 검증")

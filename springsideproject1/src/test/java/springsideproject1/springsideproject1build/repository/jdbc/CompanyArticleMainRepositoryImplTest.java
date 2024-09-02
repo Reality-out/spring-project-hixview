@@ -17,7 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_MAIN_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -35,7 +35,7 @@ class CompanyArticleMainRepositoryImplTest implements CompanyArticleMainTestUtil
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_MAIN_TABLE, true);
     }
 
     @DisplayName("기업 기사들 메인 획득")

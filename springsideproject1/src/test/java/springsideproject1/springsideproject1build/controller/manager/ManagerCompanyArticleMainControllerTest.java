@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_MAIN_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
@@ -51,7 +51,7 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_MAIN_TABLE, true);
     }
 
     @DisplayName("기업 기사 메인 추가 페이지 접속")

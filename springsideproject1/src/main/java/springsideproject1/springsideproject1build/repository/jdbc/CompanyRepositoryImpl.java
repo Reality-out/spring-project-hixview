@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Repository
@@ -32,20 +32,20 @@ public class CompanyRepositoryImpl implements CompanyRepository {
      */
     @Override
     public List<Company> getCompanies() {
-        return jdbcTemplate.query("select * from " + COMPANY_TABLE, companyRowMapper());
+        return jdbcTemplate.query("select * from " + TEST_COMPANY_TABLE, companyRowMapper());
     }
 
     @Override
     public Optional<Company> getCompanyByCode(String code) {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
-                "select * from " + COMPANY_TABLE + "  where code = ?", companyRowMapper(), code);
+                "select * from " + TEST_COMPANY_TABLE + "  where code = ?", companyRowMapper(), code);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
     }
 
     @Override
     public Optional<Company> getCompanyByName(String name) {
         List<Company> oneCompanyOrNull = jdbcTemplate.query(
-                "select * from " + COMPANY_TABLE + " where name = ?", companyRowMapper(), name);
+                "select * from " + TEST_COMPANY_TABLE + " where name = ?", companyRowMapper(), name);
         return oneCompanyOrNull.isEmpty() ? Optional.empty() : Optional.of(oneCompanyOrNull.getFirst());
     }
 
@@ -54,7 +54,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
      */
     @Override
     public void saveCompany(Company company) {
-        new SimpleJdbcInsert(jdbcTemplate).withTableName(COMPANY_TABLE).execute(new MapSqlParameterSource(company.toMap()));
+        new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_COMPANY_TABLE).execute(new MapSqlParameterSource(company.toMap()));
     }
 
     /**
@@ -62,7 +62,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
      */
     @Override
     public void updateCompany(Company company) {
-        jdbcTemplate.update("update " + COMPANY_TABLE +
+        jdbcTemplate.update("update " + TEST_COMPANY_TABLE +
                         " set country = ?, scale = ?, name = ?, firstCategory = ?, secondCategory = ? where code = ?",
                 company.getCountry().name(), company.getScale().name(), company.getName(),
                 company.getFirstCategory().name(), company.getSecondCategory().name(), company.getCode());
@@ -73,7 +73,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
      */
     @Override
     public void deleteCompanyByCode(String code) {
-        jdbcTemplate.execute("delete from " + COMPANY_TABLE + " where code = '" + code + "'");
+        jdbcTemplate.execute("delete from " + TEST_COMPANY_TABLE + " where code = '" + code + "'");
     }
 
     /**

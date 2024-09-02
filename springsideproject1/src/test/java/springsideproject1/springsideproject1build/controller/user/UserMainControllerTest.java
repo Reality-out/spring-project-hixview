@@ -61,9 +61,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_MAIN_TABLE, true);
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
     }
 
     @DisplayName("쿼리 문자열에서의 특수문자 처리 방식 확인")

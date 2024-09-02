@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_MAIN_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_MAIN_WITH_THAT_NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
 
 @SpringBootTest
 @Transactional
@@ -38,7 +38,7 @@ class CompanyArticleMainServiceJdbcTest implements CompanyArticleMainTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
     }
 
     @DisplayName("기업 기사 메인들 동시 등록")
