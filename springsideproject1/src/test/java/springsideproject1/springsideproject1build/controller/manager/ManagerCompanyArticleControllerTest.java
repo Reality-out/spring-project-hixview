@@ -171,7 +171,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                                 put(ERROR_SINGLE, null);
                             }}))
                     .andExpectAll(status().isOk(),
-                            view().name(ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage"),
+                            view().name(ADD_COMPANY_ARTICLE_VIEW + "multiple-finish-page"),
                             model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                             model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
                     .andReturn().getModelAndView()).getModelMap();
@@ -292,7 +292,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "companyArticlesPage"))
+                        view().name(MANAGER_SELECT_VIEW + "company-articles-page"))
                 .andReturn().getModelAndView()).getModelMap().get("articles"))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);

@@ -56,7 +56,7 @@ public class UserMainController {
         model.addAttribute("latestCompanyArticle", latestCompanyArticle);
         model.addAttribute("latestCompanyArticleMain",
                 companyArticleMainService.findArticleByName(latestCompanyArticle.getName()).orElseThrow());
-        return "user/mainPage";
+        return USER_HOME_VIEW;
     }
 
     /**
@@ -67,7 +67,7 @@ public class UserMainController {
     public String processLoginPage(Model model) {
         model.addAttribute("membership", MEMBERSHIP_URL);
         model.addAttribute("findId", FIND_ID_URL);
-        return USER_LOGIN_VIEW + "loginPage";
+        return USER_LOGIN_VIEW + "login-page";
     }
 
     /**

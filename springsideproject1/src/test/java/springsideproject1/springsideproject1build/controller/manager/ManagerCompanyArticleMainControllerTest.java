@@ -179,7 +179,7 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "companyArticleMainsPage"))
+                        view().name(MANAGER_SELECT_VIEW + "company-article-mains-page"))
                 .andReturn().getModelAndView()).getModelMap().get("articleMains"))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);

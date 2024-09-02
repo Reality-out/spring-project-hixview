@@ -96,7 +96,7 @@ public class ManagerCompanyController {
     public String processSeeCompanies(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("companies", companyService.findCompanies());
-        return MANAGER_SELECT_VIEW + "companiesPage";
+        return MANAGER_SELECT_VIEW + "companies-page";
     }
 
     /**

@@ -29,6 +29,6 @@ public class ManagerMemberController {
     public String processSeeMembers(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("members", memberService.findMembers());
-        return MANAGER_SELECT_VIEW + "membersPage";
+        return MANAGER_SELECT_VIEW + "members-page";
     }
 }

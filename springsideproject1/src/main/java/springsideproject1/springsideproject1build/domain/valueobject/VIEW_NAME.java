@@ -6,8 +6,8 @@ public abstract class VIEW_NAME {
      */
 
     // Suffix
-    public static final String VIEW_SUB_SUFFIX = "subPage";
-    public static final String VIEW_SHOW_SUFFIX = "showPage";
+    public static final String VIEW_SUB_SUFFIX = "sub-page";
+    public static final String VIEW_SHOW_SUFFIX = "show-page";
 
     // Others
     public static final String MEMBERSHIP_VIEW = "user/membership/";
@@ -15,17 +15,19 @@ public abstract class VIEW_NAME {
     public static final String USER_FIND_ID_VIEW = "user/login/findid/";
     public static final String USER_COMPANY_VIEW = "user/company/";
 
+    public static final String USER_HOME_VIEW = "user/main-page";
+
     /**
      * Manager
      */
 
     // Suffix
-    public static final String VIEW_PROCESS_SUFFIX = "processPage";
-    public static final String VIEW_FINISH_SUFFIX = "finishPage";
-    public static final String VIEW_BEFORE_PROCESS_SUFFIX = "beforeProcessPage";
-    public static final String VIEW_AFTER_PROCESS_SUFFIX = "afterProcessPage";
-    public static final String VIEW_SINGLE_PROCESS_SUFFIX = "singleProcessPage";
-    public static final String VIEW_SINGLE_FINISH_SUFFIX = "singleFinishPage";
+    public static final String VIEW_PROCESS_SUFFIX = "process-page";
+    public static final String VIEW_FINISH_SUFFIX = "finish-page";
+    public static final String VIEW_BEFORE_PROCESS_SUFFIX = "before-process-page";
+    public static final String VIEW_AFTER_PROCESS_SUFFIX = "after-process-page";
+    public static final String VIEW_SINGLE_PROCESS_SUFFIX = "single-process-page";
+    public static final String VIEW_SINGLE_FINISH_SUFFIX = "single-finish-page";
 
     // Others
     public static final String MANAGER_SELECT_VIEW = "manager/select/";
@@ -41,4 +43,6 @@ public abstract class VIEW_NAME {
     public static final String ADD_COMPANY_VIEW = "manager/add/company/";
     public static final String UPDATE_COMPANY_VIEW = "manager/update/company/";
     public static final String REMOVE_COMPANY_VIEW = "manager/remove/company/";
+
+    public static final String MANAGER_HOME_VIEW = "manager/main-page";
 }

@@ -196,7 +196,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "companiesPage"))
+                        view().name(MANAGER_SELECT_VIEW + "companies-page"))
                 .andReturn().getModelAndView()).getModelMap().get("companies"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(skHynix, samsungElectronics));

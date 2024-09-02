@@ -75,7 +75,7 @@ public class ManagerCompanyArticleMainController {
     public String processSeeCompanyArticleMains(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articleMains", articleMainService.findArticles());
-        return MANAGER_SELECT_VIEW + "companyArticleMainsPage";
+        return MANAGER_SELECT_VIEW + "company-article-mains-page";
     }
 
     /**

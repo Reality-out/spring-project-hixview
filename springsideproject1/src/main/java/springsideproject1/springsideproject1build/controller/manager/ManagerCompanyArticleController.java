@@ -95,13 +95,13 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompanyArticlesWithString(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        return ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+        return ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
     }
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
     public String submitAddCompanyArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
                                                      @RequestParam String subjectCompany, RedirectAttributes redirect, Model model) {
-        String senderPage = ADD_COMPANY_ARTICLE_VIEW + "multipleStringProcessPage";
+        String senderPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
         if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
             finishForRollback(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
             return senderPage;
@@ -173,7 +173,7 @@ public class ManagerCompanyArticleController {
         model.addAttribute("nameList", MainUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
-        return ADD_COMPANY_ARTICLE_VIEW + "multipleFinishPage";
+        return ADD_COMPANY_ARTICLE_VIEW + "multiple-finish-page";
     }
 
     /**
@@ -184,7 +184,7 @@ public class ManagerCompanyArticleController {
     public String processSeeCompanyArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articles", articleService.findArticles());
-        return MANAGER_SELECT_VIEW + "companyArticlesPage";
+        return MANAGER_SELECT_VIEW + "company-articles-page";
     }
 
     /**

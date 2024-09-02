@@ -108,7 +108,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
         // then
         mockMvc.perform(getWithNoParam(""))
                 .andExpectAll(status().isOk(),
-                        view().name("user/mainPage"),
+                        view().name(USER_HOME_VIEW),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
     }
 
@@ -117,7 +117,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     public void accessLogin() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_LOGIN_VIEW + "loginPage"),
+                        view().name(USER_LOGIN_VIEW + "login-page"),
                         model().attribute("membership", MEMBERSHIP_URL),
                         model().attribute("findId", FIND_ID_URL));
     }

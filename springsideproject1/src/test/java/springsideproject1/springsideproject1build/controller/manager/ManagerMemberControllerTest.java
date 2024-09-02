@@ -63,7 +63,7 @@ class ManagerMemberControllerTest implements MemberTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_MEMBER_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "membersPage"),
+                        view().name(MANAGER_SELECT_VIEW + "members-page"),
                         model().attribute(LAYOUT_PATH, SELECT_PATH))
                 .andReturn().getModelAndView()).getModelMap().get("members"))
                 .usingRecursiveComparison()
