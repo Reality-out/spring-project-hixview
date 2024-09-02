@@ -60,9 +60,9 @@ class UserCompanyControllerTest implements CompanyTestUtils {
                         model().attribute("companySearch", COMPANY_SEARCH_URL));
     }
 
-    @DisplayName("기업 코드로 검색")
+    @DisplayName("기업 검색")
     @Test
-    public void searchCompanyByCode() throws Exception {
+    public void searchCompany() throws Exception {
         // given
         Company company = samsungElectronics;
 
@@ -77,18 +77,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
-    }
 
-    @DisplayName("기업 이름으로 검색")
-    @Test
-    public void searchCompanyByName() throws Exception {
-        // given
-        Company company = samsungElectronics;
-
-        // when
-        companyService.registerCompany(company);
-
-        // then
         assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),

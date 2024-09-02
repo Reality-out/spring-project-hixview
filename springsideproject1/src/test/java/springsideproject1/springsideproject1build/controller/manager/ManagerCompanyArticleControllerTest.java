@@ -217,9 +217,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
-    @DisplayName("기업 기사 변경 페이지 내 번호 검색")
+    @DisplayName("기업 기사 변경 페이지 검색")
     @Test
-    public void searchNumberCompanyArticleModify() throws Exception {
+    public void searchCompanyArticleModify() throws Exception {
         // given
         CompanyArticle article = testCompanyArticle;
 
@@ -236,18 +236,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
-    }
 
-    @DisplayName("기업 기사 변경 페이지 내 이름 검색")
-    @Test
-    public void searchNameCompanyArticleModify() throws Exception {
-        // given
-        CompanyArticle article = testCompanyArticle;
-
-        // when
-        article = articleService.registerArticle(article);
-
-        // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
                         UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
@@ -324,43 +313,24 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
-    @DisplayName("기사 번호로 기업 기사 없애기 완료 페이지 접속")
+    @DisplayName("기업 기사 없애기 완료 페이지 접속")
     @Test
-    public void numberAccessCompanyArticleRidFinish() throws Exception {
+    public void accessCompanyArticleRidFinish() throws Exception {
         // given & when
         CompanyArticle article = testCompanyArticle;
         String name = article.getName();
 
-        // when
-        article = articleService.registerArticle(article);
+        // when & then
+        Long number = articleService.registerArticle(article).getNumber();
 
-        // then
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
+        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
-                .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
-                        model().attribute(VALUE, name));
-
-        assertThat(articleService.findArticles()).isEmpty();
-    }
-
-    @DisplayName("기사명으로 기업 기사 없애기 완료 페이지 접속")
-    @Test
-    public void nameAccessCompanyArticleRidFinish() throws Exception {
-        // given & when
-        CompanyArticle article = testCompanyArticle;
-        String name = article.getName();
-
-        // when
         articleService.registerArticle(article);
 
-        // then
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", name))
+        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(name)))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));

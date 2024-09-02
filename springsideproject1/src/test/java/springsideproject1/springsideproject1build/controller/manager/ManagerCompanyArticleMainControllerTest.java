@@ -108,18 +108,18 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
-    @DisplayName("기업 기사 메인 변경 페이지 내 번호 검색")
+    @DisplayName("기업 기사 메인 변경 페이지 검색")
     @Test
-    public void searchNumberCompanyArticleMainModify() throws Exception {
+    public void searchCompanyArticleMainModify() throws Exception {
         // given
         CompanyArticleMain article = testCompanyArticleMain;
 
         // when
-        article = articleMainService.registerArticle(article);
+        Long number = articleMainService.registerArticle(article).getNumber();
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(article.getNumber())))
+                        UPDATE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isOk(),
                         view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -127,18 +127,7 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
-    }
 
-    @DisplayName("기업 기사 메인 변경 페이지 내 이름 검색")
-    @Test
-    public void searchNameCompanyArticleMainModify() throws Exception {
-        // given
-        CompanyArticleMain article = testCompanyArticleMain;
-
-        // when
-        article = articleMainService.registerArticle(article);
-
-        // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
                         UPDATE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
@@ -213,40 +202,21 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
 
     @DisplayName("기사 번호로 기업 기사 메인 없애기 완료 페이지 접속")
     @Test
-    public void numberAccessCompanyArticleMainRidFinish() throws Exception {
-        // given & when
+    public void accessCompanyArticleMainRidFinish() throws Exception {
+        // given
         CompanyArticleMain article = testCompanyArticleMain;
         String name = article.getName();
 
-        // when
-        article = articleMainService.registerArticle(article);
+        // when & then
+        Long number = articleMainService.registerArticle(article).getNumber();
 
-        // then
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(article.getNumber())))
+        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
-                .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
-                        model().attribute(VALUE, name));
-
-        assertThat(articleMainService.findArticles()).isEmpty();
-    }
-
-    @DisplayName("기사명으로 기업 기사 메인 없애기 완료 페이지 접속")
-    @Test
-    public void nameAccessCompanyArticleMainRidFinish() throws Exception {
-        // given & when
-        CompanyArticleMain article = testCompanyArticleMain;
-        String name = article.getName();
-
-        // when
         articleMainService.registerArticle(article);
 
-        // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", name))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),

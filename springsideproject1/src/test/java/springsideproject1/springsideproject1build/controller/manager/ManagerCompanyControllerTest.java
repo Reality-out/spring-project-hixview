@@ -107,9 +107,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
-    @DisplayName("기업 변경 페이지 내 코드 검색")
+    @DisplayName("기업 변경 페이지 검색")
     @Test
-    public void searchCodeCompanyModify() throws Exception {
+    public void searchCompanyModify() throws Exception {
         // given
         Company company = samsungElectronics;
 
@@ -125,18 +125,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company.toDto());
-    }
 
-    @DisplayName("기업 변경 페이지 내 이름 검색")
-    @Test
-    public void searchNameCompanyModify() throws Exception {
-        // given
-        Company company = samsungElectronics;
-
-        // when
-        companyService.registerCompany(company);
-
-        // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(modifyCompanyProcessPage),
@@ -211,42 +200,23 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
-    @DisplayName("기업 코드로 기업 없애기 완료 페이지 접속")
+    @DisplayName("기업 없애기 완료 페이지 접속")
     @Test
-    public void codeAccessCompanyRidFinish() throws Exception {
+    public void accessCompanyRidFinish() throws Exception {
         // given
         Company company = samsungElectronics;
         String name = company.getName();
 
-        // when
+        // when & then
         companyService.registerCompany(company);
 
-        // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
-                .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
-                        model().attribute(VALUE, name));
-
-        assertThat(companyService.findCompanies()).isEmpty();
-    }
-
-    @DisplayName("기업명으로 기업 없애기 완료 페이지 접속")
-    @Test
-    public void nameAccessCompanyRidFinish() throws Exception {
-        // given
-        Company company = samsungElectronics;
-        String name = company.getName();
-
-        // when
         companyService.registerCompany(company);
 
-        // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
