@@ -1,6 +1,9 @@
 package springsideproject1.springsideproject1build.domain.entity.company;
 
 import lombok.Getter;
+import springsideproject1.springsideproject1build.domain.error.NotFoundException;
+
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_SECOND_CATEGORY_WITH_THAT_VALUE;
 
 @Getter
 public enum SecondCategory {
@@ -29,12 +32,21 @@ public enum SecondCategory {
         return false;
     }
 
+    public static boolean containsWithSecondCategoryValue(String str) {
+        for (SecondCategory enumValue : SecondCategory.values()) {
+            if (enumValue.secondCategoryValue.equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static SecondCategory convertToSecondCategory(String str) {
         for (SecondCategory enumValue : SecondCategory.values()) {
-            if (enumValue.name().equals(str)) {
+            if (enumValue.secondCategoryValue.equals(str)) {
                 return enumValue;
             }
         }
-        return null;
+        throw new NotFoundException(NO_SECOND_CATEGORY_WITH_THAT_VALUE);
     }
 }

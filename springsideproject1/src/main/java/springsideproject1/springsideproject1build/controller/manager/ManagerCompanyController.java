@@ -21,6 +21,9 @@ import springsideproject1.springsideproject1build.domain.validator.company.Compa
 
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
+import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategoryValue;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
@@ -62,9 +65,16 @@ public class ManagerCompanyController {
     @PostMapping(ADD_SINGLE_COMPANY_URL)
     public String submitAddCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                    BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (companyDto.getFirstCategory() != null) {
+            companyDto.setFirstCategory(companyDto.getFirstCategory().toUpperCase());
+        }
+        if (companyDto.getSecondCategory() != null) {
+            companyDto.setSecondCategory(companyDto.getSecondCategory().toUpperCase());
+        }
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
                 (processValidationErrorAdd(companyDto, bindingResult, model)))
             return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+        checkAndConvertForKoreanEnum(companyDto);
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
@@ -120,11 +130,18 @@ public class ManagerCompanyController {
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                       BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (companyDto.getFirstCategory() != null) {
+            companyDto.setFirstCategory(companyDto.getFirstCategory().toUpperCase());
+        }
+        if (companyDto.getSecondCategory() != null) {
+            companyDto.setSecondCategory(companyDto.getSecondCategory().toUpperCase());
+        }
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
                 (processValidationErrorModify(companyDto, bindingResult, model))) {
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
+        checkAndConvertForKoreanEnum(companyDto);
         companyService.correctCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;
@@ -179,6 +196,14 @@ public class ManagerCompanyController {
     /**
      * Other private methods
      */
+    // Check
+    private void checkAndConvertForKoreanEnum(CompanyDto companyDto) {
+        if (containsWithFirstCategoryValue(companyDto.getFirstCategory()))
+            companyDto.setFirstCategory(convertToPress(companyDto.getFirstCategory()).name());
+        if (containsWithSecondCategoryValue(companyDto.getSecondCategory()))
+            companyDto.setSecondCategory(convertToPress(companyDto.getSecondCategory()).name());
+    }
+
     // Handle Error
     private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
         if (bindingResult.hasErrors()) {

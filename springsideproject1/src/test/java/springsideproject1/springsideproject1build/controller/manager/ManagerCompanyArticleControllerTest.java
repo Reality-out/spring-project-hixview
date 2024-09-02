@@ -250,21 +250,19 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     public void accessCompanyArticleModifyFinish() throws Exception {
         // given
-        CompanyArticle beforeModifiedArticle = testCompanyArticle;
-        String commonName = beforeModifiedArticle.getName();
-        CompanyArticleDto articleDtoOriginal = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(commonName).link(beforeModifiedArticle.getLink()).build().toDto();
-        CompanyArticleDto articleDtoKoreanPress = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(commonName).link(beforeModifiedArticle.getLink()).build().toDto();
+        CompanyArticle beforeModifyArticle = testCompanyArticle;
+        String commonName = beforeModifyArticle.getName();
+        CompanyArticle article = CompanyArticle.builder().article(testNewCompanyArticle)
+                .name(commonName).link(beforeModifyArticle.getLink()).build();
+        CompanyArticleDto articleDtoOriginal = article.toDto();
+        CompanyArticleDto articleDtoKoreanPress = article.toDto();
         articleDtoKoreanPress.setPress(Press.valueOf(articleDtoKoreanPress.getPress()).getPressValue());
-        CompanyArticleDto articleDtoLowercasePress = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(commonName).link(beforeModifiedArticle.getLink()).build().toDto();
-        articleDtoLowercasePress.setPress(
-                Press.valueOf(articleDtoLowercasePress.getPress()).name().toLowerCase());
+        CompanyArticleDto articleDtoLowercasePress = article.toDto();
+        articleDtoLowercasePress.setPress(Press.valueOf(articleDtoLowercasePress.getPress()).name().toLowerCase());
 
         // when
         companyService.registerCompany(samsungElectronics);
-        articleService.registerArticle(beforeModifiedArticle);
+        articleService.registerArticle(beforeModifyArticle);
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoOriginal, articleDtoKoreanPress, articleDtoLowercasePress)) {
@@ -282,9 +280,6 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
             assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
                     .usingRecursiveComparison()
                     .isEqualTo(articleDtoOriginal);
-
-            articleService.removeArticleByName(articleDto.getName());
-            articleService.registerArticle(beforeModifiedArticle);
         }
     }
 

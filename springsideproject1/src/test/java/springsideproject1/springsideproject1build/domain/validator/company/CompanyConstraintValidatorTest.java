@@ -127,7 +127,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
     public void validateFirstCategoryTypeMismatchCompanyAdd() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setFirstCategory(INVALID_VALUE);
+        companyDto.setFirstCategory(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
@@ -144,7 +144,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
     public void validateSecondCategoryTypeMismatchCompanyAdd() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setSecondCategory(INVALID_VALUE);
+        companyDto.setSecondCategory(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
@@ -235,7 +235,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
     public void validateFirstCategoryTypeMismatchCompanyModify() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setFirstCategory(INVALID_VALUE);
+        companyDto.setFirstCategory(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
@@ -252,7 +252,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
     public void validateSecondCategoryTypeMismatchCompanyModify() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setSecondCategory(INVALID_VALUE);
+        companyDto.setSecondCategory(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))

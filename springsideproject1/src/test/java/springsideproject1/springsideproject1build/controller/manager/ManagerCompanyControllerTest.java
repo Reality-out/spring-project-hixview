@@ -9,9 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.company.Company;
-import springsideproject1.springsideproject1build.domain.entity.company.Country;
-import springsideproject1.springsideproject1build.domain.entity.company.Scale;
+import springsideproject1.springsideproject1build.domain.entity.company.*;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 
@@ -70,24 +68,34 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @Test
     public void accessCompanyAddFinish() throws Exception {
         // given & when
-        Company company = samsungElectronics;
+        CompanyDto companyDtoOriginal = createSamsungElectronicsDto();
+        CompanyDto companyKoreanFirstCategory = createSamsungElectronicsDto();
+        companyKoreanFirstCategory.setFirstCategory(
+                FirstCategory.valueOf(companyKoreanFirstCategory.getFirstCategory()).name());
+        CompanyDto companyLowercaseFirstCategory = createSamsungElectronicsDto();
+        companyLowercaseFirstCategory.setFirstCategory(
+                FirstCategory.valueOf(companyLowercaseFirstCategory.getFirstCategory()).name());
 
         // then
-        mockMvc.perform(postWithCompany(ADD_SINGLE_COMPANY_URL, company))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(company.getName())));
+        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyKoreanFirstCategory, companyLowercaseFirstCategory)) {
+            mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(companyDto.getName())));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
-                        NAME, encodeWithUTF8(company.getName())))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(VALUE, company.getName()));
+            mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
+                            NAME, encodeWithUTF8(companyDto.getName())))
+                    .andExpectAll(status().isOk(),
+                            view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
+                            model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                            model().attribute(VALUE, companyDto.getName()));
 
-        assertThat(companyService.findCompanyByName(company.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .isEqualTo(company);
+            assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
+                    .usingRecursiveComparison()
+                    .isEqualTo(samsungElectronics);
+
+            companyService.removeCompanyByCode(companyDto.getCode());
+        }
     }
 
     @DisplayName("기업 변경 페이지 접속")
@@ -145,29 +153,38 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @Test
     public void accessCompanyModifyFinish() throws Exception {
         // given
-        Company company = samsungElectronics;
+        Company beforeModifyCompany = samsungElectronics;
         String commonName = samsungElectronics.getName();
-        Company modifiedCompany = Company.builder().company(skHynix)
-                .name(commonName).code(company.getCode()).build();
+        Company company = Company.builder().company(skHynix)
+                .name(commonName).code(beforeModifyCompany.getCode()).build();
+        CompanyDto companyDtoOriginal = company.toDto();
+        CompanyDto companyDtoKoreanFirstCategory = company.toDto();
+        companyDtoKoreanFirstCategory.setFirstCategory(
+                FirstCategory.valueOf(companyDtoKoreanFirstCategory.getFirstCategory()).name());
+        CompanyDto companyLowercaseFirstCategory = company.toDto();
+        companyLowercaseFirstCategory.setFirstCategory(
+                FirstCategory.valueOf(companyLowercaseFirstCategory.getFirstCategory()).name());
 
         // when
-        companyService.registerCompany(company);
+        companyService.registerCompany(beforeModifyCompany);
 
         // then
-        mockMvc.perform(postWithCompany(modifyCompanyFinishUrl, modifiedCompany))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
+        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyDtoKoreanFirstCategory, companyLowercaseFirstCategory)) {
+            mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(commonName)));
 
-        mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(company.getName())))
-                .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                        model().attribute(VALUE, commonName));
+            mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(beforeModifyCompany.getName())))
+                    .andExpectAll(status().isOk(),
+                            view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
+                            model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
+                            model().attribute(VALUE, commonName));
 
-        assertThat(companyService.findCompanyByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .isEqualTo(modifiedCompany);
+            assertThat(companyService.findCompanyByName(commonName).orElseThrow())
+                    .usingRecursiveComparison()
+                    .isEqualTo(beforeModifyCompany);
+        }
     }
 
     @DisplayName("기업들 조회 페이지 접속")
