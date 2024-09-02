@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMain;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMainDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleMainTestUtils;
@@ -65,7 +66,7 @@ public class CompanyArticleMainDefaultValidatorTest implements CompanyArticleMai
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(CompanyArticleMain.builder().articleDto(articleDto).name("").build().toDto());
     }
 
     @DisplayName("NotBlank(null)에 대한 기업 기사 메인 추가 유효성 검증")
@@ -103,7 +104,7 @@ public class CompanyArticleMainDefaultValidatorTest implements CompanyArticleMai
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(CompanyArticleMain.builder().articleDto(articleDto).name("").build().toDto());
     }
 
     @DisplayName("NotBlank(null)에 대한 기업 기사 메인 변경 유효성 검증")

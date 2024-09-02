@@ -69,6 +69,9 @@ public class ManagerCompanyArticleController {
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (articleDto.getName() != null) {
+            articleDto.setName(articleDto.getName().strip());
+        }
         if (articleDto.getPress() != null)
             articleDto.setPress(articleDto.getPress().toUpperCase());
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
@@ -123,7 +126,7 @@ public class ManagerCompanyArticleController {
             for (int i = 0; i < linkList.size(); i++) {
                 List<String> partialArticle = nameDatePressList.get(i);
 
-                articleDto.setName(partialArticle.get(0));
+                articleDto.setName(partialArticle.get(0).strip());
                 articleDto.setPress(partialArticle.get(4).toUpperCase());
                 articleDto.setSubjectCompany(subjectCompany);
                 articleDto.setLink(linkList.get(i));
@@ -216,6 +219,9 @@ public class ManagerCompanyArticleController {
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (articleDto.getName() != null) {
+            articleDto.setName(articleDto.getName().strip());
+        }
         if (articleDto.getPress() != null)
             articleDto.setPress(articleDto.getPress().toUpperCase());
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||

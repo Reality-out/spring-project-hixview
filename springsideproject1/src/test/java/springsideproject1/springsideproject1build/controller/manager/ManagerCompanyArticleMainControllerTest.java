@@ -68,25 +68,35 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
     @Test
     public void accessCompanyArticleMainAddFinish() throws Exception {
         // given & when
-        CompanyArticleMainDto ArticleMainDto = createTestCompanyArticleMainDto();
+        CompanyArticleMainDto articleDtoOriginal = createTestCompanyArticleMainDto();
+        CompanyArticleMainDto articleDtoLeftSpace = createTestCompanyArticleMainDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        CompanyArticleMainDto articleDtoRightSpace = createTestCompanyArticleMainDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
 
         // then
-        mockMvc.perform(postWithCompanyArticleMainDto(ADD_COMPANY_ARTICLE_MAIN_URL, ArticleMainDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(ArticleMainDto.getName())));
+        for (CompanyArticleMainDto articleDto : List.of(articleDtoOriginal,articleDtoLeftSpace, articleDtoRightSpace)){
+            mockMvc.perform(postWithCompanyArticleMainDto(ADD_COMPANY_ARTICLE_MAIN_URL, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(articleDtoOriginal.getName())));
+
+            articleMainService.removeArticleByName(articleDtoOriginal.getName());
+        }
+
+        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleDtoOriginal).build());
 
         mockMvc.perform(getWithSingleParam(ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME,
-                        encodeWithUTF8(ArticleMainDto.getName())))
+                        encodeWithUTF8(articleDtoOriginal.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(VALUE, ArticleMainDto.getName()));
+                        model().attribute(VALUE, articleDtoOriginal.getName()));
 
-        assertThat(articleMainService.findArticleByName(ArticleMainDto.getName()).orElseThrow().toDto())
+        assertThat(articleMainService.findArticleByName(articleDtoOriginal.getName()).orElseThrow().toDto())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(ArticleMainDto);
+                .isEqualTo(articleDtoOriginal);
     }
 
     @DisplayName("기업 기사 메인 변경 페이지 접속")
@@ -144,19 +154,26 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
     @Test
     public void accessCompanyArticleMainModifyFinish() throws Exception {
         // given
-        CompanyArticleMain article = testCompanyArticleMain;
-        String commonName = article.getName();
-        CompanyArticleMain modifiedArticle = CompanyArticleMain.builder().article(testNewCompanyArticleMain)
+        CompanyArticleMain beforeModifyArticle = testCompanyArticleMain;
+        String commonName = beforeModifyArticle.getName();
+        CompanyArticleMain article = CompanyArticleMain.builder().article(testNewCompanyArticleMain)
                 .name(commonName).build();
+        CompanyArticleMainDto articleDtoOriginal = article.toDto();
+        CompanyArticleMainDto articleDtoLeftSpace = article.toDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        CompanyArticleMainDto articleDtoRightSpace = article.toDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
 
         // when
-        articleMainService.registerArticle(article);
+        articleMainService.registerArticle(beforeModifyArticle);
 
         // then
-        mockMvc.perform(postWithCompanyArticleMain(modifyArticleMainFinishUrl, modifiedArticle))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
+        for (CompanyArticleMainDto articleDto : List.of(articleDtoOriginal, articleDtoLeftSpace, articleDtoRightSpace)) {
+            mockMvc.perform(postWithCompanyArticleMainDto(modifyArticleMainFinishUrl, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(commonName)));
+        }
 
         mockMvc.perform(getWithSingleParam(modifyArticleMainFinishUrl, NAME, encodeWithUTF8(commonName)))
                 .andExpectAll(status().isOk(),
@@ -167,7 +184,7 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
         assertThat(articleMainService.findArticleByName(commonName).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(modifiedArticle);
+                .isEqualTo(article);
     }
 
     @DisplayName("기업 기사 메인들 조회 페이지 접속")

@@ -68,6 +68,11 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
         articleDto.setLink(" ");
+        CompanyArticleDto returnedArticleDto = createTestCompanyArticleDto();
+        returnedArticleDto.setName("");
+        returnedArticleDto.setPress(" ");
+        returnedArticleDto.setSubjectCompany(" ");
+        returnedArticleDto.setLink(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -76,7 +81,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(returnedArticleDto);
     }
 
     @DisplayName("NotBlank(null)에 대한 기업 기사 추가 유효성 검증")
@@ -167,6 +172,11 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
         articleDto.setLink(" ");
+        CompanyArticleDto returnedArticleDto = createTestCompanyArticleDto();
+        returnedArticleDto.setName("");
+        returnedArticleDto.setPress(" ");
+        returnedArticleDto.setSubjectCompany(" ");
+        returnedArticleDto.setLink(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
@@ -175,7 +185,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(returnedArticleDto);
     }
 
     @DisplayName("NotBlank(null)에 대한 기업 기사 변경 유효성 검증")

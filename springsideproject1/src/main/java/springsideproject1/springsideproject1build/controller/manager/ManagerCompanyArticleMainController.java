@@ -50,12 +50,15 @@ public class ManagerCompanyArticleMainController {
     }
 
     @PostMapping(ADD_COMPANY_ARTICLE_MAIN_URL)
-    public String submitAddCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleDto,
+    public String submitAddCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleMainDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (articleMainDto.getName() != null) {
+            articleMainDto.setName(articleMainDto.getName().strip());
+        }
         if (processBindingError(bindingResult, ADD_PROCESS_PATH, model))
             return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
-        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
+        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleMainDto).build());
+        redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
     }
 
@@ -105,14 +108,17 @@ public class ManagerCompanyArticleMainController {
     }
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
-    public String submitModifyCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleDto,
+    public String submitModifyCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleMainDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (articleMainDto.getName() != null) {
+            articleMainDto.setName(articleMainDto.getName().strip());
+        }
         if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model)) {
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
-        articleMainService.correctArticle(CompanyArticleMain.builder().articleDto(articleDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
+        articleMainService.correctArticle(CompanyArticleMain.builder().articleDto(articleMainDto).build());
+        redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
     }
 
