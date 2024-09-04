@@ -15,8 +15,8 @@ import springsideproject1.springsideproject1build.domain.entity.company.CompanyD
 import springsideproject1.springsideproject1build.domain.entity.company.Country;
 import springsideproject1.springsideproject1build.domain.entity.company.Scale;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoCodeValidator;
-import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoNameValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.company.CompanyAddValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.company.CompanyModifyValidator;
 
 import java.util.Optional;
 
@@ -30,7 +30,6 @@ import static springsideproject1.springsideproject1build.domain.entity.company.S
 import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.convertToSecondCategory;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
@@ -47,8 +46,8 @@ public class ManagerCompanyController {
 
     private final CompanyService companyService;
 
-    private final CompanyDtoCodeValidator codeValidator;
-    private final CompanyDtoNameValidator nameValidator;
+    private final CompanyAddValidator addValidator;
+    private final CompanyModifyValidator modifyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyController.class);
 
@@ -97,8 +96,7 @@ public class ManagerCompanyController {
             return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        codeValidator.validate(companyDto, bindingResult);
-        nameValidator.validate(companyDto, bindingResult);
+        addValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
             return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
@@ -179,12 +177,7 @@ public class ManagerCompanyController {
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
-        if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
-            bindingResult.rejectValue(CODE, "NotFound");
-        }
-        if (companyService.findCompanyByName(companyDto.getName()).isEmpty()) {
-            bindingResult.rejectValue(NAME, "NotFound");
-        }
+        modifyValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
