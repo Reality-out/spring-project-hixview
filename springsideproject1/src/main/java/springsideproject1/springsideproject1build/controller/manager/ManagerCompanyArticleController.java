@@ -17,20 +17,22 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validator.article.CompanyArticleDtoConstraintValidator;
-import springsideproject1.springsideproject1build.domain.validator.article.CompanyArticleDtoLinkValidator;
-import springsideproject1.springsideproject1build.domain.validator.article.CompanyArticleDtoNameValidator;
-import springsideproject1.springsideproject1build.domain.validator.article.CompanyArticleDtoSubjectCompanyValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.CompanyArticleAddComplexValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.CompanyArticleAddSimpleValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.CompanyArticleModifyValidator;
 import springsideproject1.springsideproject1build.util.MainUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.*;
+import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
+import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.LINK;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -48,10 +50,9 @@ public class ManagerCompanyArticleController {
     private final CompanyService companyService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleDtoConstraintValidator constraintValidator;
-    private final CompanyArticleDtoNameValidator nameValidator;
-    private final CompanyArticleDtoLinkValidator linkValidator;
-    private final CompanyArticleDtoSubjectCompanyValidator subjectCompanyValidator;
+    private final CompanyArticleAddComplexValidator complexValidator;
+    private final CompanyArticleAddSimpleValidator simpleValidator;
+    private final CompanyArticleModifyValidator modifyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
 
@@ -69,15 +70,24 @@ public class ManagerCompanyArticleController {
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        if (articleDto.getName() != null) {
-            articleDto.setName(articleDto.getName().strip());
-        }
-        if (articleDto.getPress() != null)
-            articleDto.setPress(articleDto.getPress().toUpperCase());
-        if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
-                processValidationErrorAdd(articleDto, bindingResult, model))
+        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
+        // TODO: 특히 PressValue 값을 Press 값으로 바꾸는 로직 적용 이후 PressValidator에 관련한 수정 진행하기
+        if (articleDto.getName() != null) articleDto.setName(articleDto.getName().strip());
+        if (articleDto.getPress() != null) articleDto.setPress(articleDto.getPress().toUpperCase());
+        if (articleDto.getPress() != null && containsWithPressValue(articleDto.getPress()))
+            articleDto.setPress(convertToPress(articleDto.getPress()).name());
+
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-        checkAndConvertForKoreanEnum(articleDto);
+        }
+
+        complexValidator.validate(articleDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
+            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+        }
+
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -140,13 +150,12 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, true);
                 }
-                constraintValidator.validate(articleDto, bindingResult);
-                nameValidator.validate(articleDto, bindingResult);
-                linkValidator.validate(articleDto, bindingResult);
+                simpleValidator.validate(articleDto, bindingResult);
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                checkAndConvertForKoreanEnum(articleDto);
+                if (containsWithPressValue(articleDto.getPress()))
+                    articleDto.setPress(convertToPress(articleDto.getPress()).name());
                 nameList.add(articleService.registerArticle(
                         CompanyArticle.builder().articleDto(articleDto).build()).getName());
             }
@@ -205,11 +214,11 @@ public class ManagerCompanyArticleController {
     public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
+            finishForRollback(ERRORS_ARE + NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME,
+                    UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
+
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
@@ -219,17 +228,29 @@ public class ManagerCompanyArticleController {
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
+        // TODO: 특히 PressValue 값을 Press 값으로 바꾸는 로직 적용 이후 PressValidator에 관련한 수정 진행하기
         if (articleDto.getName() != null) {
             articleDto.setName(articleDto.getName().strip());
         }
         if (articleDto.getPress() != null)
             articleDto.setPress(articleDto.getPress().toUpperCase());
-        if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
-                processValidationErrorModify(articleDto, bindingResult, model)) {
+        if (articleDto.getPress() != null && containsWithPressValue(articleDto.getPress()))
+            articleDto.setPress(convertToPress(articleDto.getPress()).name());
+
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
-        checkAndConvertForKoreanEnum(articleDto);
+
+        modifyValidator.validate(articleDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
+            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
+            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        }
+
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
@@ -257,19 +278,16 @@ public class ManagerCompanyArticleController {
     public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR);
+            finishForRollback(ERRORS_ARE + NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME,
+                    REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
             return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
         }
+
         if (NUMBER_REGEX_PATTERN.matcher(numberOrName).matches()) {
-            String removedName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
-            articleService.removeArticleByName(removedName);
-            redirect.addAttribute(NAME, encodeWithUTF8(removedName));
-        } else {
-            articleService.removeArticleByName(numberOrName);
-            redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
+            numberOrName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
+        articleService.removeArticleByName(numberOrName);
+        redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
@@ -284,49 +302,7 @@ public class ManagerCompanyArticleController {
     /**
      * Other private methods
      */
-    // Check
-    private void checkAndConvertForKoreanEnum(CompanyArticleDto articleDto) {
-        if (containsWithPressValue(articleDto.getPress()))
-            articleDto.setPress(convertToPress(articleDto.getPress()).name());
-    }
-
     // Handle Error
-    private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), layoutPath, BEAN_VALIDATION_ERROR, model);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean processValidationErrorAdd(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
-        constraintValidator.validate(articleDto, bindingResult);
-        nameValidator.validate(articleDto, bindingResult);
-        linkValidator.validate(articleDto, bindingResult);
-        subjectCompanyValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean processValidationErrorModify(CompanyArticleDto articleDto, BindingResult bindingResult, Model model) {
-        constraintValidator.validate(articleDto, bindingResult);
-        subjectCompanyValidator.validate(articleDto, bindingResult);
-        if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            bindingResult.rejectValue(NAME, "NotFound");
-        }
-        if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            bindingResult.rejectValue(LINK, "NotFound");
-        }
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
-            return true;
-        }
-        return false;
-    }
-
     private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
         log.error(ERRORS_ARE, logMessage);
         model.addAttribute(LAYOUT_PATH, layoutPath);

@@ -35,7 +35,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleDefaultValidatorTest(DataSource dataSource) {
+    public CompanyArticleValidatorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -141,6 +141,61 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                 .isEqualTo(articleDto);
     }
 
+    @DisplayName("Range에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validateRangeCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(1950);
+        articleDto.setMonth(1);
+        articleDto.setDays(1);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Restrict에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validateRestrictCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setImportance(3);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("TypeButInvalid에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(2000);
+        articleDto.setMonth(2);
+        articleDto.setDays(31);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
     @DisplayName("typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
@@ -160,6 +215,21 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
+                        model().attributeExists(ARTICLE));
+    }
+
+    @DisplayName("Press의 typeMismatch에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setPress(INVALID_VALUE);
+
+        // then
+        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));
     }
 
@@ -245,6 +315,61 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                 .isEqualTo(articleDto);
     }
 
+    @DisplayName("Range에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validateRangeCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(1950);
+        articleDto.setMonth(1);
+        articleDto.setDays(1);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Restrict에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validateRestrictCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setImportance(3);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("TypeButInvalid에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validateTypeButInvalidCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(2000);
+        articleDto.setMonth(2);
+        articleDto.setDays(31);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
     @DisplayName("typeMismatch에 대한 기업 기사 변경 유효성 검증")
     @Test
     public void validateTypeMismatchCompanyArticleModify() throws Exception {
@@ -264,6 +389,21 @@ public class CompanyArticleDefaultValidatorTest implements CompanyArticleTestUti
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
+                        model().attributeExists(ARTICLE));
+    }
+
+    @DisplayName("Press의 typeMismatch에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validatePressTypeMismatchCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setPress(INVALID_VALUE);
+
+        // then
+        mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null),
                         model().attributeExists(ARTICLE));
     }
 }

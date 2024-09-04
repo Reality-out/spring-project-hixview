@@ -6,9 +6,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.validator.article.annotation.EntryDate;
-import springsideproject1.springsideproject1build.domain.validator.article.annotation.Importance;
-import springsideproject1.springsideproject1build.domain.validator.article.annotation.Press;
+import springsideproject1.springsideproject1build.domain.validation.annotation.EntryDate;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 
 import java.time.LocalDate;
 import java.util.HashMap;

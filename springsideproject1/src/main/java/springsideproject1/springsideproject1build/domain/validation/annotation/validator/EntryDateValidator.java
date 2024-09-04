@@ -1,8 +1,8 @@
-package springsideproject1.springsideproject1build.domain.validator.article.validator;
+package springsideproject1.springsideproject1build.domain.validation.annotation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import springsideproject1.springsideproject1build.domain.validator.article.annotation.EntryDate;
+import springsideproject1.springsideproject1build.domain.validation.annotation.EntryDate;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -16,18 +16,21 @@ public class EntryDateValidator implements ConstraintValidator<EntryDate, LocalD
     public boolean isValid(LocalDate date, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (date == null) {
-            context.buildConstraintViolationWithTemplate("{NotNull.article.days}").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{NotNull.article.days}")
+                    .addPropertyNode("days").addConstraintViolation();
             return false;
         }
         try {
             LocalDate inputDate = LocalDate.of(date.getYear(), date.getMonthValue(), date.getDayOfMonth());
 
             if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
-                context.buildConstraintViolationWithTemplate("{Range.java.lang.LocalDate}").addConstraintViolation();
+                context.buildConstraintViolationWithTemplate("{Range.java.lang.LocalDate}")
+                        .addPropertyNode("days").addConstraintViolation();
                 return false;
             }
         } catch (DateTimeException e) {
-            context.buildConstraintViolationWithTemplate("{TypeButInvalid.java.lang.LocalDate}").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{TypeButInvalid.java.lang.LocalDate}")
+                    .addPropertyNode("days").addConstraintViolation();
             return false;
         }
         return true;
