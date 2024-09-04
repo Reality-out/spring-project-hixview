@@ -1,7 +1,6 @@
 package springsideproject1.springsideproject1build.domain.entity.company;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -27,16 +26,16 @@ public class Company {
     @springsideproject1.springsideproject1build.domain.validation.annotation.Country
     private final Country country;
 
-    @NotNull
+    @springsideproject1.springsideproject1build.domain.validation.annotation.Scale
     private final Scale scale;
 
     @NotBlank
     private final String name;
 
-    @NotNull
+    @springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategory
     private final FirstCategory firstCategory;
 
-    @NotNull
+    @springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory
     private final SecondCategory secondCategory;
 
     public CompanyDto toDto() {

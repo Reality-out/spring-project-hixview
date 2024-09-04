@@ -94,7 +94,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
     public void validateCountryTypeMismatchCompanyAdd() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCountry(INVALID_VALUE);
+        companyDto.setCountry(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
@@ -111,13 +111,13 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
     public void validateScaleTypeMismatchCompanyAdd() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setScale(INVALID_VALUE);
+        companyDto.setScale(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto);
@@ -134,7 +134,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto);
@@ -151,7 +151,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto);
@@ -225,7 +225,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto);
@@ -242,7 +242,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto);
@@ -259,7 +259,7 @@ public class CompanyConstraintValidatorTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto);

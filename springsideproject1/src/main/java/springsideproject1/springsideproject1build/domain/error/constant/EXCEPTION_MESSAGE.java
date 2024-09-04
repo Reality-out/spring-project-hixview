@@ -32,6 +32,7 @@ public interface EXCEPTION_MESSAGE {
     String NO_COMPANY_WITH_THAT_NAME = "해당 기업명과 일치하는 기업이 없습니다.";
     String NO_COMPANY_WITH_THAT_CODE_OR_NAME = "해당 기업 코드 또는 기업명과 일치하는 기업이 없습니다.";
     String NO_COUNTRY_WITH_THAT_VALUE = "해당 한글 상장된 국가와 일치하는 상장된 국가가 없습니다.";
+    String NO_SCALE_WITH_THAT_VALUE = "해당 한글 상장된 국가와 일치하는 상장된 국가가 없습니다.";
     String NO_FIRST_CATEGORY_WITH_THAT_VALUE = "해당 한글 1차 업종과 일치하는 1차 업종이 없습니다.";
     String NO_SECOND_CATEGORY_WITH_THAT_VALUE = "해당 한글 2차 업종과 일치하는 2차 업종이 없습니다.";
     String NO_MEMBER_WITH_THAT_ID = "해당 ID와 일치하는 회원이 없습니다.";

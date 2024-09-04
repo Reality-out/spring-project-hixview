@@ -69,15 +69,27 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyAddFinish() throws Exception {
         // given & when
         CompanyDto companyDtoOriginal = createSamsungElectronicsDto();
-        CompanyDto companyKoreanFirstCategory = createSamsungElectronicsDto();
-        companyKoreanFirstCategory.setFirstCategory(
-                FirstCategory.valueOf(companyKoreanFirstCategory.getFirstCategory()).name());
-        CompanyDto companyLowercaseFirstCategory = createSamsungElectronicsDto();
-        companyLowercaseFirstCategory.setFirstCategory(
-                FirstCategory.valueOf(companyLowercaseFirstCategory.getFirstCategory()).name());
+        CompanyDto companyDtoKorean = createSamsungElectronicsDto();
+        companyDtoKorean.setCountry(
+                Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
+        companyDtoKorean.setScale(
+                Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
+        companyDtoKorean.setFirstCategory(
+                FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
+        companyDtoKorean.setSecondCategory(
+                SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
+        CompanyDto companyDtoLowercase = createSamsungElectronicsDto();
+        companyDtoLowercase.setCountry(
+                Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());
+        companyDtoLowercase.setScale(
+                Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
+        companyDtoLowercase.setFirstCategory(
+                FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
+        companyDtoLowercase.setSecondCategory(
+                SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
         // then
-        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyKoreanFirstCategory, companyLowercaseFirstCategory)) {
+        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyDtoKorean, companyDtoLowercase)) {
             mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
@@ -147,18 +159,30 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         Company company = Company.builder().company(skHynix)
                 .name(commonName).code(beforeModifyCompany.getCode()).build();
         CompanyDto companyDtoOriginal = company.toDto();
-        CompanyDto companyDtoKoreanFirstCategory = company.toDto();
-        companyDtoKoreanFirstCategory.setFirstCategory(
-                FirstCategory.valueOf(companyDtoKoreanFirstCategory.getFirstCategory()).name());
-        CompanyDto companyLowercaseFirstCategory = company.toDto();
-        companyLowercaseFirstCategory.setFirstCategory(
-                FirstCategory.valueOf(companyLowercaseFirstCategory.getFirstCategory()).name());
+        CompanyDto companyDtoKorean = company.toDto();
+        companyDtoKorean.setCountry(
+                Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
+        companyDtoKorean.setScale(
+                Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
+        companyDtoKorean.setFirstCategory(
+                FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
+        companyDtoKorean.setSecondCategory(
+                SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
+        CompanyDto companyDtoLowercase = company.toDto();
+        companyDtoLowercase.setCountry(
+                Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());
+        companyDtoLowercase.setScale(
+                Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
+        companyDtoLowercase.setFirstCategory(
+                FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
+        companyDtoLowercase.setSecondCategory(
+                SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
         // when
         companyService.registerCompany(beforeModifyCompany);
 
         // then
-        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyDtoKoreanFirstCategory, companyLowercaseFirstCategory)) {
+        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyDtoKorean, companyDtoLowercase)) {
             mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),

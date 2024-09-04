@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Country;
+import springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategory;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Scale;
+import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX;
 
@@ -20,15 +23,15 @@ public class CompanyDto {
     @Country
     private String country;
 
-    @NotBlank
+    @Scale
     private String scale;
 
     @NotBlank
     private String name;
 
-    @NotBlank
+    @FirstCategory
     private String firstCategory;
 
-    @NotBlank
+    @SecondCategory
     private String secondCategory;
 }

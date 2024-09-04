@@ -85,6 +85,9 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
 
         CompanyDto returnedCompanyDto = copyCompanyDto(companyDto);
         returnedCompanyDto.setCountry("");
+        returnedCompanyDto.setScale("");
+        returnedCompanyDto.setFirstCategory("");
+        returnedCompanyDto.setSecondCategory("");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
@@ -183,6 +186,9 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
 
         CompanyDto returnedCompanyDto = copyCompanyDto(companyDto);
         returnedCompanyDto.setCountry("");
+        returnedCompanyDto.setScale("");
+        returnedCompanyDto.setFirstCategory("");
+        returnedCompanyDto.setSecondCategory("");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))

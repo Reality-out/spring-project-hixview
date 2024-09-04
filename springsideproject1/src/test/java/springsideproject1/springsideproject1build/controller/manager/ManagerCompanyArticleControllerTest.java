@@ -88,17 +88,17 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         CompanyArticleDto articleDtoRightSpace = createTestCompanyArticleDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        CompanyArticleDto articleDtoKoreanPress = createTestCompanyArticleDto();
-        articleDtoKoreanPress.setPress(Press.valueOf(articleDtoKoreanPress.getPress()).getPressValue());
-        CompanyArticleDto articleDtoLowercasePress = createTestCompanyArticleDto();
-        articleDtoLowercasePress.setPress(Press.valueOf(articleDtoLowercasePress.getPress()).name().toLowerCase());
+        CompanyArticleDto articleDtoKorean = createTestCompanyArticleDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        CompanyArticleDto articleDtoLowercase = createTestCompanyArticleDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoOriginal, articleDtoLeftSpace, articleDtoRightSpace,
-                articleDtoKoreanPress, articleDtoLowercasePress)) {
+                articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
@@ -148,10 +148,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .replace(article1.getName(), " " + article1.getName());
         String articleStringRightSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), article1.getName() + " ");
-        String articleStringKoreanPress = testCompanyArticleStringBuffer.getNameDatePressString()
+        String articleStringKorean = testCompanyArticleStringBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().getPressValue())
                 .replace(article2.getPress().name(), article2.getPress().getPressValue());
-        String articleStringLowercasePress = testCompanyArticleStringBuffer.getNameDatePressString()
+        String articleStringLowercase = testCompanyArticleStringBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
                 .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
 
@@ -160,7 +160,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         for (String articleString : List.of(articleStringOriginal, articleStringLeftSpace, articleStringRightSpace,
-                articleStringKoreanPress, articleStringLowercasePress)) {
+                articleStringKorean, articleStringLowercase)) {
             ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                         put(nameDatePressString, articleString);
                         put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
@@ -261,10 +261,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         CompanyArticleDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        CompanyArticleDto articleDtoKoreanPress = article.toDto();
-        articleDtoKoreanPress.setPress(Press.valueOf(articleDtoKoreanPress.getPress()).getPressValue());
-        CompanyArticleDto articleDtoLowercasePress = article.toDto();
-        articleDtoLowercasePress.setPress(Press.valueOf(articleDtoLowercasePress.getPress()).name().toLowerCase());
+        CompanyArticleDto articleDtoKorean = article.toDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        CompanyArticleDto articleDtoLowercase = article.toDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -272,7 +272,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoOriginal, articleDtoLeftSpace, articleDtoRightSpace,
-                articleDtoKoreanPress, articleDtoLowercasePress)) {
+                articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),

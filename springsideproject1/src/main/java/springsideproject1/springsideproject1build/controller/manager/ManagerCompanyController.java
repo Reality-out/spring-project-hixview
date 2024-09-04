@@ -16,13 +16,16 @@ import springsideproject1.springsideproject1build.domain.entity.company.Country;
 import springsideproject1.springsideproject1build.domain.entity.company.Scale;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoCodeValidator;
-import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoConstraintValidator;
 import springsideproject1.springsideproject1build.domain.validator.company.CompanyDtoNameValidator;
 
 import java.util.Optional;
 
+import static springsideproject1.springsideproject1build.domain.entity.company.Country.containsWithCountryValue;
+import static springsideproject1.springsideproject1build.domain.entity.company.Country.convertToCountry;
 import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
 import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.convertToFirstCategory;
+import static springsideproject1.springsideproject1build.domain.entity.company.Scale.containsWithScaleValue;
+import static springsideproject1.springsideproject1build.domain.entity.company.Scale.convertToScale;
 import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategoryValue;
 import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.convertToSecondCategory;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
@@ -44,7 +47,6 @@ public class ManagerCompanyController {
 
     private final CompanyService companyService;
 
-    private final CompanyDtoConstraintValidator constraintValidator;
     private final CompanyDtoCodeValidator codeValidator;
     private final CompanyDtoNameValidator nameValidator;
 
@@ -69,12 +71,22 @@ public class ManagerCompanyController {
         // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
         // TODO: 특히 FirstCategoryValue 값을 FirstCategory 값으로 바꾸는 로직 적용 이후 FirstCategoryValidator에 관련한 수정 진행하기
         // TODO: 특히 SecondCategoryValue 값을 SecondCategory 값으로 바꾸는 로직 적용 이후 SecondCategoryValidator에 관련한 수정 진행하기
+        if (companyDto.getCountry() != null) {
+            companyDto.setCountry(companyDto.getCountry().toUpperCase());
+        }
+        if (companyDto.getScale() != null) {
+            companyDto.setScale(companyDto.getScale().toUpperCase());
+        }
         if (companyDto.getFirstCategory() != null) {
             companyDto.setFirstCategory(companyDto.getFirstCategory().toUpperCase());
         }
         if (companyDto.getSecondCategory() != null) {
             companyDto.setSecondCategory(companyDto.getSecondCategory().toUpperCase());
         }
+        if (companyDto.getCountry() != null && containsWithCountryValue(companyDto.getCountry()))
+            companyDto.setCountry(convertToCountry(companyDto.getCountry()).name());
+        if (companyDto.getScale() != null && containsWithScaleValue(companyDto.getScale()))
+            companyDto.setScale(convertToScale(companyDto.getScale()).name());
         if (companyDto.getFirstCategory() != null && containsWithFirstCategoryValue(companyDto.getFirstCategory()))
             companyDto.setFirstCategory(convertToFirstCategory(companyDto.getFirstCategory()).name());
         if (companyDto.getSecondCategory() != null && containsWithSecondCategoryValue(companyDto.getSecondCategory()))
@@ -85,7 +97,6 @@ public class ManagerCompanyController {
             return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        constraintValidator.validate(companyDto, bindingResult);
         codeValidator.validate(companyDto, bindingResult);
         nameValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -168,7 +179,6 @@ public class ManagerCompanyController {
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
-        constraintValidator.validate(companyDto, bindingResult);
         if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
             bindingResult.rejectValue(CODE, "NotFound");
         }
