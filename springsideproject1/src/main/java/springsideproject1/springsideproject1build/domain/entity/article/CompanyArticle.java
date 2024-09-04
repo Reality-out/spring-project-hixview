@@ -1,12 +1,14 @@
 package springsideproject1.springsideproject1build.domain.entity.article;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import springsideproject1.springsideproject1build.domain.validator.article.annotation.EntryDate;
+import springsideproject1.springsideproject1build.domain.validator.article.annotation.Importance;
+import springsideproject1.springsideproject1build.domain.validator.article.annotation.Press;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -25,8 +27,8 @@ public class CompanyArticle {
     @NotBlank
     private final String name;
 
-    @NotNull
-    private final Press press;
+    @Press
+    private final springsideproject1.springsideproject1build.domain.entity.article.Press press;
 
     @NotBlank
     private final String subjectCompany;
@@ -35,10 +37,10 @@ public class CompanyArticle {
     @Pattern(regexp = URL_REGEX)
     private final String link;
 
-    @NotNull
+    @EntryDate
     private final LocalDate date;
 
-    @NotNull
+    @Importance
     private final Integer importance;
 
     public CompanyArticleDto toDto() {
@@ -88,7 +90,7 @@ public class CompanyArticle {
 
         public CompanyArticleBuilder articleDto(CompanyArticleDto articleDto) {
             name = articleDto.getName();
-            press = Press.valueOf(articleDto.getPress());
+            press = springsideproject1.springsideproject1build.domain.entity.article.Press.valueOf(articleDto.getPress());
             subjectCompany = articleDto.getSubjectCompany();
             link = articleDto.getLink();
             date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());

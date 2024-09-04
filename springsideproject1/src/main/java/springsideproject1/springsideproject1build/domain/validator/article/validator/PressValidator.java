@@ -12,15 +12,14 @@ public class PressValidator implements ConstraintValidator<Press, String> {
     private String message;
 
     @Override
-    public void initialize(Press constraintAnnotation) {
-        this.message = constraintAnnotation.message();
-    }
-
-    @Override
     public boolean isValid(String press, ConstraintValidatorContext context) {
+        context.disableDefaultConstraintViolation();
+        if (press == null || press.isEmpty()) {
+            context.buildConstraintViolationWithTemplate("{NotBlank.article.press}").addConstraintViolation();
+            return false;
+        }
         if (!containsWithPress(press) && !containsWithPressValue(press)) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.article.press}").addConstraintViolation();
             return false;
         }
         return true;

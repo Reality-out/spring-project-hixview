@@ -9,15 +9,6 @@ import org.springframework.validation.Validator;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.IMPORTANCE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
-
 @Component
 public class CompanyArticleDtoConstraintValidator implements Validator {
 
@@ -31,28 +22,5 @@ public class CompanyArticleDtoConstraintValidator implements Validator {
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
-        LocalDate minDate = LocalDate.of(1960, 1, 1);
-        LocalDate maxDate = LocalDate.now();
-
-        // press
-        if (!containsWithPress(articleDto.getPress()) && !containsWithPressValue(articleDto.getPress())) {
-            errors.rejectValue(PRESS, "typeMismatch.enum");
-        }
-
-        // date
-        try {
-            LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
-
-            if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
-                errors.rejectValue(DAYS, "Range.java.lang.LocalDate", new Object[]{minDate, maxDate}, null);
-            }
-        } catch (DateTimeException e) {
-            errors.rejectValue(DAYS, "TypeButInvalid.java.lang.LocalDate");
-        }
-
-        // importance
-        if (!(articleDto.getImportance() == 0 || articleDto.getImportance() == 1)) {
-            errors.rejectValue(IMPORTANCE, "Restrict");
-        }
     }
 }

@@ -2,19 +2,20 @@ package springsideproject1.springsideproject1build.domain.validator.article.anno
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import springsideproject1.springsideproject1build.domain.validator.article.validator.PressValidator;
+import springsideproject1.springsideproject1build.domain.validator.article.validator.ImportanceValidator;
 
 import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PressValidator.class)
+@Constraint(validatedBy = ImportanceValidator.class)
 @Documented
-public @interface Press {
+public @interface Importance {
 
-    String message() default "Press default message";
+    String message() default "Importance default message";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 }
+
