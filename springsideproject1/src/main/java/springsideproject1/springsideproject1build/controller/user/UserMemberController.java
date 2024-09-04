@@ -17,7 +17,7 @@ import springsideproject1.springsideproject1build.controller.manager.ManagerComp
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
-import springsideproject1.springsideproject1build.domain.validator.member.MemberDtoConstraintValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.member.MemberBirthValidator;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERRORS_ARE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
@@ -32,7 +32,7 @@ public class UserMemberController {
     @Autowired
     private final MemberService memberService;
 
-    private final MemberDtoConstraintValidator constraintValidator;
+    private final MemberBirthValidator birthValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyController.class);
 
@@ -50,9 +50,17 @@ public class UserMemberController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMembershipPage(@ModelAttribute(MEMBER) @Validated MemberDto memberDto,
                                        BindingResult bindingResult, Model model) {
-        if (processBindingError(bindingResult, null, model) ||
-                processValidationError(memberDto, bindingResult, model))
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), model);
             return MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
+        }
+
+        birthValidator.validate(memberDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), model);
+            return MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
+        }
+
         memberService.registerMember(Member.builder().memberDto(memberDto).build());
         return URL_REDIRECT_PREFIX + MEMBERSHIP_URL + URL_FINISH_SUFFIX;
     }
@@ -67,25 +75,8 @@ public class UserMemberController {
      * Other private methods
      */
     // Handle Error
-    private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), layoutPath, model);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean processValidationError(MemberDto memberDto, BindingResult bindingResult, Model model) {
-        constraintValidator.validate(memberDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), null, model);
-            return true;
-        }
-        return false;
-    }
-
-    private void finishForRollback(String logMessage, String layoutPath, Model model) {
+    private void finishForRollback(String logMessage, Model model) {
         log.error(ERRORS_ARE, logMessage);
-        model.addAttribute(LAYOUT_PATH, layoutPath);
+        model.addAttribute(LAYOUT_PATH, null);
     }
 }
