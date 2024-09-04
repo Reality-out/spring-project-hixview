@@ -25,7 +25,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class MemberConstraintValidatorTest implements MemberTestUtils {
+public class MemberValidationErrorTest implements MemberTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,7 +36,7 @@ public class MemberConstraintValidatorTest implements MemberTestUtils {
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public MemberConstraintValidatorTest(DataSource dataSource) {
+    public MemberValidationErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 

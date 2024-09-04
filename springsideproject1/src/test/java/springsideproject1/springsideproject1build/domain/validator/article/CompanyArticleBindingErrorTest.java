@@ -176,25 +176,6 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("TypeButInvalid에 대한 기업 기사 추가 유효성 검증")
-    @Test
-    public void validateTypeButInvalidCompanyArticleAdd() throws Exception {
-        // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
-    }
-
     @DisplayName("typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateTypeMismatchCompanyArticleAdd() throws Exception {
@@ -347,25 +328,6 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
-    }
-
-    @DisplayName("TypeButInvalid에 대한 기업 기사 변경 유효성 검증")
-    @Test
-    public void validateTypeButInvalidCompanyArticleModify() throws Exception {
-        // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);

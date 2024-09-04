@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
@@ -28,8 +29,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.CLAS
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.ADD_PROCESS_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 
 @SpringBootTest
@@ -59,10 +59,29 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
         resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
+    @DisplayName("기사 입력일이 유효하지 않은 기업 기사 추가 유효성 검증")
+    @Test
+    public void invalidDateCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(2000);
+        articleDto.setMonth(2);
+        articleDto.setDays(31);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
     @DisplayName("중복 기사명을 사용하는 기업 기사 추가")
     @Test
     public void duplicatedNameCompanyArticleAdd() throws Exception {
-        // given & when
+        // given
         CompanyArticle article1 = testCompanyArticle;
         String commonName = article1.getName();
         CompanyArticleDto articleDto2 = createTestNewCompanyArticleDto();
@@ -85,7 +104,7 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
     @DisplayName("중복 기사 링크를 사용하는 기업 기사 추가")
     @Test
     public void duplicatedLinkCompanyArticleAdd() throws Exception {
-        // given & when
+        // given
         CompanyArticle article1 = testCompanyArticle;
         String commonLink = article1.getLink();
         CompanyArticleDto articleDto2 = createTestNewCompanyArticleDto();
@@ -119,6 +138,31 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
+    }
+
+    @DisplayName("기사 입력일이 유효하지 않은, 문자열을 사용하는 기업 기사들 추가")
+    @Test
+    public void invalidDateCompanyArticleAddWithString() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(2000);
+        articleDto.setMonth(2);
+        articleDto.setDays(31);
+        CompanyArticleBufferSimple articleBuffer = CompanyArticleBufferSimple.builder().articleDto(articleDto).build();
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                    put(nameDatePressString, articleBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
+                    put(linkString, articleBuffer.getLinkString());
+                }}))
+                .andExpectAll(view().name(
+                                URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                        model().attribute(ERROR_SINGLE, (String) null)));
     }
 
     @DisplayName("중복 기사명을 사용하는, 문자열을 사용하는 기업 기사들 추가")
@@ -157,5 +201,80 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
                                 URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
+    }
+
+    @DisplayName("기사 입력일이 유효하지 않은 기업 기사 변경")
+    @Test
+    public void invalidDateCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setYear(2000);
+        articleDto.setMonth(2);
+        articleDto.setDays(31);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("존재하지 않는 기업 기사명을 사용하는 기업 기사 변경")
+    @Test
+    public void notExistNameCompanyArticleModify() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleService.registerArticle(testCompanyArticle);
+
+        // when
+        articleDto.setName(testNewCompanyArticle.getName());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("존재하지 않는 기업 링크를 사용하는 기업 기사 변경")
+    @Test
+    public void notExistLinkCompanyArticleModify() throws Exception {
+        // given
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleService.registerArticle(testCompanyArticle);
+
+        // when
+        articleDto.setLink(testNewCompanyArticle.getLink());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("대상 기업이 추가되지 않은 기업 기사 변경")
+    @Test
+    public void notRegisteredSubjectCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
     }
 }

@@ -19,17 +19,16 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.ADD_PROCESS_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyFieldValidatorTest implements CompanyTestUtils {
+public class CompanyValidationErrorTest implements CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +39,7 @@ public class CompanyFieldValidatorTest implements CompanyTestUtils {
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyFieldValidatorTest(DataSource dataSource) {
+    public CompanyValidationErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -52,7 +51,7 @@ public class CompanyFieldValidatorTest implements CompanyTestUtils {
     @DisplayName("중복 기업 코드를 사용하는 기업 추가")
     @Test
     public void duplicatedCodeCompanyAdd() throws Exception {
-        // given & when
+        // given
         String commonCode = samsungElectronics.getCode();
         CompanyDto companyDto2 = createSKHynixDto();
         companyDto2.setCode(commonCode);
@@ -73,7 +72,7 @@ public class CompanyFieldValidatorTest implements CompanyTestUtils {
     @DisplayName("중복 기업명을 사용하는 기업 추가")
     @Test
     public void duplicatedNameCompanyAdd() throws Exception {
-        // given & when
+        // given
         String commonName = samsungElectronics.getName();
         CompanyDto companyDto2 = createSKHynixDto();
         companyDto2.setName(commonName);
@@ -89,5 +88,45 @@ public class CompanyFieldValidatorTest implements CompanyTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(companyDto2);
+    }
+
+    @DisplayName("존재하지 않는 기업 코드를 사용하는 기업 변경")
+    @Test
+    public void notExistCodeCompanyModify() throws Exception {
+        // given
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setCode(skHynix.getCode());
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("존재하지 않는 기업명을 사용하는 기업 변경")
+    @Test
+    public void notExistNameCompanyModify() throws Exception {
+        // given
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setName(skHynix.getName());
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
     }
 }

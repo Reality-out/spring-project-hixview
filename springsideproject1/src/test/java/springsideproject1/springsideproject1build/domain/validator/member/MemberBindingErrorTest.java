@@ -32,7 +32,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class MemberDefaultValidatorTest implements MemberTestUtils {
+public class MemberBindingErrorTest implements MemberTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +43,7 @@ public class MemberDefaultValidatorTest implements MemberTestUtils {
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public MemberDefaultValidatorTest(DataSource dataSource) {
+    public MemberBindingErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 

@@ -72,6 +72,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
         // given & when
         companyService.registerCompany(samsungElectronics);
 
+        // then
         requireNonNull(mockMvc.perform(postWithCompany(modifyCompanyFinishUrl,
                         Company.builder().company(samsungElectronics).code(skHynix.getCode()).build()))
                 .andExpectAll(view().name(modifyCompanyProcessPage),

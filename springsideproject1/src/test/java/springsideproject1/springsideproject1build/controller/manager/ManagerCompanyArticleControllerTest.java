@@ -316,13 +316,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @DisplayName("기업 기사 없애기 완료 페이지 접속")
     @Test
     public void accessCompanyArticleRidFinish() throws Exception {
-        // given & when
+        // given
         CompanyArticle article = testCompanyArticle;
         String name = article.getName();
 
-        // when & then
+        // when
         Long number = articleService.registerArticle(article).getNumber();
 
+        // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isFound(),
                         redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),

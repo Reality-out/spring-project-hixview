@@ -49,6 +49,46 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
         resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
+    @DisplayName("code의 Exist에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateCodeExistCompanyAdd() throws Exception {
+        // given
+        CompanyDto companyDto = createSKHynixDto();
+        companyDto.setCode(samsungElectronics.getCode());
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("name의 Exist에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateNameExistCompanyAdd() throws Exception {
+        // given
+        CompanyDto companyDto = createSKHynixDto();
+        companyDto.setName(samsungElectronics.getName());
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
     @DisplayName("NotBlank(공백)에 대한 기업 추가 유효성 검증")
     @Test
     public void validateNotBlankSpaceCompanyAdd() throws Exception {
@@ -150,6 +190,114 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
                 .isEqualTo(companyDto);
     }
 
+    @DisplayName("Country의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateCountryTypeMismatchCompanyAdd() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setCountry(INVALID_VALUE.toUpperCase());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("Scale의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateScaleTypeMismatchCompanyAdd() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setScale(INVALID_VALUE.toUpperCase());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("FirstCategory의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateFirstCategoryTypeMismatchCompanyAdd() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setFirstCategory(INVALID_VALUE.toUpperCase());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("SecondCategory의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateSecondCategoryTypeMismatchCompanyAdd() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setSecondCategory(INVALID_VALUE.toUpperCase());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(view().name(addSingleCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("code의 Exist에 대한 기업 변경 유효성 검증")
+    @Test
+    public void validateCodeExistCompanyModify() throws Exception {
+        // given
+        CompanyDto companyDto = createSKHynixDto();
+        companyDto.setCode(samsungElectronics.getCode());
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("name의 Exist에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateNameExistCompanyModify() throws Exception {
+        // given
+        CompanyDto companyDto = createSKHynixDto();
+        companyDto.setName(samsungElectronics.getName());
+
+        // when
+        companyService.registerCompany(samsungElectronics);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
     @DisplayName("NotBlank(공백)에 대한 기업 변경 유효성 검증")
     @Test
     public void validateNotBlankSpaceCompanyModify() throws Exception {
@@ -240,6 +388,74 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode("00000");
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("Country의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateCountryTypeMismatchCompanyModify() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setCountry(INVALID_VALUE);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("Scale의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateScaleTypeMismatchCompanyModify() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setScale(INVALID_VALUE);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("FirstCategory의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateFirstCategoryTypeMismatchCompanyModify() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setFirstCategory(INVALID_VALUE.toUpperCase());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                .andExpectAll(view().name(modifyCompanyProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                .usingRecursiveComparison()
+                .isEqualTo(companyDto);
+    }
+
+    @DisplayName("SecondCategory의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @Test
+    public void validateSecondCategoryTypeMismatchCompanyModify() throws Exception {
+        // given & when
+        CompanyDto companyDto = createSamsungElectronicsDto();
+        companyDto.setSecondCategory(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
