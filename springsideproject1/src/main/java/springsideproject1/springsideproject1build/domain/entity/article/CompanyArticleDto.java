@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
 
@@ -14,7 +16,7 @@ public class CompanyArticleDto {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @Press
     private String press;
 
     @NotBlank
@@ -33,6 +35,6 @@ public class CompanyArticleDto {
     @NotNull
     private Integer days;
 
-    @NotNull
+    @Importance
     private Integer importance;
 }

@@ -32,7 +32,7 @@ import static springsideproject1.springsideproject1build.domain.entity.article.P
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -214,8 +214,7 @@ public class ManagerCompanyArticleController {
     public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(ERRORS_ARE + NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME,
-                    UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
+            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
 
@@ -278,8 +277,7 @@ public class ManagerCompanyArticleController {
     public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(ERRORS_ARE + NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME,
-                    REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
+            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
             return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
         }
 

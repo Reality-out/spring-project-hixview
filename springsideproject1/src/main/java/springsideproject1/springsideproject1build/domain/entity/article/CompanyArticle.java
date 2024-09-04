@@ -1,12 +1,12 @@
 package springsideproject1.springsideproject1build.domain.entity.article;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.validation.annotation.EntryDate;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 
@@ -37,7 +37,7 @@ public class CompanyArticle {
     @Pattern(regexp = URL_REGEX)
     private final String link;
 
-    @EntryDate
+    @NotNull
     private final LocalDate date;
 
     @Importance

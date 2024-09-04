@@ -35,6 +35,19 @@ public interface CompanyTestUtils extends ObjectTestUtils {
         return skHynix.toDto();
     }
 
+    default CompanyDto copyCompanyDto(CompanyDto source) {
+        CompanyDto target = new CompanyDto();
+
+        target.setCode(source.getCode());
+        target.setCountry(source.getCountry());
+        target.setScale(source.getScale());
+        target.setName(source.getName());
+        target.setFirstCategory(source.getFirstCategory());
+        target.setSecondCategory(source.getSecondCategory());
+
+        return target;
+    }
+
     /**
      * Request
      */

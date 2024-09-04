@@ -21,9 +21,10 @@ import springsideproject1.springsideproject1build.domain.validator.company.Compa
 
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.convertToFirstCategory;
 import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.convertToSecondCategory;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.CODE;
@@ -65,16 +66,33 @@ public class ManagerCompanyController {
     @PostMapping(ADD_SINGLE_COMPANY_URL)
     public String submitAddCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                    BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
+        // TODO: 특히 FirstCategoryValue 값을 FirstCategory 값으로 바꾸는 로직 적용 이후 FirstCategoryValidator에 관련한 수정 진행하기
+        // TODO: 특히 SecondCategoryValue 값을 SecondCategory 값으로 바꾸는 로직 적용 이후 SecondCategoryValidator에 관련한 수정 진행하기
         if (companyDto.getFirstCategory() != null) {
             companyDto.setFirstCategory(companyDto.getFirstCategory().toUpperCase());
         }
         if (companyDto.getSecondCategory() != null) {
             companyDto.setSecondCategory(companyDto.getSecondCategory().toUpperCase());
         }
-        if (processBindingError(bindingResult, ADD_PROCESS_PATH, model) ||
-                (processValidationErrorAdd(companyDto, bindingResult, model)))
+        if (companyDto.getFirstCategory() != null && containsWithFirstCategoryValue(companyDto.getFirstCategory()))
+            companyDto.setFirstCategory(convertToFirstCategory(companyDto.getFirstCategory()).name());
+        if (companyDto.getSecondCategory() != null && containsWithSecondCategoryValue(companyDto.getSecondCategory()))
+            companyDto.setSecondCategory(convertToSecondCategory(companyDto.getSecondCategory()).name());
+
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-        checkAndConvertForKoreanEnum(companyDto);
+        }
+
+        constraintValidator.validate(companyDto, bindingResult);
+        codeValidator.validate(companyDto, bindingResult);
+        nameValidator.validate(companyDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
+            return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+        }
+
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX;
@@ -114,11 +132,10 @@ public class ManagerCompanyController {
     public String processModifyCompany(@RequestParam String codeOrName, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_COMPANY_WITH_THAT_CODE_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ERROR);
+            finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
             return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
+
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
         model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
@@ -130,19 +147,39 @@ public class ManagerCompanyController {
     @PostMapping(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                       BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+
+        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
+        // TODO: 특히 FirstCategoryValue 값을 FirstCategory 값으로 바꾸는 로직 적용 이후 FirstCategoryValidator에 관련한 수정 진행하기
+        // TODO: 특히 SecondCategoryValue 값을 SecondCategory 값으로 바꾸는 로직 적용 이후 SecondCategoryValidator에 관련한 수정 진행하기
         if (companyDto.getFirstCategory() != null) {
             companyDto.setFirstCategory(companyDto.getFirstCategory().toUpperCase());
         }
         if (companyDto.getSecondCategory() != null) {
             companyDto.setSecondCategory(companyDto.getSecondCategory().toUpperCase());
         }
-        if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model) ||
-                (processValidationErrorModify(companyDto, bindingResult, model))) {
+        if (companyDto.getFirstCategory() != null && containsWithFirstCategoryValue(companyDto.getFirstCategory()))
+            companyDto.setFirstCategory(convertToFirstCategory(companyDto.getFirstCategory()).name());
+        if (companyDto.getSecondCategory() != null && containsWithSecondCategoryValue(companyDto.getSecondCategory()))
+            companyDto.setSecondCategory(convertToSecondCategory(companyDto.getSecondCategory()).name());
+
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
-        checkAndConvertForKoreanEnum(companyDto);
-        companyService.correctCompany(Company.builder().companyDto(companyDto).build());
+
+        constraintValidator.validate(companyDto, bindingResult);
+        if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
+            bindingResult.rejectValue(CODE, "NotFound");
+        }
+        if (companyService.findCompanyByName(companyDto.getName()).isEmpty()) {
+            bindingResult.rejectValue(NAME, "NotFound");
+        }
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
+            model.addAttribute("updateUrl", UPDATE_COMPANY_URL + URL_FINISH_SUFFIX);
+            return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        }
         redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;
     }
@@ -169,11 +206,10 @@ public class ManagerCompanyController {
     public String submitRidCompany(@RequestParam String codeOrName, RedirectAttributes redirect, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_COMPANY_WITH_THAT_CODE_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ERROR);
+            finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
             return REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX;
         }
+
         if (NUMBER_REGEX_PATTERN.matcher(codeOrName).matches()) {
             redirect.addAttribute(NAME, encodeWithUTF8(
                     companyService.findCompanyByCode(codeOrName).orElseThrow().getName()));
@@ -196,49 +232,7 @@ public class ManagerCompanyController {
     /**
      * Other private methods
      */
-    // Check
-    private void checkAndConvertForKoreanEnum(CompanyDto companyDto) {
-        if (containsWithFirstCategoryValue(companyDto.getFirstCategory()))
-            companyDto.setFirstCategory(convertToPress(companyDto.getFirstCategory()).name());
-        if (containsWithSecondCategoryValue(companyDto.getSecondCategory()))
-            companyDto.setSecondCategory(convertToPress(companyDto.getSecondCategory()).name());
-    }
-
     // Handle Error
-    private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), layoutPath, BEAN_VALIDATION_ERROR, model);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean processValidationErrorAdd(CompanyDto companyDto, BindingResult bindingResult, Model model) {
-        constraintValidator.validate(companyDto, bindingResult);
-        codeValidator.validate(companyDto, bindingResult);
-        nameValidator.validate(companyDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean processValidationErrorModify(CompanyDto companyDto, BindingResult bindingResult, Model model) {
-        constraintValidator.validate(companyDto, bindingResult);
-        if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
-            bindingResult.rejectValue(CODE, "NotFound");
-        }
-        if (companyService.findCompanyByName(companyDto.getName()).isEmpty()) {
-            bindingResult.rejectValue(NAME, "NotFound");
-        }
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
-            return true;
-        }
-        return false;
-    }
-
     private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
         log.error(ERRORS_ARE, logMessage);
         model.addAttribute(LAYOUT_PATH, layoutPath);

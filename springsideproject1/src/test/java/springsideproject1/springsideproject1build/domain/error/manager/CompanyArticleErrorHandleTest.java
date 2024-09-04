@@ -165,6 +165,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         CompanyArticle article = articleService.registerArticle(testCompanyArticle);
         companyService.registerCompany(samsungElectronics);
 
+        // then
         requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
                         CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))
                 .andExpectAll(view().name(modifyArticleProcessPage),

@@ -52,11 +52,16 @@ public class ManagerCompanyArticleMainController {
     @PostMapping(ADD_COMPANY_ARTICLE_MAIN_URL)
     public String submitAddCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleMainDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
         if (articleMainDto.getName() != null) {
             articleMainDto.setName(articleMainDto.getName().strip());
         }
-        if (processBindingError(bindingResult, ADD_PROCESS_PATH, model))
+
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+        }
+
         articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleMainDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
@@ -96,11 +101,11 @@ public class ManagerCompanyArticleMainController {
     public String processModifyCompanyArticleMain(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR);
+            finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
+                    UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
             return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
+
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
@@ -109,14 +114,18 @@ public class ManagerCompanyArticleMainController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleMainDto,
-                                             BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                                 BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
         if (articleMainDto.getName() != null) {
             articleMainDto.setName(articleMainDto.getName().strip());
         }
-        if (processBindingError(bindingResult, UPDATE_PROCESS_PATH, model)) {
+
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
+
         articleMainService.correctArticle(CompanyArticleMain.builder().articleDto(articleMainDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
         return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
@@ -144,19 +153,16 @@ public class ManagerCompanyArticleMainController {
     public String submitRidCompanyArticleMain(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
         Optional<CompanyArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            log.error(ERRORS_ARE, NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME);
-            model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-            model.addAttribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR);
+            finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
+                    REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
             return REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
+
         if (NUMBER_REGEX_PATTERN.matcher(numberOrName).matches()) {
-            String removedName = articleMainService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
-            articleMainService.removeArticleByName(removedName);
-            redirect.addAttribute(NAME, encodeWithUTF8(removedName));
-        } else {
-            articleMainService.removeArticleByName(numberOrName);
-            redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
+            numberOrName = articleMainService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
+        articleMainService.removeArticleByName(numberOrName);
+        redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
         return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
     }
 
@@ -172,14 +178,6 @@ public class ManagerCompanyArticleMainController {
      * Other private methods
      */
     // Handle Error
-    private boolean processBindingError(BindingResult bindingResult, String layoutPath, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), layoutPath, BEAN_VALIDATION_ERROR, model);
-            return true;
-        }
-        return false;
-    }
-
     private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
         log.error(ERRORS_ARE, logMessage);
         model.addAttribute(LAYOUT_PATH, layoutPath);

@@ -72,6 +72,21 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
         return testNewCompanyArticle.toDto();
     }
 
+    default CompanyArticleDto copyCompanyArticleDto(CompanyArticleDto source) {
+        CompanyArticleDto target = new CompanyArticleDto();
+
+        target.setName(source.getName());
+        target.setPress(source.getPress());
+        target.setSubjectCompany(source.getSubjectCompany());
+        target.setLink(source.getLink());
+        target.setYear(source.getYear());
+        target.setMonth(source.getMonth());
+        target.setDays(source.getDays());
+        target.setImportance(source.getImportance());
+
+        return target;
+    }
+
     /**
      * Request
      */

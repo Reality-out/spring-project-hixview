@@ -30,7 +30,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleMainDefaultValidatorTest implements CompanyArticleMainTestUtils {
+public class CompanyArticleMainBindingErrorTest implements CompanyArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +41,7 @@ public class CompanyArticleMainDefaultValidatorTest implements CompanyArticleMai
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleMainDefaultValidatorTest(DataSource dataSource) {
+    public CompanyArticleMainBindingErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 

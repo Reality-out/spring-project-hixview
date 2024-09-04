@@ -35,7 +35,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleValidatorTest(DataSource dataSource) {
+    public CompanyArticleBindingErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -68,11 +68,8 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
         articleDto.setLink(" ");
-        CompanyArticleDto returnedArticleDto = createTestCompanyArticleDto();
+        CompanyArticleDto returnedArticleDto = copyCompanyArticleDto(articleDto);
         returnedArticleDto.setName("");
-        returnedArticleDto.setPress(" ");
-        returnedArticleDto.setSubjectCompany(" ");
-        returnedArticleDto.setLink(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -93,6 +90,8 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         articleDto.setPress(null);
         articleDto.setSubjectCompany(null);
         articleDto.setLink(null);
+        CompanyArticleDto returnedArticleDto = copyCompanyArticleDto(articleDto);
+        returnedArticleDto.setPress("");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -101,7 +100,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(returnedArticleDto);
     }
 
     @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
@@ -171,7 +170,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -229,7 +228,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
 
@@ -242,11 +241,8 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         articleDto.setPress(" ");
         articleDto.setSubjectCompany(" ");
         articleDto.setLink(" ");
-        CompanyArticleDto returnedArticleDto = createTestCompanyArticleDto();
+        CompanyArticleDto returnedArticleDto = copyCompanyArticleDto(articleDto);
         returnedArticleDto.setName("");
-        returnedArticleDto.setPress(" ");
-        returnedArticleDto.setSubjectCompany(" ");
-        returnedArticleDto.setLink(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
@@ -267,6 +263,8 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         articleDto.setPress(null);
         articleDto.setSubjectCompany(null);
         articleDto.setLink(null);
+        CompanyArticleDto returnedArticleDto = copyCompanyArticleDto(articleDto);
+        returnedArticleDto.setPress("");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
@@ -275,7 +273,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(returnedArticleDto);
     }
 
     @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
@@ -337,15 +335,18 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
     @DisplayName("Restrict에 대한 기업 기사 변경 유효성 검증")
     @Test
     public void validateRestrictCompanyArticleModify() throws Exception {
-        // given & when
+        // given
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleService.registerArticle(testCompanyArticle);
+
+        // when
         articleDto.setImportance(3);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null))
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -403,7 +404,7 @@ public class CompanyArticleValidatorTest implements CompanyArticleTestUtils, Com
         mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, (String) null),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
 }

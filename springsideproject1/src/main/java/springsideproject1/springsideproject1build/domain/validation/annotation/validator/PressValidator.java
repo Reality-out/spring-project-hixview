@@ -9,8 +9,6 @@ import static springsideproject1.springsideproject1build.domain.entity.article.P
 
 public class PressValidator implements ConstraintValidator<Press, String> {
 
-    private String message;
-
     @Override
     public boolean isValid(String press, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();

@@ -9,7 +9,6 @@ import springsideproject1.springsideproject1build.domain.entity.company.CompanyD
 
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.Country.containsWithCountry;
 import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategory;
 import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
 import static springsideproject1.springsideproject1build.domain.entity.company.Scale.containsWithScale;
@@ -30,11 +29,6 @@ public class CompanyDtoConstraintValidator implements Validator {
         CompanyDto companyDto = (CompanyDto) target;
         LocalDate minDate = LocalDate.of(1960, 1, 1);
         LocalDate maxDate = LocalDate.now();
-
-        // country
-        if (!containsWithCountry(companyDto.getCountry())) {
-            errors.rejectValue(COUNTRY, "typeMismatch.enum");
-        }
 
         // scale
         if (!containsWithScale(companyDto.getScale())) {

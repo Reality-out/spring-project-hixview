@@ -17,6 +17,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @RequiredArgsConstructor
 public class CompanyArticleAddSimpleValidator implements Validator {
 
+    private final CompanyArticleEntryDateValidator entryDateValidator;
     private final CompanyArticleService articleService;
     private final CompanyService companyService;
 
@@ -27,8 +28,9 @@ public class CompanyArticleAddSimpleValidator implements Validator {
 
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
-
         CompanyArticleDto articleDto = (CompanyArticleDto) target;
+
+        entryDateValidator.validate(articleDto, errors);
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
             errors.rejectValue(NAME, "Exist");

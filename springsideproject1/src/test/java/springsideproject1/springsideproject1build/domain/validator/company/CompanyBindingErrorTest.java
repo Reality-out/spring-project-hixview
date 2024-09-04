@@ -29,7 +29,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyDefaultValidatorTest implements CompanyTestUtils {
+public class CompanyBindingErrorTest implements CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,7 +40,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyDefaultValidatorTest(DataSource dataSource) {
+    public CompanyBindingErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -83,6 +83,9 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
         companyDto.setFirstCategory(null);
         companyDto.setSecondCategory(null);
 
+        CompanyDto returnedCompanyDto = copyCompanyDto(companyDto);
+        returnedCompanyDto.setCountry("");
+
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
@@ -90,7 +93,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(companyDto);
+                .isEqualTo(returnedCompanyDto);
     }
 
     @DisplayName("Pattern에 대한 기업 추가 유효성 검증")
@@ -178,6 +181,9 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
         companyDto.setFirstCategory(null);
         companyDto.setSecondCategory(null);
 
+        CompanyDto returnedCompanyDto = copyCompanyDto(companyDto);
+        returnedCompanyDto.setCountry("");
+
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
@@ -185,7 +191,7 @@ public class CompanyDefaultValidatorTest implements CompanyTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(companyDto);
+                .isEqualTo(returnedCompanyDto);
     }
 
     @DisplayName("Pattern에 대한 기업 변경 유효성 검증")

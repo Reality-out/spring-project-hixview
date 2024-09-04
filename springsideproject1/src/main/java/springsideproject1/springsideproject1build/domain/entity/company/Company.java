@@ -24,7 +24,7 @@ public class Company {
     @Pattern(regexp = NUMBER_REGEX)
     private final String code;
 
-    @NotNull
+    @springsideproject1.springsideproject1build.domain.validation.annotation.Country
     private final Country country;
 
     @NotNull

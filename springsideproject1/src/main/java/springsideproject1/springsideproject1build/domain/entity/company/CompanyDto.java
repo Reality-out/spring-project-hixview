@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Country;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX;
 
@@ -16,7 +17,7 @@ public class CompanyDto {
     @Pattern(regexp = NUMBER_REGEX)
     private String code;
 
-    @NotBlank
+    @Country
     private String country;
 
     @NotBlank
