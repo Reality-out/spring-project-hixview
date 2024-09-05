@@ -43,6 +43,10 @@ public class CompanyArticleMainService {
                 findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 
+    public Optional<CompanyArticleMain> findArticleByImagePath(String imagePath) {
+        return articleRepository.getArticleByImagePath(imagePath);
+    }
+
     /**
      * INSERT CompanyArticleMain
      */

@@ -1,8 +1,7 @@
-package springsideproject1.springsideproject1build.domain.validation.annotation.validator;
+package springsideproject1.springsideproject1build.domain.validation.annotation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory;
 
 import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategory;
 import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategoryValue;

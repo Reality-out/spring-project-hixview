@@ -18,10 +18,12 @@ import javax.sql.DataSource;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.NOT_FOUND_COMPANY_ERROR;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.REMOVE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.UPDATE_COMPANY_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 
 @SpringBootTest

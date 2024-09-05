@@ -2,7 +2,6 @@ package springsideproject1.springsideproject1build.domain.validation.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-import springsideproject1.springsideproject1build.domain.validation.annotation.validator.ScaleValidator;
 
 import java.lang.annotation.*;
 

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.MEMBERSHIP_VIEW;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_PROCESS_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
 

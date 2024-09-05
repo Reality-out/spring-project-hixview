@@ -49,6 +49,13 @@ public class CompanyArticleMainRepositoryImpl implements CompanyArticleMainRepos
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
+    @Override
+    public Optional<CompanyArticleMain> getArticleByImagePath(String imagePath) {
+        List<CompanyArticleMain> oneArticleOrNull = jdbcTemplate.query(
+                "select * from " + TEST_COMPANY_ARTICLE_MAIN_TABLE + " where imagePath = ?", articleRowMapper(), imagePath);
+        return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
+    }
+
     /**
      * INSERT CompanyArticleMain
      */

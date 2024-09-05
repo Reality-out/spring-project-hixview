@@ -15,6 +15,8 @@ public interface CompanyArticleMainRepository {
 
     Optional<CompanyArticleMain> getArticleByName(String name);
 
+    Optional<CompanyArticleMain> getArticleByImagePath(String imagePath);
+
     /**
      * INSERT CompanyArticleMain
      */

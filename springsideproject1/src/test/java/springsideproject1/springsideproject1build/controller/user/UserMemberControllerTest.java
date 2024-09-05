@@ -14,7 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.MEMBERSHIP_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.MEMBERSHIP_VIEW;
+import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_FINISH_SUFFIX;
 
 @SpringBootTest
 @AutoConfigureMockMvc

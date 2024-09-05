@@ -1,8 +1,7 @@
-package springsideproject1.springsideproject1build.domain.validation.annotation.validator;
+package springsideproject1.springsideproject1build.domain.validation.annotation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
 
 public class ImportanceValidator implements ConstraintValidator<Importance, Integer> {
 

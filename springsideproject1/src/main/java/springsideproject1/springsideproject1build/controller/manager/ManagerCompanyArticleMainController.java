@@ -14,6 +14,8 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMainDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.main.CompanyArticleMainAddValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.main.CompanyArticleMainModifyValidator;
 
 import java.util.Optional;
 
@@ -35,6 +37,9 @@ public class ManagerCompanyArticleMainController {
 
     private final CompanyArticleMainService articleMainService;
     private final CompanyService companyService;
+
+    private final CompanyArticleMainAddValidator addValidator;
+    private final CompanyArticleMainModifyValidator modifyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleMainController.class);
 
@@ -59,6 +64,12 @@ public class ManagerCompanyArticleMainController {
 
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
+            return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+        }
+
+        addValidator.validate(articleMainDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
             return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
 
@@ -122,6 +133,13 @@ public class ManagerCompanyArticleMainController {
 
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
+            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
+            return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        }
+
+        modifyValidator.validate(articleMainDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }

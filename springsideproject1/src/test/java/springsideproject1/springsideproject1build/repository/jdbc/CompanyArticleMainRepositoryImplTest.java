@@ -87,6 +87,22 @@ class CompanyArticleMainRepositoryImplTest implements CompanyArticleMainTestUtil
                 .isEqualTo(article);
     }
 
+    @DisplayName("이미지 경로로 기업 기사 메인 획득")
+    @Test
+    public void getCompanyArticleMainByImagePathTest() {
+        // given
+        CompanyArticleMain article = testCompanyArticleMain;
+
+        // when
+        articleRepository.saveArticle(article);
+
+        // then
+        assertThat(articleRepository.getArticleByImagePath(article.getImagePath()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .isEqualTo(article);
+    }
+
     @DisplayName("기업 기사 메인 저장")
     @Test
     public void saveCompanyArticleMainTest() {

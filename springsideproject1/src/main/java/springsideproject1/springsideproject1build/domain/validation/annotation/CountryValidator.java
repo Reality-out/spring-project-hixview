@@ -1,8 +1,7 @@
-package springsideproject1.springsideproject1build.domain.validation.annotation.validator;
+package springsideproject1.springsideproject1build.domain.validation.annotation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Country;
 
 import static springsideproject1.springsideproject1build.domain.entity.company.Country.containsWithCountry;
 import static springsideproject1.springsideproject1build.domain.entity.company.Country.containsWithCountryValue;
