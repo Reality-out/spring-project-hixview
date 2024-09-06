@@ -9,13 +9,11 @@ public class ImportanceValidator implements ConstraintValidator<Importance, Inte
     public boolean isValid(Integer importance, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (importance == null) {
-            context.buildConstraintViolationWithTemplate("{NotNull.article.importance}")
-                    .addPropertyNode("importance").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{NotNull.article.importance}").addConstraintViolation();
             return false;
         }
         if (!(importance == 0 || importance == 1)) {
-            context.buildConstraintViolationWithTemplate("{Restrict.article.importance}")
-                    .addPropertyNode("importance").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{Restrict.article.importance}").addConstraintViolation();
             return false;
         }
         return true;

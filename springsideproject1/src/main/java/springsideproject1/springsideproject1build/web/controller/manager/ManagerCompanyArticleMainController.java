@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller.manager;
+package springsideproject1.springsideproject1build.web.controller.manager;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

@@ -12,13 +12,11 @@ public class FirstCategoryValidator implements ConstraintValidator<FirstCategory
     public boolean isValid(String firstCategory, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (firstCategory == null || firstCategory.isEmpty()) {
-            context.buildConstraintViolationWithTemplate("{NotBlank.company.firstCategory}")
-                    .addPropertyNode("firstCategory").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{NotBlank.company.firstCategory}").addConstraintViolation();
             return false;
         }
         if (!containsWithFirstCategory(firstCategory) && !containsWithFirstCategoryValue(firstCategory)) {
-            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.firstCategory}")
-                    .addPropertyNode("firstCategory").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.firstCategory}").addConstraintViolation();
             return false;
         }
         return true;

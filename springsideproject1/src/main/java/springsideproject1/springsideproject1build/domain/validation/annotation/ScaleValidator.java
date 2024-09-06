@@ -12,13 +12,11 @@ public class ScaleValidator implements ConstraintValidator<Scale, String> {
     public boolean isValid(String scale, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (scale == null || scale.isEmpty()) {
-            context.buildConstraintViolationWithTemplate("{NotBlank.company.scale}")
-                    .addPropertyNode("scale").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{NotBlank.company.scale}").addConstraintViolation();
             return false;
         }
         if (!containsWithScale(scale) && !containsWithScaleValue(scale)) {
-            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.scale}")
-                    .addPropertyNode("scale").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.scale}").addConstraintViolation();
             return false;
         }
         return true;

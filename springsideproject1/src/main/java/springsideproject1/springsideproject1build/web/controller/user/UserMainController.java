@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller.user;
+package springsideproject1.springsideproject1build.web.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,13 +12,11 @@ public class CountryValidator implements ConstraintValidator<Country, String> {
     public boolean isValid(String country, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (country == null || country.isEmpty()) {
-            context.buildConstraintViolationWithTemplate("{NotBlank.company.country}")
-                    .addPropertyNode("country").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{NotBlank.company.country}").addConstraintViolation();
             return false;
         }
         if (!containsWithCountry(country) && !containsWithCountryValue(country)) {
-            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.country}")
-                    .addPropertyNode("country").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.country}").addConstraintViolation();
             return false;
         }
         return true;

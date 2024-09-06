@@ -123,12 +123,6 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setFirstCategory(null);
         companyDto.setSecondCategory(null);
 
-        CompanyDto returnedCompanyDto = copyCompanyDto(companyDto);
-        returnedCompanyDto.setCountry("");
-        returnedCompanyDto.setScale("");
-        returnedCompanyDto.setFirstCategory("");
-        returnedCompanyDto.setSecondCategory("");
-
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
@@ -136,7 +130,7 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(returnedCompanyDto);
+                .isEqualTo(companyDto);
     }
 
     @DisplayName("Pattern에 대한 기업 추가 유효성 검증")
@@ -332,12 +326,6 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setFirstCategory(null);
         companyDto.setSecondCategory(null);
 
-        CompanyDto returnedCompanyDto = copyCompanyDto(companyDto);
-        returnedCompanyDto.setCountry("");
-        returnedCompanyDto.setScale("");
-        returnedCompanyDto.setFirstCategory("");
-        returnedCompanyDto.setSecondCategory("");
-
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
@@ -345,7 +333,7 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
-                .isEqualTo(returnedCompanyDto);
+                .isEqualTo(companyDto);
     }
 
     @DisplayName("Pattern에 대한 기업 변경 유효성 검증")

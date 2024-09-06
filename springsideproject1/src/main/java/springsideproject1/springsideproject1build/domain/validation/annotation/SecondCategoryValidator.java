@@ -12,13 +12,11 @@ public class SecondCategoryValidator implements ConstraintValidator<SecondCatego
     public boolean isValid(String secondCategory, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (secondCategory == null || secondCategory.isEmpty()) {
-            context.buildConstraintViolationWithTemplate("{NotBlank.company.secondCategory}")
-                    .addPropertyNode("secondCategory").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{NotBlank.company.secondCategory}").addConstraintViolation();
             return false;
         }
         if (!containsWithSecondCategory(secondCategory) && !containsWithSecondCategoryValue(secondCategory)) {
-            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.secondCategory}")
-                    .addPropertyNode("secondCategory").addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.secondCategory}").addConstraintViolation();
             return false;
         }
         return true;
