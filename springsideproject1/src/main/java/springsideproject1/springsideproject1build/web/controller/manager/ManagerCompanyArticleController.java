@@ -70,13 +70,6 @@ public class ManagerCompanyArticleController {
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
-        // TODO: 특히 PressValue 값을 Press 값으로 바꾸는 로직 적용 이후 PressValidator에 관련한 수정 진행하기
-        if (articleDto.getName() != null) articleDto.setName(articleDto.getName().strip());
-        if (articleDto.getPress() != null) articleDto.setPress(articleDto.getPress().toUpperCase());
-        if (articleDto.getPress() != null && containsWithPressValue(articleDto.getPress()))
-            articleDto.setPress(convertToPress(articleDto.getPress()).name());
-
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
@@ -227,16 +220,6 @@ public class ManagerCompanyArticleController {
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
-        // TODO: 특히 PressValue 값을 Press 값으로 바꾸는 로직 적용 이후 PressValidator에 관련한 수정 진행하기
-        if (articleDto.getName() != null) {
-            articleDto.setName(articleDto.getName().strip());
-        }
-        if (articleDto.getPress() != null)
-            articleDto.setPress(articleDto.getPress().toUpperCase());
-        if (articleDto.getPress() != null && containsWithPressValue(articleDto.getPress()))
-            articleDto.setPress(convertToPress(articleDto.getPress()).name());
-
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
