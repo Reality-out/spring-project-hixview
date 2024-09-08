@@ -25,14 +25,12 @@ public class ModifiableHttpServletRequest extends HttpServletRequestWrapper {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map getParameterMap() {
+    public Map<String, String[]> getParameterMap() {
         return Collections.unmodifiableMap(paramMap);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Enumeration getParameterNames() {
+    public Enumeration<String> getParameterNames() {
         return Collections.enumeration(paramMap.keySet());
     }
 
