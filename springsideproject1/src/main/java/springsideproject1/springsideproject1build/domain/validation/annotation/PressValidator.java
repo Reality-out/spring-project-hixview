@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
 
 public class PressValidator implements ConstraintValidator<Press, String> {
 
@@ -15,7 +14,7 @@ public class PressValidator implements ConstraintValidator<Press, String> {
             context.buildConstraintViolationWithTemplate("{NotBlank.article.press}").addConstraintViolation();
             return false;
         }
-        if (!containsWithPress(press) && !containsWithPressValue(press)) {
+        if (!containsWithPress(press)) {
             context.buildConstraintViolationWithTemplate("{typeMismatch.enum.article.press}").addConstraintViolation();
             return false;
         }

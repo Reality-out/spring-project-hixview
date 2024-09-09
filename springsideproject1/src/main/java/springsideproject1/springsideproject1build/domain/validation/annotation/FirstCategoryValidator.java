@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategory;
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
 
 public class FirstCategoryValidator implements ConstraintValidator<FirstCategory, String> {
 
@@ -15,7 +14,7 @@ public class FirstCategoryValidator implements ConstraintValidator<FirstCategory
             context.buildConstraintViolationWithTemplate("{NotBlank.company.firstCategory}").addConstraintViolation();
             return false;
         }
-        if (!containsWithFirstCategory(firstCategory) && !containsWithFirstCategoryValue(firstCategory)) {
+        if (!containsWithFirstCategory(firstCategory)) {
             context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.firstCategory}").addConstraintViolation();
             return false;
         }

@@ -4,7 +4,6 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import static springsideproject1.springsideproject1build.domain.entity.company.Scale.containsWithScale;
-import static springsideproject1.springsideproject1build.domain.entity.company.Scale.containsWithScaleValue;
 
 public class ScaleValidator implements ConstraintValidator<Scale, String> {
 
@@ -15,7 +14,7 @@ public class ScaleValidator implements ConstraintValidator<Scale, String> {
             context.buildConstraintViolationWithTemplate("{NotBlank.company.scale}").addConstraintViolation();
             return false;
         }
-        if (!containsWithScale(scale) && !containsWithScaleValue(scale)) {
+        if (!containsWithScale(scale)) {
             context.buildConstraintViolationWithTemplate("{typeMismatch.enum.company.scale}").addConstraintViolation();
             return false;
         }

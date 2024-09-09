@@ -137,6 +137,8 @@ public class ManagerCompanyArticleController {
                 articleDto.setMonth(parseInt(partialArticle.get(2)));
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
+                if (containsWithPressValue(articleDto.getPress()))
+                    articleDto.setPress(convertToPress(articleDto.getPress()).name());
 
                 BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(articleDto, ARTICLE);
                 defaultValidator.validate(articleDto, bindingResult);
@@ -147,8 +149,6 @@ public class ManagerCompanyArticleController {
                 if (bindingResult.hasErrors()) {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
-                if (containsWithPressValue(articleDto.getPress()))
-                    articleDto.setPress(convertToPress(articleDto.getPress()).name());
                 nameList.add(articleService.registerArticle(
                         CompanyArticle.builder().articleDto(articleDto).build()).getName());
             }

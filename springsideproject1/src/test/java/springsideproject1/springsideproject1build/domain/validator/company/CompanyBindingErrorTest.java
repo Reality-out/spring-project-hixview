@@ -392,7 +392,7 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
     public void validateCountryTypeMismatchCompanyModify() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCountry(INVALID_VALUE);
+        companyDto.setCountry(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
@@ -409,7 +409,7 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
     public void validateScaleTypeMismatchCompanyModify() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setScale(INVALID_VALUE);
+        companyDto.setScale(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import springsideproject1.springsideproject1build.web.controller.manager.ManagerCompanyController;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
 import springsideproject1.springsideproject1build.domain.validation.validator.member.MemberBirthValidator;
+import springsideproject1.springsideproject1build.web.controller.manager.ManagerCompanyController;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERRORS_ARE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
