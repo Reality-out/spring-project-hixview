@@ -15,6 +15,8 @@ import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -25,6 +27,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.CLAS
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.util.MainUtils.getRandomLongString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -150,38 +153,29 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
                 .isEqualTo(companyDto);
     }
 
-    @DisplayName("6자리보다 큰 Size에 대한 기업 추가 유효성 검증")
+    @DisplayName("Size에 대한 기업 추가 유효성 검증")
     @Test
     public void validateBiggerSizeCompanyAdd() throws Exception {
         // given & when
-        CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCode("0000000");
+        CompanyDto companyDtoLongCode = createSamsungElectronicsDto();
+        companyDtoLongCode.setCode(getRandomLongString(7));
+
+        CompanyDto companyDtoShortCode = createSamsungElectronicsDto();
+        companyDtoShortCode.setCode(getRandomLongString(5));
+
+        CompanyDto companyDtoLongName = createSamsungElectronicsDto();
+        companyDtoLongName.setName(getRandomLongString(13));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                .andExpectAll(view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto);
-    }
-
-    @DisplayName("6자리보다 작은 Size에 대한 기업 추가 유효성 검증")
-    @Test
-    public void validateSmallerSizeCompanyAdd() throws Exception {
-        // given & when
-        CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCode("00000");
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                .andExpectAll(view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto);
+        for (CompanyDto companyDto : List.of(companyDtoLongCode, companyDtoShortCode, companyDtoLongName)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                    .andExpectAll(view().name(addSingleCompanyProcessPage),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                    .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                    .usingRecursiveComparison()
+                    .isEqualTo(companyDto);
+        }
     }
 
     @DisplayName("Country의 typeMismatch에 대한 기업 추가 유효성 검증")
@@ -353,38 +347,29 @@ public class CompanyBindingErrorTest implements CompanyTestUtils {
                 .isEqualTo(companyDto);
     }
 
-    @DisplayName("6자리보다 큰 Size에 대한 기업 변경 유효성 검증")
+    @DisplayName("Size에 대한 기업 변경 유효성 검증")
     @Test
     public void validateBiggerSizeCompanyModify() throws Exception {
         // given & when
-        CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCode("0000000");
+        CompanyDto companyDtoLongCode = createSamsungElectronicsDto();
+        companyDtoLongCode.setCode(getRandomLongString(7));
+
+        CompanyDto companyDtoShortCode = createSamsungElectronicsDto();
+        companyDtoShortCode.setCode(getRandomLongString(5));
+
+        CompanyDto companyDtoLongName = createSamsungElectronicsDto();
+        companyDtoLongName.setName(getRandomLongString(13));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
-                .andExpectAll(view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto);
-    }
-
-    @DisplayName("6자리보다 작은 Size에 대한 기업 변경 유효성 검증")
-    @Test
-    public void validateSmallerSizeCompanyModify() throws Exception {
-        // given & when
-        CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCode("00000");
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
-                .andExpectAll(view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto);
+        for (CompanyDto companyDto : List.of(companyDtoLongCode, companyDtoShortCode, companyDtoLongName)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
+                    .andExpectAll(view().name(modifyCompanyProcessPage),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                    .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                    .usingRecursiveComparison()
+                    .isEqualTo(companyDto);
+        }
     }
 
     @DisplayName("Country의 typeMismatch에 대한 기업 추가 유효성 검증")

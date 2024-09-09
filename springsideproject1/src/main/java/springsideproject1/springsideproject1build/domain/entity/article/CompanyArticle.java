@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -26,8 +25,8 @@ public class CompanyArticle {
     @Size(max = 80)
     private final String name;
 
-    @Press
-    private final springsideproject1.springsideproject1build.domain.entity.article.Press press;
+    @NotNull
+    private final Press press;
 
     @NotBlank
     @Size(max = 12)

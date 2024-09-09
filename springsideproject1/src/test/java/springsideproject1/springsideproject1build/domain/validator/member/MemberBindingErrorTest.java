@@ -100,6 +100,7 @@ public class MemberBindingErrorTest implements MemberTestUtils {
         MemberDto memberDto = createTestMemberDto();
         memberDto.setId(INVALID_VALUE);
         memberDto.setPassword(INVALID_VALUE);
+        memberDto.setName(INVALID_VALUE);
         memberDto.setPhoneNumber(INVALID_VALUE);
 
         // then
@@ -108,6 +109,29 @@ public class MemberBindingErrorTest implements MemberTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                 .usingRecursiveComparison()
                 .isEqualTo(memberDto);
+    }
+
+    @DisplayName("Range에 대한 회원 가입 유효성 검증")
+    @Test
+    public void validateRangeMembership() throws Exception {
+        // given & when
+        MemberDto memberDtoFallShortOf = createTestMemberDto();
+        memberDtoFallShortOf.setMonth(0);
+        memberDtoFallShortOf.setDays(0);
+
+        MemberDto memberDtoExceed = createTestMemberDto();
+        memberDtoExceed.setYear(2100);
+        memberDtoExceed.setMonth(13);
+        memberDtoExceed.setDays(32);
+
+        // then
+        for (MemberDto memberDto : List.of(memberDtoFallShortOf, memberDtoExceed)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
+                    .andExpectAll(view().name(membershipProcessPage))
+                    .andReturn().getModelAndView()).getModelMap().get(MEMBER))
+                    .usingRecursiveComparison()
+                    .isEqualTo(memberDto);
+        }
     }
 
     @DisplayName("typeMismatch에 대한 회원 가입 유효성 검증")

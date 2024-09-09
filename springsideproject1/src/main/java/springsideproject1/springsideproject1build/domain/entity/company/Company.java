@@ -1,41 +1,40 @@
 package springsideproject1.springsideproject1build.domain.entity.company;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Code;
 
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Company {
-    @NotBlank
-    @Size(min = 6, max = 6)
-    @Pattern(regexp = NUMBER_REGEX)
+    @Code
     private final String code;
 
-    @springsideproject1.springsideproject1build.domain.validation.annotation.Country
+    @NotNull
     private final Country country;
 
-    @springsideproject1.springsideproject1build.domain.validation.annotation.Scale
+    @NotNull
     private final Scale scale;
 
     @NotBlank
+    @Size(max = 12)
     private final String name;
 
-    @springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategory
+    @NotNull
     private final FirstCategory firstCategory;
 
-    @springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory
+    @NotNull
     private final SecondCategory secondCategory;
 
     public CompanyDto toDto() {

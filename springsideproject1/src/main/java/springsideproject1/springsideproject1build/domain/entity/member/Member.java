@@ -13,8 +13,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.ID_REGEX;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.PW_REGEX;
+import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
@@ -32,6 +31,7 @@ public class Member {
     private final String password;
 
     @NotBlank
+    @Pattern(regexp = NAME_REGEX)
     private final String name;
 
     @NotNull
