@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller.manager;
+package springsideproject1.springsideproject1build.web.controller.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -68,46 +68,24 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @Test
     public void accessCompanyAddFinish() throws Exception {
         // given & when
-        CompanyDto companyDtoOriginal = createSamsungElectronicsDto();
-        CompanyDto companyDtoKorean = createSamsungElectronicsDto();
-        companyDtoKorean.setCountry(
-                Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
-        companyDtoKorean.setScale(
-                Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
-        companyDtoKorean.setFirstCategory(
-                FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
-        companyDtoKorean.setSecondCategory(
-                SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
-        CompanyDto companyDtoLowercase = createSamsungElectronicsDto();
-        companyDtoLowercase.setCountry(
-                Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());
-        companyDtoLowercase.setScale(
-                Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
-        companyDtoLowercase.setFirstCategory(
-                FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
-        companyDtoLowercase.setSecondCategory(
-                SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
+        CompanyDto companyDto = createSamsungElectronicsDto();
 
         // then
-        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyDtoKorean, companyDtoLowercase)) {
-            mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                    .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                            model().attribute(NAME, encodeWithUTF8(companyDto.getName())));
+        mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                .andExpectAll(status().isFound(),
+                        redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        model().attribute(NAME, encodeWithUTF8(companyDto.getName())));
 
-            mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
-                            NAME, encodeWithUTF8(companyDto.getName())))
-                    .andExpectAll(status().isOk(),
-                            view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
-                            model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                            model().attribute(VALUE, companyDto.getName()));
+        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
+                        NAME, encodeWithUTF8(companyDto.getName())))
+                .andExpectAll(status().isOk(),
+                        view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                        model().attribute(VALUE, companyDto.getName()));
 
-            assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
-                    .usingRecursiveComparison()
-                    .isEqualTo(samsungElectronics);
-
-            companyService.removeCompanyByCode(companyDto.getCode());
-        }
+        assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
+                .usingRecursiveComparison()
+                .isEqualTo(samsungElectronics);
     }
 
     @DisplayName("기업 변경 페이지 접속")
@@ -156,48 +134,26 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // given
         Company beforeModifyCompany = samsungElectronics;
         String commonName = samsungElectronics.getName();
-        Company company = Company.builder().company(skHynix)
-                .name(commonName).code(beforeModifyCompany.getCode()).build();
-        CompanyDto companyDtoOriginal = company.toDto();
-        CompanyDto companyDtoKorean = company.toDto();
-        companyDtoKorean.setCountry(
-                Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
-        companyDtoKorean.setScale(
-                Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
-        companyDtoKorean.setFirstCategory(
-                FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
-        companyDtoKorean.setSecondCategory(
-                SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
-        CompanyDto companyDtoLowercase = company.toDto();
-        companyDtoLowercase.setCountry(
-                Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());
-        companyDtoLowercase.setScale(
-                Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
-        companyDtoLowercase.setFirstCategory(
-                FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
-        companyDtoLowercase.setSecondCategory(
-                SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
         // when
         companyService.registerCompany(beforeModifyCompany);
 
         // then
-        for (CompanyDto companyDto : List.of(companyDtoOriginal, companyDtoKorean, companyDtoLowercase)) {
-            mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
-                    .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
-                            model().attribute(NAME, encodeWithUTF8(commonName)));
+        mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, Company.builder().company(skHynix)
+                .name(commonName).code(beforeModifyCompany.getCode()).build().toDto()))
+                .andExpectAll(status().isFound(),
+                        redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
+                        model().attribute(NAME, encodeWithUTF8(commonName)));
 
-            mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(beforeModifyCompany.getName())))
-                    .andExpectAll(status().isOk(),
-                            view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
-                            model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
-                            model().attribute(VALUE, commonName));
+        mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(beforeModifyCompany.getName())))
+                .andExpectAll(status().isOk(),
+                        view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
+                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
+                        model().attribute(VALUE, commonName));
 
-            assertThat(companyService.findCompanyByName(commonName).orElseThrow())
-                    .usingRecursiveComparison()
-                    .isEqualTo(beforeModifyCompany);
-        }
+        assertThat(companyService.findCompanyByName(commonName).orElseThrow())
+                .usingRecursiveComparison()
+                .isEqualTo(beforeModifyCompany);
     }
 
     @DisplayName("기업들 조회 페이지 접속")

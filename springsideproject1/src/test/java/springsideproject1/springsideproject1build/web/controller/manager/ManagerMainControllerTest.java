@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller.manager;
+package springsideproject1.springsideproject1build.web.controller.manager;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.controller.user;
+package springsideproject1.springsideproject1build.web.controller.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

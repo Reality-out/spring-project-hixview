@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
-import springsideproject1.springsideproject1build.web.ModifiableHttpServletRequest;
+import springsideproject1.springsideproject1build.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
