@@ -17,6 +17,7 @@ import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUt
 import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.DATA
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_ARTICLE_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.util.MainUtils.getRandomLongString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -141,20 +143,43 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
     @DisplayName("Range에 대한 기업 기사 추가 유효성 검증")
     @Test
     public void validateRangeCompanyArticleAdd() throws Exception {
-        // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(1950);
-        articleDto.setMonth(1);
-        articleDto.setDays(1);
+        // given
+        CompanyArticleDto articleDtoFallShortOf = createTestCompanyArticleDto();
+        articleDtoFallShortOf.setYear(1959);
+        articleDtoFallShortOf.setMonth(0);
+        articleDtoFallShortOf.setDays(0);
+
+        CompanyArticleDto articleDtoExceed = createTestCompanyArticleDto();
+        articleDtoExceed.setYear(2100);
+        articleDtoExceed.setMonth(13);
+        articleDtoExceed.setDays(32);
+
+        CompanyArticleDto articleDtoFuture = createTestCompanyArticleDto();
+        articleDtoFuture.setYear(2099);
+        articleDtoFuture.setMonth(12);
+        articleDtoFuture.setDays(31);
+
+        // when
+        companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        for (CompanyArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                    .andExpectAll(view().name(addSingleArticleProcessPage),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDto);
+        }
+
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDtoFuture))
                 .andExpectAll(view().name(addSingleArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(articleDtoFuture);
     }
 
     @DisplayName("Restrict에 대한 기업 기사 추가 유효성 검증")
@@ -163,6 +188,25 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setImportance(3);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                .andExpectAll(view().name(addSingleArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Size에 대한 기업 기사 추가 유효성 검증")
+    @Test
+    public void validateSizeCompanyArticleAdd() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setName(getRandomLongString(81));
+        articleDto.setSubjectCompany(getRandomLongString(13));
+        articleDto.setLink(getRandomLongString(401));
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -290,23 +334,46 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("Range에 대한 기업 기사 변경 유효성 검증")
+    @DisplayName("Range에 대한 기업 변경 추가 유효성 검증")
     @Test
     public void validateRangeCompanyArticleModify() throws Exception {
-        // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(1950);
-        articleDto.setMonth(1);
-        articleDto.setDays(1);
+        // given
+        CompanyArticleDto articleDtoFallShortOf = createTestCompanyArticleDto();
+        articleDtoFallShortOf.setYear(1959);
+        articleDtoFallShortOf.setMonth(0);
+        articleDtoFallShortOf.setDays(0);
+
+        CompanyArticleDto articleDtoExceed = createTestCompanyArticleDto();
+        articleDtoExceed.setYear(2100);
+        articleDtoExceed.setMonth(13);
+        articleDtoExceed.setDays(32);
+
+        CompanyArticleDto articleDtoFuture = createTestCompanyArticleDto();
+        articleDtoFuture.setYear(2099);
+        articleDtoFuture.setMonth(12);
+        articleDtoFuture.setDays(31);
+
+        // when
+        companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+        for (CompanyArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                    .andExpectAll(view().name(modifyArticleProcessPage),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDto);
+        }
+
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDtoFuture))
                 .andExpectAll(view().name(modifyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(articleDtoFuture);
     }
 
     @DisplayName("Restrict에 대한 기업 기사 변경 유효성 검증")
@@ -318,6 +385,25 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
         // when
         articleDto.setImportance(3);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Size에 대한 기업 기사 변경 유효성 검증")
+    @Test
+    public void validateSizeCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        articleDto.setName(getRandomLongString(81));
+        articleDto.setSubjectCompany(getRandomLongString(13));
+        articleDto.setLink(getRandomLongString(401));
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))

@@ -1,9 +1,6 @@
 package springsideproject1.springsideproject1build.domain.entity.article;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,15 +23,18 @@ public class CompanyArticle {
     private final Long number;
 
     @NotBlank
+    @Size(max = 80)
     private final String name;
 
     @Press
     private final springsideproject1.springsideproject1build.domain.entity.article.Press press;
 
     @NotBlank
+    @Size(max = 12)
     private final String subjectCompany;
 
     @NotBlank
+    @Size(max = 400)
     @Pattern(regexp = URL_REGEX)
     private final String link;
 

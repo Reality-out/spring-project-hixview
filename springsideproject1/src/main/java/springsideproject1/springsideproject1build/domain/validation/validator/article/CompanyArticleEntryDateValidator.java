@@ -21,9 +21,6 @@ public class CompanyArticleEntryDateValidator implements Validator {
     private final CompanyArticleService articleService;
     private final CompanyService companyService;
 
-    private final LocalDate minDate = LocalDate.of(1960, 1, 1);
-    private final LocalDate maxDate = LocalDate.now();
-
     @Override
     public boolean supports(@NonNull Class<?> clazz) {
         return CompanyArticleDto.class.isAssignableFrom(clazz);
@@ -36,8 +33,8 @@ public class CompanyArticleEntryDateValidator implements Validator {
 
         try {
             LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
-            if (inputDate.isBefore(minDate) || inputDate.isAfter(maxDate)) {
-                errors.rejectValue(DAYS, "Range.java.lang.LocalDate");
+            if (inputDate.isAfter(LocalDate.now())) {
+                errors.rejectValue(DAYS, "Range");
             }
         } catch (DateTimeException e) {
             errors.rejectValue(DAYS, "TypeButInvalid.java.lang.LocalDate");

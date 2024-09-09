@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public abstract class MainUtils {
@@ -31,5 +32,19 @@ public abstract class MainUtils {
 
     public static String encodeWithUTF8(String str) {
         return URLEncoder.encode(str, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Random
+     */
+    public static String getRandomLongString(int minDigits) {
+        StringBuilder sb = new StringBuilder();
+        Random rand = new Random();
+
+        while (sb.length() < minDigits) {
+            sb.append(rand.nextInt(10));
+        }
+
+        return sb.toString();
     }
 }
