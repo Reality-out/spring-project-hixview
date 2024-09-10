@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validator.article.main;
+package springsideproject1.springsideproject1build.domain.validator.article;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMainDto;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
-import springsideproject1.springsideproject1build.util.test.CompanyArticleMainTestUtils;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
+import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
+import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 
@@ -22,47 +22,47 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_ARTICLE_MAIN_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleMainValidationErrorTest implements CompanyArticleMainTestUtils {
+public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleMainService articleMainService;
+    ArticleMainService articleMainService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleMainValidationErrorTest(DataSource dataSource) {
+    public ArticleMainValidationErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
     }
 
     @DisplayName("중복 기사 메인명을 사용하는 기사 메인 추가")
     @Test
-    public void duplicatedNameCompanyArticleMainAdd() throws Exception {
+    public void duplicatedNameArticleMainAdd() throws Exception {
         // given
-        CompanyArticleMainDto articleDto = createTestCompanyArticleMainDto();
+        ArticleMainDto articleDto = createTestArticleMainDto();
         String commonName = articleDto.getName();
-        CompanyArticleMainDto articleNewDto = createTestNewCompanyArticleMainDto();
+        ArticleMainDto articleNewDto = createTestNewArticleMainDto();
         articleNewDto.setName(commonName);
 
         // when
-        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleNewDto).build());
+        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleNewDto).build());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleMainDto(ADD_COMPANY_ARTICLE_MAIN_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
@@ -73,18 +73,18 @@ public class CompanyArticleMainValidationErrorTest implements CompanyArticleMain
 
     @DisplayName("중복 이미지 경로를 사용하는 기사 메인 추가")
     @Test
-    public void duplicatedImagePathCompanyArticleMainAdd() throws Exception {
+    public void duplicatedImagePathArticleMainAdd() throws Exception {
         // given
-        CompanyArticleMainDto articleDto = createTestCompanyArticleMainDto();
+        ArticleMainDto articleDto = createTestArticleMainDto();
         String commonImagePath = articleDto.getImagePath();
-        CompanyArticleMainDto articleNewDto = createTestNewCompanyArticleMainDto();
+        ArticleMainDto articleNewDto = createTestNewArticleMainDto();
         articleNewDto.setImagePath(commonImagePath);
 
         // when
-        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleNewDto).build());
+        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleNewDto).build());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleMainDto(ADD_COMPANY_ARTICLE_MAIN_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
@@ -95,17 +95,17 @@ public class CompanyArticleMainValidationErrorTest implements CompanyArticleMain
 
     @DisplayName("기사 메인명까지 변경을 시도하는 기사 메인 변경")
     @Test
-    public void changeNameCompanyArticleMainModify() throws Exception {
+    public void changeNameArticleMainModify() throws Exception {
         // given
-        CompanyArticleMainDto articleDto = createTestCompanyArticleMainDto();
-        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleDto).build());
+        ArticleMainDto articleDto = createTestArticleMainDto();
+        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleDto).build());
 
         // when
-        articleDto.setName(testNewCompanyArticleMain.getName());
+        articleDto.setName(testNewArticleMain.getName());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleMainDto(
-                UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(
+                UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, articleDto))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))

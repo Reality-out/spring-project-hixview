@@ -10,12 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMainDto;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
+import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.company.main.CompanyArticleMainAddValidator;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.company.main.CompanyArticleMainModifyValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.ArticleMainAddValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.ArticleMainModifyValidator;
 
 import java.util.Optional;
 
@@ -33,29 +33,29 @@ import static springsideproject1.springsideproject1build.util.MainUtils.encodeWi
 
 @Controller
 @RequiredArgsConstructor
-public class ManagerCompanyArticleMainController {
+public class ManagerArticleMainController {
 
-    private final CompanyArticleMainService articleMainService;
+    private final ArticleMainService articleMainService;
     private final CompanyService companyService;
 
-    private final CompanyArticleMainAddValidator addValidator;
-    private final CompanyArticleMainModifyValidator modifyValidator;
+    private final ArticleMainAddValidator addValidator;
+    private final ArticleMainModifyValidator modifyValidator;
 
-    private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleMainController.class);
+    private final Logger log = LoggerFactory.getLogger(ManagerArticleMainController.class);
 
     /**
      * Add
      */
-    @GetMapping(ADD_COMPANY_ARTICLE_MAIN_URL)
+    @GetMapping(ADD_ARTICLE_MAIN_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddCompanyArticleMain(Model model) {
+    public String processAddArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(ARTICLE, new CompanyArticleMainDto());
+        model.addAttribute(ARTICLE, new ArticleMainDto());
         return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @PostMapping(ADD_COMPANY_ARTICLE_MAIN_URL)
-    public String submitAddCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleMainDto,
+    @PostMapping(ADD_ARTICLE_MAIN_URL)
+    public String submitAddArticleMain(@ModelAttribute(ARTICLE) @Validated ArticleMainDto articleMainDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
         if (articleMainDto.getName() != null) {
@@ -73,14 +73,14 @@ public class ManagerCompanyArticleMainController {
             return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
 
-        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleMainDto).build());
+        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleMainDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
-        return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
+    @GetMapping(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddCompanyArticleMain(@RequestParam String name, Model model) {
+    public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
@@ -89,9 +89,9 @@ public class ManagerCompanyArticleMainController {
     /**
      * See
      */
-    @GetMapping(SELECT_COMPANY_ARTICLE_MAIN_URL)
+    @GetMapping(SELECT_ARTICLE_MAIN_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processSeeCompanyArticleMains(Model model) {
+    public String processSeeArticleMains(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articleMains", articleMainService.findArticles());
         return MANAGER_SELECT_VIEW + "company-article-mains-page";
@@ -100,17 +100,17 @@ public class ManagerCompanyArticleMainController {
     /**
      * Modify
      */
-    @GetMapping(UPDATE_COMPANY_ARTICLE_MAIN_URL)
+    @GetMapping(UPDATE_ARTICLE_MAIN_URL)
 	@ResponseStatus(HttpStatus.OK)
-	public String initiateModifyCompanyArticleMain(Model model) {
+	public String initiateModifyArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
 		return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
 	}
 
-    @PostMapping(UPDATE_COMPANY_ARTICLE_MAIN_URL)
+    @PostMapping(UPDATE_ARTICLE_MAIN_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processModifyCompanyArticleMain(@RequestParam String numberOrName, Model model) {
-        Optional<CompanyArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
+    public String processModifyArticleMain(@RequestParam String numberOrName, Model model) {
+        Optional<ArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
                     UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
@@ -118,13 +118,13 @@ public class ManagerCompanyArticleMainController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-        model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
+        model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 
-    @PostMapping(UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
-    public String submitModifyCompanyArticleMain(@ModelAttribute(ARTICLE) @Validated CompanyArticleMainDto articleMainDto,
+    @PostMapping(UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
+    public String submitModifyArticleMain(@ModelAttribute(ARTICLE) @Validated ArticleMainDto articleMainDto,
                                                  BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
         if (articleMainDto.getName() != null) {
@@ -133,25 +133,25 @@ public class ManagerCompanyArticleMainController {
 
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
+            model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
         modifyValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
+            model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
             return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
-        articleMainService.correctArticle(CompanyArticleMain.builder().articleDto(articleMainDto).build());
+        articleMainService.correctArticle(ArticleMain.builder().articleDto(articleMainDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
-        return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(UPDATE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
+    @GetMapping(UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
-	public String finishModifyCompanyArticleMain(@RequestParam String name, Model model) {
+	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
@@ -160,16 +160,16 @@ public class ManagerCompanyArticleMainController {
     /**
      * Get Rid of
      */
-    @GetMapping(REMOVE_COMPANY_ARTICLE_MAIN_URL)
+    @GetMapping(REMOVE_ARTICLE_MAIN_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processRidCompanyArticleMain(Model model) {
+    public String processRidArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
         return REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @PostMapping(REMOVE_COMPANY_ARTICLE_MAIN_URL)
-    public String submitRidCompanyArticleMain(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
-        Optional<CompanyArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
+    @PostMapping(REMOVE_ARTICLE_MAIN_URL)
+    public String submitRidArticleMain(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
+        Optional<ArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
                     REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
@@ -181,12 +181,12 @@ public class ManagerCompanyArticleMainController {
         }
         articleMainService.removeArticleByName(numberOrName);
         redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
-        return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + REMOVE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
+    @GetMapping(REMOVE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishRidCompanyArticleMain(@RequestParam String name, Model model) {
+    public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;

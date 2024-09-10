@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
 import springsideproject1.springsideproject1build.domain.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
-import springsideproject1.springsideproject1build.util.test.CompanyArticleMainTestUtils;
+import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -24,15 +24,15 @@ import static springsideproject1.springsideproject1build.domain.valueobject.DATA
 
 @SpringBootTest
 @Transactional
-class CompanyArticleMainServiceJdbcTest implements CompanyArticleMainTestUtils {
+class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
 
     @Autowired
-    CompanyArticleMainService articleService;
+    ArticleMainService articleService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleMainServiceJdbcTest(DataSource dataSource) {
+    public ArticleMainServiceJdbcTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -41,20 +41,20 @@ class CompanyArticleMainServiceJdbcTest implements CompanyArticleMainTestUtils {
         resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
     }
 
-    @DisplayName("기업 기사 메인들 동시 등록")
+    @DisplayName("기사 메인들 동시 등록")
     @Test
-    public void registerCompanyArticleMainsTest() {
-        assertThat(articleService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain))
+    public void registerArticleMainsTest() {
+        assertThat(articleService.registerArticles(testArticleMain, testNewArticleMain))
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(List.of(testCompanyArticleMain, testNewCompanyArticleMain));
+                .isEqualTo(List.of(testArticleMain, testNewArticleMain));
     }
 
     @DisplayName("기업 기사 등록")
     @Test
-    public void registerCompanyArticleMainTest() {
+    public void registerArticleMainTest() {
         // given
-        CompanyArticleMain article = testCompanyArticleMain;
+        ArticleMain article = testArticleMain;
 
         // when
         article = articleService.registerArticle(article);
@@ -67,24 +67,24 @@ class CompanyArticleMainServiceJdbcTest implements CompanyArticleMainTestUtils {
 
     @DisplayName("기업 기사 중복 이름으로 등록")
     @Test
-    public void registerDuplicatedCompanyArticleMainWithSameNameTest() {
+    public void registerDuplicatedArticleMainWithSameNameTest() {
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
-                () -> articleService.registerArticles(testCompanyArticleMain,
-                        CompanyArticleMain.builder().article(testNewCompanyArticleMain).name(testCompanyArticleMain.getName()).build()));
+                () -> articleService.registerArticles(testArticleMain,
+                        ArticleMain.builder().article(testNewArticleMain).name(testArticleMain.getName()).build()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_MAIN_NAME);
     }
 
     @DisplayName("기업 기사 존재하지 않는 이름으로 수정")
     @Test
-    public void correctCompanyArticleMainWithFaultNameTest() {
+    public void correctArticleMainWithFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
-                () -> articleService.correctArticle(testCompanyArticleMain));
+                () -> articleService.correctArticle(testArticleMain));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_MAIN_WITH_THAT_NAME);
     }
 
     @DisplayName("기업 기사 존재하지 않는 이름으로 제거")
     @Test
-    public void removeCompanyArticleMainByFaultNameTest() {
+    public void removeArticleMainByFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.removeArticleByName(INVALID_VALUE));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_MAIN_WITH_THAT_NAME);

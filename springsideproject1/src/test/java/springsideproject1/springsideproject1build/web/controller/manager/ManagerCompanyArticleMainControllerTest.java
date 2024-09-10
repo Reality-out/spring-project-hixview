@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMainDto;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
-import springsideproject1.springsideproject1build.util.test.CompanyArticleMainTestUtils;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
+import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
+import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_ARTICLE_MAIN_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
@@ -34,59 +34,59 @@ import static springsideproject1.springsideproject1build.util.MainUtils.encodeWi
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestUtils {
+class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleMainService articleMainService;
+    ArticleMainService articleMainService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public ManagerCompanyArticleMainControllerTest(DataSource dataSource) {
+    public ManagerArticleMainControllerTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
     }
 
-    @DisplayName("기업 기사 메인 추가 페이지 접속")
+    @DisplayName("기사 메인 추가 페이지 접속")
     @Test
-    public void accessCompanyArticleMainAdd() throws Exception {
-        mockMvc.perform(get(ADD_COMPANY_ARTICLE_MAIN_URL))
+    public void accessArticleMainAdd() throws Exception {
+        mockMvc.perform(get(ADD_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attributeExists(ARTICLE));
     }
 
-    @DisplayName("기업 기사 메인 추가 완료 페이지 접속")
+    @DisplayName("기사 메인 추가 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleMainAddFinish() throws Exception {
+    public void accessArticleMainAddFinish() throws Exception {
         // given & when
-        CompanyArticleMainDto articleDtoOriginal = createTestCompanyArticleMainDto();
-        CompanyArticleMainDto articleDtoLeftSpace = createTestCompanyArticleMainDto();
+        ArticleMainDto articleDtoOriginal = createTestArticleMainDto();
+        ArticleMainDto articleDtoLeftSpace = createTestArticleMainDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        CompanyArticleMainDto articleDtoRightSpace = createTestCompanyArticleMainDto();
+        ArticleMainDto articleDtoRightSpace = createTestArticleMainDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
 
         // then
-        for (CompanyArticleMainDto articleDto : List.of(articleDtoOriginal,articleDtoLeftSpace, articleDtoRightSpace)){
-            mockMvc.perform(postWithCompanyArticleMainDto(ADD_COMPANY_ARTICLE_MAIN_URL, articleDto))
+        for (ArticleMainDto articleDto : List.of(articleDtoOriginal,articleDtoLeftSpace, articleDtoRightSpace)){
+            mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(articleDtoOriginal.getName())));
 
             articleMainService.removeArticleByName(articleDtoOriginal.getName());
         }
 
-        articleMainService.registerArticle(CompanyArticleMain.builder().articleDto(articleDtoOriginal).build());
+        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleDtoOriginal).build());
 
-        mockMvc.perform(getWithSingleParam(ADD_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME,
+        mockMvc.perform(getWithSingleParam(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME,
                         encodeWithUTF8(articleDtoOriginal.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
@@ -99,27 +99,27 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                 .isEqualTo(articleDtoOriginal);
     }
 
-    @DisplayName("기업 기사 메인 변경 페이지 접속")
+    @DisplayName("기사 메인 변경 페이지 접속")
     @Test
-    public void accessCompanyArticleMainModify() throws Exception {
-        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_MAIN_URL))
+    public void accessArticleMainModify() throws Exception {
+        mockMvc.perform(get(UPDATE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
-    @DisplayName("기업 기사 메인 변경 페이지 검색")
+    @DisplayName("기사 메인 변경 페이지 검색")
     @Test
-    public void searchCompanyArticleMainModify() throws Exception {
+    public void searchArticleMainModify() throws Exception {
         // given
-        CompanyArticleMain article = testCompanyArticleMain;
+        ArticleMain article = testArticleMain;
 
         // when
         Long number = articleMainService.registerArticle(article).getNumber();
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
+                        UPDATE_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isOk(),
                         view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -129,7 +129,7 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                 .isEqualTo(article.toDto());
 
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", article.getName()))
+                        UPDATE_ARTICLE_MAIN_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
@@ -139,26 +139,26 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                 .isEqualTo(article.toDto());
     }
 
-    @DisplayName("기업 기사 메인 변경 완료 페이지 접속")
+    @DisplayName("기사 메인 변경 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleMainModifyFinish() throws Exception {
+    public void accessArticleMainModifyFinish() throws Exception {
         // given
-        CompanyArticleMain beforeModifyArticle = testCompanyArticleMain;
+        ArticleMain beforeModifyArticle = testArticleMain;
         String commonName = beforeModifyArticle.getName();
-        CompanyArticleMain article = CompanyArticleMain.builder().article(testNewCompanyArticleMain)
+        ArticleMain article = ArticleMain.builder().article(testNewArticleMain)
                 .name(commonName).build();
-        CompanyArticleMainDto articleDtoOriginal = article.toDto();
-        CompanyArticleMainDto articleDtoLeftSpace = article.toDto();
+        ArticleMainDto articleDtoOriginal = article.toDto();
+        ArticleMainDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        CompanyArticleMainDto articleDtoRightSpace = article.toDto();
+        ArticleMainDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
 
         // when
         articleMainService.registerArticle(beforeModifyArticle);
 
         // then
-        for (CompanyArticleMainDto articleDto : List.of(articleDtoOriginal, articleDtoLeftSpace, articleDtoRightSpace)) {
-            mockMvc.perform(postWithCompanyArticleMainDto(modifyArticleMainFinishUrl, articleDto))
+        for (ArticleMainDto articleDto : List.of(articleDtoOriginal, articleDtoLeftSpace, articleDtoRightSpace)) {
+            mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(commonName)));
@@ -176,14 +176,14 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                 .isEqualTo(article);
     }
 
-    @DisplayName("기업 기사 메인들 조회 페이지 접속")
+    @DisplayName("기사 메인들 조회 페이지 접속")
     @Test
-    public void accessCompanyArticleMainsInquiry() throws Exception {
+    public void accessArticleMainsInquiry() throws Exception {
         // given & when
-        List<CompanyArticleMain> articleList = articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain);
+        List<ArticleMain> articleList = articleMainService.registerArticles(testArticleMain, testNewArticleMain);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_MAIN_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_SELECT_VIEW + "company-article-mains-page"))
                 .andReturn().getModelAndView()).getModelMap().get("articleMains"))
@@ -191,38 +191,38 @@ class ManagerCompanyArticleMainControllerTest implements CompanyArticleMainTestU
                 .isEqualTo(articleList);
     }
 
-    @DisplayName("기업 기사 메인 없애기 페이지 접속")
+    @DisplayName("기사 메인 없애기 페이지 접속")
     @Test
-    public void accessCompanyArticleMainRid() throws Exception {
-        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_MAIN_URL))
+    public void accessArticleMainRid() throws Exception {
+        mockMvc.perform(get(REMOVE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
-    @DisplayName("기사 번호로 기업 기사 메인 없애기 완료 페이지 접속")
+    @DisplayName("기사 번호로 기사 메인 없애기 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleMainRidFinish() throws Exception {
+    public void accessArticleMainRidFinish() throws Exception {
         // given
-        CompanyArticleMain article = testCompanyArticleMain;
+        ArticleMain article = testArticleMain;
         String name = article.getName();
 
         // when & then
         Long number = articleMainService.registerArticle(article).getNumber();
 
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
+        mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(REMOVE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
         articleMainService.registerArticle(article);
 
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL, "numberOrName", name))
+        mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, "numberOrName", name))
                 .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(REMOVE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
+        mockMvc.perform(getWithSingleParam(REMOVE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),

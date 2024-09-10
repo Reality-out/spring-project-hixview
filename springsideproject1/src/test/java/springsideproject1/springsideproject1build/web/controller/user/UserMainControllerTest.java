@@ -11,10 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
+import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
-import springsideproject1.springsideproject1build.util.test.CompanyArticleMainTestUtils;
+import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
@@ -38,7 +38,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, CompanyArticleMainTestUtils {
+class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,7 +47,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     CompanyArticleService companyArticleService;
 
     @Autowired
-    CompanyArticleMainService companyArticleMainService;
+    ArticleMainService articleMainService;
 
     @Autowired
     MemberService memberService;
@@ -61,7 +61,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
         resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
         resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
     }
@@ -101,9 +101,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     @Test
     public void accessUserMainPage() throws Exception {
         // given & when
-        companyArticleMainService.registerArticle(testCompanyArticleMain);
+        articleMainService.registerArticle(testArticleMain);
         companyArticleService.registerArticle(CompanyArticle.builder()
-                .article(testCompanyArticle).name(testCompanyArticleMain.getName()).build());
+                .article(testCompanyArticle).name(testArticleMain.getName()).build());
 
         // then
         mockMvc.perform(getWithNoParam(""))

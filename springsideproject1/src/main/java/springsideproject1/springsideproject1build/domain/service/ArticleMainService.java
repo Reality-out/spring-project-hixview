@@ -3,10 +3,10 @@ package springsideproject1.springsideproject1build.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
 import springsideproject1.springsideproject1build.domain.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
-import springsideproject1.springsideproject1build.domain.repository.CompanyArticleMainRepository;
+import springsideproject1.springsideproject1build.domain.repository.ArticleMainRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,63 +19,63 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REGE
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CompanyArticleMainService {
+public class ArticleMainService {
 
-    private final CompanyArticleMainRepository articleRepository;
+    private final ArticleMainRepository articleRepository;
 
     /**
-     * SELECT CompanyArticleMain
+     * SELECT ArticleMain
      */
-    public List<CompanyArticleMain> findArticles() {
+    public List<ArticleMain> findArticles() {
         return articleRepository.getArticles();
     }
 
-    public Optional<CompanyArticleMain> findArticleByNumber(Long number) {
+    public Optional<ArticleMain> findArticleByNumber(Long number) {
         return articleRepository.getArticleByNumber(number);
     }
 
-    public Optional<CompanyArticleMain> findArticleByName(String name) {
+    public Optional<ArticleMain> findArticleByName(String name) {
         return articleRepository.getArticleByName(name);
     }
 
-    public Optional<CompanyArticleMain> findArticleByNumberOrName(String numberOrName) {
+    public Optional<ArticleMain> findArticleByNumberOrName(String numberOrName) {
         return NUMBER_REGEX_PATTERN.matcher(numberOrName).matches() ?
                 findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 
-    public Optional<CompanyArticleMain> findArticleByImagePath(String imagePath) {
+    public Optional<ArticleMain> findArticleByImagePath(String imagePath) {
         return articleRepository.getArticleByImagePath(imagePath);
     }
 
     /**
-     * INSERT CompanyArticleMain
+     * INSERT ArticleMain
      */
     @Transactional
-    public List<CompanyArticleMain> registerArticles(CompanyArticleMain... articles) {
-        List<CompanyArticleMain> articleList = new ArrayList<>();
-        for (CompanyArticleMain article : articles) {
-            articleList.add(CompanyArticleMain.builder().article(article).number(registerArticle(article).getNumber()).build());
+    public List<ArticleMain> registerArticles(ArticleMain... articles) {
+        List<ArticleMain> articleList = new ArrayList<>();
+        for (ArticleMain article : articles) {
+            articleList.add(ArticleMain.builder().article(article).number(registerArticle(article).getNumber()).build());
         }
         return articleList;
     }
 
     @Transactional
-    public CompanyArticleMain registerArticle(CompanyArticleMain article) {
+    public ArticleMain registerArticle(ArticleMain article) {
         duplicateCheck(article);
-        return CompanyArticleMain.builder().article(article).number(articleRepository.saveArticle(article)).build();
+        return ArticleMain.builder().article(article).number(articleRepository.saveArticle(article)).build();
     }
 
     /**
-     * UPDATE CompanyArticleMain
+     * UPDATE ArticleMain
      */
     @Transactional
-    public void correctArticle(CompanyArticleMain article) {
+    public void correctArticle(ArticleMain article) {
         existentCheck(article.getName());
         articleRepository.updateArticle(article);
     }
 
     /**
-     * REMOVE CompanyArticleMain
+     * REMOVE ArticleMain
      */
     @Transactional
     public void removeArticleByName(String name) {
@@ -86,7 +86,7 @@ public class CompanyArticleMainService {
     /**
      * Other private methods
      */
-    private void duplicateCheck(CompanyArticleMain article) {
+    private void duplicateCheck(ArticleMain article) {
         articleRepository.getArticleByName(article.getName()).ifPresent(
                 v -> {throw new AlreadyExistException(ALREADY_EXIST_ARTICLE_MAIN_NAME);}
         );

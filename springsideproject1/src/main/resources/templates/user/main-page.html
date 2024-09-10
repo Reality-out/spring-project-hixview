@@ -18,13 +18,13 @@
                             <a class="newest-info-item picture-wrapper"
                                th:href="${latestCompanyArticle.link}">
                                 <div class="picture company-picture"
-                                    th:style="|background-image: url(${latestCompanyArticleMain.imagePath})|"></div>
+                                    th:style="|background-image: url(${latestArticleMain.imagePath})|"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 [[${latestCompanyArticle.name}]]
                             </div>
                             <div class="newest-info-item text newest-info-summary">
-                                [[#{article.summary}]]: [[${latestCompanyArticleMain.summary}]]
+                                [[#{article.summary}]]: [[${latestArticleMain.summary}]]
                             </div>
                         </div>
                     </div>

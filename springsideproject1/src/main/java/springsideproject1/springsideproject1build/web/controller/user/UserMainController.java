@@ -11,7 +11,7 @@ import springsideproject1.springsideproject1build.domain.entity.article.company.
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
+import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
 import springsideproject1.springsideproject1build.util.MainUtils;
@@ -38,7 +38,7 @@ public class UserMainController {
     private final CompanyArticleService companyArticleService;
 
     @Autowired
-    private final CompanyArticleMainService companyArticleMainService;
+    private final ArticleMainService articleMainService;
 
     /**
      * Main
@@ -47,15 +47,15 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.OK)
     public String processUserMainPage(Model model) {
         Optional<CompanyArticle> latestCompanyArticleOrEmpty = companyArticleService.findLatestArticles().stream()
-                .filter(article -> companyArticleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
+                .filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
         if (latestCompanyArticleOrEmpty.isEmpty()) {
             throw new NotFoundException(NO_ARTICLE_WITH_THAT_CONDITION);
         }
         CompanyArticle latestCompanyArticle = latestCompanyArticleOrEmpty.orElseThrow();
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT_PATH);
         model.addAttribute("latestCompanyArticle", latestCompanyArticle);
-        model.addAttribute("latestCompanyArticleMain",
-                companyArticleMainService.findArticleByName(latestCompanyArticle.getName()).orElseThrow());
+        model.addAttribute("latestArticleMain",
+                articleMainService.findArticleByName(latestCompanyArticle.getName()).orElseThrow());
         return USER_HOME_VIEW;
     }
 
