@@ -1,6 +1,7 @@
-package springsideproject1.springsideproject1build.domain.entity.article;
+package springsideproject1.springsideproject1build.domain.entity.article.company;
 
 import lombok.Getter;
+import springsideproject1.springsideproject1build.domain.entity.article.Press;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class CompanyArticleBufferSimple {
     private final StringBuffer nameDatePressBuffer;
     private final StringBuffer linkBuffer;
 
-    @Getter private final String subjectCompany;
     @Getter private final Integer importance;
+    @Getter private final String subjectCompany;
 
     private List<CompanyArticle> parsedArticles() {
         List<String> nameDatePressElement = List.of(this.nameDatePressBuffer.toString().split("\\R"));
@@ -27,10 +28,10 @@ public class CompanyArticleBufferSimple {
 
             articleList.add(CompanyArticle.builder()
                     .name(nameDatePressElement.get(2 * i)).press(Press.valueOf(datePressElement.getLast()))
-                    .subjectCompany(subjectCompany).link(linkElement.get(i))
                     .date(LocalDate.of(Integer.parseInt(datePressElement.getFirst()),
                             Integer.parseInt(datePressElement.get(1)), Integer.parseInt(datePressElement.get(2))))
-                    .importance(importance).build());
+                    .importance(importance)
+                    .subjectCompany(subjectCompany).link(linkElement.get(i)).build());
         }
         return articleList;
     }
@@ -47,18 +48,18 @@ public class CompanyArticleBufferSimple {
         return new CompanyArticleBufferSimpleBuilder();
     }
 
-    private CompanyArticleBufferSimple(StringBuffer nameDatePressBuffer, String subjectCompany, StringBuffer linkBuffer, Integer importance) {
+    private CompanyArticleBufferSimple(StringBuffer nameDatePressBuffer, StringBuffer linkBuffer, Integer importance, String subjectCompany) {
         this.nameDatePressBuffer = nameDatePressBuffer;
         this.linkBuffer = linkBuffer;
-        this.subjectCompany = subjectCompany;
         this.importance = importance;
+        this.subjectCompany = subjectCompany;
     }
 
     public static class CompanyArticleBufferSimpleBuilder {
         private StringBuffer nameDatePressBuffer;
         private StringBuffer linkBuffer;
-        private String subjectCompany;
         private Integer importance;
+        private String subjectCompany;
 
         public CompanyArticleBufferSimpleBuilder() {}
 
@@ -80,13 +81,13 @@ public class CompanyArticleBufferSimple {
             return this;
         }
 
-        public CompanyArticleBufferSimpleBuilder subjectCompany(String subjectCompany) {
-            this.subjectCompany = subjectCompany;
+        public CompanyArticleBufferSimpleBuilder importance(Integer importance) {
+            this.importance = importance;
             return this;
         }
 
-        public CompanyArticleBufferSimpleBuilder importance(Integer importance) {
-            this.importance = importance;
+        public CompanyArticleBufferSimpleBuilder subjectCompany(String subjectCompany) {
+            this.subjectCompany = subjectCompany;
             return this;
         }
 
@@ -101,8 +102,8 @@ public class CompanyArticleBufferSimple {
                 nameDatePressBuffer.append(lineSeparator()).append(concatenatedNameDatePress);
                 linkBuffer.append(lineSeparator()).append(article.getLink());
             }
-            subjectCompany = article.getSubjectCompany();
             importance = article.getImportance();
+            subjectCompany = article.getSubjectCompany();
             return this;
         }
 
@@ -123,8 +124,8 @@ public class CompanyArticleBufferSimple {
                 nameDatePressBuffer.append(lineSeparator()).append(concatenatedNameDatePress);
                 linkBuffer.append(lineSeparator()).append(articleDto.getLink());
             }
-            subjectCompany = articleDto.getSubjectCompany();
             importance = articleDto.getImportance();
+            subjectCompany = articleDto.getSubjectCompany();
             return this;
         }
 
@@ -136,13 +137,13 @@ public class CompanyArticleBufferSimple {
                 nameDatePressBuffer.append(lineSeparator()).append(articleBuffer.getNameDatePressString());
                 linkBuffer.append(lineSeparator()).append(articleBuffer.getLinkString());
             }
-            subjectCompany = articleBuffer.getSubjectCompany();
             importance = articleBuffer.getImportance();
+            subjectCompany = articleBuffer.getSubjectCompany();
             return this;
         }
 
         public CompanyArticleBufferSimple build() {
-            return new CompanyArticleBufferSimple(this.nameDatePressBuffer, this.subjectCompany, this.linkBuffer, this.importance);
+            return new CompanyArticleBufferSimple(this.nameDatePressBuffer, this.linkBuffer, this.importance, this.subjectCompany);
         }
     }
 }

@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.entity.article;
+package springsideproject1.springsideproject1build.domain.entity.article.company;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;

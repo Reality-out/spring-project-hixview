@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMainDto;
+import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMainDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.IMAGE_PATH;

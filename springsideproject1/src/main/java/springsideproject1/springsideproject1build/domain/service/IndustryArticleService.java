@@ -3,7 +3,7 @@ package springsideproject1.springsideproject1build.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
 import springsideproject1.springsideproject1build.domain.error.AlreadyExistException;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
 import springsideproject1.springsideproject1build.domain.repository.IndustryArticleRepository;

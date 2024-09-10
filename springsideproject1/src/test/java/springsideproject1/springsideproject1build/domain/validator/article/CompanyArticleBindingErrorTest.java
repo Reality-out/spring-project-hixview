@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;

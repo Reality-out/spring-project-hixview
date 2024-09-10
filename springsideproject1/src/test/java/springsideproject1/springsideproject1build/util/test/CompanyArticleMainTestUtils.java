@@ -2,8 +2,8 @@ package springsideproject1.springsideproject1build.util.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMain;
-import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMainDto;
+import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMainDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;

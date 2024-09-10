@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMain;
 import springsideproject1.springsideproject1build.domain.repository.CompanyArticleMainRepository;
 
 import javax.sql.DataSource;

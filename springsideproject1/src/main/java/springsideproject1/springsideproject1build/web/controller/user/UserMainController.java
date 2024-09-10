@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.entity.member.MemberDto;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;

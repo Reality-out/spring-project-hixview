@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.entity.article;
+package springsideproject1.springsideproject1build.domain.entity.article.company;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,20 +7,19 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
-import springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategory;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
-import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
 
 @Getter
 @Setter
-public class IndustryArticleDto {
+public class CompanyArticleDto {
     @NotBlank
     @Size(max = 80)
     private String name;
 
-    @NotNull
+    @Press
     private String press;
 
     @NotBlank
@@ -43,9 +42,7 @@ public class IndustryArticleDto {
     @Importance
     private Integer importance;
 
-    @FirstCategory
-    private String subjectFirstCategory;
-
-    @SecondCategory
-    private String subjectSecondCategory;
+    @NotBlank
+    @Size(max = 12)
+    private String subjectCompany;
 }

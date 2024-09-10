@@ -2,8 +2,8 @@ package springsideproject1.springsideproject1build.util.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.article.Press;
 import springsideproject1.springsideproject1build.domain.entity.company.FirstCategory;
 import springsideproject1.springsideproject1build.domain.entity.company.SecondCategory;

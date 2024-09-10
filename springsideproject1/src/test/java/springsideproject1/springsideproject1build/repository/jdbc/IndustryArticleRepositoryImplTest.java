@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
 import springsideproject1.springsideproject1build.domain.repository.IndustryArticleRepository;
 import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 
