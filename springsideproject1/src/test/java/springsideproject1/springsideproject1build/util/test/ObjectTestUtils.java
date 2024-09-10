@@ -17,6 +17,11 @@ public interface ObjectTestUtils {
     /**
      * Constant
      */
+    // Request Key
+    String nameDatePressString = "nameDatePressString";
+    String linkString = "linkString";
+
+    // Others
     String INVALID_VALUE = "invalidValue";
     String ALL_QUERY_STRING = "?*";
 

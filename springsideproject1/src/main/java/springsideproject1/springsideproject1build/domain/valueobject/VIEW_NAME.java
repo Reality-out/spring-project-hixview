@@ -29,20 +29,32 @@ public abstract class VIEW_NAME {
     public static final String VIEW_SINGLE_PROCESS_SUFFIX = "single-process-page";
     public static final String VIEW_SINGLE_FINISH_SUFFIX = "single-finish-page";
 
-    // Others
-    public static final String MANAGER_SELECT_VIEW = "manager/select/";
-
+    // Article - Company
     public static final String ADD_COMPANY_ARTICLE_VIEW = "manager/add/article/company/";
     public static final String UPDATE_COMPANY_ARTICLE_VIEW = "manager/update/article/company/";
     public static final String REMOVE_COMPANY_ARTICLE_VIEW = "manager/remove/article/company/";
 
+    // Article - Company - Main
     public static final String ADD_COMPANY_ARTICLE_MAIN_VIEW = "manager/add/article/company/main/";
     public static final String UPDATE_COMPANY_ARTICLE_MAIN_VIEW = "manager/update/article/company/main/";
     public static final String REMOVE_COMPANY_ARTICLE_MAIN_VIEW = "manager/remove/article/company/main/";
 
+    // Article - Industry
+    public static final String ADD_INDUSTRY_ARTICLE_VIEW = "manager/add/article/industry/";
+    public static final String UPDATE_INDUSTRY_ARTICLE_VIEW = "manager/update/article/industry/";
+    public static final String REMOVE_INDUSTRY_ARTICLE_VIEW = "manager/remove/article/industry/";
+
+    // Article - Industry - Main
+    public static final String ADD_INDUSTRY_ARTICLE_MAIN_VIEW = "manager/add/article/industry/main/";
+    public static final String UPDATE_INDUSTRY_ARTICLE_MAIN_VIEW = "manager/update/article/industry/main/";
+    public static final String REMOVE_INDUSTRY_ARTICLE_MAIN_VIEW = "manager/remove/article/industry/main/";
+
+    // Company
     public static final String ADD_COMPANY_VIEW = "manager/add/company/";
     public static final String UPDATE_COMPANY_VIEW = "manager/update/company/";
     public static final String REMOVE_COMPANY_VIEW = "manager/remove/company/";
 
+    // Others
     public static final String MANAGER_HOME_VIEW = "manager/main-page";
+    public static final String MANAGER_SELECT_VIEW = "manager/select/";
 }

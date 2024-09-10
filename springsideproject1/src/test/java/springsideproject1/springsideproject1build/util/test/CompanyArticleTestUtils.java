@@ -23,10 +23,6 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
     String modifyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     String modifyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
 
-    // Request Key
-    String nameDatePressString = "nameDatePressString";
-    String linkString = "linkString";
-
     // Test Object
     CompanyArticle testCompanyArticle = CompanyArticle.builder()
             .name("'OLED 위기감' 삼성디스플레이, 주64시간제 도입…삼성 비상경영 확산")

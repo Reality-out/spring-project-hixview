@@ -26,6 +26,19 @@ public abstract class REQUEST_URL {
     public static final String UPDATE_COMPANY_ARTICLE_MAIN_URL = "/manager/article/company/main/update";
     public static final String REMOVE_COMPANY_ARTICLE_MAIN_URL = "/manager/article/company/main/remove";
 
+    // Article - Industry
+    public static final String ADD_SINGLE_INDUSTRY_ARTICLE_URL = "/manager/article/industry/add/single";
+    public static final String ADD_INDUSTRY_ARTICLE_WITH_STRING_URL = "/manager/article/industry/add/string";
+    public static final String SELECT_INDUSTRY_ARTICLE_URL = "/manager/article/industry/select";
+    public static final String UPDATE_INDUSTRY_ARTICLE_URL = "/manager/article/industry/update";
+    public static final String REMOVE_INDUSTRY_ARTICLE_URL = "/manager/article/industry/remove";
+
+    // Article - Industry - Main
+    public static final String ADD_INDUSTRY_ARTICLE_MAIN_URL = "/manager/article/industry/main/add";
+    public static final String SELECT_INDUSTRY_ARTICLE_MAIN_URL = "/manager/article/industry/main/select";
+    public static final String UPDATE_INDUSTRY_ARTICLE_MAIN_URL = "/manager/article/industry/main/update";
+    public static final String REMOVE_INDUSTRY_ARTICLE_MAIN_URL = "/manager/article/industry/main/remove";
+
     // Company
     public static final String ADD_SINGLE_COMPANY_URL = "/manager/company/add/single";
     public static final String SELECT_COMPANY_URL = "/manager/company/select";
