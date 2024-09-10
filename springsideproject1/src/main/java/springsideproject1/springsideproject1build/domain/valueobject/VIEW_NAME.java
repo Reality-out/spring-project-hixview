@@ -34,20 +34,15 @@ public abstract class VIEW_NAME {
     public static final String UPDATE_COMPANY_ARTICLE_VIEW = "manager/update/article/company/";
     public static final String REMOVE_COMPANY_ARTICLE_VIEW = "manager/remove/article/company/";
 
-    // Article - Company - Main
-    public static final String ADD_COMPANY_ARTICLE_MAIN_VIEW = "manager/add/article/company/main/";
-    public static final String UPDATE_COMPANY_ARTICLE_MAIN_VIEW = "manager/update/article/company/main/";
-    public static final String REMOVE_COMPANY_ARTICLE_MAIN_VIEW = "manager/remove/article/company/main/";
-
     // Article - Industry
     public static final String ADD_INDUSTRY_ARTICLE_VIEW = "manager/add/article/industry/";
     public static final String UPDATE_INDUSTRY_ARTICLE_VIEW = "manager/update/article/industry/";
     public static final String REMOVE_INDUSTRY_ARTICLE_VIEW = "manager/remove/article/industry/";
 
-    // Article - Industry - Main
-    public static final String ADD_INDUSTRY_ARTICLE_MAIN_VIEW = "manager/add/article/industry/main/";
-    public static final String UPDATE_INDUSTRY_ARTICLE_MAIN_VIEW = "manager/update/article/industry/main/";
-    public static final String REMOVE_INDUSTRY_ARTICLE_MAIN_VIEW = "manager/remove/article/industry/main/";
+    // Article - Main
+    public static final String ADD_ARTICLE_MAIN_VIEW = "manager/add/article/main/";
+    public static final String UPDATE_ARTICLE_MAIN_VIEW = "manager/update/article/main/";
+    public static final String REMOVE_ARTICLE_MAIN_VIEW = "manager/remove/article/main/";
 
     // Company
     public static final String ADD_COMPANY_VIEW = "manager/add/company/";

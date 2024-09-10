@@ -15,8 +15,8 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 
 public interface ArticleMainTestUtils extends ObjectTestUtils {
     // Assertion
-    String addArticleMainProcessPage = ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
-    String modifyArticleMainProcessPage = UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+    String addArticleMainProcessPage = ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+    String modifyArticleMainProcessPage = UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     String modifyArticleMainFinishUrl = UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
 
     // Test Object

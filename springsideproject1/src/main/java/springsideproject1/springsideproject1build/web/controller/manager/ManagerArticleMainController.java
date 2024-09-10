@@ -51,7 +51,7 @@ public class ManagerArticleMainController {
     public String processAddArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
         model.addAttribute(ARTICLE, new ArticleMainDto());
-        return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+        return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @PostMapping(ADD_ARTICLE_MAIN_URL)
@@ -64,13 +64,13 @@ public class ManagerArticleMainController {
 
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
-            return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+            return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
 
         addValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+            return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
 
         articleMainService.registerArticle(ArticleMain.builder().articleDto(articleMainDto).build());
@@ -83,7 +83,7 @@ public class ManagerArticleMainController {
     public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
+        return ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**
@@ -94,7 +94,7 @@ public class ManagerArticleMainController {
     public String processSeeArticleMains(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articleMains", articleMainService.findArticles());
-        return MANAGER_SELECT_VIEW + "company-article-mains-page";
+        return MANAGER_SELECT_VIEW + "article-mains-page";
     }
 
     /**
@@ -104,7 +104,7 @@ public class ManagerArticleMainController {
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-		return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
+		return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
 	}
 
     @PostMapping(UPDATE_ARTICLE_MAIN_URL)
@@ -114,13 +114,13 @@ public class ManagerArticleMainController {
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
                     UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
-            return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
+            return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
         model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
-        return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 
     @PostMapping(UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
@@ -134,14 +134,14 @@ public class ManagerArticleMainController {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
-            return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+            return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
         modifyValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
             model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
-            return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+            return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
         articleMainService.correctArticle(ArticleMain.builder().articleDto(articleMainDto).build());
@@ -154,7 +154,7 @@ public class ManagerArticleMainController {
 	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
+        return UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
     /**
@@ -164,7 +164,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String processRidArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-        return REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+        return REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
     @PostMapping(REMOVE_ARTICLE_MAIN_URL)
@@ -173,7 +173,7 @@ public class ManagerArticleMainController {
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
                     REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
-            return REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
+            return REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
 
         if (NUMBER_REGEX_PATTERN.matcher(numberOrName).matches()) {
@@ -189,7 +189,7 @@ public class ManagerArticleMainController {
     public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
+        return REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**

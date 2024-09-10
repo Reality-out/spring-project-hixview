@@ -33,7 +33,29 @@
             </ol>
         </ol>
         <ol>
-            <li th:text="|#{company} #{article} #{data.main} 관련 기능|"></li>
+            <li th:text="|#{industry} #{article} 관련 기능|"></li>
+            <ol>
+                <li th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
+                <li><a th:href="${addSingleIndustryArticle}" th:text="|#{data.single} #{article} #{function.register}|"></a></li>
+                <li><a th:href="${updateIndustryArticle}" th:text="|#{data.single} #{article} #{function.correct}|"></a></li>
+                <li><a th:href="${removeIndustryArticle}" th:text="|#{data.single} #{article} #{function.remove}|"></a></li>
+            </ol>
+            <ol>
+                <li th:text="#{data.multiple}"></li> <!-- CREATE, READ 구현 -->
+                <li>
+                    <a th:href="${addIndustryArticlesWithString}"
+                       th:text="|#{data.multiple} #{article} #{function.register}
+                       (#{data.single.string}, #{article.subjectFirstCategory},
+                       #{article.subjectSecondCategory} 및 #{article.importance} 고정)|">
+                    </a>
+                </li>
+                <li>
+                    <a th:href="${selectIndustryArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a>
+                </li>
+            </ol>
+        </ol>
+        <ol>
+            <li th:text="|#{article} #{data.main} 관련 기능|"></li>
             <ol>
                 <li th:text="#{data.single}"></li>
                 <li><a th:href="${addArticleMain}" th:text="|#{article} #{data.main} #{function.register}|"></a></li>

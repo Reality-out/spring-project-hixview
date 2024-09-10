@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <p th:text="|#{company} #{article} #{data.main}을 #{function.correct}합니다.|"></p>
+    <p th:text="|#{article} #{data.main}을 #{function.correct}합니다.|"></p>
     <p th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
     <form th:action="${updateUrl}" th:object="${article}" method="POST">
         <div th:if="${error} != null" th:classappend="txt-errorMessage">
@@ -23,6 +23,11 @@
                 <label for="summary" th:text="#{article.summary}"></label>
                 <input type="text" id="summary" th:field="*{summary}" size="20">
                 <div class="txt-errorMessage" th:errors="*{summary}"></div>
+            </div>
+            <div class="partialForm">
+                <label for="articleClassName" th:text="#{article.articleClassName}"></label>
+                <input type="text" id="articleClassName" th:field="*{articleClassName}" size="20">
+                <div class="txt-errorMessage" th:errors="*{articleClassName}"></div>
             </div>
         </div>
         <button type="submit" th:text="#{function.correct}"></button>

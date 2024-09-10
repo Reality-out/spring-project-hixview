@@ -89,7 +89,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         mockMvc.perform(getWithSingleParam(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME,
                         encodeWithUTF8(articleDtoOriginal.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
                         model().attribute(VALUE, articleDtoOriginal.getName()));
 
@@ -104,7 +104,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     public void accessArticleMainModify() throws Exception {
         mockMvc.perform(get(UPDATE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
+                        view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
     }
 
@@ -166,7 +166,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
         mockMvc.perform(getWithSingleParam(modifyArticleMainFinishUrl, NAME, encodeWithUTF8(commonName)))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
                         model().attribute(VALUE, commonName));
 
@@ -185,7 +185,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "company-article-mains-page"))
+                        view().name(MANAGER_SELECT_VIEW + "article-mains-page"))
                 .andReturn().getModelAndView()).getModelMap().get("articleMains"))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
@@ -196,7 +196,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     public void accessArticleMainRid() throws Exception {
         mockMvc.perform(get(REMOVE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX),
+                        view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
     }
 
@@ -224,7 +224,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
         mockMvc.perform(getWithSingleParam(REMOVE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
                         model().attribute(VALUE, name));
 
