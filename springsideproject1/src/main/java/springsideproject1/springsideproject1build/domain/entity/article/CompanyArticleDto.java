@@ -23,10 +23,6 @@ public class CompanyArticleDto {
     private String press;
 
     @NotBlank
-    @Size(max = 12)
-    private String subjectCompany;
-
-    @NotBlank
     @Size(max = 400)
     @Pattern(regexp = URL_REGEX)
     private String link;
@@ -45,4 +41,8 @@ public class CompanyArticleDto {
 
     @Importance
     private Integer importance;
+
+    @NotBlank
+    @Size(max = 12)
+    private String subjectCompany;
 }

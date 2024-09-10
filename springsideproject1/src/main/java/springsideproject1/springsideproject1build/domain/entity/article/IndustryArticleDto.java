@@ -23,12 +23,6 @@ public class IndustryArticleDto {
     @NotNull
     private String press;
 
-    @FirstCategory
-    private String subjectFirstCategory;
-
-    @SecondCategory
-    private String subjectSecondCategory;
-
     @NotBlank
     @Size(max = 400)
     @Pattern(regexp = URL_REGEX)
@@ -48,4 +42,10 @@ public class IndustryArticleDto {
 
     @Importance
     private Integer importance;
+
+    @FirstCategory
+    private String subjectFirstCategory;
+
+    @SecondCategory
+    private String subjectSecondCategory;
 }

@@ -110,10 +110,10 @@ public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
                         .number(resultSet.getLong(NUMBER))
                         .name(resultSet.getString(NAME))
                         .press(Press.valueOf(resultSet.getString(PRESS)))
-                        .subjectCompany(resultSet.getString(SUBJECT_COMPANY))
                         .link(resultSet.getString(LINK))
                         .date(resultSet.getDate(DATE).toLocalDate())
                         .importance(resultSet.getInt(IMPORTANCE))
+                        .subjectCompany(resultSet.getString(SUBJECT_COMPANY))
                         .build();
     }
 }

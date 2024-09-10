@@ -1,35 +1,20 @@
 package springsideproject1.springsideproject1build.domain.entity.article;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.entity.company.FirstCategory;
 import springsideproject1.springsideproject1build.domain.entity.company.SecondCategory;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.IMPORTANCE;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class IndustryArticle {
-
-    private final Long number;
-
-    @NotBlank
-    @Size(max = 80)
-    private final String name;
-
-    @NotNull
-    private final Press press;
+public class IndustryArticle extends Article {
 
     @NotNull
     private final FirstCategory subjectFirstCategory;
@@ -37,29 +22,17 @@ public class IndustryArticle {
     @NotNull
     private final SecondCategory subjectSecondCategory;
 
-    @NotBlank
-    @Size(max = 400)
-    @Pattern(regexp = URL_REGEX)
-    private final String link;
-
-    @NotNull
-    @PastOrPresent
-    private final LocalDate date;
-
-    @Importance
-    private final Integer importance;
-
     public IndustryArticleDto toDto() {
         IndustryArticleDto IndustryArticleDto = new IndustryArticleDto();
         IndustryArticleDto.setName(name);
         IndustryArticleDto.setPress(press.name());
-        IndustryArticleDto.setSubjectFirstCategory(subjectFirstCategory.name());
-        IndustryArticleDto.setSubjectSecondCategory(subjectSecondCategory.name());
         IndustryArticleDto.setLink(link);
         IndustryArticleDto.setYear(date.getYear());
         IndustryArticleDto.setMonth(date.getMonthValue());
         IndustryArticleDto.setDays(date.getDayOfMonth());
         IndustryArticleDto.setImportance(importance);
+        IndustryArticleDto.setSubjectFirstCategory(subjectFirstCategory.name());
+        IndustryArticleDto.setSubjectSecondCategory(subjectSecondCategory.name());
         return IndustryArticleDto;
     }
 
@@ -72,40 +45,81 @@ public class IndustryArticle {
 
     public HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
-            put(NAME, name);
-            put(PRESS, press);
+            putAll(IndustryArticle.super.toMapWithNoNumber());
             put(SUBJECT_FIRST_CATEGORY, subjectFirstCategory);
             put(SUBJECT_SECOND_CATEGORY, subjectSecondCategory);
-            put(LINK, link);
-            put(DATE, date);
-            put(IMPORTANCE, importance);
         }};
     }
 
-    public static class IndustryArticleBuilder {
+    private IndustryArticle(Long number, String name, Press press, String link, LocalDate date,
+                            Integer importance, FirstCategory subjectFirstCategory, SecondCategory subjectSecondCategory) {
+        super(number, name, press, link, date, importance);
+        this.subjectFirstCategory = subjectFirstCategory;
+        this.subjectSecondCategory = subjectSecondCategory;
+    }
+
+    public static class IndustryArticleBuilder extends ArticleBuilder {
+        private FirstCategory subjectFirstCategory;
+        private SecondCategory subjectSecondCategory;
+
         public IndustryArticleBuilder() {}
+
+        public IndustryArticleBuilder number(final Long number) {
+            this.number = number;
+            return this;
+        }
+
+        public IndustryArticleBuilder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public IndustryArticleBuilder press(final Press press) {
+            this.press = press;
+            return this;
+        }
+
+        public IndustryArticleBuilder link(final String link) {
+            this.link = link;
+            return this;
+        }
+
+        public IndustryArticleBuilder date(final LocalDate date) {
+            this.date = date;
+            return this;
+        }
+
+        public IndustryArticleBuilder importance(final Integer importance) {
+            this.importance = importance;
+            return this;
+        }
 
         public IndustryArticleBuilder article(IndustryArticle article) {
             number = article.getNumber();
             name = article.getName();
             press = article.getPress();
-            subjectFirstCategory = article.getSubjectFirstCategory();
-            subjectSecondCategory = article.getSubjectSecondCategory();
             link = article.getLink();
             date = article.getDate();
             importance = article.getImportance();
+            subjectFirstCategory = article.getSubjectFirstCategory();
+            subjectSecondCategory = article.getSubjectSecondCategory();
             return this;
         }
 
         public IndustryArticleBuilder articleDto(IndustryArticleDto articleDto) {
             name = articleDto.getName();
             press = Press.valueOf(articleDto.getPress());
-            subjectFirstCategory = FirstCategory.valueOf(articleDto.getSubjectFirstCategory());
-            subjectSecondCategory = SecondCategory.valueOf(articleDto.getSubjectSecondCategory());
             link = articleDto.getLink();
             date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
             importance = articleDto.getImportance();
+            subjectFirstCategory = FirstCategory.valueOf(articleDto.getSubjectFirstCategory());
+            subjectSecondCategory = SecondCategory.valueOf(articleDto.getSubjectSecondCategory());
             return this;
+        }
+
+        public IndustryArticle build() {
+            return new IndustryArticle(this.number, this.name, this.press, this.link,
+                    this.date, this.importance, this.subjectFirstCategory, this.subjectSecondCategory);
         }
     }
 }
