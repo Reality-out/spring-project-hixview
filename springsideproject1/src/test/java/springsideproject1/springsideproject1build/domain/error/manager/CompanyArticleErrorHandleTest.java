@@ -65,7 +65,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(SUBJECT_COMPANY, INVALID_VALUE);
                     put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
-                .andExpectAll(view().name(addStringArticleProcessPage),
+                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
@@ -82,7 +82,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
                     put(linkString, testEqualDateCompanyArticle.getLink());
                 }}))
-                .andExpectAll(view().name(addStringArticleProcessPage),
+                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
@@ -99,7 +99,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(SUBJECT_COMPANY, testCompanyArticleStringBuffer.getSubjectCompany());
                     put(linkString, testCompanyArticleStringBuffer.getLinkString());
                 }}))
-                .andExpectAll(view().name(addStringArticleProcessPage),
+                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
@@ -116,7 +116,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(SUBJECT_COMPANY, samsungElectronics.getName());
                     put(linkString, "");
                 }}))
-                .andExpectAll(view().name(addStringArticleProcessPage),
+                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
     }
@@ -166,15 +166,15 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
                         CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))
-                .andExpectAll(view().name(modifyArticleProcessPage),
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null)));
 
-        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyArticleFinishUrl,
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
                         CompanyArticle.builder().article(article).link(testNewCompanyArticle.getLink()).build()))
-                .andExpectAll(view().name(modifyArticleProcessPage),
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null)));
     }

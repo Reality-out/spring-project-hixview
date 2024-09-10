@@ -14,8 +14,8 @@ import springsideproject1.springsideproject1build.domain.entity.article.company.
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleMainDto;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.main.CompanyArticleMainAddValidator;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.main.CompanyArticleMainModifyValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.company.main.CompanyArticleMainAddValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.company.main.CompanyArticleMainModifyValidator;
 
 import java.util.Optional;
 

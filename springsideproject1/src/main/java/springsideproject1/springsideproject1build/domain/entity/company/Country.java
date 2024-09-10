@@ -3,7 +3,7 @@ package springsideproject1.springsideproject1build.domain.entity.company;
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COUNTRY_WITH_THAT_VALUE;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COUNTRY_WITH_THAT_KOREAN_VALUE;
 
 @Getter
 public enum Country {
@@ -42,6 +42,6 @@ public enum Country {
                 return enumValue;
             }
         }
-        throw new NotFoundException(NO_COUNTRY_WITH_THAT_VALUE);
+        throw new NotFoundException(NO_COUNTRY_WITH_THAT_KOREAN_VALUE);
     }
 }

@@ -10,15 +10,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import springsideproject1.springsideproject1build.domain.entity.article.Press;
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleDto;
-import springsideproject1.springsideproject1build.domain.entity.article.Press;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleBufferSimple;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.company.*;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
+import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
+import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -31,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR_SINGLE;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.IS_BEAN_VALIDATION_ERROR;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -41,13 +46,16 @@ import static springsideproject1.springsideproject1build.util.MainUtils.encodeWi
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class FilterTest implements CompanyArticleTestUtils, CompanyTestUtils {
+public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleService articleService;
+    CompanyArticleService companyArticleService;
+
+    @Autowired
+    IndustryArticleService industryArticleService;
 
     @Autowired
     CompanyService companyService;
@@ -65,7 +73,7 @@ public class FilterTest implements CompanyArticleTestUtils, CompanyTestUtils {
         resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
-    @DisplayName("기업 기사 지원 필터 추가에 대한 테스트")
+    @DisplayName("기업 기사 추가에 대한 기사 지원 필터 테스트")
     @Test
     public void companyArticleDtoSupportFilterAddTest() throws Exception {
         // given
@@ -89,11 +97,11 @@ public class FilterTest implements CompanyArticleTestUtils, CompanyTestUtils {
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(commonName)));
-            articleService.removeArticleByName(commonName);
+            companyArticleService.removeArticleByName(commonName);
         }
     }
 
-    @DisplayName("기업 기사 지원 필터 문자열을 사용하는 추가에 대한 테스트")
+    @DisplayName("문자열을 사용하는 기업 기사 추가에 대한 기사 지원 필터 테스트")
     @Test
     public void companyArticleDtoSupportFilterAddWithStringTest() throws Exception {
         // given
@@ -137,12 +145,12 @@ public class FilterTest implements CompanyArticleTestUtils, CompanyTestUtils {
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
-            articleService.removeArticleByName(article1.getName());
-            articleService.removeArticleByName(article2.getName());
+            companyArticleService.removeArticleByName(article1.getName());
+            companyArticleService.removeArticleByName(article2.getName());
         }
     }
 
-    @DisplayName("기업 기사 지원 필터 변경에 대한 테스트")
+    @DisplayName("기업 기사 변경에 대한 기사 지원 필터 테스트")
     @Test
     public void companyArticleDtoSupportFilterModifyTest() throws Exception {
         // given
@@ -160,19 +168,120 @@ public class FilterTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
         // when
         companyService.registerCompany(samsungElectronics);
-        articleService.registerArticle(beforeModifyArticle);
+        companyArticleService.registerArticle(beforeModifyArticle);
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
                 articleDtoKorean, articleDtoLowercase)) {
-            mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
+            mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(modifyArticleFinishUrl + ALL_QUERY_STRING),
+                            redirectedUrlPattern(modifyCompanyArticleFinishUrl + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(beforeModifyArticle.getName())));
         }
     }
 
-    @DisplayName("기업 지원 필터 추가에 대한 테스트")
+    @DisplayName("산업 기사 추가에 대한 기사 지원 필터 테스트")
+    @Test
+    public void industryArticleDtoSupportFilterAddTest() throws Exception {
+        // given & when
+        IndustryArticleDto articleDtoLeftSpace = createTestIndustryArticleDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        IndustryArticleDto articleDtoRightSpace = createTestIndustryArticleDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        IndustryArticleDto articleDtoKorean = createTestIndustryArticleDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        IndustryArticleDto articleDtoLowercase = createTestIndustryArticleDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
+        String commonName = createTestIndustryArticleDto().getName();
+
+        // then
+        for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
+                articleDtoKorean, articleDtoLowercase)) {
+            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_SINGLE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(commonName)));
+            industryArticleService.removeArticleByName(commonName);
+        }
+    }
+
+    @DisplayName("문자열을 사용하는 산업 기사 추가에 대한 기사 지원 필터 테스트")
+    @Test
+    public void industryArticleDtoSupportFilterAddWithStringTest() throws Exception {
+        // given & when
+        IndustryArticle article1 = testEqualDateIndustryArticle;
+        IndustryArticle article2 = testNewIndustryArticle;
+        IndustryArticleBufferSimple articleBuffer = testIndustryArticleStringBuffer;
+
+        List<String> nameList = Stream.of(article1, article2)
+                .map(IndustryArticle::getName).collect(Collectors.toList());
+        String nameListForURL = toStringForUrl(nameList);
+        String nameListString = "nameList";
+
+        String articleStringLeftSpace = articleBuffer.getNameDatePressString()
+                .replace(article1.getName(), " " + article1.getName());
+        String articleStringRightSpace = articleBuffer.getNameDatePressString()
+                .replace(article1.getName(), article1.getName() + " ");
+        String articleStringKorean = testIndustryArticleStringBuffer.getNameDatePressString()
+                .replace(article1.getPress().name(), article1.getPress().getPressValue())
+                .replace(article2.getPress().name(), article2.getPress().getPressValue());
+        String articleStringLowercase = testIndustryArticleStringBuffer.getNameDatePressString()
+                .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
+                .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
+
+        // then
+        for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
+                articleStringKorean, articleStringLowercase)) {
+            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
+                            ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                                put(nameDatePressString, articleString);
+                                put(linkString, articleBuffer.getLinkString());
+                                put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
+                                put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
+                            }}))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                    .andReturn().getModelAndView()).getModelMap();
+
+            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+
+            industryArticleService.removeArticleByName(article1.getName());
+            industryArticleService.removeArticleByName(article2.getName());
+        }
+    }
+
+    @DisplayName("산업 기사 변경에 대한 기사 지원 필터 테스트")
+    @Test
+    public void industryArticleDtoSupportFilterModifyTest() throws Exception {
+        // given
+        IndustryArticle beforeModifyArticle = testIndustryArticle;
+        IndustryArticle article = IndustryArticle.builder().article(testNewIndustryArticle)
+                .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
+        IndustryArticleDto articleDtoLeftSpace = article.toDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        IndustryArticleDto articleDtoRightSpace = article.toDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        IndustryArticleDto articleDtoKorean = article.toDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        IndustryArticleDto articleDtoLowercase = article.toDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
+
+        // when
+        industryArticleService.registerArticle(beforeModifyArticle);
+
+        // then
+        for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
+                articleDtoKorean, articleDtoLowercase)) {
+            mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(modifyIndustryArticleFinishUrl + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(beforeModifyArticle.getName())));
+        }
+    }
+
+    @DisplayName("추가에 대한 기업 지원 필터 테스트")
     @Test
     public void companyDtoSupportFilterAddTest() throws Exception {
         // given & when
@@ -199,7 +308,7 @@ public class FilterTest implements CompanyArticleTestUtils, CompanyTestUtils {
         }
     }
 
-    @DisplayName("기업 지원 필터 변경에 대한 테스트")
+    @DisplayName("변경에 대한 기업 지원 필터 테스트")
     @Test
     public void companyDtoSupportFilterModifyTest() throws Exception {
         // given

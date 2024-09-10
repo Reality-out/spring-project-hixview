@@ -3,7 +3,7 @@ package springsideproject1.springsideproject1build.domain.entity.company;
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_SECOND_CATEGORY_WITH_THAT_VALUE;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_SECOND_CATEGORY_WITH_THAT_KOREAN_VALUE;
 
 @Getter
 public enum SecondCategory {
@@ -48,6 +48,6 @@ public enum SecondCategory {
                 return enumValue;
             }
         }
-        throw new NotFoundException(NO_SECOND_CATEGORY_WITH_THAT_VALUE);
+        throw new NotFoundException(NO_SECOND_CATEGORY_WITH_THAT_KOREAN_VALUE);
     }
 }

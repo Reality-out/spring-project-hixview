@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validation.validator.article.main;
+package springsideproject1.springsideproject1build.domain.validation.validator.article.company.main;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

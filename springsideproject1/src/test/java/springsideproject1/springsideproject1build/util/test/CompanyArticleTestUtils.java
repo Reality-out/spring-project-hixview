@@ -18,10 +18,10 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
     // Assertion
-    String addSingleArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-    String addStringArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
-    String modifyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+    String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    String addStringCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
+    String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+    String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
 
     // Test Object
     CompanyArticle testCompanyArticle = CompanyArticle.builder()

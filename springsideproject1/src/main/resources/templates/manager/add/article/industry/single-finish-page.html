@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <p th:text="|다음 #{article.name}의 #{industry} #{article} #{function.register}이 #{function.finish}되었습니다:|"></p>
+    <table>
+        <tbody>
+        <tr>
+            <th scope="col" th:text="${key}"></th>
+        </tr>
+        <tr>
+            <td th:text="${value}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

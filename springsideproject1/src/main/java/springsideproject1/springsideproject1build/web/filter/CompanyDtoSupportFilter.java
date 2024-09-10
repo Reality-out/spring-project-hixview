@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
 import springsideproject1.springsideproject1build.web.request.ModifiableHttpServletRequest;
 
@@ -24,6 +25,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_URL, UPDATE_COMPANY_URL + URL_FINISH_SUFFIX})
+@Order(1)
 public class CompanyDtoSupportFilter extends OncePerRequestFilter {
 
 
@@ -36,7 +38,7 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
 
         String country = request.getParameter(COUNTRY);
-        if (country != null){
+        if (country != null) {
             request.setParameter(COUNTRY, country.toUpperCase());
             if (containsWithCountryValue(country)) {
                 request.setParameter(COUNTRY, convertToCountry(country).name());
@@ -44,7 +46,7 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
         }
 
         String scale = request.getParameter(SCALE);
-        if (scale != null){
+        if (scale != null) {
             request.setParameter(SCALE, scale.toUpperCase());
             if (containsWithScaleValue(scale))
                 request.setParameter(SCALE, convertToScale(scale).name());

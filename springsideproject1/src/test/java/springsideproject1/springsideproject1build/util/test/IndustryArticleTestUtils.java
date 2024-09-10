@@ -2,9 +2,10 @@ package springsideproject1.springsideproject1build.util.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.article.Press;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleBufferSimple;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.company.FirstCategory;
 import springsideproject1.springsideproject1build.domain.entity.company.SecondCategory;
 
@@ -19,10 +20,10 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 
 public interface IndustryArticleTestUtils extends ObjectTestUtils {
     // Assertion
-    String addSingleArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-    String addStringArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
-    String modifyArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifyArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX;
+    String addSingleIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    String addStringIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
+    String modifyIndustryArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+    String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX;
 
     // Test Object
     IndustryArticle testIndustryArticle = IndustryArticle.builder()
@@ -36,7 +37,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
             .build();
 
     IndustryArticle testNewIndustryArticle = IndustryArticle.builder()
-            .name("흔들리는 반도체 굴기…화웨이 \"3·5나노칩 확보 불가\"\n")
+            .name("흔들리는 반도체 굴기…화웨이 \"3·5나노칩 확보 불가\"")
             .press(Press.SEOUL_ECONOMY)
             .link("https://www.sedaily.com/NewsView/2DAECLJTW4")
             .date(LocalDate.of(2024, 6, 9))
@@ -54,6 +55,12 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
             .subjectFirstCategory(FirstCategory.SEMICONDUCTOR)
             .subjectSecondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
             .build();
+
+    IndustryArticleBufferSimple testEqualDateIndustryArticleStringBuffer = IndustryArticleBufferSimple.builder()
+            .articles(testEqualDateIndustryArticle).build();
+
+    IndustryArticleBufferSimple testIndustryArticleStringBuffer = IndustryArticleBufferSimple.builder()
+            .articles(testEqualDateIndustryArticle, testNewIndustryArticle).build();
 
     /**
      * Create

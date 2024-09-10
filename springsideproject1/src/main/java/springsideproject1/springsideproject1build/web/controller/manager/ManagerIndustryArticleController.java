@@ -12,14 +12,13 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
-import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
-import springsideproject1.springsideproject1build.domain.service.CompanyService;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.company.CompanyArticleAddComplexValidator;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.company.CompanyArticleAddSimpleValidator;
-import springsideproject1.springsideproject1build.domain.validation.validator.article.company.CompanyArticleModifyValidator;
+import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.industry.IndustryArticleAddComplexValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.industry.IndustryArticleAddSimpleValidator;
+import springsideproject1.springsideproject1build.domain.validation.validator.article.industry.IndustryArticleModifyValidator;
 import springsideproject1.springsideproject1build.util.MainUtils;
 
 import java.util.ArrayList;
@@ -30,6 +29,8 @@ import java.util.Optional;
 import static java.lang.Integer.parseInt;
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
 import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
+import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategory;
+import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategory;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
@@ -44,72 +45,77 @@ import static springsideproject1.springsideproject1build.util.MainUtils.encodeWi
 
 @Controller
 @RequiredArgsConstructor
-public class ManagerCompanyArticleController {
+public class ManagerIndustryArticleController {
 
-    private final CompanyArticleService articleService;
-    private final CompanyService companyService;
+    private final IndustryArticleService articleService;
 
     private final Validator defaultValidator;
-    private final CompanyArticleAddComplexValidator complexValidator;
-    private final CompanyArticleAddSimpleValidator simpleValidator;
-    private final CompanyArticleModifyValidator modifyValidator;
+    private final IndustryArticleAddComplexValidator complexValidator;
+    private final IndustryArticleAddSimpleValidator simpleValidator;
+    private final IndustryArticleModifyValidator modifyValidator;
 
-    private final Logger log = LoggerFactory.getLogger(ManagerCompanyArticleController.class);
+    private final Logger log = LoggerFactory.getLogger(ManagerIndustryArticleController.class);
 
     /**
      * Add - Single
      */
-    @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
+    @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddCompanyArticle(Model model) {
+    public String processAddIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        model.addAttribute(ARTICLE, new CompanyArticleDto());
-        return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+        model.addAttribute(ARTICLE, new IndustryArticleDto());
+        return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
     }
 
-    @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
-    public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
+    @PostMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL)
+    public String submitAddIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
-            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+            return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
         complexValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, null, model);
-            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+            return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
         }
 
-        articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
-        return URL_REDIRECT_PREFIX + ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + ADD_SINGLE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
+    @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddCompanyArticle(@RequestParam String name, Model model) {
+    public String finishAddIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
+        return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH_SUFFIX;
     }
 
     /**
      * Add - Multiple
      */
-    @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
+    @GetMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processAddCompanyArticlesWithString(Model model) {
+    public String processAddIndustryArticlesWithString(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_PATH);
-        return ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
+        return ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
     }
 
-    @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
-    public String submitAddCompanyArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
-                                                     @RequestParam String subjectCompany, RedirectAttributes redirect, Model model) {
-        String senderPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
-        if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
-            finishForRollback(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_PATH, NOT_FOUND_COMPANY_ERROR, model);
+    @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
+    public String submitAddIndustryArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
+                                                     @RequestParam String subjectFirstCategory,
+                                                     @RequestParam String subjectSecondCategory,
+                                                     RedirectAttributes redirect, Model model) {
+        String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
+        if (!containsWithFirstCategory(subjectFirstCategory)) {
+            finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_PATH, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
+            return senderPage;
+        }
+        if (!containsWithSecondCategory(subjectSecondCategory)) {
+            finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_PATH, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
             return senderPage;
         }
         List<List<String>> nameDatePressList = parseArticleString(nameDatePressString);
@@ -124,7 +130,7 @@ public class ManagerCompanyArticleController {
         }
 
         List<String> nameList = new ArrayList<>();
-        CompanyArticleDto articleDto = new CompanyArticleDto();
+        IndustryArticleDto articleDto = new IndustryArticleDto();
         try {
             for (int i = 0; i < linkList.size(); i++) {
                 List<String> partialArticle = nameDatePressList.get(i);
@@ -136,7 +142,8 @@ public class ManagerCompanyArticleController {
                 articleDto.setMonth(parseInt(partialArticle.get(2)));
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
-                articleDto.setSubjectCompany(subjectCompany);
+                articleDto.setSubjectFirstCategory(subjectFirstCategory);
+                articleDto.setSubjectSecondCategory(subjectSecondCategory);
                 if (containsWithPressValue(articleDto.getPress()))
                     articleDto.setPress(convertToPress(articleDto.getPress()).name());
 
@@ -150,7 +157,7 @@ public class ManagerCompanyArticleController {
                     throw new ConstraintValidationException(CONSTRAINT_VALIDATION_VIOLATED, bindingResult, false);
                 }
                 nameList.add(articleService.registerArticle(
-                        CompanyArticle.builder().articleDto(articleDto).build()).getName());
+                        IndustryArticle.builder().articleDto(articleDto).build()).getName());
             }
             finishForRedirect("", redirect, MainUtils.encodeWithUTF8(nameList),
                     false, null);
@@ -167,101 +174,101 @@ public class ManagerCompanyArticleController {
             finishForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
                     MainUtils.encodeWithUTF8(nameList), e.isBeanValidationViolated(), null);
         }
-        return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
+    @GetMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
+    public String finishAddIndustryArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
         model.addAttribute("nameList", MainUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
-        return ADD_COMPANY_ARTICLE_VIEW + "multiple-finish-page";
+        return ADD_INDUSTRY_ARTICLE_VIEW + "multiple-finish-page";
     }
 
     /**
      * See
      */
-    @GetMapping(SELECT_COMPANY_ARTICLE_URL)
+    @GetMapping(SELECT_INDUSTRY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processSeeCompanyArticles(Model model) {
+    public String processSeeIndustryArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_PATH);
         model.addAttribute("articles", articleService.findArticles());
-        return MANAGER_SELECT_VIEW + "company-articles-page";
+        return MANAGER_SELECT_VIEW + "industry-articles-page";
     }
 
     /**
      * Modify
      */
-    @GetMapping(UPDATE_COMPANY_ARTICLE_URL)
+    @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
-	public String initiateModifyCompanyArticle(Model model) {
+	public String initiateModifyIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-		return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
+		return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
 	}
 
-    @PostMapping(UPDATE_COMPANY_ARTICLE_URL)
+    @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
-        Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
+    public String processModifyIndustryArticle(@RequestParam String numberOrName, Model model) {
+        Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
-            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
+            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_PATH, NOT_FOUND_INDUSTRY_ARTICLE_ERROR, model);
+            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_PATH);
-        model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
+        model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
-        return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+        return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
     }
 
-    @PostMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
-    public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
+    @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX)
+    public String submitModifyIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
                                              BindingResult bindingResult, RedirectAttributes redirect, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
-            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+            model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX);
+            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
         modifyValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, null, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX);
-            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
+            model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX);
+            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
         }
 
-        articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
+        articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
         redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
-        return URL_REDIRECT_PREFIX + UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
+    @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX)
 	@ResponseStatus(HttpStatus.OK)
-	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
+	public String finishModifyIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
+        return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
 	}
 
     /**
      * Get Rid of
      */
-    @GetMapping(REMOVE_COMPANY_ARTICLE_URL)
+    @GetMapping(REMOVE_INDUSTRY_ARTICLE_URL)
     @ResponseStatus(HttpStatus.OK)
-    public String processRidCompanyArticle(Model model) {
+    public String processRidIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_PATH);
-        return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
+        return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
     }
 
-    @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
-    public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
-        Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
+    @PostMapping(REMOVE_INDUSTRY_ARTICLE_URL)
+    public String submitRidIndustryArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
+        Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
-            return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
+            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_PATH, NOT_FOUND_INDUSTRY_ARTICLE_ERROR, model);
+            return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
         }
 
         if (NUMBER_REGEX_PATTERN.matcher(numberOrName).matches()) {
@@ -269,15 +276,15 @@ public class ManagerCompanyArticleController {
         }
         articleService.removeArticleByName(numberOrName);
         redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
-        return URL_REDIRECT_PREFIX + REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+        return URL_REDIRECT_PREFIX + REMOVE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX;
     }
 
-    @GetMapping(REMOVE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX)
+    @GetMapping(REMOVE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
-    public String finishRidCompanyArticle(@RequestParam String name, Model model) {
+    public String finishRidIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
-        return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
+        return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
     }
 
     /**

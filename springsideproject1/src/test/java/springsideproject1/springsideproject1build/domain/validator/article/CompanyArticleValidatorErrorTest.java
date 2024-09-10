@@ -59,6 +59,23 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
         resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
     }
 
+    @DisplayName("미래의 기사 입력일을 사용하는 기업 기사 추가 유효성 검증")
+    @Test
+    public void futureDateCompanyArticleAdd() throws Exception {
+        CompanyArticleDto articleDtoFuture = createTestCompanyArticleDto();
+        articleDtoFuture.setYear(2099);
+        articleDtoFuture.setMonth(12);
+        articleDtoFuture.setDays(31);
+
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDtoFuture))
+                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDtoFuture);
+    }
+
     @DisplayName("기사 입력일이 유효하지 않은 기업 기사 추가 유효성 검증")
     @Test
     public void invalidDateCompanyArticleAdd() throws Exception {
@@ -70,7 +87,7 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleArticleProcessPage),
+                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -93,7 +110,7 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(addSingleArticleProcessPage),
+                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -116,7 +133,7 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(addSingleArticleProcessPage),
+                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -132,7 +149,7 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleArticleProcessPage),
+                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -203,6 +220,25 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
 
+    @DisplayName("미래의 기사 입력일을 사용하는 기업 기사 변경 유효성 검증")
+    @Test
+    public void futureDateCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticleDto articleDtoFuture = createTestCompanyArticleDto();
+        articleDtoFuture.setYear(2099);
+        articleDtoFuture.setMonth(12);
+        articleDtoFuture.setDays(31);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDtoFuture))
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDtoFuture);
+    }
+
     @DisplayName("기사 입력일이 유효하지 않은 기업 기사 변경")
     @Test
     public void invalidDateCompanyArticleModify() throws Exception {
@@ -213,8 +249,8 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
         articleDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -233,8 +269,8 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
         articleDto.setName(testNewCompanyArticle.getName());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -253,8 +289,8 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
         articleDto.setLink(testNewCompanyArticle.getLink());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
@@ -269,8 +305,8 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleProcessPage),
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))

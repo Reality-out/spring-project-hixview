@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategory;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
+import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory;
 
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
@@ -20,7 +21,7 @@ public class IndustryArticleDto {
     @Size(max = 80)
     private String name;
 
-    @NotNull
+    @Press
     private String press;
 
     @NotBlank

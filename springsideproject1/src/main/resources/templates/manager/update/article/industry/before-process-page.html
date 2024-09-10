@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <p th:text="|#{industry} #{article}를 #{function.correct}합니다.|"></p>
+    <p th:text="|#{article.number} 또는 #{article.name}을 통해 #{article}를 #{function.search}합니다.|"></p>
+    <form th:action method="POST">
+        <div th:if="${error} != null" th:classappend="txt-errorMessage">
+            <span th:if="${error} == 'notFoundIndustryArticleError'" th:text="#{NotFound.article}"></span>
+        </div>
+        <div>
+            <div class="partialForm">
+                <label for="numberOrName">[[#{article.number}]] 또는 [[#{article.name}]]</label>
+                <input type="text" id="numberOrName" name="numberOrName" size="20">
+            </div>
+        </div>
+        <button type="submit" th:text="#{function.search}"></button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.validation.validator.article;
+package springsideproject1.springsideproject1build.domain.validation.validator.article.company;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
@@ -15,7 +15,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 
 @Component
 @RequiredArgsConstructor
-public class CompanyArticleModifyValidator implements Validator {
+public class CompanyArticleAddComplexValidator implements Validator {
 
     private final CompanyArticleEntryDateValidator entryDateValidator;
     private final CompanyArticleService articleService;
@@ -32,11 +32,11 @@ public class CompanyArticleModifyValidator implements Validator {
 
         entryDateValidator.validate(articleDto, errors);
 
-        if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+        if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
+            errors.rejectValue(NAME, "Exist");
         }
-        if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            errors.rejectValue(LINK, "NotFound");
+        if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
+            errors.rejectValue(LINK, "Exist");
         }
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
             errors.rejectValue(SUBJECT_COMPANY, "NotFound");

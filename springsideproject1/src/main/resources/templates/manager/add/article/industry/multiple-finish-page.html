@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <div th:if="${isBeanValidationError} == true" th:classappend="txt-errorMessage">
+        <p th:text="#{BeanValidation}"></p>
+    </div>
+    <div th:if="${errorSingle} != null" th:classappend="txt-errorMessage">
+        <th:block th:switch="${errorSingle}">
+            <p th:case="numberFormatIntegerError" th:text="#{typeMismatch.article.importance}"></p>
+            <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.article.date}"></p>
+        </th:block>
+    </div>
+    <p th:text="|다음 #{article.name}의 #{industry} #{article} #{function.register}이 #{function.finish}되었습니다:|"></p>
+    <table>
+        <tbody>
+        <tr th:each="name : ${nameList}">
+            <th th:text="#{article.name}"></th>
+            <td th:text="${name}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
