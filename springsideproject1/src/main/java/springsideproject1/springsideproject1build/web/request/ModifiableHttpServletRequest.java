@@ -2,7 +2,6 @@ package springsideproject1.springsideproject1build.web.request;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-import org.springframework.util.SerializationUtils;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -37,7 +36,7 @@ public class ModifiableHttpServletRequest extends HttpServletRequestWrapper {
     @Override
     public String[] getParameterValues(String name) {
         String[] paramArray = paramMap.get(name);
-        return paramArray != null ? SerializationUtils.clone(paramArray) : null;
+        return paramArray != null ? paramArray.clone() : null;
     }
 
     public void setParameter(String name, String value) {
