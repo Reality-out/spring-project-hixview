@@ -28,7 +28,6 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 @Order(1)
 public class CompanyDtoSupportFilter extends OncePerRequestFilter {
 
-
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         chain.doFilter(getModifiableHttpServletRequest(requestBefore), response);

@@ -22,7 +22,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 
 @NonNullApi
 @WebFilter(urlPatterns = ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
-@Order(2)
+@Order(1)
 public class StringIndustryArticleSupportFilter extends OncePerRequestFilter {
 
     @Override

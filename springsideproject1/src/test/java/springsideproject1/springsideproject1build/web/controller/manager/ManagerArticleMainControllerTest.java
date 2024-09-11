@@ -68,35 +68,25 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainAddFinish() throws Exception {
         // given & when
-        ArticleMainDto articleDtoOriginal = createTestArticleMainDto();
-        ArticleMainDto articleDtoLeftSpace = createTestArticleMainDto();
-        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        ArticleMainDto articleDtoRightSpace = createTestArticleMainDto();
-        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        ArticleMainDto articleDto = createTestArticleMainDto();
 
         // then
-        for (ArticleMainDto articleDto : List.of(articleDtoOriginal,articleDtoLeftSpace, articleDtoRightSpace)){
-            mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
-                    .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
-                            model().attribute(NAME, encodeWithUTF8(articleDtoOriginal.getName())));
-
-            articleMainService.removeArticleByName(articleDtoOriginal.getName());
-        }
-
-        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleDtoOriginal).build());
+        mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+                .andExpectAll(status().isFound(),
+                        redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
 
         mockMvc.perform(getWithSingleParam(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, NAME,
-                        encodeWithUTF8(articleDtoOriginal.getName())))
+                        encodeWithUTF8(articleDto.getName())))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(VALUE, articleDtoOriginal.getName()));
+                        model().attribute(VALUE, articleDto.getName()));
 
-        assertThat(articleMainService.findArticleByName(articleDtoOriginal.getName()).orElseThrow().toDto())
+        assertThat(articleMainService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(articleDtoOriginal);
+                .isEqualTo(articleDto);
     }
 
     @DisplayName("기사 메인 변경 페이지 접속")
@@ -143,26 +133,17 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainModifyFinish() throws Exception {
         // given
-        ArticleMain beforeModifyArticle = testArticleMain;
-        String commonName = beforeModifyArticle.getName();
-        ArticleMain article = ArticleMain.builder().article(testNewArticleMain)
-                .name(commonName).build();
-        ArticleMainDto articleDtoOriginal = article.toDto();
-        ArticleMainDto articleDtoLeftSpace = article.toDto();
-        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        ArticleMainDto articleDtoRightSpace = article.toDto();
-        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        String commonName = testArticleMain.getName();
+        ArticleMain article = ArticleMain.builder().article(testNewArticleMain).name(commonName).build();
 
         // when
-        articleMainService.registerArticle(beforeModifyArticle);
+        articleMainService.registerArticle(testArticleMain);
 
         // then
-        for (ArticleMainDto articleDto : List.of(articleDtoOriginal, articleDtoLeftSpace, articleDtoRightSpace)) {
-            mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
-                    .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),
-                            model().attribute(NAME, encodeWithUTF8(commonName)));
-        }
+        mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, article.toDto()))
+                .andExpectAll(status().isFound(),
+                        redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),
+                        model().attribute(NAME, encodeWithUTF8(commonName)));
 
         mockMvc.perform(getWithSingleParam(modifyArticleMainFinishUrl, NAME, encodeWithUTF8(commonName)))
                 .andExpectAll(status().isOk(),

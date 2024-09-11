@@ -56,11 +56,6 @@ public class ManagerArticleMainController {
     @PostMapping(ADD_ARTICLE_MAIN_URL)
     public String submitAddArticleMain(@ModelAttribute(ARTICLE) @Validated ArticleMainDto articleMainDto,
                                           BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
-        if (articleMainDto.getName() != null) {
-            articleMainDto.setName(articleMainDto.getName().strip());
-        }
-
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
@@ -111,8 +106,8 @@ public class ManagerArticleMainController {
     public String processModifyArticleMain(@RequestParam String numberOrName, Model model) {
         Optional<ArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
-                    UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
+            finishForRollback(NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
+                    UPDATE_PROCESS_PATH, NOT_FOUND_ARTICLE_MAIN_ERROR, model);
             return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
 
@@ -125,11 +120,6 @@ public class ManagerArticleMainController {
     @PostMapping(UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX)
     public String submitModifyArticleMain(@ModelAttribute(ARTICLE) @Validated ArticleMainDto articleMainDto,
                                                  BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        // TODO: 추후에 요청에 대한 필터 및 인터셉터 도입 예정
-        if (articleMainDto.getName() != null) {
-            articleMainDto.setName(articleMainDto.getName().strip());
-        }
-
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_PATH, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX);
@@ -170,8 +160,8 @@ public class ManagerArticleMainController {
     public String submitRidArticleMain(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
         Optional<ArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(ERRORS_ARE + NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
-                    REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR, model);
+            finishForRollback(NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
+                    REMOVE_PROCESS_PATH, NOT_FOUND_ARTICLE_MAIN_ERROR, model);
             return REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
         }
 

@@ -12,17 +12,13 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_ARTICLE_URL, UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
-        ADD_SINGLE_INDUSTRY_ARTICLE_URL, UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX})
+@WebFilter(urlPatterns = {ADD_ARTICLE_MAIN_URL, UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX})
 @Order(1)
-public class ArticleDtoSupportFilter extends OncePerRequestFilter {
+public class ArticleMainSupportFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -35,12 +31,6 @@ public class ArticleDtoSupportFilter extends OncePerRequestFilter {
         String name = request.getParameter(NAME);
         if (name != null) request.setParameter(NAME, name.strip());
 
-        String press = request.getParameter(PRESS);
-        if (press != null) {
-            request.setParameter(PRESS, press.toUpperCase());
-            if (containsWithPressValue(press))
-                request.setParameter(PRESS, convertToPress(press).name());
-        }
         return request;
     }
 }

@@ -16,9 +16,9 @@ public interface EXCEPTION_STRING {
     String NOT_BLANK_ARTICLE_ERROR = "notBlankArticleError";
     String NOT_EXIST_COMPANY_ERROR = "NotFoundCompanyError";
     String NOT_FOUND_COMPANY_ARTICLE_ERROR = "notFoundCompanyArticleError";
-    String NOT_FOUND_COMPANY_ARTICLE_MAIN_ERROR = "notFoundArticleMainError";
     String NOT_FOUND_INDUSTRY_ARTICLE_ERROR = "notFoundIndustryArticleError";
     String NOT_FOUND_INDUSTRY_ARTICLE_MAIN_ERROR = "notFoundIndustryArticleMainError";
+    String NOT_FOUND_ARTICLE_MAIN_ERROR = "notFoundArticleMainError";
     String NOT_FOUND_COMPANY_ERROR = "notFoundCompanyError";
     String NOT_FOUND_FIRST_CATEGORY_ERROR = "notFoundFirstCategoryError";
     String NOT_FOUND_SECOND_CATEGORY_ERROR = "notFoundSecondCategoryError";

@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
+import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
 import springsideproject1.springsideproject1build.domain.entity.article.Press;
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleBufferSimple;
@@ -18,9 +20,11 @@ import springsideproject1.springsideproject1build.domain.entity.article.industry
 import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.company.*;
+import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
+import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
 import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
@@ -46,7 +50,7 @@ import static springsideproject1.springsideproject1build.util.ControllerUtils.en
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, CompanyTestUtils {
+public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,6 +60,9 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @Autowired
     IndustryArticleService industryArticleService;
+
+    @Autowired
+    ArticleMainService articleMainService;
 
     @Autowired
     CompanyService companyService;
@@ -277,6 +284,48 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
             mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(modifyIndustryArticleFinishUrl + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(beforeModifyArticle.getName())));
+        }
+    }
+
+    @DisplayName("추가에 대한 기사 메인 지원 필터 테스트")
+    @Test
+    public void articleMainDtoSupportFilterAddTest() throws Exception {
+        ArticleMainDto articleDtoOriginal = createTestArticleMainDto();
+        ArticleMainDto articleDtoLeftSpace = createTestArticleMainDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        ArticleMainDto articleDtoRightSpace = createTestArticleMainDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+
+        for (ArticleMainDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace)){
+            mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            model().attribute(NAME, encodeWithUTF8(articleDtoOriginal.getName())));
+
+            articleMainService.removeArticleByName(articleDtoOriginal.getName());
+        }
+    }
+
+    @DisplayName("변경에 대한 기사 메인 지원 필터 테스트")
+    @Test
+    public void articleMainDtoSupportFilterModifyTest() throws Exception {
+        // given
+        ArticleMain beforeModifyArticle = testArticleMain;
+        ArticleMain article = ArticleMain.builder().article(testNewArticleMain).name(beforeModifyArticle.getName()).build();
+        ArticleMainDto articleDtoLeftSpace = article.toDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        ArticleMainDto articleDtoRightSpace = article.toDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+
+        // when
+        articleMainService.registerArticle(beforeModifyArticle);
+
+        // then
+        for (ArticleMainDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace)) {
+            mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(beforeModifyArticle.getName())));
         }
     }
