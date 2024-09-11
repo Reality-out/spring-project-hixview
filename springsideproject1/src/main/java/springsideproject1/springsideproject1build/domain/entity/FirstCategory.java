@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.entity.company;
+package springsideproject1.springsideproject1build.domain.entity;
 
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
@@ -25,7 +25,7 @@ public enum FirstCategory {
         this.firstCategoryValue = firstCategoryValue;
     }
 
-    public static boolean containsWithFirstCategory(String str) {
+    public static boolean containedWithFirstCategory(String str) {
         for (FirstCategory enumValue : FirstCategory.values()) {
             if (enumValue.name().equals(str)) {
                 return true;
@@ -34,7 +34,7 @@ public enum FirstCategory {
         return false;
     }
 
-    public static boolean containsWithFirstCategoryValue(String str) {
+    public static boolean containedWithFirstCategoryValue(String str) {
         for (FirstCategory enumValue : FirstCategory.values()) {
             if (enumValue.firstCategoryValue.equals(str)) {
                 return true;

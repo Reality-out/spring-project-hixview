@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.Country.containsWithCountry;
+import static springsideproject1.springsideproject1build.domain.entity.Country.containedWithCountry;
 
 public class CountryValidator implements ConstraintValidator<Country, String> {
 
@@ -23,7 +23,7 @@ public class CountryValidator implements ConstraintValidator<Country, String> {
             ).addConstraintViolation();
             return false;
         }
-        if (!containsWithCountry(country)) {
+        if (!containedWithCountry(country)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.company.country", null, Locale.getDefault())
             ).addConstraintViolation();

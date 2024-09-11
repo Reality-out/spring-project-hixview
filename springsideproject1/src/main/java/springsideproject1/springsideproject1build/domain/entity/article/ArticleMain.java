@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.validation.annotation.ArticleClassName;
+import springsideproject1.springsideproject1build.domain.entity.ArticleClassName;
 
 import java.util.HashMap;
 
@@ -28,15 +28,15 @@ public class ArticleMain {
     @NotBlank
     private final String summary;
 
-    @ArticleClassName
-    private final String articleClassName;
+    @springsideproject1.springsideproject1build.domain.validation.annotation.ArticleClassName
+    private final ArticleClassName articleClassName;
 
     public ArticleMainDto toDto() {
         ArticleMainDto companyArticleDto = new ArticleMainDto();
         companyArticleDto.setName(name);
         companyArticleDto.setImagePath(imagePath);
         companyArticleDto.setSummary(summary);
-        companyArticleDto.setArticleClassName(articleClassName);
+        companyArticleDto.setArticleClassName(articleClassName.name());
         return companyArticleDto;
     }
 
@@ -72,7 +72,7 @@ public class ArticleMain {
             name = articleDto.getName();
             imagePath = articleDto.getImagePath();
             summary = articleDto.getSummary();
-            articleClassName = articleDto.getArticleClassName();
+            articleClassName = ArticleClassName.valueOf(articleDto.getArticleClassName());
             return this;
         }
     }

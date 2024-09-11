@@ -12,14 +12,14 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.Country.containsWithCountryValue;
-import static springsideproject1.springsideproject1build.domain.entity.company.Country.convertToCountry;
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.convertToFirstCategory;
-import static springsideproject1.springsideproject1build.domain.entity.company.Scale.containsWithScaleValue;
-import static springsideproject1.springsideproject1build.domain.entity.company.Scale.convertToScale;
-import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategoryValue;
-import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.convertToSecondCategory;
+import static springsideproject1.springsideproject1build.domain.entity.Country.containedWithCountryValue;
+import static springsideproject1.springsideproject1build.domain.entity.Country.convertToCountry;
+import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.convertToFirstCategory;
+import static springsideproject1.springsideproject1build.domain.entity.Scale.containedWithScaleValue;
+import static springsideproject1.springsideproject1build.domain.entity.Scale.convertToScale;
+import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.convertToSecondCategory;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 
@@ -39,7 +39,7 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
         String country = request.getParameter(COUNTRY);
         if (country != null) {
             request.setParameter(COUNTRY, country.toUpperCase());
-            if (containsWithCountryValue(country)) {
+            if (containedWithCountryValue(country)) {
                 request.setParameter(COUNTRY, convertToCountry(country).name());
             }
         }
@@ -47,21 +47,21 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
         String scale = request.getParameter(SCALE);
         if (scale != null) {
             request.setParameter(SCALE, scale.toUpperCase());
-            if (containsWithScaleValue(scale))
+            if (containedWithScaleValue(scale))
                 request.setParameter(SCALE, convertToScale(scale).name());
         }
 
         String firstCategory = request.getParameter(FIRST_CATEGORY);
         if (firstCategory != null) {
             request.setParameter(FIRST_CATEGORY, firstCategory.toUpperCase());
-            if (containsWithFirstCategoryValue(firstCategory))
+            if (containedWithFirstCategoryValue(firstCategory))
                 request.setParameter(FIRST_CATEGORY, convertToFirstCategory(firstCategory).name());
         }
 
         String secondCategory = request.getParameter(SECOND_CATEGORY);
         if (secondCategory != null) {
             request.setParameter(SECOND_CATEGORY, secondCategory.toUpperCase());
-            if (containsWithSecondCategoryValue(secondCategory))
+            if (containedWithSecondCategoryValue(secondCategory))
                 request.setParameter(SECOND_CATEGORY, convertToSecondCategory(secondCategory).name());
         }
 

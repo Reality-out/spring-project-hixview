@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
 
 import java.time.LocalDate;

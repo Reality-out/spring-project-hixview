@@ -10,15 +10,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import springsideproject1.springsideproject1build.domain.entity.*;
 import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
 import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
-import springsideproject1.springsideproject1build.domain.entity.article.Press;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleBufferSimple;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleDto;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleBufferSimple;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleBufferSimple;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleBufferSimple;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.entity.company.*;
 import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
@@ -296,8 +296,13 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = createTestArticleMainDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        ArticleMainDto articleDtoKoreanArticleClassName = createTestArticleMainDto();
+        articleDtoKoreanArticleClassName.setArticleClassName(testCompanyArticleMain.getArticleClassName().getArticleClassNameValue());
+        ArticleMainDto articleDtoLowerCase = createTestArticleMainDto();
+        articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
 
-        for (ArticleMainDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace)){
+        for (ArticleMainDto articleDto : List.of(
+                articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanArticleClassName, articleDtoLowerCase)){
             mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
@@ -317,12 +322,17 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        ArticleMainDto articleDtoKoreanArticleClassName = createTestArticleMainDto();
+        articleDtoKoreanArticleClassName.setArticleClassName(testCompanyArticleMain.getArticleClassName().getArticleClassNameValue());
+        ArticleMainDto articleDtoLowerCase = createTestArticleMainDto();
+        articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
 
         // when
         articleMainService.registerArticle(beforeModifyArticle);
 
         // then
-        for (ArticleMainDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace)) {
+        for (ArticleMainDto articleDto : List.of(
+                articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanArticleClassName, articleDtoLowerCase)) {
             mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(modifyArticleMainFinishUrl + ALL_QUERY_STRING),

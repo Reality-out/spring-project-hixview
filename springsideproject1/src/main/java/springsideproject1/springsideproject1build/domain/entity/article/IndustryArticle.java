@@ -1,13 +1,12 @@
-package springsideproject1.springsideproject1build.domain.entity.article.industry;
+package springsideproject1.springsideproject1build.domain.entity.article;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.entity.article.Article;
-import springsideproject1.springsideproject1build.domain.entity.article.Press;
-import springsideproject1.springsideproject1build.domain.entity.company.FirstCategory;
-import springsideproject1.springsideproject1build.domain.entity.company.SecondCategory;
+import springsideproject1.springsideproject1build.domain.entity.Press;
+import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
+import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 
 import java.time.LocalDate;
 import java.util.HashMap;

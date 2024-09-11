@@ -58,7 +58,6 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setName(" ");
         articleDto.setImagePath(" ");
         articleDto.setSummary(" ");
-        articleDto.setArticleClassName(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
@@ -95,7 +94,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     public void validateRestrictArticleMainAdd() throws Exception {
         // given & when
         ArticleMainDto articleDto = createTestArticleMainDto();
-        articleDto.setArticleClassName(INVALID_VALUE);
+        articleDto.setArticleClassName(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
@@ -133,7 +132,6 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setName(" ");
         articleDto.setImagePath(" ");
         articleDto.setSummary(" ");
-        articleDto.setArticleClassName(" ");
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
@@ -170,7 +168,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     public void validateRestrictArticleMainModify() throws Exception {
         // given & when
         ArticleMainDto articleDto = createTestArticleMainDto();
-        articleDto.setArticleClassName(INVALID_VALUE);
+        articleDto.setArticleClassName(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))

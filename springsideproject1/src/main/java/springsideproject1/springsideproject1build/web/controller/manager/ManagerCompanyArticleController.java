@@ -12,8 +12,8 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
+import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
+import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
@@ -135,7 +135,7 @@ public class ManagerCompanyArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectCompany(subjectCompany);
-                if (containsWithPressValue(articleDto.getPress()))
+                if (containedWithPressValue(articleDto.getPress()))
                     articleDto.setPress(convertToPress(articleDto.getPress()).name());
 
                 BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(articleDto, ARTICLE);

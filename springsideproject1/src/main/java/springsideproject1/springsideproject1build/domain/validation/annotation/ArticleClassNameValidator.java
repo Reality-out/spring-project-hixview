@@ -5,18 +5,14 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
-import java.util.List;
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS_NAME.COMPANY_ARTICLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS_NAME.INDUSTRY_ARTICLE;
+import static springsideproject1.springsideproject1build.domain.entity.ArticleClassName.containedWithArticleClassName;
 
 public class ArticleClassNameValidator implements ConstraintValidator<ArticleClassName, String> {
 
     @Autowired
     private MessageSource source;
-
-    private final List<String> allowedNames = List.of(COMPANY_ARTICLE, INDUSTRY_ARTICLE);
 
     @Override
     public boolean isValid(String articleClassName, ConstraintValidatorContext context) {
@@ -27,7 +23,7 @@ public class ArticleClassNameValidator implements ConstraintValidator<ArticleCla
             ).addConstraintViolation();
             return false;
         }
-        if (!allowedNames.contains(articleClassName)) {
+        if (!containedWithArticleClassName(articleClassName)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("Restrict.article.articleClassName", null, Locale.getDefault())
             ).addConstraintViolation();

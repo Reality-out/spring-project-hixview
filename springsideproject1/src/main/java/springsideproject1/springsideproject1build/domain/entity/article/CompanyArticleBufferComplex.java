@@ -1,6 +1,6 @@
-package springsideproject1.springsideproject1build.domain.entity.article.company;
+package springsideproject1.springsideproject1build.domain.entity.article;
 
-import springsideproject1.springsideproject1build.domain.entity.article.Press;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

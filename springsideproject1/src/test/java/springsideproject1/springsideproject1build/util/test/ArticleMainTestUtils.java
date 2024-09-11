@@ -2,12 +2,12 @@ package springsideproject1.springsideproject1build.util.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import springsideproject1.springsideproject1build.domain.entity.ArticleClassName;
 import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
 import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS_NAME.COMPANY_ARTICLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.UPDATE_ARTICLE_MAIN_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
@@ -27,21 +27,21 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
             .name(testCompanyArticle.getName())
             .imagePath("/images/main/newest/company/Samsung_Display_001.png")
             .summary("다급해진 삼성디스플레이, 주당 64시간 근무로 비상경영 돌입")
-            .articleClassName(COMPANY_ARTICLE)
+            .articleClassName(ArticleClassName.COMPANY_ARTICLE)
             .build();
 
     ArticleMain testNewCompanyArticleMain = ArticleMain.builder()
             .name(testNewCompanyArticle.getName())
             .imagePath("/images/main/newest/company/Samsung_Electronics_001.png")
             .summary("긴축 경영의 일환인 삼성전자의 네트워크사업부 인력 감축")
-            .articleClassName(COMPANY_ARTICLE)
+            .articleClassName(ArticleClassName.COMPANY_ARTICLE)
             .build();
 
     ArticleMain testIndustryArticleMain = ArticleMain.builder()
             .name(testIndustryArticle.getName())
             .imagePath("/images/main/newest/industry/Semiconductor_001.png")
             .summary("미국과 중국의 반도체 관련 디커플링 심화")
-            .articleClassName("IndustryArticle")
+            .articleClassName(ArticleClassName.INDUSTRY_ARTICLE)
             .build();
 
     /**
@@ -64,7 +64,7 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
                 .param(NAME, article.getName())
                 .param(IMAGE_PATH, article.getImagePath())
                 .param(SUMMARY, article.getSummary())
-                .param(ARTICLE_CLASS_NAME, article.getArticleClassName());
+                .param(ARTICLE_CLASS_NAME, article.getArticleClassName().name());
     }
 
     default MockHttpServletRequestBuilder postWithArticleMainDto(

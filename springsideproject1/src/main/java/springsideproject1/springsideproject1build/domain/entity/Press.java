@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.entity.article;
+package springsideproject1.springsideproject1build.domain.entity;
 
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
@@ -60,7 +60,7 @@ public enum Press {
         this.pressValue = pressValue;
     }
 
-    public static boolean containsWithPress(String str) {
+    public static boolean containedWithPress(String str) {
         for (Press enumValue : Press.values()) {
             if (enumValue.name().equals(str)) {
                 return true;
@@ -69,7 +69,7 @@ public enum Press {
         return false;
     }
 
-    public static boolean containsWithPressValue(String str) {
+    public static boolean containedWithPressValue(String str) {
         for (Press enumValue : Press.values()) {
             if (enumValue.pressValue.equals(str)) {
                 return true;

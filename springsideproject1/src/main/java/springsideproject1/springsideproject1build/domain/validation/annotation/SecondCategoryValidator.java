@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategory;
+import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategory;
 
 public class SecondCategoryValidator implements ConstraintValidator<SecondCategory, String> {
 
@@ -23,7 +23,7 @@ public class SecondCategoryValidator implements ConstraintValidator<SecondCatego
             ).addConstraintViolation();
             return false;
         }
-        if (!containsWithSecondCategory(secondCategory)) {
+        if (!containedWithSecondCategory(secondCategory)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.company.secondCategory", null, Locale.getDefault())
             ).addConstraintViolation();

@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategory;
+import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategory;
 
 public class FirstCategoryValidator implements ConstraintValidator<FirstCategory, String> {
 
@@ -23,7 +23,7 @@ public class FirstCategoryValidator implements ConstraintValidator<FirstCategory
             ).addConstraintViolation();
             return false;
         }
-        if (!containsWithFirstCategory(firstCategory)) {
+        if (!containedWithFirstCategory(firstCategory)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.company.firstCategory", null, Locale.getDefault())
             ).addConstraintViolation();

@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.entity.company;
+package springsideproject1.springsideproject1build.domain.entity;
 
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
@@ -18,7 +18,7 @@ public enum Country {
         this.countryValue = countryValue;
     }
 
-    public static boolean containsWithCountry(String str) {
+    public static boolean containedWithCountry(String str) {
         for (Country enumValue : Country.values()) {
             if (enumValue.name().equals(str)) {
                 return true;
@@ -27,7 +27,7 @@ public enum Country {
         return false;
     }
 
-    public static boolean containsWithCountryValue(String str) {
+    public static boolean containedWithCountryValue(String str) {
         for (Country enumValue : Country.values()) {
             if (enumValue.countryValue.equals(str)) {
                 return true;

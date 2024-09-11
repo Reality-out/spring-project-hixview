@@ -1,12 +1,11 @@
-package springsideproject1.springsideproject1build.domain.entity.article.company;
+package springsideproject1.springsideproject1build.domain.entity.article;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.entity.article.Article;
-import springsideproject1.springsideproject1build.domain.entity.article.Press;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 
 import java.time.LocalDate;
 import java.util.HashMap;

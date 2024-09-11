@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import springsideproject1.springsideproject1build.domain.entity.Country;
+import springsideproject1.springsideproject1build.domain.entity.Scale;
 import springsideproject1.springsideproject1build.domain.entity.company.*;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;

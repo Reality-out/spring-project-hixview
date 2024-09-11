@@ -12,6 +12,9 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
+import static springsideproject1.springsideproject1build.domain.entity.ArticleClassName.containedWithArticleClassNameValue;
+import static springsideproject1.springsideproject1build.domain.entity.ArticleClassName.convertToArticleClassName;
+import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE_CLASS_NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 
@@ -31,6 +34,13 @@ public class ArticleMainSupportFilter extends OncePerRequestFilter {
         String name = request.getParameter(NAME);
         if (name != null) request.setParameter(NAME, name.strip());
 
+        String articleClassName = request.getParameter(ARTICLE_CLASS_NAME);
+        if (articleClassName != null) {
+            request.setParameter(ARTICLE_CLASS_NAME, articleClassName.toUpperCase());
+            if (containedWithArticleClassNameValue(articleClassName))
+                request.setParameter(ARTICLE_CLASS_NAME, convertToArticleClassName(articleClassName).name());
+        }
+        
         return request;
     }
 }

@@ -12,8 +12,8 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
+import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
+import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
@@ -38,7 +38,7 @@ public class NotStringArticleSupportFilter extends OncePerRequestFilter {
         String press = request.getParameter(PRESS);
         if (press != null) {
             request.setParameter(PRESS, press.toUpperCase());
-            if (containsWithPressValue(press))
+            if (containedWithPressValue(press))
                 request.setParameter(PRESS, convertToPress(press).name());
         }
         return request;

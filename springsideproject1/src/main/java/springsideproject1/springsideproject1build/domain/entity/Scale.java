@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.entity.company;
+package springsideproject1.springsideproject1build.domain.entity;
 
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.error.NotFoundException;
@@ -17,7 +17,7 @@ public enum Scale {
         this.scaleValue = scaleValue;
     }
 
-    public static boolean containsWithScale(String str) {
+    public static boolean containedWithScale(String str) {
         for (Scale enumValue : Scale.values()) {
             if (enumValue.name().equals(str)) {
                 return true;
@@ -26,7 +26,7 @@ public enum Scale {
         return false;
     }
 
-    public static boolean containsWithScaleValue(String str) {
+    public static boolean containedWithScaleValue(String str) {
         for (Scale enumValue : Scale.values()) {
             if (enumValue.scaleValue.equals(str)) {
                 return true;

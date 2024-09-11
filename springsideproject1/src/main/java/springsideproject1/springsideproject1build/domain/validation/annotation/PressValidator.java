@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPress;
+import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPress;
 
 public class PressValidator implements ConstraintValidator<Press, String> {
 
@@ -23,7 +23,7 @@ public class PressValidator implements ConstraintValidator<Press, String> {
             ).addConstraintViolation();
             return false;
         }
-        if (!containsWithPress(press)) {
+        if (!containedWithPress(press)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.article.press", null, Locale.getDefault())
             ).addConstraintViolation();

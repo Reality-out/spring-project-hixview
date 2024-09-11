@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.Scale.containsWithScale;
+import static springsideproject1.springsideproject1build.domain.entity.Scale.containedWithScale;
 
 public class ScaleValidator implements ConstraintValidator<Scale, String> {
 
@@ -23,7 +23,7 @@ public class ScaleValidator implements ConstraintValidator<Scale, String> {
             ).addConstraintViolation();
             return false;
         }
-        if (!containsWithScale(scale)) {
+        if (!containedWithScale(scale)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.company.scale", null, Locale.getDefault())
             ).addConstraintViolation();

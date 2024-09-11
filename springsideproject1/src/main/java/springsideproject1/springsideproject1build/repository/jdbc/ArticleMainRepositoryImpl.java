@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import springsideproject1.springsideproject1build.domain.entity.ArticleClassName;
 import springsideproject1.springsideproject1build.domain.entity.article.ArticleMain;
 import springsideproject1.springsideproject1build.domain.repository.ArticleMainRepository;
 
@@ -70,8 +71,9 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public void updateArticle(ArticleMain article) {
-        jdbcTemplate.update("update " + TEST_ARTICLE_MAIN_TABLE + " set imagePath = ?, summary = ? where name = ?",
-                article.getImagePath(), article.getSummary(), article.getName());
+        jdbcTemplate.update("update " + TEST_ARTICLE_MAIN_TABLE +
+                        " set imagePath = ?, summary = ?, articleClassName = ? where name = ?",
+                article.getImagePath(), article.getSummary(), article.getArticleClassName().name(), article.getName());
     }
 
     /**
@@ -91,7 +93,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
                 .name(resultSet.getString(NAME))
                 .imagePath(resultSet.getString(IMAGE_PATH))
                 .summary(resultSet.getString(SUMMARY))
-                .articleClassName(resultSet.getString(ARTICLE_CLASS_NAME))
+                .articleClassName(ArticleClassName.valueOf(resultSet.getString(ARTICLE_CLASS_NAME)))
                 .build();
     }
 }

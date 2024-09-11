@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleBufferSimple;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 

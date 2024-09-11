@@ -12,8 +12,8 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
 import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 import springsideproject1.springsideproject1build.domain.validation.validator.article.industry.IndustryArticleAddComplexValidator;
@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.containsWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.article.Press.convertToPress;
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategory;
-import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategory;
+import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
+import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
+import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategory;
+import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategory;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
@@ -108,11 +108,11 @@ public class ManagerIndustryArticleController {
                                                      @RequestParam String subjectSecondCategory,
                                                      RedirectAttributes redirect, Model model) {
         String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
-        if (!containsWithFirstCategory(subjectFirstCategory)) {
+        if (!containedWithFirstCategory(subjectFirstCategory)) {
             finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_PATH, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
             return senderPage;
         }
-        if (!containsWithSecondCategory(subjectSecondCategory)) {
+        if (!containedWithSecondCategory(subjectSecondCategory)) {
             finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_PATH, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
             return senderPage;
         }
@@ -142,7 +142,7 @@ public class ManagerIndustryArticleController {
                 articleDto.setImportance(0);
                 articleDto.setSubjectFirstCategory(subjectFirstCategory);
                 articleDto.setSubjectSecondCategory(subjectSecondCategory);
-                if (containsWithPressValue(articleDto.getPress()))
+                if (containedWithPressValue(articleDto.getPress()))
                     articleDto.setPress(convertToPress(articleDto.getPress()).name());
 
                 BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(articleDto, ARTICLE);

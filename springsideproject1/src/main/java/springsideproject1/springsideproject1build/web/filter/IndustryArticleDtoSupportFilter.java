@@ -12,9 +12,9 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.containsWithFirstCategoryValue;
-import static springsideproject1.springsideproject1build.domain.entity.company.FirstCategory.convertToFirstCategory;
-import static springsideproject1.springsideproject1build.domain.entity.company.SecondCategory.containsWithSecondCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategoryValue;
+import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.convertToFirstCategory;
+import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategoryValue;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_FIRST_CATEGORY;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_SECOND_CATEGORY;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
@@ -35,14 +35,14 @@ public class IndustryArticleDtoSupportFilter extends OncePerRequestFilter {
         String subjectFirstCategory = request.getParameter(SUBJECT_FIRST_CATEGORY);
         if (subjectFirstCategory != null) {
             request.setParameter(SUBJECT_FIRST_CATEGORY, subjectFirstCategory.toUpperCase());
-            if (containsWithFirstCategoryValue(subjectFirstCategory))
+            if (containedWithFirstCategoryValue(subjectFirstCategory))
                 request.setParameter(SUBJECT_FIRST_CATEGORY, convertToFirstCategory(subjectFirstCategory).name());
         }
 
         String subjectSecondCategory = request.getParameter(SUBJECT_SECOND_CATEGORY);
         if (subjectSecondCategory != null) {
             request.setParameter(SUBJECT_SECOND_CATEGORY, subjectSecondCategory.toUpperCase());
-            if (containsWithSecondCategoryValue(subjectSecondCategory))
+            if (containedWithSecondCategoryValue(subjectSecondCategory))
                 request.setParameter(SUBJECT_SECOND_CATEGORY, convertToFirstCategory(subjectSecondCategory).name());
         }
 

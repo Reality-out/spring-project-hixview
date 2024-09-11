@@ -6,10 +6,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticle;
-import springsideproject1.springsideproject1build.domain.entity.article.Press;
-import springsideproject1.springsideproject1build.domain.entity.company.FirstCategory;
-import springsideproject1.springsideproject1build.domain.entity.company.SecondCategory;
+import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
+import springsideproject1.springsideproject1build.domain.entity.Press;
+import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
+import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 import springsideproject1.springsideproject1build.domain.repository.IndustryArticleRepository;
 
 import javax.sql.DataSource;
