@@ -107,6 +107,24 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
                 .isEqualTo(articleDto);
     }
 
+    @DisplayName("Size에 대한 기사 메인 추가 유효성 검증")
+    @Test
+    public void validateSizeArticleMainAdd() throws Exception {
+        // given & when
+        ArticleMainDto articleDto = createTestArticleMainDto();
+        articleDto.setImagePath(getRandomLongString(81));
+        articleDto.setSummary(getRandomLongString(37));
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+                .andExpectAll(view().name(addArticleMainProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
     @DisplayName("NotBlank(공백)에 대한 기사 메인 변경 유효성 검증")
     @Test
     public void validateNotBlankSpaceArticleMainModify() throws Exception {
@@ -153,6 +171,24 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         // given & when
         ArticleMainDto articleDto = createTestArticleMainDto();
         articleDto.setArticleClassName(INVALID_VALUE);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
+                .andExpectAll(view().name(modifyArticleMainProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(articleDto);
+    }
+
+    @DisplayName("Size에 대한 기사 메인 변경 유효성 검증")
+    @Test
+    public void validateSizeArticleMainModify() throws Exception {
+        // given & when
+        ArticleMainDto articleDto = createTestArticleMainDto();
+        articleDto.setImagePath(getRandomLongString(81));
+        articleDto.setSummary(getRandomLongString(37));
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
