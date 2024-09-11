@@ -14,7 +14,7 @@ import springsideproject1.springsideproject1build.domain.error.NotFoundException
 import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
-import springsideproject1.springsideproject1build.util.MainUtils;
+import springsideproject1.springsideproject1build.util.ControllerUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +84,7 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
         Member member = Member.builder().memberDto(memberDto).build();
-        redirect.addAttribute("idList", MainUtils.encodeWithUTF8(memberService.findMembersByNameAndBirth(
+        redirect.addAttribute("idList", ControllerUtils.encodeWithUTF8(memberService.findMembersByNameAndBirth(
                 member.getName(), member.getBirth()).stream().map(Member::getId).collect(Collectors.toList())));
         return URL_REDIRECT_PREFIX + FIND_ID_URL + URL_FINISH_SUFFIX;
     }
@@ -92,7 +92,7 @@ public class UserMainController {
     @GetMapping(FIND_ID_URL + URL_FINISH_SUFFIX)
     @ResponseStatus(HttpStatus.OK)
     public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
-        model.addAttribute("idList", MainUtils.decodeWithUTF8(idList));
+        model.addAttribute("idList", ControllerUtils.decodeWithUTF8(idList));
         return USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX;
     }
 }

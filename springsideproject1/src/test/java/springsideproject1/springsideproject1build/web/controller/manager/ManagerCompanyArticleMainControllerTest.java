@@ -29,7 +29,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest
 @AutoConfigureMockMvc

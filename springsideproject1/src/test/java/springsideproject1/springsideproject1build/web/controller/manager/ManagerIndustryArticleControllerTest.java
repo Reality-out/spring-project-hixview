@@ -14,7 +14,7 @@ import springsideproject1.springsideproject1build.domain.entity.article.industry
 import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.industry.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
-import springsideproject1.springsideproject1build.util.MainUtils;
+import springsideproject1.springsideproject1build.util.ControllerUtils;
 import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
@@ -36,7 +36,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -145,10 +145,10 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_INDUSTRY_ARTICLE_VIEW + "multiple-finish-page"),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
-                        model().attribute(nameListString, MainUtils.decodeWithUTF8(nameList)))
+                        model().attribute(nameListString, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 
-        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(MainUtils.decodeWithUTF8(nameList));
+        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
         assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
 

@@ -3,10 +3,11 @@ package springsideproject1.springsideproject1build.util.test;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import springsideproject1.springsideproject1build.util.MainUtils;
+import springsideproject1.springsideproject1build.util.ControllerUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,7 +27,7 @@ public interface ObjectTestUtils {
     String ALL_QUERY_STRING = "?*";
 
     /**
-     * For DB
+     * DataBase
      */
     default void resetTable(JdbcTemplate jdbcTemplateTest, String tableName) {
         resetTable(jdbcTemplateTest, tableName, false);
@@ -37,6 +38,20 @@ public interface ObjectTestUtils {
         if (hasAutoIncrement) {
             jdbcTemplateTest.execute("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1");
         }
+    }
+
+    /**
+     * Random
+     */
+    default String getRandomLongString(int minDigits) {
+        StringBuilder sb = new StringBuilder();
+        Random rand = new Random();
+
+        while (sb.length() < minDigits) {
+            sb.append(rand.nextInt(10));
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -75,7 +90,7 @@ public interface ObjectTestUtils {
      */
     default String toStringForUrl(List<String> list) {
         return list.stream()
-                .map(MainUtils::encodeWithUTF8)
+                .map(ControllerUtils::encodeWithUTF8)
                 .collect(Collectors.joining(","));
     }
 }

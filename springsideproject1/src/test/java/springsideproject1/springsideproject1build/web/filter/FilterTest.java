@@ -41,7 +41,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.DATA
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest
 @AutoConfigureMockMvc

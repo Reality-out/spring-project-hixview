@@ -29,7 +29,6 @@ import static springsideproject1.springsideproject1build.domain.valueobject.DATA
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
-import static springsideproject1.springsideproject1build.util.MainUtils.getRandomLongString;
 
 @SpringBootTest
 @AutoConfigureMockMvc

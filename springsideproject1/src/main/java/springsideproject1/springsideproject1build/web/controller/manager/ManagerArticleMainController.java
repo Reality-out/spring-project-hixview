@@ -28,8 +28,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
-import static springsideproject1.springsideproject1build.util.MainUtils.decodeWithUTF8;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -190,15 +189,5 @@ public class ManagerArticleMainController {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH_SUFFIX;
-    }
-
-    /**
-     * Other private methods
-     */
-    // Handle Error
-    private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
-        log.error(ERRORS_ARE, logMessage);
-        model.addAttribute(LAYOUT_PATH, layoutPath);
-        model.addAttribute(ERROR, error);
     }
 }

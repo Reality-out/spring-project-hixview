@@ -20,10 +20,9 @@ import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.domain.validation.validator.article.company.CompanyArticleAddComplexValidator;
 import springsideproject1.springsideproject1build.domain.validation.validator.article.company.CompanyArticleAddSimpleValidator;
 import springsideproject1.springsideproject1build.domain.validation.validator.article.company.CompanyArticleModifyValidator;
-import springsideproject1.springsideproject1build.util.MainUtils;
+import springsideproject1.springsideproject1build.util.ControllerUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +38,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
-import static springsideproject1.springsideproject1build.util.MainUtils.decodeWithUTF8;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -152,20 +150,20 @@ public class ManagerCompanyArticleController {
                 nameList.add(articleService.registerArticle(
                         CompanyArticle.builder().articleDto(articleDto).build()).getName());
             }
-            finishForRedirect("", redirect, MainUtils.encodeWithUTF8(nameList),
+            finishForRedirect("", redirect, ControllerUtils.encodeWithUTF8(nameList),
                     false, null);
         } catch (NumberFormatException e) {
             if (articleDto.getImportance() == null ||
                     NUMBER_REGEX_PATTERN.matcher(String.valueOf(articleDto.getImportance())).matches()) {
-                finishForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(nameList),
+                finishForRedirect(e.getMessage(), redirect, ControllerUtils.encodeWithUTF8(nameList),
                         false, NUMBER_FORMAT_LOCAL_DATE_ERROR);
             } else {
-                finishForRedirect(e.getMessage(), redirect, MainUtils.encodeWithUTF8(nameList),
+                finishForRedirect(e.getMessage(), redirect, ControllerUtils.encodeWithUTF8(nameList),
                         false, NUMBER_FORMAT_INTEGER_ERROR);
             }
         } catch (ConstraintValidationException e) {
             finishForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
-                    MainUtils.encodeWithUTF8(nameList), e.isBeanValidationViolated(), null);
+                    ControllerUtils.encodeWithUTF8(nameList), e.isBeanValidationViolated(), null);
         }
         return URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX;
     }
@@ -175,7 +173,7 @@ public class ManagerCompanyArticleController {
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_PATH);
-        model.addAttribute("nameList", MainUtils.decodeWithUTF8(nameList));
+        model.addAttribute("nameList", ControllerUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return ADD_COMPANY_ARTICLE_VIEW + "multiple-finish-page";
@@ -278,55 +276,5 @@ public class ManagerCompanyArticleController {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_FINISH_SUFFIX;
-    }
-
-    /**
-     * Other private methods
-     */
-    // Handle Error
-    private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
-        log.error(ERRORS_ARE, logMessage);
-        model.addAttribute(LAYOUT_PATH, layoutPath);
-        model.addAttribute(ERROR, error);
-    }
-
-    private void finishForRedirect(String logMessage, RedirectAttributes redirect,
-                                   List<String> nameListString, boolean isBeanValidationError, String errorSingle) {
-        if (!logMessage.isEmpty()) {
-            log.error(ERRORS_ARE, logMessage);
-        }
-        redirect.addAttribute("nameList", nameListString);
-        redirect.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
-        redirect.addAttribute(ERROR_SINGLE, errorSingle);
-    }
-
-    // Parse
-    private List<List<String>> parseArticleString(String articleString) {
-        List<String> dividedArticle = List.of(articleString.split("\\R"));
-        List<List<String>> returnArticle = new ArrayList<>();
-
-        for (int i = 0; i < dividedArticle.size(); i++) {
-            if (i % 2 == 0) {
-                returnArticle.add(new ArrayList<>(List.of(dividedArticle.get(i))));
-            } else {
-                returnArticle.getLast().addAll(List.of(dividedArticle.get(i)
-                        .replaceAll("^\\(|\\)$", "").split(",\\s|-")));
-                if (returnArticle.getLast().size() != 5) {
-                    returnArticle.remove(i);
-                    break;
-                }
-            }
-        }
-        if (returnArticle.getLast().size() != 5) {
-            returnArticle.removeLast();
-        }
-        return returnArticle;
-    }
-
-    private List<String> parseLinkString(String linkString) {
-        if (linkString.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return List.of(linkString.split("\\R"));
     }
 }

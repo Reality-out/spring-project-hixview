@@ -17,6 +17,7 @@ import springsideproject1.springsideproject1build.domain.entity.company.Scale;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.domain.validation.validator.company.CompanyAddValidator;
 import springsideproject1.springsideproject1build.domain.validation.validator.company.CompanyModifyValidator;
+import springsideproject1.springsideproject1build.util.ControllerUtils;
 
 import java.util.Optional;
 
@@ -29,8 +30,8 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
-import static springsideproject1.springsideproject1build.util.MainUtils.decodeWithUTF8;
-import static springsideproject1.springsideproject1build.util.MainUtils.encodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.decodeWithUTF8;
+import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @Controller
 @RequiredArgsConstructor
@@ -190,10 +191,8 @@ public class ManagerCompanyController {
      */
     // Handle Error
     private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
-        log.error(ERRORS_ARE, logMessage);
-        model.addAttribute(LAYOUT_PATH, layoutPath);
+        ControllerUtils.finishForRollback(logMessage, layoutPath, error, model);
         model.addAttribute("countries", Country.values());
         model.addAttribute("scales", Scale.values());
-        model.addAttribute(ERROR, error);
     }
 }
