@@ -311,8 +311,8 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
     @Test
     public void articleMainDtoSupportFilterModifyTest() throws Exception {
         // given
-        ArticleMain beforeModifyArticle = testArticleMain;
-        ArticleMain article = ArticleMain.builder().article(testNewArticleMain).name(beforeModifyArticle.getName()).build();
+        ArticleMain beforeModifyArticle = testCompanyArticleMain;
+        ArticleMain article = ArticleMain.builder().article(testNewCompanyArticleMain).name(beforeModifyArticle.getName()).build();
         ArticleMainDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = article.toDto();

@@ -42,8 +42,8 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void getArticleMainsTest() {
         // given
-        ArticleMain article1 = testArticleMain;
-        ArticleMain article2 = testNewArticleMain;
+        ArticleMain article1 = testCompanyArticleMain;
+        ArticleMain article2 = testNewCompanyArticleMain;
 
         // when
         articleRepository.saveArticle(article1);
@@ -60,7 +60,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void getArticleMainByNumberTest() {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
 
         // when
         article = ArticleMain.builder().article(article).number(articleRepository.saveArticle(article)).build();
@@ -75,7 +75,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void getArticleMainByNameTest() {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
 
         // when
         articleRepository.saveArticle(article);
@@ -91,7 +91,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void getArticleMainByImagePathTest() {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
 
         // when
         articleRepository.saveArticle(article);
@@ -107,8 +107,8 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void saveArticleMainTest() {
         // given
-        ArticleMain article1 = testArticleMain;
-        ArticleMain article2 = testNewArticleMain;
+        ArticleMain article1 = testCompanyArticleMain;
+        ArticleMain article2 = testNewCompanyArticleMain;
 
         // when
         articleRepository.saveArticle(article1);
@@ -145,7 +145,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void deleteArticleMainTest() {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
         articleRepository.saveArticle(article);
 
         // when

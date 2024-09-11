@@ -20,14 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_MAIN_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_MAIN_WITH_THAT_NAME;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_ARTICLE_MAIN_TABLE;
 
 @SpringBootTest
 @Transactional
 class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
 
     @Autowired
-    ArticleMainService articleService;
+    ArticleMainService articleMainService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
@@ -38,55 +38,55 @@ class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
     }
 
     @DisplayName("기사 메인들 동시 등록")
     @Test
     public void registerArticleMainsTest() {
-        assertThat(articleService.registerArticles(testArticleMain, testNewArticleMain))
+        assertThat(articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain))
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(List.of(testArticleMain, testNewArticleMain));
+                .isEqualTo(List.of(testCompanyArticleMain, testNewCompanyArticleMain));
     }
 
-    @DisplayName("기업 기사 등록")
+    @DisplayName("기사 메인 등록")
     @Test
     public void registerArticleMainTest() {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
 
         // when
-        article = articleService.registerArticle(article);
+        article = articleMainService.registerArticle(article);
 
         // then
-        assertThat(articleService.findArticles().getFirst())
+        assertThat(articleMainService.findArticles().getFirst())
                 .usingRecursiveComparison()
                 .isEqualTo(article);
     }
 
-    @DisplayName("기업 기사 중복 이름으로 등록")
+    @DisplayName("기사 메인 중복 이름으로 등록")
     @Test
     public void registerDuplicatedArticleMainWithSameNameTest() {
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
-                () -> articleService.registerArticles(testArticleMain,
-                        ArticleMain.builder().article(testNewArticleMain).name(testArticleMain.getName()).build()));
+                () -> articleMainService.registerArticles(testCompanyArticleMain,
+                        ArticleMain.builder().article(testNewCompanyArticleMain).name(testCompanyArticleMain.getName()).build()));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_MAIN_NAME);
     }
 
-    @DisplayName("기업 기사 존재하지 않는 이름으로 수정")
+    @DisplayName("기사 메인 존재하지 않는 이름으로 수정")
     @Test
     public void correctArticleMainWithFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
-                () -> articleService.correctArticle(testArticleMain));
+                () -> articleMainService.correctArticle(testCompanyArticleMain));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_MAIN_WITH_THAT_NAME);
     }
 
-    @DisplayName("기업 기사 존재하지 않는 이름으로 제거")
+    @DisplayName("기사 메인 존재하지 않는 이름으로 제거")
     @Test
     public void removeArticleMainByFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
-                () -> articleService.removeArticleByName(INVALID_VALUE));
+                () -> articleMainService.removeArticleByName(INVALID_VALUE));
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_MAIN_WITH_THAT_NAME);
     }
 }

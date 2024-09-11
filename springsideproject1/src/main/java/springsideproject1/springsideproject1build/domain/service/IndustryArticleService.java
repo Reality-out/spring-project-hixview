@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
 
 @Service
@@ -101,13 +100,13 @@ public class IndustryArticleService {
      */
     private void duplicateCheck(IndustryArticle article) {
         articleRepository.getArticleByName(article.getName()).ifPresent(
-                v -> {throw new AlreadyExistException(ALREADY_EXIST_ARTICLE_NAME);}
+                v -> {throw new AlreadyExistException(ALREADY_EXIST_INDUSTRY_ARTICLE_NAME);}
         );
     }
 
     private void existentCheck(String name) {
         articleRepository.getArticleByName(name).orElseThrow(
-                () -> new NotFoundException(NO_ARTICLE_WITH_THAT_NAME)
+                () -> new NotFoundException(NO_INDUSTRY_ARTICLE_WITH_THAT_NAME)
         );
     }
 }

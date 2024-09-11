@@ -12,6 +12,9 @@ import static springsideproject1.springsideproject1build.domain.valueobject.REQU
 import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
 import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils.testCompanyArticle;
+import static springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils.testNewCompanyArticle;
+import static springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils.testIndustryArticle;
 
 public interface ArticleMainTestUtils extends ObjectTestUtils {
     // Assertion
@@ -20,29 +23,36 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
     String modifyArticleMainFinishUrl = UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
 
     // Test Object
-    ArticleMain testArticleMain = ArticleMain.builder()
-            .name("시장도 놀란 현대차 통큰 '주주환원'…\"최소 1만원 배당\" 우선주 '껑충'")
-            .imagePath("/images/main/newest/company/Hyundai_Motor_Company_001.png")
-            .summary("시장 예상치를 상회하는 현대차의 주주가치 제고 방안 발표")
+    ArticleMain testCompanyArticleMain = ArticleMain.builder()
+            .name(testCompanyArticle.getName())
+            .imagePath("/images/main/newest/company/Samsung_Display_001.png")
+            .summary("다급해진 삼성디스플레이, 주당 64시간 근무로 비상경영 돌입")
             .articleClassName(COMPANY_ARTICLE)
             .build();
 
-    ArticleMain testNewArticleMain = ArticleMain.builder()
-            .name("돈 몰리던 '시총 1위' 어쩌다…24조 증발에 '피눈물' [진영기의 찐개미 찐투자]")
-            .imagePath("/images/main/newest/company/Ecopro_BM_001.png")
-            .summary("실적도, 전망도 어두운 에코프로비엠")
+    ArticleMain testNewCompanyArticleMain = ArticleMain.builder()
+            .name(testNewCompanyArticle.getName())
+            .imagePath("/images/main/newest/company/Samsung_Electronics_001.png")
+            .summary("긴축 경영의 일환인 삼성전자의 네트워크사업부 인력 감축")
             .articleClassName(COMPANY_ARTICLE)
+            .build();
+
+    ArticleMain testIndustryArticleMain = ArticleMain.builder()
+            .name(testIndustryArticle.getName())
+            .imagePath("/images/main/newest/industry/Semiconductor_001.png")
+            .summary("미국과 중국의 반도체 관련 디커플링 심화")
+            .articleClassName("IndustryArticle")
             .build();
 
     /**
      * Create
      */
     default ArticleMainDto createTestArticleMainDto() {
-        return testArticleMain.toDto();
+        return testCompanyArticleMain.toDto();
     }
 
     default ArticleMainDto createTestNewArticleMainDto() {
-        return testNewArticleMain.toDto();
+        return testNewCompanyArticleMain.toDto();
     }
 
     /**

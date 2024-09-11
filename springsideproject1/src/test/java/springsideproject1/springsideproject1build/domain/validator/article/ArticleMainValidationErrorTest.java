@@ -101,7 +101,7 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         articleMainService.registerArticle(ArticleMain.builder().articleDto(articleDto).build());
 
         // when
-        articleDto.setName(testNewArticleMain.getName());
+        articleDto.setName(testNewCompanyArticleMain.getName());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(

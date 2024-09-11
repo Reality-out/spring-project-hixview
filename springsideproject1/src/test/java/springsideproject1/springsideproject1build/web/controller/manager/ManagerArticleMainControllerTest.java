@@ -102,7 +102,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void searchArticleMainModify() throws Exception {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
 
         // when
         Long number = articleMainService.registerArticle(article).getNumber();
@@ -133,11 +133,11 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainModifyFinish() throws Exception {
         // given
-        String commonName = testArticleMain.getName();
-        ArticleMain article = ArticleMain.builder().article(testNewArticleMain).name(commonName).build();
+        String commonName = testCompanyArticleMain.getName();
+        ArticleMain article = ArticleMain.builder().article(testNewCompanyArticleMain).name(commonName).build();
 
         // when
-        articleMainService.registerArticle(testArticleMain);
+        articleMainService.registerArticle(testCompanyArticleMain);
 
         // then
         mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, article.toDto()))
@@ -161,7 +161,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainsInquiry() throws Exception {
         // given & when
-        List<ArticleMain> articleList = articleMainService.registerArticles(testArticleMain, testNewArticleMain);
+        List<ArticleMain> articleList = articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_URL))
@@ -185,7 +185,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainRidFinish() throws Exception {
         // given
-        ArticleMain article = testArticleMain;
+        ArticleMain article = testCompanyArticleMain;
         String name = article.getName();
 
         // when & then

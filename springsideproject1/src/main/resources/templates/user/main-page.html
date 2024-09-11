@@ -18,13 +18,13 @@
                             <a class="newest-info-item picture-wrapper"
                                th:href="${latestCompanyArticle.link}">
                                 <div class="picture company-picture"
-                                    th:style="|background-image: url(${latestArticleMain.imagePath})|"></div>
+                                    th:style="|background-image: url(${latestCompanyArticleMain.imagePath})|"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 [[${latestCompanyArticle.name}]]
                             </div>
                             <div class="newest-info-item text newest-info-summary">
-                                [[#{article.summary}]]: [[${latestArticleMain.summary}]]
+                                [[#{article.summary}]]: [[${latestCompanyArticleMain.summary}]]
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                             <a class="newest-info-item picture-wrapper"
                                href="https://m.sedaily.com/NewsView/2DD7VN3IT0#cb">
                                 <div class="picture domestic-picture"
-                                     style="background-image: url(/images/main/newest/domestic/Global_Boiling_001.png)"></div>
+                                     style="background-image: url(/images/main/newest/economy/Global_Boiling_001.png)"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 폭염에 물폭탄 그리고…올여름 ‘이 것’ 사상 최악이었다
@@ -53,18 +53,18 @@
                         <p class="newest-title" th:text="|일간 #{industry}|"></p>
                         <div class="newest-info">
                             <div class="newest-info-item text subject">
-                                반도체
+                                [[${latestIndustryArticle.subjectFirstCategory.firstCategoryValue}]]
                             </div>
                             <a class="newest-info-item picture-wrapper"
-                               href="https://biz.chosun.com/it-science/ict/2024/08/30/EFI7ZQXPTZE45D53WKE4DNQ6AU/">
+                               th:href="${latestIndustryArticle.link}">
                                 <div class="picture industry-picture"
-                                     style="background-image: url(/images/main/newest/industry/Semiconductor_001.png)"></div>
+                                     th:style="|background-image: url(${latestIndustryArticleMain.imagePath})|"></div>
                             </a>
                             <div class="newest-info-item text title">
-                                ASML, 중국 내 장비 유지보수 중단… "中, 반도체 산업 타격 불가피"
+                                [[${latestIndustryArticle.name}]]
                             </div>
                             <div class="newest-info-item text newest-info-summary">
-                                한 줄 요약: 미국과 중국의 반도체 관련 디커플링 심화
+                                [[#{article.summary}]]: [[${latestIndustryArticleMain.summary}]]
                             </div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                             <a class="newest-info-item picture-wrapper"
                                href="https://biz.chosun.com/it-science/ict/2024/08/30/OZO3RRA2KVDSBJBVYWN6QAEH3U/">
                                 <div class="picture foreign-picture"
-                                     style="background-image: url(/images/main/newest/foreign/Big_Tech_001.png)"></div>
+                                     style="background-image: url(/images/main/newest/economy/Big_Tech_001.png)"></div>
                             </a>
                             <div class="newest-info-item text title">
                                 ‘돈 먹는 하마’ AR·MR·XR 접고 AI 집중하는 글로벌 빅테크

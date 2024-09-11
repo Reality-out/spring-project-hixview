@@ -7,11 +7,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
+import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
@@ -21,7 +22,7 @@ import static springsideproject1.springsideproject1build.domain.valueobject.VIEW
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class InterceptorTest implements CompanyArticleTestUtils, ArticleMainTestUtils {
+public class InterceptorTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,15 +31,19 @@ public class InterceptorTest implements CompanyArticleTestUtils, ArticleMainTest
     CompanyArticleService companyArticleService;
 
     @Autowired
+    IndustryArticleService industryArticleService;
+
+    @Autowired
     ArticleMainService articleMainService;
 
     @DisplayName("URL 맨 끝 슬래시 제거 인터셉터 테스트")
     @Test
     public void HandleUrlLastSlashInterceptorTest() throws Exception {
         // given & when
-        articleMainService.registerArticle(testArticleMain);
-        companyArticleService.registerArticle(CompanyArticle.builder()
-                .article(testCompanyArticle).name(testArticleMain.getName()).build());
+        articleMainService.registerArticle(testCompanyArticleMain);
+        articleMainService.registerArticle(testIndustryArticleMain);
+        companyArticleService.registerArticle(testCompanyArticle);
+        industryArticleService.registerArticle(testIndustryArticle);
 
         // then
         mockMvc.perform(getWithNoParam(""))

@@ -9,13 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import springsideproject1.springsideproject1build.domain.entity.article.company.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.member.Member;
 import springsideproject1.springsideproject1build.domain.service.ArticleMainService;
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
+import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
 import springsideproject1.springsideproject1build.util.test.ArticleMainTestUtils;
 import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils;
+import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import javax.sql.DataSource;
@@ -38,13 +39,16 @@ import static springsideproject1.springsideproject1build.domain.valueobject.WORD
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, ArticleMainTestUtils {
+class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     CompanyArticleService companyArticleService;
+
+    @Autowired
+    IndustryArticleService industryArticleService;
 
     @Autowired
     ArticleMainService articleMainService;
@@ -101,9 +105,10 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     @Test
     public void accessUserMainPage() throws Exception {
         // given & when
-        articleMainService.registerArticle(testArticleMain);
-        companyArticleService.registerArticle(CompanyArticle.builder()
-                .article(testCompanyArticle).name(testArticleMain.getName()).build());
+        articleMainService.registerArticle(testCompanyArticleMain);
+        articleMainService.registerArticle(testIndustryArticleMain);
+        companyArticleService.registerArticle(testCompanyArticle);
+        industryArticleService.registerArticle(testIndustryArticle);
 
         // then
         mockMvc.perform(getWithNoParam(""))

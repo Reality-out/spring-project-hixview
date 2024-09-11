@@ -205,7 +205,7 @@ public class ManagerCompanyArticleController {
     public String processModifyCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
+            finishForRollback(NO_COMPANY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX;
         }
 
@@ -258,7 +258,7 @@ public class ManagerCompanyArticleController {
     public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(NO_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
+            finishForRollback(NO_COMPANY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_PATH, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
             return REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX;
         }
 

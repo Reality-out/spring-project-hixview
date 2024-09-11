@@ -17,8 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
 import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
 
@@ -86,7 +85,7 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
                 () -> articleService.registerArticles(testIndustryArticle,
                         IndustryArticle.builder().article(testNewIndustryArticle).name(testIndustryArticle.getName()).build()));
-        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_ARTICLE_NAME);
+        assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_INDUSTRY_ARTICLE_NAME);
     }
 
     @DisplayName("산업 기사 존재하지 않는 이름으로 수정")
@@ -94,7 +93,7 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
     public void correctIndustryArticleWithFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.correctArticle(testIndustryArticle));
-        assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
+        assertThat(e.getMessage()).isEqualTo(NO_INDUSTRY_ARTICLE_WITH_THAT_NAME);
     }
 
     @DisplayName("산업 기사 존재하지 않는 이름으로 제거")
@@ -102,6 +101,6 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
     public void removeIndustryArticleByFaultNameTest() {
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.removeArticleByName(INVALID_VALUE));
-        assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_WITH_THAT_NAME);
+        assertThat(e.getMessage()).isEqualTo(NO_INDUSTRY_ARTICLE_WITH_THAT_NAME);
     }
 }
