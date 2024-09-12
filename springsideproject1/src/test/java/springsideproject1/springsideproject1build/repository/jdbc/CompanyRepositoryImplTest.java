@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.samsungElectronics;
 import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.skHynix;
 

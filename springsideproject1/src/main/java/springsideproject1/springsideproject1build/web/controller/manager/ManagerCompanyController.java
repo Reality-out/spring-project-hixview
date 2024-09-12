@@ -23,13 +23,13 @@ import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.VALUE;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.decodeWithUTF8;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 

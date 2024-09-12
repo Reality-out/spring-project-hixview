@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import springsideproject1.springsideproject1build.domain.service.MemberService;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.SELECT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.SELECT_MEMBER_URL;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.MANAGER_SELECT_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.SELECT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.SELECT_MEMBER_URL;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.MANAGER_SELECT_VIEW;
 
 @Controller
 @RequestMapping("")

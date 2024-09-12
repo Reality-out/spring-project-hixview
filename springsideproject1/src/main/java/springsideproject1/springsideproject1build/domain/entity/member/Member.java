@@ -12,9 +12,9 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.ID;
+import static springsideproject1.springsideproject1build.domain.vo.REGEX.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

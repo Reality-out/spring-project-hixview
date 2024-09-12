@@ -40,11 +40,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR_SINGLE;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.IS_BEAN_VALIDATION_ERROR;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest

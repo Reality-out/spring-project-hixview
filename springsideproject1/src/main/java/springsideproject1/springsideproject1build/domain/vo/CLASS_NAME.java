@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.valueobject;
+package springsideproject1.springsideproject1build.domain.vo;
 
 public class CLASS_NAME {
     public static final String COMPANY_ARTICLE = "CompanyArticle";

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.*;
+import static springsideproject1.springsideproject1build.domain.vo.REGEX.*;
 
 @Getter
 @Setter

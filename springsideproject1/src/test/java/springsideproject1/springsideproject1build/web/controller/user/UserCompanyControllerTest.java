@@ -19,13 +19,13 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SEARCH_URL;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.COMPANY_SUB_URL;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.COMPANY_SEARCH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.COMPANY_SUB_URL;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

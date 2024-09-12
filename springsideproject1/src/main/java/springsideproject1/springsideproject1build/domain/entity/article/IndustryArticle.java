@@ -11,7 +11,7 @@ import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

@@ -12,11 +12,11 @@ import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.UPDATE_INDUSTRY_ARTICLE_URL;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.UPDATE_INDUSTRY_ARTICLE_URL;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
 
 public interface IndustryArticleTestUtils extends ObjectTestUtils {
     // Assertion

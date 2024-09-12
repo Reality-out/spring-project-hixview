@@ -14,9 +14,9 @@ import java.io.IOException;
 
 import static springsideproject1.springsideproject1build.domain.entity.ArticleClassName.containedWithArticleClassNameValue;
 import static springsideproject1.springsideproject1build.domain.entity.ArticleClassName.convertToArticleClassName;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE_CLASS_NAME;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.ARTICLE_CLASS_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_ARTICLE_MAIN_URL, UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX})

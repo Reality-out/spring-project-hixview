@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.valueobject;
+package springsideproject1.springsideproject1build.domain.vo;
 
 public abstract class WORD {
     public static final String YEAR = "year";

@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_MAIN_NAME;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_ARTICLE_MAIN_WITH_THAT_NAME;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_ARTICLE_MAIN_TABLE;
 
 @SpringBootTest
 @Transactional

@@ -9,9 +9,9 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import springsideproject1.springsideproject1build.domain.service.CompanyArticleService;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.LINK;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.LINK;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Component
 @RequiredArgsConstructor

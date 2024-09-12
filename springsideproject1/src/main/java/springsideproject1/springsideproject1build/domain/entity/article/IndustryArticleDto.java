@@ -12,7 +12,7 @@ import springsideproject1.springsideproject1build.domain.validation.annotation.I
 import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
 import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
+import static springsideproject1.springsideproject1build.domain.vo.REGEX.URL_REGEX;
 
 @Getter
 @Setter

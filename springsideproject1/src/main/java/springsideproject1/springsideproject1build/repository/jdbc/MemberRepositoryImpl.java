@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.ID;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Repository
 public class MemberRepositoryImpl implements MemberRepository {

@@ -9,8 +9,8 @@ import springsideproject1.springsideproject1build.domain.entity.ArticleClassName
 
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

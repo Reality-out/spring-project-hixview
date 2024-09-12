@@ -16,9 +16,9 @@ import static springsideproject1.springsideproject1build.domain.entity.FirstCate
 import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.convertToFirstCategory;
 import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategoryValue;
 import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.convertToSecondCategory;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_FIRST_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_SECOND_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_FIRST_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_SECOND_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 
 @NonNullApi
 @WebFilter(urlPatterns = ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)

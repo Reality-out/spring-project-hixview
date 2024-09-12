@@ -18,8 +18,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
 
 @SpringBootTest
 @Transactional

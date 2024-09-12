@@ -8,8 +8,8 @@ import org.springframework.validation.Validator;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.LINK;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.LINK;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Component
 @RequiredArgsConstructor

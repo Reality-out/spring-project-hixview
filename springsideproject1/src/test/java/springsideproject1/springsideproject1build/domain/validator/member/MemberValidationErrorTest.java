@@ -18,9 +18,9 @@ import javax.sql.DataSource;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.MEMBERSHIP_URL;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.MEMBERSHIP_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc

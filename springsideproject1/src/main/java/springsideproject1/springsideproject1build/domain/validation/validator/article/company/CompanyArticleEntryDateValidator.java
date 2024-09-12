@@ -12,7 +12,7 @@ import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.DAYS;
 
 @Component
 @RequiredArgsConstructor

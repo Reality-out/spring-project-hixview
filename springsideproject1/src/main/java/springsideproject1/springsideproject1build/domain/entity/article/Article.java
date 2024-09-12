@@ -10,13 +10,13 @@ import springsideproject1.springsideproject1build.domain.validation.annotation.I
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.URL_REGEX;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.REGEX.URL_REGEX;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article {
+public abstract class Article {
     protected final Long number;
 
     @NotBlank
@@ -48,12 +48,24 @@ public class Article {
         }};
     }
 
-    protected static class ArticleBuilder {
+    protected abstract static class ArticleBuilder {
         protected Long number;
         protected String name;
         protected Press press;
         protected String link;
         protected LocalDate date;
         protected Integer importance;
+
+        protected abstract ArticleBuilder number(final Long number);
+
+        protected abstract ArticleBuilder name(final String name);
+
+        protected abstract ArticleBuilder press(final Press press);
+
+        protected abstract ArticleBuilder link(final String link);
+
+        protected abstract ArticleBuilder date(final LocalDate date);
+
+        protected abstract ArticleBuilder importance(final Integer importance);
     }
 }

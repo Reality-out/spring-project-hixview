@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REGEX.NUMBER_REGEX_PATTERN;
+import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
 
 @Service
 @RequiredArgsConstructor

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR_SINGLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
 
 public abstract class ControllerUtils {
 

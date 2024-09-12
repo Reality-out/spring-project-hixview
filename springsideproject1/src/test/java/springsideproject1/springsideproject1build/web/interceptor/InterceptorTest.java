@@ -15,9 +15,9 @@ import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUt
 import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.USER_HOME_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.USER_HOME_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc

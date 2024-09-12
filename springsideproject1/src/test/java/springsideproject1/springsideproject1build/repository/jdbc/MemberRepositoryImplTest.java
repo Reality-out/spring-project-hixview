@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_MEMBER_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_MEMBER_TABLE;
 
 @SpringBootTest
 @Transactional

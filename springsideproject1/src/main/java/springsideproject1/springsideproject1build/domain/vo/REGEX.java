@@ -1,4 +1,4 @@
-package springsideproject1.springsideproject1build.domain.valueobject;
+package springsideproject1.springsideproject1build.domain.vo;
 
 import java.util.regex.Pattern;
 

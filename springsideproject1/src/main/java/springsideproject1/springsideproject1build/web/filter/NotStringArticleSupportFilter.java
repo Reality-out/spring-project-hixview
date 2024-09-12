@@ -14,9 +14,9 @@ import java.io.IOException;
 
 import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
 import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.PRESS;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.PRESS;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_ARTICLE_URL, UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,

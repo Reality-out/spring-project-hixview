@@ -17,9 +17,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 
 @Repository
 public class IndustryArticleRepositoryImpl implements IndustryArticleRepository {

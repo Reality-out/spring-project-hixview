@@ -28,13 +28,13 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.*;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

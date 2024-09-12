@@ -15,9 +15,9 @@ import java.io.IOException;
 import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategoryValue;
 import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.convertToFirstCategory;
 import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategoryValue;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_FIRST_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_SECOND_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_FIRST_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_SECOND_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_INDUSTRY_ARTICLE_URL, UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX})

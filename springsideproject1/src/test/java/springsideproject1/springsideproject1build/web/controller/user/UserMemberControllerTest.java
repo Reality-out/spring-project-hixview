@@ -11,11 +11,11 @@ import springsideproject1.springsideproject1build.util.test.MemberTestUtils;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.MEMBERSHIP_URL;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.MEMBERSHIP_VIEW;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.MEMBERSHIP_URL;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.URL_FINISH_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.MEMBERSHIP_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.VIEW_FINISH_SUFFIX;
 
 @SpringBootTest
 @AutoConfigureMockMvc

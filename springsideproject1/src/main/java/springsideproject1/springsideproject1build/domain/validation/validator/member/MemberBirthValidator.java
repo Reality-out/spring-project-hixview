@@ -9,7 +9,7 @@ import springsideproject1.springsideproject1build.domain.entity.member.MemberDto
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.DAYS;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.DAYS;
 
 @Component
 public class MemberBirthValidator implements Validator {

@@ -23,10 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.ADD_SINGLE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.ADD_SINGLE_COMPANY_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc

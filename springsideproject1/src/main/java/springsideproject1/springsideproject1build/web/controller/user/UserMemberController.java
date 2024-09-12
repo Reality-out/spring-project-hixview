@@ -20,10 +20,10 @@ import springsideproject1.springsideproject1build.domain.validation.validator.me
 import springsideproject1.springsideproject1build.web.controller.manager.ManagerCompanyController;
 
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERRORS_ARE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
 
 @Controller
 @RequiredArgsConstructor

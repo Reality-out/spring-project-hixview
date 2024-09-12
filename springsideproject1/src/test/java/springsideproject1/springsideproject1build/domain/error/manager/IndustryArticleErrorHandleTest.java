@@ -21,12 +21,12 @@ import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_FIRST_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.SUBJECT_SECOND_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_FIRST_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_SECOND_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

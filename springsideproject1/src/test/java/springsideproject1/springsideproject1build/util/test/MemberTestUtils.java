@@ -8,10 +8,10 @@ import springsideproject1.springsideproject1build.domain.entity.member.MemberDto
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.MEMBERSHIP_VIEW;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.VIEW_PROCESS_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.ID;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.MEMBERSHIP_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.VIEW_PROCESS_SUFFIX;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
 
 public interface MemberTestUtils extends ObjectTestUtils {
     // Assertion

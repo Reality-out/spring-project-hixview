@@ -20,8 +20,8 @@ import static springsideproject1.springsideproject1build.domain.entity.Scale.con
 import static springsideproject1.springsideproject1build.domain.entity.Scale.convertToScale;
 import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategoryValue;
 import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.convertToSecondCategory;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_URL, UPDATE_COMPANY_URL + URL_FINISH_SUFFIX})

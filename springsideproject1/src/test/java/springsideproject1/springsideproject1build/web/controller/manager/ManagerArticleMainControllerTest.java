@@ -21,14 +21,14 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.valueobject.DATABASE.TEST_ARTICLE_MAIN_TABLE;
-import static springsideproject1.springsideproject1build.domain.valueobject.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.NAME;
-import static springsideproject1.springsideproject1build.domain.valueobject.WORD.VALUE;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.ARTICLE;
+import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
+import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.WORD.VALUE;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest
