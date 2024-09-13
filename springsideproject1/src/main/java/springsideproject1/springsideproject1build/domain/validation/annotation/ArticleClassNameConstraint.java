@@ -7,14 +7,13 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ImportanceValidator.class)
+@Constraint(validatedBy = ArticleClassNameValidator.class)
 @Documented
-public @interface Importance {
+public @interface ArticleClassNameConstraint {
 
-    String message() default "Importance default message";
+    String message() default "ArticleClassName default message";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 }
-

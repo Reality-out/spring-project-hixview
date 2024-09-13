@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.entity.Press;
 import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 
 import java.time.LocalDate;

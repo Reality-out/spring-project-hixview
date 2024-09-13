@@ -11,7 +11,7 @@ import springsideproject1.springsideproject1build.domain.entity.Country;
 import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
 import springsideproject1.springsideproject1build.domain.entity.Scale;
 import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Code;
+import springsideproject1.springsideproject1build.domain.validation.annotation.CodeConstraint;
 
 import java.util.HashMap;
 
@@ -22,7 +22,7 @@ import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Company {
-    @Code
+    @CodeConstraint
     private final String code;
 
     @NotNull

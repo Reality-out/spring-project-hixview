@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-public class ImportanceValidator implements ConstraintValidator<Importance, Integer> {
+public class ImportanceValidator implements ConstraintValidator<ImportanceConstraint, Integer> {
 
     @Autowired
     private MessageSource source;

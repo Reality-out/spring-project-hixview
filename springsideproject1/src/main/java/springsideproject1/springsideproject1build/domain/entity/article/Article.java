@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import springsideproject1.springsideproject1build.domain.entity.Press;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
+import springsideproject1.springsideproject1build.domain.validation.annotation.ImportanceConstraint;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public abstract class Article {
     @PastOrPresent
     protected final LocalDate date;
 
-    @Importance
+    @ImportanceConstraint
     protected final Integer importance;
 
     protected HashMap<String, Object> toMapWithNoNumber() {

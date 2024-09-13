@@ -8,15 +8,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 import springsideproject1.springsideproject1build.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.PRESS;
 import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
 import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.util.FilterUtils.applyStrip;
+import static springsideproject1.springsideproject1build.util.FilterUtils.applyUppercaseAndConvertToEnum;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_ARTICLE_URL, UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX,
@@ -26,21 +27,10 @@ public class NotStringArticleSupportFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        chain.doFilter(getModifiableHttpServletRequest(requestBefore), response);
-    }
-
-    private ModifiableHttpServletRequest getModifiableHttpServletRequest(HttpServletRequest requestBefore) {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
-
-        String name = request.getParameter(NAME);
-        if (name != null) request.setParameter(NAME, name.strip());
-
-        String press = request.getParameter(PRESS);
-        if (press != null) {
-            request.setParameter(PRESS, press.toUpperCase());
-            if (containedWithPressValue(press))
-                request.setParameter(PRESS, convertToPress(press).name());
-        }
-        return request;
+        applyStrip(request, NAME);
+        applyUppercaseAndConvertToEnum(request, Press.class, PRESS);
+        chain.doFilter(request, response);
     }
+
 }

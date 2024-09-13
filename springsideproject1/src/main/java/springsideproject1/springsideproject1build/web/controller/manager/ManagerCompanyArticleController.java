@@ -12,6 +12,7 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
@@ -27,8 +28,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.ARTICLE;
@@ -39,6 +38,8 @@ import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.vo.WORD.VALUE;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.*;
+import static springsideproject1.springsideproject1build.util.EnumUtils.convertToEnum;
+import static springsideproject1.springsideproject1build.util.EnumUtils.inEnumValues;
 
 @Controller
 @RequiredArgsConstructor
@@ -135,8 +136,8 @@ public class ManagerCompanyArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectCompany(subjectCompany);
-                if (containedWithPressValue(articleDto.getPress()))
-                    articleDto.setPress(convertToPress(articleDto.getPress()).name());
+                if (inEnumValues(Press.class, articleDto.getPress()))
+                    articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 
                 BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(articleDto, ARTICLE);
                 defaultValidator.validate(articleDto, bindingResult);

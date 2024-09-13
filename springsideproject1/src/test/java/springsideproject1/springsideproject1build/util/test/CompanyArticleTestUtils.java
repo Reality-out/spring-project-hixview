@@ -2,10 +2,10 @@ package springsideproject1.springsideproject1build.util.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.CompanyArticleDto;
-import springsideproject1.springsideproject1build.domain.entity.Press;
 
 import java.time.LocalDate;
 

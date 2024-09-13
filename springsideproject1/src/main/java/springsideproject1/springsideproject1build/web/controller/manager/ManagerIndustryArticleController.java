@@ -12,6 +12,9 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
+import springsideproject1.springsideproject1build.domain.entity.Press;
+import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.error.ConstraintValidationException;
@@ -26,10 +29,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPressValue;
-import static springsideproject1.springsideproject1build.domain.entity.Press.convertToPress;
-import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategory;
-import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategory;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
 import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.ARTICLE;
@@ -40,6 +39,7 @@ import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
 import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
 import static springsideproject1.springsideproject1build.domain.vo.WORD.VALUE;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.*;
+import static springsideproject1.springsideproject1build.util.EnumUtils.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -108,11 +108,11 @@ public class ManagerIndustryArticleController {
                                                      @RequestParam String subjectSecondCategory,
                                                      RedirectAttributes redirect, Model model) {
         String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
-        if (!containedWithFirstCategory(subjectFirstCategory)) {
+        if (!inEnumConstants(FirstCategory.class, subjectFirstCategory)) {
             finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_PATH, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
             return senderPage;
         }
-        if (!containedWithSecondCategory(subjectSecondCategory)) {
+        if (!inEnumConstants(SecondCategory.class, subjectSecondCategory)) {
             finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_PATH, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
             return senderPage;
         }
@@ -142,8 +142,8 @@ public class ManagerIndustryArticleController {
                 articleDto.setImportance(0);
                 articleDto.setSubjectFirstCategory(subjectFirstCategory);
                 articleDto.setSubjectSecondCategory(subjectSecondCategory);
-                if (containedWithPressValue(articleDto.getPress()))
-                    articleDto.setPress(convertToPress(articleDto.getPress()).name());
+                if (inEnumValues(Press.class, articleDto.getPress()))
+                    articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 
                 BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(articleDto, ARTICLE);
                 defaultValidator.validate(articleDto, bindingResult);

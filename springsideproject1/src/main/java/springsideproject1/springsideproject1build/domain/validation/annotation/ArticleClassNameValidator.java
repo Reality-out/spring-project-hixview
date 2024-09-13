@@ -4,12 +4,13 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import springsideproject1.springsideproject1build.domain.entity.ArticleClassName;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.ArticleClassName.containedWithArticleClassName;
+import static springsideproject1.springsideproject1build.util.EnumUtils.inEnumConstants;
 
-public class ArticleClassNameValidator implements ConstraintValidator<ArticleClassName, String> {
+public class ArticleClassNameValidator implements ConstraintValidator<ArticleClassNameConstraint, String> {
 
     @Autowired
     private MessageSource source;
@@ -23,7 +24,7 @@ public class ArticleClassNameValidator implements ConstraintValidator<ArticleCla
             ).addConstraintViolation();
             return false;
         }
-        if (!containedWithArticleClassName(articleClassName)) {
+        if (!inEnumConstants(ArticleClassName.class, articleClassName)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("Restrict.article.articleClassName", null, Locale.getDefault())
             ).addConstraintViolation();

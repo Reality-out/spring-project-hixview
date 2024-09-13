@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
 
-public class CodeValidator implements ConstraintValidator<Code, String> {
+public class CodeValidator implements ConstraintValidator<CodeConstraint, String> {
 
     @Autowired
     private MessageSource source;

@@ -4,12 +4,13 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import springsideproject1.springsideproject1build.domain.entity.Press;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.Press.containedWithPress;
+import static springsideproject1.springsideproject1build.util.EnumUtils.inEnumConstants;
 
-public class PressValidator implements ConstraintValidator<Press, String> {
+public class PressValidator implements ConstraintValidator<PressConstraint, String> {
 
     @Autowired
     private MessageSource source;
@@ -23,7 +24,7 @@ public class PressValidator implements ConstraintValidator<Press, String> {
             ).addConstraintViolation();
             return false;
         }
-        if (!containedWithPress(press)) {
+        if (!inEnumConstants(Press.class, press)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.article.press", null, Locale.getDefault())
             ).addConstraintViolation();

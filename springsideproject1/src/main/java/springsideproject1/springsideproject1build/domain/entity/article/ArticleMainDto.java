@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import springsideproject1.springsideproject1build.domain.validation.annotation.ArticleClassName;
+import springsideproject1.springsideproject1build.domain.validation.annotation.ArticleClassNameConstraint;
 
 @Getter
 @Setter
@@ -21,6 +21,6 @@ public class ArticleMainDto {
     @Size(max = 36)
     private String summary;
 
-    @ArticleClassName
+    @ArticleClassNameConstraint
     private String articleClassName;
 }

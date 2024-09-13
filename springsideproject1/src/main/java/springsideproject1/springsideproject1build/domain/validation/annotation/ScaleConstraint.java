@@ -7,11 +7,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PressValidator.class)
+@Constraint(validatedBy = ScaleValidator.class)
 @Documented
-public @interface Press {
+public @interface ScaleConstraint {
 
-    String message() default "Press default message";
+    String message() default "Scale default message";
 
     Class<?>[] groups() default {};
 

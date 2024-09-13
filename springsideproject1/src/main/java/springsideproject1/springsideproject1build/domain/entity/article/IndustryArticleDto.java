@@ -7,10 +7,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
-import springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategory;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Importance;
-import springsideproject1.springsideproject1build.domain.validation.annotation.Press;
-import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategory;
+import springsideproject1.springsideproject1build.domain.validation.annotation.FirstCategoryConstraint;
+import springsideproject1.springsideproject1build.domain.validation.annotation.ImportanceConstraint;
+import springsideproject1.springsideproject1build.domain.validation.annotation.PressConstraint;
+import springsideproject1.springsideproject1build.domain.validation.annotation.SecondCategoryConstraint;
 
 import static springsideproject1.springsideproject1build.domain.vo.REGEX.URL_REGEX;
 
@@ -21,7 +21,7 @@ public class IndustryArticleDto {
     @Size(max = 80)
     private String name;
 
-    @Press
+    @PressConstraint
     private String press;
 
     @NotBlank
@@ -41,12 +41,12 @@ public class IndustryArticleDto {
     @Range(min = 1, max = 31)
     private Integer days;
 
-    @Importance
+    @ImportanceConstraint
     private Integer importance;
 
-    @FirstCategory
+    @FirstCategoryConstraint
     private String subjectFirstCategory;
 
-    @SecondCategory
+    @SecondCategoryConstraint
     private String subjectSecondCategory;
 }

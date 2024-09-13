@@ -7,11 +7,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ScaleValidator.class)
+@Constraint(validatedBy = FirstCategoryValidator.class)
 @Documented
-public @interface Scale {
+public @interface FirstCategoryConstraint {
 
-    String message() default "Scale default message";
+    String message() default "FirstCategory default message";
 
     Class<?>[] groups() default {};
 

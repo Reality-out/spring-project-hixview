@@ -5,14 +5,14 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
+import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
 import springsideproject1.springsideproject1build.domain.service.IndustryArticleService;
 
-import static springsideproject1.springsideproject1build.domain.entity.FirstCategory.containedWithFirstCategory;
-import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategory;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_SECOND_CATEGORY;
 import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.util.EnumUtils.inEnumConstants;
 
 @Component
 @RequiredArgsConstructor
@@ -38,10 +38,10 @@ public class IndustryArticleModifyValidator implements Validator {
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
             errors.rejectValue(LINK, "NotFound");
         }
-        if (!containedWithFirstCategory(articleDto.getSubjectFirstCategory())) {
+        if (!inEnumConstants(FirstCategory.class, articleDto.getSubjectFirstCategory())) {
             errors.rejectValue(SUBJECT_FIRST_CATEGORY, "NotFound");
         }
-        if (!containedWithSecondCategory(articleDto.getSubjectSecondCategory())) {
+        if (!inEnumConstants(SecondCategory.class, articleDto.getSubjectSecondCategory())) {
             errors.rejectValue(SUBJECT_SECOND_CATEGORY, "NotFound");
         }
     }

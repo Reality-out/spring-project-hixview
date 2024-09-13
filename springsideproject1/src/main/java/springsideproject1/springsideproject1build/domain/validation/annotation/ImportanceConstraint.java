@@ -7,13 +7,14 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FirstCategoryValidator.class)
+@Constraint(validatedBy = ImportanceValidator.class)
 @Documented
-public @interface FirstCategory {
+public @interface ImportanceConstraint {
 
-    String message() default "FirstCategory default message";
+    String message() default "Importance default message";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 }
+

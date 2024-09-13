@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_ARTICLE_WITH_THAT_CONDITION;
+import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;

@@ -14,7 +14,6 @@ import springsideproject1.springsideproject1build.domain.service.CompanyService;
 import springsideproject1.springsideproject1build.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;

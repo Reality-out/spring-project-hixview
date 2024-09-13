@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import springsideproject1.springsideproject1build.domain.entity.ArticleClassName;
+import springsideproject1.springsideproject1build.domain.validation.annotation.ArticleClassNameConstraint;
 
 import java.util.HashMap;
 
@@ -28,7 +29,7 @@ public class ArticleMain {
     @NotBlank
     private final String summary;
 
-    @springsideproject1.springsideproject1build.domain.validation.annotation.ArticleClassName
+    @ArticleClassNameConstraint
     private final ArticleClassName articleClassName;
 
     public ArticleMainDto toDto() {

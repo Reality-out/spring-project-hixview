@@ -7,11 +7,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = SecondCategoryValidator.class)
+@Constraint(validatedBy = CodeValidator.class)
 @Documented
-public @interface SecondCategory {
+public @interface CodeConstraint {
 
-    String message() default "SecondCategory default message";
+    String message() default "Code default message";
 
     Class<?>[] groups() default {};
 

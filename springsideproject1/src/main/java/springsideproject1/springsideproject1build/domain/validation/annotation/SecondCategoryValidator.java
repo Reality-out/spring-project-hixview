@@ -4,12 +4,13 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.entity.SecondCategory.containedWithSecondCategory;
+import static springsideproject1.springsideproject1build.util.EnumUtils.inEnumConstants;
 
-public class SecondCategoryValidator implements ConstraintValidator<SecondCategory, String> {
+public class SecondCategoryValidator implements ConstraintValidator<SecondCategoryConstraint, String> {
 
     @Autowired
     private MessageSource source;
@@ -23,7 +24,7 @@ public class SecondCategoryValidator implements ConstraintValidator<SecondCatego
             ).addConstraintViolation();
             return false;
         }
-        if (!containedWithSecondCategory(secondCategory)) {
+        if (!inEnumConstants(SecondCategory.class, secondCategory)) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("typeMismatch.enum.company.secondCategory", null, Locale.getDefault())
             ).addConstraintViolation();

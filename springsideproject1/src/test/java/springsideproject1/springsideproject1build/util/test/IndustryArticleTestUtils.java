@@ -2,12 +2,12 @@ package springsideproject1.springsideproject1build.util.test;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
 import springsideproject1.springsideproject1build.domain.entity.Press;
+import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticle;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleBufferSimple;
 import springsideproject1.springsideproject1build.domain.entity.article.IndustryArticleDto;
-import springsideproject1.springsideproject1build.domain.entity.FirstCategory;
-import springsideproject1.springsideproject1build.domain.entity.SecondCategory;
 
 import java.time.LocalDate;
 

@@ -1,9 +1,6 @@
 package springsideproject1.springsideproject1build.domain.entity;
 
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.error.NotFoundException;
-
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_PRESS_WITH_THAT_VALUE;
 
 @Getter
 public enum Press {
@@ -60,30 +57,7 @@ public enum Press {
         this.pressValue = pressValue;
     }
 
-    public static boolean containedWithPress(String str) {
-        for (Press enumValue : Press.values()) {
-            if (enumValue.name().equals(str)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean containedWithPressValue(String str) {
-        for (Press enumValue : Press.values()) {
-            if (enumValue.pressValue.equals(str)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Press convertToPress(String str) {
-        for (Press enumValue : Press.values()) {
-            if (enumValue.pressValue.equals(str)) {
-                return enumValue;
-            }
-        }
-        throw new NotFoundException(NO_PRESS_WITH_THAT_VALUE);
+    public String getValue() {
+        return pressValue;
     }
 }

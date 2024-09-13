@@ -1,9 +1,6 @@
 package springsideproject1.springsideproject1build.domain.entity;
 
 import lombok.Getter;
-import springsideproject1.springsideproject1build.domain.error.NotFoundException;
-
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_SCALE_WITH_THAT_KOREAN_VALUE;
 
 @Getter
 public enum Scale {
@@ -17,30 +14,7 @@ public enum Scale {
         this.scaleValue = scaleValue;
     }
 
-    public static boolean containedWithScale(String str) {
-        for (Scale enumValue : Scale.values()) {
-            if (enumValue.name().equals(str)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean containedWithScaleValue(String str) {
-        for (Scale enumValue : Scale.values()) {
-            if (enumValue.scaleValue.equals(str)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Scale convertToScale(String str) {
-        for (Scale enumValue : Scale.values()) {
-            if (enumValue.scaleValue.equals(str)) {
-                return enumValue;
-            }
-        }
-        throw new NotFoundException(NO_SCALE_WITH_THAT_KOREAN_VALUE);
+    public String getValue() {
+        return scaleValue;
     }
 }

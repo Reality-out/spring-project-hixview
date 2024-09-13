@@ -7,11 +7,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = CountryValidator.class)
+@Constraint(validatedBy = PressValidator.class)
 @Documented
-public @interface Country {
+public @interface PressConstraint {
 
-    String message() default "Country default message";
+    String message() default "Press default message";
 
     Class<?>[] groups() default {};
 
