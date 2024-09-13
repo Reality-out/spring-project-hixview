@@ -1,3 +1,11 @@
+<img src="https://capsule-render.vercel.app/api?type=rounded&height=150&color=gradient&text=스프링%20사이드%20프로젝트&section=header&reversal=false&fontSize=64&animation=fadeIn&stroke=AFEEEE&strokeWidth=1&descAlignY=50"/>
+
+[![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)]()
+[![HTML](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)]()
+[![CSS](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)]()
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)]()
+[![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)]()
+
 # 유비쿼터스 언어 - 공통
 <p>해당 내용은 팀을 구성하는 멤버 전원이 특정 개념에 대해 언어로써 동일한 이해를 확립하는 것을 목적으로 한다.</p>
 <p>특히, 해당 내용은 글로써 소통할 때 정확하게 사용되어야 한다.</p>
@@ -138,7 +146,9 @@
 | 필드 검증자 | Field Validator | 필드에 적용되는 선택적인 검증자를 의미한다. | Exist, NotFound 등 |
 <br>
 
-# 코딩 스타일(Java)
+![JAVA](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+
+# Java 코드 컨벤션
 <p>해당 내용은 팀을 구성하는 개발자 전원이 동일한 서식의 Java 코드를 작성함으로써 프로젝트의 가독성과 유지 보수성을 향상하는 것을 목적으로 한다.</p>
 <div>
   <b>조건</b>
@@ -421,11 +431,15 @@
 <p>검증과 관련하여, 테스트는 다음과 같은 세 가지 항목으로 나눈다.</p>
 <br>
 
-## HTML 코딩 컨벤션
+![HTML](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)
+
+# HTML 코드 컨벤션
 <p>특정 블록에서의 경우, 최상단 태그에만 ID를 사용한다.</p>
 <br>
 
-## CSS 코딩 컨벤션
+![CSS](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
+
+# CSS 코드 컨벤션
 <div>
   <p>스타일은 다음의 순서대로 적용한다.</p>
   <p><code>display</code></p>
