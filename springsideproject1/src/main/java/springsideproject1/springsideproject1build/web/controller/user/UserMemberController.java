@@ -19,7 +19,7 @@ import springsideproject1.springsideproject1build.domain.service.MemberService;
 import springsideproject1.springsideproject1build.domain.validation.validator.member.MemberBirthValidator;
 import springsideproject1.springsideproject1build.web.controller.manager.ManagerCompanyController;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERRORS_ARE;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.ERRORS_ARE;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;

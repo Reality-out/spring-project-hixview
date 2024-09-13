@@ -15,8 +15,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_CODE;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_CODE;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE;
 import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.samsungElectronics;
 import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.skHynix;

@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.*;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.*;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.ARTICLE;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;

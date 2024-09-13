@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import springsideproject1.springsideproject1build.domain.service.CompanyService;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.*;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;

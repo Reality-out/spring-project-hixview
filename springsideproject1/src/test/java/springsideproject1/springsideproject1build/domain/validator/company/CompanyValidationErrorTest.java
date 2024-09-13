@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.ERROR;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;

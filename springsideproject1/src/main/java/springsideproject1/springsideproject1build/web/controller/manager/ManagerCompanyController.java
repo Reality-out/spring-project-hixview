@@ -21,9 +21,9 @@ import springsideproject1.springsideproject1build.util.ControllerUtils;
 
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
-import static springsideproject1.springsideproject1build.domain.error.constant.EXCEPTION_STRING.NOT_FOUND_COMPANY_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.NOT_FOUND_COMPANY_ERROR;
 import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
 import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
 import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
