@@ -20,11 +20,11 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.SELECT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.SELECT_MEMBER_URL;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.MANAGER_SELECT_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_MEMBERS_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.SELECT_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.SELECT_MEMBER_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.SELECT_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,7 +46,7 @@ class ManagerMemberControllerTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
     }
 
     @DisplayName("회원들 조회 페이지 접속")
@@ -63,8 +63,8 @@ class ManagerMemberControllerTest implements MemberTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_MEMBER_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "members-page"),
-                        model().attribute(LAYOUT_PATH, SELECT_PATH))
+                        view().name(SELECT_VIEW + "members-page"),
+                        model().attribute(LAYOUT_PATH, SELECT_LAYOUT))
                 .andReturn().getModelAndView()).getModelMap().get("members"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(member1, member2));

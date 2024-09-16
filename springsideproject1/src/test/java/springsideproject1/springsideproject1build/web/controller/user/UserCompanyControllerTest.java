@@ -19,13 +19,15 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.COMPANY_SEARCH_URL;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.COMPANY_SUB_URL;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Company.COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.SHOW_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.SUB_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.user.Layout.BASIC_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.COMPANY_SUB_URL;
+import static springsideproject1.springsideproject1build.domain.vo.user.ViewName.COMPANY_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,7 +49,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("기업 서브 페이지 접속")
@@ -55,8 +57,8 @@ class UserCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanySubPage() throws Exception {
         mockMvc.perform(get(COMPANY_SUB_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_COMPANY_VIEW + VIEW_SUB_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH),
+                        view().name(COMPANY_VIEW + SUB_VIEW),
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT),
                         model().attribute("companySearch", COMPANY_SEARCH_URL));
     }
 
@@ -72,16 +74,16 @@ class UserCompanyControllerTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getCode()))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
+                        view().name(COMPANY_VIEW + SHOW_VIEW),
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);
 
         assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getName()))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_COMPANY_VIEW + VIEW_SHOW_SUFFIX),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH))
+                        view().name(COMPANY_VIEW + SHOW_VIEW),
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
                 .isEqualTo(company);

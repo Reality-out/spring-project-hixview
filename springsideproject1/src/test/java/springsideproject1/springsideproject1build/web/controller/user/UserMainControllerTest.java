@@ -28,13 +28,16 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.*;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Member.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.*;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.FINISH_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.user.Layout.BASIC_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.FIND_ID_URL;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static springsideproject1.springsideproject1build.domain.vo.user.ViewName.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -65,9 +68,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
     }
 
     @DisplayName("쿼리 문자열에서의 특수문자 처리 방식 확인")
@@ -95,7 +98,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
                     put(DAYS, String.valueOf(commonBirth.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                        redirectedUrlPattern(FIND_ID_URL + FINISH_URL + ALL_QUERY_STRING))
                 .andReturn().getModelAndView()).getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
@@ -114,7 +117,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
         mockMvc.perform(getWithNoParam(""))
                 .andExpectAll(status().isOk(),
                         view().name(USER_HOME_VIEW),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT));
     }
 
     @DisplayName("로그인 페이지 접속")
@@ -122,7 +125,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     public void accessLogin() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_LOGIN_VIEW + "login-page"),
+                        view().name(LOGIN_VIEW + "login-page"),
                         model().attribute("membership", MEMBERSHIP_URL),
                         model().attribute("findId", FIND_ID_URL));
     }
@@ -132,7 +135,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     public void accessFindId() throws Exception {
         mockMvc.perform(get(FIND_ID_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_FIND_ID_VIEW + VIEW_PROCESS_SUFFIX),
+                        view().name(FIND_ID_VIEW + PROCESS_VIEW),
                         model().attributeExists(MEMBER));
     }
 
@@ -161,14 +164,14 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
                     put(DAYS, String.valueOf(commonBirth.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(FIND_ID_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                        redirectedUrlPattern(FIND_ID_URL + FINISH_URL + ALL_QUERY_STRING))
                 .andReturn().getModelAndView()).getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
 
-        mockMvc.perform(getWithSingleParam(FIND_ID_URL + URL_FINISH_SUFFIX, idListString, idListForUrl))
+        mockMvc.perform(getWithSingleParam(FIND_ID_URL + FINISH_URL, idListString, idListForUrl))
                 .andExpectAll(status().isOk(),
-                        view().name(USER_FIND_ID_VIEW + VIEW_FINISH_SUFFIX),
+                        view().name(FIND_ID_VIEW + FINISH_VIEW),
                         model().attribute(idListString, idList));
     }
 }

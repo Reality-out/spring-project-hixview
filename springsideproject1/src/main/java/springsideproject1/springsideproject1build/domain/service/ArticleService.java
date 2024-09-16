@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.NUMBER_PATTERN;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional(readOnly = true)
@@ -46,7 +46,7 @@ public abstract class ArticleService<T extends Article, U extends ArticleReposit
     }
 
     public Optional<T> findArticleByNumberOrName(String numberOrName) {
-        return NUMBER_REGEX_PATTERN.matcher(numberOrName).matches() ?
+        return NUMBER_PATTERN.matcher(numberOrName).matches() ?
                 findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 

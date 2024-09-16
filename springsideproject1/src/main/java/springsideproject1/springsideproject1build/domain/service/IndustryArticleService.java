@@ -11,8 +11,8 @@ import springsideproject1.springsideproject1build.domain.repository.IndustryArti
 import java.util.ArrayList;
 import java.util.List;
 
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
 
 @Service
 @Transactional

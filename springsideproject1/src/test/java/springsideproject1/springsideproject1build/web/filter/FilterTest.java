@@ -32,13 +32,14 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.ERROR_SINGLE;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.IS_BEAN_VALIDATION_ERROR;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.IS_BEAN_VALIDATION_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.ERROR_SINGLE;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.*;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest
@@ -70,8 +71,8 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("기업 기사 추가에 대한 기사 지원 필터 테스트")
@@ -96,7 +97,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
                 articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(commonName)));
             companyArticleService.removeArticleByName(commonName);
         }
@@ -133,13 +134,13 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
                 articleStringKorean, articleStringLowercase)) {
             ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
-                    ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                            ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                         put(nameDatePressString, articleString);
                         put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
                         put(linkString, articleBuffer.getLinkString());
                     }}))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
             assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
@@ -200,7 +201,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
                 articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_SINGLE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            redirectedUrlPattern(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(commonName)));
             industryArticleService.removeArticleByName(commonName);
         }
@@ -241,7 +242,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
                                 put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
                             }}))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING))
+                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
             assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
@@ -299,7 +300,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
                 articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanArticleClassName, articleDtoLowerCase)){
             mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            redirectedUrlPattern(ADD_ARTICLE_MAIN_URL + FINISH_URL + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(articleDtoOriginal.getName())));
 
             articleMainService.removeArticleByName(articleDtoOriginal.getName());
@@ -354,7 +355,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         for (CompanyDto companyDto : List.of(companyDtoKorean, companyDtoLowercase)) {
             mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                            redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
                             model().attribute(NAME, encodeWithUTF8(companyDto.getName())));
 
             companyService.removeCompanyByCode(companyDto.getCode());

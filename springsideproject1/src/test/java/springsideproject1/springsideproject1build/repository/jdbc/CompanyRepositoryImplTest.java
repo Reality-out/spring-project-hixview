@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
 import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.samsungElectronics;
 import static springsideproject1.springsideproject1build.util.test.CompanyTestUtils.skHynix;
 
@@ -35,7 +35,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("기업들 획득")

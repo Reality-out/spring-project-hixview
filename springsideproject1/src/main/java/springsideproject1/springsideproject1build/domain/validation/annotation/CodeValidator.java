@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.NUMBER_PATTERN;
 
 public class CodeValidator implements ConstraintValidator<CodeConstraint, String> {
 
@@ -23,7 +23,7 @@ public class CodeValidator implements ConstraintValidator<CodeConstraint, String
             ).addConstraintViolation();
             return false;
         }
-        if (!NUMBER_REGEX_PATTERN.matcher(code).find()) {
+        if (!NUMBER_PATTERN.matcher(code).find()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("Pattern.company.code", null, Locale.getDefault())
             ).addConstraintViolation();

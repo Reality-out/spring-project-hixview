@@ -22,13 +22,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.BEAN_VALIDATION_ERROR;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.ERROR;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.BEAN_VALIDATION_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,7 +50,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("NotBlank(공백)에 대한 산업 기사 추가 유효성 검증")
@@ -67,7 +67,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -86,7 +86,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -106,7 +106,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -123,7 +123,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -148,7 +148,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         for (IndustryArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
             assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                     .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                             model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
@@ -166,7 +166,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -184,7 +184,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -209,7 +209,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
                         .param(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory())
                         .param(SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategory()))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
@@ -229,7 +229,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         for (IndustryArticleDto articleDto : List.of(articlePressMismatch, articleFirstCategoryMismatch, articleSecondCategoryMismatch)) {
             mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                     .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                             model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                             model().attributeExists(ARTICLE));
         }
@@ -249,7 +249,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -268,7 +268,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -288,7 +288,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -305,7 +305,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -330,7 +330,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         for (IndustryArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
             assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                     .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                             model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
@@ -351,7 +351,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -369,7 +369,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -394,7 +394,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
                         .param(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory())
                         .param(SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategory()))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                         model().attributeExists(ARTICLE));
     }
@@ -414,7 +414,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
         for (IndustryArticleDto articleDto : List.of(articlePressMismatch, articleFirstCategoryMismatch, articleSecondCategoryMismatch)) {
             mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                     .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                             model().attribute(ERROR, BEAN_VALIDATION_ERROR),
                             model().attributeExists(ARTICLE));
         }

@@ -20,11 +20,15 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.ERROR;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.ARTICLE;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_ARTICLE_MAIN_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.ARTICLE;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.Word.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_ARTICLE_MAIN_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_ARTICLE_MAIN_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -46,7 +50,7 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
     }
 
     @DisplayName("중복 기사 메인명을 사용하는 기사 메인 추가")
@@ -64,7 +68,7 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -86,7 +90,7 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -105,9 +109,9 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(
-                UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX, articleDto))
+                UPDATE_ARTICLE_MAIN_URL + FINISH_URL, articleDto))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()

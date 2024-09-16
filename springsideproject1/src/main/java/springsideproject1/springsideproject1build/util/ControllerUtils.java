@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.IS_BEAN_VALIDATION_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
 
 public abstract class ControllerUtils {
 

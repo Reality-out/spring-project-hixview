@@ -22,13 +22,19 @@ import java.util.HashMap;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_COMPANY;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.REDIRECT_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.BEFORE_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.REMOVE_COMPANY_URL_ARTICLE_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,8 +59,8 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLE_TABLE, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("존재하지 않는 대상 기업을 사용하는, 문자열을 사용하는 기업 기사들 추가")
@@ -66,7 +72,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 
@@ -83,7 +89,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(linkString, testEqualDateCompanyArticle.getLink());
                 }}))
                 .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -100,7 +106,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(linkString, testCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -117,7 +123,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(linkString, "");
                 }}))
                 .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
     }
 
@@ -134,7 +140,7 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
                     put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
-                                URL_REDIRECT_PREFIX + ADD_COMPANY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                                REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
     }
@@ -143,18 +149,18 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void NotFoundNumberOrNameCompanyArticleModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", "1"))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
 
@@ -169,13 +175,13 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
                         CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))
                 .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null)));
 
         requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
                         CompanyArticle.builder().article(article).link(testNewCompanyArticle.getLink()).build()))
                 .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null)));
     }
 
@@ -183,18 +189,18 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void NotFoundArticleNumberOrNameCompanyArticleRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", "1"))
-                .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_COMPANY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
 }

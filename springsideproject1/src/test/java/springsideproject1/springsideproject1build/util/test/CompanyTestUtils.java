@@ -10,17 +10,20 @@ import springsideproject1.springsideproject1build.domain.entity.company.Company;
 import springsideproject1.springsideproject1build.domain.entity.company.CompanyDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.UPDATE_COMPANY_URL;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Company.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.AFTER_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.SINGLE_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.ADD_COMPANY_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.UPDATE_COMPANY_VIEW;
 
 public interface CompanyTestUtils extends ObjectTestUtils {
     // Assertion
-    String addSingleCompanyProcessPage = ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
-    String modifyCompanyProcessPage = UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifyCompanyFinishUrl = UPDATE_COMPANY_URL + URL_FINISH_SUFFIX;
+    String addSingleCompanyProcessPage = ADD_COMPANY_VIEW + SINGLE_PROCESS_VIEW;
+    String modifyCompanyProcessPage = UPDATE_COMPANY_VIEW + AFTER_PROCESS_VIEW;
+    String modifyCompanyFinishUrl = UPDATE_COMPANY_URL + FINISH_URL;
 
     // Test Object
     Company samsungElectronics = Company.builder().code("005930").country(Country.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")

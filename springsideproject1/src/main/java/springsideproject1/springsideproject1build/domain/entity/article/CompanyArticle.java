@@ -10,8 +10,8 @@ import springsideproject1.springsideproject1build.domain.entity.Press;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.SUBJECT_COMPANY;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

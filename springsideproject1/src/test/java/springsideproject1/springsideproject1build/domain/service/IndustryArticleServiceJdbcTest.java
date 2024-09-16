@@ -17,10 +17,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
 @SpringBootTest
 @Transactional
@@ -38,7 +38,7 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("산업 기사 번호와 이름으로 찾기")

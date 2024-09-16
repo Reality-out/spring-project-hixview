@@ -8,14 +8,14 @@ import springsideproject1.springsideproject1build.domain.entity.member.MemberDto
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.MEMBERSHIP_VIEW;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.VIEW_PROCESS_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Member.ID;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 
 public interface MemberTestUtils extends ObjectTestUtils {
     // Assertion
-    String membershipProcessPage = MEMBERSHIP_VIEW + VIEW_PROCESS_SUFFIX;
+    String membershipProcessPage = MEMBERSHIP_VIEW + PROCESS_VIEW;
 
     // Test Object
     Member testMember = Member.builder().id("ABcd1234!").password("EFgh1234!").name("박진하")

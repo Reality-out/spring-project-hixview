@@ -8,13 +8,15 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import springsideproject1.springsideproject1build.domain.vo.Regex;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Member.ID;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.NAME_REGEX;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.PW_REGEX;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
@@ -23,7 +25,7 @@ public class Member {
     private final Long identifier;
 
     @NotBlank
-    @Pattern(regexp = ID_REGEX)
+    @Pattern(regexp = Regex.ID_REGEX)
     private final String id;
 
     @NotBlank

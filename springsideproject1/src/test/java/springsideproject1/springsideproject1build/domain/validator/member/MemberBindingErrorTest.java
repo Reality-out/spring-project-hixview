@@ -22,11 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.ID;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.MEMBERSHIP_URL;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Member.ID;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Member.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_MEMBERS_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,7 +48,7 @@ public class MemberBindingErrorTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
     }
 
     @DisplayName("NotBlank에 대한 회원 가입 유효성 검증")

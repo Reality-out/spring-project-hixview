@@ -12,18 +12,21 @@ import springsideproject1.springsideproject1build.domain.entity.article.Industry
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.UPDATE_INDUSTRY_ARTICLE_URL;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.AFTER_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.SINGLE_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_INDUSTRY_ARTICLE_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.ADD_INDUSTRY_ARTICLE_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
 
 public interface IndustryArticleTestUtils extends ObjectTestUtils {
     // Assertion
-    String addSingleIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    String addSingleIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
     String addStringIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
-    String modifyIndustryArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + URL_FINISH_SUFFIX;
+    String modifyIndustryArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + AFTER_PROCESS_VIEW;
+    String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL;
 
     // Test Object
     IndustryArticle testIndustryArticle = IndustryArticle.builder()

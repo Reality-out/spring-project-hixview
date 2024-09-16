@@ -20,13 +20,19 @@ import java.util.HashMap;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_FIRST_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_SECOND_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.SUBJECT_FIRST_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.SUBJECT_SECOND_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.REDIRECT_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.BEFORE_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.REMOVE_INDUSTRY_ARTICLE_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,7 +54,7 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 산업 기사들 추가")
@@ -61,7 +67,7 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(SUBJECT_SECOND_CATEGORY, testIndustryArticleStringBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -75,7 +81,7 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(SUBJECT_SECOND_CATEGORY, testIndustryArticleStringBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
     }
 
@@ -89,7 +95,7 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(SUBJECT_SECOND_CATEGORY, testIndustryArticleStringBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
     }
 
@@ -103,7 +109,7 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(SUBJECT_SECOND_CATEGORY, testIndustryArticleStringBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(
-                                URL_REDIRECT_PREFIX + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
     }
@@ -112,18 +118,18 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
     @Test
     public void NotFoundNumberOrNameIndustryArticleModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", "1"))
-                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
     }
 
@@ -137,13 +143,13 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
         requireNonNull(mockMvc.perform(postWithIndustryArticle(modifyIndustryArticleFinishUrl,
                         IndustryArticle.builder().article(article).name(testNewIndustryArticle.getName()).build()))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null)));
 
         requireNonNull(mockMvc.perform(postWithIndustryArticle(modifyIndustryArticleFinishUrl,
                         IndustryArticle.builder().article(article).link(testNewIndustryArticle.getLink()).build()))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null)));
     }
 
@@ -151,18 +157,18 @@ public class IndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
     @Test
     public void NotFoundArticleNumberOrNameIndustryArticleRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", "1"))
-                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH),
+                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
     }
 }

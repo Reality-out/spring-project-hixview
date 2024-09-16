@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
 import springsideproject1.springsideproject1build.domain.validation.annotation.ImportanceConstraint;
 import springsideproject1.springsideproject1build.domain.validation.annotation.PressConstraint;
 
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.URL_REGEX;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.URL_REGEX;
 
 @Getter
 @Setter

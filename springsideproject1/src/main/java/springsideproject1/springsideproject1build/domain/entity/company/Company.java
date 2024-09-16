@@ -15,8 +15,8 @@ import springsideproject1.springsideproject1build.domain.validation.annotation.C
 
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Company.*;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

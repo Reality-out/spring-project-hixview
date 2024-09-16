@@ -17,10 +17,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_MAIN_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_ARTICLE_MAIN_WITH_THAT_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_ARTICLE_MAIN_TABLE;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.ALREADY_EXIST_ARTICLE_MAIN_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 
 @SpringBootTest
 @Transactional
@@ -38,7 +38,7 @@ class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAIN_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
     }
 
     @DisplayName("기사 메인들 동시 등록")

@@ -16,9 +16,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.NUMBER;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.NUMBER;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
 
 @SpringBootTest
 @Transactional
@@ -36,7 +36,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("산업 기사들 획득")

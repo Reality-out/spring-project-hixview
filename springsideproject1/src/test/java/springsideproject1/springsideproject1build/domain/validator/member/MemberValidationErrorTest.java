@@ -18,9 +18,9 @@ import javax.sql.DataSource;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.MEMBER;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_MEMBER_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.MEMBERSHIP_URL;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Member.MEMBER;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_MEMBERS_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,7 +42,7 @@ public class MemberValidationErrorTest implements MemberTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_MEMBER_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
     }
 
     @DisplayName("date의 Restrict에 대한 회원 가입 유효성 검증")

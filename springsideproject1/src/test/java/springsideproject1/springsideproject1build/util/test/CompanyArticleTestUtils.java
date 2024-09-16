@@ -10,18 +10,21 @@ import springsideproject1.springsideproject1build.domain.entity.article.CompanyA
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.UPDATE_COMPANY_ARTICLE_URL;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.AFTER_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.SINGLE_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_COMPANY_ARTICLE_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.ADD_COMPANY_ARTICLE_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIEW;
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
     // Assertion
-    String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS_SUFFIX;
+    String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
     String addStringCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
-    String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + URL_FINISH_SUFFIX;
+    String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + AFTER_PROCESS_VIEW;
+    String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + FINISH_URL;
 
     // Test Object
     CompanyArticle testCompanyArticle = CompanyArticle.builder()

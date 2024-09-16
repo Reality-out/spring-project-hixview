@@ -22,11 +22,16 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_INDUSTRY_ARTICLE_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.IS_BEAN_VALIDATION_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.REDIRECT_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,7 +53,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLE_TABLE, true);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("미래의 기사 입력일을 사용하는 산업 기사 추가 유효성 검증")
@@ -63,7 +68,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDtoFuture))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -82,7 +87,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -104,7 +109,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto2))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -126,7 +131,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto2))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -151,7 +156,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
                     put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(
-                                URL_REDIRECT_PREFIX + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
@@ -170,7 +175,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
                     put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleStringBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(
-                                URL_REDIRECT_PREFIX + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
@@ -189,7 +194,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
                     put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleStringBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(
-                                URL_REDIRECT_PREFIX + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + URL_FINISH_SUFFIX),
+                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
@@ -204,7 +209,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
 
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDtoFuture))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -223,7 +228,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -243,7 +248,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -263,7 +268,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -279,7 +284,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()

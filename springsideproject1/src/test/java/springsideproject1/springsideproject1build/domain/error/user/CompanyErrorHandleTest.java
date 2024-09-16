@@ -17,10 +17,12 @@ import javax.sql.DataSource;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.*;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.COMPANY_SEARCH_URL;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.COMPANY_SUB_URL;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.NOT_EXIST_COMPANY_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionString.NOT_FOUND_COMPANY_ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.user.RequestUrl.COMPANY_SUB_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,7 +44,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("비어 있는 값을 사용하는 기업 검색")

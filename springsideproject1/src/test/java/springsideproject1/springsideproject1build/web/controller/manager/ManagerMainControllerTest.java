@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.MANAGER_HOME_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.MANAGER_HOME_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc

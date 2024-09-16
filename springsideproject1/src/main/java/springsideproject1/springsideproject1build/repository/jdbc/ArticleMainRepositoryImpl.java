@@ -14,9 +14,9 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_ARTICLE_MAIN_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
 
 @Repository
 public class ArticleMainRepositoryImpl implements ArticleMainRepository {
@@ -33,27 +33,27 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public List<ArticleMain> getArticles() {
-        return jdbcTemplate.query("select * from " + TEST_ARTICLE_MAIN_TABLE, articleRowMapper());
+        return jdbcTemplate.query("select * from " + TEST_ARTICLE_MAINS_SCHEMA, articleRowMapper());
     }
 
     @Override
     public Optional<ArticleMain> getArticleByNumber(Long number) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_ARTICLE_MAIN_TABLE + " where number = ?", articleRowMapper(), number);
+                "select * from " + TEST_ARTICLE_MAINS_SCHEMA + " where number = ?", articleRowMapper(), number);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<ArticleMain> getArticleByName(String name) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_ARTICLE_MAIN_TABLE + " where name = ?", articleRowMapper(), name);
+                "select * from " + TEST_ARTICLE_MAINS_SCHEMA + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<ArticleMain> getArticleByImagePath(String imagePath) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_ARTICLE_MAIN_TABLE + " where imagePath = ?", articleRowMapper(), imagePath);
+                "select * from " + TEST_ARTICLE_MAINS_SCHEMA + " where imagePath = ?", articleRowMapper(), imagePath);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
@@ -62,7 +62,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public Long saveArticle(ArticleMain article) {
-        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_ARTICLE_MAIN_TABLE).usingGeneratedKeyColumns("number")
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_ARTICLE_MAINS_SCHEMA).usingGeneratedKeyColumns("number")
                 .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
@@ -71,7 +71,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public void updateArticle(ArticleMain article) {
-        jdbcTemplate.update("update " + TEST_ARTICLE_MAIN_TABLE +
+        jdbcTemplate.update("update " + TEST_ARTICLE_MAINS_SCHEMA +
                         " set imagePath = ?, summary = ?, articleClassName = ? where name = ?",
                 article.getImagePath(), article.getSummary(), article.getArticleClassName().name(), article.getName());
     }
@@ -81,7 +81,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public void deleteArticleByName(String name) {
-        jdbcTemplate.update("delete from " + TEST_ARTICLE_MAIN_TABLE + " where name = ?", name);
+        jdbcTemplate.update("delete from " + TEST_ARTICLE_MAINS_SCHEMA + " where name = ?", name);
     }
 
     /**

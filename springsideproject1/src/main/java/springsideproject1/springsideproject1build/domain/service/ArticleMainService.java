@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.ALREADY_EXIST_ARTICLE_MAIN_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_ARTICLE_MAIN_WITH_THAT_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.NUMBER_REGEX_PATTERN;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.ALREADY_EXIST_ARTICLE_MAIN_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.NUMBER_PATTERN;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ public class ArticleMainService {
     }
 
     public Optional<ArticleMain> findArticleByNumberOrName(String numberOrName) {
-        return NUMBER_REGEX_PATTERN.matcher(numberOrName).matches() ?
+        return NUMBER_PATTERN.matcher(numberOrName).matches() ?
                 findArticleByNumber(Long.parseLong(numberOrName)) : findArticleByName(numberOrName);
     }
 

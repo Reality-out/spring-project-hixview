@@ -16,12 +16,14 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Company.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_SINGLE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_COMPANY_URL;
 import static springsideproject1.springsideproject1build.util.FilterUtils.applyUppercaseAndConvertToEnum;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_URL, UPDATE_COMPANY_URL + URL_FINISH_SUFFIX})
+@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_URL, UPDATE_COMPANY_URL + FINISH_URL})
 @Order(1)
 public class CompanyDtoSupportFilter extends OncePerRequestFilter {
 

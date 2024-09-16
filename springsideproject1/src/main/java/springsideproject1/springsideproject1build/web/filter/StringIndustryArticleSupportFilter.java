@@ -14,9 +14,9 @@ import springsideproject1.springsideproject1build.web.request.ModifiableHttpServ
 
 import java.io.IOException;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_FIRST_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.SUBJECT_SECOND_CATEGORY;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.SUBJECT_FIRST_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.SUBJECT_SECOND_CATEGORY;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static springsideproject1.springsideproject1build.util.FilterUtils.applyUppercaseAndConvertToEnum;
 
 @NonNullApi

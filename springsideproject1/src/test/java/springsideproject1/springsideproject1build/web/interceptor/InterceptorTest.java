@@ -15,9 +15,9 @@ import springsideproject1.springsideproject1build.util.test.CompanyArticleTestUt
 import springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.BASIC_LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.LAYOUT_PATH;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.USER_HOME_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.user.Layout.BASIC_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.user.ViewName.USER_HOME_VIEW;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -49,11 +49,11 @@ public class InterceptorTest implements CompanyArticleTestUtils, IndustryArticle
         mockMvc.perform(getWithNoParam(""))
                 .andExpectAll(status().isOk(),
                         view().name(USER_HOME_VIEW),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT));
 
         mockMvc.perform(getWithNoParam("/"))
                 .andExpectAll(status().isOk(),
                         view().name(USER_HOME_VIEW),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT_PATH));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT));
     }
 }

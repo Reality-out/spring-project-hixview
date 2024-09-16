@@ -7,20 +7,23 @@ import springsideproject1.springsideproject1build.domain.entity.article.ArticleM
 import springsideproject1.springsideproject1build.domain.entity.article.ArticleMainDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.UPDATE_ARTICLE_MAIN_URL;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.URL_FINISH_SUFFIX;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.AFTER_PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.PROCESS_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_ARTICLE_MAIN_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.ADD_ARTICLE_MAIN_VIEW;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.UPDATE_ARTICLE_MAIN_VIEW;
 import static springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils.testCompanyArticle;
 import static springsideproject1.springsideproject1build.util.test.CompanyArticleTestUtils.testNewCompanyArticle;
 import static springsideproject1.springsideproject1build.util.test.IndustryArticleTestUtils.testIndustryArticle;
 
 public interface ArticleMainTestUtils extends ObjectTestUtils {
     // Assertion
-    String addArticleMainProcessPage = ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS_SUFFIX;
-    String modifyArticleMainProcessPage = UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS_SUFFIX;
-    String modifyArticleMainFinishUrl = UPDATE_ARTICLE_MAIN_URL + URL_FINISH_SUFFIX;
+    String addArticleMainProcessPage = ADD_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
+    String modifyArticleMainProcessPage = UPDATE_ARTICLE_MAIN_VIEW + AFTER_PROCESS_VIEW;
+    String modifyArticleMainFinishUrl = UPDATE_ARTICLE_MAIN_URL + FINISH_URL;
 
     // Test Object
     ArticleMain testCompanyArticleMain = ArticleMain.builder()

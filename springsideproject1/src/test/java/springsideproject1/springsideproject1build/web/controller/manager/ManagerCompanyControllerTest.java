@@ -23,13 +23,14 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
-import static springsideproject1.springsideproject1build.domain.vo.VIEW_NAME.*;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.VALUE;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Company.COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.ViewName.*;
+import static springsideproject1.springsideproject1build.domain.vo.Word.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.*;
+import static springsideproject1.springsideproject1build.domain.vo.manager.ViewName.*;
 import static springsideproject1.springsideproject1build.util.ControllerUtils.encodeWithUTF8;
 
 @SpringBootTest
@@ -52,7 +53,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("기업 추가 페이지 접속")
@@ -61,7 +62,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attributeExists(COMPANY),
                         model().attribute("countries", Country.values()),
                         model().attribute("scales", Scale.values()));
@@ -76,14 +77,14 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // then
         mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
                 .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(companyDto.getName())));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + URL_FINISH_SUFFIX,
+        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + FINISH_URL,
                         NAME, encodeWithUTF8(companyDto.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_PATH),
+                        view().name(ADD_COMPANY_VIEW + SINGLE_FINISH_VIEW),
+                        model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(VALUE, companyDto.getName()));
 
         assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
@@ -96,8 +97,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyModify() throws Exception {
         mockMvc.perform(get(UPDATE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH));
+                        view().name(UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT));
     }
 
     @DisplayName("기업 변경 페이지 검색")
@@ -113,7 +114,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isOk(),
                         view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute("updateUrl", modifyCompanyFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
@@ -122,7 +123,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
                 .andExpectAll(status().isOk(),
                         view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute("updateUrl", modifyCompanyFinishUrl),
                         model().attribute("countries", Country.values()),
                         model().attribute("scales", Scale.values()))
@@ -150,8 +151,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(beforeModifyCompany.getName())))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_PATH),
+                        view().name(UPDATE_COMPANY_VIEW + FINISH_VIEW),
+                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
                         model().attribute(VALUE, commonName));
 
         assertThat(companyService.findCompanyByName(commonName).orElseThrow())
@@ -168,7 +169,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MANAGER_SELECT_VIEW + "companies-page"))
+                        view().name(SELECT_VIEW + "companies-page"))
                 .andReturn().getModelAndView()).getModelMap().get("companies"))
                 .usingRecursiveComparison()
                 .isEqualTo(List.of(skHynix, samsungElectronics));
@@ -179,8 +180,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyRid() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_VIEW + VIEW_PROCESS_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_PATH));
+                        view().name(REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
     }
 
     @DisplayName("기업 없애기 완료 페이지 접속")
@@ -195,20 +196,20 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", company.getCode()))
                 .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(REMOVE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
         companyService.registerCompany(company);
 
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
                 .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX + ALL_QUERY_STRING),
+                        redirectedUrlPattern(REMOVE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
                         model().attribute(NAME, encodeWithUTF8(name)));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + URL_FINISH_SUFFIX, NAME, encodeWithUTF8(name)))
+        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + FINISH_URL, NAME, encodeWithUTF8(name)))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_VIEW + VIEW_FINISH_SUFFIX),
-                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_PATH),
+                        view().name(REMOVE_COMPANY_URL_VIEW + FINISH_VIEW),
+                        model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
                         model().attribute(VALUE, name));
 
         assertThat(companyService.findCompanies()).isEmpty();

@@ -19,11 +19,15 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_STRING.ERROR;
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.COMPANY;
-import static springsideproject1.springsideproject1build.domain.vo.DATABASE.TEST_COMPANY_TABLE;
-import static springsideproject1.springsideproject1build.domain.vo.LAYOUT.*;
-import static springsideproject1.springsideproject1build.domain.vo.REQUEST_URL.*;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Company.COMPANY;
+import static springsideproject1.springsideproject1build.domain.vo.RequestUrl.FINISH_URL;
+import static springsideproject1.springsideproject1build.domain.vo.SchemaName.TEST_COMPANIES_SCHEMA;
+import static springsideproject1.springsideproject1build.domain.vo.Word.ERROR;
+import static springsideproject1.springsideproject1build.domain.vo.Word.LAYOUT_PATH;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.ADD_SINGLE_COMPANY_URL;
+import static springsideproject1.springsideproject1build.domain.vo.manager.RequestUrl.UPDATE_COMPANY_URL;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,7 +49,7 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_TABLE);
+        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("중복 기업 코드를 사용하는 기업 추가")
@@ -62,7 +66,7 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto2))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
@@ -83,7 +87,7 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto2))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
@@ -101,9 +105,9 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
         companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + FINISH_URL, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
@@ -121,9 +125,9 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
         companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + URL_FINISH_SUFFIX, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + FINISH_URL, companyDto))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_PATH),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()

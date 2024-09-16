@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.*;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.*;
 
 @Getter
 @Setter
@@ -37,6 +37,6 @@ public class MemberDto {
     private Integer days;
 
     @NotBlank
-    @Pattern(regexp = PHONE_NUMBER_REGEX_DASHED)
+    @Pattern(regexp = DASHED_PHONE_NUMBER_REGEX)
     private String phoneNumber;
 }

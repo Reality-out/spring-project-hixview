@@ -11,8 +11,8 @@ import springsideproject1.springsideproject1build.domain.repository.CompanyArtic
 import java.util.ArrayList;
 import java.util.List;
 
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.ALREADY_EXIST_COMPANY_ARTICLE_NAME;
-import static springsideproject1.springsideproject1build.domain.vo.EXCEPTION_MESSAGE.NO_COMPANY_ARTICLE_WITH_THAT_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.ALREADY_EXIST_COMPANY_ARTICLE_NAME;
+import static springsideproject1.springsideproject1build.domain.vo.ExceptionMessage.NO_COMPANY_ARTICLE_WITH_THAT_NAME;
 
 @Service
 @Transactional

@@ -10,9 +10,9 @@ import springsideproject1.springsideproject1build.domain.validation.annotation.I
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static springsideproject1.springsideproject1build.domain.vo.CLASS.*;
-import static springsideproject1.springsideproject1build.domain.vo.REGEX.URL_REGEX;
-import static springsideproject1.springsideproject1build.domain.vo.WORD.NAME;
+import static springsideproject1.springsideproject1build.domain.vo.EntityName.Article.*;
+import static springsideproject1.springsideproject1build.domain.vo.Regex.URL_REGEX;
+import static springsideproject1.springsideproject1build.domain.vo.Word.NAME;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
