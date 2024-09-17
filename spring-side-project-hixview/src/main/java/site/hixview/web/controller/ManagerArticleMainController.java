@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
@@ -19,19 +18,20 @@ import site.hixview.domain.validation.validator.ArticleMainModifyValidator;
 
 import java.util.Optional;
 
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME;
-import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_ARTICLE_MAIN_ERROR;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.util.ControllerUtils.*;
+import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
+import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_ARTICLE_MAIN_ERROR;
+import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.util.ControllerUtils.finishForRollback;
 
 @Controller
 @RequiredArgsConstructor
@@ -58,7 +58,7 @@ public class ManagerArticleMainController {
 
     @PostMapping(ADD_ARTICLE_MAIN_URL)
     public String submitAddArticleMain(@ModelAttribute(ARTICLE) @Validated ArticleMainDto articleMainDto,
-                                          BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                       BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             return ADD_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
@@ -71,15 +71,14 @@ public class ManagerArticleMainController {
         }
 
         articleMainService.registerArticle(ArticleMain.builder().articleDto(articleMainDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
-        return REDIRECT_URL + ADD_ARTICLE_MAIN_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleMainDto.getName()).build().toUriString();
     }
 
     @GetMapping(ADD_ARTICLE_MAIN_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return ADD_ARTICLE_MAIN_VIEW + FINISH_VIEW;
     }
 
@@ -122,7 +121,7 @@ public class ManagerArticleMainController {
 
     @PostMapping(UPDATE_ARTICLE_MAIN_URL + FINISH_URL)
     public String submitModifyArticleMain(@ModelAttribute(ARTICLE) @Validated ArticleMainDto articleMainDto,
-                                                 BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
@@ -137,15 +136,14 @@ public class ManagerArticleMainController {
         }
 
         articleMainService.correctArticle(ArticleMain.builder().articleDto(articleMainDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(articleMainDto.getName()));
-        return REDIRECT_URL + UPDATE_ARTICLE_MAIN_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleMainDto.getName()).build().toUriString();
     }
 
     @GetMapping(UPDATE_ARTICLE_MAIN_URL + FINISH_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return UPDATE_ARTICLE_MAIN_VIEW + FINISH_VIEW;
 	}
 
@@ -160,7 +158,7 @@ public class ManagerArticleMainController {
     }
 
     @PostMapping(REMOVE_ARTICLE_MAIN_URL)
-    public String submitRidArticleMain(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
+    public String submitRidArticleMain(@RequestParam String numberOrName, Model model) {
         Optional<ArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
@@ -172,15 +170,14 @@ public class ManagerArticleMainController {
             numberOrName = articleMainService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         articleMainService.removeArticleByName(numberOrName);
-        redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
-        return REDIRECT_URL + REMOVE_ARTICLE_MAIN_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(REMOVE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, numberOrName).build().toUriString();
     }
 
     @GetMapping(REMOVE_ARTICLE_MAIN_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return REMOVE_ARTICLE_MAIN_VIEW + FINISH_VIEW;
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
@@ -21,20 +20,19 @@ import site.hixview.util.ControllerUtils;
 
 import java.util.Optional;
 
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
-import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.util.ControllerUtils.decodeWithUTF8;
-import static site.hixview.util.ControllerUtils.encodeWithUTF8;
+import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
+import static site.hixview.domain.vo.name.ViewName.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -62,7 +60,7 @@ public class ManagerCompanyController {
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
     public String submitAddCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
-                                   BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                   BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             return ADD_COMPANY_VIEW + SINGLE_PROCESS_VIEW;
@@ -75,15 +73,14 @@ public class ManagerCompanyController {
         }
 
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
-        return REDIRECT_URL + ADD_SINGLE_COMPANY_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return ADD_COMPANY_VIEW + SINGLE_FINISH_VIEW;
     }
 
@@ -127,7 +124,7 @@ public class ManagerCompanyController {
 
     @PostMapping(UPDATE_COMPANY_URL + FINISH_URL)
     public String submitModifyCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
-                                      BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                      BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
@@ -140,15 +137,14 @@ public class ManagerCompanyController {
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
             return UPDATE_COMPANY_VIEW + AFTER_PROCESS_VIEW;
         }
-        redirect.addAttribute(NAME, encodeWithUTF8(companyDto.getName()));
-        return REDIRECT_URL + UPDATE_COMPANY_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
     }
 
     @GetMapping(UPDATE_COMPANY_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return UPDATE_COMPANY_VIEW + FINISH_VIEW;
     }
 
@@ -163,7 +159,7 @@ public class ManagerCompanyController {
     }
 
     @PostMapping(REMOVE_COMPANY_URL)
-    public String submitRidCompany(@RequestParam String codeOrName, RedirectAttributes redirect, Model model) {
+    public String submitRidCompany(@RequestParam String codeOrName, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
             finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, REMOVE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ERROR, model);
@@ -171,21 +167,18 @@ public class ManagerCompanyController {
         }
 
         if (NUMBER_PATTERN.matcher(codeOrName).matches()) {
-            redirect.addAttribute(NAME, encodeWithUTF8(
-                    companyService.findCompanyByCode(codeOrName).orElseThrow().getName()));
-            companyService.removeCompanyByCode(codeOrName);
-        } else {
-            redirect.addAttribute(NAME, encodeWithUTF8(codeOrName));
-            companyService.removeCompanyByCode(companyService.findCompanyByName(codeOrName).orElseThrow().getCode());
+            codeOrName = companyService.findCompanyByCode(codeOrName).orElseThrow().getName();
         }
-        return REDIRECT_URL + REMOVE_COMPANY_URL + FINISH_URL;
+        String redirectURL = REDIRECT_URL + fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, codeOrName).build().toUriString();
+        companyService.removeCompanyByCode(companyService.findCompanyByName(codeOrName).orElseThrow().getCode());
+        return redirectURL;
     }
 
     @GetMapping(REMOVE_COMPANY_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return REMOVE_COMPANY_URL_VIEW + FINISH_VIEW;
     }
 

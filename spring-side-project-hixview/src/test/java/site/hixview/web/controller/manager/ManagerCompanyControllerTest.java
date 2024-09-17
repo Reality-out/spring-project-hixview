@@ -23,15 +23,15 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.util.ControllerUtils.encodeWithUTF8;
+import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
+import static site.hixview.domain.vo.name.ViewName.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -73,15 +73,13 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyAddFinish() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
 
         // then
         mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(companyDto.getName())));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_URL + FINISH_URL,
-                        NAME, encodeWithUTF8(companyDto.getName())))
+        mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + SINGLE_FINISH_VIEW),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
@@ -138,6 +136,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // given
         Company beforeModifyCompany = samsungElectronics;
         String commonName = samsungElectronics.getName();
+        String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, commonName).build().toUriString();
 
         // when
         companyService.registerCompany(beforeModifyCompany);
@@ -145,11 +144,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // then
         mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, Company.builder().company(skHynix)
                 .name(commonName).code(beforeModifyCompany.getCode()).build().toDto()))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyCompanyFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(getWithSingleParam(modifyCompanyFinishUrl, NAME, encodeWithUTF8(beforeModifyCompany.getName())))
+        mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + FINISH_VIEW),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
@@ -190,23 +187,20 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // given
         Company company = samsungElectronics;
         String name = company.getName();
+        String redirectedURL = fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
 
         // when & then
         companyService.registerCompany(company);
 
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", company.getCode()))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(name)));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         companyService.registerCompany(company);
 
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_URL + FINISH_URL + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(name)));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_URL + FINISH_URL, NAME, encodeWithUTF8(name)))
+        mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + FINISH_VIEW),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),

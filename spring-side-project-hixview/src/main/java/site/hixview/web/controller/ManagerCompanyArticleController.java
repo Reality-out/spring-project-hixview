@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.ExceptionMessage.*;
 import static site.hixview.domain.vo.name.ExceptionName.*;
@@ -70,7 +71,7 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
     public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
-                                          BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                          BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             return ADD_COMPANY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
@@ -83,15 +84,14 @@ public class ManagerCompanyArticleController {
         }
 
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
-        return REDIRECT_URL + ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return ADD_COMPANY_ARTICLE_VIEW + SINGLE_FINISH_VIEW;
     }
 
@@ -220,7 +220,7 @@ public class ManagerCompanyArticleController {
 
     @PostMapping(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL)
     public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
-                                             BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+                                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
@@ -235,15 +235,14 @@ public class ManagerCompanyArticleController {
         }
 
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        redirect.addAttribute(NAME, encodeWithUTF8(articleDto.getName()));
-        return REDIRECT_URL + UPDATE_COMPANY_ARTICLE_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
     }
 
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return UPDATE_COMPANY_ARTICLE_VIEW + FINISH_VIEW;
 	}
 
@@ -258,7 +257,7 @@ public class ManagerCompanyArticleController {
     }
 
     @PostMapping(REMOVE_COMPANY_ARTICLE_URL)
-    public String submitRidCompanyArticle(RedirectAttributes redirect, @RequestParam String numberOrName, Model model) {
+    public String submitRidCompanyArticle(@RequestParam String numberOrName, Model model) {
         Optional<CompanyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_COMPANY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR, model);
@@ -269,15 +268,14 @@ public class ManagerCompanyArticleController {
             numberOrName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         articleService.removeArticleByName(numberOrName);
-        redirect.addAttribute(NAME, encodeWithUTF8(numberOrName));
-        return REDIRECT_URL + REMOVE_COMPANY_ARTICLE_URL + FINISH_URL;
+        return REDIRECT_URL + fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, numberOrName).build().toUriString();
     }
 
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, decodeWithUTF8(name));
+        model.addAttribute(VALUE, name);
         return REMOVE_COMPANY_URL_ARTICLE_VIEW + FINISH_VIEW;
     }
 }

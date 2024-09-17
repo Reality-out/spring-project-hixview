@@ -29,17 +29,17 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
-import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.util.ControllerUtils.encodeWithUTF8;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
+import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
+import static site.hixview.domain.vo.name.ViewName.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -83,18 +83,16 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     public void accessCompanyArticleAddFinish() throws Exception {
         // given
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(articleDto.getName())));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(getWithSingleParam(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL, NAME,
-                        encodeWithUTF8(articleDto.getName())))
+        mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + SINGLE_FINISH_VIEW),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
@@ -222,6 +220,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         CompanyArticle beforeModifyArticle = testCompanyArticle;
         CompanyArticle article = CompanyArticle.builder().article(testNewCompanyArticle)
                 .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
+        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -231,11 +230,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(modifyCompanyArticleFinishUrl + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(commonName)));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(getWithSingleParam(modifyCompanyArticleFinishUrl, NAME, encodeWithUTF8(commonName)))
+        mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + FINISH_VIEW),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
@@ -276,24 +273,21 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         // given
         CompanyArticle article = testCompanyArticle;
         String name = article.getName();
+        String redirectedURL = fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
 
         // when
         Long number = articleService.registerArticle(article).getNumber();
 
         // then
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(number)))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(name)));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         articleService.registerArticle(article);
 
         mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(name)))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL + ALL_QUERY_STRING),
-                        model().attribute(NAME, encodeWithUTF8(name)));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(getWithSingleParam(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL, NAME, encodeWithUTF8(name)))
+        mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + FINISH_VIEW),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
