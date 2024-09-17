@@ -37,6 +37,6 @@ public class MemberDto {
     private Integer days;
 
     @NotBlank
-    @Pattern(regexp = DASHED_PHONE_NUMBER_REGEX)
+    @Pattern(regexp = PHONE_NUMBER_REGEX)
     private String phoneNumber;
 }
