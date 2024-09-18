@@ -34,7 +34,12 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.assertj:assertj-core'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testImplementation(platform('org.junit:junit-bom:5.11.0'))
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+	testRuntimeOnly('org.junit.platform:junit-platform-launcher') {
+		because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
+	}
 }
 
 tasks.withType(JavaCompile).configureEach {
