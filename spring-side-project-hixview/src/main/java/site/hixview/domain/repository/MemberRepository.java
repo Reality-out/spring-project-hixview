@@ -30,5 +30,5 @@ public interface MemberRepository {
     /**
      * REMOVE Member
      */
-    void deleteMember(String id);
+    void deleteMemberById(String id);
 }

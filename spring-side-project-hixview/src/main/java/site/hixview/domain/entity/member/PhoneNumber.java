@@ -8,21 +8,10 @@ import lombok.Getter;
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PhoneNumber implements Comparable<PhoneNumber> {
+public class PhoneNumber {
     private final String countryCode;
     private final String areaCode;
     private final String subscriberNumber;
-
-    @Override
-    public int compareTo(PhoneNumber number) {
-        int countryCompare = countryCode.compareTo(number.getCountryCode());
-        if (countryCompare != 0) return countryCompare;
-
-        int areaCompare = areaCode.compareTo(number.getAreaCode());
-        if (areaCompare != 0) return areaCompare;
-
-        return subscriberNumber.compareTo(number.getSubscriberNumber());
-    }
 
     public String toStringWithDash() {
         return countryCode + "-" + areaCode + "-" + subscriberNumber;

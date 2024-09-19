@@ -109,29 +109,39 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         // given
         IndustryArticle article1 = testEqualDateIndustryArticle;
         IndustryArticle article2 = testNewIndustryArticle;
-        IndustryArticleBufferSimple articleBuffer = testIndustryArticleStringBuffer;
+        IndustryArticleBufferSimple articleBufferOriginal = testIndustryArticleBuffer;
+        IndustryArticleBufferSimple articleBufferAddFaultNameDatePress = IndustryArticleBufferSimple.builder()
+                .articleBuffer(articleBufferOriginal)
+                .nameDatePressString(IndustryArticleBufferSimple.builder().article(testIndustryArticle).build()
+                        .getNameDatePressString().replace("2024-", "")).build();
 
         List<String> nameList = Stream.of(article1, article2)
                 .map(IndustryArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
-        String articleString = articleBuffer.getNameDatePressString();
-
         // then
-        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, articleString);
-                    put(linkString, articleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
-                }}))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
-                .andReturn().getModelAndView()).getModelMap();
+        for (IndustryArticleBufferSimple articleBuffer : List.of(articleBufferOriginal, articleBufferAddFaultNameDatePress)) {
+            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                        put(nameDatePressString, articleBuffer.getNameDatePressString());
+                        put(linkString, articleBuffer.getLinkString());
+                        put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
+                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
+                    }}))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                    .andReturn().getModelAndView()).getModelMap();
 
-        assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-        assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-        assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+
+            articleService.removeArticleByName(article1.getName());
+            articleService.removeArticleByName(article2.getName());
+        }
+
+        articleService.registerArticle(article1);
+        articleService.registerArticle(article2);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
                         ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL,

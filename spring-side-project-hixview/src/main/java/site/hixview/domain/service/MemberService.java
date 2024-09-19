@@ -60,9 +60,9 @@ public class MemberService {
      * REMOVE Member
      */
     @Transactional
-    public void removeMember(String Id) {
+    public void removeMemberById(String Id) {
         existentCheck(Id);
-        memberRepository.deleteMember(Id);
+        memberRepository.deleteMemberById(Id);
     }
 
     /**

@@ -62,11 +62,24 @@ class MemberServiceJdbcTest implements MemberTestUtils {
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_MEMBER_ID);
     }
 
+    @DisplayName("회원 탈퇴")
+    @Test
+    public void withdrawMembership() {
+        // given
+        memberService.registerMember(testMember);
+
+        // when
+        memberService.removeMemberById(testMember.getId());
+
+        // then
+        assertThat(memberService.findMembers()).isEmpty();
+    }
+
     @DisplayName("회원 존재하지 않는 ID로 제거")
     @Test
     public void removeMemberByFaultIDTest() {
         IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> memberService.removeMember("NoneID123"));
+                () -> memberService.removeMemberById(INVALID_VALUE));
         assertThat(e.getMessage()).isEqualTo(NO_MEMBER_WITH_THAT_ID);
     }
 }

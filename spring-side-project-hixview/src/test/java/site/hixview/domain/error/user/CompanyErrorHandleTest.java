@@ -57,7 +57,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @DisplayName("존재하지 않는 기업 코드 또는 기업명을 사용하는 기업 검색")
     @Test
-    public void NotFoundCodeOrNameCompanySearch() throws Exception {
+    public void notFoundCodeOrNameCompanySearch() throws Exception {
         requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL + "000000"))
                 .andExpectAll(redirectedUrl(COMPANY_SUB_URL),
                         flash().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));

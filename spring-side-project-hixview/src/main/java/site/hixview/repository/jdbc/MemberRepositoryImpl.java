@@ -76,7 +76,7 @@ public class MemberRepositoryImpl implements MemberRepository {
      * REMOVE Member
      */
     @Override
-    public void deleteMember(String id) {
+    public void deleteMemberById(String id) {
         jdbcTemplate.execute("delete from " + TEST_MEMBERS_SCHEMA + " where id = '" + id + "'");
     }
 

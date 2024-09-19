@@ -97,6 +97,19 @@ class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtils {
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_ARTICLE_WITH_THAT_NAME);
     }
 
+    @DisplayName("기업 기사 제거")
+    @Test
+    public void removeCompanyArticleTest() {
+        // given
+        articleService.registerArticle(testCompanyArticle);
+
+        // when
+        articleService.removeArticleByName(testCompanyArticle.getName());
+
+        // then
+        assertThat(articleService.findArticles()).isEmpty();
+    }
+
     @DisplayName("기업 기사 존재하지 않는 이름으로 제거")
     @Test
     public void removeCompanyArticleByFaultNameTest() {

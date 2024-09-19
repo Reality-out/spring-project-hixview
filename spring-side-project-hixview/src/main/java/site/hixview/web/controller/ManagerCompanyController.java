@@ -137,6 +137,8 @@ public class ManagerCompanyController {
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
+
+        companyService.correctCompany(Company.builder().companyDto(companyDto).build());
         return REDIRECT_URL + fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
     }
 

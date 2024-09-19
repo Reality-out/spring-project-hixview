@@ -55,13 +55,6 @@ public class Member {
         return memberDto;
     }
 
-    public HashMap<String, Object> toMap() {
-        return new HashMap<>() {{
-            put("identifier", identifier);
-            putAll(toMapWithNoIdentifier());
-        }};
-    }
-
     public HashMap<String, Object> toMapWithNoIdentifier() {
         return new HashMap<>() {{
             put(ID, id);

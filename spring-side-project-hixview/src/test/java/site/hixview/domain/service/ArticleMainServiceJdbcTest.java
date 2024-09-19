@@ -82,6 +82,19 @@ class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
         assertThat(e.getMessage()).isEqualTo(NO_ARTICLE_MAIN_WITH_THAT_NAME);
     }
 
+    @DisplayName("기사 메인 제거")
+    @Test
+    public void removeArticleMainTest() {
+        // given
+        articleMainService.registerArticle(testCompanyArticleMain);
+
+        // when
+        articleMainService.removeArticleByName(testCompanyArticleMain.getName());
+
+        // then
+        assertThat(articleMainService.findArticles()).isEmpty();
+    }
+
     @DisplayName("기사 메인 존재하지 않는 이름으로 제거")
     @Test
     public void removeArticleMainByFaultNameTest() {

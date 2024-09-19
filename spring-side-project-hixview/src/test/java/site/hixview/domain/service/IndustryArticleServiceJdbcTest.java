@@ -97,6 +97,19 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
         assertThat(e.getMessage()).isEqualTo(NO_INDUSTRY_ARTICLE_WITH_THAT_NAME);
     }
 
+    @DisplayName("산업 기사 제거")
+    @Test
+    public void removeIndustryArticleTest() {
+        // given
+        articleService.registerArticle(testIndustryArticle);
+
+        // when
+        articleService.removeArticleByName(testIndustryArticle.getName());
+
+        // then
+        assertThat(articleService.findArticles()).isEmpty();
+    }
+
     @DisplayName("산업 기사 존재하지 않는 이름으로 제거")
     @Test
     public void removeIndustryArticleByFaultNameTest() {

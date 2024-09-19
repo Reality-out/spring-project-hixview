@@ -136,14 +136,15 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // given
         Company beforeModifyCompany = samsungElectronics;
         String commonName = samsungElectronics.getName();
+        Company company = Company.builder().company(skHynix)
+                .name(commonName).code(beforeModifyCompany.getCode()).build();
         String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, commonName).build().toUriString();
 
         // when
         companyService.registerCompany(beforeModifyCompany);
 
         // then
-        mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, Company.builder().company(skHynix)
-                .name(commonName).code(beforeModifyCompany.getCode()).build().toDto()))
+        mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, company.toDto()))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         mockMvc.perform(getWithNoParam(redirectedURL))
@@ -154,7 +155,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         assertThat(companyService.findCompanyByName(commonName).orElseThrow())
                 .usingRecursiveComparison()
-                .isEqualTo(beforeModifyCompany);
+                .isEqualTo(company);
     }
 
     @DisplayName("기업들 조회 페이지 접속")

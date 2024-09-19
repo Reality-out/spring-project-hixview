@@ -79,8 +79,8 @@ public abstract class ControllerUtils {
                 returnArticle.getLast().addAll(List.of(dividedArticle.get(i)
                         .replaceAll("^\\(|\\)$", "").split(",\\s|-")));
                 if (returnArticle.getLast().size() != 5) {
-                    returnArticle.remove(i);
-                    break;
+                    returnArticle.removeLast();
+                    return returnArticle;
                 }
             }
         }

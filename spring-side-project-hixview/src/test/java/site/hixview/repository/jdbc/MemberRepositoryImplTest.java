@@ -277,8 +277,8 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         memberRepository.saveMember(member2);
 
         // then
-        memberRepository.deleteMember(member1.getId());
-        memberRepository.deleteMember(member2.getId());
+        memberRepository.deleteMemberById(member1.getId());
+        memberRepository.deleteMemberById(member2.getId());
         assertThat(memberRepository.getMembers()).isEmpty();
     }
 }

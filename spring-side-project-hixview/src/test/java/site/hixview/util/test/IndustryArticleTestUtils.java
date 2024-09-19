@@ -59,10 +59,10 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
             .subjectSecondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
             .build();
 
-    IndustryArticleBufferSimple testEqualDateIndustryArticleStringBuffer = IndustryArticleBufferSimple.builder()
+    IndustryArticleBufferSimple testEqualDateIndustryArticleBuffer = IndustryArticleBufferSimple.builder()
             .articles(testEqualDateIndustryArticle).build();
 
-    IndustryArticleBufferSimple testIndustryArticleStringBuffer = IndustryArticleBufferSimple.builder()
+    IndustryArticleBufferSimple testIndustryArticleBuffer = IndustryArticleBufferSimple.builder()
             .articles(testEqualDateIndustryArticle, testNewIndustryArticle).build();
 
     /**

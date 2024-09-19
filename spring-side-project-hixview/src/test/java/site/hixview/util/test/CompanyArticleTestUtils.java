@@ -54,10 +54,10 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .importance(0)
             .build();
 
-    CompanyArticleBufferSimple testEqualDateCompanyArticleStringBuffer = CompanyArticleBufferSimple.builder()
+    CompanyArticleBufferSimple testEqualDateCompanyArticleBuffer = CompanyArticleBufferSimple.builder()
             .articles(testEqualDateCompanyArticle).build();
 
-    CompanyArticleBufferSimple testCompanyArticleStringBuffer = CompanyArticleBufferSimple.builder()
+    CompanyArticleBufferSimple testCompanyArticleBuffer = CompanyArticleBufferSimple.builder()
             .articles(testEqualDateCompanyArticle, testNewCompanyArticle).build();
 
     /**

@@ -196,9 +196,9 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateCompanyArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
+                    put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -215,9 +215,9 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateCompanyArticleStringBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleStringBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateCompanyArticleStringBuffer.getLinkString());
+                    put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
+                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleBuffer.getSubjectCompany());
+                    put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -263,44 +263,25 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("존재하지 않는 기업 기사명을 사용하는 기업 기사 변경")
+    @DisplayName("기사명 또는 기사 링크까지 변경을 시도하는, 기업 기사 변경")
     @Test
-    public void notExistNameCompanyArticleModify() throws Exception {
-        // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleService.registerArticle(testCompanyArticle);
-
-        // when
-        articleDto.setName(testNewCompanyArticle.getName());
+    public void changeNameOrLinkCompanyArticleModify() throws Exception {
+        // given & when
+        CompanyArticle article = articleService.registerArticle(testCompanyArticle);
+        companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
+                        CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))
                 .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
-    }
+                        model().attribute(ERROR, (String) null)));
 
-    @DisplayName("존재하지 않는 기업 링크를 사용하는 기업 기사 변경")
-    @Test
-    public void notExistLinkCompanyArticleModify() throws Exception {
-        // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleService.registerArticle(testCompanyArticle);
-
-        // when
-        articleDto.setLink(testNewCompanyArticle.getLink());
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
+                        CompanyArticle.builder().article(article).link(testNewCompanyArticle.getLink()).build()))
                 .andExpectAll(view().name(modifyCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                        model().attribute(ERROR, (String) null)));
     }
 
     @DisplayName("대상 기업이 추가되지 않은 기업 기사 변경")

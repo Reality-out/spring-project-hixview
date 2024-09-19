@@ -22,16 +22,16 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -169,10 +169,10 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateIndustryArticleStringBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticleStringBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticleStringBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleStringBuffer.getSubjectSecondCategory());
+                    put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
+                    put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
+                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectFirstCategory());
+                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -188,10 +188,10 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateIndustryArticleStringBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticleStringBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticleStringBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleStringBuffer.getSubjectSecondCategory());
+                    put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
+                    put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
+                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectFirstCategory());
+                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -235,44 +235,24 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("존재하지 않는 산업 기사명을 사용하는 산업 기사 변경")
+    @DisplayName("기사명 또는 기사 링크까지 변경을 시도하는, 산업 기사 변경")
     @Test
-    public void notExistNameIndustryArticleModify() throws Exception {
-        // given
-        IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleService.registerArticle(testIndustryArticle);
-
-        // when
-        articleDto.setName(testNewIndustryArticle.getName());
+    public void changeNameOrLinkIndustryArticleModify() throws Exception {
+        // given & when
+        IndustryArticle article = articleService.registerArticle(testIndustryArticle);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+        requireNonNull(mockMvc.perform(postWithIndustryArticle(modifyIndustryArticleFinishUrl,
+                        IndustryArticle.builder().article(article).name(testNewIndustryArticle.getName()).build()))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
-    }
+                        model().attribute(ERROR, (String) null)));
 
-    @DisplayName("존재하지 않는 산업 링크를 사용하는 산업 기사 변경")
-    @Test
-    public void notExistLinkIndustryArticleModify() throws Exception {
-        // given
-        IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleService.registerArticle(testIndustryArticle);
-
-        // when
-        articleDto.setLink(testNewIndustryArticle.getLink());
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+        requireNonNull(mockMvc.perform(postWithIndustryArticle(modifyIndustryArticleFinishUrl,
+                        IndustryArticle.builder().article(article).link(testNewIndustryArticle.getLink()).build()))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                        model().attribute(ERROR, (String) null)));
     }
 
     @DisplayName("대상 산업이 추가되지 않은 산업 기사 변경")

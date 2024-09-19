@@ -10,7 +10,6 @@ import site.hixview.domain.entity.Press;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
 
 @Getter
@@ -32,13 +31,6 @@ public class CompanyArticle extends Article {
         companyArticleDto.setImportance(importance);
         companyArticleDto.setSubjectCompany(subjectCompany);
         return companyArticleDto;
-    }
-
-    public HashMap<String, Object> toMap() {
-        return new HashMap<>() {{
-            put(NUMBER, number);
-            putAll(toMapWithNoNumber());
-        }};
     }
 
     public HashMap<String, Object> toMapWithNoNumber() {

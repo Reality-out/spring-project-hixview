@@ -119,31 +119,41 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         // given
         CompanyArticle article1 = testEqualDateCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
-        CompanyArticleBufferSimple articleBuffer = testCompanyArticleStringBuffer;
+        CompanyArticleBufferSimple articleBufferOriginal = testCompanyArticleBuffer;
+        CompanyArticleBufferSimple articleBufferAddFaultNameDatePress = CompanyArticleBufferSimple.builder()
+                .articleBuffer(articleBufferOriginal)
+                .nameDatePressString(CompanyArticleBufferSimple.builder().article(testCompanyArticle).build()
+                        .getNameDatePressString().replace("2024-", "")).build();
 
         List<String> nameList = Stream.of(article1, article2)
                 .map(CompanyArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
-        String articleString = articleBuffer.getNameDatePressString();
-
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, articleString);
-                    put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
-                    put(linkString, articleBuffer.getLinkString());
-                }}))
-                .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
-                .andReturn().getModelAndView()).getModelMap();
+        for (CompanyArticleBufferSimple articleBuffer : List.of(articleBufferOriginal, articleBufferAddFaultNameDatePress)) {
+            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                        put(nameDatePressString, articleBuffer.getNameDatePressString());
+                        put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
+                        put(linkString, articleBuffer.getLinkString());
+                    }}))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                    .andReturn().getModelAndView()).getModelMap();
 
-        assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-        assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-        assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+
+            articleService.removeArticleByName(article1.getName());
+            articleService.removeArticleByName(article2.getName());
+        }
+
+        articleService.registerArticle(article1);
+        articleService.registerArticle(article2);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
                         ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL,

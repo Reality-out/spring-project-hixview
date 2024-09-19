@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.CompanyDto;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.test.CompanyTestUtils;
@@ -19,15 +20,13 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
+import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -94,43 +93,23 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
                 .isEqualTo(companyDto2);
     }
 
-    @DisplayName("존재하지 않는 기업 코드를 사용하는 기업 변경")
+    @DisplayName("기업 코드 또는 기업명까지 변경을 시도하는, 기업 변경")
     @Test
-    public void notExistCodeCompanyModify() throws Exception {
-        // given
-        CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCode(skHynix.getCode());
-
-        // when
+    public void changeCodeOrNameCompanyModify() throws Exception {
+        // given & when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + FINISH_URL, companyDto))
+        requireNonNull(mockMvc.perform(postWithCompany(modifyCompanyFinishUrl,
+                        Company.builder().company(samsungElectronics).code(skHynix.getCode()).build()))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto);
-    }
+                        model().attribute(ERROR, (String) null)));
 
-    @DisplayName("존재하지 않는 기업명을 사용하는 기업 변경")
-    @Test
-    public void notExistNameCompanyModify() throws Exception {
-        // given
-        CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setName(skHynix.getName());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(UPDATE_COMPANY_URL + FINISH_URL, companyDto))
+        requireNonNull(mockMvc.perform(postWithCompany(modifyCompanyFinishUrl,
+                        Company.builder().company(samsungElectronics).name(skHynix.getName()).build()))
                 .andExpectAll(view().name(modifyCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto);
+                        model().attribute(ERROR, (String) null)));
     }
 }

@@ -97,6 +97,19 @@ class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 
+    @DisplayName("기업 제거")
+    @Test
+    public void removeCompanyTest() {
+        // given
+        companyService.registerCompany(samsungElectronics);
+
+        // when
+        companyService.removeCompanyByCode(samsungElectronics.getCode());
+
+        // then
+        assertThat(companyService.findCompanies()).isEmpty();
+    }
+
     @DisplayName("기업 존재하지 않는 코드로 제거")
     @Test
     public void removeCompanyByFaultCodeTest() {

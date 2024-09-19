@@ -123,7 +123,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         // given
         CompanyArticle article1 = testEqualDateCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
-        CompanyArticleBufferSimple articleBuffer = testCompanyArticleStringBuffer;
+        CompanyArticleBufferSimple articleBuffer = testCompanyArticleBuffer;
 
         List<String> nameList = Stream.of(article1, article2)
                 .map(CompanyArticle::getName).collect(Collectors.toList());
@@ -134,10 +134,10 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
                 .replace(article1.getName(), " " + article1.getName());
         String articleStringRightSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), article1.getName() + " ");
-        String articleStringKorean = testCompanyArticleStringBuffer.getNameDatePressString()
+        String articleStringKorean = testCompanyArticleBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().getPressValue())
                 .replace(article2.getPress().name(), article2.getPress().getPressValue());
-        String articleStringLowercase = testCompanyArticleStringBuffer.getNameDatePressString()
+        String articleStringLowercase = testCompanyArticleBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
                 .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
 
@@ -226,7 +226,7 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         // given & when
         IndustryArticle article1 = testEqualDateIndustryArticle;
         IndustryArticle article2 = testNewIndustryArticle;
-        IndustryArticleBufferSimple articleBuffer = testIndustryArticleStringBuffer;
+        IndustryArticleBufferSimple articleBuffer = testIndustryArticleBuffer;
 
         List<String> nameList = Stream.of(article1, article2)
                 .map(IndustryArticle::getName).collect(Collectors.toList());
@@ -237,10 +237,10 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
                 .replace(article1.getName(), " " + article1.getName());
         String articleStringRightSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), article1.getName() + " ");
-        String articleStringKorean = testIndustryArticleStringBuffer.getNameDatePressString()
+        String articleStringKorean = testIndustryArticleBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().getPressValue())
                 .replace(article2.getPress().name(), article2.getPress().getPressValue());
-        String articleStringLowercase = testIndustryArticleStringBuffer.getNameDatePressString()
+        String articleStringLowercase = testIndustryArticleBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
                 .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
 

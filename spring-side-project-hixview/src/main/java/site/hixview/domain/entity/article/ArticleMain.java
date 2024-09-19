@@ -41,13 +41,6 @@ public class ArticleMain {
         return companyArticleDto;
     }
 
-    public HashMap<String, Object> toMap() {
-        return new HashMap<>() {{
-            put(NUMBER, number);
-            putAll(toMapWithNoNumber());
-        }};
-    }
-
     public HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
             put(NAME, name);

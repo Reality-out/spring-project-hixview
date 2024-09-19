@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.test.CompanyTestUtils;
 
@@ -18,10 +17,6 @@ import javax.sql.DataSource;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
@@ -30,6 +25,10 @@ import static site.hixview.domain.vo.manager.RequestURL.REMOVE_COMPANY_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_COMPANY_URL_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_VIEW;
+import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
+import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
+import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -56,7 +55,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
 
     @DisplayName("존재하지 않는 기업 코드 또는 기업명을 사용하여 기업을 검색하는, 기업 변경")
     @Test
-    public void NotFoundCodeOrNameCompanyModify() throws Exception {
+    public void notFoundCodeOrNameCompanyModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
@@ -73,29 +72,9 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 
-    @DisplayName("기업 코드 또는 기업명까지 변경을 시도하는, 기업 변경")
-    @Test
-    public void changeCodeOrNameCompanyModify() throws Exception {
-        // given & when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        requireNonNull(mockMvc.perform(postWithCompany(modifyCompanyFinishUrl,
-                        Company.builder().company(samsungElectronics).code(skHynix.getCode()).build()))
-                .andExpectAll(view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null)));
-
-        requireNonNull(mockMvc.perform(postWithCompany(modifyCompanyFinishUrl,
-                        Company.builder().company(samsungElectronics).name(skHynix.getName()).build()))
-                .andExpectAll(view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null)));
-    }
-
     @DisplayName("존재하지 않는 기업 코드 또는 기업명을 사용하는, 기업 없애기")
     @Test
-    public void NotFoundCodeOrNameCompanyRid() throws Exception {
+    public void notFoundCodeOrNameCompanyRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", ""))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
