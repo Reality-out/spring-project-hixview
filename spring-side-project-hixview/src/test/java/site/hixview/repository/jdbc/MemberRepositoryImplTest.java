@@ -14,6 +14,7 @@ import site.hixview.util.test.MemberTestUtils;
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
@@ -216,6 +217,20 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
+    }
+
+    @DisplayName("비어 있는 회원 획득")
+    @Test
+    public void getEmptyMemberTest() {
+        // given & when
+        Member member = Member.builder().member(testMember).identifier(1L).build();
+
+        // then
+        for (Optional<Member> emptyMember : List.of(
+                memberRepository.getMemberByIdentifier(member.getIdentifier()),
+                memberRepository.getMemberByID(member.getId()))) {
+            assertThat(emptyMember).isEmpty();
+        }
     }
 
     @DisplayName("회원 저장")

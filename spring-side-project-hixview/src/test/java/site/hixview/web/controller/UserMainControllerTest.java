@@ -1,4 +1,4 @@
-package site.hixview.web.controller.user;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,12 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.name.SchemaName.*;
-import static site.hixview.domain.vo.name.ViewName.FINISH_VIEW;
-import static site.hixview.domain.vo.name.ViewName.PROCESS_VIEW;
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
-import static site.hixview.domain.vo.user.RequestUrl.FIND_ID_URL;
-import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
 @SpringBootTest
@@ -123,9 +121,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     @DisplayName("로그인 페이지 접속")
     @Test
     public void accessLogin() throws Exception {
-        mockMvc.perform(get("/login"))
+        mockMvc.perform(get(LOGIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(LOGIN_VIEW + "login-page"),
+                        view().name(LOGIN_VIEW + VIEW_SHOW),
                         model().attribute("membership", MEMBERSHIP_URL),
                         model().attribute("findId", FIND_ID_URL));
     }
@@ -135,7 +133,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     public void accessFindId() throws Exception {
         mockMvc.perform(get(FIND_ID_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(FIND_ID_VIEW + PROCESS_VIEW),
+                        view().name(FIND_ID_VIEW + VIEW_PROCESS),
                         model().attributeExists(MEMBER));
     }
 
@@ -171,7 +169,7 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
         mockMvc.perform(getWithSingleParam(FIND_ID_URL + FINISH_URL, idListString, idListForUrl))
                 .andExpectAll(status().isOk(),
-                        view().name(FIND_ID_VIEW + FINISH_VIEW),
+                        view().name(FIND_ID_VIEW + VIEW_FINISH),
                         model().attribute(idListString, idList));
     }
 }

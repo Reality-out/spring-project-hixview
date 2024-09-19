@@ -9,8 +9,8 @@ import site.hixview.domain.entity.article.ArticleMainDto;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.AFTER_PROCESS_VIEW;
-import static site.hixview.domain.vo.name.ViewName.PROCESS_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ARTICLE_MAIN_VIEW;
@@ -21,8 +21,8 @@ import static site.hixview.util.test.IndustryArticleTestUtils.testIndustryArticl
 
 public interface ArticleMainTestUtils extends ObjectTestUtils {
     // Assertion
-    String addArticleMainProcessPage = ADD_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
-    String modifyArticleMainProcessPage = UPDATE_ARTICLE_MAIN_VIEW + AFTER_PROCESS_VIEW;
+    String addArticleMainProcessPage = ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
+    String modifyArticleMainProcessPage = UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
     String modifyArticleMainFinishUrl = UPDATE_ARTICLE_MAIN_URL + FINISH_URL;
 
     // Test Object

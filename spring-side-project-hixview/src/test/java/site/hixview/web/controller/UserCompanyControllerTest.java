@@ -1,4 +1,4 @@
-package site.hixview.web.controller.user;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.ViewName.SHOW_VIEW;
-import static site.hixview.domain.vo.name.ViewName.SUB_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
@@ -57,7 +57,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanySubPage() throws Exception {
         mockMvc.perform(get(COMPANY_SUB_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(COMPANY_VIEW + SUB_VIEW),
+                        view().name(COMPANY_VIEW + VIEW_SUB),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT),
                         model().attribute("companySearch", COMPANY_SEARCH_URL));
     }
@@ -74,7 +74,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getCode()))
                 .andExpectAll(status().isOk(),
-                        view().name(COMPANY_VIEW + SHOW_VIEW),
+                        view().name(COMPANY_VIEW + VIEW_SHOW),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()
@@ -82,7 +82,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
 
         assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getName()))
                 .andExpectAll(status().isOk(),
-                        view().name(COMPANY_VIEW + SHOW_VIEW),
+                        view().name(COMPANY_VIEW + VIEW_SHOW),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                 .usingRecursiveComparison()

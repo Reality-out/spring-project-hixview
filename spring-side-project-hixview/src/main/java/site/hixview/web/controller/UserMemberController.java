@@ -21,8 +21,8 @@ import site.hixview.domain.validation.validator.MemberBirthValidator;
 import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.FINISH_VIEW;
-import static site.hixview.domain.vo.name.ViewName.PROCESS_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.ERRORS_ARE;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
@@ -46,7 +46,7 @@ public class UserMemberController {
     @ResponseStatus(HttpStatus.OK)
     public String processMembershipPage(Model model) {
         model.addAttribute(MEMBER, new MemberDto());
-        return MEMBERSHIP_VIEW + PROCESS_VIEW;
+        return MEMBERSHIP_VIEW + VIEW_PROCESS;
     }
 
     @PostMapping(MEMBERSHIP_URL)
@@ -55,13 +55,13 @@ public class UserMemberController {
                                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), model);
-            return MEMBERSHIP_VIEW + PROCESS_VIEW;
+            return MEMBERSHIP_VIEW + VIEW_PROCESS;
         }
 
         birthValidator.validate(memberDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), model);
-            return MEMBERSHIP_VIEW + PROCESS_VIEW;
+            return MEMBERSHIP_VIEW + VIEW_PROCESS;
         }
 
         memberService.registerMember(Member.builder().memberDto(memberDto).build());
@@ -71,7 +71,7 @@ public class UserMemberController {
     @GetMapping(MEMBERSHIP_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishMembershipPage() {
-        return MEMBERSHIP_VIEW + FINISH_VIEW;
+        return MEMBERSHIP_VIEW + VIEW_FINISH;
     }
 
     /**

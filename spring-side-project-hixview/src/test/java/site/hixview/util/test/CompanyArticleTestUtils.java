@@ -12,8 +12,8 @@ import java.time.LocalDate;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.AFTER_PROCESS_VIEW;
-import static site.hixview.domain.vo.name.ViewName.SINGLE_PROCESS_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_COMPANY_ARTICLE_VIEW;
@@ -21,9 +21,9 @@ import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIE
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
     // Assertion
-    String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
+    String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     String addStringCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
-    String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + AFTER_PROCESS_VIEW;
+    String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + FINISH_URL;
 
     // Test Object

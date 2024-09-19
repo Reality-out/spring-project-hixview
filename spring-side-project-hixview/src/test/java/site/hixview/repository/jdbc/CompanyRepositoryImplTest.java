@@ -13,6 +13,7 @@ import site.hixview.util.test.CompanyArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
@@ -83,6 +84,20 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
         // then
         assertThat(companyRepository.getCompanyByName(company1.getName()).orElseThrow()).usingRecursiveComparison().isEqualTo(company1);
         assertThat(companyRepository.getCompanyByName(company2.getName()).orElseThrow()).usingRecursiveComparison().isEqualTo(company2);
+    }
+
+    @DisplayName("비어 있는 기업 획득")
+    @Test
+    public void getEmptyCompanyTest() {
+        // given & when
+        Company company = samsungElectronics;
+
+        // then
+        for (Optional<Company> emptyCompany : List.of(
+                companyRepository.getCompanyByCode(company.getCode()),
+                companyRepository.getCompanyByName(company.getName()))) {
+            assertThat(emptyCompany).isEmpty();
+        }
     }
 
     @DisplayName("기업 저장")

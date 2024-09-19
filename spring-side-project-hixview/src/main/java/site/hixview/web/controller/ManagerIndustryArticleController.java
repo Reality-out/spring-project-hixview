@@ -65,7 +65,7 @@ public class ManagerIndustryArticleController {
     public String processAddIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new IndustryArticleDto());
-        return ADD_INDUSTRY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
+        return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     }
 
     @PostMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL)
@@ -73,13 +73,13 @@ public class ManagerIndustryArticleController {
                                           BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            return ADD_INDUSTRY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
+            return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
         }
 
         complexValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, null, model);
-            return ADD_INDUSTRY_ARTICLE_VIEW + SINGLE_PROCESS_VIEW;
+            return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
         }
 
         articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
@@ -91,7 +91,7 @@ public class ManagerIndustryArticleController {
     public String finishAddIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return ADD_INDUSTRY_ARTICLE_VIEW + SINGLE_FINISH_VIEW;
+        return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
 
     /**
@@ -206,7 +206,7 @@ public class ManagerIndustryArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-		return UPDATE_INDUSTRY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW;
+		return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
 	}
 
     @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL)
@@ -215,13 +215,13 @@ public class ManagerIndustryArticleController {
         Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_INDUSTRY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR, model);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW;
+            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
-        return UPDATE_INDUSTRY_ARTICLE_VIEW + AFTER_PROCESS_VIEW;
+        return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
 
     @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
@@ -230,14 +230,14 @@ public class ManagerIndustryArticleController {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + AFTER_PROCESS_VIEW;
+            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
             model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + AFTER_PROCESS_VIEW;
+            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
         }
 
         articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
@@ -249,7 +249,7 @@ public class ManagerIndustryArticleController {
 	public String finishModifyIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return UPDATE_INDUSTRY_ARTICLE_VIEW + FINISH_VIEW;
+        return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
 	}
 
     /**
@@ -259,7 +259,7 @@ public class ManagerIndustryArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processRidIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT);
-        return REMOVE_INDUSTRY_ARTICLE_VIEW + PROCESS_VIEW;
+        return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS;
     }
 
     @PostMapping(REMOVE_INDUSTRY_ARTICLE_URL)
@@ -267,7 +267,7 @@ public class ManagerIndustryArticleController {
         Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_INDUSTRY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, REMOVE_PROCESS_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR, model);
-            return REMOVE_INDUSTRY_ARTICLE_VIEW + PROCESS_VIEW;
+            return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS;
         }
 
         if (NUMBER_PATTERN.matcher(numberOrName).matches()) {
@@ -282,6 +282,6 @@ public class ManagerIndustryArticleController {
     public String finishRidIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return REMOVE_INDUSTRY_ARTICLE_VIEW + FINISH_VIEW;
+        return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
     }
 }

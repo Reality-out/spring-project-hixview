@@ -28,8 +28,8 @@ import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
-import static site.hixview.domain.vo.name.ViewName.BEFORE_PROCESS_VIEW;
-import static site.hixview.domain.vo.name.ViewName.PROCESS_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
@@ -149,17 +149,17 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void NotFoundNumberOrNameCompanyArticleModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", "1"))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }
@@ -189,17 +189,17 @@ public class CompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
     @Test
     public void NotFoundArticleNumberOrNameCompanyArticleRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", ""))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", "1"))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
     }

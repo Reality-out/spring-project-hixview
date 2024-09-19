@@ -16,8 +16,8 @@ import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_EXIST_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.SHOW_VIEW;
-import static site.hixview.domain.vo.name.ViewName.SUB_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
@@ -44,7 +44,7 @@ public class UserCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processCompanySubPage(Model model) {
         model.addAttribute("companySearch", COMPANY_SEARCH_URL);
-        return COMPANY_VIEW + SUB_VIEW;
+        return COMPANY_VIEW + VIEW_SUB;
     }
 
     /**
@@ -62,6 +62,6 @@ public class UserCompanyController {
             return REDIRECT_URL + COMPANY_SUB_URL;
         }
         model.addAttribute(COMPANY, companyService.findCompanyByCodeOrName(codeOrName).orElseThrow());
-        return COMPANY_VIEW + SHOW_VIEW;
+        return COMPANY_VIEW + VIEW_SHOW;
     }
 }

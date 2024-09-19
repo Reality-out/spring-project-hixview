@@ -55,7 +55,7 @@ public class ManagerCompanyController {
         model.addAttribute(COMPANY, new CompanyDto());
         model.addAttribute("countries", Country.values());
         model.addAttribute("scales", Scale.values());
-        return ADD_COMPANY_VIEW + SINGLE_PROCESS_VIEW;
+        return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
     }
 
     @PostMapping(ADD_SINGLE_COMPANY_URL)
@@ -63,13 +63,13 @@ public class ManagerCompanyController {
                                    BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            return ADD_COMPANY_VIEW + SINGLE_PROCESS_VIEW;
+            return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
         }
 
         addValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, null, model);
-            return ADD_COMPANY_VIEW + SINGLE_PROCESS_VIEW;
+            return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
         }
 
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
@@ -81,7 +81,7 @@ public class ManagerCompanyController {
     public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return ADD_COMPANY_VIEW + SINGLE_FINISH_VIEW;
+        return ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH;
     }
 
     /**
@@ -102,7 +102,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String initiateModifyCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        return UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW;
+        return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS;
     }
 
     @PostMapping(UPDATE_COMPANY_URL)
@@ -111,7 +111,7 @@ public class ManagerCompanyController {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
             finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, UPDATE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ERROR, model);
-            return UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW;
+            return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS;
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
@@ -119,7 +119,7 @@ public class ManagerCompanyController {
         model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
         model.addAttribute("countries", Country.values());
         model.addAttribute("scales", Scale.values());
-        return UPDATE_COMPANY_VIEW + AFTER_PROCESS_VIEW;
+        return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
     }
 
     @PostMapping(UPDATE_COMPANY_URL + FINISH_URL)
@@ -128,14 +128,14 @@ public class ManagerCompanyController {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
-            return UPDATE_COMPANY_VIEW + AFTER_PROCESS_VIEW;
+            return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
             model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
-            return UPDATE_COMPANY_VIEW + AFTER_PROCESS_VIEW;
+            return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
         return REDIRECT_URL + fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
     }
@@ -145,7 +145,7 @@ public class ManagerCompanyController {
     public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return UPDATE_COMPANY_VIEW + FINISH_VIEW;
+        return UPDATE_COMPANY_VIEW + VIEW_FINISH;
     }
 
     /**
@@ -155,7 +155,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processRidCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT);
-        return REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW;
+        return REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS;
     }
 
     @PostMapping(REMOVE_COMPANY_URL)
@@ -163,7 +163,7 @@ public class ManagerCompanyController {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
             finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, REMOVE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ERROR, model);
-            return REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW;
+            return REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS;
         }
 
         if (NUMBER_PATTERN.matcher(codeOrName).matches()) {
@@ -179,7 +179,7 @@ public class ManagerCompanyController {
     public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return REMOVE_COMPANY_URL_VIEW + FINISH_VIEW;
+        return REMOVE_COMPANY_URL_VIEW + VIEW_FINISH;
     }
 
     /**

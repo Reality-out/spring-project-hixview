@@ -41,6 +41,10 @@ import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
+import static site.hixview.domain.vo.user.RequestUrl.*;
+import static site.hixview.domain.vo.user.ViewName.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -73,6 +77,17 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
     public void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
         resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
+    }
+
+    @DisplayName("URL 맨 끝 슬래시 제거 필터 테스트")
+    @Test
+    public void handleUrlLastSlashFilterTest() throws Exception {
+        mockMvc.perform(getWithNoParam(LOGIN_URL + "/"))
+                .andExpectAll(status().isOk(), view().name(LOGIN_VIEW + VIEW_SHOW));
+        mockMvc.perform(getWithNoParam(FIND_ID_URL + "/"))
+                .andExpectAll(status().isOk(), view().name(FIND_ID_VIEW + VIEW_PROCESS));
+        mockMvc.perform(getWithNoParam(MEMBERSHIP_URL + "/"))
+                .andExpectAll(status().isOk(), view().name(MEMBERSHIP_VIEW + VIEW_PROCESS));
     }
 
     @DisplayName("기업 기사 추가에 대한 기사 지원 필터 테스트")

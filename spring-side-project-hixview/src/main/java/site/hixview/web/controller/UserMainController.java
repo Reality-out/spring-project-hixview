@@ -27,12 +27,10 @@ import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_ARTICLE_WITH_TH
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.FINISH_VIEW;
-import static site.hixview.domain.vo.name.ViewName.PROCESS_VIEW;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
-import static site.hixview.domain.vo.user.RequestUrl.FIND_ID_URL;
-import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
 @Controller
@@ -84,12 +82,12 @@ public class UserMainController {
     /**
      * Login
      */
-    @GetMapping("/login")
+    @GetMapping(LOGIN_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processLoginPage(Model model) {
         model.addAttribute("membership", MEMBERSHIP_URL);
         model.addAttribute("findId", FIND_ID_URL);
-        return LOGIN_VIEW + "login-page";
+        return LOGIN_VIEW + VIEW_SHOW;
     }
 
     /**
@@ -99,7 +97,7 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.OK)
     public String processFindIdPage(Model model) {
         model.addAttribute(MEMBER, new MemberDto());
-        return FIND_ID_VIEW + PROCESS_VIEW;
+        return FIND_ID_VIEW + VIEW_PROCESS;
     }
 
     @PostMapping(FIND_ID_URL)
@@ -115,6 +113,6 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.OK)
     public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
         model.addAttribute("idList", ControllerUtils.decodeWithUTF8(idList));
-        return FIND_ID_VIEW + FINISH_VIEW;
+        return FIND_ID_VIEW + VIEW_FINISH;
     }
 }

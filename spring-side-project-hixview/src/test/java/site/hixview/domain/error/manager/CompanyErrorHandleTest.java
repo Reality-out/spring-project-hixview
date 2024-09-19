@@ -20,8 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.ViewName.BEFORE_PROCESS_VIEW;
-import static site.hixview.domain.vo.name.ViewName.PROCESS_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
@@ -58,17 +58,17 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
     @Test
     public void NotFoundCodeOrNameCompanyModify() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", ""))
-                .andExpectAll(view().name(UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW),
+                .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", "000000"))
-                .andExpectAll(view().name(UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW),
+                .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW),
+                .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
@@ -97,17 +97,17 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
     @Test
     public void NotFoundCodeOrNameCompanyRid() throws Exception {
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", ""))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", "000000"))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW),
+                .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }

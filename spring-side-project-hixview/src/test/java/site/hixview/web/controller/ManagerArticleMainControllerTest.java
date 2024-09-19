@@ -1,4 +1,4 @@
-package site.hixview.web.controller.manager;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -79,7 +79,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_ARTICLE_MAIN_VIEW + FINISH_VIEW),
+                        view().name(ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(VALUE, articleDto.getName()));
 
@@ -94,7 +94,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     public void accessArticleMainModify() throws Exception {
         mockMvc.perform(get(UPDATE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_ARTICLE_MAIN_VIEW + BEFORE_PROCESS_VIEW),
+                        view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT));
     }
 
@@ -146,7 +146,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_ARTICLE_MAIN_VIEW + FINISH_VIEW),
+                        view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
                         model().attribute(VALUE, commonName));
 
@@ -176,7 +176,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     public void accessArticleMainRid() throws Exception {
         mockMvc.perform(get(REMOVE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_ARTICLE_MAIN_VIEW + PROCESS_VIEW),
+                        view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
     }
 
@@ -201,7 +201,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_ARTICLE_MAIN_VIEW + FINISH_VIEW),
+                        view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
                         model().attribute(VALUE, name));
 

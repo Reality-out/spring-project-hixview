@@ -14,6 +14,7 @@ import site.hixview.util.test.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
@@ -101,6 +102,21 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article);
+    }
+
+    @DisplayName("비어 있는 기사 메인 획득")
+    @Test
+    public void getEmptyArticleMainTest() {
+        // given & when
+        ArticleMain article = ArticleMain.builder().article(testCompanyArticleMain).number(1L).build();
+
+        // then
+        for (Optional<ArticleMain> emptyArticle : List.of(
+                articleRepository.getArticleByNumber(article.getNumber()),
+                articleRepository.getArticleByName(article.getName()),
+                articleRepository.getArticleByImagePath(article.getImagePath()))) {
+            assertThat(emptyArticle).isEmpty();
+        }
     }
 
     @DisplayName("기사 메인 저장")

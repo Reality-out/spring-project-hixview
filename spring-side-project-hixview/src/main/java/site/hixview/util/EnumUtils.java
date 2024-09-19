@@ -5,7 +5,7 @@ import site.hixview.domain.error.NotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class EnumUtils {
+public abstract class EnumUtils {
     private static final String NO_GET_VALUE_FOR_THE_ENUM = "해당 enum 타입에 getValue 메소드가 없습니다.";
     private static final String CANNOT_INVOKE_GET_VALUE = "getValue 메소드를 촉발할 수 없습니다.";
     private static final String NOT_HAVE_ACCESS_TO_GET_VALUE = "getValue 메소드에 대한 접근권이 없습니다.";

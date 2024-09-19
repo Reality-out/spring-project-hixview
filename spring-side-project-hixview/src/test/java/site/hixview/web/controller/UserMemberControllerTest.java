@@ -1,4 +1,4 @@
-package site.hixview.web.controller.user;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.FINISH_VIEW;
+import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 
@@ -43,6 +43,6 @@ class UserMemberControllerTest implements MemberTestUtils {
 
         mockMvc.perform(get(MEMBERSHIP_URL + FINISH_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(MEMBERSHIP_VIEW + FINISH_VIEW));
+                        view().name(MEMBERSHIP_VIEW + VIEW_FINISH));
     }
 }

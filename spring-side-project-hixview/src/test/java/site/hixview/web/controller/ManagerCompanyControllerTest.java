@@ -1,4 +1,4 @@
-package site.hixview.web.controller.manager;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -81,7 +81,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_VIEW + SINGLE_FINISH_VIEW),
+                        view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(VALUE, companyDto.getName()));
 
@@ -95,7 +95,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyModify() throws Exception {
         mockMvc.perform(get(UPDATE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + BEFORE_PROCESS_VIEW),
+                        view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT));
     }
 
@@ -148,7 +148,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_VIEW + FINISH_VIEW),
+                        view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
                         model().attribute(VALUE, commonName));
 
@@ -177,7 +177,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     public void accessCompanyRid() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_URL_VIEW + PROCESS_VIEW),
+                        view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
     }
 
@@ -202,7 +202,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_URL_VIEW + FINISH_VIEW),
+                        view().name(REMOVE_COMPANY_URL_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
                         model().attribute(VALUE, name));
 

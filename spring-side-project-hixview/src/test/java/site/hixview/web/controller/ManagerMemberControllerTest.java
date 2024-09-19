@@ -1,4 +1,4 @@
-package site.hixview.web.controller.manager;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

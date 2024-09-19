@@ -53,7 +53,7 @@ public class ManagerArticleMainController {
     public String processAddArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new ArticleMainDto());
-        return ADD_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
+        return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
     }
 
     @PostMapping(ADD_ARTICLE_MAIN_URL)
@@ -61,13 +61,13 @@ public class ManagerArticleMainController {
                                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            return ADD_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
+            return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
         }
 
         addValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, null, model);
-            return ADD_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
+            return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
         }
 
         articleMainService.registerArticle(ArticleMain.builder().articleDto(articleMainDto).build());
@@ -79,7 +79,7 @@ public class ManagerArticleMainController {
     public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return ADD_ARTICLE_MAIN_VIEW + FINISH_VIEW;
+        return ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }
 
     /**
@@ -100,7 +100,7 @@ public class ManagerArticleMainController {
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-		return UPDATE_ARTICLE_MAIN_VIEW + BEFORE_PROCESS_VIEW;
+		return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS;
 	}
 
     @PostMapping(UPDATE_ARTICLE_MAIN_URL)
@@ -110,13 +110,13 @@ public class ManagerArticleMainController {
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
                     UPDATE_PROCESS_LAYOUT, NOT_FOUND_ARTICLE_MAIN_ERROR, model);
-            return UPDATE_ARTICLE_MAIN_VIEW + BEFORE_PROCESS_VIEW;
+            return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS;
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
-        return UPDATE_ARTICLE_MAIN_VIEW + AFTER_PROCESS_VIEW;
+        return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
     }
 
     @PostMapping(UPDATE_ARTICLE_MAIN_URL + FINISH_URL)
@@ -125,14 +125,14 @@ public class ManagerArticleMainController {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
-            return UPDATE_ARTICLE_MAIN_VIEW + AFTER_PROCESS_VIEW;
+            return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
             model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
-            return UPDATE_ARTICLE_MAIN_VIEW + AFTER_PROCESS_VIEW;
+            return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
         }
 
         articleMainService.correctArticle(ArticleMain.builder().articleDto(articleMainDto).build());
@@ -144,7 +144,7 @@ public class ManagerArticleMainController {
 	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return UPDATE_ARTICLE_MAIN_VIEW + FINISH_VIEW;
+        return UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
 	}
 
     /**
@@ -154,7 +154,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String processRidArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT);
-        return REMOVE_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
+        return REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
     }
 
     @PostMapping(REMOVE_ARTICLE_MAIN_URL)
@@ -163,7 +163,7 @@ public class ManagerArticleMainController {
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
                     REMOVE_PROCESS_LAYOUT, NOT_FOUND_ARTICLE_MAIN_ERROR, model);
-            return REMOVE_ARTICLE_MAIN_VIEW + PROCESS_VIEW;
+            return REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
         }
 
         if (NUMBER_PATTERN.matcher(numberOrName).matches()) {
@@ -178,6 +178,6 @@ public class ManagerArticleMainController {
     public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
         model.addAttribute(VALUE, name);
-        return REMOVE_ARTICLE_MAIN_VIEW + FINISH_VIEW;
+        return REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }
 }

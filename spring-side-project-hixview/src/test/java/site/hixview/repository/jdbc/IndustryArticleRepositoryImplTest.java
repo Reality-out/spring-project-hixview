@@ -14,11 +14,12 @@ import site.hixview.util.test.IndustryArticleTestUtils;
 import javax.sql.DataSource;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
-import static site.hixview.domain.vo.Word.NAME;
 
 @SpringBootTest
 @Transactional
@@ -187,6 +188,21 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
                 .isEqualTo(article2);
+    }
+
+    @DisplayName("비어 있는 산업 기사 획득")
+    @Test
+    public void getEmptyIndustryArticleTest() {
+        // given & when
+        IndustryArticle article = IndustryArticle.builder().article(testIndustryArticle).number(1L).build();
+
+        // then
+        for (Optional<IndustryArticle> emptyArticle : List.of(
+                articleRepository.getArticleByNumber(article.getNumber()),
+                articleRepository.getArticleByName(article.getName()),
+                articleRepository.getArticleByLink(article.getLink()))) {
+            assertThat(emptyArticle).isEmpty();
+        }
     }
 
     @DisplayName("산업 기사 저장")

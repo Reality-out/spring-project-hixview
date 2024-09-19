@@ -1,4 +1,4 @@
-package site.hixview.web.controller.manager;
+package site.hixview.web.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,14 +10,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import site.hixview.domain.entity.article.CompanyArticle;
-import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
-import site.hixview.domain.entity.article.CompanyArticleDto;
-import site.hixview.domain.service.CompanyArticleService;
-import site.hixview.domain.service.CompanyService;
+import site.hixview.domain.entity.article.IndustryArticle;
+import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
+import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.util.ControllerUtils;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.CompanyTestUtils;
+import site.hixview.util.test.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -37,64 +35,56 @@ import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
+import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 import static site.hixview.domain.vo.name.ViewName.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, CompanyTestUtils {
+class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleService articleService;
-
-    @Autowired
-    CompanyService companyService;
+    IndustryArticleService articleService;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public ManagerCompanyArticleControllerTest(DataSource dataSource) {
+    public ManagerIndustryArticleControllerTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
     public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
-    @DisplayName("기업 기사 추가 페이지 접속")
+    @DisplayName("산업 기사 추가 페이지 접속")
     @Test
-    public void accessCompanyArticleAdd() throws Exception {
-        mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
+    public void accessIndustryArticleAdd() throws Exception {
+        mockMvc.perform(get(ADD_SINGLE_INDUSTRY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(addSingleCompanyArticleProcessPage),
+                        view().name(addSingleIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attributeExists(ARTICLE));
     }
 
-    @DisplayName("기업 기사 추가 완료 페이지 접속")
+    @DisplayName("산업 기사 추가 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleAddFinish() throws Exception {
-        // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
-
-        // when
-        companyService.registerCompany(samsungElectronics);
+    public void accessIndustryArticleAddFinish() throws Exception {
+        // given & when
+        IndustryArticleDto articleDto = createTestIndustryArticleDto();
+        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + SINGLE_FINISH_VIEW),
+                        view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(VALUE, articleDto.getName()));
 
@@ -104,41 +94,39 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("문자열을 사용하는 기업 기사들 추가 페이지 접속")
+    @DisplayName("문자열을 사용하는 산업 기사들 추가 페이지 접속")
     @Test
-    public void accessCompanyArticleAddWithString() throws Exception {
-        mockMvc.perform(get(ADD_COMPANY_ARTICLE_WITH_STRING_URL))
+    public void accessIndustryArticleAddWithString() throws Exception {
+        mockMvc.perform(get(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(addStringCompanyArticleProcessPage),
+                        view().name(addStringIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT));
     }
 
-    @DisplayName("문자열을 사용하는 기업 기사들 추가 완료 페이지 접속")
+    @DisplayName("문자열을 사용하는 산업 기사들 추가 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleAddWithStringFinish() throws Exception {
+    public void accessIndustryArticleAddWithStringFinish() throws Exception {
         // given
-        CompanyArticle article1 = testEqualDateCompanyArticle;
-        CompanyArticle article2 = testNewCompanyArticle;
-        CompanyArticleBufferSimple articleBuffer = testCompanyArticleStringBuffer;
+        IndustryArticle article1 = testEqualDateIndustryArticle;
+        IndustryArticle article2 = testNewIndustryArticle;
+        IndustryArticleBufferSimple articleBuffer = testIndustryArticleStringBuffer;
 
         List<String> nameList = Stream.of(article1, article2)
-                .map(CompanyArticle::getName).collect(Collectors.toList());
+                .map(IndustryArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
         String nameListString = "nameList";
 
         String articleString = articleBuffer.getNameDatePressString();
 
-        // when
-        companyService.registerCompany(samsungElectronics);
-
         // then
-        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
                     put(nameDatePressString, articleString);
-                    put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
                     put(linkString, articleBuffer.getLinkString());
+                    put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
+                    put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
                 }}))
                 .andExpectAll(status().isFound(),
-                        redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                        redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                 .andReturn().getModelAndView()).getModelMap();
 
         assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
@@ -146,14 +134,14 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
-                        ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL,
+                        ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL,
                         new HashMap<>() {{
                             put(nameListString, nameListForURL);
                             put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
                             put(ERROR_SINGLE, null);
                         }}))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multiple-finish-page"),
+                        view().name(ADD_INDUSTRY_ARTICLE_VIEW + "multiple-finish-page"),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(nameListString, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
@@ -173,68 +161,67 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .isEqualTo(article2);
     }
 
-    @DisplayName("기업 기사 변경 페이지 접속")
+    @DisplayName("산업 기사 변경 페이지 접속")
     @Test
-    public void accessCompanyArticleModify() throws Exception {
-        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
+    public void accessIndustryArticleModify() throws Exception {
+        mockMvc.perform(get(UPDATE_INDUSTRY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + BEFORE_PROCESS_VIEW),
+                        view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT));
     }
 
-    @DisplayName("기업 기사 변경 페이지 검색")
+    @DisplayName("산업 기사 변경 페이지 검색")
     @Test
-    public void searchCompanyArticleModify() throws Exception {
+    public void searchIndustryArticleModify() throws Exception {
         // given
-        CompanyArticle article = testCompanyArticle;
+        IndustryArticle article = testIndustryArticle;
 
         // when
         article = articleService.registerArticle(article);
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
+                        UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
                 .andExpectAll(status().isOk(),
-                        view().name(modifyCompanyArticleProcessPage),
+                        view().name(modifyIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyCompanyArticleFinishUrl))
+                        model().attribute("updateUrl", modifyIndustryArticleFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
 
         assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_COMPANY_ARTICLE_URL, "numberOrName", article.getName()))
+                        UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", article.getName()))
                 .andExpectAll(status().isOk(),
-                        view().name(modifyCompanyArticleProcessPage),
+                        view().name(modifyIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyCompanyArticleFinishUrl))
+                        model().attribute("updateUrl", modifyIndustryArticleFinishUrl))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(article.toDto());
     }
 
-    @DisplayName("기업 기사 변경 완료 페이지 접속")
+    @DisplayName("산업 기사 변경 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleModifyFinish() throws Exception {
+    public void accessIndustryArticleModifyFinish() throws Exception {
         // given
-        CompanyArticle beforeModifyArticle = testCompanyArticle;
-        CompanyArticle article = CompanyArticle.builder().article(testNewCompanyArticle)
+        IndustryArticle beforeModifyArticle = testIndustryArticle;
+        IndustryArticle article = IndustryArticle.builder().article(testNewIndustryArticle)
                 .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
-        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
 
         // when
-        companyService.registerCompany(samsungElectronics);
         articleService.registerArticle(beforeModifyArticle);
         String commonName = beforeModifyArticle.getName();
-        CompanyArticleDto articleDto = article.toDto();
+        IndustryArticleDto articleDto = article.toDto();
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+        mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(UPDATE_COMPANY_ARTICLE_VIEW + FINISH_VIEW),
+                        view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
                         model().attribute(VALUE, commonName));
 
@@ -243,53 +230,53 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("기업 기사들 조회 페이지 접속")
+    @DisplayName("산업 기사들 조회 페이지 접속")
     @Test
-    public void accessCompanyArticlesInquiry() throws Exception {
+    public void accessIndustryArticlesInquiry() throws Exception {
         // given & when
-        List<CompanyArticle> articleList = articleService.registerArticles(testCompanyArticle, testNewCompanyArticle);
+        List<IndustryArticle> articleList = articleService.registerArticles(testIndustryArticle, testNewIndustryArticle);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_INDUSTRY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "company-articles-page"))
+                        view().name(SELECT_VIEW + "industry-articles-page"))
                 .andReturn().getModelAndView()).getModelMap().get("articles"))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
     }
 
-    @DisplayName("기업 기사 없애기 페이지 접속")
+    @DisplayName("산업 기사 없애기 페이지 접속")
     @Test
-    public void accessCompanyArticleRid() throws Exception {
-        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
+    public void accessIndustryArticleRid() throws Exception {
+        mockMvc.perform(get(REMOVE_INDUSTRY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + PROCESS_VIEW),
+                        view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
     }
 
-    @DisplayName("기업 기사 없애기 완료 페이지 접속")
+    @DisplayName("산업 기사 없애기 완료 페이지 접속")
     @Test
-    public void accessCompanyArticleRidFinish() throws Exception {
+    public void accessIndustryArticleRidFinish() throws Exception {
         // given
-        CompanyArticle article = testCompanyArticle;
+        IndustryArticle article = testIndustryArticle;
         String name = article.getName();
-        String redirectedURL = fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
+        String redirectedURL = fromPath(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
 
         // when
         Long number = articleService.registerArticle(article).getNumber();
 
         // then
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(number)))
+        mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", String.valueOf(number)))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         articleService.registerArticle(article);
 
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, "numberOrName", String.valueOf(name)))
+        mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", String.valueOf(name)))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),
-                        view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + FINISH_VIEW),
+                        view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
                         model().attribute(VALUE, name));
 
