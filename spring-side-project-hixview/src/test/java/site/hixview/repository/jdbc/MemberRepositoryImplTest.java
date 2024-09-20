@@ -114,6 +114,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
+
         assertThat(memberRepository.getMembersByBirth(member2.getBirth()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
@@ -191,6 +192,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
+
         assertThat(memberRepository.getMemberByIdentifier(2L).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
@@ -213,6 +215,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
+
         assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)

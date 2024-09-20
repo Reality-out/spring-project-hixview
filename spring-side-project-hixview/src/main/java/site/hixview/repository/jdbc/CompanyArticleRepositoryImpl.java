@@ -1,6 +1,7 @@
 package site.hixview.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -20,6 +21,7 @@ import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEM
 import static site.hixview.domain.vo.Word.NAME;
 
 @Repository
+@Primary
 public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
 
     private final JdbcTemplate jdbcTemplate;

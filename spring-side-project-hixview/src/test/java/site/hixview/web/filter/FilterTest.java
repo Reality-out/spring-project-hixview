@@ -300,14 +300,14 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
     @Test
     public void articleMainDtoSupportFilterAddTest() throws Exception {
         // given & when
-        ArticleMainDto articleDtoOriginal = createTestArticleMainDto();
-        ArticleMainDto articleDtoLeftSpace = createTestArticleMainDto();
+        ArticleMainDto articleDtoOriginal = createTestCompanyArticleMainDto();
+        ArticleMainDto articleDtoLeftSpace = createTestCompanyArticleMainDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        ArticleMainDto articleDtoRightSpace = createTestArticleMainDto();
+        ArticleMainDto articleDtoRightSpace = createTestCompanyArticleMainDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        ArticleMainDto articleDtoKoreanArticleClassName = createTestArticleMainDto();
+        ArticleMainDto articleDtoKoreanArticleClassName = createTestCompanyArticleMainDto();
         articleDtoKoreanArticleClassName.setArticleClassName(testCompanyArticleMain.getArticleClassName().getArticleClassNameValue());
-        ArticleMainDto articleDtoLowerCase = createTestArticleMainDto();
+        ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
 
         String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleDtoOriginal.getName())
@@ -333,9 +333,9 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        ArticleMainDto articleDtoKoreanArticleClassName = createTestArticleMainDto();
+        ArticleMainDto articleDtoKoreanArticleClassName = createTestCompanyArticleMainDto();
         articleDtoKoreanArticleClassName.setArticleClassName(testCompanyArticleMain.getArticleClassName().getArticleClassNameValue());
-        ArticleMainDto articleDtoLowerCase = createTestArticleMainDto();
+        ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
 
         String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();

@@ -50,11 +50,11 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
     /**
      * Create
      */
-    default ArticleMainDto createTestArticleMainDto() {
+    default ArticleMainDto createTestCompanyArticleMainDto() {
         return testCompanyArticleMain.toDto();
     }
 
-    default ArticleMainDto createTestNewArticleMainDto() {
+    default ArticleMainDto createTestNewCompanyArticleMainDto() {
         return testNewCompanyArticleMain.toDto();
     }
 

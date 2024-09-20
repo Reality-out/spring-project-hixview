@@ -3,22 +3,38 @@ package site.hixview.web.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
+import site.hixview.domain.validation.validator.ArticleMainAddValidator;
+import site.hixview.domain.validation.validator.ArticleMainModifyValidator;
 import site.hixview.util.test.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
@@ -32,16 +48,27 @@ import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@SpringBootTest
+@SpringBootTest(properties = {"junit.jupiter.execution.parallel.enabled=true"})
 @AutoConfigureMockMvc
 @Transactional
+@ExtendWith(MockitoExtension.class)
+@Execution(ExecutionMode.CONCURRENT)
 class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    ArticleMainService articleMainService;
+    @InjectMocks
+    private ManagerArticleMainController managerArticleMainController;
+
+    @MockBean
+    private ArticleMainService articleMainService;
+
+    @Mock
+    private ArticleMainAddValidator articleMainAddValidator;
+
+    @Mock
+    private ArticleMainModifyValidator articleMainModifyValidator;
 
     private final JdbcTemplate jdbcTemplateTest;
 
@@ -51,8 +78,9 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
+        MockitoAnnotations.openMocks(this);
     }
 
     @DisplayName("기사 메인 추가 페이지 접속")
@@ -69,7 +97,12 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainAddFinish() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMain article = testCompanyArticleMain;
+        when(articleMainService.findArticleByName(article.getName()))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+
+        ArticleMainDto articleDto = article.toDto();
         String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleDto.getName())
                 .build().toUriString();
 
@@ -101,40 +134,38 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @DisplayName("기사 메인 변경 페이지 검색")
     @Test
     public void searchArticleMainModify() throws Exception {
-        // given
+        // given & when
         ArticleMain article = testCompanyArticleMain;
+        when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getNumber()))).thenReturn(Optional.of(article));
+        when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getName()))).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
 
-        // when
         Long number = articleMainService.registerArticle(article).getNumber();
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
-                .andExpectAll(status().isOk(),
-                        view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyArticleMainFinishUrl))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(article.toDto());
-
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_ARTICLE_MAIN_URL, "numberOrName", article.getName()))
-                .andExpectAll(status().isOk(),
-                        view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyArticleMainFinishUrl))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(article.toDto());
+        for (String str : List.of(String.valueOf(number), article.getName())) {
+            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
+                            UPDATE_ARTICLE_MAIN_URL, "numberOrName", str))
+                    .andExpectAll(status().isOk(),
+                            view().name(modifyArticleMainProcessPage),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                            model().attribute("updateUrl", modifyArticleMainFinishUrl))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(article.toDto());
+        }
     }
 
     @DisplayName("기사 메인 변경 완료 페이지 접속")
     @Test
     public void accessArticleMainModifyFinish() throws Exception {
         // given
+        ArticleMain article = ArticleMain.builder().article(testNewCompanyArticleMain).name(testCompanyArticleMain.getName()).build();
+        when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        doNothing().when(articleMainService).correctArticle(article);
+
         String commonName = testCompanyArticleMain.getName();
-        ArticleMain article = ArticleMain.builder().article(testNewCompanyArticleMain).name(commonName).build();
         String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
 
         // when
@@ -160,6 +191,10 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Test
     public void accessArticleMainsInquiry() throws Exception {
         // given & when
+        List<ArticleMain> returnedListFromMock = List.of(testCompanyArticleMain, testNewCompanyArticleMain);
+        when(articleMainService.findArticles()).thenReturn(returnedListFromMock);
+        when(articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain)).thenReturn(returnedListFromMock);
+
         List<ArticleMain> articleList = articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain);
 
         // then
@@ -183,21 +218,27 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @DisplayName("기사 메인 없애기 완료 페이지 접속")
     @Test
     public void accessArticleMainRidFinish() throws Exception {
-        // given
-        ArticleMain article = testCompanyArticleMain;
+        // given & when
+        ArticleMain article = ArticleMain.builder().article(testCompanyArticleMain).number(1L).build();
+        when(articleMainService.findArticles()).thenReturn(emptyList());
+        when(articleMainService.findArticleByNumber(article.getNumber())).thenReturn(Optional.of(article));
+        when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getNumber()))).thenReturn(Optional.of(article));
+        when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getName()))).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        doNothing().when(articleMainService).removeArticleByName(article.getName());
+
+        Long number = articleMainService.registerArticle(article).getNumber();
         String name = article.getName();
+        System.out.println(String.valueOf(number) + ' ' + name);
         String redirectedURL = fromPath(REMOVE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
 
-        // when & then
-        Long number = articleMainService.registerArticle(article).getNumber();
+        // then
+        for (String str : List.of(String.valueOf(number), name)) {
+            mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, "numberOrName", str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, "numberOrName", String.valueOf(number)))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
-
-        articleMainService.registerArticle(article);
-
-        mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, "numberOrName", name))
-                .andExpectAll(status().isFound(), redirectedUrlPattern(redirectedURL));
+            articleMainService.registerArticle(article);
+        }
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),

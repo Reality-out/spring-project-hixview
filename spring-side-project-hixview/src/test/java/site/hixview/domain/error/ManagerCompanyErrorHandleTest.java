@@ -1,4 +1,4 @@
-package site.hixview.domain.error.manager;
+package site.hixview.domain.error;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyErrorHandleTest implements CompanyTestUtils {
+public class ManagerCompanyErrorHandleTest implements CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,7 +44,7 @@ public class CompanyErrorHandleTest implements CompanyTestUtils {
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyErrorHandleTest(DataSource dataSource) {
+    public ManagerCompanyErrorHandleTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 

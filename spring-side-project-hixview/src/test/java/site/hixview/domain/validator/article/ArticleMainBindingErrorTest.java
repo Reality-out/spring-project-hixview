@@ -56,7 +56,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateNotBlankSpaceArticleMainAdd() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setName(" ");
         articleDto.setImagePath(" ");
         articleDto.setSummary(" ");
@@ -75,7 +75,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateNotBlankNullArticleMainAdd() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setName(null);
         articleDto.setImagePath(null);
         articleDto.setSummary(null);
@@ -95,7 +95,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateRestrictArticleMainAdd() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setArticleClassName(INVALID_VALUE.toUpperCase());
 
         // then
@@ -112,7 +112,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateSizeArticleMainAdd() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setImagePath(getRandomLongString(81));
         articleDto.setSummary(getRandomLongString(37));
 
@@ -130,7 +130,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateNotBlankSpaceArticleMainModify() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setName(" ");
         articleDto.setImagePath(" ");
         articleDto.setSummary(" ");
@@ -149,7 +149,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateNotBlankNullArticleMainModify() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setName(null);
         articleDto.setImagePath(null);
         articleDto.setSummary(null);
@@ -169,7 +169,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateRestrictArticleMainModify() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setArticleClassName(INVALID_VALUE.toUpperCase());
 
         // then
@@ -186,7 +186,7 @@ public class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     public void validateSizeArticleMainModify() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleDto.setImagePath(getRandomLongString(81));
         articleDto.setSummary(getRandomLongString(37));
 

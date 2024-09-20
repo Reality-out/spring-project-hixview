@@ -57,9 +57,9 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
     @Test
     public void duplicatedNameArticleMainAdd() throws Exception {
         // given
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         String commonName = articleDto.getName();
-        ArticleMainDto articleNewDto = createTestNewArticleMainDto();
+        ArticleMainDto articleNewDto = createTestNewCompanyArticleMainDto();
         articleNewDto.setName(commonName);
 
         // when
@@ -79,9 +79,9 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
     @Test
     public void duplicatedImagePathArticleMainAdd() throws Exception {
         // given
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         String commonImagePath = articleDto.getImagePath();
-        ArticleMainDto articleNewDto = createTestNewArticleMainDto();
+        ArticleMainDto articleNewDto = createTestNewCompanyArticleMainDto();
         articleNewDto.setImagePath(commonImagePath);
 
         // when
@@ -101,7 +101,7 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
     @Test
     public void changeNameArticleMainModify() throws Exception {
         // given
-        ArticleMainDto articleDto = createTestArticleMainDto();
+        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
         articleMainService.registerArticle(ArticleMain.builder().articleDto(articleDto).build());
 
         // when

@@ -141,9 +141,9 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
     @Test
     public void updateArticleMainTest() {
         // given
-        ArticleMainDto article1 = createTestArticleMainDto();
+        ArticleMainDto article1 = createTestCompanyArticleMainDto();
         String commonName = article1.getName();
-        ArticleMainDto article2 = createTestNewArticleMainDto();
+        ArticleMainDto article2 = createTestNewCompanyArticleMainDto();
         article2.setName(commonName);
 
         // when
