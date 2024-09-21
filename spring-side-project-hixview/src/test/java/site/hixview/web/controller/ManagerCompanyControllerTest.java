@@ -3,10 +3,17 @@ package site.hixview.web.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.Country;
@@ -14,13 +21,20 @@ import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.CompanyDto;
 import site.hixview.domain.service.CompanyService;
+import site.hixview.domain.validation.validator.CompanyAddValidator;
+import site.hixview.domain.validation.validator.CompanyModifyValidator;
 import site.hixview.util.test.CompanyTestUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
+import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
@@ -30,35 +44,38 @@ import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@SpringBootTest
+@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
 @AutoConfigureMockMvc
 @Transactional
+@ExtendWith(MockitoExtension.class)
+@Execution(ExecutionMode.CONCURRENT)
 class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    CompanyService companyService;
+    @InjectMocks
+    private ManagerCompanyController managerCompanyController;
 
-    private final JdbcTemplate jdbcTemplateTest;
+    @MockBean
+    private CompanyService companyService;
 
-    @Autowired
-    public ManagerCompanyControllerTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
+    @Mock
+    private CompanyAddValidator companyAddValidator;
+
+    @Mock
+    private CompanyModifyValidator companyModifyValidator;
 
     @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
+    void beforeEach() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @DisplayName("기업 추가 페이지 접속")
     @Test
-    public void accessCompanyAdd() throws Exception {
+    void accessCompanyAdd() throws Exception {
         mockMvc.perform(get(ADD_SINGLE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(addSingleCompanyProcessPage),
@@ -70,9 +87,15 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @DisplayName("기업 추가 완료 페이지 접속")
     @Test
-    public void accessCompanyAddFinish() throws Exception {
+    void accessCompanyAddFinish() throws Exception {
         // given & when
-        CompanyDto companyDto = createSamsungElectronicsDto();
+        Company company = samsungElectronics;
+        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.empty());
+        when(companyService.findCompanyByName(company.getName()))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+        doNothing().when(companyService).registerCompany(argThat(Objects::nonNull));
+
+        CompanyDto companyDto = company.toDto();
         String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
 
         // then
@@ -90,9 +113,28 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .isEqualTo(samsungElectronics);
     }
 
+    @DisplayName("기업들 조회 페이지 접속")
+    @Test
+    void accessCompaniesInquiry() throws Exception {
+        // given & when
+        List<Company> storedList = List.of(samsungElectronics, skHynix);
+        when(companyService.findCompanies()).thenReturn(storedList);
+        doNothing().when(companyService).registerCompanies(samsungElectronics, skHynix);
+
+        companyService.registerCompanies(samsungElectronics, skHynix);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
+                .andExpectAll(status().isOk(),
+                        view().name(SELECT_VIEW + "companies-page"))
+                .andReturn().getModelAndView()).getModelMap().get("companies"))
+                .usingRecursiveComparison()
+                .isEqualTo(storedList);
+    }
+
     @DisplayName("기업 변경 페이지 접속")
     @Test
-    public void accessCompanyModify() throws Exception {
+    void accessCompanyModify() throws Exception {
         mockMvc.perform(get(UPDATE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
@@ -101,47 +143,47 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @DisplayName("기업 변경 페이지 검색")
     @Test
-    public void searchCompanyModify() throws Exception {
+    void searchCompanyModify() throws Exception {
         // given
         Company company = samsungElectronics;
+        when(companyService.findCompanyByCodeOrName(String.valueOf(company.getCode()))).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByCodeOrName(company.getName())).thenReturn(Optional.of(company));
+        doNothing().when(companyService).registerCompany(company);
+
+        CompanyDto companyDto = company.toDto();
 
         // when
         companyService.registerCompany(company);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getCode()))
-                .andExpectAll(status().isOk(),
-                        view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyCompanyFinishUrl))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(company.toDto());
-
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", company.getName()))
-                .andExpectAll(status().isOk(),
-                        view().name(modifyCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyCompanyFinishUrl),
-                        model().attribute("countries", Country.values()),
-                        model().attribute("scales", Scale.values()))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(company.toDto());
+        for (String str : List.of(company.getCode(), company.getName())) {
+            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", str))
+                    .andExpectAll(status().isOk(),
+                            view().name(modifyCompanyProcessPage),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                            model().attribute("updateUrl", modifyCompanyFinishUrl))
+                    .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                    .usingRecursiveComparison()
+                    .isEqualTo(companyDto);
+        }
     }
 
     @DisplayName("기업 변경 완료 페이지 접속")
     @Test
-    public void accessCompanyModifyFinish() throws Exception {
+    void accessCompanyModifyFinish() throws Exception {
         // given
-        Company beforeModifyCompany = samsungElectronics;
-        String commonName = samsungElectronics.getName();
         Company company = Company.builder().company(skHynix)
-                .name(commonName).code(beforeModifyCompany.getCode()).build();
+                .name(samsungElectronics.getName()).code(samsungElectronics.getCode()).build();
+        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
+        doNothing().when(companyService).registerCompany(samsungElectronics);
+        doNothing().when(companyService).correctCompany(company);
+
+        String commonName = samsungElectronics.getName();
         String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, commonName).build().toUriString();
 
         // when
-        companyService.registerCompany(beforeModifyCompany);
+        companyService.registerCompany(samsungElectronics);
 
         // then
         mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, company.toDto()))
@@ -158,24 +200,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .isEqualTo(company);
     }
 
-    @DisplayName("기업들 조회 페이지 접속")
-    @Test
-    public void accessCompaniesInquiry() throws Exception {
-        // given & when
-        companyService.registerCompanies(skHynix, samsungElectronics);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
-                .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "companies-page"))
-                .andReturn().getModelAndView()).getModelMap().get("companies"))
-                .usingRecursiveComparison()
-                .isEqualTo(List.of(skHynix, samsungElectronics));
-    }
-
     @DisplayName("기업 없애기 페이지 접속")
     @Test
-    public void accessCompanyRid() throws Exception {
+    void accessCompanyRid() throws Exception {
         mockMvc.perform(get(REMOVE_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
@@ -184,22 +211,27 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @DisplayName("기업 없애기 완료 페이지 접속")
     @Test
-    public void accessCompanyRidFinish() throws Exception {
-        // given
+    void accessCompanyRidFinish() throws Exception {
+        // given & when
         Company company = samsungElectronics;
+        when(companyService.findCompanies()).thenReturn(emptyList());
+        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByCodeOrName(String.valueOf(company.getCode()))).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByCodeOrName(company.getName())).thenReturn(Optional.of(company));
+        doNothing().when(companyService).registerCompany(argThat(Objects::nonNull));
+        doNothing().when(companyService).removeCompanyByCode(company.getCode());
+
         String name = company.getName();
         String redirectedURL = fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
 
-        // when & then
-        companyService.registerCompany(company);
+        // then
+        for (String str : List.of(company.getCode(), name)) {
+            companyService.registerCompany(company);
 
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", company.getCode()))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
-
-        companyService.registerCompany(company);
-
-        mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", name))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+        }
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),

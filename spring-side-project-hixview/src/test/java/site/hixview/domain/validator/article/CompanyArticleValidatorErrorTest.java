@@ -37,7 +37,7 @@ import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTICLE_URL;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {

@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @Transactional
 class MemberRepositoryImplTest implements MemberTestUtils {
 

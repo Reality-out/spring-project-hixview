@@ -21,7 +21,7 @@ import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @Transactional
 class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 

@@ -46,7 +46,7 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {

@@ -1,7 +1,6 @@
 package site.hixview.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +21,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_ARTICLE_WITH_THAT_CONDITION;
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.*;
@@ -37,16 +36,12 @@ import static site.hixview.domain.vo.user.ViewName.*;
 @RequiredArgsConstructor
 public class UserMainController {
 
-    @Autowired
     private final MemberService memberService;
 
-    @Autowired
     private final CompanyArticleService companyArticleService;
 
-    @Autowired
     private final IndustryArticleService industryArticleService;
 
-    @Autowired
     private final ArticleMainService articleMainService;
 
     /**

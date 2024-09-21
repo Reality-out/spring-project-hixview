@@ -30,7 +30,7 @@ import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {

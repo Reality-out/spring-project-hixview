@@ -33,7 +33,7 @@ import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUtils {

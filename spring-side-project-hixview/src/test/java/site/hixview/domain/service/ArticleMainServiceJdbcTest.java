@@ -22,7 +22,7 @@ import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_ARTICLE_MAIN
 import static site.hixview.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NAME;
 import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @Transactional
 class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
 

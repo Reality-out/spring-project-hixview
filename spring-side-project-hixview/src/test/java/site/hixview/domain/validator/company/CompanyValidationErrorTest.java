@@ -28,7 +28,7 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class CompanyValidationErrorTest implements CompanyTestUtils {

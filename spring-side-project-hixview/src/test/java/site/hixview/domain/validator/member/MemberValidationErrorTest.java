@@ -22,7 +22,7 @@ import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class MemberValidationErrorTest implements MemberTestUtils {

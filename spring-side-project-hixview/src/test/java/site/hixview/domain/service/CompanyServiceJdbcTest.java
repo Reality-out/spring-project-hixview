@@ -21,7 +21,7 @@ import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.util.test.CompanyTestUtils.samsungElectronics;
 import static site.hixview.util.test.CompanyTestUtils.skHynix;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @Transactional
 class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
 

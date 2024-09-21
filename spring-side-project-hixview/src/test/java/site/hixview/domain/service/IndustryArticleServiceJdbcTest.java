@@ -22,7 +22,7 @@ import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ART
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
 import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @Transactional
 class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
 

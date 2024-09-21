@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.ArticleMain;
@@ -24,7 +23,6 @@ import site.hixview.domain.validation.validator.ArticleMainAddValidator;
 import site.hixview.domain.validation.validator.ArticleMainModifyValidator;
 import site.hixview.util.test.ArticleMainTestUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,10 +43,9 @@ import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
-import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@SpringBootTest(properties = {"junit.jupiter.execution.parallel.enabled=true"})
+@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
 @AutoConfigureMockMvc
 @Transactional
 @ExtendWith(MockitoExtension.class)
@@ -70,22 +67,14 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
     @Mock
     private ArticleMainModifyValidator articleMainModifyValidator;
 
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public ManagerArticleMainControllerTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
     @BeforeEach
     void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
         MockitoAnnotations.openMocks(this);
     }
 
     @DisplayName("기사 메인 추가 페이지 접속")
     @Test
-    public void accessArticleMainAdd() throws Exception {
+    void accessArticleMainAdd() throws Exception {
         mockMvc.perform(get(ADD_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(addArticleMainProcessPage),
@@ -95,7 +84,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 추가 완료 페이지 접속")
     @Test
-    public void accessArticleMainAddFinish() throws Exception {
+    void accessArticleMainAddFinish() throws Exception {
         // given & when
         ArticleMain article = testCompanyArticleMain;
         when(articleMainService.findArticleByName(article.getName()))
@@ -122,9 +111,28 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .isEqualTo(articleDto);
     }
 
+    @DisplayName("기사 메인들 조회 페이지 접속")
+    @Test
+    void accessArticleMainsInquiry() throws Exception {
+        // given & when
+        List<ArticleMain> storedList = List.of(testCompanyArticleMain, testNewCompanyArticleMain);
+        when(articleMainService.findArticles()).thenReturn(storedList);
+        when(articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain)).thenReturn(storedList);
+
+        List<ArticleMain> articleList = articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_URL))
+                .andExpectAll(status().isOk(),
+                        view().name(SELECT_VIEW + "article-mains-page"))
+                .andReturn().getModelAndView()).getModelMap().get("articleMains"))
+                .usingRecursiveComparison()
+                .isEqualTo(articleList);
+    }
+
     @DisplayName("기사 메인 변경 페이지 접속")
     @Test
-    public void accessArticleMainModify() throws Exception {
+    void accessArticleMainModify() throws Exception {
         mockMvc.perform(get(UPDATE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
@@ -133,12 +141,12 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 변경 페이지 검색")
     @Test
-    public void searchArticleMainModify() throws Exception {
+    void searchArticleMainModify() throws Exception {
         // given & when
         ArticleMain article = testCompanyArticleMain;
         when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getNumber()))).thenReturn(Optional.of(article));
-        when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getName()))).thenReturn(Optional.of(article));
-        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        when(articleMainService.findArticleByNumberOrName(article.getName())).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(article)).thenReturn(article);
 
         Long number = articleMainService.registerArticle(article).getNumber();
 
@@ -158,11 +166,11 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 변경 완료 페이지 접속")
     @Test
-    public void accessArticleMainModifyFinish() throws Exception {
+    void accessArticleMainModifyFinish() throws Exception {
         // given
         ArticleMain article = ArticleMain.builder().article(testNewCompanyArticleMain).name(testCompanyArticleMain.getName()).build();
         when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
-        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        when(articleMainService.registerArticle(testCompanyArticleMain)).thenReturn(article);
         doNothing().when(articleMainService).correctArticle(article);
 
         String commonName = testCompanyArticleMain.getName();
@@ -187,28 +195,9 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .isEqualTo(article);
     }
 
-    @DisplayName("기사 메인들 조회 페이지 접속")
-    @Test
-    public void accessArticleMainsInquiry() throws Exception {
-        // given & when
-        List<ArticleMain> returnedListFromMock = List.of(testCompanyArticleMain, testNewCompanyArticleMain);
-        when(articleMainService.findArticles()).thenReturn(returnedListFromMock);
-        when(articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain)).thenReturn(returnedListFromMock);
-
-        List<ArticleMain> articleList = articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_URL))
-                .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "article-mains-page"))
-                .andReturn().getModelAndView()).getModelMap().get("articleMains"))
-                .usingRecursiveComparison()
-                .isEqualTo(articleList);
-    }
-
     @DisplayName("기사 메인 없애기 페이지 접속")
     @Test
-    public void accessArticleMainRid() throws Exception {
+    void accessArticleMainRid() throws Exception {
         mockMvc.perform(get(REMOVE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS),
@@ -217,13 +206,13 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 없애기 완료 페이지 접속")
     @Test
-    public void accessArticleMainRidFinish() throws Exception {
+    void accessArticleMainRidFinish() throws Exception {
         // given & when
         ArticleMain article = ArticleMain.builder().article(testCompanyArticleMain).number(1L).build();
         when(articleMainService.findArticles()).thenReturn(emptyList());
         when(articleMainService.findArticleByNumber(article.getNumber())).thenReturn(Optional.of(article));
         when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getNumber()))).thenReturn(Optional.of(article));
-        when(articleMainService.findArticleByNumberOrName(String.valueOf(article.getName()))).thenReturn(Optional.of(article));
+        when(articleMainService.findArticleByNumberOrName(article.getName())).thenReturn(Optional.of(article));
         when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
         doNothing().when(articleMainService).removeArticleByName(article.getName());
 

@@ -2,6 +2,10 @@ package site.hixview.web.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,9 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.MANAGER_HOME_VIEW;
 
-@SpringBootTest
+@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
 @AutoConfigureMockMvc
 @Transactional
+@ExtendWith(MockitoExtension.class)
+@Execution(ExecutionMode.CONCURRENT)
 class ManagerMainControllerTest {
 
     @Autowired
@@ -23,7 +29,7 @@ class ManagerMainControllerTest {
 
     @DisplayName("관리자 메인 페이지 접속")
     @Test
-    public void accessManagerMainPage() throws Exception {
+    void accessManagerMainPage() throws Exception {
         mockMvc.perform(get("/manager"))
                 .andExpectAll(status().isOk(),
                         view().name(MANAGER_HOME_VIEW),

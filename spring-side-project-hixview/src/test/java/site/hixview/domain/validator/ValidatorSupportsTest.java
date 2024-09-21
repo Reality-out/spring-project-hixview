@@ -15,7 +15,7 @@ import site.hixview.domain.validation.validator.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class ValidatorSupportsTest {

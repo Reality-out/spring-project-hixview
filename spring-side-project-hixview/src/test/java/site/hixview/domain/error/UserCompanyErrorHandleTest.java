@@ -24,7 +24,7 @@ import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
 import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SUB_URL;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class UserCompanyErrorHandleTest implements CompanyTestUtils {

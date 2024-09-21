@@ -18,7 +18,7 @@ import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_MEMBER_ID;
 import static site.hixview.domain.vo.ExceptionMessage.NO_MEMBER_WITH_THAT_ID;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @Transactional
 class MemberServiceJdbcTest implements MemberTestUtils {
 

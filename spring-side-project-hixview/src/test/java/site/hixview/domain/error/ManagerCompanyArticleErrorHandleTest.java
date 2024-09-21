@@ -36,7 +36,7 @@ import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEM
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 
-@SpringBootTest
+@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
 public class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, CompanyTestUtils {

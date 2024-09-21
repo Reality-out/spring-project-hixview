@@ -3,7 +3,6 @@ package site.hixview.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,13 +17,13 @@ import site.hixview.domain.entity.member.MemberDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.domain.validation.validator.MemberBirthValidator;
 
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
-import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.ERRORS_ARE;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
+import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 
@@ -32,7 +31,6 @@ import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 @RequiredArgsConstructor
 public class UserMemberController {
 
-    @Autowired
     private final MemberService memberService;
 
     private final MemberBirthValidator birthValidator;
