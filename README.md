@@ -1,5 +1,5 @@
 <a href="https://github.com/Reality-out/spring-side-project1">
-  <img src="https://capsule-render.vercel.app/api?type=rounded&height=150&color=gradient&text=스프링%20사이드%20프로젝트&section=header&reversal=false&fontSize=64&animation=fadeIn&stroke=AFEEEE&strokeWidth=1&descAlignY=50"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=150&color=gradient&text=스프링%20사이드%20프로젝트&section=header&reversal=false&fontSize=40&fontAlignY=35&animation=fadeIn"/>
 </a>
 <br>
 
