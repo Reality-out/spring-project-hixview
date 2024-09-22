@@ -46,7 +46,7 @@ public class CompanyArticle extends Article {
         this.subjectCompany = subjectCompany;
     }
 
-    public static class CompanyArticleBuilder extends ArticleBuilder {
+    public static final class CompanyArticleBuilder extends ArticleBuilder {
 
         public CompanyArticleBuilder() {}
 

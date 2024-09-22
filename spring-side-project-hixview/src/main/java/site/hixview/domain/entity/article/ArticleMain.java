@@ -50,7 +50,7 @@ public class ArticleMain {
         }};
     }
 
-    public static class ArticleMainBuilder {
+    public static final class ArticleMainBuilder {
         public ArticleMainBuilder() {}
 
         public ArticleMainBuilder article(ArticleMain article) {

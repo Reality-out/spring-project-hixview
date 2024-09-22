@@ -52,7 +52,7 @@ public class IndustryArticle extends Article {
         this.subjectSecondCategory = subjectSecondCategory;
     }
 
-    public static class IndustryArticleBuilder extends ArticleBuilder {
+    public static final class IndustryArticleBuilder extends ArticleBuilder {
         private FirstCategory subjectFirstCategory;
         private SecondCategory subjectSecondCategory;
 

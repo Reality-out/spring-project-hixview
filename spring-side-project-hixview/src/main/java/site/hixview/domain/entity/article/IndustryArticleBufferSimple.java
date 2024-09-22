@@ -60,7 +60,7 @@ public class IndustryArticleBufferSimple {
         this.subjectSecondCategory = subjectSecondCategory;
     }
 
-    public static class IndustryArticleBufferSimpleBuilder {
+    public static final class IndustryArticleBufferSimpleBuilder {
         private StringBuffer nameDatePressBuffer;
         private StringBuffer linkBuffer;
         private Integer importance;

@@ -2,19 +2,11 @@ package site.hixview.web.controller.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.config.annotation.MockConcurrentWebMvcTest;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleDto;
-import site.hixview.domain.postprocessor.MockServiceBeanFactoryPostProcessor;
-import site.hixview.domain.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidator;
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
@@ -45,12 +37,7 @@ import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
-@Import({MockServiceBeanFactoryPostProcessor.class,
-        MockValidatorBeanFactoryPostProcessor.class})
-@AutoConfigureMockMvc
-@ExtendWith(MockitoExtension.class)
-@Execution(ExecutionMode.CONCURRENT)
+@MockConcurrentWebMvcTest
 class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
 
     @Autowired
@@ -150,25 +137,17 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", String.valueOf(article.getNumber())))
-                .andExpectAll(status().isOk(),
-                        view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyIndustryArticleFinishUrl))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(article.toDto());
-
-        assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                        UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", article.getName()))
-                .andExpectAll(status().isOk(),
-                        view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute("updateUrl", modifyIndustryArticleFinishUrl))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(article.toDto());
+        for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
+            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
+                            UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", str))
+                    .andExpectAll(status().isOk(),
+                            view().name(modifyIndustryArticleProcessPage),
+                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                            model().attribute("updateUrl", modifyIndustryArticleFinishUrl))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(article.toDto());
+        }
     }
 
     @DisplayName("산업 기사 변경 완료 페이지 접속")
@@ -232,13 +211,13 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         Long number = articleService.registerArticle(article).getNumber();
 
         // then
-        mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", String.valueOf(number)))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+        for (String str : List.of(String.valueOf(number), name)) {
+            mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
-        articleService.registerArticle(article);
-
-        mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", String.valueOf(name)))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            articleService.registerArticle(article);
+        }
+        articleService.removeArticleByName(name);
 
         mockMvc.perform(getWithNoParam(redirectedURL))
                 .andExpectAll(status().isOk(),

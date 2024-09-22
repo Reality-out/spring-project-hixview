@@ -55,7 +55,7 @@ public class CompanyArticleBufferSimple {
         this.subjectCompany = subjectCompany;
     }
 
-    public static class CompanyArticleBufferSimpleBuilder {
+    public static final class CompanyArticleBufferSimpleBuilder {
         private StringBuffer nameDatePressBuffer;
         private StringBuffer linkBuffer;
         private Integer importance;

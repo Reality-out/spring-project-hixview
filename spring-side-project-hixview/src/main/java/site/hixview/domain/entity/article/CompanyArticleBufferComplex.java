@@ -64,7 +64,7 @@ public class CompanyArticleBufferComplex {
         this.importanceBuffer = importanceBuffer;
     }
 
-    public static class CompanyArticleBufferComplexBuilder {
+    public static final class CompanyArticleBufferComplexBuilder {
         private StringBuffer nameDatePressBuffer;
         private StringBuffer subjectCompanyBuffer;
         private StringBuffer linkBuffer;

@@ -2,18 +2,10 @@ package site.hixview.web.controller.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.config.annotation.MockConcurrentWebMvcTest;
 import site.hixview.domain.entity.company.Company;
-import site.hixview.domain.postprocessor.MockServiceBeanFactoryPostProcessor;
-import site.hixview.domain.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.test.CompanyTestUtils;
 
@@ -35,12 +27,7 @@ import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
 import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SUB_URL;
 import static site.hixview.domain.vo.user.ViewName.COMPANY_VIEW;
 
-@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
-@Import({MockServiceBeanFactoryPostProcessor.class,
-        MockValidatorBeanFactoryPostProcessor.class})
-@AutoConfigureMockMvc
-@ExtendWith(MockitoExtension.class)
-@Execution(ExecutionMode.CONCURRENT)
+@MockConcurrentWebMvcTest
 class UserCompanyControllerTest implements CompanyTestUtils {
 
     @Autowired

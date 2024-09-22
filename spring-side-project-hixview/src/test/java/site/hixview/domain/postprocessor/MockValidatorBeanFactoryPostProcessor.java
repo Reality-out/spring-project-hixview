@@ -11,7 +11,6 @@ import org.springframework.util.ClassUtils;
 import org.springframework.validation.Validator;
 
 import java.util.Objects;
-import java.util.Set;
 
 @NonNullApi
 public class MockValidatorBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
@@ -22,19 +21,16 @@ public class MockValidatorBeanFactoryPostProcessor implements BeanFactoryPostPro
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         scanner.addIncludeFilter(new AssignableTypeFilter(Validator.class));
-        Set<BeanDefinition> validators = scanner.findCandidateComponents(BASE_PACKAGE);
         ClassLoader classLoader = this.getClass().getClassLoader();
 
-        for (BeanDefinition validator : validators) {
-            String validatorName = validator.getBeanClassName();
+        for (BeanDefinition validator : scanner.findCandidateComponents(BASE_PACKAGE)) {
             Class<?> clazz;
             try {
-                clazz = ClassUtils.forName(Objects.requireNonNull(validatorName), classLoader);
+                clazz = ClassUtils.forName(Objects.requireNonNull(validator.getBeanClassName()), classLoader);
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("해당 검증자 클래스를 불러오는 데 실패하였습니다: " + validator.getBeanClassName());
             }
-            Object mockedBean = Mockito.mock(clazz);
-            beanFactory.registerSingleton(clazz.getSimpleName(), mockedBean);
+            beanFactory.registerSingleton(clazz.getSimpleName(), Mockito.mock(clazz));
         }
     }
 }
