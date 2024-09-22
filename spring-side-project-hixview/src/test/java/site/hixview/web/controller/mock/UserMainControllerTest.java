@@ -1,19 +1,19 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.member.Member;
+import site.hixview.domain.postprocessor.MockServiceBeanFactoryPostProcessor;
+import site.hixview.domain.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.IndustryArticleService;
@@ -41,9 +41,10 @@ import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
-@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@Import({MockServiceBeanFactoryPostProcessor.class,
+        MockValidatorBeanFactoryPostProcessor.class})
 @AutoConfigureMockMvc
-@Transactional
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils {
@@ -51,19 +52,16 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private UserMainController userMainController;
-
-    @MockBean
+    @Autowired
     private CompanyArticleService companyArticleService;
 
-    @MockBean
+    @Autowired
     private IndustryArticleService industryArticleService;
 
-    @MockBean
+    @Autowired
     private ArticleMainService articleMainService;
 
-    @MockBean
+    @Autowired
     private MemberService memberService;
 
     @DisplayName("유저 메인 페이지 접속")

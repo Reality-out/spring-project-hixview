@@ -1,25 +1,22 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.CompanyDto;
+import site.hixview.domain.postprocessor.MockServiceBeanFactoryPostProcessor;
+import site.hixview.domain.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.CompanyAddValidator;
 import site.hixview.domain.validation.validator.CompanyModifyValidator;
@@ -32,6 +29,7 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -46,9 +44,10 @@ import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@Import({MockServiceBeanFactoryPostProcessor.class,
+        MockValidatorBeanFactoryPostProcessor.class})
 @AutoConfigureMockMvc
-@Transactional
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 class ManagerCompanyControllerTest implements CompanyTestUtils {
@@ -56,22 +55,14 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private ManagerCompanyController managerCompanyController;
-
-    @MockBean
+    @Autowired
     private CompanyService companyService;
 
-    @Mock
+    @Autowired
     private CompanyAddValidator companyAddValidator;
 
-    @Mock
+    @Autowired
     private CompanyModifyValidator companyModifyValidator;
-
-    @BeforeEach
-    void beforeEach() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @DisplayName("기업 추가 페이지 접속")
     @Test
@@ -90,10 +81,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     void accessCompanyAddFinish() throws Exception {
         // given & when
         Company company = samsungElectronics;
-        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.empty());
-        when(companyService.findCompanyByName(company.getName()))
-                .thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
         doNothing().when(companyService).registerCompany(argThat(Objects::nonNull));
+        doNothing().when(companyAddValidator).validate(any(), any());
 
         CompanyDto companyDto = company.toDto();
         String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();

@@ -1,23 +1,20 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.postprocessor.MockServiceBeanFactoryPostProcessor;
+import site.hixview.domain.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidator;
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
@@ -32,6 +29,7 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -47,9 +45,10 @@ import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@Import({MockServiceBeanFactoryPostProcessor.class,
+        MockValidatorBeanFactoryPostProcessor.class})
 @AutoConfigureMockMvc
-@Transactional
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
@@ -57,28 +56,20 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private ManagerIndustryArticleController managerIndustryArticleController;
-
-    @MockBean
+    @Autowired
     private IndustryArticleService articleService;
 
-    @Mock
+    @Autowired
     private IndustryArticleEntryDateValidator industryArticleEntryDateValidator;
 
-    @Mock
+    @Autowired
     private IndustryArticleAddComplexValidator industryArticleAddComplexValidator;
 
-    @Mock
+    @Autowired
     private IndustryArticleAddSimpleValidator industryArticleAddSimpleValidator;
 
-    @Mock
+    @Autowired
     private IndustryArticleModifyValidator industryArticleModifyValidator;
-
-    @BeforeEach
-    void beforeEach() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @DisplayName("산업 기사 추가 페이지 접속")
     @Test
@@ -95,9 +86,9 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     void accessIndustryArticleAddFinish() throws Exception {
         // given & when
         IndustryArticle article = testIndustryArticle;
-        when(articleService.findArticleByName(article.getName()))
-                .thenReturn(Optional.empty()).thenReturn(Optional.of(article));
+        when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
         when(articleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        doNothing().when(industryArticleAddSimpleValidator).validate(any(), any());
 
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();

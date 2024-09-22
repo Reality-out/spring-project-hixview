@@ -1,23 +1,20 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.CompanyArticleDto;
+import site.hixview.domain.postprocessor.MockServiceBeanFactoryPostProcessor;
+import site.hixview.domain.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.CompanyArticleAddComplexValidator;
@@ -34,6 +31,7 @@ import java.util.Optional;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -49,9 +47,10 @@ import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@SpringBootTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@Import({MockServiceBeanFactoryPostProcessor.class,
+        MockValidatorBeanFactoryPostProcessor.class})
 @AutoConfigureMockMvc
-@Transactional
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, CompanyTestUtils {
@@ -59,31 +58,23 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private ManagerCompanyArticleController managerCompanyArticleController;
-
-    @MockBean
+    @Autowired
     private CompanyArticleService articleService;
 
-    @MockBean
+    @Autowired
     private CompanyService companyService;
 
-    @Mock
+    @Autowired
     private CompanyArticleEntryDateValidator companyArticleEntryDateValidator;
 
-    @Mock
+    @Autowired
     private CompanyArticleAddComplexValidator companyArticleAddComplexValidator;
     
-    @Mock
+    @Autowired
     private CompanyArticleAddSimpleValidator companyArticleAddSimpleValidator;
 
-    @Mock
+    @Autowired
     private CompanyArticleModifyValidator companyArticleModifyValidator;
-
-    @BeforeEach
-    void beforeEach() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @DisplayName("기업 기사 추가 페이지 접속")
     @Test
@@ -100,10 +91,10 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     void accessCompanyArticleAddFinish() throws Exception {
         // given
         CompanyArticle article = testCompanyArticle;
-        when(articleService.findArticleByName(article.getName()))
-                .thenReturn(Optional.empty()).thenReturn(Optional.of(article));
+        when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
         when(articleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
+        doNothing().when(companyArticleAddSimpleValidator).validate(any(), any());
 
         CompanyArticleDto articleDto = article.toDto();
         String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
