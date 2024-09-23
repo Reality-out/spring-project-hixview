@@ -1,4 +1,4 @@
-package site.hixview.domain.postprocessor;
+package site.hixview.domain.config.postprocessor;
 
 import io.micrometer.common.lang.NonNullApi;
 import org.springframework.beans.BeansException;

@@ -1,20 +1,15 @@
 package site.hixview.domain.validator.article;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.article.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.util.test.IndustryArticleTestUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -22,40 +17,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
-public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
+@MockConcurrentConfig
+class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    IndustryArticleService articleService;
-
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public IndustryArticleBindingErrorTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
-    }
+    private IndustryArticleService articleService;
 
     @DisplayName("NotBlank(공백)에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateNotBlankSpaceIndustryArticleAdd() throws Exception {
+    void validateNotBlankSpaceIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(" ");
@@ -76,7 +56,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateNotBlankNullIndustryArticleAdd() throws Exception {
+    void validateNotBlankNullIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(null);
@@ -95,7 +75,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("NotNull에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateNotNullIndustryArticleAdd() throws Exception {
+    void validateNotNullIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setYear(null);
@@ -115,7 +95,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Pattern에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validatePatternIndustryArticleAdd() throws Exception {
+    void validatePatternIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setLink(INVALID_VALUE);
@@ -132,7 +112,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Range에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateRangeIndustryArticleAdd() throws Exception {
+    void validateRangeIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDtoFallShortOf = createTestIndustryArticleDto();
         articleDtoFallShortOf.setYear(1959);
@@ -158,7 +138,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Restrict에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateRestrictIndustryArticleAdd() throws Exception {
+    void validateRestrictIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setImportance(3);
@@ -175,7 +155,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Size에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateSizeIndustryArticleAdd() throws Exception {
+    void validateSizeIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(getRandomLongString(81));
@@ -193,7 +173,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("typeMismatch에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateTypeMismatchIndustryArticleAdd() throws Exception {
+    void validateTypeMismatchIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
 
@@ -216,7 +196,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Enum 타입의 typeMismatch에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateEnumTypeMismatchIndustryArticleAdd() throws Exception {
+    void validateEnumTypeMismatchIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articlePressMismatch = createTestIndustryArticleDto();
         articlePressMismatch.setPress(INVALID_VALUE);
@@ -237,7 +217,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("NotBlank(공백)에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validateNotBlankSpaceIndustryArticleModify() throws Exception {
+    void validateNotBlankSpaceIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(" ");
@@ -258,7 +238,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validateNotBlankNullIndustryArticleModify() throws Exception {
+    void validateNotBlankNullIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(null);
@@ -277,7 +257,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("NotNull에 대한 산업 기사 추가 유효성 검증")
     @Test
-    public void validateNotNullIndustryArticleModify() throws Exception {
+    void validateNotNullIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setYear(null);
@@ -297,7 +277,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Pattern에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validatePatternIndustryArticleModify() throws Exception {
+    void validatePatternIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setLink(INVALID_VALUE);
@@ -314,7 +294,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Range에 대한 기업 변경 추가 유효성 검증")
     @Test
-    public void validateRangeIndustryArticleModify() throws Exception {
+    void validateRangeIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDtoFallShortOf = createTestIndustryArticleDto();
         articleDtoFallShortOf.setYear(1959);
@@ -340,7 +320,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Restrict에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validateRestrictIndustryArticleModify() throws Exception {
+    void validateRestrictIndustryArticleModify() throws Exception {
         // given
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleService.registerArticle(testIndustryArticle);
@@ -360,7 +340,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Size에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validateSizeIndustryArticleModify() throws Exception {
+    void validateSizeIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(getRandomLongString(81));
@@ -378,7 +358,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("typeMismatch에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validateTypeMismatchIndustryArticleModify() throws Exception {
+    void validateTypeMismatchIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
 
@@ -401,7 +381,7 @@ public class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils
 
     @DisplayName("Enum 타입의 typeMismatch에 대한 산업 기사 변경 유효성 검증")
     @Test
-    public void validateEnumTypeMismatchIndustryArticleModify() throws Exception {
+    void validateEnumTypeMismatchIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articlePressMismatch = createTestIndustryArticleDto();
         articlePressMismatch.setPress(INVALID_VALUE);

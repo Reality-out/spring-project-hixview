@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockConcurrentWebMvcTest;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.service.MemberService;
 import site.hixview.util.test.MemberTestUtils;
@@ -21,7 +21,7 @@ import static site.hixview.domain.vo.manager.Layout.SELECT_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.SELECT_MEMBER_URL;
 import static site.hixview.domain.vo.manager.ViewName.SELECT_VIEW;
 
-@MockConcurrentWebMvcTest
+@MockConcurrentConfig
 class ManagerMemberControllerTest implements MemberTestUtils {
 
     @Autowired

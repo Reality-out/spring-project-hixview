@@ -4,14 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockConcurrentWebMvcTest;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.MANAGER_HOME_VIEW;
 
-@MockConcurrentWebMvcTest
+@MockConcurrentConfig
 class ManagerMainControllerTest {
 
     @Autowired

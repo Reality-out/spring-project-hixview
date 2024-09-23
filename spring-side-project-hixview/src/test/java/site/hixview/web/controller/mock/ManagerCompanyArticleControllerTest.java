@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockConcurrentWebMvcTest;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
@@ -39,7 +39,7 @@ import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@MockConcurrentWebMvcTest
+@MockConcurrentConfig
 class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
@@ -163,11 +163,12 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @Test
     void accessCompanyArticleModifyFinish() throws Exception {
         // given
+        CompanyArticle beforeModifyArticle = testCompanyArticle;
         CompanyArticle article = CompanyArticle.builder().article(testNewCompanyArticle)
-                .name(testCompanyArticle.getName()).link(testCompanyArticle.getLink()).build();
+                .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
         when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
         when(articleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
-        when(articleService.registerArticle(testCompanyArticle)).thenReturn(article);
+        when(articleService.registerArticle(beforeModifyArticle)).thenReturn(article);
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
         doNothing().when(articleService).correctArticle(article);
 
@@ -175,8 +176,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // when
         companyService.registerCompany(samsungElectronics);
-        articleService.registerArticle(testCompanyArticle);
-        String commonName = testCompanyArticle.getName();
+        articleService.registerArticle(beforeModifyArticle);
+        String commonName = beforeModifyArticle.getName();
         CompanyArticleDto articleDto = article.toDto();
 
         // then

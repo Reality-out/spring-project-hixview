@@ -1,22 +1,17 @@
 package site.hixview.domain.validator.article;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.article.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.test.CompanyArticleTestUtils;
 import site.hixview.util.test.CompanyTestUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -24,45 +19,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTICLE_URL;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
-public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+@MockConcurrentConfig
+class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleService articleService;
+    private CompanyArticleService articleService;
 
     @Autowired
-    CompanyService companyService;
-
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public CompanyArticleBindingErrorTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
-    }
+    private CompanyService companyService;
 
     @DisplayName("NotBlank(공백)에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateNotBlankSpaceCompanyArticleAdd() throws Exception {
+    void validateNotBlankSpaceCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(" ");
@@ -84,7 +62,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("NotBlank(null)에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateNotBlankNullCompanyArticleAdd() throws Exception {
+    void validateNotBlankNullCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(null);
@@ -104,7 +82,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateNotNullCompanyArticleAdd() throws Exception {
+    void validateNotNullCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(null);
@@ -124,7 +102,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Pattern에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validatePatternCompanyArticleAdd() throws Exception {
+    void validatePatternCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setLink(INVALID_VALUE);
@@ -141,7 +119,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Range에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateRangeCompanyArticleAdd() throws Exception {
+    void validateRangeCompanyArticleAdd() throws Exception {
         // given
         CompanyArticleDto articleDtoFallShortOf = createTestCompanyArticleDto();
         articleDtoFallShortOf.setYear(1959);
@@ -170,7 +148,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Restrict에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateRestrictCompanyArticleAdd() throws Exception {
+    void validateRestrictCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setImportance(3);
@@ -187,7 +165,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Size에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateSizeCompanyArticleAdd() throws Exception {
+    void validateSizeCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(getRandomLongString(81));
@@ -206,7 +184,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateTypeMismatchCompanyArticleAdd() throws Exception {
+    void validateTypeMismatchCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
@@ -228,7 +206,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Press의 typeMismatch에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
+    void validatePressTypeMismatchCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setPress(INVALID_VALUE);
@@ -243,7 +221,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("NotBlank(공백)에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateNotBlankSpaceCompanyArticleModify() throws Exception {
+    void validateNotBlankSpaceCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(" ");
@@ -265,7 +243,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("NotBlank(null)에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateNotBlankNullCompanyArticleModify() throws Exception {
+    void validateNotBlankNullCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(null);
@@ -285,7 +263,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
     @Test
-    public void validateNotNullCompanyArticleModify() throws Exception {
+    void validateNotNullCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setYear(null);
@@ -305,7 +283,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Pattern에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validatePatternCompanyArticleModify() throws Exception {
+    void validatePatternCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setLink(INVALID_VALUE);
@@ -322,7 +300,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Range에 대한 기업 변경 추가 유효성 검증")
     @Test
-    public void validateRangeCompanyArticleModify() throws Exception {
+    void validateRangeCompanyArticleModify() throws Exception {
         // given
         CompanyArticleDto articleDtoFallShortOf = createTestCompanyArticleDto();
         articleDtoFallShortOf.setYear(1959);
@@ -351,7 +329,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Restrict에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateRestrictCompanyArticleModify() throws Exception {
+    void validateRestrictCompanyArticleModify() throws Exception {
         // given
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleService.registerArticle(testCompanyArticle);
@@ -371,7 +349,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Size에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateSizeCompanyArticleModify() throws Exception {
+    void validateSizeCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setName(getRandomLongString(81));
@@ -390,7 +368,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("typeMismatch에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validateTypeMismatchCompanyArticleModify() throws Exception {
+    void validateTypeMismatchCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
@@ -412,7 +390,7 @@ public class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, 
 
     @DisplayName("Press의 typeMismatch에 대한 기업 기사 변경 유효성 검증")
     @Test
-    public void validatePressTypeMismatchCompanyArticleModify() throws Exception {
+    void validatePressTypeMismatchCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
         articleDto.setPress(INVALID_VALUE);

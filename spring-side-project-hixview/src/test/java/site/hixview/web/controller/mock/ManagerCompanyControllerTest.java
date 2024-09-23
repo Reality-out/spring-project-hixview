@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockConcurrentWebMvcTest;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
@@ -36,7 +36,7 @@ import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ViewName.*;
 
-@MockConcurrentWebMvcTest
+@MockConcurrentConfig
 class ManagerCompanyControllerTest implements CompanyTestUtils {
 
     @Autowired

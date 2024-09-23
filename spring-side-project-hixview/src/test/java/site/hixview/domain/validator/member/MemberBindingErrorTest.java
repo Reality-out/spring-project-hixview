@@ -1,20 +1,15 @@
 package site.hixview.domain.validator.member;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.member.MemberDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.util.test.MemberTestUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -22,38 +17,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.EntityName.Member.ID;
 import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
-import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
-import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
-public class MemberBindingErrorTest implements MemberTestUtils {
+@MockConcurrentConfig
+class MemberBindingErrorTest implements MemberTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    MemberService memberService;
-
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public MemberBindingErrorTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
-    }
+    private MemberService memberService;
 
     @DisplayName("NotBlank에 대한 회원 가입 유효성 검증")
     @Test
-    public void validateNotBlankMembership() throws Exception {
+    void validateNotBlankMembership() throws Exception {
         // given & when
         MemberDto memberDtoSpace = createTestMemberDto();
         memberDtoSpace.setId(" ");
@@ -78,7 +58,7 @@ public class MemberBindingErrorTest implements MemberTestUtils {
 
     @DisplayName("NotNull에 대한 회원 가입 유효성 검증")
     @Test
-    public void validateNotNullMembership() throws Exception {
+    void validateNotNullMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
         memberDto.setYear(null);
@@ -95,7 +75,7 @@ public class MemberBindingErrorTest implements MemberTestUtils {
 
     @DisplayName("Pattern에 대한 회원 가입 유효성 검증")
     @Test
-    public void validatePatternMembership() throws Exception {
+    void validatePatternMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
         memberDto.setId(INVALID_VALUE);
@@ -113,7 +93,7 @@ public class MemberBindingErrorTest implements MemberTestUtils {
 
     @DisplayName("Range에 대한 회원 가입 유효성 검증")
     @Test
-    public void validateRangeMembership() throws Exception {
+    void validateRangeMembership() throws Exception {
         // given & when
         MemberDto memberDtoFallShortOf = createTestMemberDto();
         memberDtoFallShortOf.setMonth(0);
@@ -136,7 +116,7 @@ public class MemberBindingErrorTest implements MemberTestUtils {
 
     @DisplayName("typeMismatch에 대한 회원 가입 유효성 검증")
     @Test
-    public void validateTypeMismatchMembership() throws Exception {
+    void validateTypeMismatchMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
 

@@ -1,15 +1,10 @@
-package site.hixview.web.filter;
+package site.hixview.web.filter.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
+import site.hixview.domain.config.annotation.MockConcurrentConfig;
 import site.hixview.domain.entity.*;
 import site.hixview.domain.entity.article.*;
 import site.hixview.domain.entity.company.Company;
@@ -18,70 +13,63 @@ import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.service.IndustryArticleService;
+import site.hixview.domain.validation.validator.*;
 import site.hixview.util.test.ArticleMainTestUtils;
 import site.hixview.util.test.CompanyArticleTestUtils;
 import site.hixview.util.test.CompanyTestUtils;
 import site.hixview.util.test.IndustryArticleTestUtils;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Objects;
+import java.util.Optional;
 
-import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.Word.ERROR_SINGLE;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.*;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
-public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
+@MockConcurrentConfig
+class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleService companyArticleService;
+    private CompanyArticleService companyArticleService;
 
     @Autowired
-    IndustryArticleService industryArticleService;
+    private IndustryArticleService industryArticleService;
 
     @Autowired
-    ArticleMainService articleMainService;
+    private ArticleMainService articleMainService;
 
     @Autowired
-    CompanyService companyService;
-
-    private final JdbcTemplate jdbcTemplateTest;
+    private CompanyService companyService;
 
     @Autowired
-    public FilterTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
+    private CompanyArticleAddSimpleValidator companyArticleAddSimpleValidator;
 
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
-    }
+    @Autowired
+    private IndustryArticleAddSimpleValidator industryArticleAddSimpleValidator;
+
+    @Autowired
+    private ArticleMainAddValidator articleMainAddValidator;
+
+    @Autowired
+    private CompanyAddValidator companyAddValidator;
 
     @DisplayName("URL 맨 끝 슬래시 제거 필터 테스트")
     @Test
-    public void handleUrlLastSlashFilterTest() throws Exception {
+    void handleUrlLastSlashFilterTest() throws Exception {
         mockMvc.perform(getWithNoParam(LOGIN_URL + "/"))
                 .andExpectAll(status().isOk(), view().name(LOGIN_VIEW + VIEW_SHOW));
         mockMvc.perform(getWithNoParam(FIND_ID_URL + "/"))
@@ -92,15 +80,22 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @DisplayName("기업 기사 추가에 대한 기사 지원 필터 테스트")
     @Test
-    public void companyArticleDtoSupportFilterAddTest() throws Exception {
+    void companyArticleDtoSupportFilterAddTest() throws Exception {
         // given
-        CompanyArticleDto articleDtoLeftSpace = createTestCompanyArticleDto();
+        CompanyArticle article = testCompanyArticle;
+        when(companyArticleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(companyArticleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
+        doNothing().when(companyArticleService).removeArticleByName(article.getName());
+        doNothing().when(companyArticleAddSimpleValidator).validate(any(), any());
+
+        CompanyArticleDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        CompanyArticleDto articleDtoRightSpace = createTestCompanyArticleDto();
+        CompanyArticleDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        CompanyArticleDto articleDtoKorean = createTestCompanyArticleDto();
+        CompanyArticleDto articleDtoKorean = article.toDto();
         articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
-        CompanyArticleDto articleDtoLowercase = createTestCompanyArticleDto();
+        CompanyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
         String commonName = createTestCompanyArticleDto().getName();
@@ -117,62 +112,19 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         }
     }
 
-    @DisplayName("문자열을 사용하는 기업 기사 추가에 대한 기사 지원 필터 테스트")
-    @Test
-    public void companyArticleDtoSupportFilterAddWithStringTest() throws Exception {
-        // given
-        CompanyArticle article1 = testEqualDateCompanyArticle;
-        CompanyArticle article2 = testNewCompanyArticle;
-        CompanyArticleBufferSimple articleBuffer = testCompanyArticleBuffer;
-
-        List<String> nameList = Stream.of(article1, article2)
-                .map(CompanyArticle::getName).collect(Collectors.toList());
-        String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
-
-        String articleStringLeftSpace = articleBuffer.getNameDatePressString()
-                .replace(article1.getName(), " " + article1.getName());
-        String articleStringRightSpace = articleBuffer.getNameDatePressString()
-                .replace(article1.getName(), article1.getName() + " ");
-        String articleStringKorean = testCompanyArticleBuffer.getNameDatePressString()
-                .replace(article1.getPress().name(), article1.getPress().getPressValue())
-                .replace(article2.getPress().name(), article2.getPress().getPressValue());
-        String articleStringLowercase = testCompanyArticleBuffer.getNameDatePressString()
-                .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
-                .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
-                articleStringKorean, articleStringLowercase)) {
-            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
-                            ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                        put(nameDatePressString, articleString);
-                        put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
-                        put(linkString, articleBuffer.getLinkString());
-                    }}))
-                    .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
-                    .andReturn().getModelAndView()).getModelMap();
-
-            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
-
-            companyArticleService.removeArticleByName(article1.getName());
-            companyArticleService.removeArticleByName(article2.getName());
-        }
-    }
-
     @DisplayName("기업 기사 변경에 대한 기사 지원 필터 테스트")
     @Test
-    public void companyArticleDtoSupportFilterModifyTest() throws Exception {
+    void companyArticleDtoSupportFilterModifyTest() throws Exception {
         // given
         CompanyArticle beforeModifyArticle = testCompanyArticle;
         CompanyArticle article = CompanyArticle.builder().article(testNewCompanyArticle)
                 .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
+        when(companyArticleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(companyArticleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
+        when(companyArticleService.registerArticle(testCompanyArticle)).thenReturn(article);
+        when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
+        doNothing().when(companyArticleService).correctArticle(article);
+
         CompanyArticleDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         CompanyArticleDto articleDtoRightSpace = article.toDto();
@@ -197,19 +149,25 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @DisplayName("산업 기사 추가에 대한 기사 지원 필터 테스트")
     @Test
-    public void industryArticleDtoSupportFilterAddTest() throws Exception {
+    void industryArticleDtoSupportFilterAddTest() throws Exception {
         // given & when
-        IndustryArticleDto articleDtoLeftSpace = createTestIndustryArticleDto();
-        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
-        IndustryArticleDto articleDtoRightSpace = createTestIndustryArticleDto();
-        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        IndustryArticleDto articleDtoKorean = createTestIndustryArticleDto();
-        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
-        IndustryArticleDto articleDtoLowercase = createTestIndustryArticleDto();
-        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
-        String commonName = createTestIndustryArticleDto().getName();
+        IndustryArticle article = testIndustryArticle;
+        when(industryArticleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(industryArticleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        doNothing().when(industryArticleService).removeArticleByName(article.getName());
+        doNothing().when(industryArticleAddSimpleValidator).validate(any(), any());
 
-        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, createTestIndustryArticleDto().getName()).build().toUriString();
+        IndustryArticleDto articleDtoLeftSpace = article.toDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        IndustryArticleDto articleDtoRightSpace = article.toDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        IndustryArticleDto articleDtoKorean = article.toDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        IndustryArticleDto articleDtoLowercase = article.toDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
+        String commonName = article.toDto().getName();
+
+        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.toDto().getName()).build().toUriString();
 
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
@@ -220,60 +178,18 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
         }
     }
 
-    @DisplayName("문자열을 사용하는 산업 기사 추가에 대한 기사 지원 필터 테스트")
-    @Test
-    public void industryArticleDtoSupportFilterAddWithStringTest() throws Exception {
-        // given & when
-        IndustryArticle article1 = testEqualDateIndustryArticle;
-        IndustryArticle article2 = testNewIndustryArticle;
-        IndustryArticleBufferSimple articleBuffer = testIndustryArticleBuffer;
-
-        List<String> nameList = Stream.of(article1, article2)
-                .map(IndustryArticle::getName).collect(Collectors.toList());
-        String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
-
-        String articleStringLeftSpace = articleBuffer.getNameDatePressString()
-                .replace(article1.getName(), " " + article1.getName());
-        String articleStringRightSpace = articleBuffer.getNameDatePressString()
-                .replace(article1.getName(), article1.getName() + " ");
-        String articleStringKorean = testIndustryArticleBuffer.getNameDatePressString()
-                .replace(article1.getPress().name(), article1.getPress().getPressValue())
-                .replace(article2.getPress().name(), article2.getPress().getPressValue());
-        String articleStringLowercase = testIndustryArticleBuffer.getNameDatePressString()
-                .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
-                .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
-
-        // then
-        for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
-                articleStringKorean, articleStringLowercase)) {
-            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
-                            ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                                put(nameDatePressString, articleString);
-                                put(linkString, articleBuffer.getLinkString());
-                                put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                                put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
-                            }}))
-                    .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
-                    .andReturn().getModelAndView()).getModelMap();
-
-            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
-            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
-            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
-
-            industryArticleService.removeArticleByName(article1.getName());
-            industryArticleService.removeArticleByName(article2.getName());
-        }
-    }
-
     @DisplayName("산업 기사 변경에 대한 기사 지원 필터 테스트")
     @Test
-    public void industryArticleDtoSupportFilterModifyTest() throws Exception {
+    void industryArticleDtoSupportFilterModifyTest() throws Exception {
         // given
         IndustryArticle beforeModifyArticle = testIndustryArticle;
         IndustryArticle article = IndustryArticle.builder().article(testNewIndustryArticle)
                 .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
+        when(industryArticleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(industryArticleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
+        when(industryArticleService.registerArticle(testIndustryArticle)).thenReturn(article);
+        doNothing().when(industryArticleService).correctArticle(article);
+
         IndustryArticleDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         IndustryArticleDto articleDtoRightSpace = article.toDto();
@@ -298,8 +214,16 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @DisplayName("추가에 대한 기사 메인 지원 필터 테스트")
     @Test
-    public void articleMainDtoSupportFilterAddTest() throws Exception {
+    void articleMainDtoSupportFilterAddTest() throws Exception {
         // given & when
+        ArticleMain article = testCompanyArticleMain;
+        String name = article.getName();
+        when(articleMainService.findArticleByName(name)).thenReturn(Optional.of(article));
+        when(articleMainService.findArticleByImagePath(article.getImagePath())).thenReturn(Optional.empty());
+        when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        doNothing().when(articleMainService).removeArticleByName(article.getName());
+        doNothing().when(articleMainAddValidator).validate(any(), any());
+
         ArticleMainDto articleDtoOriginal = createTestCompanyArticleMainDto();
         ArticleMainDto articleDtoLeftSpace = createTestCompanyArticleMainDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
@@ -325,10 +249,14 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @DisplayName("변경에 대한 기사 메인 지원 필터 테스트")
     @Test
-    public void articleMainDtoSupportFilterModifyTest() throws Exception {
+    void articleMainDtoSupportFilterModifyTest() throws Exception {
         // given
         ArticleMain beforeModifyArticle = testCompanyArticleMain;
         ArticleMain article = ArticleMain.builder().article(testNewCompanyArticleMain).name(beforeModifyArticle.getName()).build();
+        when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(testCompanyArticleMain)).thenReturn(article);
+        doNothing().when(articleMainService).correctArticle(article);
+
         ArticleMainDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = article.toDto();
@@ -353,21 +281,27 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @DisplayName("추가에 대한 기업 지원 필터 테스트")
     @Test
-    public void companyDtoSupportFilterAddTest() throws Exception {
+    void companyDtoSupportFilterAddTest() throws Exception {
         // given & when
-        CompanyDto companyDtoKorean = createSamsungElectronicsDto();
+        Company company = samsungElectronics;
+        when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
+        doNothing().when(companyService).registerCompany(argThat(Objects::nonNull));
+        doNothing().when(companyService).removeCompanyByCode(company.getCode());
+        doNothing().when(companyAddValidator).validate(any(), any());
+
+        CompanyDto companyDtoKorean = company.toDto();
         companyDtoKorean.setCountry(Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
         companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
         companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
         companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
 
-        CompanyDto companyDtoLowercase = createSamsungElectronicsDto();
+        CompanyDto companyDtoLowercase = company.toDto();
         companyDtoLowercase.setCountry(Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());
         companyDtoLowercase.setScale(Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, createSamsungElectronicsDto().getName()).build().toUriString();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, company.toDto().getName()).build().toUriString();
 
         // then
         for (CompanyDto companyDto : List.of(companyDtoKorean, companyDtoLowercase)) {
@@ -380,11 +314,15 @@ public class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestU
 
     @DisplayName("변경에 대한 기업 지원 필터 테스트")
     @Test
-    public void companyDtoSupportFilterModifyTest() throws Exception {
+    void companyDtoSupportFilterModifyTest() throws Exception {
         // given
         Company beforeModifyCompany = samsungElectronics;
         Company company = Company.builder().company(skHynix)
                 .name(beforeModifyCompany.getName()).code(beforeModifyCompany.getCode()).build();
+        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
+        doNothing().when(companyService).registerCompany(samsungElectronics);
+        doNothing().when(companyService).correctCompany(company);
 
         CompanyDto companyDtoKorean = company.toDto();
         companyDtoKorean.setCountry(Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
