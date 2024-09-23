@@ -7,7 +7,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
-import site.hixview.domain.config.postprocessor.MockServiceBeanFactoryPostProcessor;
 import site.hixview.domain.config.postprocessor.MockValidatorBeanFactoryPostProcessor;
 
 import java.lang.annotation.*;
@@ -16,11 +15,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
-@Import({MockServiceBeanFactoryPostProcessor.class,
-        MockValidatorBeanFactoryPostProcessor.class})
+@Import(MockValidatorBeanFactoryPostProcessor.class)
 @UseMainBeansConfig
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
-public @interface MockConcurrentConfig {
+public @interface MockValidatorConfig {
 }
