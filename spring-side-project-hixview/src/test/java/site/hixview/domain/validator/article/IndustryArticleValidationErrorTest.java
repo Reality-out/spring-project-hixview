@@ -17,6 +17,7 @@ import site.hixview.util.test.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +37,7 @@ import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHE
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
-public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUtils {
+public class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,7 +48,7 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public IndustryArticleValidatorErrorTest(DataSource dataSource) {
+    public IndustryArticleValidationErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -94,48 +95,30 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("중복 기사명을 사용하는 산업 기사 추가")
+    @DisplayName("중복 기사명을 또는 기사 링크를 사용하는 산업 기사 추가")
     @Test
-    public void duplicatedNameIndustryArticleAdd() throws Exception {
+    public void duplicatedNameOrLinkIndustryArticleAdd() throws Exception {
         // given
-        IndustryArticle article1 = testIndustryArticle;
-        String commonName = article1.getName();
-        IndustryArticleDto articleDto2 = createTestNewIndustryArticleDto();
-        articleDto2.setName(commonName);
+        IndustryArticle article = testIndustryArticle;
+        IndustryArticleDto articleDtoDuplicatedName = createTestNewIndustryArticleDto();
+        articleDtoDuplicatedName.setName(article.getName());
+        IndustryArticleDto articleDtoDuplicatedLink = createTestNewIndustryArticleDto();
+        articleDtoDuplicatedLink.setLink(article.getLink());
 
         // when
-        articleService.registerArticle(article1);
+        articleService.registerArticle(article);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto2);
-    }
-
-    @DisplayName("중복 기사 링크를 사용하는 산업 기사 추가")
-    @Test
-    public void duplicatedLinkIndustryArticleAdd() throws Exception {
-        // given
-        IndustryArticle article1 = testIndustryArticle;
-        String commonLink = article1.getLink();
-        IndustryArticleDto articleDto2 = createTestNewIndustryArticleDto();
-        articleDto2.setLink(commonLink);
-
-        // when
-        articleService.registerArticle(article1);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto2);
+        for (IndustryArticleDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedLink)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(
+                            ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+                    .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                            model().attribute(ERROR, (String) null))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDto);
+        }
     }
 
     @DisplayName("기사 입력일이 유효하지 않은, 문자열을 사용하는 산업 기사들 추가")
@@ -161,42 +144,31 @@ public class IndustryArticleValidatorErrorTest implements IndustryArticleTestUti
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
 
-    @DisplayName("중복 기사명을 사용하는, 문자열을 사용하는 산업 기사들 추가")
+    @DisplayName("중복 기사명 또는 기사 링크를 사용하는, 문자열을 사용하는 산업 기사들 추가")
     @Test
-    public void duplicatedNameIndustryArticleAddWithString() throws Exception {
-        // given & when
-        articleService.registerArticle(IndustryArticle.builder().article(testIndustryArticle).name(testEqualDateIndustryArticle.getName()).build());
+    public void duplicatedNameOrLinkIndustryArticleAddWithString() throws Exception {
+        // given
+        IndustryArticleBufferSimple articleBufferDuplicatedName = IndustryArticleBufferSimple.builder().article(IndustryArticle.builder()
+                .article(testEqualDateIndustryArticle).link(testIndustryArticle.getLink()).build()).build();
+        IndustryArticleBufferSimple articleBufferDuplicatedLink = IndustryArticleBufferSimple.builder().article(IndustryArticle.builder()
+                .article(testEqualDateIndustryArticle).name(testIndustryArticle.getName()).build()).build();
+
+        // when
+        articleService.registerArticle(testEqualDateIndustryArticle);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategory());
-                }}))
-                .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, (String) null)));
-    }
-
-    @DisplayName("중복 기사 링크를 사용하는, 문자열을 사용하는 산업 기사들 추가")
-    @Test
-    public void duplicatedLinkIndustryArticleAddWithString() throws Exception {
-        // given & when
-        articleService.registerArticle(IndustryArticle.builder().article(testIndustryArticle).link(testEqualDateIndustryArticle.getLink()).build());
-
-        // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategory());
-                }}))
-                .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, (String) null)));
+        for (IndustryArticleBufferSimple articleBuffer : List.of(articleBufferDuplicatedName, articleBufferDuplicatedLink)) {
+            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                        put(nameDatePressString, articleBuffer.getNameDatePressString());
+                        put(linkString, articleBuffer.getLinkString());
+                        put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
+                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
+                    }}))
+                    .andExpectAll(view().name(
+                                    REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
+                            model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                            model().attribute(ERROR_SINGLE, (String) null)));
+        }
     }
 
     @DisplayName("미래의 기사 입력일을 사용하는 산업 기사 변경 유효성 검증")

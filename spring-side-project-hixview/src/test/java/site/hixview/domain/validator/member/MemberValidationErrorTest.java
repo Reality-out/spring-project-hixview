@@ -45,9 +45,9 @@ public class MemberValidationErrorTest implements MemberTestUtils {
         resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
     }
 
-    @DisplayName("date의 Restrict에 대한 회원 가입 유효성 검증")
+    @DisplayName("미래의 생일을 사용하는 회원 가입")
     @Test
-    public void validateDateRestrictMembership() throws Exception {
+    public void futureBirthMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
         memberDto.setYear(2099);
@@ -62,9 +62,9 @@ public class MemberValidationErrorTest implements MemberTestUtils {
                 .isEqualTo(memberDto);
     }
 
-    @DisplayName("date의 TypeButInvalid에 대한 회원 가입 유효성 검증")
+    @DisplayName("유효하지 않은 생일을 사용하는 회원 가입")
     @Test
-    public void validateDateTypeButInvalidMembership() throws Exception {
+    public void invalidBirthMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
         memberDto.setYear(2000);

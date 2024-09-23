@@ -16,6 +16,8 @@ import site.hixview.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -51,46 +53,28 @@ public class CompanyValidationErrorTest implements CompanyTestUtils {
         resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
-    @DisplayName("중복 기업 코드를 사용하는 기업 추가")
+    @DisplayName("중복 기업 코드 또는 기업명을 사용하는 기업 추가")
     @Test
-    public void duplicatedCodeCompanyAdd() throws Exception {
+    public void duplicatedCodeOrNameCompanyAdd() throws Exception {
         // given
-        String commonCode = samsungElectronics.getCode();
-        CompanyDto companyDto2 = createSKHynixDto();
-        companyDto2.setCode(commonCode);
+        CompanyDto companyDtoDuplicatedCode = createSKHynixDto();
+        companyDtoDuplicatedCode.setCode(samsungElectronics.getCode());
+        CompanyDto companyDtoDuplicatedName = createSKHynixDto();
+        companyDtoDuplicatedName.setName(samsungElectronics.getName());
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto2))
-                .andExpectAll(view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto2);
-    }
-
-    @DisplayName("중복 기업명을 사용하는 기업 추가")
-    @Test
-    public void duplicatedNameCompanyAdd() throws Exception {
-        // given
-        String commonName = samsungElectronics.getName();
-        CompanyDto companyDto2 = createSKHynixDto();
-        companyDto2.setName(commonName);
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto2))
-                .andExpectAll(view().name(addSingleCompanyProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                .usingRecursiveComparison()
-                .isEqualTo(companyDto2);
+        for (CompanyDto companyDto : List.of(companyDtoDuplicatedCode, companyDtoDuplicatedName)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+                    .andExpectAll(view().name(addSingleCompanyProcessPage),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                            model().attribute(ERROR, (String) null))
+                    .andReturn().getModelAndView()).getModelMap().get(COMPANY))
+                    .usingRecursiveComparison()
+                    .isEqualTo(companyDto);
+        }
     }
 
     @DisplayName("기업 코드 또는 기업명까지 변경을 시도하는, 기업 변경")

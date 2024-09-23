@@ -16,6 +16,8 @@ import site.hixview.util.test.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -53,48 +55,29 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
     }
 
-    @DisplayName("중복 기사 메인명을 사용하는 기사 메인 추가")
+    @DisplayName("중복 기사 메인명 또는 이미지 경로를 사용하는 기사 메인 추가")
     @Test
-    public void duplicatedNameArticleMainAdd() throws Exception {
+    public void duplicatedNameOrImagePathArticleMainAdd() throws Exception {
         // given
-        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
-        String commonName = articleDto.getName();
-        ArticleMainDto articleNewDto = createTestNewCompanyArticleMainDto();
-        articleNewDto.setName(commonName);
+        ArticleMain article = testCompanyArticleMain;
+        ArticleMainDto articleDtoDuplicatedName = article.toDto();
+        articleDtoDuplicatedName.setName(testNewCompanyArticleMain.getName());
+        ArticleMainDto articleDtoDuplicatedImagePath = article.toDto();
+        articleDtoDuplicatedImagePath.setImagePath(testNewCompanyArticleMain.getImagePath());
 
         // when
-        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleNewDto).build());
+        articleMainService.registerArticle(testNewCompanyArticleMain);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
-    }
-
-    @DisplayName("중복 이미지 경로를 사용하는 기사 메인 추가")
-    @Test
-    public void duplicatedImagePathArticleMainAdd() throws Exception {
-        // given
-        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
-        String commonImagePath = articleDto.getImagePath();
-        ArticleMainDto articleNewDto = createTestNewCompanyArticleMainDto();
-        articleNewDto.setImagePath(commonImagePath);
-
-        // when
-        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleNewDto).build());
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        for (ArticleMainDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedImagePath)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+                    .andExpectAll(view().name(addArticleMainProcessPage),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                            model().attribute(ERROR, (String) null))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDto);
+        }
     }
 
     @DisplayName("기사 메인명까지 변경을 시도하는 기사 메인 변경")

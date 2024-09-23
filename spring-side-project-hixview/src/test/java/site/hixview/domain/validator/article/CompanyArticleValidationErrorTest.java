@@ -9,9 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.domain.entity.article.CompanyArticle;
-import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
-import site.hixview.domain.entity.article.CompanyArticleDto;
+import site.hixview.domain.entity.article.*;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.test.CompanyArticleTestUtils;
@@ -19,6 +17,7 @@ import site.hixview.util.test.CompanyTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +39,7 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTIC
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @Transactional
-public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +53,7 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleValidatorErrorTest(DataSource dataSource) {
+    public CompanyArticleValidationErrorTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
@@ -100,50 +99,30 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("중복 기사명을 사용하는 기업 기사 추가")
+    @DisplayName("중복 기사명 또는 기사 링크를 사용하는 기업 기사 추가")
     @Test
-    public void duplicatedNameCompanyArticleAdd() throws Exception {
+    public void duplicatedNameOrLinkCompanyArticleAdd() throws Exception {
         // given
-        CompanyArticle article1 = testCompanyArticle;
-        String commonName = article1.getName();
-        CompanyArticleDto articleDto2 = createTestNewCompanyArticleDto();
-        articleDto2.setName(commonName);
+        CompanyArticle article = testCompanyArticle;
+        CompanyArticleDto articleDtoDuplicatedName = createTestNewCompanyArticleDto();
+        articleDtoDuplicatedName.setName(article.getName());
+        CompanyArticleDto articleDtoDuplicatedLink = createTestNewCompanyArticleDto();
+        articleDtoDuplicatedLink.setLink(article.getLink());
 
         // when
-        articleService.registerArticle(article1);
+        articleService.registerArticle(article);
         companyService.registerCompany(samsungElectronics);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto2);
-    }
-
-    @DisplayName("중복 기사 링크를 사용하는 기업 기사 추가")
-    @Test
-    public void duplicatedLinkCompanyArticleAdd() throws Exception {
-        // given
-        CompanyArticle article1 = testCompanyArticle;
-        String commonLink = article1.getLink();
-        CompanyArticleDto articleDto2 = createTestNewCompanyArticleDto();
-        articleDto2.setLink(commonLink);
-
-        // when
-        articleService.registerArticle(article1);
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto2))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto2);
+        for (CompanyArticleDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedLink)) {
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+                    .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
+                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                            model().attribute(ERROR, (String) null))
+                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDto);
+        }
     }
 
     @DisplayName("대상 기업이 추가되지 않은 기업 기사 추가")
@@ -187,42 +166,31 @@ public class CompanyArticleValidatorErrorTest implements CompanyArticleTestUtils
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
 
-    @DisplayName("중복 기사명을 사용하는, 문자열을 사용하는 기업 기사들 추가")
+    @DisplayName("중복 기사명 또는 기사 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가")
     @Test
-    public void duplicatedNameCompanyArticleAddWithString() throws Exception {
-        // given & when
-        articleService.registerArticle(CompanyArticle.builder().article(testCompanyArticle).name(testEqualDateCompanyArticle.getName()).build());
+    public void duplicatedNameOrLinkCompanyArticleAddWithString() throws Exception {
+        // given
+        CompanyArticleBufferSimple articleBufferDuplicatedName = CompanyArticleBufferSimple.builder().article(CompanyArticle.builder()
+                .article(testEqualDateCompanyArticle).link(testCompanyArticle.getLink()).build()).build();
+        CompanyArticleBufferSimple articleBufferDuplicatedLink = CompanyArticleBufferSimple.builder().article(CompanyArticle.builder()
+                .article(testEqualDateCompanyArticle).name(testCompanyArticle.getName()).build()).build();
+
+        // when
+        articleService.registerArticle(testEqualDateCompanyArticle);
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
-                }}))
-                .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, (String) null)));
-    }
-
-    @DisplayName("중복 기사 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가")
-    @Test
-    public void duplicatedLinkCompanyArticleAddWithString() throws Exception {
-        // given & when
-        articleService.registerArticle(CompanyArticle.builder().article(testCompanyArticle).link(testEqualDateCompanyArticle.getLink()).build());
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testEqualDateCompanyArticleBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
-                }}))
-                .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, (String) null)));
+        for (CompanyArticleBufferSimple articleBuffer : List.of(articleBufferDuplicatedName, articleBufferDuplicatedLink)) {
+            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                        put(nameDatePressString, articleBuffer.getNameDatePressString());
+                        put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
+                        put(linkString, articleBuffer.getLinkString());
+                    }}))
+                    .andExpectAll(view().name(
+                                    REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
+                            model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
+                            model().attribute(ERROR_SINGLE, (String) null)));
+        }
     }
 
     @DisplayName("미래의 기사 입력일을 사용하는 기업 기사 변경 유효성 검증")
