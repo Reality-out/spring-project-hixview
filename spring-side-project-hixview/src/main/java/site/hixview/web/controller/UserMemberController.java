@@ -19,13 +19,12 @@ import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.Word.ERRORS_ARE;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
+import static site.hixview.util.ControllerUtils.finishForRollback;
 
 @Controller
 @RequiredArgsConstructor
@@ -52,13 +51,13 @@ public class UserMemberController {
     public String submitMembershipPage(@ModelAttribute(MEMBER) @Validated MemberDto memberDto,
                                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), model);
+            finishForRollback(bindingResult.getAllErrors().toString(), null, null, model);
             return MEMBERSHIP_VIEW + VIEW_PROCESS;
         }
 
         birthValidator.validate(memberDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), model);
+            finishForRollback(bindingResult.getAllErrors().toString(), null, null, model);
             return MEMBERSHIP_VIEW + VIEW_PROCESS;
         }
 
@@ -70,14 +69,5 @@ public class UserMemberController {
     @ResponseStatus(HttpStatus.OK)
     public String finishMembershipPage() {
         return MEMBERSHIP_VIEW + VIEW_FINISH;
-    }
-
-    /**
-     * Other private methods
-     */
-    // Handle Error
-    private void finishForRollback(String logMessage, Model model) {
-        log.error(ERRORS_ARE, logMessage);
-        model.addAttribute(LAYOUT_PATH, null);
     }
 }

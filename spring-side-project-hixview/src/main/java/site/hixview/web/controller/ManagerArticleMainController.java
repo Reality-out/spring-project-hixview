@@ -31,7 +31,7 @@ import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_ARTICLE_MAIN_ERROR;
 import static site.hixview.domain.vo.name.ViewName.*;
-import static site.hixview.util.ControllerUtils.finishForRollback;
+import static site.hixview.util.ControllerUtils.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,14 +71,14 @@ public class ManagerArticleMainController {
         }
 
         articleMainService.registerArticle(ArticleMain.builder().articleDto(articleMainDto).build());
-        return REDIRECT_URL + fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleMainDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleMainDto.getName())).build().toUriString();
     }
 
     @GetMapping(ADD_ARTICLE_MAIN_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }
 
@@ -136,14 +136,14 @@ public class ManagerArticleMainController {
         }
 
         articleMainService.correctArticle(ArticleMain.builder().articleDto(articleMainDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleMainDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleMainDto.getName())).build().toUriString();
     }
 
     @GetMapping(UPDATE_ARTICLE_MAIN_URL + FINISH_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
 	}
 
@@ -170,14 +170,14 @@ public class ManagerArticleMainController {
             numberOrName = articleMainService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         articleMainService.removeArticleByName(numberOrName);
-        return REDIRECT_URL + fromPath(REMOVE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, numberOrName).build().toUriString();
+        return REDIRECT_URL + fromPath(REMOVE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
     }
 
     @GetMapping(REMOVE_ARTICLE_MAIN_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }
 }

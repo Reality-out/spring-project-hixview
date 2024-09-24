@@ -83,14 +83,14 @@ public class ManagerIndustryArticleController {
         }
 
         articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
 
@@ -241,14 +241,14 @@ public class ManagerIndustryArticleController {
         }
 
         articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
 	}
 
@@ -274,14 +274,14 @@ public class ManagerIndustryArticleController {
             numberOrName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         articleService.removeArticleByName(numberOrName);
-        return REDIRECT_URL + fromPath(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, numberOrName).build().toUriString();
+        return REDIRECT_URL + fromPath(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
     }
 
     @GetMapping(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
     }
 }

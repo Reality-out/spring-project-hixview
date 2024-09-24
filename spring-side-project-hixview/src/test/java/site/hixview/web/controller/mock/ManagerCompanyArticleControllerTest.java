@@ -38,6 +38,7 @@ import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
 class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, CompanyTestUtils {
@@ -84,7 +85,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         doNothing().when(companyArticleAddSimpleValidator).validate(any(), any());
 
         CompanyArticleDto articleDto = article.toDto();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -172,7 +173,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
         doNothing().when(articleService).correctArticle(article);
 
-        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -217,7 +218,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         doNothing().when(articleService).removeArticleByName(article.getName());
 
         String name = article.getName();
-        String redirectedURL = fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
+        String redirectedURL = fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // when
         Long number = articleService.registerArticle(article).getNumber();

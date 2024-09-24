@@ -16,12 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.SchemaName.*;
 
 @Repository
 @Primary
 public class ArticleMainRepositoryImpl implements ArticleMainRepository {
+
+    private final String CURRENT_SCHEMA = TEST_ARTICLE_MAINS_SCHEMA;
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -35,27 +37,27 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public List<ArticleMain> getArticles() {
-        return jdbcTemplate.query("select * from " + TEST_ARTICLE_MAINS_SCHEMA, articleRowMapper());
+        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA, articleRowMapper());
     }
 
     @Override
     public Optional<ArticleMain> getArticleByNumber(Long number) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_ARTICLE_MAINS_SCHEMA + " where number = ?", articleRowMapper(), number);
+                "select * from " + CURRENT_SCHEMA + " where number = ?", articleRowMapper(), number);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<ArticleMain> getArticleByName(String name) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_ARTICLE_MAINS_SCHEMA + " where name = ?", articleRowMapper(), name);
+                "select * from " + CURRENT_SCHEMA + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<ArticleMain> getArticleByImagePath(String imagePath) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_ARTICLE_MAINS_SCHEMA + " where imagePath = ?", articleRowMapper(), imagePath);
+                "select * from " + CURRENT_SCHEMA + " where imagePath = ?", articleRowMapper(), imagePath);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
@@ -64,7 +66,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public Long saveArticle(ArticleMain article) {
-        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_ARTICLE_MAINS_SCHEMA).usingGeneratedKeyColumns("number")
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(CURRENT_SCHEMA).usingGeneratedKeyColumns("number")
                 .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
@@ -73,7 +75,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public void updateArticle(ArticleMain article) {
-        jdbcTemplate.update("update " + TEST_ARTICLE_MAINS_SCHEMA +
+        jdbcTemplate.update("update " + CURRENT_SCHEMA +
                         " set imagePath = ?, summary = ?, articleClassName = ? where name = ?",
                 article.getImagePath(), article.getSummary(), article.getArticleClassName().name(), article.getName());
     }
@@ -83,7 +85,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
      */
     @Override
     public void deleteArticleByName(String name) {
-        jdbcTemplate.update("delete from " + TEST_ARTICLE_MAINS_SCHEMA + " where name = ?", name);
+        jdbcTemplate.update("delete from " + CURRENT_SCHEMA + " where name = ?", name);
     }
 
     /**

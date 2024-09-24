@@ -35,6 +35,7 @@ import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
 class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
@@ -76,7 +77,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         doNothing().when(articleMainAddValidator).validate(any(), any());
 
         ArticleMainDto articleDto = article.toDto();
-        String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, name)
+        String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name))
                 .build().toUriString();
 
         // then
@@ -158,7 +159,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         doNothing().when(articleMainService).correctArticle(article);
 
         String commonName = testCompanyArticleMain.getName();
-        String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         articleMainService.registerArticle(testCompanyArticleMain);
@@ -203,7 +204,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         Long number = articleMainService.registerArticle(article).getNumber();
         String name = article.getName();
         System.out.println(String.valueOf(number) + ' ' + name);
-        String redirectedURL = fromPath(REMOVE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
+        String redirectedURL = fromPath(REMOVE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {

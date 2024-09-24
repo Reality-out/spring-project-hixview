@@ -84,14 +84,14 @@ public class ManagerCompanyArticleController {
         }
 
         articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
 
@@ -235,14 +235,14 @@ public class ManagerCompanyArticleController {
         }
 
         articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, articleDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH;
 	}
 
@@ -268,14 +268,14 @@ public class ManagerCompanyArticleController {
             numberOrName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         articleService.removeArticleByName(numberOrName);
-        return REDIRECT_URL + fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, numberOrName).build().toUriString();
+        return REDIRECT_URL + fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
     }
 
     @GetMapping(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_FINISH;
     }
 }

@@ -14,7 +14,8 @@ public enum FirstCategory {
     IT_SERVICE("IT 서비스"),
     SECONDARY_BATTERY("2차전지"),
     SEMICONDUCTOR("반도체"),
-    SPACE("우주");
+    SPACE("우주"),
+    TELECOMMUNICATION("통신");
 
     private final String firstCategoryValue;
 

@@ -35,6 +35,7 @@ import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
 class ManagerCompanyControllerTest implements CompanyTestUtils {
@@ -73,7 +74,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyAddValidator).validate(any(), any());
 
         CompanyDto companyDto = company.toDto();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
 
         // then
         mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
@@ -157,7 +158,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyService).correctCompany(company);
 
         String commonName = samsungElectronics.getName();
-        String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, commonName).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -200,7 +201,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyService).removeCompanyByCode(company.getCode());
 
         String name = company.getName();
-        String redirectedURL = fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, name).build().toUriString();
+        String redirectedURL = fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(company.getCode(), name)) {

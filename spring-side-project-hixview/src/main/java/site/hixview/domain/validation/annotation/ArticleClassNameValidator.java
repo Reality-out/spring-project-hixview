@@ -26,7 +26,7 @@ public class ArticleClassNameValidator implements ConstraintValidator<ArticleCla
         }
         if (!inEnumConstants(ArticleClassName.class, articleClassName)) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("Restrict.article.articleClassName", null, Locale.getDefault())
+                    source.getMessage("typeMismatch.enum.article.articleClassName", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }

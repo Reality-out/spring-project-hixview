@@ -33,6 +33,8 @@ import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.util.ControllerUtils.decodeWithUTF8;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @Controller
 @RequiredArgsConstructor
@@ -73,14 +75,14 @@ public class ManagerCompanyController {
         }
 
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
-        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH;
     }
 
@@ -139,14 +141,14 @@ public class ManagerCompanyController {
         }
 
         companyService.correctCompany(Company.builder().companyDto(companyDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, companyDto.getName()).build().toUriString();
+        return REDIRECT_URL + fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
     }
 
     @GetMapping(UPDATE_COMPANY_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_VIEW + VIEW_FINISH;
     }
 
@@ -171,16 +173,15 @@ public class ManagerCompanyController {
         if (NUMBER_PATTERN.matcher(codeOrName).matches()) {
             codeOrName = companyService.findCompanyByCode(codeOrName).orElseThrow().getName();
         }
-        String redirectURL = REDIRECT_URL + fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, codeOrName).build().toUriString();
         companyService.removeCompanyByCode(companyService.findCompanyByName(codeOrName).orElseThrow().getCode());
-        return redirectURL;
+        return REDIRECT_URL + fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(codeOrName)).build().toUriString();
     }
 
     @GetMapping(REMOVE_COMPANY_URL + FINISH_URL)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(VALUE, name);
+        model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_URL_VIEW + VIEW_FINISH;
     }
 

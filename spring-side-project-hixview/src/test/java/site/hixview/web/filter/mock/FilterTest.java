@@ -36,6 +36,7 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
 class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
@@ -98,8 +99,8 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         CompanyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String commonName = createTestCompanyArticleDto().getName();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, commonName).build().toUriString();
+        String commonName = article.getName();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -134,7 +135,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         CompanyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -167,7 +168,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
         String commonName = article.toDto().getName();
 
-        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.toDto().getName()).build().toUriString();
+        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.toDto().getName())).build().toUriString();
 
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
@@ -199,7 +200,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         IndustryArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String redirectedURL = fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         industryArticleService.registerArticle(beforeModifyArticle);
@@ -234,7 +235,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
 
-        String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, articleDtoOriginal.getName())
+        String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDtoOriginal.getName()))
                 .build().toUriString();
 
         // then
@@ -266,7 +267,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
 
-        String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, article.getName()).build().toUriString();
+        String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         articleMainService.registerArticle(beforeModifyArticle);
@@ -301,7 +302,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, company.toDto().getName()).build().toUriString();
+        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(company.toDto().getName())).build().toUriString();
 
         // then
         for (CompanyDto companyDto : List.of(companyDtoKorean, companyDtoLowercase)) {
@@ -336,7 +337,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
-        String redirectedURL = fromPath(modifyCompanyFinishUrl).queryParam(NAME, createSamsungElectronicsDto().getName()).build().toUriString();
+        String redirectedURL = fromPath(modifyCompanyFinishUrl).queryParam(NAME, encodeWithUTF8(beforeModifyCompany.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(beforeModifyCompany);

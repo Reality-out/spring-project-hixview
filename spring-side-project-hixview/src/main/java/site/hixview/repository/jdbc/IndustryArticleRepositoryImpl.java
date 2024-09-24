@@ -19,12 +19,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.SchemaName.*;
 
 @Repository
 @Primary
 public class IndustryArticleRepositoryImpl implements IndustryArticleRepository {
+
+    private final String CURRENT_SCHEMA = TEST_INDUSTRY_ARTICLES_SCHEMA;
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -38,44 +40,44 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      */
     @Override
     public List<IndustryArticle> getArticles() {
-        return jdbcTemplate.query("select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA, articleRowMapper());
+        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA, articleRowMapper());
     }
 
     @Override
     public List<IndustryArticle> getArticlesByDate(LocalDate date) {
-        return jdbcTemplate.query("select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where date = ?", articleRowMapper(), date);
+        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where date = ?", articleRowMapper(), date);
     }
 
     @Override
     public List<IndustryArticle> getArticlesByDate(LocalDate startDate, LocalDate endDate) {
         return jdbcTemplate.query(
-                "select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where date between ? and ?", articleRowMapper(), startDate, endDate);
+                "select * from " + CURRENT_SCHEMA + " where date between ? and ?", articleRowMapper(), startDate, endDate);
     }
 
     @Override
     public List<IndustryArticle> getLatestArticles() {
-        return jdbcTemplate.query("select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where date = " +
-                "(select max(date) from " + TEST_INDUSTRY_ARTICLES_SCHEMA + ")", articleRowMapper());
+        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where date = " +
+                "(select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
     }
 
     @Override
     public Optional<IndustryArticle> getArticleByNumber(Long number) {
         List<IndustryArticle> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where number = ?", articleRowMapper(), number);
+                "select * from " + CURRENT_SCHEMA + " where number = ?", articleRowMapper(), number);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<IndustryArticle> getArticleByName(String name) {
         List<IndustryArticle> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where name = ?", articleRowMapper(), name);
+                "select * from " + CURRENT_SCHEMA + " where name = ?", articleRowMapper(), name);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
     @Override
     public Optional<IndustryArticle> getArticleByLink(String link) {
         List<IndustryArticle> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where link = ?", articleRowMapper(), link);
+                "select * from " + CURRENT_SCHEMA + " where link = ?", articleRowMapper(), link);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
@@ -84,7 +86,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      */
     @Override
     public Long saveArticle(IndustryArticle article) {
-        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_INDUSTRY_ARTICLES_SCHEMA).usingGeneratedKeyColumns("number")
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(CURRENT_SCHEMA).usingGeneratedKeyColumns("number")
                 .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
     }
 
@@ -93,7 +95,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      */
     @Override
     public void updateArticle(IndustryArticle article) {
-        jdbcTemplate.update("update " + TEST_INDUSTRY_ARTICLES_SCHEMA +
+        jdbcTemplate.update("update " + CURRENT_SCHEMA +
                         " set press = ?, link = ?, date = ?, importance = ?," +
                         " subjectFirstCategory = ?, subjectSecondCategory = ? where name = ?",
                 article.getPress().name(), article.getLink(), article.getDate(), article.getImportance(),
@@ -105,7 +107,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      */
     @Override
     public void deleteArticleByName(String name) {
-        jdbcTemplate.update("delete from " + TEST_INDUSTRY_ARTICLES_SCHEMA + " where name = ?", name);
+        jdbcTemplate.update("delete from " + CURRENT_SCHEMA + " where name = ?", name);
     }
 
     /**
