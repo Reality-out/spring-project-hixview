@@ -3,10 +3,10 @@ package site.hixview.domain.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import site.hixview.domain.config.annotation.OnlyRealServiceConfig;
+import site.hixview.support.context.OnlyRealServiceContext;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.repository.MemberRepository;
-import site.hixview.util.test.MemberTestUtils;
+import site.hixview.support.util.MemberTestUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_MEMBER_ID;
 import static site.hixview.domain.vo.ExceptionMessage.NO_MEMBER_WITH_THAT_ID;
 
-@OnlyRealServiceConfig
+@OnlyRealServiceContext
 class MemberServiceJdbcTest implements MemberTestUtils {
 
     @Autowired

@@ -15,8 +15,8 @@ import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.ControllerUtils;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.CompanyTestUtils;
+import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;

@@ -18,10 +18,10 @@ import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.util.test.ArticleMainTestUtils;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.CompanyTestUtils;
-import site.hixview.util.test.IndustryArticleTestUtils;
+import site.hixview.support.util.ArticleMainTestUtils;
+import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
+import site.hixview.support.util.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;

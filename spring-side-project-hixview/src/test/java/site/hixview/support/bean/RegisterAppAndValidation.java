@@ -1,4 +1,4 @@
-package site.hixview.domain.config.annotation;
+package site.hixview.support.bean;
 
 import org.springframework.context.annotation.Import;
 import site.hixview.domain.config.AppConfig;
@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 @Documented
 @Import({AppConfig.class,
         ValidationConfig.class})
-@interface RegisterAppAndValidationConfig {
+public @interface RegisterAppAndValidation {
 }

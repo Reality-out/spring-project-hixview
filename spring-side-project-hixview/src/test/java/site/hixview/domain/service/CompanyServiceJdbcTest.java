@@ -3,10 +3,10 @@ package site.hixview.domain.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import site.hixview.domain.config.annotation.OnlyRealServiceConfig;
+import site.hixview.support.context.OnlyRealServiceContext;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.repository.CompanyRepository;
-import site.hixview.util.test.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyArticleTestUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +19,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_COMPANY_CODE;
 import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_WITH_THAT_CODE;
-import static site.hixview.util.test.CompanyTestUtils.samsungElectronics;
-import static site.hixview.util.test.CompanyTestUtils.skHynix;
+import static site.hixview.support.util.CompanyTestUtils.samsungElectronics;
+import static site.hixview.support.util.CompanyTestUtils.skHynix;
 
-@OnlyRealServiceConfig
+@OnlyRealServiceContext
 class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
 
     @Autowired

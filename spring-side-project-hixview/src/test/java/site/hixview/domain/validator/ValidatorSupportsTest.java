@@ -3,21 +3,17 @@ package site.hixview.domain.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.entity.article.CompanyArticleDto;
 import site.hixview.domain.entity.article.IndustryArticleDto;
 import site.hixview.domain.entity.company.CompanyDto;
 import site.hixview.domain.entity.member.MemberDto;
 import site.hixview.domain.validation.validator.*;
+import site.hixview.support.context.RealControllerAndValidatorContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
+@RealControllerAndValidatorContext
 public class ValidatorSupportsTest {
 
     // Article

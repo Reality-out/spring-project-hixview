@@ -1,67 +1,44 @@
-package site.hixview.domain.validator.article;
+package site.hixview.domain.validator.article.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
-import site.hixview.domain.entity.article.*;
+import site.hixview.domain.entity.article.CompanyArticle;
+import site.hixview.domain.entity.article.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.CompanyTestUtils;
+import site.hixview.support.context.RealControllerAndValidatorContext;
+import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
-import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
-import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.Word.ERROR;
+import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTICLE_URL;
+import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
+@RealControllerAndValidatorContext
 public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    CompanyArticleService articleService;
+    private CompanyArticleService articleService;
 
     @Autowired
-    CompanyService companyService;
-
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public CompanyArticleValidationErrorTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
-        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
-    }
+    private CompanyService companyService;
 
     @DisplayName("미래의 기사 입력일을 사용하는 기업 기사 추가 유효성 검증")
     @Test
@@ -104,6 +81,11 @@ public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtil
     public void duplicatedNameOrLinkCompanyArticleAdd() throws Exception {
         // given
         CompanyArticle article = testCompanyArticle;
+        when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(articleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
+        when(articleService.registerArticle(article)).thenReturn(article);
+        doNothing().when(companyService).registerCompany(samsungElectronics);
+
         CompanyArticleDto articleDtoDuplicatedName = createTestNewCompanyArticleDto();
         articleDtoDuplicatedName.setName(article.getName());
         CompanyArticleDto articleDtoDuplicatedLink = createTestNewCompanyArticleDto();
@@ -139,58 +121,6 @@ public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtil
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
-    }
-
-    @DisplayName("기사 입력일이 유효하지 않은, 문자열을 사용하는 기업 기사들 추가")
-    @Test
-    public void invalidDateCompanyArticleAddWithString() throws Exception {
-        // given
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-        CompanyArticleBufferSimple articleBuffer = CompanyArticleBufferSimple.builder().articleDto(articleDto).build();
-
-        // when
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, articleBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
-                    put(linkString, articleBuffer.getLinkString());
-                }}))
-                .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, (String) null)));
-    }
-
-    @DisplayName("중복 기사명 또는 기사 링크를 사용하는, 문자열을 사용하는 기업 기사들 추가")
-    @Test
-    public void duplicatedNameOrLinkCompanyArticleAddWithString() throws Exception {
-        // given
-        CompanyArticleBufferSimple articleBufferDuplicatedName = CompanyArticleBufferSimple.builder().article(CompanyArticle.builder()
-                .article(testEqualDateCompanyArticle).link(testCompanyArticle.getLink()).build()).build();
-        CompanyArticleBufferSimple articleBufferDuplicatedLink = CompanyArticleBufferSimple.builder().article(CompanyArticle.builder()
-                .article(testEqualDateCompanyArticle).name(testCompanyArticle.getName()).build()).build();
-
-        // when
-        articleService.registerArticle(testEqualDateCompanyArticle);
-        companyService.registerCompany(samsungElectronics);
-
-        // then
-        for (CompanyArticleBufferSimple articleBuffer : List.of(articleBufferDuplicatedName, articleBufferDuplicatedLink)) {
-            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                        put(nameDatePressString, articleBuffer.getNameDatePressString());
-                        put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
-                        put(linkString, articleBuffer.getLinkString());
-                    }}))
-                    .andExpectAll(view().name(
-                                    REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                            model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                            model().attribute(ERROR_SINGLE, (String) null)));
-        }
     }
 
     @DisplayName("미래의 기사 입력일을 사용하는 기업 기사 변경 유효성 검증")
@@ -234,8 +164,13 @@ public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtil
     @DisplayName("기사명 또는 기사 링크까지 변경을 시도하는, 기업 기사 변경")
     @Test
     public void changeNameOrLinkCompanyArticleModify() throws Exception {
-        // given & when
+        // given
+        when(articleService.findArticleByName(testCompanyArticle.getName())).thenReturn(Optional.empty());
+        when(articleService.findArticleByLink(testCompanyArticle.getLink())).thenReturn(Optional.empty());
+        when(articleService.registerArticle(testCompanyArticle)).thenReturn(testCompanyArticle);
         CompanyArticle article = articleService.registerArticle(testCompanyArticle);
+
+        // when
         companyService.registerCompany(samsungElectronics);
 
         // then

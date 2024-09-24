@@ -3,12 +3,12 @@ package site.hixview.domain.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import site.hixview.domain.config.annotation.OnlyRealServiceConfig;
+import site.hixview.support.context.OnlyRealServiceContext;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.error.AlreadyExistException;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.repository.IndustryArticleRepository;
-import site.hixview.util.test.IndustryArticleTestUtils;
+import site.hixview.support.util.IndustryArticleTestUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +23,7 @@ import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ART
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 
-@OnlyRealServiceConfig
+@OnlyRealServiceContext
 class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
 
     @Autowired

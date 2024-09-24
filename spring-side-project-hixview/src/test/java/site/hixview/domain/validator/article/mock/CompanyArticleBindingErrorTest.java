@@ -1,16 +1,16 @@
-package site.hixview.domain.validator.article;
+package site.hixview.domain.validator.article.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.CompanyTestUtils;
+import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTIC
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
-@OnlyRealControllerConfig
+@OnlyRealControllerContext
 class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired

@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.service.MemberService;
 import site.hixview.domain.validation.validator.MemberBirthdayValidator;
-import site.hixview.util.test.MemberTestUtils;
+import site.hixview.support.util.MemberTestUtils;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,7 +19,7 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 
-@OnlyRealControllerConfig
+@OnlyRealControllerContext
 class UserMemberControllerTest implements MemberTestUtils {
 
     @Autowired

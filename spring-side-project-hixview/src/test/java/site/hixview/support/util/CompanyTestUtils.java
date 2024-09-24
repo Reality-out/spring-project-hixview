@@ -1,4 +1,4 @@
-package site.hixview.util.test;
+package site.hixview.support.util;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;

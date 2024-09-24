@@ -1,4 +1,4 @@
-package site.hixview.domain.config.annotation;
+package site.hixview.support.scan;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
         basePackages = "site.hixview.repository.jdbc",
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repository.class)
 )
-abstract class ScanRepositoryConfig {
+public abstract class ScanRepository {
 }

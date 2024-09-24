@@ -1,36 +1,35 @@
-package site.hixview.domain.config.postprocessor;
+package site.hixview.support.postprocessor;
 
 import io.micrometer.common.lang.NonNullApi;
 import org.mockito.Mockito;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.stereotype.Repository;
+import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.util.ClassUtils;
+import org.springframework.validation.Validator;
 
 import java.util.Objects;
 
 @NonNullApi
-public class MockRepositoryBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+public class MockValidatorBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
-    private static final String REPOSITORY_KOREAN = "리포지토리";
-    private static final String REPOSITORY_BASE_PACKAGE = "site.hixview.repository.jdbc";
+    private static final String VALIDATOR_KOREAN = "검증자";
+    private static final String VALIDATOR_BASE_PACKAGE = "site.hixview.domain.validation.validator";
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(Repository.class));
+        scanner.addIncludeFilter(new AssignableTypeFilter(Validator.class));
         ClassLoader classLoader = this.getClass().getClassLoader();
 
-        for (BeanDefinition validator : scanner.findCandidateComponents(REPOSITORY_BASE_PACKAGE)) {
+        for (BeanDefinition validator : scanner.findCandidateComponents(VALIDATOR_BASE_PACKAGE)) {
             Class<?> clazz;
             try {
                 clazz = ClassUtils.forName(Objects.requireNonNull(validator.getBeanClassName()), classLoader);
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException("해당 " + REPOSITORY_KOREAN + " 클래스를 불러오는 데 실패하였습니다: " + validator.getBeanClassName());
+                throw new RuntimeException("해당 " + VALIDATOR_KOREAN + " 클래스를 불러오는 데 실패하였습니다: " + validator.getBeanClassName());
             }
             beanFactory.registerSingleton(clazz.getSimpleName(), Mockito.mock(clazz));
         }

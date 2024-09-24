@@ -5,10 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
+import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.repository.IndustryArticleRepository;
-import site.hixview.util.test.IndustryArticleTestUtils;
+import site.hixview.support.util.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.Comparator;
@@ -20,7 +20,7 @@ import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
-@OnlyRealRepositoryConfig
+@OnlyRealRepositoryContext
 class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @Autowired

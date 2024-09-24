@@ -1,72 +1,57 @@
-package site.hixview.domain.validator.article;
+package site.hixview.domain.validator.article.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
-import site.hixview.util.test.ArticleMainTestUtils;
-
-import javax.sql.DataSource;
+import site.hixview.support.context.RealControllerAndValidatorContext;
+import site.hixview.support.util.ArticleMainTestUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
+import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
-public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
+@RealControllerAndValidatorContext
+class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    ArticleMainService articleMainService;
-
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public ArticleMainValidationErrorTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
-    }
+    private ArticleMainService articleMainService;
 
     @DisplayName("중복 기사 메인명 또는 이미지 경로를 사용하는 기사 메인 추가")
     @Test
-    public void duplicatedNameOrImagePathArticleMainAdd() throws Exception {
+    void duplicatedNameOrImagePathArticleMainAdd() throws Exception {
         // given
         ArticleMain article = testCompanyArticleMain;
-        ArticleMainDto articleDtoDuplicatedName = article.toDto();
-        articleDtoDuplicatedName.setName(testNewCompanyArticleMain.getName());
-        ArticleMainDto articleDtoDuplicatedImagePath = article.toDto();
-        articleDtoDuplicatedImagePath.setImagePath(testNewCompanyArticleMain.getImagePath());
+        when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(articleMainService.findArticleByImagePath(article.getImagePath())).thenReturn(Optional.of(article));
+        when(articleMainService.registerArticle(article)).thenReturn(article);
+
+        ArticleMainDto articleDtoDuplicatedName = createTestNewCompanyArticleMainDto();
+        articleDtoDuplicatedName.setName(article.getName());
+        ArticleMainDto articleDtoDuplicatedImagePath = createTestNewCompanyArticleMainDto();
+        articleDtoDuplicatedImagePath.setImagePath(article.getImagePath());
 
         // when
-        articleMainService.registerArticle(testNewCompanyArticleMain);
+        articleMainService.registerArticle(article);
 
         // then
         for (ArticleMainDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedImagePath)) {
@@ -82,10 +67,14 @@ public class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인명까지 변경을 시도하는 기사 메인 변경")
     @Test
-    public void changeNameArticleMainModify() throws Exception {
+    void changeNameArticleMainModify() throws Exception {
         // given
-        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
-        articleMainService.registerArticle(ArticleMain.builder().articleDto(articleDto).build());
+        ArticleMainDto articleDto = testCompanyArticleMain.toDto();
+        ArticleMain article = ArticleMain.builder().articleDto(articleDto).build();
+        when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.empty());
+        when(articleMainService.registerArticle(article)).thenReturn(article);
+
+        articleMainService.registerArticle(article);
 
         // when
         articleDto.setName(testNewCompanyArticleMain.getName());

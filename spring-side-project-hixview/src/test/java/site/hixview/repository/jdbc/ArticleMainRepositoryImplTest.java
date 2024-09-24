@@ -5,11 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
+import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.repository.ArticleMainRepository;
-import site.hixview.util.test.ArticleMainTestUtils;
+import site.hixview.support.util.ArticleMainTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 
-@OnlyRealRepositoryConfig
+@OnlyRealRepositoryContext
 class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @Autowired

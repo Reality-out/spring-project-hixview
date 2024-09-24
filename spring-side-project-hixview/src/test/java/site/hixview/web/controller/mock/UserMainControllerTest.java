@@ -4,16 +4,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.service.MemberService;
-import site.hixview.util.test.ArticleMainTestUtils;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.IndustryArticleTestUtils;
-import site.hixview.util.test.MemberTestUtils;
+import site.hixview.support.util.ArticleMainTestUtils;
+import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.IndustryArticleTestUtils;
+import site.hixview.support.util.MemberTestUtils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
-@OnlyRealControllerConfig
+@OnlyRealControllerContext
 class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils {
 
     @Autowired

@@ -1,14 +1,14 @@
-package site.hixview.domain.validator.article;
+package site.hixview.domain.validator.article.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
-import site.hixview.util.test.ArticleMainTestUtils;
+import site.hixview.support.util.ArticleMainTestUtils;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +22,7 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
-@OnlyRealControllerConfig
+@OnlyRealControllerContext
 class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
 
     @Autowired

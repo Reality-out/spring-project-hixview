@@ -4,9 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.service.CompanyService;
-import site.hixview.util.test.CompanyTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
 import java.util.Optional;
 
@@ -27,7 +27,7 @@ import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 
-@OnlyRealControllerConfig
+@OnlyRealControllerContext
 class ManagerCompanyErrorHandleTest implements CompanyTestUtils {
 
     @Autowired

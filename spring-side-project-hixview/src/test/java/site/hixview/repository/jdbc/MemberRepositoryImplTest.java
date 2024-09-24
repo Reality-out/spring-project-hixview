@@ -5,10 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
+import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.repository.MemberRepository;
-import site.hixview.util.test.MemberTestUtils;
+import site.hixview.support.util.MemberTestUtils;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.EntityName.Member.IDENTIFIER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 
-@OnlyRealRepositoryConfig
+@OnlyRealRepositoryContext
 class MemberRepositoryImplTest implements MemberTestUtils {
 
     @Autowired

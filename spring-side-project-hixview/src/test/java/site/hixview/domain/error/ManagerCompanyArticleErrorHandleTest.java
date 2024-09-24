@@ -4,14 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.CompanyArticleAddSimpleValidator;
-import site.hixview.util.test.CompanyArticleTestUtils;
-import site.hixview.util.test.CompanyTestUtils;
+import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +35,7 @@ import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 
-@OnlyRealControllerConfig
+@OnlyRealControllerContext
 class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired

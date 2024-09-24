@@ -1,4 +1,4 @@
-package site.hixview.domain.config.postprocessor;
+package site.hixview.support.postprocessor;
 
 import io.micrometer.common.lang.NonNullApi;
 import org.mockito.Mockito;

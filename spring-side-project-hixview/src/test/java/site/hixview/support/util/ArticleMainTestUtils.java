@@ -1,4 +1,4 @@
-package site.hixview.util.test;
+package site.hixview.support.util;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -15,9 +15,9 @@ import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ARTICLE_MAIN_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ARTICLE_MAIN_VIEW;
-import static site.hixview.util.test.CompanyArticleTestUtils.testCompanyArticle;
-import static site.hixview.util.test.CompanyArticleTestUtils.testNewCompanyArticle;
-import static site.hixview.util.test.IndustryArticleTestUtils.testIndustryArticle;
+import static site.hixview.support.util.CompanyArticleTestUtils.testCompanyArticle;
+import static site.hixview.support.util.CompanyArticleTestUtils.testNewCompanyArticle;
+import static site.hixview.support.util.IndustryArticleTestUtils.testIndustryArticle;
 
 public interface ArticleMainTestUtils extends ObjectTestUtils {
     // Assertion

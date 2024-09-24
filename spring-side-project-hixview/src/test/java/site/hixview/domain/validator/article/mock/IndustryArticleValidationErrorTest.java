@@ -1,65 +1,42 @@
-package site.hixview.domain.validator.article;
+package site.hixview.domain.validator.article.mock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.IndustryArticle;
-import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
 import site.hixview.domain.entity.article.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.util.test.IndustryArticleTestUtils;
+import site.hixview.support.context.RealControllerAndValidatorContext;
+import site.hixview.support.util.IndustryArticleTestUtils;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.Word.ERROR;
+import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
+import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@AutoConfigureMockMvc
-@Transactional
-public class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
+@RealControllerAndValidatorContext
+class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    IndustryArticleService articleService;
-
-    private final JdbcTemplate jdbcTemplateTest;
-
-    @Autowired
-    public IndustryArticleValidationErrorTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
-    }
+    private IndustryArticleService articleService;
 
     @DisplayName("미래의 기사 입력일을 사용하는 산업 기사 추가 유효성 검증")
     @Test
-    public void futureDateIndustryArticleAdd() throws Exception {
+    void futureDateIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDtoFuture = createTestIndustryArticleDto();
         articleDtoFuture.setYear(2099);
@@ -78,7 +55,7 @@ public class IndustryArticleValidationErrorTest implements IndustryArticleTestUt
 
     @DisplayName("기사 입력일이 유효하지 않은 산업 기사 추가 유효성 검증")
     @Test
-    public void invalidDateIndustryArticleAdd() throws Exception {
+    void invalidDateIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setYear(2000);
@@ -97,9 +74,13 @@ public class IndustryArticleValidationErrorTest implements IndustryArticleTestUt
 
     @DisplayName("중복 기사명을 또는 기사 링크를 사용하는 산업 기사 추가")
     @Test
-    public void duplicatedNameOrLinkIndustryArticleAdd() throws Exception {
+    void duplicatedNameOrLinkIndustryArticleAdd() throws Exception {
         // given
         IndustryArticle article = testIndustryArticle;
+        when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(articleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
+        when(articleService.registerArticle(article)).thenReturn(article);
+
         IndustryArticleDto articleDtoDuplicatedName = createTestNewIndustryArticleDto();
         articleDtoDuplicatedName.setName(article.getName());
         IndustryArticleDto articleDtoDuplicatedLink = createTestNewIndustryArticleDto();
@@ -121,59 +102,9 @@ public class IndustryArticleValidationErrorTest implements IndustryArticleTestUt
         }
     }
 
-    @DisplayName("기사 입력일이 유효하지 않은, 문자열을 사용하는 산업 기사들 추가")
-    @Test
-    public void invalidDateIndustryArticleAddWithString() throws Exception {
-        // given & when
-        IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-        IndustryArticleBufferSimple articleBuffer = IndustryArticleBufferSimple.builder().articleDto(articleDto).build();
-
-        // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                    put(nameDatePressString, articleBuffer.getNameDatePressString());
-                    put(linkString, articleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
-                }}))
-                .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                        model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                        model().attribute(ERROR_SINGLE, (String) null)));
-    }
-
-    @DisplayName("중복 기사명 또는 기사 링크를 사용하는, 문자열을 사용하는 산업 기사들 추가")
-    @Test
-    public void duplicatedNameOrLinkIndustryArticleAddWithString() throws Exception {
-        // given
-        IndustryArticleBufferSimple articleBufferDuplicatedName = IndustryArticleBufferSimple.builder().article(IndustryArticle.builder()
-                .article(testEqualDateIndustryArticle).link(testIndustryArticle.getLink()).build()).build();
-        IndustryArticleBufferSimple articleBufferDuplicatedLink = IndustryArticleBufferSimple.builder().article(IndustryArticle.builder()
-                .article(testEqualDateIndustryArticle).name(testIndustryArticle.getName()).build()).build();
-
-        // when
-        articleService.registerArticle(testEqualDateIndustryArticle);
-
-        // then
-        for (IndustryArticleBufferSimple articleBuffer : List.of(articleBufferDuplicatedName, articleBufferDuplicatedLink)) {
-            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
-                        put(nameDatePressString, articleBuffer.getNameDatePressString());
-                        put(linkString, articleBuffer.getLinkString());
-                        put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
-                    }}))
-                    .andExpectAll(view().name(
-                                    REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
-                            model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
-                            model().attribute(ERROR_SINGLE, (String) null)));
-        }
-    }
-
     @DisplayName("미래의 기사 입력일을 사용하는 산업 기사 변경 유효성 검증")
     @Test
-    public void futureDateIndustryArticleModify() throws Exception {
+    void futureDateIndustryArticleModify() throws Exception {
         IndustryArticleDto articleDtoFuture = createTestIndustryArticleDto();
         articleDtoFuture.setYear(2099);
         articleDtoFuture.setMonth(12);
@@ -190,7 +121,7 @@ public class IndustryArticleValidationErrorTest implements IndustryArticleTestUt
 
     @DisplayName("기사 입력일이 유효하지 않은 산업 기사 변경")
     @Test
-    public void invalidDateIndustryArticleModify() throws Exception {
+    void invalidDateIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setYear(2000);
@@ -209,8 +140,11 @@ public class IndustryArticleValidationErrorTest implements IndustryArticleTestUt
 
     @DisplayName("기사명 또는 기사 링크까지 변경을 시도하는, 산업 기사 변경")
     @Test
-    public void changeNameOrLinkIndustryArticleModify() throws Exception {
+    void changeNameOrLinkIndustryArticleModify() throws Exception {
         // given & when
+        when(articleService.findArticleByName(testIndustryArticle.getName())).thenReturn(Optional.empty());
+        when(articleService.findArticleByLink(testIndustryArticle.getLink())).thenReturn(Optional.empty());
+        when(articleService.registerArticle(testIndustryArticle)).thenReturn(testIndustryArticle);
         IndustryArticle article = articleService.registerArticle(testIndustryArticle);
 
         // then
@@ -229,7 +163,7 @@ public class IndustryArticleValidationErrorTest implements IndustryArticleTestUt
 
     @DisplayName("대상 산업이 추가되지 않은 산업 기사 변경")
     @Test
-    public void notRegisteredSubjectIndustryArticleModify() throws Exception {
+    void notRegisteredSubjectIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
 
