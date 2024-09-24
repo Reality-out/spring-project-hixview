@@ -1,110 +1,143 @@
 package site.hixview.domain.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealServiceConfig;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.error.AlreadyExistException;
 import site.hixview.domain.error.NotFoundException;
+import site.hixview.domain.repository.IndustryArticleRepository;
 import site.hixview.util.test.IndustryArticleTestUtils;
 
-import javax.sql.DataSource;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
-import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
+import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealServiceConfig
 class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
 
     @Autowired
-    IndustryArticleService articleService;
-
-    private final JdbcTemplate jdbcTemplateTest;
+    private IndustryArticleService articleService;
 
     @Autowired
-    public IndustryArticleServiceJdbcTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
+    private IndustryArticleRepository industryArticleRepository;
 
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
-    }
-
-    @DisplayName("산업 기사 번호와 이름으로 찾기")
+    @DisplayName("기사 번호와 이름으로 산업 기사 찾기")
     @Test
-    public void findIndustryArticleWithNumberAndNameTest() {
+    void findIndustryArticleWithNumberAndNameTest() {
         // given
-        IndustryArticle article = testIndustryArticle;
+        IndustryArticle article = IndustryArticle.builder().article(testIndustryArticle).number(1L).build();
+        when(industryArticleRepository.getArticleByNumber(article.getNumber())).thenReturn(Optional.of(article));
+        when(industryArticleRepository.getArticleByName(article.getName()))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(article));
+        when(industryArticleRepository.saveArticle(article)).thenReturn(1L);
 
         // when
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(articleService.findArticleByNumberOrName(article.getNumber().toString()))
-                .usingRecursiveComparison()
-                .isEqualTo(articleService.findArticleByNumberOrName(article.getName()));
+        for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
+            assertThat(articleService.findArticleByNumberOrName(str).orElseThrow())
+                    .usingRecursiveComparison()
+                    .isEqualTo(article);
+        }
     }
 
     @DisplayName("산업 기사들 동시 등록")
     @Test
-    public void registerIndustryArticlesTest() {
-        assertThat(articleService.registerArticles(testIndustryArticle, testNewIndustryArticle))
+    void registerIndustryArticlesTest() {
+        // given & when
+        IndustryArticle firstArticle = testIndustryArticle;
+        IndustryArticle secondArticle = testNewIndustryArticle;
+        when(industryArticleRepository.getArticles()).thenReturn(List.of(firstArticle, secondArticle));
+        when(industryArticleRepository.getArticleByName(any())).thenReturn(Optional.empty());
+        when(industryArticleRepository.saveArticle(firstArticle)).thenReturn(1L);
+        when(industryArticleRepository.saveArticle(secondArticle)).thenReturn(2L);
+        articleService.registerArticles(firstArticle, secondArticle);
+
+        // then
+        assertThat(articleService.findArticles())
                 .usingRecursiveComparison()
                 .ignoringFields(NUMBER)
-                .isEqualTo(List.of(testIndustryArticle, testNewIndustryArticle));
+                .isEqualTo(List.of(firstArticle, secondArticle));
     }
 
     @DisplayName("산업 기사 등록")
     @Test
-    public void registerIndustryArticleTest() {
+    void registerIndustryArticleTest() {
         // given
-        IndustryArticle article = testIndustryArticle;
+        IndustryArticle article = IndustryArticle.builder().article(testIndustryArticle).number(1L).build();
+        when(industryArticleRepository.getArticles()).thenReturn(List.of(article));
+        when(industryArticleRepository.getArticleByName(article.getName())).thenReturn(Optional.empty());
+        when(industryArticleRepository.saveArticle(article)).thenReturn(1L);
 
         // when
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(articleService.findArticles().getFirst())
+        assertThat(articleService.findArticles())
                 .usingRecursiveComparison()
-                .isEqualTo(article);
+                .isEqualTo(List.of(article));
     }
 
     @DisplayName("산업 기사 중복 이름으로 등록")
     @Test
-    public void registerDuplicatedIndustryArticleWithSameNameTest() {
+    void registerDuplicatedIndustryArticleWithSameNameTest() {
+        // given
+        IndustryArticle article = testIndustryArticle;
+        String duplicatedName = article.getName();
+        when(industryArticleRepository.getArticleByName(duplicatedName))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(article));
+        when(industryArticleRepository.saveArticle(article)).thenReturn(1L);
+
+        // when
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
-                () -> articleService.registerArticles(testIndustryArticle,
-                        IndustryArticle.builder().article(testNewIndustryArticle).name(testIndustryArticle.getName()).build()));
+                () -> articleService.registerArticles(article,
+                        IndustryArticle.builder().article(testNewIndustryArticle).name(duplicatedName).build()));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_INDUSTRY_ARTICLE_NAME);
     }
 
     @DisplayName("산업 기사 존재하지 않는 이름으로 수정")
     @Test
-    public void correctIndustryArticleWithFaultNameTest() {
+    void correctIndustryArticleWithFaultNameTest() {
+        // given
+        when(industryArticleRepository.getArticleByName(any())).thenReturn(Optional.empty());
+
+        // when
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.correctArticle(testIndustryArticle));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(NO_INDUSTRY_ARTICLE_WITH_THAT_NAME);
     }
 
     @DisplayName("산업 기사 제거")
     @Test
-    public void removeIndustryArticleTest() {
+    void removeIndustryArticleTest() {
         // given
-        articleService.registerArticle(testIndustryArticle);
+        IndustryArticle article = testIndustryArticle;
+        String name = article.getName();
+        when(industryArticleRepository.getArticles()).thenReturn(Collections.emptyList());
+        when(industryArticleRepository.getArticleByName(name))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(article));
+        when(industryArticleRepository.saveArticle(article)).thenReturn(1L);
+        doNothing().when(industryArticleRepository).deleteArticleByName(name);
+        articleService.registerArticle(article);
 
         // when
-        articleService.removeArticleByName(testIndustryArticle.getName());
+        articleService.removeArticleByName(name);
 
         // then
         assertThat(articleService.findArticles()).isEmpty();
@@ -112,9 +145,15 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사 존재하지 않는 이름으로 제거")
     @Test
-    public void removeIndustryArticleByFaultNameTest() {
+    void removeIndustryArticleByFaultNameTest() {
+        // given
+        when(industryArticleRepository.getArticleByName(any())).thenReturn(Optional.empty());
+
+        // when
         NotFoundException e = assertThrows(NotFoundException.class,
                 () -> articleService.removeArticleByName(INVALID_VALUE));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(NO_INDUSTRY_ARTICLE_WITH_THAT_NAME);
     }
 }

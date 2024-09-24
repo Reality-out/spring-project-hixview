@@ -4,8 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockServiceConfig;
-import site.hixview.domain.config.annotation.MockValidatorConfig;
+import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
 import site.hixview.domain.service.IndustryArticleService;
@@ -35,8 +34,7 @@ import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 
-@MockServiceConfig
-@MockValidatorConfig
+@OnlyRealControllerConfig
 class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils {
 
     @Autowired

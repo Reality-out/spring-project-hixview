@@ -1,110 +1,141 @@
 package site.hixview.domain.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealServiceConfig;
 import site.hixview.domain.entity.company.Company;
+import site.hixview.domain.repository.CompanyRepository;
 import site.hixview.util.test.CompanyArticleTestUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_COMPANY_CODE;
 import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_WITH_THAT_CODE;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.util.test.CompanyTestUtils.samsungElectronics;
 import static site.hixview.util.test.CompanyTestUtils.skHynix;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealServiceConfig
 class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
 
     @Autowired
-    CompanyService companyService;
-
-    private final JdbcTemplate jdbcTemplateTest;
+    private CompanyService companyService;
 
     @Autowired
-    public CompanyServiceJdbcTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
+    private CompanyRepository companyRepository;
 
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
-    }
-
-    @DisplayName("기업 코드와 이름으로 찾기")
+    @DisplayName("기업 코드와 이름으로 기업 찾기")
     @Test
-    public void findCompanyWithCodeAndNameTest() {
+    void findCompanyWithCodeAndNameTest() {
         // given
         Company company = samsungElectronics;
+        when(companyRepository.getCompanyByCode(company.getCode()))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+        when(companyRepository.getCompanyByName(company.getName())).thenReturn(Optional.of(company));
+        doNothing().when(companyRepository).saveCompany(company);
 
         // when
         companyService.registerCompany(company);
 
         // then
-        assertThat(companyService.findCompanyByCodeOrName(company.getCode()))
-                .usingRecursiveComparison()
-                .isEqualTo(companyService.findCompanyByCodeOrName(company.getName()));
+        for (String str : List.of(company.getCode(), company.getName())) {
+            assertThat(companyService.findCompanyByCodeOrName(str).orElseThrow())
+                    .usingRecursiveComparison()
+                    .isEqualTo(company);
+        }
     }
 
     @DisplayName("기업 등록")
     @Test
-    public void registerCompanyTest() {
+    void registerCompanyTest() {
         // given
         Company company = samsungElectronics;
+        when(companyRepository.getCompanies()).thenReturn(List.of(company));
+        when(companyRepository.getCompanyByCode(company.getCode())).thenReturn(Optional.empty());
+        doNothing().when(companyRepository).saveCompany(company);
 
         // when
         companyService.registerCompany(company);
 
         // then
-        assertThat(companyService.findCompanies().getFirst()).usingRecursiveComparison().isEqualTo(company);
+        assertThat(companyService.findCompanies()).usingRecursiveComparison().isEqualTo(List.of(company));
     }
 
     @DisplayName("기업들 등록")
     @Test
-    public void registerCompaniesTest() {
-        // given & when
-        companyService.registerCompanies(samsungElectronics, skHynix);
+    void registerCompaniesTest() {
+        // given
+        Company firstCompany = samsungElectronics;
+        Company secondCompany = skHynix;
+        when(companyRepository.getCompanies()).thenReturn(List.of(firstCompany, secondCompany));
+        when(companyRepository.getCompanyByCode(firstCompany.getCode())).thenReturn(Optional.empty());
+        when(companyRepository.getCompanyByCode(secondCompany.getCode())).thenReturn(Optional.empty());
+        doNothing().when(companyRepository).saveCompany(firstCompany);
+        doNothing().when(companyRepository).saveCompany(secondCompany);
+
+        // when
+        companyService.registerCompanies(firstCompany, secondCompany);
 
         // then
         assertThat(companyService.findCompanies())
-                .usingRecursiveComparison().isEqualTo(List.of(skHynix, samsungElectronics));
+                .usingRecursiveComparison().isEqualTo(List.of(firstCompany, secondCompany));
     }
 
     @DisplayName("기업 중복 코드로 등록")
     @Test
-    public void registerDuplicatedCompanyWithSameCodeTest() {
-        IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> companyService.registerCompanies(samsungElectronics,
-                        Company.builder().company(skHynix).code(samsungElectronics.getCode()).build()));
+    void registerDuplicatedCompanyWithSameCodeTest() {
+        // given
+        Company company = samsungElectronics;
+        String duplicatedCode = company.getCode();
+        when(companyRepository.getCompanyByCode(duplicatedCode))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+        doNothing().when(companyRepository).saveCompany(company);
 
+        // when
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> companyService.registerCompanies(company,
+                        Company.builder().company(skHynix).code(duplicatedCode).build()));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_COMPANY_CODE);
     }
 
     @DisplayName("기업 존재하지 않는 코드로 수정")
     @Test
-    public void correctCompanyByFaultCodeTest() {
+    void correctCompanyByFaultCodeTest() {
+        // given
+        when(companyRepository.getCompanyByCode(samsungElectronics.getCode())).thenReturn(Optional.empty());
+
+        // when
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.correctCompany(samsungElectronics));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 
     @DisplayName("기업 제거")
     @Test
-    public void removeCompanyTest() {
+    void removeCompanyTest() {
         // given
-        companyService.registerCompany(samsungElectronics);
+        Company company = samsungElectronics;
+        String code = company.getCode();
+        when(companyRepository.getCompanies()).thenReturn(emptyList());
+        when(companyRepository.getCompanyByCode(code))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+        doNothing().when(companyRepository).saveCompany(company);
+        doNothing().when(companyRepository).deleteCompanyByCode(code);
 
         // when
-        companyService.removeCompanyByCode(samsungElectronics.getCode());
+        companyService.registerCompany(company);
+        companyService.removeCompanyByCode(code);
 
         // then
         assertThat(companyService.findCompanies()).isEmpty();
@@ -112,9 +143,15 @@ class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 존재하지 않는 코드로 제거")
     @Test
-    public void removeCompanyByFaultCodeTest() {
+    void removeCompanyByFaultCodeTest() {
+        // given
+        when(companyRepository.getCompanyByCode(any())).thenReturn(Optional.empty());
+
+        // when
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> companyService.removeCompanyByCode(INVALID_VALUE));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(NO_COMPANY_WITH_THAT_CODE);
     }
 }

@@ -4,8 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockServiceConfig;
-import site.hixview.domain.config.annotation.MockValidatorConfig;
+import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
 import site.hixview.domain.entity.company.CompanyDto;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.util.test.CompanyTestUtils;
@@ -24,8 +23,7 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
-@MockServiceConfig
-@MockValidatorConfig
+@OnlyRealControllerConfig
 class CompanyBindingErrorTest implements CompanyTestUtils {
 
     @Autowired

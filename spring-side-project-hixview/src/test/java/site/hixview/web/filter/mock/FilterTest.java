@@ -4,8 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockServiceConfig;
-import site.hixview.domain.config.annotation.MockValidatorConfig;
+import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
 import site.hixview.domain.entity.*;
 import site.hixview.domain.entity.article.*;
 import site.hixview.domain.entity.company.Company;
@@ -38,8 +37,7 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
-@MockServiceConfig
-@MockValidatorConfig
+@OnlyRealControllerConfig
 class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
 
     @Autowired

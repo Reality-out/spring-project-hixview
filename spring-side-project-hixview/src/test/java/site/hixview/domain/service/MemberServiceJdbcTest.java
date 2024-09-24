@@ -1,75 +1,84 @@
 package site.hixview.domain.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealServiceConfig;
 import site.hixview.domain.entity.member.Member;
+import site.hixview.domain.repository.MemberRepository;
 import site.hixview.util.test.MemberTestUtils;
 
-import javax.sql.DataSource;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_MEMBER_ID;
 import static site.hixview.domain.vo.ExceptionMessage.NO_MEMBER_WITH_THAT_ID;
-import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealServiceConfig
 class MemberServiceJdbcTest implements MemberTestUtils {
 
     @Autowired
-    MemberService memberService;
-
-    private final JdbcTemplate jdbcTemplateTest;
+    private MemberService memberService;
 
     @Autowired
-    public MemberServiceJdbcTest(DataSource dataSource) {
-        jdbcTemplateTest = new JdbcTemplate(dataSource);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
-    }
+    private MemberRepository memberRepository;
 
     @DisplayName("회원 가입")
     @Test
-    public void membership() {
+    void membership() {
         // given
-        Member member = testMember;
+        Member member = Member.builder().member(testMember).identifier(1L).build();
+        when(memberRepository.getMembers()).thenReturn(List.of(member));
+        when(memberRepository.getMemberByID(member.getId())).thenReturn(Optional.empty());
+        when(memberRepository.saveMember(member)).thenReturn(1L);
 
         // when
         member = memberService.registerMember(member);
 
         // then
-        assertThat(memberService.findMembers().getFirst()).usingRecursiveComparison().isEqualTo(member);
+        assertThat(memberService.findMembers()).usingRecursiveComparison().isEqualTo(List.of(member));
     }
 
     @DisplayName("회원 중복 ID로 가입")
     @Test
-    public void duplicatedMembershipWithSameIDTest() {
-        // given & when
-        memberService.registerMember(testMember);
+    void duplicatedMembershipWithSameIDTest() {
+        // given
+        Member member = testMember;
+        String duplicatedId = member.getId();
+        when(memberRepository.getMemberByID(duplicatedId))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(member));
+        when(memberRepository.saveMember(member)).thenReturn(1L);
+        memberService.registerMember(member);
+
+        // when
+        IllegalStateException e = assertThrows(IllegalStateException.class,
+                () -> memberService.registerMember(member));
 
         // then
-        IllegalStateException e = assertThrows(IllegalStateException.class,
-                () -> memberService.registerMember(testMember));
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_MEMBER_ID);
     }
 
     @DisplayName("회원 탈퇴")
     @Test
-    public void withdrawMembership() {
+    void withdrawMembership() {
         // given
-        memberService.registerMember(testMember);
+        Member member = testMember;
+        String id = member.getId();
+        when(memberRepository.getMembers()).thenReturn(Collections.emptyList());
+        when(memberRepository.getMemberByID(id))
+                .thenReturn(Optional.empty()).thenReturn(Optional.of(member));
+        when(memberRepository.saveMember(member)).thenReturn(1L);
+        doNothing().when(memberRepository).deleteMemberById(id);
+        memberService.registerMember(member);
 
         // when
-        memberService.removeMemberById(testMember.getId());
+        memberService.removeMemberById(id);
 
         // then
         assertThat(memberService.findMembers()).isEmpty();
@@ -77,9 +86,15 @@ class MemberServiceJdbcTest implements MemberTestUtils {
 
     @DisplayName("회원 존재하지 않는 ID로 제거")
     @Test
-    public void removeMemberByFaultIDTest() {
+    void removeMemberByFaultIDTest() {
+        // given
+        when(memberRepository.getMemberByID(any())).thenReturn(Optional.empty());
+
+        // when
         IllegalStateException e = assertThrows(IllegalStateException.class,
                 () -> memberService.removeMemberById(INVALID_VALUE));
+
+        // then
         assertThat(e.getMessage()).isEqualTo(NO_MEMBER_WITH_THAT_ID);
     }
 }

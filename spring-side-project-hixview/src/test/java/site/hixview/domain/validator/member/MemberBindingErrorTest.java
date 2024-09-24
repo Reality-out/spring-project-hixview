@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.config.annotation.MockServiceConfig;
-import site.hixview.domain.config.annotation.MockValidatorConfig;
+import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
 import site.hixview.domain.entity.member.MemberDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.util.test.MemberTestUtils;
@@ -23,8 +22,7 @@ import static site.hixview.domain.vo.name.EntityName.Member.ID;
 import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
-@MockServiceConfig
-@MockValidatorConfig
+@OnlyRealControllerConfig
 class MemberBindingErrorTest implements MemberTestUtils {
 
     @Autowired

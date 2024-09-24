@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 @Documented
 @Import({AppConfig.class,
         ValidationConfig.class})
-public @interface UseMainBeansConfig {
+@interface RegisterMainSettingConfig {
 }
