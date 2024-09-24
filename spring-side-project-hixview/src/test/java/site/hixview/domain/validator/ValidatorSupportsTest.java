@@ -62,7 +62,7 @@ public class ValidatorSupportsTest {
 
     // Member
     @Autowired
-    private MemberBirthValidator memberBirthValidator;
+    private MemberBirthdayValidator memberBirthdayValidator;
 
     @DisplayName("검증자 supports 이용 가능 클래스 테스트")
     @Test
@@ -88,6 +88,6 @@ public class ValidatorSupportsTest {
         assertThat(industryArticleModifyValidator.supports(IndustryArticleDto.class)).isEqualTo(true);
 
         // Member
-        assertThat(memberBirthValidator.supports(MemberDto.class)).isEqualTo(true);
+        assertThat(memberBirthdayValidator.supports(MemberDto.class)).isEqualTo(true);
     }
 }

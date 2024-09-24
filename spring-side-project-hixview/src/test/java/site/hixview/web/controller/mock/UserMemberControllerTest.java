@@ -7,7 +7,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.config.annotation.OnlyRealControllerConfig;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.service.MemberService;
-import site.hixview.domain.validation.validator.MemberBirthValidator;
+import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 import site.hixview.util.test.MemberTestUtils;
 
 import static org.mockito.Mockito.when;
@@ -29,7 +29,7 @@ class UserMemberControllerTest implements MemberTestUtils {
     private MemberService memberService;
 
     @Autowired
-    private MemberBirthValidator memberBirthValidator;
+    private MemberBirthdayValidator memberBirthdayValidator;
 
     @DisplayName("회원 가입 페이지 접속")
     @Test

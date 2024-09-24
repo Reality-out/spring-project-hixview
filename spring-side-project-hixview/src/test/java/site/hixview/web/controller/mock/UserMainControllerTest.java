@@ -100,9 +100,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
         // given
         Member member1 = testMember;
         String commonName = member1.getName();
-        LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(testNewMember).name(commonName).birth(commonBirth).build();
-        when(memberService.findMembersByNameAndBirth(commonName, commonBirth)).thenReturn(List.of(member1, member2));
+        LocalDate commonBirthday = member1.getBirthday();
+        Member member2 = Member.builder().member(testNewMember).name(commonName).birthday(commonBirthday).build();
+        when(memberService.findMembersByNameAndBirthday(commonName, commonBirthday)).thenReturn(List.of(member1, member2));
         when(memberService.registerMember(member1)).thenReturn(member1);
         when(memberService.registerMember(member2)).thenReturn(member2);
 
@@ -117,9 +117,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
         assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
-                    put(YEAR, String.valueOf(commonBirth.getYear()));
-                    put(MONTH, String.valueOf(commonBirth.getMonthValue()));
-                    put(DAYS, String.valueOf(commonBirth.getDayOfMonth()));
+                    put(YEAR, String.valueOf(commonBirthday.getYear()));
+                    put(MONTH, String.valueOf(commonBirthday.getMonthValue()));
+                    put(DAYS, String.valueOf(commonBirthday.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(FIND_ID_URL + FINISH_URL + ALL_QUERY_STRING))
@@ -139,9 +139,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
         // given
         Member member1 = Member.builder().member(testMember).id("a1!@#$%^&*()-_+=").build();
         String commonName = member1.getName();
-        LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(testNewMember).id("b2{[}]\\|;:'\"<,>.?/").name(commonName).birth(commonBirth).build();
-        when(memberService.findMembersByNameAndBirth(commonName, commonBirth)).thenReturn(List.of(member1, member2));
+        LocalDate commonBirthday = member1.getBirthday();
+        Member member2 = Member.builder().member(testNewMember).id("b2{[}]\\|;:'\"<,>.?/").name(commonName).birthday(commonBirthday).build();
+        when(memberService.findMembersByNameAndBirthday(commonName, commonBirthday)).thenReturn(List.of(member1, member2));
         when(memberService.registerMember(member1)).thenReturn(member1);
         when(memberService.registerMember(member2)).thenReturn(member2);
 
@@ -156,9 +156,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
         assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
                     put(NAME, commonName);
-                    put(YEAR, String.valueOf(commonBirth.getYear()));
-                    put(MONTH, String.valueOf(commonBirth.getMonthValue()));
-                    put(DAYS, String.valueOf(commonBirth.getDayOfMonth()));
+                    put(YEAR, String.valueOf(commonBirthday.getYear()));
+                    put(MONTH, String.valueOf(commonBirthday.getMonthValue()));
+                    put(DAYS, String.valueOf(commonBirthday.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
                         redirectedUrlPattern(FIND_ID_URL + FINISH_URL + ALL_QUERY_STRING))

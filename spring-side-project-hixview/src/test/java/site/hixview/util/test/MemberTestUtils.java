@@ -19,10 +19,10 @@ public interface MemberTestUtils extends ObjectTestUtils {
 
     // Test Object
     Member testMember = Member.builder().id("ABcd1234!").password("EFgh1234!").name("박진하")
-            .birth(LocalDate.of(2000, 4, 1)).phoneNumber("010-1234-5678").build();
+            .birthday(LocalDate.of(2000, 4, 1)).phoneNumber("010-1234-5678").build();
 
     Member testNewMember = Member.builder().id("abCD4321!").password("OPqr4321!").name("박하진")
-            .birth(LocalDate.of(1999, 9, 1)).phoneNumber("010-2345-6789").build();
+            .birthday(LocalDate.of(1999, 9, 1)).phoneNumber("010-2345-6789").build();
 
     default MemberDto createTestMemberDto() {
         return testMember.toDto();
@@ -40,9 +40,9 @@ public interface MemberTestUtils extends ObjectTestUtils {
                 .param(ID, member.getId())
                 .param("password", member.getPassword())
                 .param(NAME, member.getName())
-                .param(YEAR, String.valueOf(member.getBirth().getYear()))
-                .param(MONTH, String.valueOf(member.getBirth().getMonthValue()))
-                .param(DAYS, String.valueOf(member.getBirth().getDayOfMonth()))
+                .param(YEAR, String.valueOf(member.getBirthday().getYear()))
+                .param(MONTH, String.valueOf(member.getBirthday().getMonthValue()))
+                .param(DAYS, String.valueOf(member.getBirthday().getDayOfMonth()))
                 .param("phoneNumber", member.getPhoneNumber().toStringWithDash());
     }
 

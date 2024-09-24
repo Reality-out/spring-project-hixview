@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.entity.member.MemberDto;
 import site.hixview.domain.service.MemberService;
-import site.hixview.domain.validation.validator.MemberBirthValidator;
+import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
@@ -33,7 +33,7 @@ public class UserMemberController {
 
     private final MemberService memberService;
 
-    private final MemberBirthValidator birthValidator;
+    private final MemberBirthdayValidator birthValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerCompanyController.class);
 

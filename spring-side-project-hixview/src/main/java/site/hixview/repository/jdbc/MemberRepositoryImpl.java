@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.name.EntityName.Member.ID;
+import static site.hixview.domain.vo.name.EntityName.Member.IDENTIFIER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 import static site.hixview.domain.vo.Word.NAME;
 
@@ -44,13 +45,13 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<Member> getMembersByBirth(LocalDate birth) {
-        return jdbcTemplate.query("select * from " + TEST_MEMBERS_SCHEMA + " where birth = ?", memberRowMapper(), birth);
+    public List<Member> getMembersByBirthday(LocalDate birthday) {
+        return jdbcTemplate.query("select * from " + TEST_MEMBERS_SCHEMA + " where birthday = ?", memberRowMapper(), birthday);
     }
 
     @Override
-    public List<Member> getMembersByNameAndBirth(String name, LocalDate birth) {
-        return jdbcTemplate.query("select * from " + TEST_MEMBERS_SCHEMA + " where name = ? and birth = ?", memberRowMapper(), name, birth);
+    public List<Member> getMembersByNameAndBirthday(String name, LocalDate birthday) {
+        return jdbcTemplate.query("select * from " + TEST_MEMBERS_SCHEMA + " where name = ? and birthday = ?", memberRowMapper(), name, birthday);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class MemberRepositoryImpl implements MemberRepository {
      */
     @Override
     public Long saveMember(Member member) {
-        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_MEMBERS_SCHEMA).usingGeneratedKeyColumns("identifier")
+        return new SimpleJdbcInsert(jdbcTemplate).withTableName(TEST_MEMBERS_SCHEMA).usingGeneratedKeyColumns(IDENTIFIER)
                 .executeAndReturnKey(new MapSqlParameterSource(member.toMapWithNoIdentifier())).longValue();
     }
 
@@ -87,11 +88,11 @@ public class MemberRepositoryImpl implements MemberRepository {
      */
     private RowMapper<Member> memberRowMapper() {
         return (resultSet, rowNumber) -> Member.builder()
-                        .identifier(resultSet.getLong("identifier"))
+                        .identifier(resultSet.getLong(IDENTIFIER))
                         .id(resultSet.getString(ID))
                         .password(resultSet.getString("password"))
                         .name(resultSet.getString(NAME))
-                        .birth(resultSet.getDate("birth").toLocalDate())
+                        .birthday(resultSet.getDate("birthday").toLocalDate())
                         .phoneNumber(resultSet.getString("phoneNumber"))
                         .build();
     }

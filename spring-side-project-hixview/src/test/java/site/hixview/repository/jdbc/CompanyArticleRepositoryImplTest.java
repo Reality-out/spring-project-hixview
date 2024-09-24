@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.repository.CompanyArticleRepository;
 import site.hixview.util.test.CompanyArticleTestUtils;
@@ -21,28 +20,27 @@ import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealRepositoryConfig
 class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @Autowired
-    CompanyArticleRepository articleRepository;
+    private CompanyArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyArticleRepositoryImplTest(DataSource dataSource) {
+    CompanyArticleRepositoryImplTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("기업 기사들 획득")
     @Test
-    public void getCompanyArticlesTest() {
+    void getCompanyArticlesTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
@@ -60,7 +58,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사들 날짜로 획득")
     @Test
-    public void getCompanyArticleByDateTest() {
+    void getCompanyArticleByDateTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testEqualDateCompanyArticle;
@@ -78,7 +76,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사들 날짜 범위로 획득")
     @Test
-    public void getCompanyArticleByDateRangeTest() {
+    void getCompanyArticleByDateRangeTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testEqualDateCompanyArticle;
@@ -104,7 +102,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("최신 기업 기사들 획득")
     @Test
-    public void getLatestCompanyArticlesTest() {
+    void getLatestCompanyArticlesTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testEqualDateCompanyArticle;
@@ -123,7 +121,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("번호로 기업 기사 획득")
     @Test
-    public void getCompanyArticleByNumberTest() {
+    void getCompanyArticleByNumberTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
@@ -146,7 +144,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사 이름으로 획득")
     @Test
-    public void getCompanyArticleByNameTest() {
+    void getCompanyArticleByNameTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
@@ -169,7 +167,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사 링크로 획득")
     @Test
-    public void getCompanyArticleByLinkTest() {
+    void getCompanyArticleByLinkTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testNewCompanyArticle;
@@ -192,7 +190,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("비어 있는 기업 기사 획득")
     @Test
-    public void getEmptyCompanyArticleTest() {
+    void getEmptyCompanyArticleTest() {
         // given & when
         CompanyArticle article = CompanyArticle.builder().article(testCompanyArticle).number(1L).build();
 
@@ -207,7 +205,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사 저장")
     @Test
-    public void saveCompanyArticleTest() {
+    void saveCompanyArticleTest() {
         // given
         CompanyArticle article = testCompanyArticle;
 
@@ -223,7 +221,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사 갱신")
     @Test
-    public void updateCompanyArticleTest() {
+    void updateCompanyArticleTest() {
         // given
         CompanyArticle article = testCompanyArticle;
 
@@ -240,7 +238,7 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 기사 이름으로 제거")
     @Test
-    public void removeCompanyArticleByNameTest() {
+    void removeCompanyArticleByNameTest() {
         // given
         CompanyArticle article1 = testCompanyArticle;
         CompanyArticle article2 = testEqualDateCompanyArticle;

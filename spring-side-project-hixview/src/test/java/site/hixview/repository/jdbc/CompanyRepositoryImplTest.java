@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.repository.CompanyRepository;
 import site.hixview.util.test.CompanyArticleTestUtils;
@@ -20,28 +19,27 @@ import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
 import static site.hixview.util.test.CompanyTestUtils.samsungElectronics;
 import static site.hixview.util.test.CompanyTestUtils.skHynix;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealRepositoryConfig
 class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public CompanyRepositoryImplTest(DataSource dataSource) {
+    CompanyRepositoryImplTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 
     @DisplayName("기업들 획득")
     @Test
-    public void getCompaniesTest() {
+    void getCompaniesTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;
@@ -56,7 +54,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 코드로 획득")
     @Test
-    public void getCompanyByCodeTest() {
+    void getCompanyByCodeTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;
@@ -72,7 +70,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 이름으로 획득")
     @Test
-    public void getCompanyByNameTest() {
+    void getCompanyByNameTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;
@@ -88,7 +86,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("비어 있는 기업 획득")
     @Test
-    public void getEmptyCompanyTest() {
+    void getEmptyCompanyTest() {
         // given & when
         Company company = samsungElectronics;
 
@@ -102,7 +100,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 저장")
     @Test
-    public void saveCompanyTest() {
+    void saveCompanyTest() {
         // given
         Company company = samsungElectronics;
 
@@ -116,7 +114,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 갱신")
     @Test
-    public void updateCompanyTest() {
+    void updateCompanyTest() {
         // given
         Company updateCompany = samsungElectronics;
         String commonCode = updateCompany.getCode();
@@ -133,7 +131,7 @@ class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
 
     @DisplayName("기업 코드로 제거")
     @Test
-    public void removeCompanyByCodeTest() {
+    void removeCompanyByCodeTest() {
         // given
         Company company1 = samsungElectronics;
         Company company2 = skHynix;

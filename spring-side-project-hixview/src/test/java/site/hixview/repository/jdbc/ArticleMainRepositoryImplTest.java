@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.repository.ArticleMainRepository;
@@ -20,28 +19,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealRepositoryConfig
 class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @Autowired
-    ArticleMainRepository articleRepository;
+    private ArticleMainRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public ArticleMainRepositoryImplTest(DataSource dataSource) {
+    ArticleMainRepositoryImplTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
     }
 
     @DisplayName("기업 기사들 메인 획득")
     @Test
-    public void getArticleMainsTest() {
+    void getArticleMainsTest() {
         // given
         ArticleMain article1 = testCompanyArticleMain;
         ArticleMain article2 = testNewCompanyArticleMain;
@@ -59,7 +57,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("번호로 기사 메인 획득")
     @Test
-    public void getArticleMainByNumberTest() {
+    void getArticleMainByNumberTest() {
         // given
         ArticleMain article = testCompanyArticleMain;
 
@@ -74,7 +72,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("이름으로 기사 메인 획득")
     @Test
-    public void getArticleMainByNameTest() {
+    void getArticleMainByNameTest() {
         // given
         ArticleMain article = testCompanyArticleMain;
 
@@ -90,7 +88,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("이미지 경로로 기사 메인 획득")
     @Test
-    public void getArticleMainByImagePathTest() {
+    void getArticleMainByImagePathTest() {
         // given
         ArticleMain article = testCompanyArticleMain;
 
@@ -106,7 +104,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("비어 있는 기사 메인 획득")
     @Test
-    public void getEmptyArticleMainTest() {
+    void getEmptyArticleMainTest() {
         // given & when
         ArticleMain article = ArticleMain.builder().article(testCompanyArticleMain).number(1L).build();
 
@@ -121,7 +119,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 저장")
     @Test
-    public void saveArticleMainTest() {
+    void saveArticleMainTest() {
         // given
         ArticleMain article1 = testCompanyArticleMain;
         ArticleMain article2 = testNewCompanyArticleMain;
@@ -139,7 +137,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 갱신")
     @Test
-    public void updateArticleMainTest() {
+    void updateArticleMainTest() {
         // given
         ArticleMainDto article1 = createTestCompanyArticleMainDto();
         String commonName = article1.getName();
@@ -159,7 +157,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
     @DisplayName("기사 메인 삭제")
     @Test
-    public void deleteArticleMainTest() {
+    void deleteArticleMainTest() {
         // given
         ArticleMain article = testCompanyArticleMain;
         articleRepository.saveArticle(article);

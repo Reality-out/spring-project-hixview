@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.repository.MemberRepository;
 import site.hixview.util.test.MemberTestUtils;
@@ -17,31 +16,30 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.domain.vo.name.EntityName.Member.IDENTIFIER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealRepositoryConfig
 class MemberRepositoryImplTest implements MemberTestUtils {
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String IDENTIFIER = "identifier";
 
     @Autowired
-    public MemberRepositoryImplTest(DataSource dataSource) {
+    MemberRepositoryImplTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_MEMBERS_SCHEMA, true);
     }
 
     @DisplayName("회원들 획득")
     @Test
-    public void getMembersTest() {
+    void getMembersTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -59,7 +57,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 이름으로 획득")
     @Test
-    public void getMemberByNameTest() {
+    void getMemberByNameTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -81,7 +79,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원들 이름으로 획득")
     @Test
-    public void getMembersByNameTest() {
+    void getMembersByNameTest() {
         // given
         Member member1 = testMember;
         String commonName = member1.getName();
@@ -100,7 +98,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 생일로 획득")
     @Test
-    public void getMemberByBirthTest() {
+    void getMemberByBirthdayTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -110,12 +108,12 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.getMembersByBirth(member1.getBirth()).getFirst())
+        assertThat(memberRepository.getMembersByBirthday(member1.getBirthday()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member1);
 
-        assertThat(memberRepository.getMembersByBirth(member2.getBirth()).getFirst())
+        assertThat(memberRepository.getMembersByBirthday(member2.getBirthday()).getFirst())
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member2);
@@ -123,18 +121,18 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원들 생일로 획득")
     @Test
-    public void getMembersByBirthTest() {
+    void getMembersByBirthdayTest() {
         // given
         Member member1 = testMember;
-        LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(testNewMember).birth(commonBirth).build();
+        LocalDate commonBirthday = member1.getBirthday();
+        Member member2 = Member.builder().member(testNewMember).birthday(commonBirthday).build();
 
         // when
         memberRepository.saveMember(member1);
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.getMembersByBirth(commonBirth))
+        assertThat(memberRepository.getMembersByBirthday(commonBirthday))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member1, member2));
@@ -142,7 +140,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 이름과 생일로 획득")
     @Test
-    public void getMemberByNameAndBirthTest() {
+    void getMemberByNameAndBirthdayTest() {
         // given
         Member member = testMember;
 
@@ -150,7 +148,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         memberRepository.saveMember(member);
 
         // then
-        assertThat(memberRepository.getMembersByNameAndBirth(member.getName(), member.getBirth()))
+        assertThat(memberRepository.getMembersByNameAndBirthday(member.getName(), member.getBirthday()))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member));
@@ -158,19 +156,19 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원들 이름과 생일로 획득")
     @Test
-    public void getMembersByNameAndBirthTest() {
+    void getMembersByNameAndBirthdayTest() {
         // given
         Member member1 = testMember;
         String commonName = member1.getName();
-        LocalDate commonBirth = member1.getBirth();
-        Member member2 = Member.builder().member(testNewMember).name(commonName).birth(commonBirth).build();
+        LocalDate commonBirthday = member1.getBirthday();
+        Member member2 = Member.builder().member(testNewMember).name(commonName).birthday(commonBirthday).build();
 
         // when
         memberRepository.saveMember(member1);
         memberRepository.saveMember(member2);
 
         // then
-        assertThat(memberRepository.getMembersByBirth(commonBirth))
+        assertThat(memberRepository.getMembersByBirthday(commonBirthday))
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(List.of(member1, member2));
@@ -178,7 +176,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 식별자로 획득")
     @Test
-    public void getMemberByIdentifierTest() {
+    void getMemberByIdentifierTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -201,7 +199,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 ID로 획득")
     @Test
-    public void getMemberByIDTest() {
+    void getMemberByIDTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;
@@ -224,7 +222,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("비어 있는 회원 획득")
     @Test
-    public void getEmptyMemberTest() {
+    void getEmptyMemberTest() {
         // given & when
         Member member = Member.builder().member(testMember).identifier(1L).build();
 
@@ -238,7 +236,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 저장")
     @Test
-    public void saveMemberTest() {
+    void saveMemberTest() {
         // given
         Member member = testMember;
 
@@ -254,7 +252,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("대시가 있는 버전과 없는 버전의 휴대폰 번호를 사용하는 회원 저장")
     @Test
-    public void saveMemberWithVariousPhoneNumber() {
+    void saveMemberWithVariousPhoneNumber() {
         // given
         Member member1 = testMember;
         Member member2 = Member.builder().member(testNewMember).phoneNumber("01023456789").build();
@@ -270,7 +268,7 @@ class MemberRepositoryImplTest implements MemberTestUtils {
 
     @DisplayName("회원 ID로 제거")
     @Test
-    public void removeMemberByIDTest() {
+    void removeMemberByIDTest() {
         // given
         Member member1 = testMember;
         Member member2 = testNewMember;

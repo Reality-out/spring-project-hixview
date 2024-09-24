@@ -35,6 +35,7 @@ public final class EntityName {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static final class Member {
         public static final String MEMBER = "member";
+        public static final String IDENTIFIER = "identifier";
         public static final String ID = "id";
     }
 }

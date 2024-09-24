@@ -15,9 +15,9 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@WebMvcTest(properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@WebMvcTest
 @Import({MockServiceBeanFactoryPostProcessor.class, MockValidatorBeanFactoryPostProcessor.class})
-@RegisterMainSettingConfig
+@RegisterAppAndValidationConfig
 @AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)

@@ -38,7 +38,7 @@ public class Member {
 
     @NotNull
     @PastOrPresent
-    private final LocalDate birth;
+    private final LocalDate birthday;
 
     @NotNull
     private final PhoneNumber phoneNumber;
@@ -48,9 +48,9 @@ public class Member {
         memberDto.setId(id);
         memberDto.setPassword(password);
         memberDto.setName(name);
-        memberDto.setYear(birth.getYear());
-        memberDto.setMonth(birth.getMonthValue());
-        memberDto.setDays(birth.getDayOfMonth());
+        memberDto.setYear(birthday.getYear());
+        memberDto.setMonth(birthday.getMonthValue());
+        memberDto.setDays(birthday.getDayOfMonth());
         memberDto.setPhoneNumber(phoneNumber.toStringWithDash());
         return memberDto;
     }
@@ -60,7 +60,7 @@ public class Member {
             put(ID, id);
             put("password", password);
             put(NAME, name);
-            put("birth", birth);
+            put("birthday", birthday);
             put("phoneNumber", phoneNumber.toStringWithDash());
         }};
     }
@@ -83,7 +83,7 @@ public class Member {
             id = member.getId();
             password = member.getPassword();
             name = member.getName();
-            birth = member.getBirth();
+            birthday = member.getBirthday();
             phoneNumber = member.getPhoneNumber();
             return this;
         }
@@ -92,7 +92,7 @@ public class Member {
             id = memberDto.getId();
             password = memberDto.getPassword();
             name = memberDto.getName();
-            birth = LocalDate.of(memberDto.getYear(), memberDto.getMonth(), memberDto.getDays());
+            birthday = LocalDate.of(memberDto.getYear(), memberDto.getMonth(), memberDto.getDays());
             phoneNumber = PhoneNumber.builder().phoneNumber(memberDto.getPhoneNumber()).build();
             return this;
         }

@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.config.annotation.OnlyRealRepositoryConfig;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.repository.IndustryArticleRepository;
 import site.hixview.util.test.IndustryArticleTestUtils;
@@ -21,28 +20,27 @@ import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
-@SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
-@Transactional
+@OnlyRealRepositoryConfig
 class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @Autowired
-    IndustryArticleRepository articleRepository;
+    private IndustryArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
 
     @Autowired
-    public IndustryArticleRepositoryImplTest(DataSource dataSource) {
+    IndustryArticleRepositoryImplTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
     }
 
     @DisplayName("산업 기사들 획득")
     @Test
-    public void getIndustryArticlesTest() {
+    void getIndustryArticlesTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testNewIndustryArticle;
@@ -60,7 +58,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사들 날짜로 획득")
     @Test
-    public void getIndustryArticleByDateTest() {
+    void getIndustryArticleByDateTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testEqualDateIndustryArticle;
@@ -78,7 +76,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사들 날짜 범위로 획득")
     @Test
-    public void getIndustryArticleByDateRangeTest() {
+    void getIndustryArticleByDateRangeTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testEqualDateIndustryArticle;
@@ -104,7 +102,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("최신 산업 기사들 획득")
     @Test
-    public void getLatestIndustryArticlesTest() {
+    void getLatestIndustryArticlesTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testEqualDateIndustryArticle;
@@ -123,7 +121,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("번호로 산업 기사 획득")
     @Test
-    public void getIndustryArticleByNumberTest() {
+    void getIndustryArticleByNumberTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testNewIndustryArticle;
@@ -146,7 +144,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사 이름으로 획득")
     @Test
-    public void getIndustryArticleByNameTest() {
+    void getIndustryArticleByNameTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testNewIndustryArticle;
@@ -169,7 +167,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사 링크로 획득")
     @Test
-    public void getIndustryArticleByLinkTest() {
+    void getIndustryArticleByLinkTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testNewIndustryArticle;
@@ -192,7 +190,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("비어 있는 산업 기사 획득")
     @Test
-    public void getEmptyIndustryArticleTest() {
+    void getEmptyIndustryArticleTest() {
         // given & when
         IndustryArticle article = IndustryArticle.builder().article(testIndustryArticle).number(1L).build();
 
@@ -207,7 +205,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사 저장")
     @Test
-    public void saveIndustryArticleTest() {
+    void saveIndustryArticleTest() {
         // given
         IndustryArticle article = testIndustryArticle;
 
@@ -223,7 +221,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사 갱신")
     @Test
-    public void updateIndustryArticleTest() {
+    void updateIndustryArticleTest() {
         // given
         IndustryArticle article = testIndustryArticle;
 
@@ -240,7 +238,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
 
     @DisplayName("산업 기사 이름으로 제거")
     @Test
-    public void removeIndustryArticleByNameTest() {
+    void removeIndustryArticleByNameTest() {
         // given
         IndustryArticle article1 = testIndustryArticle;
         IndustryArticle article2 = testEqualDateIndustryArticle;

@@ -47,7 +47,7 @@ public class MemberValidationErrorTest implements MemberTestUtils {
 
     @DisplayName("미래의 생일을 사용하는 회원 가입")
     @Test
-    public void futureBirthMembership() throws Exception {
+    public void futureBirthdayMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
         memberDto.setYear(2099);
@@ -64,7 +64,7 @@ public class MemberValidationErrorTest implements MemberTestUtils {
 
     @DisplayName("유효하지 않은 생일을 사용하는 회원 가입")
     @Test
-    public void invalidBirthMembership() throws Exception {
+    public void invalidBirthdayMembership() throws Exception {
         // given & when
         MemberDto memberDto = createTestMemberDto();
         memberDto.setYear(2000);

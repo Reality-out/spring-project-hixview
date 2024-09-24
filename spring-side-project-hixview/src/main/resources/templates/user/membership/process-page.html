@@ -28,7 +28,7 @@
                     <input type="text" id="name" th:field="*{name}" size="20">
                     <div class="txt-errorMessage" th:errors="*{name}"></div>
                 </div>
-                <p>[[#{member.birth}]]</p>
+                <p>[[#{member.birthday}]]</p>
                 <div class="partialForm">
                     <label for="year">[[#{year}]]</label>
                     <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">

@@ -31,12 +31,12 @@ public class MemberService {
         return memberRepository.getMembersByName(name);
     }
 
-    public List<Member> findMembersByBirth(LocalDate birth) {
-        return memberRepository.getMembersByBirth(birth);
+    public List<Member> findMembersByBirthday(LocalDate birthday) {
+        return memberRepository.getMembersByBirthday(birthday);
     }
 
-    public List<Member> findMembersByNameAndBirth(String name, LocalDate birth) {
-        return memberRepository.getMembersByNameAndBirth(name, birth);
+    public List<Member> findMembersByNameAndBirthday(String name, LocalDate birthday) {
+        return memberRepository.getMembersByNameAndBirthday(name, birthday);
     }
 
     public Optional<Member> findMemberByIdentificationNumber(Long identificationNumber) {

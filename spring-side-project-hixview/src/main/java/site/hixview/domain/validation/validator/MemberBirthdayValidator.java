@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import static site.hixview.domain.vo.Word.DAYS;
 
 @Component
-public class MemberBirthValidator implements Validator {
+public class MemberBirthdayValidator implements Validator {
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {

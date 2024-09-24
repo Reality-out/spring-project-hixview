@@ -99,8 +99,8 @@ public class UserMainController {
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
         Member member = Member.builder().memberDto(memberDto).build();
-        redirect.addAttribute("idList", ControllerUtils.encodeWithUTF8(memberService.findMembersByNameAndBirth(
-                member.getName(), member.getBirth()).stream().map(Member::getId).collect(Collectors.toList())));
+        redirect.addAttribute("idList", ControllerUtils.encodeWithUTF8(memberService.findMembersByNameAndBirthday(
+                member.getName(), member.getBirthday()).stream().map(Member::getId).collect(Collectors.toList())));
         return REDIRECT_URL + FIND_ID_URL + FINISH_URL;
     }
 

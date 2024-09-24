@@ -13,9 +13,8 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@SpringBootTest(classes = RegisterServiceConfig.class, properties = {"junit.jupiter.execution.parallel.mode.classes.default=concurrent"})
+@SpringBootTest(classes = ScanServiceConfig.class)
 @Import({MockRepositoryBeanFactoryPostProcessor.class})
-@RegisterMainSettingConfig
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 public @interface OnlyRealServiceConfig {
