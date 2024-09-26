@@ -31,6 +31,9 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Autowired
     private ArticleMainService articleMainService;
 
+    private final String IMAGE_PATH_PREFIX = "/images/main/newest/";
+    private final String IMAGE_PATH_SUFFIX = ".png";
+
     @DisplayName("NotBlank(공백)에 대한 기사 메인 추가 유효성 검증")
     @Test
     void validateNotBlankSpaceArticleMainAdd() throws Exception {
@@ -47,7 +50,8 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(ArticleMain.builder().articleDto(articleDto).name("").build().toDto());
+                .isEqualTo(ArticleMain.builder().articleDto(articleDto).name("")
+                        .imagePath(IMAGE_PATH_PREFIX + " " + IMAGE_PATH_SUFFIX).build().toDto());
     }
 
     @DisplayName("NotBlank(null)에 대한 기사 메인 추가 유효성 검증")
@@ -102,7 +106,8 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(ArticleMain.builder().articleDto(articleDto)
+                        .imagePath(IMAGE_PATH_PREFIX + articleDto.getImagePath() + IMAGE_PATH_SUFFIX).build().toDto());
     }
 
     @DisplayName("NotBlank(공백)에 대한 기사 메인 변경 유효성 검증")
@@ -121,7 +126,8 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(ArticleMain.builder().articleDto(articleDto).name("").build().toDto());
+                .isEqualTo(ArticleMain.builder().articleDto(articleDto).name("")
+                        .imagePath(IMAGE_PATH_PREFIX + " " + IMAGE_PATH_SUFFIX).build().toDto());
     }
 
     @DisplayName("NotBlank(null)에 대한 기사 메인 변경 유효성 검증")
@@ -176,6 +182,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                .isEqualTo(ArticleMain.builder().articleDto(articleDto)
+                        .imagePath(IMAGE_PATH_PREFIX + articleDto.getImagePath() + IMAGE_PATH_SUFFIX).build().toDto());
     }
 }
