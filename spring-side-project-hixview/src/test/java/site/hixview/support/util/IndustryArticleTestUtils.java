@@ -28,6 +28,9 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
     String modifyIndustryArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL;
 
+    // Schema Name
+    String TEST_INDUSTRY_ARTICLES_SCHEMA = "test_industry_articles";
+
     // Test Object
     IndustryArticle testIndustryArticle = IndustryArticle.builder()
             .name("ASML, 중국 내 장비 유지보수 중단… \"中, 반도체 산업 타격 불가피\"")

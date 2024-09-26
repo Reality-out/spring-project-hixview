@@ -18,6 +18,7 @@ import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.service.IndustryArticleService;
+import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.util.ArticleMainTestUtils;
 import site.hixview.support.util.CompanyArticleTestUtils;
 import site.hixview.support.util.CompanyTestUtils;
@@ -39,11 +40,10 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH
 import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
+@TestSchemaName
 @Transactional
 class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
 

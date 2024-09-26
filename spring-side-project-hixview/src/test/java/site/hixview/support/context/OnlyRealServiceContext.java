@@ -7,6 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import site.hixview.support.postprocessor.MockRepositoryBeanFactoryPostProcessor;
+import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.scan.ScanService;
 
 import java.lang.annotation.*;
@@ -16,6 +17,7 @@ import java.lang.annotation.*;
 @Documented
 @SpringBootTest(classes = ScanService.class)
 @Import({MockRepositoryBeanFactoryPostProcessor.class})
+@TestSchemaName
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 public @interface OnlyRealServiceContext {

@@ -13,8 +13,9 @@ import org.springframework.ui.ModelMap;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
 import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.util.ControllerUtils;
+import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.util.IndustryArticleTestUtils;
+import site.hixview.util.ControllerUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -35,10 +36,10 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WIT
 import static site.hixview.domain.vo.manager.ViewName.ADD_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.*;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
+@TestSchemaName
 @Transactional
 public class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
 

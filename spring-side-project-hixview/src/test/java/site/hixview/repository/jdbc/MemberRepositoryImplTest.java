@@ -17,7 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.EntityName.Member.IDENTIFIER;
-import static site.hixview.domain.vo.name.SchemaName.TEST_MEMBERS_SCHEMA;
 
 @OnlyRealRepositoryContext
 class MemberRepositoryImplTest implements MemberTestUtils {

@@ -14,11 +14,11 @@ import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
 import site.hixview.domain.entity.article.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
+import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.util.CompanyArticleTestUtils;
 import site.hixview.support.util.CompanyTestUtils;
 
 import javax.sql.DataSource;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,11 +31,10 @@ import static site.hixview.domain.vo.Word.ERROR_SINGLE;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANY_ARTICLES_SCHEMA;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
+@TestSchemaName
 @Transactional
 public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 

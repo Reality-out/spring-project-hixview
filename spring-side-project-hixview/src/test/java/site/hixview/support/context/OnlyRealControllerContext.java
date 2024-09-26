@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import site.hixview.support.postprocessor.MockServiceBeanFactoryPostProcessor;
 import site.hixview.support.postprocessor.MockValidatorBeanFactoryPostProcessor;
 import site.hixview.support.bean.RegisterAppAndValidation;
+import site.hixview.support.property.TestSchemaName;
 
 import java.lang.annotation.*;
 
@@ -20,6 +21,7 @@ import java.lang.annotation.*;
 @Import({MockServiceBeanFactoryPostProcessor.class, MockValidatorBeanFactoryPostProcessor.class})
 @RegisterAppAndValidation
 @AutoConfigureMockMvc
+@TestSchemaName
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 public @interface OnlyRealControllerContext {

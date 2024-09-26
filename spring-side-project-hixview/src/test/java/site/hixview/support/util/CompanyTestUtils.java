@@ -25,6 +25,9 @@ public interface CompanyTestUtils extends ObjectTestUtils {
     String modifyCompanyProcessPage = UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
     String modifyCompanyFinishUrl = UPDATE_COMPANY_URL + FINISH_URL;
 
+    // Schema Name
+    String TEST_COMPANIES_SCHEMA = "test_companies";
+
     // Test Object
     Company samsungElectronics = Company.builder().code("005930").country(Country.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")
             .firstCategory(FirstCategory.SEMICONDUCTOR).secondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();

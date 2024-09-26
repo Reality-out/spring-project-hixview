@@ -1,6 +1,7 @@
 package site.hixview.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,15 +19,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.SchemaName.*;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
 
 @Repository
 @Primary
 public class IndustryArticleRepositoryImpl implements IndustryArticleRepository {
 
-    private final String CURRENT_SCHEMA = TEST_INDUSTRY_ARTICLES_SCHEMA;
+    @Value("${schema.article.industries}")
+    private String CURRENT_SCHEMA;
 
     private final JdbcTemplate jdbcTemplate;
 

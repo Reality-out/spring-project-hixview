@@ -1,6 +1,7 @@
 package site.hixview.repository.jdbc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,16 +16,16 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Member.ID;
 import static site.hixview.domain.vo.name.EntityName.Member.IDENTIFIER;
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.SchemaName.*;
 
 @Repository
 @Primary
 public class MemberRepositoryImpl implements MemberRepository {
 
-    private final String CURRENT_SCHEMA = TEST_MEMBERS_SCHEMA;
+    @Value("${schema.members}")
+    private String CURRENT_SCHEMA;
     
     private final JdbcTemplate jdbcTemplate;
 

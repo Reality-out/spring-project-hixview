@@ -17,6 +17,9 @@ public interface MemberTestUtils extends ObjectTestUtils {
     // Assertion
     String membershipProcessPage = MEMBERSHIP_VIEW + VIEW_PROCESS;
 
+    // Schema Name
+    String TEST_MEMBERS_SCHEMA = "test_members";
+
     // Test Object
     Member testMember = Member.builder().id("ABcd1234!").password("EFgh1234!").name("박진하")
             .birthday(LocalDate.of(2000, 4, 1)).phoneNumber("010-1234-5678").build();

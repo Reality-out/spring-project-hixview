@@ -13,10 +13,10 @@ import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
 import site.hixview.domain.entity.article.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
+import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.util.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,10 +30,10 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WIT
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_FIRST_CATEGORY;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.SchemaName.TEST_INDUSTRY_ARTICLES_SCHEMA;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
+@TestSchemaName
 @Transactional
 class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
 

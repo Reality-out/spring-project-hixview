@@ -25,6 +25,9 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
     String modifyArticleMainProcessPage = UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
     String modifyArticleMainFinishUrl = UPDATE_ARTICLE_MAIN_URL + FINISH_URL;
 
+    // Schema Name
+    String TEST_ARTICLE_MAINS_SCHEMA = "test_article_mains";
+
     // Test Object
     ArticleMain testCompanyArticleMain = ArticleMain.builder()
             .name(testCompanyArticle.getName())

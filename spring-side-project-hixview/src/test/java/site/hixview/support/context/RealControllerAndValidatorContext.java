@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import site.hixview.support.bean.RegisterAppAndValidation;
 import site.hixview.support.postprocessor.MockServiceBeanFactoryPostProcessor;
+import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.scan.ScanController;
 import site.hixview.support.scan.ScanValidator;
 
@@ -21,6 +22,7 @@ import java.lang.annotation.*;
 @Import({MockServiceBeanFactoryPostProcessor.class})
 @RegisterAppAndValidation
 @AutoConfigureMockMvc
+@TestSchemaName
 @ExtendWith(MockitoExtension.class)
 @Execution(ExecutionMode.CONCURRENT)
 public @interface RealControllerAndValidatorContext {

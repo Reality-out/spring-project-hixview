@@ -17,7 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
-import static site.hixview.domain.vo.name.SchemaName.TEST_ARTICLE_MAINS_SCHEMA;
 
 @OnlyRealRepositoryContext
 class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {

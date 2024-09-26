@@ -5,22 +5,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.repository.CompanyRepository;
+import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.name.SchemaName.TEST_COMPANIES_SCHEMA;
-import static site.hixview.support.util.CompanyTestUtils.samsungElectronics;
-import static site.hixview.support.util.CompanyTestUtils.skHynix;
 
 @OnlyRealRepositoryContext
-class CompanyRepositoryImplTest implements CompanyArticleTestUtils {
+class CompanyRepositoryImplTest implements CompanyTestUtils, CompanyArticleTestUtils {
 
     @Autowired
     private CompanyRepository companyRepository;
