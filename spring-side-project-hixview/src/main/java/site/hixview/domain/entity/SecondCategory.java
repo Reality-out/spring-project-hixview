@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum SecondCategory {
     BANK("은행"),
+    CATHODE_MATERIAL_MANUFACTURING("양극재 제조"),
     DISPLAY_EQUIPMENT("디스플레이 장비"),
     DISPLAY_PANEL("디스플레이 패널"),
     ELECTRIC_VEHICLE_MANUFACTURING("전기차 제조"),

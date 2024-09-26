@@ -7,6 +7,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
+import site.hixview.domain.service.CompanyArticleService;
+import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.support.context.RealControllerAndValidatorContext;
 import site.hixview.support.util.ArticleMainTestUtils;
 
@@ -35,6 +37,31 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
     @Autowired
     private ArticleMainService articleMainService;
+
+    @Autowired
+    private CompanyArticleService companyArticleService;
+
+    @Autowired
+    private IndustryArticleService industryArticleService;
+
+    @DisplayName("기사 DB에 등록되지 않은 기사명을 사용하는 기사 메인 추가")
+    @Test
+    void notRegisteredArticleMainAdd() throws Exception {
+        // given & when
+        ArticleMain notRegisteredArticle = testCompanyArticleMain;
+        ArticleMainDto notRegisteredArticleDto = notRegisteredArticle.toDto();
+        when(companyArticleService.findArticleByName(notRegisteredArticle.getName())).thenReturn(Optional.empty());
+        when(industryArticleService.findArticleByName(notRegisteredArticle.getImagePath())).thenReturn(Optional.empty());
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, notRegisteredArticleDto))
+                .andExpectAll(view().name(addArticleMainProcessPage),
+                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(ERROR, (String) null))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
+                .usingRecursiveComparison()
+                .isEqualTo(notRegisteredArticleDto);
+    }
 
     @DisplayName("중복 기사 메인명 또는 이미지 경로를 사용하는 기사 메인 추가")
     @Test
