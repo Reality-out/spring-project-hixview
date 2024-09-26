@@ -19,7 +19,7 @@ public final class EntityName {
         public static final String IMPORTANCE = "importance";
         public static final String IMAGE_PATH = "imagePath";
         public static final String SUMMARY = "summary";
-        public static final String ARTICLE_CLASS_NAME = "articleClassName";
+        public static final String ARTICLE_CLASS_NAME = "classification";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

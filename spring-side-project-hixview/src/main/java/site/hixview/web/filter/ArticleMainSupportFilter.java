@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
-import site.hixview.domain.entity.ArticleClassName;
+import site.hixview.domain.entity.Classification;
 import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class ArticleMainSupportFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
         applyStrip(request, NAME);
-        applyUppercaseAndConvertToEnum(request, ArticleClassName.class, ARTICLE_CLASS_NAME);
+        applyUppercaseAndConvertToEnum(request, Classification.class, ARTICLE_CLASS_NAME);
         chain.doFilter(request, response);
     }
 }

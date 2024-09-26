@@ -7,11 +7,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ArticleClassNameValidator.class)
+@Constraint(validatedBy = ClassificationValidator.class)
 @Documented
-public @interface ArticleClassNameConstraint {
+public @interface ClassificationConstraint {
 
-    String message() default "ArticleClassName default message";
+    String message() default "Classification default message";
 
     Class<?>[] groups() default {};
 

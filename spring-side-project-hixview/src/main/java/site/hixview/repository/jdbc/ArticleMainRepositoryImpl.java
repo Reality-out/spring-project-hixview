@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import site.hixview.domain.entity.ArticleClassName;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.repository.ArticleMainRepository;
 
@@ -77,8 +77,8 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
     @Override
     public void updateArticle(ArticleMain article) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
-                        " set imagePath = ?, summary = ?, articleClassName = ? where name = ?",
-                article.getImagePath(), article.getSummary(), article.getArticleClassName().name(), article.getName());
+                        " set imagePath = ?, summary = ?, classification = ? where name = ?",
+                article.getImagePath(), article.getSummary(), article.getClassification().name(), article.getName());
     }
 
     /**
@@ -98,7 +98,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
                 .name(resultSet.getString(NAME))
                 .imagePath(resultSet.getString(IMAGE_PATH))
                 .summary(resultSet.getString(SUMMARY))
-                .articleClassName(ArticleClassName.valueOf(resultSet.getString(ARTICLE_CLASS_NAME)))
+                .classification(Classification.valueOf(resultSet.getString(ARTICLE_CLASS_NAME)))
                 .build();
     }
 }

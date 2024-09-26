@@ -230,17 +230,17 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = createTestCompanyArticleMainDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        ArticleMainDto articleDtoKoreanArticleClassName = createTestCompanyArticleMainDto();
-        articleDtoKoreanArticleClassName.setArticleClassName(testCompanyArticleMain.getArticleClassName().getArticleClassNameValue());
+        ArticleMainDto articleDtoKoreanClassification = createTestCompanyArticleMainDto();
+        articleDtoKoreanClassification.setClassification(testCompanyArticleMain.getClassification().getClassificationValue());
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
-        articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
+        articleDtoLowerCase.setClassification(articleDtoLowerCase.getClassification().toLowerCase());
 
         String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDtoOriginal.getName()))
                 .build().toUriString();
 
         // then
         for (ArticleMainDto articleDto : List.of(
-                articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanArticleClassName, articleDtoLowerCase)){
+                articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanClassification, articleDtoLowerCase)){
             mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
                     .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
@@ -262,10 +262,10 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
         ArticleMainDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
-        ArticleMainDto articleDtoKoreanArticleClassName = createTestCompanyArticleMainDto();
-        articleDtoKoreanArticleClassName.setArticleClassName(testCompanyArticleMain.getArticleClassName().getArticleClassNameValue());
+        ArticleMainDto articleDtoKoreanClassification = createTestCompanyArticleMainDto();
+        articleDtoKoreanClassification.setClassification(testCompanyArticleMain.getClassification().getClassificationValue());
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
-        articleDtoLowerCase.setArticleClassName(articleDtoLowerCase.getArticleClassName().toLowerCase());
+        articleDtoLowerCase.setClassification(articleDtoLowerCase.getClassification().toLowerCase());
 
         String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
@@ -274,7 +274,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
 
         // then
         for (ArticleMainDto articleDto : List.of(
-                articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanArticleClassName, articleDtoLowerCase)) {
+                articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanClassification, articleDtoLowerCase)) {
             mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                     .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
         }

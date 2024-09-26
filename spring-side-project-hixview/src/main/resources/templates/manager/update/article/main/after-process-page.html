@@ -25,9 +25,9 @@
                 <div class="txt-errorMessage" th:errors="*{summary}"></div>
             </div>
             <div class="partialForm">
-                <label for="articleClassName" th:text="#{article.articleClassName}"></label>
-                <input type="text" id="articleClassName" th:field="*{articleClassName}" size="20">
-                <div class="txt-errorMessage" th:errors="*{articleClassName}"></div>
+                <label for="classification" th:text="#{article.classification}"></label>
+                <input type="text" id="classification" th:field="*{classification}" size="20">
+                <div class="txt-errorMessage" th:errors="*{classification}"></div>
             </div>
         </div>
         <button type="submit" th:text="#{function.correct}"></button>

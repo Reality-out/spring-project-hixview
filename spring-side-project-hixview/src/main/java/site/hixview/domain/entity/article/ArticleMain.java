@@ -5,8 +5,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import site.hixview.domain.entity.ArticleClassName;
-import site.hixview.domain.validation.annotation.ArticleClassNameConstraint;
+import site.hixview.domain.entity.Classification;
+import site.hixview.domain.validation.annotation.ClassificationConstraint;
 
 import java.util.HashMap;
 
@@ -29,15 +29,15 @@ public class ArticleMain {
     @NotBlank
     private final String summary;
 
-    @ArticleClassNameConstraint
-    private final ArticleClassName articleClassName;
+    @ClassificationConstraint
+    private final Classification classification;
 
     public ArticleMainDto toDto() {
         ArticleMainDto companyArticleDto = new ArticleMainDto();
         companyArticleDto.setName(name);
         companyArticleDto.setImagePath(imagePath);
         companyArticleDto.setSummary(summary);
-        companyArticleDto.setArticleClassName(articleClassName.name());
+        companyArticleDto.setClassification(classification.name());
         return companyArticleDto;
     }
 
@@ -46,7 +46,7 @@ public class ArticleMain {
             put(NAME, name);
             put(IMAGE_PATH, imagePath);
             put(SUMMARY, summary);
-            put(ARTICLE_CLASS_NAME, articleClassName);
+            put(ARTICLE_CLASS_NAME, classification);
         }};
     }
 
@@ -58,7 +58,7 @@ public class ArticleMain {
             name = article.getName();
             imagePath = article.getImagePath();
             summary = article.getSummary();
-            articleClassName = article.getArticleClassName();
+            classification = article.getClassification();
             return this;
         }
 
@@ -66,7 +66,7 @@ public class ArticleMain {
             name = articleDto.getName();
             imagePath = articleDto.getImagePath();
             summary = articleDto.getSummary();
-            articleClassName = ArticleClassName.valueOf(articleDto.getArticleClassName());
+            classification = Classification.valueOf(articleDto.getClassification());
             return this;
         }
     }

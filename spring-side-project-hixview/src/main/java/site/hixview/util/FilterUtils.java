@@ -14,11 +14,11 @@ public abstract class FilterUtils {
 
     public static <T extends Enum<T>> void applyUppercaseAndConvertToEnum(
             ModifiableHttpServletRequest request, Class<T> enumClass, String paramName) {
-        String articleClassName = request.getParameter(paramName);
-        if (articleClassName != null) {
-            request.setParameter(paramName, articleClassName.toUpperCase());
-            if (inEnumValues(enumClass, articleClassName))
-                request.setParameter(paramName, convertToEnum(enumClass, articleClassName).name());
+        String classification = request.getParameter(paramName);
+        if (classification != null) {
+            request.setParameter(paramName, classification.toUpperCase());
+            if (inEnumValues(enumClass, classification))
+                request.setParameter(paramName, convertToEnum(enumClass, classification).name());
         }
     }
 }

@@ -4,29 +4,29 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import site.hixview.domain.entity.ArticleClassName;
+import site.hixview.domain.entity.Classification;
 
 import java.util.Locale;
 
 import static site.hixview.util.EnumUtils.inEnumConstants;
 
-public class ArticleClassNameValidator implements ConstraintValidator<ArticleClassNameConstraint, String> {
+public class ClassificationValidator implements ConstraintValidator<ClassificationConstraint, String> {
 
     @Autowired
     private MessageSource source;
 
     @Override
-    public boolean isValid(String articleClassName, ConstraintValidatorContext context) {
+    public boolean isValid(String classification, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (articleClassName == null || articleClassName.isEmpty()) {
+        if (classification == null || classification.isEmpty()) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("NotBlank.article.articleClassName", null, Locale.getDefault())
+                    source.getMessage("NotBlank.article.classification", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }
-        if (!inEnumConstants(ArticleClassName.class, articleClassName)) {
+        if (!inEnumConstants(Classification.class, classification)) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("typeMismatch.enum.article.articleClassName", null, Locale.getDefault())
+                    source.getMessage("typeMismatch.enum.article.classification", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }
