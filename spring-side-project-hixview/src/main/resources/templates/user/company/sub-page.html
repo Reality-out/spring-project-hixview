@@ -2,65 +2,62 @@
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
       lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="/styles/user/company/search/body-wrapper-style.css" rel="stylesheet"/>       <!-- wrap the whole body -->
-    <link href="/styles/user/company/search/body-companylist-style.css" rel="stylesheet"/>   <!-- wrap the middle grid covering the companies -->
+    <link href="/styles/user/company/search/body-logo-style.css" rel="stylesheet"/>
+    <link href="/styles/user/company/search/body-search-style.css" rel="stylesheet"/>
 </head>
 <body>
     <section>
-        <div class="bodyWrapper">
-            <div class="companyListWrapper">
-                <div class="firstLayer">
-                    <div class="row1">
-                        <h3>[[#{industry.semiconductor}]] 대표 [[#{company}]]</h3>
-                        <p>삼성전자</p>
-                        <a class="logo logoSamsungElectronics" th:href="@{|${companySearch}005930|}">
-                        </a>
-                        <p>SK하이닉스</p>
-                        <a class="logo logoSKHynix" th:href="@{|${companySearch}000660|}">
-                        </a>
+        <div class="section-search">
+            <div class="represent-wrapper">
+                <div class="represent-row">
+                    <div class="represent-column">
+                        <div class="represent-company-intro">[[#{industry.semiconductor}]] 대표 [[#{company}]]</div>
+                        <div class="represent-company-name">삼성전자</div>
+                        <div class="logo logo-samsungElectronics">
+                            <a class="logo-url" th:href="@{|${companySearch}005930|}"></a>
+                        </div>
+                        <div class="represent-company-name">SK하이닉스</div>
+                        <div class="logo logo-sKHynix">
+                            <a class="logo-url" th:href="@{|${companySearch}000660|}"></a>
+                        </div>
                     </div>
-                    <div class="row1">
-                        <h3>[[#{industry.electricVehicle}]] 대표 [[#{company}]]</h3>
-                        <p>현대차</p>
-                        <a class="logo logoHyundaiMotorCompany" th:href="@{|${companySearch}005380|}">
-                        </a>
-                        <p>기아</p>
-                        <a class="logo logoKia" th:href="@{|${companySearch}000270|}">
-                        </a>
+                    <div class="represent-column">
+                        <div class="represent-company-intro">[[#{industry.electricVehicle}]] 대표 [[#{company}]]</div>
+                        <div class="represent-company-name">현대차</div>
+                        <div class="logo logo-hyundaiMotorCompany">
+                            <a class="logo-url" th:href="@{|${companySearch}005380|}"></a>
+                        </div>
+                        <div class="represent-company-name">기아</div>
+                        <div class="logo logo-kia">
+                            <a class="logo-url" th:href="@{|${companySearch}000270|}"></a>
+                        </div>
                     </div>
-                    <div class="row1">
-                        <h3>[[#{industry.secondaryBattery}]] 대표 [[#{company}]]</h3>
-                        <p>LG에너지솔루션</p>
-                        <a class="logo logoLGEnergySolution" th:href="@{|${companySearch}373220|}">
-                        </a>
-                        <p>삼성SDI</p>
-                        <a class="logo logoSamsungSDI" th:href="@{|${companySearch}006400|}">
-                        </a>
+                    <div class="represent-column">
+                        <div class="represent-company-intro">[[#{industry.secondaryBattery}]] 대표 [[#{company}]]</div>
+                        <div class="represent-company-name">LG에너지솔루션</div>
+                        <div class="logo logo-lGEnergySolution">
+                            <a class="logo-url" th:href="@{|${companySearch}373220|}"></a>
+                        </div>
+                        <div class="represent-company-name">삼성SDI</div>
+                        <div class="logo logo-samsungSDI">
+                            <a class="logo-url" th:href="@{|${companySearch}006400|}"></a>
+                        </div>
                     </div>
-                    <div class="row1">
-                        <h3>[[#{industry.IT}]] 대표 [[#{company}]]</h3>
-                        <p>NAVER</p>
-                        <a class="logo logoNaver" th:href="@{|${companySearch}035420|}">
-                        </a>
-                        <p>카카오</p>
-                        <a class="logo logoKakao" th:href="@{|${companySearch}035720|}">
-                        </a>
+                    <div class="represent-column">
+                        <div class="represent-company-intro">[[#{industry.IT}]] 대표 [[#{company}]]</div>
+                        <div class="represent-company-name">NAVER</div>
+                        <div class="logo logo-naver">
+                            <a class="logo-url" th:href="@{|${companySearch}035420|}"></a>
+                        </div>
+                        <div class="represent-company-name">카카오</div>
+                        <div class="logo logo-kakao">
+                            <a class="logo-url" th:href="@{|${companySearch}035720|}"></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <script>
-        let CompanyAddressConversion;
-
-        if (window.location.pathname.includes('/company')) {
-            import('/scripts/user/module/CompanyAddressConversion.js')
-                .then((module) => {
-                    CompanyAddressConversion = new module.default();
-                    CompanyAddressConversion.init();
-                })
-                .catch((error) => console.error("Failed to load CompanyAddressConversion: ", error));
-        }
-    </script>
+    <script></script>
 </body>
 </html>

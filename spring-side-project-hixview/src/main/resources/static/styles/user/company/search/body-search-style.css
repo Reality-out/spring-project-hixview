@@ -1,0 +1,65 @@
+.section-search {    
+    display: flex;
+    width: calc(100vw - 14px);
+    margin: 0 auto;
+}
+
+.section-search .represent-wrapper {
+    display: flex;
+    width: 80vw;
+    margin: 6rem auto 4rem auto;
+    flex-flow: row nowrap;
+    flex-direction: column;
+}
+
+.represent-wrapper .represent-row {
+    display: flex;
+    width: inherit;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-flow: row nowrap;
+}
+
+.represent-wrapper .represent-row .represent-column {
+    display: flex;
+    width: 300px;
+    justify-content: center;
+    align-items: center;    
+    flex-flow: column nowrap;
+}
+
+.represent-row .represent-column .represent-company-intro {
+    display: flex;
+    width: inherit;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2D2A40;
+    justify-content: center;
+    align-items: center;    
+    flex-flow: row nowrap;
+}
+
+.represent-row .represent-column .represent-company-name {
+    display: flex;
+    width: inherit;
+    margin-top: 2rem;
+    font-size: 18px;
+    justify-content: center;
+    align-items: center;    
+    flex-flow: row nowrap;
+}
+
+.represent-row .represent-column .logo {
+    display: flex;
+    width: inherit;
+    height: 150px;
+    margin-top: 1.5rem;
+    justify-content: center;
+    align-items: center;    
+    flex-flow: row nowrap;
+}
+
+.represent-row .represent-column .logo .logo-url {
+    width: inherit;
+    height: inherit;
+}
