@@ -1,0 +1,129 @@
+@media screen and (max-width: 1500px) {
+    body .container-bottom {
+        justify-content: center;
+        align-items: center;
+        flex-flow: column nowrap;
+    }
+    
+    body .container-bottom .classification-news div:first-child {
+        padding-top: 3rem;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    body .container-bottom .classification-info {
+        width: 300px;
+        flex-flow: column nowrap;
+    }
+    
+    body .container-bottom .classification-news {
+        width: min(600px, calc(100vw - 14px));
+    }
+}
+
+.container-total {
+    display: flex;
+    width: calc(100vw - 14px);
+    flex-direction: column;
+}
+
+.container-top {
+    display: flex;
+    width: 75vw;
+    margin: 6rem auto 0px;
+    flex-flow: column nowrap;
+}
+
+.container-top .classification-name {
+    display: flex;
+    width: inherit;
+    margin-left: 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.container-top .classification-code {
+    display: flex;
+    width: inherit;
+    margin: 1.5rem 0 0 8px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.container-top .classification-chart {
+    display: flex;
+    width: inherit;
+    margin-top: 1.5rem;
+    height: 500px;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.container-bottom {
+    display: flex;
+    width: 90vw;
+    margin: 5rem auto;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.container-bottom .classification-info {
+    display: flex;
+    width: 600px;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row wrap;
+}
+
+.classification-info .classification-info-set {
+    display: flex;
+    width: 280px;
+    padding: 10px 0 10px 6px;
+    border-top: 2px solid #00FF7F;
+}
+
+.classification-info .classification-info-set:nth-child(n+13) {
+    border-bottom: 2px solid #00FF7F;    
+}
+
+.classification-info .classification-info-set .classification-info-item {
+    display: flex;
+    width: 150px;
+    font-weight: 400;
+}
+
+.classification-info .classification-info-set div:last-child {
+    justify-content: flex-end;
+}
+
+.container-bottom .classification-news {
+    display: flex;
+    width: 600px;
+    padding-left: 4px;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.classification-news .classification-news-statement {
+    display: flex;
+    width: inherit;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.classification-news .classification-news-item {
+    display: flex;
+    width: inherit;
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.classification-news div:nth-child(5) {
+    padding-top: 3rem;
+}
+
+.classification-news .classification-news-statement ~ .classification-news-item {
+    margin-top: 12px;
+}

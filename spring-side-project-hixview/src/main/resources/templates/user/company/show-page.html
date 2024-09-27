@@ -2,118 +2,88 @@
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
       lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="/styles/user/company/result/top-middle-component-style.css" rel="stylesheet"/>
-    <link href="/styles/user/company/result/bottom-component-style.css" rel="stylesheet"/>
+    <link href="/styles/user/company/result/body-result-style.css" rel="stylesheet"/>
 </head>
 <body>
     <section>
-        <div class="topMiddleComponent">
-            <div class="topComponent">
-                <h3 th:text="${company.name}"></h3>
-                <h5 th:text="${company.code}"></h5>
+        <div class="container-total">
+            <div class="container-top">
+                <div class="classification-name" th:text="${company.name}"></div>
+                <div class="classification-code" th:text="${company.code}"></div>
+                <div class="classification-chart"></div>
             </div>
-            <div class="middleComponent"></div>
-        </div>
-        <div id="bottomComponent">
-            <div id="bottomLeftComponent">
-                <nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.stockPrice}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.marketCap}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.52weekLow}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.52weekHigh}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.firstCategory}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.secondCategory}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.PER}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.PBR}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.ROE}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.PEG}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.EPS}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.divPerShare}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                    <nl>
-                        <nl>
-                            <li th:text="#{company.payoutRatio}"></li>
-                            <li></li>
-                        </nl>
-                        <nl>
-                            <li th:text="#{company.divYieldRatio}"></li>
-                            <li></li>
-                        </nl>
-                    </nl>
-                </nl>
-            </div>
-            <div id="bottomRightComponent">
-                <div>
-                    <h5 th:text="|최신 #{article.news}|"></h5>
-                    <nl>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </nl>
-                    <h5 th:text="|#{newest.year} #{newest.quarter} TOP 3|"></h5>
-                    <nl>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                    </nl>
+            <div class="container-bottom">
+                <div class="classification-info">
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.stockPrice}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.marketCap}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.52weekLow}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.52weekHigh}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.firstCategory}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.secondCategory}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.PER}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.PBR}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.ROE}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.PEG}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.EPS}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.divPerShare}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.payoutRatio}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                    <div class="classification-info-set">
+                        <div class="classification-info-item" th:text="#{company.divYieldRatio}"></div>
+                        <div class="classification-info-item">[[#{function.test}]]</div>
+                    </div>
+                </div>
+                <div class="classification-news">
+                    <div class="classification-news-statement" th:text="|최신 #{article.news}|"></div>
+                    <div class="classification-news-item">[[#{function.test}]]</div>
+                    <div class="classification-news-item">[[#{function.test}]]</div>
+                    <div class="classification-news-item">[[#{function.test}]]</div>
+                    <div class="classification-news-statement" th:text="|#{newest.year} #{newest.quarter} TOP 3|"></div>
+                    <div class="classification-news-item">[[#{function.test}]]</div>
+                    <div class="classification-news-item">[[#{function.test}]]</div>
+                    <div class="classification-news-item">[[#{function.test}]]</div>
                 </div>
             </div>
         </div>
     </section>
-    <script src="/scripts/user/iife/DifferentlyShowedCompany.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            adjustGridLayout();
-
-            window.addEventListener('resize', adjustGridLayout);
-        });
-    </script>
+    <script></script>
 </body>
 </html>
