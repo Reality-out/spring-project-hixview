@@ -13,23 +13,23 @@
         <link href="/styles/user/membershipStyle.css" rel="stylesheet"/>
         <form th:action th:object="${member}" method="post">
             <div>
-                <div class="partialForm">
+                <div class="partial-form">
                     <label for="id">[[#{member.ID}]]</label>
                     <input type="text" id="id" th:field="*{id}" size="20">
                     <div class="txt-errorMessage" th:errors="*{id}"></div>
                 </div>
-                <div class="partialForm">
+                <div class="partial-form">
                     <label for="password">[[#{member.PW}]]</label>
                     <input type="password" id="password" th:field="*{password}" size="20">
                     <div class="txt-errorMessage" th:errors="*{password}"></div>
                 </div>
-                <div class="partialForm">
+                <div class="partial-form">
                     <label for="name">[[#{member.NAME}]]</label>
                     <input type="text" id="name" th:field="*{name}" size="20">
                     <div class="txt-errorMessage" th:errors="*{name}"></div>
                 </div>
                 <p>[[#{member.birthday}]]</p>
-                <div class="partialForm">
+                <div class="partial-form">
                     <label for="year">[[#{year}]]</label>
                     <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
                     <label for="month">[[#{month}]]</label>
@@ -40,7 +40,7 @@
                     <div class="txt-errorMessage" th:errors="*{month}"></div>
                     <div class="txt-errorMessage" th:errors="*{days}"></div>
                 </div>
-                <div class="partialForm">
+                <div class="partial-form">
                     <label for="phoneNumber">[[#{member.cellphoneNumber}]]</label>
                     <input type="text" id="phoneNumber" th:field="*{phoneNumber}" size="13">
                     <div class="txt-errorMessage" th:errors="*{phoneNumber}"></div>

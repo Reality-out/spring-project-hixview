@@ -9,22 +9,22 @@
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
         <div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
                 <div class="txt-errorMessage" th:errors="*{name}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="imagePath" th:text="#{article.imagePath}"></label>
                 <input type="text" id="imagePath" th:field="*{imagePath}" size="20">
                 <div class="txt-errorMessage" th:errors="*{imagePath}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="summary" th:text="#{article.summary}"></label>
                 <input type="text" id="summary" th:field="*{summary}" size="20">
                 <div class="txt-errorMessage" th:errors="*{summary}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="classification" th:text="#{article.classification}"></label>
                 <input type="text" id="classification" th:field="*{classification}" size="20">
                 <div class="txt-errorMessage" th:errors="*{classification}"></div>

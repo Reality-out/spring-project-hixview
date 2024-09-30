@@ -6,7 +6,7 @@
     <p th:text="|해당 #{company.code} 또는 #{company.name}에 해당하는 #{company}이 확인되었습니다.|"></p>
     <form th:action="${updateUrl}" th:object="${company}" method="POST">
         <div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="code" th:text="#{company.code}"></label>
                 <input type="text" id="code" th:field="*{code}" size="20" readonly>
             </div>
@@ -18,15 +18,15 @@
             <select class="partialForm" th:field="*{scale}">
                 <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
             </select>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="name" th:text="#{company.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="firstCategory" th:text="#{company.firstCategory}"></label>
                 <input type="text" id="firstCategory" th:field="*{firstCategory}" size="20">
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="secondCategory" th:text="#{company.secondCategory}"></label>
                 <input type="text" id="secondCategory" th:field="*{secondCategory}" size="20">
             </div>
