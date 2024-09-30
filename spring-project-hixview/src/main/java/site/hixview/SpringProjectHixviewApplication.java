@@ -6,10 +6,10 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @ServletComponentScan
-public class SpringSideProject1BuildApplication {
+public class SpringProjectHixviewApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringSideProject1BuildApplication.class, args);
+		SpringApplication.run(SpringProjectHixviewApplication.class, args);
 	}
 
 }
