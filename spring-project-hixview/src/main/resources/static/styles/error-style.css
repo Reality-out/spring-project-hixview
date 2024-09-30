@@ -1,6 +1,5 @@
 .txt-errorMessage {
-    /* font */
+    color: red;
     font-size: 12px;
     font-weight: 400;
-    color: red;
 }

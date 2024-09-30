@@ -1,143 +1,47 @@
-.tableWrapperDiv {
-    /* 
-     * block
-     */
-
-    /* border */
+.wrapper-select-table {
+    display: table;
+    width: 95vw;
+    margin: 1rem auto;
     border: 3px outset #5A5BC7;
     border-collapse: separate;
-    border-radius: 10px;
-    border-spacing: 0;
-    
-    /* decoration */
+    border-radius: 10px;    
     box-shadow: 2px 2px 3px 2px black;
-
-    /* empty space */
-    box-sizing: content-box;
-    margin: 1rem auto 1rem;
-    padding: 0 0 1rem;
-
-    /* positioning */
-    display: block;
-    
-    /* size */
-    width: 95vw;
-    min-width: 1200px;
+    text-align: center;
 }
 
-.table {
-    /* 
-     * block
-     */
-
-    /* border */
+.select-table {
+    display: table;
+    width: 85vw;
+    margin: 0 auto 2rem;
     border: 3px outset #5A5BC7;
     border-collapse: separate;
     border-radius: 8px;
-    border-spacing: 0;
-
-    /* decoration */
     box-shadow: 2px 2px 3px 2px black;
-
-    /* empty space */
-    box-sizing: content-box;
-    margin: 1rem auto 1rem;
-    
-    /* positioning */
-    display: table;
-
-    /* size */
-    width: 900px;
 }
 
-.table > caption {
-    /* 
-     * block
-     */
-
-    /* empty space */
-    box-sizing: content-box;
-    margin: 1rem auto 1rem;
-    padding: 4px;
-    
-    /* positioning */
-    caption-side: top;
+.select-table caption {
     display: table-caption;
-
-    /* sorting */
-    text-align: center;
-    
-    /*
-     * inline
-     */
-    
-    /* font */
+    margin: 2.5rem auto 3rem;
+    padding: 4px;
     font-size: 20px;
     font-weight: 700;
+    caption-side: top;
 }
 
-.table th {
-    /* 
-     * block
-     */
-
-    /* border */
+.select-table th {
+    display: table-cell;
+    padding: 1rem;
     border: 2px outset #5A5BC7;
     border-collapse: collapse;
-    
-    /* empty space */
-    box-sizing: content-box;
-    margin: 1rem;
-    padding: 1rem;
-
-    /* positioning */
-    display: table-cell;
-
-    /* size */
-    min-height: 40px;
-    min-width: 150px;
-    
-    /* sorting */
-    text-align: center;
-        
-    /*
-     * inline
-     */
-    
-    /* font */
     font-size: 18px;
     font-weight: 700;
 }
 
-.table td {
-    /* 
-     * block
-     */
-
-    /* border */
+.select-table td {
+    display: table-cell;
+    padding: 1rem;
     border: 2px outset #5A5BC7;
     border-collapse: collapse;
-
-    /* empty space */
-    box-sizing: content-box;
-    margin: 1rem;
-    padding: 1rem;
-
-    /* positioning */
-    display: table-cell;
-
-    /* size */
-    min-height: 40px;
-    min-width: 150px;
-
-    /* sorting */
-    text-align: center;
-
-    /*
-     * inline
-     */
-    
-    /* font */
     font-size: 16px;
     font-weight: 400;
 }
