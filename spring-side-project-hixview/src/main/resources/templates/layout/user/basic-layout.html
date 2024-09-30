@@ -33,7 +33,7 @@
                 <li class="gnbNav-list-item"><a href="/economy" th:text="#{economy}"></a></li>
             </ul>
         </nav>
-        <div class="header-clearLine"></div>
+        <div class="header-clearLine first-clearLine"></div>
         <form id="gnbScb" method="get" th:action="@{|${companySearch}${codeOrName}|}">
             <div class="gnbScb-wrapInput">
                 <input class="gnbScb-input" type="text" id="codeOrName" name="codeOrName"
@@ -47,6 +47,7 @@
             </div>
             <button class="gnbScb-btn" type="submit"></button> <!-- "확대경 아이콘 제작자: Maxim Basinski Premium - Flaticon" -->
         </form>
+        <div class="header-clearLine second-clearLine"></div>
         <a class="membership" href="/membership" th:text="#{member.membership}"></a>
         <a class="link-login" href="/login" th:text="#{function.login}"></a>
     </div>

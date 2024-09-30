@@ -5,8 +5,8 @@
         flex-flow: column nowrap;
     }
     
-    body .container-bottom .classification-news div:first-child {
-        padding-top: 3rem;
+    body .container-bottom .classification-news > div:first-child {
+        margin-top: 3rem;
     }
 }
 
@@ -89,6 +89,7 @@
 .classification-info .classification-info-set .classification-info-item {
     display: flex;
     width: 150px;
+    padding: 6px 0;
     font-weight: 400;
 }
 
@@ -105,9 +106,20 @@
     flex-direction: column;
 }
 
+.classification-news .layer-background {
+    display: flex;
+    width: inherit;
+    padding: 4px 0;
+    background-color: #87CEFA;
+    background-clip: content-box;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .classification-news .classification-news-statement {
     display: flex;
     width: inherit;
+    padding-left: 8px;
     font-size: 24px;
     font-weight: 700;
 }
@@ -115,7 +127,7 @@
 .classification-news .classification-news-item {
     display: flex;
     width: inherit;
-    padding-top: 10px;
+    padding-top: 18px;
     font-size: 18px;
     font-weight: 400;
 }

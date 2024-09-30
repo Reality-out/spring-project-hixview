@@ -1,3 +1,26 @@
+@media screen and (max-width: 1450px) {
+    body .represent-wrapper .represent-row {
+        flex-flow: row wrap;
+    }
+
+    body .represent-wrapper .represent-row div:nth-child(n+3){
+        margin-top: 2rem;
+    }
+
+    body .represent-wrapper .represent-row .represent-clearLine {
+        display: flex;
+        position: static;
+        width: inherit;
+        flex-basis: 100%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    body .represent-wrapper .represent-row .represent-column{
+        margin-top: 2rem;
+    }
+}
+
 .section-search {    
     display: flex;
     width: calc(100vw - 14px);
@@ -8,8 +31,7 @@
     display: flex;
     width: 80vw;
     margin: 6rem auto 4rem auto;
-    flex-flow: row nowrap;
-    flex-direction: column;
+    flex-flow: column nowrap;
 }
 
 .represent-wrapper .represent-row {
@@ -28,22 +50,42 @@
     flex-flow: column nowrap;
 }
 
+.represent-wrapper .represent-row .represent-clearLine {
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
 .represent-row .represent-column .represent-company-intro {
     display: flex;
     width: inherit;
+    padding: 4px 0;
+    border: 2px outset black;
+    border-collapse: separate;
+    border-radius: 4px;
+    background: linear-gradient(315deg, rgba(15,195,143,1) 0%, rgba(87,207,224,1) 45%, rgba(54,117,143,1) 95%);  
+    background-clip: padding-box;
     font-size: 24px;
     font-weight: 700;
     color: #2D2A40;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     flex-flow: row nowrap;
 }
 
 .represent-row .represent-column .represent-company-name {
     display: flex;
-    width: inherit;
-    margin-top: 2rem;
+    width: 80%;
+    margin: 2rem auto 0;
+    border: 2px outset black;
+    border-collapse: separate;
+    border-radius: 4px;
+    background: linear-gradient(315deg, rgba(15,195,143,1) 0%, rgba(87,207,224,1) 45%, rgba(54,117,143,1) 95%);
+    background-clip: padding-box;
     font-size: 18px;
+    font-weight: 700;
+    color: #2D2A40;
     justify-content: center;
     align-items: center;    
     flex-flow: row nowrap;
@@ -54,6 +96,10 @@
     width: inherit;
     height: 150px;
     margin-top: 1.5rem;
+    border: 1px solid #C0C0C0;
+    border-collapse: separate;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     justify-content: center;
     align-items: center;    
     flex-flow: row nowrap;

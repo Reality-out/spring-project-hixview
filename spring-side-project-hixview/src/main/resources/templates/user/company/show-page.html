@@ -72,11 +72,15 @@
                     </div>
                 </div>
                 <div class="classification-news">
-                    <div class="classification-news-statement" th:text="|최신 #{article.news}|"></div>
+                    <div class="layer-background">
+                        <div class="classification-news-statement" th:text="|최신 #{article.news}|"></div>
+                    </div>
                     <div class="classification-news-item">[[#{function.test}]]</div>
                     <div class="classification-news-item">[[#{function.test}]]</div>
                     <div class="classification-news-item">[[#{function.test}]]</div>
-                    <div class="classification-news-statement" th:text="|#{newest.year} #{newest.quarter} TOP 3|"></div>
+                    <div class="layer-background">
+                        <div class="classification-news-statement" th:text="|#{newest.year} #{newest.quarter} TOP 3|"></div>
+                    </div>
                     <div class="classification-news-item">[[#{function.test}]]</div>
                     <div class="classification-news-item">[[#{function.test}]]</div>
                     <div class="classification-news-item">[[#{function.test}]]</div>

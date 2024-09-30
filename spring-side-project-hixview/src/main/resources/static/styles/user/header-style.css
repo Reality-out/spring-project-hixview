@@ -11,8 +11,22 @@
         margin-bottom: 0.5rem;
     }
     
-    #header .header-wrapContent .header-clearLine {
+    #header .header-wrapContent .header-clearLine.first-clearLine {
         flex-basis: 100%;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    #header .header-wrapContent .header-clearLine.second-clearLine {
+        flex-basis: 100%;
+    }
+    
+    #header .header-wrapContent .membership {
+        padding-top: 4px;
+    }
+
+    #header .header-wrapContent .link-login {
+        padding-top: 4px;
     }
 }
 
