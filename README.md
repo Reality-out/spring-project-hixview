@@ -1,5 +1,5 @@
 <a href="https://github.com/Reality-out/spring-side-project1">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=150&color=gradient&text=스프링%20사이드%20프로젝트&section=header&reversal=false&fontSize=40&fontAlignY=35&animation=fadeIn"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&height=150&color=gradient&text=스프링%20프로젝트&section=header&reversal=false&fontSize=40&fontAlignY=35&animation=fadeIn"/>
 </a>
 <br>
 
@@ -8,7 +8,7 @@
 <br>
 
 ## ⏲️ 프로젝트 개발 기간
-- 24/07 ~ 24/12(예정)
+- 24/07 ~
 <br>
 
 ## 🌐 프로젝트 구분
@@ -38,4 +38,4 @@
 <br>
 
 ## 🔥 프로젝트 목적
-- 배포를 목적으로, 투자자들에게 투자 정보를 제공할 수 있는 사이트를 제작하는 것
+- 투자자들에게 투자 정보를 제공할 수 있는 완성도 높은 사이트를 제작하는 것
