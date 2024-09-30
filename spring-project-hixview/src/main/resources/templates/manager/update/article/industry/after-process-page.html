@@ -5,50 +5,50 @@
     <p th:text="|#{industry} #{article}를 #{function.correct}합니다.|"></p>
     <p th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
     <form th:action="${updateUrl}" th:object="${article}" method="POST">
-        <div th:if="${error} != null" th:classappend="txt-errorMessage">
+        <div th:if="${error} != null" th:classappend="txt-error-message">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
         <div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
-                <div class="txt-errorMessage" th:errors="*{name}"></div>
+                <div class="txt-error-message" th:errors="*{name}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="press" th:text="#{article.press}"></label>
                 <input type="text" id="press" th:field="*{press}" size="20">
-                <div class="txt-errorMessage" th:errors="*{press}"></div>
+                <div class="txt-error-message" th:errors="*{press}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="link" th:text="#{article.link}"></label>
                 <input type="url" id="link" th:field="*{link}" size="20" readonly>
-                <div class="txt-errorMessage" th:errors="*{link}"></div>
+                <div class="txt-error-message" th:errors="*{link}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="year" th:text="#{year}"></label>
                 <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
                 <label for="month" th:text="#{month}"></label>
                 <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
                 <label for="days" th:text="#{days}"></label>
                 <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-                <div class="txt-errorMessage" th:errors="*{year}"></div>
-                <div class="txt-errorMessage" th:errors="*{month}"></div>
-                <div class="txt-errorMessage" th:errors="*{days}"></div>
+                <div class="txt-error-message" th:errors="*{year}"></div>
+                <div class="txt-error-message" th:errors="*{month}"></div>
+                <div class="txt-error-message" th:errors="*{days}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="importance" th:text="#{article.importance}"></label>
                 <input type="text" id="importance" th:field="*{importance}" size="20">
-                <div class="txt-errorMessage" th:errors="*{importance}"></div>
+                <div class="txt-error-message" th:errors="*{importance}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="subjectFirstCategory" th:text="#{article.subjectFirstCategory}"></label>
                 <input type="text" id="subjectFirstCategory" th:field="*{subjectFirstCategory}" size="20">
-                <div class="txt-errorMessage" th:errors="*{subjectFirstCategory}"></div>
+                <div class="txt-error-message" th:errors="*{subjectFirstCategory}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="subjectSecondCategory" th:text="#{article.subjectSecondCategory}"></label>
                 <input type="text" id="subjectSecondCategory" th:field="*{subjectSecondCategory}" size="20">
-                <div class="txt-errorMessage" th:errors="*{subjectSecondCategory}"></div>
+                <div class="txt-error-message" th:errors="*{subjectSecondCategory}"></div>
             </div>
         </div>
         <button type="submit" th:text="#{function.correct}"></button>

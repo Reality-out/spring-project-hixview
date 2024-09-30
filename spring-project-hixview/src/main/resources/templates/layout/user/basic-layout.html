@@ -39,9 +39,9 @@
                 <input class="gnbScb-input" type="text" id="codeOrName" name="codeOrName"
                        th:placeholder="|현재는 #{company} #{function.search}만 #{function.support}됩니다.|">
                 <div class="gnbScb-wrapError" th:if="${error} != null" th:switch="${error}">
-                    <span th:classappend="txt-errorMessage" th:case="notExistCompanyError"
+                    <span th:classappend="txt-error-message" th:case="notExistCompanyError"
                           th:text="|#{function.search}될 #{company}을 #{function.fillIn}해 주세요.|"></span>
-                    <span th:classappend="txt-errorMessage" th:case="notFoundCompanyError"
+                    <span th:classappend="txt-error-message" th:case="notFoundCompanyError"
                           th:text="|#{function.search}된 #{company}이 없습니다.|"></span>
                 </div>
             </div>

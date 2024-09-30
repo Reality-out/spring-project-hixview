@@ -5,11 +5,11 @@
     <p th:text="|#{company} #{article}를 #{function.correct}합니다.|"></p>
     <p th:text="|#{article.number} 또는 #{article.name}을 통해 #{article}를 #{function.search}합니다.|"></p>
     <form th:action method="POST">
-        <div th:if="${error} != null" th:classappend="txt-errorMessage">
+        <div th:if="${error} != null" th:classappend="txt-error-message">
             <span th:if="${error} == 'notFoundCompanyArticleError'" th:text="#{NotFound.article}"></span>
         </div>
         <div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="numberOrName">[[#{article.number}]] 또는 [[#{article.name}]]</label>
                 <input type="text" id="numberOrName" name="numberOrName" size="20">
             </div>

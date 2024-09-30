@@ -3,7 +3,7 @@
 <body>
 <div>
     <p th:text="|#{article.number} 또는 #{article.name}을 통해 #{industry} #{article}를 #{function.remove}합니다.|"></p>
-    <div th:if="${error} != null" th:classappend="txt-errorMessage">
+    <div th:if="${error} != null" th:classappend="txt-error-message">
         <p th:if="${error} == 'notFoundIndustryArticleError'" th:text="#{NotFound.article}"></p>
     </div>
     <form th:action method="POST">

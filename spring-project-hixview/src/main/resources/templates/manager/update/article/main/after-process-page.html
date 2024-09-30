@@ -5,29 +5,29 @@
     <p th:text="|#{article} #{data.main}을 #{function.correct}합니다.|"></p>
     <p th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
     <form th:action="${updateUrl}" th:object="${article}" method="POST">
-        <div th:if="${error} != null" th:classappend="txt-errorMessage">
+        <div th:if="${error} != null" th:classappend="txt-error-message">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
         <div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
-                <div class="txt-errorMessage" th:errors="*{name}"></div>
+                <div class="txt-error-message" th:errors="*{name}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="imagePath" th:text="#{article.imagePath}"></label>
                 <input type="text" id="imagePath" th:field="*{imagePath}" size="20">
-                <div class="txt-errorMessage" th:errors="*{imagePath}"></div>
+                <div class="txt-error-message" th:errors="*{imagePath}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="summary" th:text="#{article.summary}"></label>
                 <input type="text" id="summary" th:field="*{summary}" size="20">
-                <div class="txt-errorMessage" th:errors="*{summary}"></div>
+                <div class="txt-error-message" th:errors="*{summary}"></div>
             </div>
-            <div class="partialForm">
+            <div class="partial-form">
                 <label for="classification" th:text="#{article.classification}"></label>
                 <input type="text" id="classification" th:field="*{classification}" size="20">
-                <div class="txt-errorMessage" th:errors="*{classification}"></div>
+                <div class="txt-error-message" th:errors="*{classification}"></div>
             </div>
         </div>
         <button type="submit" th:text="#{function.correct}"></button>

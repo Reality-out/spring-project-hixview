@@ -2,7 +2,7 @@
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
       lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="/styles/user/main/main-style.css" rel="stylesheet"/>
+    <link href="/styles/user/main/user-main-style.css" rel="stylesheet"/>
 </head>
 <body>
     <section class="section-main">
@@ -156,6 +156,16 @@
             </div>
         </div>
     </section>
-    <script type="module" src="/scripts/MainJavaScript.js"></script>
+    <script async>
+        function checkOverflow() {
+            const body = document.body;
+            if (body.scrollWidth > body.clientWidth) {
+                body.style.overflowX = 'scroll';
+            } else {
+                body.style.overflowX = 'hidden';
+            }
+        }
+        checkOverflow();
+    </script>
 </body>
 </html>

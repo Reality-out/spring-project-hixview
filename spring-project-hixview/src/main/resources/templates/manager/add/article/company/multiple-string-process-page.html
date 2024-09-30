@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head><link/></head>
 <body>
 <div>
     <p th:text="|#{company} #{article}를 #{function.register}합니다.|"></p>
     <form th:action method="POST">
-        <div th:if="${error} != null" th:classappend="txt-errorMessage">
+        <div th:if="${error} != null" th:classappend="txt-error-message">
             <th:block th:switch="${error}">
                 <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
                 <p th:case="notFoundCompanyError" th:text="#{NotFound.company}"></p>
@@ -28,5 +29,6 @@
         <button type="submit" th:text="#{function.register}"></button>
     </form>
 </div>
+<script></script>
 </body>
 </html>

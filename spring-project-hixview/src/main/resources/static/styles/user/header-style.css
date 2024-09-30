@@ -123,7 +123,7 @@
     position: relative;
 }
 
-#gnbScb .gnbScb-wrapInput .gnbScb-wrapError .txt-errorMessage {
+#gnbScb .gnbScb-wrapInput .gnbScb-wrapError .txt-error-message {
     display: block;
     position: absolute;
     z-index: 1;
