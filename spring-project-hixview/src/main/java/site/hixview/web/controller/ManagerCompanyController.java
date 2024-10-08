@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
-import site.hixview.domain.entity.company.CompanyDto;
+import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.CompanyAddValidator;
 import site.hixview.domain.validation.validator.CompanyModifyValidator;

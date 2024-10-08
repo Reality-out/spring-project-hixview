@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.domain.entity.article.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.support.util.CompanyArticleTestUtils;

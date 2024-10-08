@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import site.hixview.domain.entity.article.ArticleMain;
-import site.hixview.domain.entity.article.ArticleMainDto;
+import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.ArticleMainAddValidator;

@@ -6,11 +6,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
@@ -33,11 +34,21 @@ public class CompanyArticle extends Article {
         return companyArticleDto;
     }
 
+    @Override
     public HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
             putAll(CompanyArticle.super.toMapWithNoNumber());
             put(SUBJECT_COMPANY, subjectCompany);
         }};
+    }
+
+    public static String[] getFieldNamesWithNoNumber() {
+        String[] superArr = Article.getFieldNamesWithNoNumber();
+        String[] arr = {SUBJECT_COMPANY};
+        String[] combinedArr = new String[superArr.length + arr.length];
+        System.arraycopy(superArr, 0, combinedArr, 0, superArr.length);
+        System.arraycopy(arr, 0, combinedArr, superArr.length, arr.length);
+        return combinedArr;
     }
 
     private CompanyArticle(final Long number, final String name, final Press press, final String link,

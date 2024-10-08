@@ -1,15 +1,19 @@
 package site.hixview.domain.entity.article;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.lineSeparator;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
+import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
 public class IndustryArticleBufferSimple {
 
@@ -18,11 +22,12 @@ public class IndustryArticleBufferSimple {
 
     @Getter private final Integer importance;
     @Getter private final String subjectFirstCategory;
-    @Getter private final String subjectSecondCategory;
+    @Getter private final String subjectSecondCategories;
 
     private List<IndustryArticle> parsedArticles() {
         List<String> nameDatePressElement = List.of(this.nameDatePressBuffer.toString().split("\\R"));
         List<String> linkElement = List.of(linkBuffer.toString().split("\\R"));
+        List<SecondCategory> subjectSecondCategories = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, this.subjectSecondCategories, SecondCategory.class);
 
         ArrayList<IndustryArticle> articleList = new ArrayList<>();
         for (int i = 0; i < linkElement.size(); i++) {
@@ -35,7 +40,7 @@ public class IndustryArticleBufferSimple {
                             Integer.parseInt(datePressElement.get(1)), Integer.parseInt(datePressElement.get(2))))
                     .importance(importance)
                     .subjectFirstCategory(FirstCategory.valueOf(subjectFirstCategory))
-                    .subjectSecondCategory(SecondCategory.valueOf(subjectSecondCategory)).link(linkElement.get(i)).build());
+                    .subjectSecondCategories(subjectSecondCategories).link(linkElement.get(i)).build());
         }
         return articleList;
     }
@@ -52,12 +57,12 @@ public class IndustryArticleBufferSimple {
         return new IndustryArticleBufferSimpleBuilder();
     }
 
-    private IndustryArticleBufferSimple(StringBuffer nameDatePressBuffer, StringBuffer linkBuffer, Integer importance, String subjectFirstCategory, String subjectSecondCategory) {
+    private IndustryArticleBufferSimple(StringBuffer nameDatePressBuffer, StringBuffer linkBuffer, Integer importance, String subjectFirstCategory, String subjectSecondCategories) {
         this.nameDatePressBuffer = nameDatePressBuffer;
         this.linkBuffer = linkBuffer;
         this.importance = importance;
         this.subjectFirstCategory = subjectFirstCategory;
-        this.subjectSecondCategory = subjectSecondCategory;
+        this.subjectSecondCategories = subjectSecondCategories;
     }
 
     public static final class IndustryArticleBufferSimpleBuilder {
@@ -65,7 +70,7 @@ public class IndustryArticleBufferSimple {
         private StringBuffer linkBuffer;
         private Integer importance;
         private String subjectFirstCategory;
-        private String subjectSecondCategory;
+        private String subjectSecondCategories;
 
         public IndustryArticleBufferSimpleBuilder() {}
 
@@ -97,8 +102,8 @@ public class IndustryArticleBufferSimple {
             return this;
         }
 
-        public IndustryArticleBufferSimpleBuilder subjectSecondCategory(String subjectSecondCategory) {
-            this.subjectSecondCategory = subjectSecondCategory;
+        public IndustryArticleBufferSimpleBuilder subjectSecondCategories(String subjectSecondCategories) {
+            this.subjectSecondCategories = subjectSecondCategories;
             return this;
         }
 
@@ -115,7 +120,7 @@ public class IndustryArticleBufferSimple {
             }
             importance = article.getImportance();
             subjectFirstCategory = article.getSubjectFirstCategory().name();
-            subjectSecondCategory = article.getSubjectSecondCategory().name();
+            subjectSecondCategories = article.getSerializedSubjectSecondCategories();
             return this;
         }
 
@@ -138,7 +143,7 @@ public class IndustryArticleBufferSimple {
             }
             importance = articleDto.getImportance();
             subjectFirstCategory = articleDto.getSubjectFirstCategory();
-            subjectSecondCategory = articleDto.getSubjectSecondCategory();
+            subjectSecondCategories = articleDto.getSubjectSecondCategories();
             return this;
         }
 
@@ -152,13 +157,13 @@ public class IndustryArticleBufferSimple {
             }
             importance = articleBuffer.getImportance();
             subjectFirstCategory = articleBuffer.getSubjectFirstCategory();
-            subjectSecondCategory = articleBuffer.getSubjectSecondCategory();
+            subjectSecondCategories = articleBuffer.getSubjectSecondCategories();
             return this;
         }
 
         public IndustryArticleBufferSimple build() {
             return new IndustryArticleBufferSimple(this.nameDatePressBuffer, this.linkBuffer, this.importance,
-                    this.subjectFirstCategory, this.subjectSecondCategory);
+                    this.subjectFirstCategory, this.subjectSecondCategories);
         }
     }
 }

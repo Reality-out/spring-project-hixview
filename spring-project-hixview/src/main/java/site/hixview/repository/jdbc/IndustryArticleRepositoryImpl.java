@@ -1,5 +1,6 @@
 package site.hixview.repository.jdbc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
@@ -21,6 +22,7 @@ import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
 @Repository
 @Primary
@@ -30,10 +32,12 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
     private String CURRENT_SCHEMA;
 
     private final JdbcTemplate jdbcTemplate;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public IndustryArticleRepositoryImpl(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+        objectMapper = new ObjectMapper();
     }
 
     /**
@@ -88,7 +92,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
     @Override
     public Long saveArticle(IndustryArticle article) {
         return new SimpleJdbcInsert(jdbcTemplate).withTableName(CURRENT_SCHEMA).usingGeneratedKeyColumns("number")
-                .executeAndReturnKey(new MapSqlParameterSource(article.toMapWithNoNumber())).longValue();
+                .executeAndReturnKey(new MapSqlParameterSource(article.toSerializedMapWithNoNumber())).longValue();
     }
 
     /**
@@ -98,9 +102,9 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
     public void updateArticle(IndustryArticle article) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
                         " set press = ?, link = ?, date = ?, importance = ?," +
-                        " subjectFirstCategory = ?, subjectSecondCategory = ? where name = ?",
+                        " subjectFirstCategory = ?, subjectSecondCategories = ? where name = ?",
                 article.getPress().name(), article.getLink(), article.getDate(), article.getImportance(),
-                article.getSubjectFirstCategory().name(), article.getSubjectSecondCategory().name(), article.getName());
+                article.getSubjectFirstCategory().name(), article.getSerializedSubjectSecondCategories(), article.getName());
     }
 
     /**
@@ -115,15 +119,18 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      * Other private methods
      */
     private RowMapper<IndustryArticle> articleRowMapper() {
-        return (resultSet, rowNumber) -> IndustryArticle.builder()
-                .number(resultSet.getLong(NUMBER))
-                .name(resultSet.getString(NAME))
-                .press(Press.valueOf(resultSet.getString(PRESS)))
-                .link(resultSet.getString(LINK))
-                .date(resultSet.getDate(DATE).toLocalDate())
-                .importance(resultSet.getInt(IMPORTANCE))
-                .subjectFirstCategory(FirstCategory.valueOf(resultSet.getString(SUBJECT_FIRST_CATEGORY)))
-                .subjectSecondCategory(SecondCategory.valueOf(resultSet.getString(SUBJECT_SECOND_CATEGORY)))
-                .build();
+        return (resultSet, rowNumber) -> {
+            List<SecondCategory> subjectSecondCategories = deserializeWithOneMapToList(objectMapper, SUBJECT_SECOND_CATEGORY, resultSet.getString(SUBJECT_SECOND_CATEGORIES), SecondCategory.class);
+            return IndustryArticle.builder()
+                    .number(resultSet.getLong(NUMBER))
+                    .name(resultSet.getString(NAME))
+                    .press(Press.valueOf(resultSet.getString(PRESS)))
+                    .link(resultSet.getString(LINK))
+                    .date(resultSet.getDate(DATE).toLocalDate())
+                    .importance(resultSet.getInt(IMPORTANCE))
+                    .subjectFirstCategory(FirstCategory.valueOf(resultSet.getString(SUBJECT_FIRST_CATEGORY)))
+                    .subjectSecondCategories(subjectSecondCategories)
+                    .build();
+        };
     }
 }

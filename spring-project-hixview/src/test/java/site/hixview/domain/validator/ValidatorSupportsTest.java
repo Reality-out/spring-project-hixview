@@ -3,11 +3,11 @@ package site.hixview.domain.validator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import site.hixview.domain.entity.article.ArticleMainDto;
-import site.hixview.domain.entity.article.CompanyArticleDto;
-import site.hixview.domain.entity.article.IndustryArticleDto;
-import site.hixview.domain.entity.company.CompanyDto;
-import site.hixview.domain.entity.member.MemberDto;
+import site.hixview.domain.entity.article.dto.ArticleMainDto;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
+import site.hixview.domain.entity.company.dto.CompanyDto;
+import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.validation.validator.*;
 import site.hixview.support.context.RealControllerAndValidatorContext;
 

@@ -2,6 +2,7 @@ package site.hixview.domain.entity.article;
 
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

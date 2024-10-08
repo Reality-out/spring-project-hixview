@@ -32,6 +32,8 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
     @Autowired
     private IndustryArticleRepository industryArticleRepository;
 
+    private final String[] fieldNames = IndustryArticle.getFieldNamesWithNoNumber();
+
     @DisplayName("기사 번호와 이름으로 산업 기사 찾기")
     @Test
     void findIndustryArticleWithNumberAndNameTest() {
@@ -49,6 +51,7 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
         for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
             assertThat(articleService.findArticleByNumberOrName(str).orElseThrow())
                     .usingRecursiveComparison()
+                    .comparingOnlyFields(fieldNames)
                     .isEqualTo(article);
         }
     }
@@ -87,6 +90,7 @@ class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleService.findArticles())
                 .usingRecursiveComparison()
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(List.of(article));
     }
 

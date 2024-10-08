@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 
 import java.time.DateTimeException;

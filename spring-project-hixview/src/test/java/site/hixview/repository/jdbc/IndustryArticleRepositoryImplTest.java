@@ -17,7 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 
 @OnlyRealRepositoryContext
 class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
@@ -26,6 +25,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
     private IndustryArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
+    private final String[] fieldNames = IndustryArticle.getFieldNamesWithNoNumber();
 
     @Autowired
     IndustryArticleRepositoryImplTest(DataSource dataSource) {
@@ -51,7 +51,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getArticles())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(List.of(article1, article2));
     }
 
@@ -69,7 +69,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getArticlesByDate(article1.getDate()))
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(List.of(article1, article2));
     }
 
@@ -95,7 +95,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         assertThat(articleRepository
                 .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(List.of(article1, article2, article3));
     }
 
@@ -114,7 +114,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getLatestArticles())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(List.of(article1, article2));
     }
 
@@ -132,12 +132,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article1);
 
         assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article2);
     }
 
@@ -155,12 +155,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article1);
 
         assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article2);
     }
 
@@ -178,12 +178,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article1);
 
         assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article2);
     }
 
@@ -214,7 +214,7 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         // then
         assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article);
     }
 
@@ -231,7 +231,8 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         articleRepository.updateArticle(IndustryArticle.builder().article(testNewIndustryArticle).name(article.getName()).build());
         assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER, NAME)
+                .comparingOnlyFields(fieldNames)
+                .ignoringFields(NAME)
                 .isEqualTo(testNewIndustryArticle);
     }
 

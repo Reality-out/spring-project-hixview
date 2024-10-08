@@ -10,9 +10,9 @@ import site.hixview.domain.validation.annotation.ImportanceConstraint;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.Regex.URL_REGEX;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -46,6 +46,10 @@ public abstract class Article {
             put(DATE, date);
             put(IMPORTANCE, importance);
         }};
+    }
+
+    public static String[] getFieldNamesWithNoNumber() {
+        return new String[]{NAME, PRESS, LINK, DATE, IMPORTANCE};
     }
 
     protected abstract static class ArticleBuilder {

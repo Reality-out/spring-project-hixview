@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.company.CompanyDto;
+import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.service.CompanyService;
 
 import static site.hixview.domain.vo.name.EntityName.Company.CODE;

@@ -4,7 +4,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.member.MemberDto;
+import site.hixview.domain.entity.member.dto.MemberDto;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

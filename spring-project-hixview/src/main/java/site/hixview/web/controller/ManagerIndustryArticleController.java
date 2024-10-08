@@ -1,5 +1,6 @@
 package site.hixview.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.IndustryArticle;
-import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.error.ConstraintValidationException;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidator;
@@ -39,10 +40,12 @@ import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.*;
 import static site.hixview.util.EnumUtils.*;
+import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
 @Controller
 @RequiredArgsConstructor
@@ -107,16 +110,19 @@ public class ManagerIndustryArticleController {
     @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
     public String submitAddIndustryArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
                                                      @RequestParam String subjectFirstCategory,
-                                                     @RequestParam String subjectSecondCategory,
+                                                     @RequestParam String subjectSecondCategories,
                                                      RedirectAttributes redirect, Model model) {
         String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
         if (!inEnumConstants(FirstCategory.class, subjectFirstCategory)) {
             finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
             return senderPage;
         }
-        if (!inEnumConstants(SecondCategory.class, subjectSecondCategory)) {
-            finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
-            return senderPage;
+        List<String> secondCategories = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, subjectSecondCategories);
+        for (String secondCategory : secondCategories) {
+            if (!inEnumConstants(SecondCategory.class, secondCategory)) {
+                finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
+                return senderPage;
+            }
         }
         List<List<String>> nameDatePressList = parseArticleString(nameDatePressString);
         List<String> linkList = parseLinkString(linkString);
@@ -143,7 +149,7 @@ public class ManagerIndustryArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectFirstCategory(subjectFirstCategory);
-                articleDto.setSubjectSecondCategory(subjectSecondCategory);
+                articleDto.setSubjectSecondCategories(subjectSecondCategories);
                 if (inEnumValues(Press.class, articleDto.getPress()))
                     articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 

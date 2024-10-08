@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.article.IndustryArticle;
-import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.support.context.RealControllerAndValidatorContext;
 import site.hixview.support.util.IndustryArticleTestUtils;

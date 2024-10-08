@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
-import site.hixview.domain.entity.article.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.support.property.TestSchemaName;

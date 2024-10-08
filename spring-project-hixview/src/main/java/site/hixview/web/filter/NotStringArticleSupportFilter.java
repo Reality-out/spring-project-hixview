@@ -18,7 +18,7 @@ import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.util.FilterUtils.applyStrip;
-import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnum;
+import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_ARTICLE_URL, UPDATE_COMPANY_ARTICLE_URL + FINISH_URL,
@@ -30,7 +30,7 @@ public class NotStringArticleSupportFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
         applyStrip(request, NAME);
-        applyUppercaseAndConvertToEnum(request, Press.class, PRESS);
+        applyUppercaseAndConvertToEnumWithString(request, Press.class, PRESS);
         chain.doFilter(request, response);
     }
 

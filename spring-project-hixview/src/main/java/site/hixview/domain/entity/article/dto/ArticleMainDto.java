@@ -1,4 +1,4 @@
-package site.hixview.domain.entity.article;
+package site.hixview.domain.entity.article.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

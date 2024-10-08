@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.member.Member;
-import site.hixview.domain.entity.member.MemberDto;
+import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;

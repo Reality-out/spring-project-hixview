@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.domain.entity.article.ArticleMain;
-import site.hixview.domain.entity.article.ArticleMainDto;
+import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.repository.ArticleMainRepository;
 import site.hixview.support.util.ArticleMainTestUtils;
 

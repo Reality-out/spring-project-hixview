@@ -20,7 +20,7 @@ import static site.hixview.domain.vo.name.EntityName.Company.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
-import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnum;
+import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_URL, UPDATE_COMPANY_URL + FINISH_URL})
@@ -30,10 +30,10 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
-        applyUppercaseAndConvertToEnum(request, Country.class, COUNTRY);
-        applyUppercaseAndConvertToEnum(request, Scale.class, SCALE);
-        applyUppercaseAndConvertToEnum(request, FirstCategory.class, FIRST_CATEGORY);
-        applyUppercaseAndConvertToEnum(request, SecondCategory.class, SECOND_CATEGORY);
+        applyUppercaseAndConvertToEnumWithString(request, Country.class, COUNTRY);
+        applyUppercaseAndConvertToEnumWithString(request, Scale.class, SCALE);
+        applyUppercaseAndConvertToEnumWithString(request, FirstCategory.class, FIRST_CATEGORY);
+        applyUppercaseAndConvertToEnumWithString(request, SecondCategory.class, SECOND_CATEGORY);
         chain.doFilter(request, response);
     }
 }

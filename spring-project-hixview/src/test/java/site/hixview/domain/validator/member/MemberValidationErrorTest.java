@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.entity.member.MemberDto;
+import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.support.context.RealControllerAndValidatorContext;
 import site.hixview.support.util.MemberTestUtils;

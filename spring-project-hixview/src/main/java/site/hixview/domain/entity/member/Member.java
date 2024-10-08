@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.vo.Regex;
 
 import java.time.LocalDate;

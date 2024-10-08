@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.CompanyArticle;
-import site.hixview.domain.entity.article.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.error.ConstraintValidationException;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;

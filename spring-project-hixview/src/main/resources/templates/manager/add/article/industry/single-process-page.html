@@ -48,35 +48,35 @@
                 <div class="txt-error-message" th:errors="*{subjectFirstCategory}"></div>
             </div>
             <div class="add-form-item">
-                <label for="subjectSecondCategory" th:text="#{article.subjectSecondCategory}"></label>
-                <input type="text" id="subjectSecondCategory" th:field="*{subjectSecondCategory}" size="20">
-                <div class="txt-error-message" th:errors="*{subjectSecondCategory}"></div>
+                <label for="subjectSecondCategories" th:text="#{article.subjectSecondCategories}"></label>
+                <input type="text" id="subjectSecondCategories" th:field="*{subjectSecondCategories}" size="20">
+                <div class="txt-error-message" th:errors="*{subjectSecondCategories}"></div>
             </div>
         </div>
         <div class="add-form-buttons">
-            <button id="addBtn" type="button" th:text="|#{article.subjectCompany} #{function.add}|"></button>
-            <button id="removeBtn" type="button" th:text="|#{article.subjectCompany} #{function.remove}|"></button>
+            <button id="addBtn-subjectSecondCategory" type="button" th:text="|#{article.subjectSecondCategory} #{function.add}|"></button>
+            <button id="removeBtn-subjectSecondCategory" type="button" th:text="|#{article.subjectSecondCategory} #{function.remove}|"></button>
             <button id="submitBtn" type="submit" th:text="#{function.register}"></button>
         </div>
     </form>
 </div>
-<div hidden class="subject-company-name">[[#{article.subjectCompany}]]</div>
+<div hidden class="subject-second-category-message">[[#{article.subjectSecondCategory}]]</div>
 <script async th:inline="javascript" type="module">
     let count = 0;
     let formItems = document.querySelector('.add-form-items');
 
-    document.getElementById('addBtn').addEventListener('click', () => {
+    document.getElementById('addBtn-subjectSecondCategory').addEventListener('click', () => {
         count++;
         let newFormItem = document.createElement('div');
         newFormItem.setAttribute('class', 'add-form-item add-subject-company');
         
         let newLabel = document.createElement('label');
-        newLabel.setAttribute('for', 'subjectCompany' + count);
-        newLabel.innerText = document.querySelector('.subject-company-name').textContent + count;
+        newLabel.setAttribute('for', 'subjectSecondCategory' + count);
+        newLabel.innerText = document.querySelector('.subject-second-category-message').textContent + count;
 
         let newInput = document.createElement('input');
         newInput.setAttribute('type', 'text');
-        newInput.setAttribute('id', 'subjectCompany' + count);
+        newInput.setAttribute('id', 'subjectSecondCategory' + count);
         newInput.setAttribute('size', "20");
 
         newFormItem.appendChild(newLabel);
@@ -84,7 +84,7 @@
         formItems.appendChild(newFormItem);
     });
     
-    document.getElementById('removeBtn').addEventListener('click', () => {
+    document.getElementById('removeBtn-subjectSecondCategory').addEventListener('click', () => {
         if (formItems.lastChild.classList?.contains('add-subject-company')) {
             count--;
             formItems.removeChild(formItems.lastChild);

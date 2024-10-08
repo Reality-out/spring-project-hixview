@@ -1,12 +1,15 @@
 package site.hixview.domain.validator.article.mock;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.support.util.IndustryArticleTestUtils;
 
@@ -187,7 +190,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
                         .param(DAYS, INVALID_VALUE)
                         .param(IMPORTANCE, INVALID_VALUE)
                         .param(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory())
-                        .param(SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategory()))
+                        .param(SUBJECT_SECOND_CATEGORIES, articleDto.getSubjectSecondCategories()))
                 .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
@@ -198,12 +201,18 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
     @Test
     void validateEnumTypeMismatchIndustryArticleAdd() throws Exception {
         // given & when
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+        arrayNode.add(INVALID_VALUE);
+        objectNode.set(SUBJECT_SECOND_CATEGORY, arrayNode);
+
         IndustryArticleDto articlePressMismatch = createTestIndustryArticleDto();
         articlePressMismatch.setPress(INVALID_VALUE);
         IndustryArticleDto articleFirstCategoryMismatch = createTestIndustryArticleDto();
         articleFirstCategoryMismatch.setSubjectFirstCategory(INVALID_VALUE);
         IndustryArticleDto articleSecondCategoryMismatch = createTestIndustryArticleDto();
-        articleSecondCategoryMismatch.setSubjectSecondCategory(INVALID_VALUE);
+        articleSecondCategoryMismatch.setSubjectSecondCategories(objectMapper.writeValueAsString(objectNode));
 
         // then
         for (IndustryArticleDto articleDto : List.of(articlePressMismatch, articleFirstCategoryMismatch, articleSecondCategoryMismatch)) {
@@ -372,7 +381,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
                         .param(DAYS, INVALID_VALUE)
                         .param(IMPORTANCE, INVALID_VALUE)
                         .param(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory())
-                        .param(SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategory()))
+                        .param(SUBJECT_SECOND_CATEGORIES, articleDto.getSubjectSecondCategories()))
                 .andExpectAll(view().name(modifyIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
@@ -383,12 +392,18 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
     @Test
     void validateEnumTypeMismatchIndustryArticleModify() throws Exception {
         // given & when
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        ArrayNode arrayNode = objectMapper.createArrayNode();
+        arrayNode.add(INVALID_VALUE);
+        objectNode.set(SUBJECT_SECOND_CATEGORY, arrayNode);
+
         IndustryArticleDto articlePressMismatch = createTestIndustryArticleDto();
         articlePressMismatch.setPress(INVALID_VALUE);
         IndustryArticleDto articleFirstCategoryMismatch = createTestIndustryArticleDto();
         articleFirstCategoryMismatch.setSubjectFirstCategory(INVALID_VALUE);
         IndustryArticleDto articleSecondCategoryMismatch = createTestIndustryArticleDto();
-        articleSecondCategoryMismatch.setSubjectSecondCategory(INVALID_VALUE);
+        articleSecondCategoryMismatch.setSubjectSecondCategories(objectMapper.writeValueAsString(objectNode));
 
         // then
         for (IndustryArticleDto articleDto : List.of(articlePressMismatch, articleFirstCategoryMismatch, articleSecondCategoryMismatch)) {

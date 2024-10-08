@@ -4,7 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.article.ArticleMain;
-import site.hixview.domain.entity.article.ArticleMainDto;
+import site.hixview.domain.entity.article.dto.ArticleMainDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.name.EntityName.Article.*;

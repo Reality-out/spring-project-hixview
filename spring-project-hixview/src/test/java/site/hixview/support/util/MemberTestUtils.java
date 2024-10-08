@@ -3,7 +3,7 @@ package site.hixview.support.util;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.domain.entity.member.Member;
-import site.hixview.domain.entity.member.MemberDto;
+import site.hixview.domain.entity.member.dto.MemberDto;
 
 import java.time.LocalDate;
 

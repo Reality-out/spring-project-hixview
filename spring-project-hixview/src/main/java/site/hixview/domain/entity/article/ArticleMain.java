@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Classification;
+import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.validation.annotation.ClassificationConstraint;
 
 import java.util.HashMap;

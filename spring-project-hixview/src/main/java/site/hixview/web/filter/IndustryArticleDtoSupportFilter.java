@@ -14,12 +14,12 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_FIRST_CATEGORY;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
-import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnum;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithMap;
+import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_SINGLE_INDUSTRY_ARTICLE_URL, UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL})
@@ -29,8 +29,8 @@ public class IndustryArticleDtoSupportFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
-        applyUppercaseAndConvertToEnum(request, FirstCategory.class, SUBJECT_FIRST_CATEGORY);
-        applyUppercaseAndConvertToEnum(request, SecondCategory.class, SUBJECT_SECOND_CATEGORY);
+        applyUppercaseAndConvertToEnumWithString(request, FirstCategory.class, SUBJECT_FIRST_CATEGORY);
+        applyUppercaseAndConvertToEnumWithMap(request, SecondCategory.class, SUBJECT_SECOND_CATEGORIES, SUBJECT_SECOND_CATEGORY);
         chain.doFilter(request, response);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.IndustryArticle;
-import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidator;
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;

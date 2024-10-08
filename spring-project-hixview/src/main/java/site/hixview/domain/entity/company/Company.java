@@ -11,6 +11,7 @@ import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
+import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.validation.annotation.CodeConstraint;
 
 import java.util.HashMap;

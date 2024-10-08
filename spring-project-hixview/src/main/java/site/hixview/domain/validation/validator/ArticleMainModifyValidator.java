@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.article.ArticleMainDto;
+import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 
 import static site.hixview.domain.vo.Word.NAME;

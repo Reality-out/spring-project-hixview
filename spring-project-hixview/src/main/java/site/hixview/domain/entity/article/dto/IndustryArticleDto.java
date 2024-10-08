@@ -1,4 +1,4 @@
-package site.hixview.domain.entity.article;
+package site.hixview.domain.entity.article.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
 import site.hixview.domain.validation.annotation.FirstCategoryConstraint;
 import site.hixview.domain.validation.annotation.ImportanceConstraint;
 import site.hixview.domain.validation.annotation.PressConstraint;
-import site.hixview.domain.validation.annotation.SecondCategoryConstraint;
+import site.hixview.domain.validation.annotation.SecondCategoriesConstraint;
 
 import static site.hixview.domain.vo.Regex.URL_REGEX;
 
@@ -47,6 +47,6 @@ public class IndustryArticleDto {
     @FirstCategoryConstraint
     private String subjectFirstCategory;
 
-    @SecondCategoryConstraint
-    private String subjectSecondCategory;
+    @SecondCategoriesConstraint
+    private String subjectSecondCategories;
 }

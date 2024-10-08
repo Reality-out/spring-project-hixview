@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import site.hixview.domain.entity.member.Member;
-import site.hixview.domain.entity.member.MemberDto;
+import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 

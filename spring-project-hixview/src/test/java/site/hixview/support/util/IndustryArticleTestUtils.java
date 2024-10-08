@@ -7,19 +7,19 @@ import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
-import site.hixview.domain.entity.article.IndustryArticleDto;
+import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
 
 public interface IndustryArticleTestUtils extends ObjectTestUtils {
     // Assertion
@@ -39,7 +39,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
             .date(LocalDate.of(2024, 8, 30))
             .importance(0)
             .subjectFirstCategory(FirstCategory.SEMICONDUCTOR)
-            .subjectSecondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
+            .subjectSecondCategories(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
             .build();
 
     IndustryArticle testNewIndustryArticle = IndustryArticle.builder()
@@ -49,7 +49,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
             .date(LocalDate.of(2024, 6, 9))
             .importance(0)
             .subjectFirstCategory(FirstCategory.SEMICONDUCTOR)
-            .subjectSecondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
+            .subjectSecondCategories(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
             .build();
 
     IndustryArticle testEqualDateIndustryArticle = IndustryArticle.builder()
@@ -59,7 +59,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
             .date(LocalDate.of(2024, 8, 30))
             .importance(0)
             .subjectFirstCategory(FirstCategory.SEMICONDUCTOR)
-            .subjectSecondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
+            .subjectSecondCategories(SecondCategory.SEMICONDUCTOR_MANUFACTURING)
             .build();
 
     IndustryArticleBufferSimple testEqualDateIndustryArticleBuffer = IndustryArticleBufferSimple.builder()
@@ -90,7 +90,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
         target.setDays(source.getDays());
         target.setImportance(source.getImportance());
         target.setSubjectFirstCategory(source.getSubjectFirstCategory());
-        target.setSubjectSecondCategory(source.getSubjectSecondCategory());
+        target.setSubjectSecondCategories(source.getSubjectSecondCategories());
 
         return target;
     }
@@ -109,7 +109,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
                 .param(DAYS, String.valueOf(article.getDate().getDayOfMonth()))
                 .param(IMPORTANCE, String.valueOf(article.getImportance()))
                 .param(SUBJECT_FIRST_CATEGORY, article.getSubjectFirstCategory().name())
-                .param(SUBJECT_SECOND_CATEGORY, article.getSubjectSecondCategory().name());
+                .param(SUBJECT_SECOND_CATEGORIES, article.getSerializedSubjectSecondCategories());
     }
 
     default MockHttpServletRequestBuilder postWithIndustryArticleDto(
@@ -123,6 +123,6 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
                 .param(DAYS, String.valueOf(articleDto.getDays()))
                 .param(IMPORTANCE, String.valueOf(articleDto.getImportance()))
                 .param(SUBJECT_FIRST_CATEGORY, String.valueOf(articleDto.getSubjectFirstCategory()))
-                .param(SUBJECT_SECOND_CATEGORY, String.valueOf(articleDto.getSubjectSecondCategory()));
+                .param(SUBJECT_SECOND_CATEGORIES, String.valueOf(articleDto.getSubjectSecondCategories()));
     }
 }

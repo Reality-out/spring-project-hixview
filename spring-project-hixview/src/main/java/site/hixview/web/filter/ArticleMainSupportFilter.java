@@ -20,7 +20,7 @@ import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.IMAGE_PATH;
 import static site.hixview.util.FilterUtils.applyStrip;
-import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnum;
+import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
 @WebFilter(urlPatterns = {ADD_ARTICLE_MAIN_URL, UPDATE_ARTICLE_MAIN_URL + FINISH_URL})
@@ -34,7 +34,7 @@ public class ArticleMainSupportFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
         applyStrip(request, NAME);
-        applyUppercaseAndConvertToEnum(request, Classification.class, ARTICLE_CLASS_NAME);
+        applyUppercaseAndConvertToEnumWithString(request, Classification.class, ARTICLE_CLASS_NAME);
         addImagePathPrefixSuffix(request);
         chain.doFilter(request, response);
     }

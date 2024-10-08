@@ -7,7 +7,7 @@ import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.company.Company;
-import site.hixview.domain.entity.company.CompanyDto;
+import site.hixview.domain.entity.company.dto.CompanyDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.name.EntityName.Company.*;

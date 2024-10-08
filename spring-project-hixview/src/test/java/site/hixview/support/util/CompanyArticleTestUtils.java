@@ -5,7 +5,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
-import site.hixview.domain.entity.article.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 
 import java.time.LocalDate;
 

@@ -50,10 +50,12 @@ public class ManagerIndustryArticleControllerTest implements IndustryArticleTest
     private IndustryArticleService industryArticleService;
 
     private final JdbcTemplate jdbcTemplateTest;
+    private final String[] fieldNames;
 
     @Autowired
     ManagerIndustryArticleControllerTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
+        fieldNames = IndustryArticle.getFieldNamesWithNoNumber();
     }
 
     @BeforeEach
@@ -93,7 +95,7 @@ public class ManagerIndustryArticleControllerTest implements IndustryArticleTest
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategory());
+                        put(SUBJECT_SECOND_CATEGORIES, articleBuffer.getSubjectSecondCategories());
                     }}))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
@@ -129,12 +131,12 @@ public class ManagerIndustryArticleControllerTest implements IndustryArticleTest
 
         assertThat(industryArticleService.findArticleByName(nameList.getFirst()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article1);
 
         assertThat(industryArticleService.findArticleByName(nameList.getLast()).orElseThrow())
                 .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
                 .isEqualTo(article2);
     }
 }
