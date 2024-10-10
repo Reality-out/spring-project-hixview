@@ -48,7 +48,7 @@
                 <div class="txt-error-message" th:errors="*{subjectFirstCategory}"></div>
             </div>
             <div class="add-form-item">
-                <label for="subjectSecondCategories" th:text="#{article.subjectSecondCategories}"></label>
+                <label for="subjectSecondCategories" th:text="|#{article.subjectSecondCategory}0|"></label>
                 <input type="text" id="subjectSecondCategories" th:field="*{subjectSecondCategories}" size="20">
                 <div class="txt-error-message" th:errors="*{subjectSecondCategories}"></div>
             </div>
@@ -60,35 +60,37 @@
         </div>
     </form>
 </div>
-<div hidden class="subject-second-category-message">[[#{article.subjectSecondCategory}]]</div>
-<script async th:inline="javascript" type="module">
-    let count = 0;
-    let formItems = document.querySelector('.add-form-items');
+<div hidden class="message-subject-second-category">[[#{article.subjectSecondCategory}]]</div>
+<script th:inline="javascript" type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        let count = 0;
+        const formItems = document.querySelector('.add-form-items');
 
-    document.getElementById('addBtn-subjectSecondCategory').addEventListener('click', () => {
-        count++;
-        let newFormItem = document.createElement('div');
-        newFormItem.setAttribute('class', 'add-form-item add-subject-company');
+        document.getElementById('addBtn-subjectSecondCategory').addEventListener('click', () => {
+            count++;
+            const newFormItem = document.createElement('div');
+            newFormItem.setAttribute('class', 'add-form-item add-subject-second-category');
+            
+            const newLabel = document.createElement('label');
+            newLabel.setAttribute('for', 'subjectSecondCategory' + count);
+            newLabel.innerText = document.querySelector('.message-subject-second-category').textContent + count;
+
+            const newInput = document.createElement('input');
+            newInput.setAttribute('type', 'text');
+            newInput.setAttribute('id', 'subjectSecondCategory' + count);
+            newInput.setAttribute('size', "20");
+
+            newFormItem.appendChild(newLabel);
+            newFormItem.appendChild(newInput);
+            formItems.appendChild(newFormItem);
+        });
         
-        let newLabel = document.createElement('label');
-        newLabel.setAttribute('for', 'subjectSecondCategory' + count);
-        newLabel.innerText = document.querySelector('.subject-second-category-message').textContent + count;
-
-        let newInput = document.createElement('input');
-        newInput.setAttribute('type', 'text');
-        newInput.setAttribute('id', 'subjectSecondCategory' + count);
-        newInput.setAttribute('size', "20");
-
-        newFormItem.appendChild(newLabel);
-        newFormItem.appendChild(newInput);
-        formItems.appendChild(newFormItem);
-    });
-    
-    document.getElementById('removeBtn-subjectSecondCategory').addEventListener('click', () => {
-        if (formItems.lastChild.classList?.contains('add-subject-company')) {
-            count--;
-            formItems.removeChild(formItems.lastChild);
-        }
+        document.getElementById('removeBtn-subjectSecondCategory').addEventListener('click', () => {
+            if (formItems.lastChild.classList?.contains('add-subject-second-category')) {
+                count--;
+                formItems.removeChild(formItems.lastChild);
+            }
+        });
     });
 </script>
 </body>

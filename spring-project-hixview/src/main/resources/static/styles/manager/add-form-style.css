@@ -45,7 +45,7 @@
     margin-top: 0.5rem;
 }
 
-#addForm .add-form-buttons #addBtn,
-#addForm .add-form-buttons #removeBtn {
+#addForm .add-form-buttons #addBtn-subjectSecondCategory,
+#addForm .add-form-buttons #removeBtn-subjectSecondCategory {
     margin-right: 1rem;
 }
