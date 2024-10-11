@@ -12,17 +12,16 @@ import java.time.LocalDate;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_COMPANY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIEW;
+import static site.hixview.domain.vo.name.ViewName.*;
 
 public interface CompanyArticleTestUtils extends ObjectTestUtils {
     // Assertion
     String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-    String addStringCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + "multiple-string-process-page";
+    String addStringCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + FINISH_URL;
 

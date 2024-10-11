@@ -18,13 +18,12 @@ import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_
 import static site.hixview.domain.vo.manager.ViewName.ADD_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.*;
 
 public interface IndustryArticleTestUtils extends ObjectTestUtils {
     // Assertion
     String addSingleIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-    String addStringIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
+    String addStringIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     String modifyIndustryArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL;
 

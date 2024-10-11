@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout (div)" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (div, script)" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name=”viewport” content=”width=device-width”>
@@ -16,5 +16,6 @@
         <button type="submit" th:text="|#{page.main}로 이동|"></button>
     </form>
 </div>
+<script th:replace="${script}"></script>
 </body>
 </html>

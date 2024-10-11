@@ -13,4 +13,6 @@ public final class ViewName {
     public static final String VIEW_AFTER_PROCESS = "after-process-page";
     public static final String VIEW_SINGLE_PROCESS = "single-process-page";
     public static final String VIEW_SINGLE_FINISH = "single-finish-page";
+    public static final String VIEW_MULTIPLE_STRING_PROCESS = "multiple-string-process-page";
+    public static final String VIEW_MULTIPLE_FINISH = "multiple-finish-page";
 }

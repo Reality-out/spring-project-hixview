@@ -73,7 +73,7 @@
             
             const newLabel = document.createElement('label');
             newLabel.setAttribute('for', 'subjectSecondCategory' + count);
-            newLabel.innerText = document.querySelector('.message-subject-second-category').textContent + count;
+            newLabel.textContent = document.querySelector('.message-subject-second-category').textContent + count;
 
             const newInput = document.createElement('input');
             newInput.setAttribute('type', 'text');

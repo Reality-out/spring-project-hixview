@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="wrapper-select-table">
     <table class="select-table">
@@ -30,5 +30,6 @@
         </tbody>
     </table>
 </div>
+<script></script>
 </body>
 </html>

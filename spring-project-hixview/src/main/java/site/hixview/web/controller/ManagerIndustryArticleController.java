@@ -104,7 +104,7 @@ public class ManagerIndustryArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processAddIndustryArticlesWithString(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
-        return ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
+        return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     }
 
     @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
@@ -112,7 +112,7 @@ public class ManagerIndustryArticleController {
                                                      @RequestParam String subjectFirstCategory,
                                                      @RequestParam String subjectSecondCategories,
                                                      RedirectAttributes redirect, Model model) {
-        String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + "multiple-string-process-page";
+        String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
         if (!inEnumConstants(FirstCategory.class, subjectFirstCategory)) {
             finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
             return senderPage;
@@ -191,7 +191,7 @@ public class ManagerIndustryArticleController {
         model.addAttribute("nameList", ControllerUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
-        return ADD_INDUSTRY_ARTICLE_VIEW + "multiple-finish-page";
+        return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH;
     }
 
     /**
@@ -202,6 +202,7 @@ public class ManagerIndustryArticleController {
     public String processSeeIndustryArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
         model.addAttribute("articles", articleService.findArticles());
+        model.addAttribute("secondCategoryMap", getMapNameKorean(SecondCategory.class));
         return SELECT_VIEW + "industry-articles-page";
     }
 

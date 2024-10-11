@@ -39,6 +39,7 @@ import static site.hixview.domain.vo.manager.ViewName.ADD_COMPANY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
@@ -127,7 +128,7 @@ public class ManagerCompanyArticleControllerTest implements CompanyArticleTestUt
                             put(ERROR_SINGLE, null);
                         }}))
                 .andExpectAll(status().isOk(),
-                        view().name(ADD_COMPANY_ARTICLE_VIEW + "multiple-finish-page"),
+                        view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(nameListString, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();

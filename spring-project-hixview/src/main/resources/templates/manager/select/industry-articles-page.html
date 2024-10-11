@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="wrapper-select-table">
     <table class="select-table">
@@ -32,13 +32,18 @@
         </tbody>
     </table>
 </div>
-</body>
 <script th:inline="javascript" type="module">
     document.addEventListener('DOMContentLoaded', () => {
-        const jsonItems = document.querySelectorAll('.subject-second-category');
-        for (jsonItem of jsonItems) {
-            jsonItem.innerHTML = JSON.parse(jsonItem.innerHTML);
-        }
+        /*<![CDATA[*/
+            const secondCategoryMap = /*[[${secondCategoryMap}]]*/ {};
+        /*]]>*/
+        document.querySelectorAll('.subject-second-category').forEach(
+            secondCategoryNode => {
+                secondCategoryNode.textContent = secondCategoryNode.textContent.slice(1, -1).split(',').map(secondCategoryStr => secondCategoryStr.trim())
+                .map(secondCategoryStr => secondCategoryMap[secondCategoryStr]).join();
+            }
+        )
     })
 </script>
+</body>
 </html>
