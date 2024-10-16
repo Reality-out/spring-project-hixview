@@ -2,15 +2,12 @@ package site.hixview.domain.validator.article.mock;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
@@ -22,16 +19,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
 @OnlyRealControllerContext
@@ -60,13 +54,14 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setLink(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectFirstCategory(" ");
-        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<>(){{
+        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<>() {{
             put(SUBJECT_SECOND_CATEGORY, List.of(" "));
         }}));
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -92,14 +87,15 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(ADD_SINGLE_INDUSTRY_ARTICLE_URL,
-                        new HashMap<>(){{
+                        new HashMap<>() {{
                             put(YEAR, String.valueOf(articleDto.getYear()));
                             put(MONTH, String.valueOf(articleDto.getMonth()));
                             put(DAYS, String.valueOf(articleDto.getDays()));
                             put(IMPORTANCE, String.valueOf(articleDto.getImportance()));
                             put(SUBJECT_SECOND_CATEGORIES, String.valueOf(articleDto.getSubjectSecondCategories()));
                         }}))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -123,14 +119,15 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(ADD_SINGLE_INDUSTRY_ARTICLE_URL,
-                        new HashMap<>(){{
+                        new HashMap<>() {{
                             put(NAME, articleDto.getName());
                             put(PRESS, articleDto.getPress());
                             put(LINK, articleDto.getLink());
                             put(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory());
                             put(SUBJECT_SECOND_CATEGORIES, articleDto.getSubjectSecondCategories());
                         }}))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -155,7 +152,8 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -182,7 +180,8 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
             Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                    .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                    .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+            });
             assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
             assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -206,7 +205,8 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -226,7 +226,8 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -247,7 +248,8 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -266,7 +268,8 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -281,13 +284,14 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
     void validateSecondCategoryTypeMismatchIndustryArticleAdd() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<String, List<String>>(){{
+        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<String, List<String>>() {{
             put(SUBJECT_SECOND_CATEGORY, List.of(INVALID_VALUE));
         }}));
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
@@ -303,19 +307,32 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(" ");
-        articleDto.setPress(" ");
         articleDto.setLink(" ");
-        IndustryArticleDto returnedArticleDto = copyIndustryArticleDto(articleDto);
-        returnedArticleDto.setName("");
+        articleDto.setPress(" ");
+        articleDto.setSubjectFirstCategory(" ");
+        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<>() {{
+            put(SUBJECT_SECOND_CATEGORY, List.of(" "));
+        }}));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(returnedArticleDto);
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(NAME)))
+                .isEqualTo(messageSource.getMessage("NotBlank.article.name", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(LINK)))
+                .isEqualTo(messageSource.getMessage("NotBlank.article.link", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
+                .isEqualTo(messageSource.getMessage("NotBlank.article.press", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
+                .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_SECOND_CATEGORIES)))
+                .isEqualTo(messageSource.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 변경 유효성 검증")
@@ -323,38 +340,63 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
     void validateNotBlankNullIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleDto.setName(null);
-        articleDto.setPress(null);
-        articleDto.setLink(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(modifyIndustryArticleFinishUrl,
+                        new HashMap<>() {{
+                            put(YEAR, String.valueOf(articleDto.getYear()));
+                            put(MONTH, String.valueOf(articleDto.getMonth()));
+                            put(DAYS, String.valueOf(articleDto.getDays()));
+                            put(IMPORTANCE, String.valueOf(articleDto.getImportance()));
+                            put(SUBJECT_SECOND_CATEGORIES, String.valueOf(articleDto.getSubjectSecondCategories()));
+                        }}))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(NAME)))
+                .isEqualTo(messageSource.getMessage("NotBlank.article.name", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(LINK)))
+                .isEqualTo(messageSource.getMessage("NotBlank.article.link", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
+                .isEqualTo(messageSource.getMessage("NotBlank.article.press", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
+                .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
     }
 
-    @DisplayName("NotNull에 대한 산업 기사 추가 유효성 검증")
+    @DisplayName("NotNull에 대한 산업 기사 변경 유효성 검증")
     @Test
     void validateNotNullIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleDto.setYear(null);
-        articleDto.setMonth(null);
-        articleDto.setDays(null);
-        articleDto.setImportance(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(view().name(addSingleIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(modifyIndustryArticleFinishUrl,
+                        new HashMap<>() {{
+                            put(NAME, articleDto.getName());
+                            put(PRESS, articleDto.getPress());
+                            put(LINK, articleDto.getLink());
+                            put(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory());
+                            put(SUBJECT_SECOND_CATEGORIES, articleDto.getSubjectSecondCategories());
+                        }}))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(YEAR)))
+                .isEqualTo(messageSource.getMessage("NotNull.article.year", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(MONTH)))
+                .isEqualTo(messageSource.getMessage("NotNull.article.month", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(DAYS)))
+                .isEqualTo(messageSource.getMessage("NotNull.article.days", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(IMPORTANCE)))
+                .isEqualTo(messageSource.getMessage("NotNull.article.importance", null, Locale.getDefault()));
     }
 
     @DisplayName("Pattern에 대한 산업 기사 변경 유효성 검증")
@@ -365,16 +407,19 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setLink(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(LINK)))
+                .isEqualTo(messageSource.getMessage("Pattern.article.link", null, Locale.getDefault()));
     }
 
-    @DisplayName("Range에 대한 기업 변경 추가 유효성 검증")
+    @DisplayName("Range에 대한 산업 기사 변경 유효성 검증")
     @Test
     void validateRangeIndustryArticleModify() throws Exception {
         // given & when
@@ -390,34 +435,41 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                    .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                    .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                    .usingRecursiveComparison()
-                    .isEqualTo(articleDto);
+            Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                    .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+            assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+            @SuppressWarnings("unchecked")
+            Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+            assertThat(decodeWithUTF8((fieldErrorMap).get(YEAR)))
+                    .isEqualTo(messageSource.getMessage("Range.article.year", new Object[]{"연", 2099, 1960}, Locale.getDefault()));
+            assertThat(decodeWithUTF8((fieldErrorMap).get(MONTH)))
+                    .isEqualTo(messageSource.getMessage("Range.article.month", new Object[]{"월", 12, 1}, Locale.getDefault()));
+            assertThat(decodeWithUTF8((fieldErrorMap).get(DAYS)))
+                    .isEqualTo(messageSource.getMessage("Range.article.days", new Object[]{"일", 31, 1}, Locale.getDefault()));
         }
     }
 
     @DisplayName("Restrict에 대한 산업 기사 변경 유효성 검증")
     @Test
     void validateRestrictIndustryArticleModify() throws Exception {
-        // given
+        // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleService.registerArticle(testIndustryArticle);
-
-        // when
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(IMPORTANCE)))
+                .isEqualTo(messageSource.getMessage("Restrict.article.importance", null, Locale.getDefault()));
     }
 
     @DisplayName("Size에 대한 산업 기사 변경 유효성 검증")
@@ -426,65 +478,82 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(getRandomLongString(81));
-        articleDto.setLink(getRandomLongString(401));
+        articleDto.setLink(createTestIndustryArticleDto().getLink() + getRandomLongString(401));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(NAME)))
+                .isEqualTo(messageSource.getMessage("Size.article.name", null, Locale.getDefault()));
+        assertThat(decodeWithUTF8((fieldErrorMap).get(LINK)))
+                .isEqualTo(messageSource.getMessage("Size.article.link", null, Locale.getDefault()));
     }
 
-    @DisplayName("typeMismatch에 대한 산업 기사 변경 유효성 검증")
+    @DisplayName("Press의 typeMismatch에 대한 산업 기사 변경 유효성 검증")
     @Test
-    void validateTypeMismatchIndustryArticleModify() throws Exception {
+    void validatePressTypeMismatchIndustryArticleModify() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
+        articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(post(modifyIndustryArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param(NAME, articleDto.getName())
-                        .param(PRESS, articleDto.getPress())
-                        .param(LINK, articleDto.getLink())
-                        .param(YEAR, INVALID_VALUE)
-                        .param(MONTH, INVALID_VALUE)
-                        .param(DAYS, INVALID_VALUE)
-                        .param(IMPORTANCE, INVALID_VALUE)
-                        .param(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory())
-                        .param(SUBJECT_SECOND_CATEGORIES, articleDto.getSubjectSecondCategories()))
-                .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
-                        model().attributeExists(ARTICLE));
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
+                .isEqualTo(messageSource.getMessage("typeMismatch.enum.article.press", null, Locale.getDefault()));
     }
 
-    @DisplayName("Enum 타입의 typeMismatch에 대한 산업 기사 변경 유효성 검증")
+    @DisplayName("FirstCategory의 typeMismatch에 대한 산업 기사 변경 유효성 검증")
     @Test
-    void validateEnumTypeMismatchIndustryArticleModify() throws Exception {
+    void validateFirstCategoryTypeMismatchIndustryArticleModify() throws Exception {
         // given & when
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode objectNode = objectMapper.createObjectNode();
-        ArrayNode arrayNode = objectMapper.createArrayNode();
-        arrayNode.add(INVALID_VALUE);
-        objectNode.set(SUBJECT_SECOND_CATEGORY, arrayNode);
-
-        IndustryArticleDto articlePressMismatch = createTestIndustryArticleDto();
-        articlePressMismatch.setPress(INVALID_VALUE);
-        IndustryArticleDto articleFirstCategoryMismatch = createTestIndustryArticleDto();
-        articleFirstCategoryMismatch.setSubjectFirstCategory(INVALID_VALUE);
-        IndustryArticleDto articleSecondCategoryMismatch = createTestIndustryArticleDto();
-        articleSecondCategoryMismatch.setSubjectSecondCategories(objectMapper.writeValueAsString(objectNode));
+        IndustryArticleDto articleDto = createTestIndustryArticleDto();
+        articleDto.setSubjectFirstCategory(INVALID_VALUE);
 
         // then
-        for (IndustryArticleDto articleDto : List.of(articlePressMismatch, articleFirstCategoryMismatch, articleSecondCategoryMismatch)) {
-            mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                    .andExpectAll(view().name(modifyIndustryArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(ERROR, BEAN_VALIDATION_ERROR),
-                            model().attributeExists(ARTICLE));
-        }
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
+                .isEqualTo(messageSource.getMessage("typeMismatch.enum.company.firstCategory", null, Locale.getDefault()));
+    }
+
+    @DisplayName("SecondCategory의 typeMismatch에 대한 산업 기사 변경 유효성 검증")
+    @Test
+    void validateSecondCategoryTypeMismatchIndustryArticleModify() throws Exception {
+        // given & when
+        IndustryArticleDto articleDto = createTestIndustryArticleDto();
+        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<String, List<String>>() {{
+            put(SUBJECT_SECOND_CATEGORY, List.of(INVALID_VALUE));
+        }}));
+
+        // then
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
+        assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
+
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
+        assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_SECOND_CATEGORIES)))
+                .isEqualTo(messageSource.getMessage("typeMismatch.enum.company.secondCategory", null, Locale.getDefault()));
     }
 }

@@ -1,20 +1,15 @@
 package site.hixview.domain.validation.validator;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.util.EnumUtils.inEnumConstants;
-import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
+import static site.hixview.domain.vo.name.EntityName.Article.LINK;
 
 @Component
 @RequiredArgsConstructor
@@ -39,14 +34,6 @@ public class IndustryArticleModifyValidator implements Validator {
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
             errors.rejectValue(LINK, "NotFound");
-        }
-        if (!inEnumConstants(FirstCategory.class, articleDto.getSubjectFirstCategory())) {
-            errors.rejectValue(SUBJECT_FIRST_CATEGORY, "NotFound");
-        }
-        for (String secondCategory : deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategories())) {
-            if (!inEnumConstants(SecondCategory.class, secondCategory)) {
-                errors.rejectValue(SUBJECT_SECOND_CATEGORY, "NotFound");
-            }
         }
     }
 }

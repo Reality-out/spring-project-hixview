@@ -161,8 +161,6 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         when(articleService.registerArticle(testIndustryArticle)).thenReturn(article);
         doNothing().when(articleService).correctArticle(article);
 
-        String redirectedURL = fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
-
         // when
         articleService.registerArticle(testIndustryArticle);
         String commonName = testIndustryArticle.getName();
@@ -170,9 +168,9 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
 
         // then
         mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),

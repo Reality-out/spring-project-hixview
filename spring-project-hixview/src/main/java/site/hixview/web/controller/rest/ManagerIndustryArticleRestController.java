@@ -12,36 +12,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import site.hixview.domain.entity.article.SingleArticleErrorResponse;
 import site.hixview.domain.entity.article.IndustryArticle;
+import site.hixview.domain.entity.article.SingleArticleErrorResponse;
 import site.hixview.domain.entity.article.SingleArticleSuccessResponse;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidator;
-import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
 import site.hixview.domain.validation.validator.IndustryArticleModifyValidator;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
-import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.Regex.MESSAGE_PATTERN;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
-import static site.hixview.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
-import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
-import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
-import static site.hixview.util.ControllerUtils.*;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
+import static site.hixview.util.ControllerUtils.errorHierarchy;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,9 +48,7 @@ public class ManagerIndustryArticleRestController {
 
     private final IndustryArticleService articleService;
 
-    private final Validator defaultValidator;
     private final IndustryArticleAddComplexValidator complexValidator;
-    private final IndustryArticleAddSimpleValidator simpleValidator;
     private final IndustryArticleModifyValidator modifyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerIndustryArticleRestController.class);
@@ -112,6 +106,62 @@ public class ManagerIndustryArticleRestController {
                 new SingleArticleSuccessResponse(encodeWithUTF8(articleDto.getName()), ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL));
     }
 
+    /**
+     * Modify
+     */
+    @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
+    public ResponseEntity<?> submitModifyIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
+                                             BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> returnedFieldErrorMap = new HashMap<>();
+            Map<String, String> registeredFieldErrorMap = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                String field = fieldError.getField();
+                String defaultMessage = fieldError.getDefaultMessage();
+                if (MESSAGE_PATTERN.matcher(Objects.requireNonNull(defaultMessage)).matches()) {
+                    String substring = defaultMessage.substring(1, defaultMessage.length() - 1);
+                    String[] splittedSubString = substring.split("\\.");
+                    String errCode = splittedSubString[0];
+                    if (registeredFieldErrorMap.containsKey(field)) {
+                        compareAndProcessErrorHierarchy(registeredFieldErrorMap, field, errCode, splittedSubString, substring, returnedFieldErrorMap);
+                    } else {
+                        registeredFieldErrorMap.put(field, errCode);
+                        defaultMessage = getDefaultMessage(errCode, splittedSubString, substring);
+                        returnedFieldErrorMap.put(field, encodeWithUTF8(defaultMessage));
+                    }
+                } else {
+                    returnedFieldErrorMap.put(field, encodeWithUTF8(defaultMessage));
+                }
+            }
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
+                    new SingleArticleErrorResponse(UPDATE_PROCESS_LAYOUT, true, returnedFieldErrorMap));
+        }
+
+        modifyValidator.validate(articleDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            Map<String, String> fieldErrorMap = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                for (String code : Objects.requireNonNull(fieldError.getCodes())) {
+                    try {
+                        fieldErrorMap.put(fieldError.getField(),
+                                encodeWithUTF8(source.getMessage(code, null, Locale.getDefault())));
+                        break;
+                    } catch (NoSuchMessageException ignored) {
+                    }
+                }
+            }
+            return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
+                    new SingleArticleErrorResponse(UPDATE_PROCESS_LAYOUT, false, fieldErrorMap));
+        }
+
+        articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
+                new SingleArticleSuccessResponse(encodeWithUTF8(articleDto.getName()), UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL));
+    }
+
+    /**
+     * Private Method
+     */
     private void compareAndProcessErrorHierarchy(Map<String, String> registeredFieldErrorMap, String field, String errCode, String[] splittedSubString, String substring, Map<String, String> returnedFieldErrorMap) {
         String defaultMessage;
         int hierarchyDif = errorHierarchy.get(registeredFieldErrorMap.get(field)) - errorHierarchy.get(errCode);
@@ -141,28 +191,5 @@ public class ManagerIndustryArticleRestController {
         } else {
             return source.getMessage(substring, new Object[]{dateTarget, 31, 1}, Locale.getDefault());
         }
-    }
-
-    /**
-     * Modify
-     */
-    @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
-    public String submitModifyIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
-                                             BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-        }
-
-        modifyValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-        }
-
-        articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 }

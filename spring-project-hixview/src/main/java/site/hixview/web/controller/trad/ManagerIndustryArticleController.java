@@ -21,9 +21,7 @@ import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.error.ConstraintValidationException;
 import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidator;
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
-import site.hixview.domain.validation.validator.IndustryArticleModifyValidator;
 import site.hixview.util.ControllerUtils;
 
 import java.util.ArrayList;
@@ -55,9 +53,7 @@ public class ManagerIndustryArticleController {
     private final IndustryArticleService articleService;
 
     private final Validator defaultValidator;
-    private final IndustryArticleAddComplexValidator complexValidator;
     private final IndustryArticleAddSimpleValidator simpleValidator;
-    private final IndustryArticleModifyValidator modifyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerIndustryArticleController.class);
 

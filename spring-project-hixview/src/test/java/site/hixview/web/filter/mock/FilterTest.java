@@ -206,7 +206,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         IndustryArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String redirectedURL = fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectedURL = fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         industryArticleService.registerArticle(beforeModifyArticle);
@@ -215,7 +215,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
                 articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
         }
     }
 
