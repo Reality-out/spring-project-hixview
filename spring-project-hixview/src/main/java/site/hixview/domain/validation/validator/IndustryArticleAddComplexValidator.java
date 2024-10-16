@@ -46,6 +46,7 @@ public class IndustryArticleAddComplexValidator implements Validator {
         for (String secondCategory : deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategories())) {
             if (!inEnumConstants(SecondCategory.class, secondCategory)) {
                 errors.rejectValue(SUBJECT_SECOND_CATEGORY, "NotFound");
+                break;
             }
         }
     }

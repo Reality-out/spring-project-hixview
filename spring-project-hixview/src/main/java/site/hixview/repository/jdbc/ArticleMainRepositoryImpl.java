@@ -98,7 +98,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
                 .name(resultSet.getString(NAME))
                 .imagePath(resultSet.getString(IMAGE_PATH))
                 .summary(resultSet.getString(SUMMARY))
-                .classification(Classification.valueOf(resultSet.getString(ARTICLE_CLASS_NAME)))
+                .classification(Classification.valueOf(resultSet.getString(CLASSIFICATION)))
                 .build();
     }
 }

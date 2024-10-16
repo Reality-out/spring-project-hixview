@@ -10,15 +10,15 @@ import site.hixview.domain.validation.annotation.ClassificationConstraint;
 @Setter
 public class ArticleMainDto {
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.article.name}")
     private String name;
 
-    @NotBlank
-    @Size(max = 80)
+    @NotBlank(message = "{NotBlank.article.imagePath}")
+    @Size(max = 80, message = "{Size.article.imagePath}")
     private String imagePath;
 
-    @NotBlank
-    @Size(max = 36)
+    @NotBlank(message = "{NotBlank.article.summary}")
+    @Size(max = 36, message = "{Size.article.summary}")
     private String summary;
 
     @ClassificationConstraint

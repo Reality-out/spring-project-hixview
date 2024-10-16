@@ -1,4 +1,4 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.trad;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -8,10 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
@@ -69,24 +70,6 @@ public class ManagerIndustryArticleController {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new IndustryArticleDto());
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-    }
-
-    @PostMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL)
-    public String submitAddIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
-                                          BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-        }
-
-        complexValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, null, model);
-            return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-        }
-
-        articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL)
@@ -229,26 +212,6 @@ public class ManagerIndustryArticleController {
         model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-    }
-
-    @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
-    public String submitModifyIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
-                                             BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-        }
-
-        modifyValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-        }
-
-        articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)

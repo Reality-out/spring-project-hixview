@@ -70,7 +70,7 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
                 .param(NAME, article.getName())
                 .param(IMAGE_PATH, article.getImagePath())
                 .param(SUMMARY, article.getSummary())
-                .param(ARTICLE_CLASS_NAME, article.getClassification().name());
+                .param(CLASSIFICATION, article.getClassification().name());
     }
 
     default MockHttpServletRequestBuilder postWithArticleMainDto(
@@ -79,6 +79,6 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
                 .param(NAME, articleDto.getName())
                 .param(IMAGE_PATH, articleDto.getImagePath())
                 .param(SUMMARY, articleDto.getSummary())
-                .param(ARTICLE_CLASS_NAME, articleDto.getClassification());
+                .param(CLASSIFICATION, articleDto.getClassification());
     }
 }

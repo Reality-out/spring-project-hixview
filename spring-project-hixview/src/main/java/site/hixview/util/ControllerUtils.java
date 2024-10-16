@@ -8,9 +8,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
@@ -19,6 +17,19 @@ import static site.hixview.domain.vo.Word.*;
 public abstract class ControllerUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ControllerUtils.class);
+
+    /**
+     * Constant
+     */
+    public static final Map<String, Integer> errorHierarchy = new HashMap<>() {{
+        put("NotBlank", 0);
+        put("NotNull", 0);
+        put("typeMismatch", 0);
+        put("Pattern", 1);
+        put("Range", 1);
+        put("Size", 2);
+        put("Restrict", 3);
+    }};
 
     /**
      * Decode

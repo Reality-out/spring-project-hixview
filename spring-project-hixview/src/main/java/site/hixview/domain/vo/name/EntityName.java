@@ -20,7 +20,7 @@ public final class EntityName {
         public static final String IMPORTANCE = "importance";
         public static final String IMAGE_PATH = "imagePath";
         public static final String SUMMARY = "summary";
-        public static final String ARTICLE_CLASS_NAME = "classification";
+        public static final String CLASSIFICATION = "classification";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,6 +31,7 @@ public final class EntityName {
         public static final String SCALE = "scale";
         public static final String FIRST_CATEGORY = "firstCategory";
         public static final String SECOND_CATEGORY = "secondCategory";
+        public static final String SECOND_CATEGORIES = "secondCategories";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

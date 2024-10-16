@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
@@ -12,6 +11,7 @@ import site.hixview.domain.validation.validator.IndustryArticleAddComplexValidat
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
 import site.hixview.domain.validation.validator.IndustryArticleEntryDateValidator;
 import site.hixview.domain.validation.validator.IndustryArticleModifyValidator;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.IndustryArticleTestUtils;
 
 import java.util.List;
@@ -79,13 +79,12 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         doNothing().when(industryArticleAddSimpleValidator).validate(any(), any());
 
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
 
         // then
         mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),

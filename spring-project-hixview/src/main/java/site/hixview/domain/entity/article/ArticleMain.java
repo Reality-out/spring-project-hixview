@@ -47,7 +47,7 @@ public class ArticleMain {
             put(NAME, name);
             put(IMAGE_PATH, imagePath);
             put(SUMMARY, summary);
-            put(ARTICLE_CLASS_NAME, classification);
+            put(CLASSIFICATION, classification);
         }};
     }
 

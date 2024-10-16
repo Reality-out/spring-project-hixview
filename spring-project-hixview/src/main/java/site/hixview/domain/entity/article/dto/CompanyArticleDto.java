@@ -15,34 +15,34 @@ import static site.hixview.domain.vo.Regex.URL_REGEX;
 @Getter
 @Setter
 public class CompanyArticleDto {
-    @NotBlank
-    @Size(max = 80)
+    @NotBlank(message = "{NotBlank.article.name}")
+    @Size(max = 80, message = "{Size.article.name}")
     private String name;
 
     @PressConstraint
     private String press;
 
-    @NotBlank
-    @Size(max = 400)
-    @Pattern(regexp = URL_REGEX)
+    @NotBlank(message = "{NotBlank.article.link}")
+    @Size(max = 400, message = "{Size.article.link}")
+    @Pattern(regexp = URL_REGEX, message = "{Pattern.article.link}")
     private String link;
 
-    @NotNull
-    @Range(min = 1960, max = 2099)
+    @NotNull(message = "{NotNull.article.year}")
+    @Range(min = 1960, max = 2099, message = "{Range.article.year}")
     private Integer year;
 
-    @NotNull
-    @Range(min = 1, max = 12)
+    @NotNull(message = "{NotNull.article.month}")
+    @Range(min = 1, max = 12, message = "{Range.article.month}")
     private Integer month;
 
-    @NotNull
-    @Range(min = 1, max = 31)
+    @NotNull(message = "{NotNull.article.days}")
+    @Range(min = 1, max = 31, message = "{Range.article.days}")
     private Integer days;
 
     @ImportanceConstraint
     private Integer importance;
 
-    @NotBlank
-    @Size(max = 12)
+    @NotBlank(message = "{NotBlank.article.subjectCompany}")
+    @Size(max = 12, message = "{Size.article.subjectCompany}")
     private String subjectCompany;
 }

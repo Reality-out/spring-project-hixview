@@ -33,9 +33,7 @@ public class ArticleMainAddValidator implements Validator {
         if (companyArticleService.findArticleByName(articleDto.getName()).isEmpty() &&
                 industryArticleService.findArticleByName(articleDto.getName()).isEmpty()) {
             errors.rejectValue(NAME, "NotFound");
-        }
-
-        if (articleMainService.findArticleByName(articleDto.getName()).isPresent()) {
+        } else if (articleMainService.findArticleByName(articleDto.getName()).isPresent()) {
             errors.rejectValue(NAME, "Exist");
         }
 

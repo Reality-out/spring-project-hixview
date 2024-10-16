@@ -13,7 +13,7 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE_CLASS_NAME;
+import static site.hixview.domain.vo.name.EntityName.Article.CLASSIFICATION;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
@@ -34,7 +34,7 @@ public class ArticleMainSupportFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
         applyStrip(request, NAME);
-        applyUppercaseAndConvertToEnumWithString(request, Classification.class, ARTICLE_CLASS_NAME);
+        applyUppercaseAndConvertToEnumWithString(request, Classification.class, CLASSIFICATION);
         addImagePathPrefixSuffix(request);
         chain.doFilter(request, response);
     }

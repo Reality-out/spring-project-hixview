@@ -4,19 +4,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.entity.*;
+import site.hixview.domain.entity.article.ArticleMain;
+import site.hixview.domain.entity.article.CompanyArticle;
+import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
-import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.domain.entity.*;
-import site.hixview.domain.entity.article.*;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.domain.validation.validator.*;
+import site.hixview.domain.validation.validator.ArticleMainAddValidator;
+import site.hixview.domain.validation.validator.CompanyAddValidator;
+import site.hixview.domain.validation.validator.CompanyArticleAddSimpleValidator;
+import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.ArticleMainTestUtils;
 import site.hixview.support.util.CompanyArticleTestUtils;
 import site.hixview.support.util.CompanyTestUtils;
@@ -171,13 +176,11 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
         String commonName = article.toDto().getName();
 
-        String redirectedURL = fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.toDto().getName())).build().toUriString();
-
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
                 articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
             industryArticleService.removeArticleByName(commonName);
         }
     }

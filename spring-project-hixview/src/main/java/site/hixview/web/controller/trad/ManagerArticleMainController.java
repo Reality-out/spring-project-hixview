@@ -1,4 +1,4 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.trad;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

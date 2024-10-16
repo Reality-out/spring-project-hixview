@@ -32,7 +32,7 @@ public class IndustryArticleEntryDateValidator implements Validator {
         try {
             LocalDate inputDate = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
             if (inputDate.isAfter(LocalDate.now())) {
-                errors.rejectValue(DAYS, "Range");
+                errors.rejectValue(DAYS, "Restrict");
             }
         } catch (DateTimeException e) {
             errors.rejectValue(DAYS, "TypeButInvalid.java.lang.LocalDate");

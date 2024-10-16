@@ -7,24 +7,22 @@
 <div>
     <p class="intro-add-form" th:text="|#{industry} #{article}를 #{function.register}합니다.|"></p>
     <form id="addForm" th:action th:object="${article}" method="POST">
-        <div th:if="${error} != null" th:classappend="txt-error-message">
-            <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
-        </div>
-        <div class="add-form-items">
+        <div hidden class="txt-error-message" id="error-bean" th:value="#{BeanValidation}"></div>
+        <div id="add-form-items">
             <div class="add-form-item">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20">
-                <div class="txt-error-message" th:errors="*{name}"></div>
+                <div hidden class="txt-error-message" id="error-name"></div>
             </div>
             <div class="add-form-item">
                 <label for="press" th:text="#{article.press}"></label>
                 <input type="text" id="press" th:field="*{press}" size="20" th:errorclass="txt-error-message">
-                <div class="txt-error-message" th:errors="*{press}"></div>
+                <div hidden class="txt-error-message" id="error-press"></div>
             </div>
             <div class="add-form-item">
                 <label for="link" th:text="#{article.link}"></label>
                 <input type="url" id="link" th:field="*{link}" size="20" th:errorclass="txt-error-message">
-                <div class="txt-error-message" th:errors="*{link}"></div>
+                <div hidden class="txt-error-message" id="error-link"></div>
             </div>
             <div class="add-form-item">
                 <label for="year" th:text="#{year}"></label>
@@ -33,24 +31,22 @@
                 <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
                 <label for="days" th:text="#{days}"></label>
                 <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-                <div class="txt-error-message" th:errors="*{year}"></div>
-                <div class="txt-error-message" th:errors="*{month}"></div>
-                <div class="txt-error-message" th:errors="*{days}"></div>
+                <div hidden class="txt-error-message" id="error-date"></div>
             </div>
             <div class="add-form-item">
                 <label for="importance" th:text="#{article.importance}"></label>
                 <input type="text" id="importance" th:field="*{importance}" size="20">
-                <div class="txt-error-message" th:errors="*{importance}"></div>
+                <div hidden class="txt-error-message" id="error-importance"></div>
             </div>
             <div class="add-form-item">
                 <label for="subjectFirstCategory" th:text="#{article.subjectFirstCategory}"></label>
                 <input type="text" id="subjectFirstCategory" th:field="*{subjectFirstCategory}" size="20">
-                <div class="txt-error-message" th:errors="*{subjectFirstCategory}"></div>
+                <div hidden class="txt-error-message" id="error-subjectFirstCategory"></div>
             </div>
-            <div class="add-form-item">
-                <label for="subjectSecondCategories" th:text="|#{article.subjectSecondCategory}0|"></label>
-                <input type="text" id="subjectSecondCategories" th:field="*{subjectSecondCategories}" size="20">
-                <div class="txt-error-message" th:errors="*{subjectSecondCategories}"></div>
+            <div class="add-form-item add-subject-second-category">
+                <label for="subjectSecondCategory0" th:text="|#{article.subjectSecondCategory}0|"></label>
+                <input type="text" id="subjectSecondCategory0" size="20">
+                <div hidden class="txt-error-message" id="error-subjectFirstCategory0"></div>
             </div>
         </div>
         <div class="add-form-buttons">
@@ -61,37 +57,6 @@
     </form>
 </div>
 <div hidden class="message-subject-second-category">[[#{article.subjectSecondCategory}]]</div>
-<script th:inline="javascript" type="module">
-    document.addEventListener('DOMContentLoaded', () => {
-        let count = 0;
-        const formItems = document.querySelector('.add-form-items');
-
-        document.getElementById('addBtn-subjectSecondCategory').addEventListener('click', () => {
-            count++;
-            const newFormItem = document.createElement('div');
-            newFormItem.setAttribute('class', 'add-form-item add-subject-second-category');
-            
-            const newLabel = document.createElement('label');
-            newLabel.setAttribute('for', 'subjectSecondCategory' + count);
-            newLabel.textContent = document.querySelector('.message-subject-second-category').textContent + count;
-
-            const newInput = document.createElement('input');
-            newInput.setAttribute('type', 'text');
-            newInput.setAttribute('id', 'subjectSecondCategory' + count);
-            newInput.setAttribute('size', "20");
-
-            newFormItem.appendChild(newLabel);
-            newFormItem.appendChild(newInput);
-            formItems.appendChild(newFormItem);
-        });
-        
-        document.getElementById('removeBtn-subjectSecondCategory').addEventListener('click', () => {
-            if (formItems.lastChild.classList?.contains('add-subject-second-category')) {
-                count--;
-                formItems.removeChild(formItems.lastChild);
-            }
-        });
-    });
-</script>
+<script th:inline="javascript" type="module" src="/scripts/manager/addSingleArticleScript.js"></script>
 </body>
 </html>

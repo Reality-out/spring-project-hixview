@@ -19,23 +19,23 @@
     border-collapse: collapse;
 }
 
-#addForm .add-form-items {
+#addForm #add-form-items {
     display: flex;
     width: inherit;
     flex-flow: column nowrap;
 }
 
-#addForm .add-form-items .add-form-item {
+#addForm #add-form-items .add-form-item {
     display: flex;
     width: inherit;
 }
 
-#addForm .add-form-items div:nth-child(n+1) {
+#addForm #add-form-items div:nth-child(n+1) {
     margin-top: 0.5rem;
 }
 
-#addForm .add-form-items .add-form-item label,
-#addForm .add-form-items .add-form-item input {
+#addForm #add-form-items .add-form-item label,
+#addForm #add-form-items .add-form-item input {
     margin-right: 0.5rem;
 }
 

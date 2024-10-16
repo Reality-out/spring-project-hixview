@@ -1,4 +1,4 @@
-package site.hixview.web.controller;
+package site.hixview.web.controller.trad;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.CompanyArticle;
@@ -29,17 +30,17 @@ import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 import static site.hixview.domain.vo.ExceptionMessage.*;
-import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
+import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
+import static site.hixview.domain.vo.name.ExceptionName.*;
+import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.*;
 import static site.hixview.util.EnumUtils.convertToEnum;
 import static site.hixview.util.EnumUtils.inEnumValues;
@@ -67,24 +68,6 @@ public class ManagerCompanyArticleController {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new CompanyArticleDto());
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-    }
-
-    @PostMapping(ADD_SINGLE_COMPANY_ARTICLE_URL)
-    public String submitAddCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
-                                          BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-        }
-
-        complexValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, null, model);
-            return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
-        }
-
-        articleService.registerArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL)
@@ -216,26 +199,6 @@ public class ManagerCompanyArticleController {
         model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-    }
-
-    @PostMapping(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL)
-    public String submitModifyCompanyArticle(@ModelAttribute(ARTICLE) @Validated CompanyArticleDto articleDto,
-                                             BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-        }
-
-        modifyValidator.validate(articleDto, bindingResult);
-        if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
-            return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-        }
-
-        articleService.correctArticle(CompanyArticle.builder().articleDto(articleDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
     }
 
     @GetMapping(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL)
