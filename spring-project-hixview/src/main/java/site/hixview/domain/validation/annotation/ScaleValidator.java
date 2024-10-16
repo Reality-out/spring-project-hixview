@@ -18,7 +18,7 @@ public class ScaleValidator implements ConstraintValidator<ScaleConstraint, Stri
     @Override
     public boolean isValid(String scale, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (scale == null || scale.isEmpty()) {
+        if (scale == null || scale.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.company.scale", null, Locale.getDefault())
             ).addConstraintViolation();

@@ -18,7 +18,7 @@ public class SecondCategoryValidator implements ConstraintValidator<SecondCatego
     @Override
     public boolean isValid(String secondCategory, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (secondCategory == null || secondCategory.isEmpty()) {
+        if (secondCategory == null || secondCategory.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault())
             ).addConstraintViolation();

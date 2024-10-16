@@ -18,7 +18,7 @@ public class FirstCategoryValidator implements ConstraintValidator<FirstCategory
     @Override
     public boolean isValid(String firstCategory, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (firstCategory == null || firstCategory.isEmpty()) {
+        if (firstCategory == null || firstCategory.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault())
             ).addConstraintViolation();

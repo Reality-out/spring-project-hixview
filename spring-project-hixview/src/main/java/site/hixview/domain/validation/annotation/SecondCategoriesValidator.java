@@ -3,6 +3,8 @@ package site.hixview.domain.validation.annotation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import site.hixview.domain.entity.SecondCategory;
@@ -19,15 +21,19 @@ public class SecondCategoriesValidator implements ConstraintValidator<SecondCate
     @Autowired
     private MessageSource source;
 
+    private final Logger log = LoggerFactory.getLogger(SecondCategoriesValidator.class);
+
     @Override
     public boolean isValid(String secondCategories, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         List<String> secondCategoriesList = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, secondCategories);
-        if (secondCategoriesList.isEmpty()) {
-            context.buildConstraintViolationWithTemplate(
-                    source.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault())
-            ).addConstraintViolation();
-            return false;
+        for (String secondCategory : secondCategoriesList) {
+            if (secondCategory.isBlank()) {
+                context.buildConstraintViolationWithTemplate(
+                        source.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault())
+                ).addConstraintViolation();
+                return false;
+            }
         }
         for (String secondCategory : secondCategoriesList) {
             if (!inEnumConstants(SecondCategory.class, secondCategory)) {

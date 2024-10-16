@@ -17,13 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         input.setAttribute('id', 'subjectSecondCategory' + count);
         input.setAttribute('size', "20");
 
-        const errorDiv = document.createElement('div');
-        errorDiv.hidden = true;
-        errorDiv.setAttribute('class', 'txt-error-message error-subjectSecondCategory' + count);
-
         formItem.append(label);
         formItem.append(input);
-        formItem.append(errorDiv);
         addFormItems.append(formItem);
     });
 
@@ -81,9 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let errClassName = `error-${errTarget}`;
             if (errClassName === 'error-days' || errClassName === 'error-month' || errClassName === 'error-year') {
                 errClassName = 'error-date';
-            }
-            if (errClassName === 'error-subjectSecondCategories') {
-                continue;
             }
             const errElement = document.getElementById(errClassName);
             errElement.hidden = false;

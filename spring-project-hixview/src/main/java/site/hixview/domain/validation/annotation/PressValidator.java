@@ -18,7 +18,7 @@ public class PressValidator implements ConstraintValidator<PressConstraint, Stri
     @Override
     public boolean isValid(String press, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (press == null || press.isEmpty()) {
+        if (press == null || press.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.article.press", null, Locale.getDefault())
             ).addConstraintViolation();

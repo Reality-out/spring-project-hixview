@@ -17,7 +17,7 @@ public class CodeValidator implements ConstraintValidator<CodeConstraint, String
     @Override
     public boolean isValid(String code, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (code == null || code.isEmpty()) {
+        if (code == null || code.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.company.code", null, Locale.getDefault())
             ).addConstraintViolation();

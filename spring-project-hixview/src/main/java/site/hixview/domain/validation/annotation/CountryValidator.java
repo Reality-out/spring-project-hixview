@@ -18,7 +18,7 @@ public class CountryValidator implements ConstraintValidator<CountryConstraint, 
     @Override
     public boolean isValid(String country, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (country == null || country.isEmpty()) {
+        if (country == null || country.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.company.country", null, Locale.getDefault())
             ).addConstraintViolation();

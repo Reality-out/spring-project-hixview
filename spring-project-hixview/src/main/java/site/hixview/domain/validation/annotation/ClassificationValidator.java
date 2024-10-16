@@ -18,7 +18,7 @@ public class ClassificationValidator implements ConstraintValidator<Classificati
     @Override
     public boolean isValid(String classification, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
-        if (classification == null || classification.isEmpty()) {
+        if (classification == null || classification.isBlank()) {
             context.buildConstraintViolationWithTemplate(
                     source.getMessage("NotBlank.article.classification", null, Locale.getDefault())
             ).addConstraintViolation();
