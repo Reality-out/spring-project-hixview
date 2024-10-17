@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
+import static site.hixview.domain.entity.SecondCategory.SEMICONDUCTOR_EQUIPMENT;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
@@ -73,27 +75,36 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     @Test
     void accessIndustryArticleAddFinish() throws Exception {
         // given & when
-        IndustryArticle article = testIndustryArticle;
-        when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
-        when(articleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        IndustryArticle articleOneSecondCategory = testIndustryArticle;
+        SecondCategory commonSubjectCategory = articleOneSecondCategory.getSubjectSecondCategories().getFirst();
+        IndustryArticle articleTwoSecondCategories = IndustryArticle.builder()
+                .article(testIndustryArticle).subjectSecondCategories(commonSubjectCategory, SEMICONDUCTOR_EQUIPMENT).build();
         doNothing().when(industryArticleAddSimpleValidator).validate(any(), any());
 
-        IndustryArticleDto articleDto = createTestIndustryArticleDto();
-
         // then
-        mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())));
+        for (IndustryArticle article : List.of(articleOneSecondCategory, articleTwoSecondCategories)) {
+            IndustryArticleDto articleDto = article.toDto();
+            String name = articleDto.getName();
+            when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+            when(articleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+            doNothing().when(articleService).removeArticleByName(name);
 
-        mockMvc.perform(getWithNoParam(fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString()))
-                .andExpectAll(status().isOk(),
-                        view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
-                        model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute(VALUE, articleDto.getName()));
+            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
 
-        assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(articleDto);
+            mockMvc.perform(getWithNoParam(fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
+                    .andExpectAll(status().isOk(),
+                            view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
+                            model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                            model().attribute(VALUE, name));
+
+            assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
+                    .usingRecursiveComparison()
+                    .ignoringFields(NUMBER)
+                    .isEqualTo(articleDto);
+
+            articleService.removeArticleByName(name);
+        }
     }
 
     @DisplayName("산업 기사들 조회 페이지 접속")
@@ -153,32 +164,37 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     @DisplayName("산업 기사 변경 완료 페이지 접속")
     @Test
     void accessIndustryArticleModifyFinish() throws Exception {
-        // given
-        IndustryArticle article = IndustryArticle.builder().article(testNewIndustryArticle)
-                .name(testIndustryArticle.getName()).link(testIndustryArticle.getLink()).build();
-        when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
-        when(articleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
-        when(articleService.registerArticle(testIndustryArticle)).thenReturn(article);
-        doNothing().when(articleService).correctArticle(article);
-
-        // when
-        articleService.registerArticle(testIndustryArticle);
-        String commonName = testIndustryArticle.getName();
-        IndustryArticleDto articleDto = article.toDto();
+        // given & when
+        IndustryArticle articleOneSecondCategory = testIndustryArticle;
+        SecondCategory commonSubjectCategory = articleOneSecondCategory.getSubjectSecondCategories().getFirst();
+        IndustryArticle articleTwoSecondCategories = IndustryArticle.builder()
+                .article(testIndustryArticle).subjectSecondCategories(commonSubjectCategory, SEMICONDUCTOR_EQUIPMENT).build();
 
         // then
-        mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())));
+        for (IndustryArticle article : List.of(articleOneSecondCategory, articleTwoSecondCategories)) {
+            when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+            when(articleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
+            when(articleService.registerArticle(article)).thenReturn(article);
+            doNothing().when(articleService).correctArticle(article);
 
-        mockMvc.perform(getWithNoParam(fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString()))
-                .andExpectAll(status().isOk(),
-                        view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
-                        model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute(VALUE, commonName));
+            articleService.registerArticle(article);
+            String commonName = article.getName();
+            IndustryArticleDto articleDto = article.toDto();
 
-        assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+            // then
+            mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())));
+
+            mockMvc.perform(getWithNoParam(fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString()))
+                    .andExpectAll(status().isOk(),
+                            view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
+                            model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
+                            model().attribute(VALUE, commonName));
+
+            assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
+                    .usingRecursiveComparison()
+                    .isEqualTo(articleDto);
+        }
     }
 
     @DisplayName("산업 기사 없애기 페이지 접속")

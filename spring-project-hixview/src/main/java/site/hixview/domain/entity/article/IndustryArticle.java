@@ -124,6 +124,11 @@ public class IndustryArticle extends Article {
             return this;
         }
 
+        public IndustryArticleBuilder subjectSecondCategories(final SecondCategory... subjectSecondCategories) {
+            this.subjectSecondCategories = List.of(subjectSecondCategories);
+            return this;
+        }
+
         public IndustryArticleBuilder subjectSecondCategories(final SecondCategory subjectSecondCategory) {
             this.subjectSecondCategories = List.of(subjectSecondCategory);
             return this;

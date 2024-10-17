@@ -137,13 +137,15 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
     @Test
     void futureDateIndustryArticleModify() throws Exception {
         // given
-        IndustryArticleDto articleDto = createTestIndustryArticleDto();
+        IndustryArticle article = testIndustryArticle;
+        IndustryArticleDto articleDto = article.toDto();
         articleDto.setYear(2099);
         articleDto.setMonth(12);
         articleDto.setDays(31);
+        when(articleService.registerArticle(article)).thenReturn(article);
 
         // when
-        articleService.registerArticle(testIndustryArticle);
+        articleService.registerArticle(article);
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
@@ -161,13 +163,15 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
     @Test
     void invalidDateIndustryArticleModify() throws Exception {
         // given
-        IndustryArticleDto articleDto = createTestIndustryArticleDto();
+        IndustryArticle article = testIndustryArticle;
+        IndustryArticleDto articleDto = article.toDto();
         articleDto.setYear(2000);
         articleDto.setMonth(2);
         articleDto.setDays(31);
+        when(articleService.registerArticle(article)).thenReturn(article);
 
         // when
-        articleService.registerArticle(testIndustryArticle);
+        articleService.registerArticle(article);
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
