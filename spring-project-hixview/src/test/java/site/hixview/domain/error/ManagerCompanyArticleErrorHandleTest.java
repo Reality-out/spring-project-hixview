@@ -4,12 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.CompanyArticleAddSimpleValidator;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.CompanyArticleTestUtils;
 import site.hixview.support.util.CompanyTestUtils;
 

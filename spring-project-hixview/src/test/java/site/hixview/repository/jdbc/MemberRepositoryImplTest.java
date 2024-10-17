@@ -5,9 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.repository.MemberRepository;
+import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.util.MemberTestUtils;
 
 import javax.sql.DataSource;

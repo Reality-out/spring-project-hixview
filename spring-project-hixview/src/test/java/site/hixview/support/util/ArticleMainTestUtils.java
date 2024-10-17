@@ -7,14 +7,14 @@ import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.dto.ArticleMainDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ARTICLE_MAIN_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ARTICLE_MAIN_VIEW;
+import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.support.util.CompanyArticleTestUtils.testCompanyArticle;
 import static site.hixview.support.util.CompanyArticleTestUtils.testNewCompanyArticle;
 import static site.hixview.support.util.IndustryArticleTestUtils.testIndustryArticle;

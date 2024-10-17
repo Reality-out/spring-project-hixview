@@ -3,9 +3,9 @@ package site.hixview.domain.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import site.hixview.support.context.OnlyRealServiceContext;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.repository.CompanyRepository;
+import site.hixview.support.context.OnlyRealServiceContext;
 import site.hixview.support.util.CompanyArticleTestUtils;
 
 import java.util.List;

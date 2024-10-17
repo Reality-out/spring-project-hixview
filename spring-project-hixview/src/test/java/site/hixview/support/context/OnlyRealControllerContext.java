@@ -7,9 +7,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import site.hixview.support.bean.RegisterAppAndValidation;
 import site.hixview.support.postprocessor.MockServiceBeanFactoryPostProcessor;
 import site.hixview.support.postprocessor.MockValidatorBeanFactoryPostProcessor;
-import site.hixview.support.bean.RegisterAppAndValidation;
 import site.hixview.support.property.TestSchemaName;
 
 import java.lang.annotation.*;

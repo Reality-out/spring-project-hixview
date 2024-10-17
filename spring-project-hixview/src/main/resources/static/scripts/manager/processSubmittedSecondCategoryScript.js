@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     let count = 0;
-    const addForm = document.getElementById('addForm');
-    const addFormItems = document.getElementById('add-form-items');
-
+    const articleForm = document.getElementById('articleForm');
+    const articleFormItems = document.getElementById('article-form-items');
+    
     document.getElementById('addBtn-subjectSecondCategory').addEventListener('click', () => {
         count++;
         const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'add-form-item add-subject-second-category');
+        formItem.setAttribute('class', 'article-form-item article-subject-second-category');
 
         const label = document.createElement('label');
         label.setAttribute('for', 'subjectSecondCategory' + count);
-        label.textContent = document.querySelector('.message-subject-second-category').textContent + count;
+        label.textContent = document.getElementById('container-data').dataset.subjectSecondCategoryName + count;
 
         const input = document.createElement('input');
         input.setAttribute('type', 'text');
@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formItem.append(label);
         formItem.append(input);
-        addFormItems.append(formItem);
+        articleFormItems.append(formItem);
     });
 
     document.getElementById('removeBtn-subjectSecondCategory').addEventListener('click', () => {
-        if (addFormItems.lastElementChild.querySelector('input').id !== 'subjectSecondCategory0') {
+        if (articleFormItems.lastElementChild.querySelector('input').id !== 'subjectSecondCategory0') {
             count--;
-            addFormItems.removeChild(addFormItems.lastElementChild);
+            articleFormItems.removeChild(articleFormItems.lastElementChild);
         }
     });
 
@@ -33,11 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         clearErrorMessage();
 
-        const urlSearchParams = new URLSearchParams(new FormData(addForm));
+        const urlSearchParams = new URLSearchParams(new FormData(articleForm));
         urlSearchParams.append('subjectSecondCategories', JSON.stringify({'subjectSecondCategory': 
-                Array.from(document.getElementsByClassName('add-subject-second-category')).map(element => element.querySelector('input').value)}));
+                Array.from(document.getElementsByClassName('article-subject-second-category')).map(element => element.querySelector('input').value)}));
 
-        fetch(addForm.action, {
+        fetch(articleForm.action, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = addForm.action + '/finish?name=' + data.name;
+            window.location = articleForm.action + '/finish?name=' + data.name;
         })
         .catch(error => {
             if (error.isBeanValidationError) {

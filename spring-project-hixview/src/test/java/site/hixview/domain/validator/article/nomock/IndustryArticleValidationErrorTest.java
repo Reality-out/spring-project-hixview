@@ -28,7 +28,7 @@ import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.ERROR_SINGLE;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_FIRST_CATEGORY;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORIES;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
@@ -70,7 +70,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
                     put(nameDatePressString, articleBuffer.getNameDatePressString());
                     put(linkString, articleBuffer.getLinkString());
                     put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORIES, articleBuffer.getSubjectSecondCategories());
+                    put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -96,7 +96,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                        put(SUBJECT_SECOND_CATEGORIES, articleBuffer.getSubjectSecondCategories());
+                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
                     }}))
                     .andExpectAll(view().name(
                                     REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),

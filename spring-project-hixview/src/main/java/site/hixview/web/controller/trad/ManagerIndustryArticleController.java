@@ -89,19 +89,17 @@ public class ManagerIndustryArticleController {
     @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
     public String submitAddIndustryArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
                                                      @RequestParam String subjectFirstCategory,
-                                                     @RequestParam String subjectSecondCategories,
+                                                     @RequestParam String subjectSecondCategory,
                                                      RedirectAttributes redirect, Model model) {
         String senderPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
         if (!inEnumConstants(FirstCategory.class, subjectFirstCategory)) {
             finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
             return senderPage;
         }
-        List<String> secondCategories = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, subjectSecondCategories);
-        for (String secondCategory : secondCategories) {
-            if (!inEnumConstants(SecondCategory.class, secondCategory)) {
-                finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
-                return senderPage;
-            }
+        String secondCategory = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, subjectSecondCategory).getFirst();
+        if (!inEnumConstants(SecondCategory.class, secondCategory)) {
+            finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
+            return senderPage;
         }
         List<List<String>> nameDatePressList = parseArticleString(nameDatePressString);
         List<String> linkList = parseLinkString(linkString);
@@ -128,7 +126,7 @@ public class ManagerIndustryArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectFirstCategory(subjectFirstCategory);
-                articleDto.setSubjectSecondCategories(subjectSecondCategories);
+                articleDto.setSubjectSecondCategories(subjectSecondCategory);
                 if (inEnumValues(Press.class, articleDto.getPress()))
                     articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 

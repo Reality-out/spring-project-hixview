@@ -7,11 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
 import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
+import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.IndustryArticleTestUtils;
 
 import java.util.HashMap;
@@ -22,8 +22,7 @@ import static java.util.Objects.requireNonNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.*;
@@ -31,7 +30,8 @@ import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_FIRST_CATEGORY;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
@@ -55,7 +55,7 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
                     put(SUBJECT_FIRST_CATEGORY, INVALID_VALUE);
-                    put(SUBJECT_SECOND_CATEGORIES, testEqualDateIndustryArticleBuffer.getSubjectSecondCategories());
+                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategories());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -77,7 +77,7 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
                     put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticle.getSubjectFirstCategory().name());
-                    put(SUBJECT_SECOND_CATEGORIES, objectMapper.writeValueAsString(objectNode));
+                    put(SUBJECT_SECOND_CATEGORY, objectMapper.writeValueAsString(objectNode));
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -91,7 +91,7 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(nameDatePressString, testIndustryArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateIndustryArticle.getLink());
                     put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORIES, testIndustryArticleBuffer.getSubjectSecondCategories());
+                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticleBuffer.getSubjectSecondCategories());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -105,7 +105,7 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(nameDatePressString, IndustryArticleBufferSimple.builder().article(testNewIndustryArticle).build().getNameDatePressString());
                     put(linkString, testIndustryArticleBuffer.getLinkString());
                     put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORIES, testIndustryArticleBuffer.getSubjectSecondCategories());
+                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticleBuffer.getSubjectSecondCategories());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -119,7 +119,7 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                     put(nameDatePressString, "");
                     put(linkString, "");
                     put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORIES, testIndustryArticleBuffer.getSubjectSecondCategories());
+                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticleBuffer.getSubjectSecondCategories());
                 }}))
                 .andExpectAll(view().name(addStringIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -152,7 +152,7 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                        put(SUBJECT_SECOND_CATEGORIES, articleBuffer.getSubjectSecondCategories());
+                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
                     }}))
                     .andExpectAll(view().name(
                                     REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),

@@ -1,58 +1,72 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="/styles/manager/data/industry-article-form-style.css" rel="stylesheet"/>
+</head>
 <body>
 <div>
-    <p th:text="|#{industry} #{article}를 #{function.correct}합니다.|"></p>
-    <p th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
-    <form th:action="${updateUrl}" th:object="${article}" method="POST">
-        <div th:if="${error} != null" th:classappend="txt-error-message">
-            <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
-        </div>
-        <div>
-            <div class="partial-form">
+    <p class="intro-article-form" th:text="|#{industry} #{article}를 #{function.correct}합니다.|"></p>
+    <p class="intro-article-form" th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
+    <form id="articleForm" th:action="${updateUrl}" th:object="${article}" method="POST">
+        <div hidden class="txt-error-message" id="error-bean" th:value="#{BeanValidation}"></div>
+        <div id="article-form-items">
+            <div class="article-form-item">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
-                <div class="txt-error-message" th:errors="*{name}"></div>
+                <div hidden class="txt-error-message" id="error-name"></div>
             </div>
-            <div class="partial-form">
+            <div class="article-form-item">
                 <label for="press" th:text="#{article.press}"></label>
-                <input type="text" id="press" th:field="*{press}" size="20">
-                <div class="txt-error-message" th:errors="*{press}"></div>
+                <input type="text" id="press" th:field="*{press}" size="20" th:errorclass="txt-error-message">
+                <div hidden class="txt-error-message" id="error-press"></div>
             </div>
-            <div class="partial-form">
+            <div class="article-form-item">
                 <label for="link" th:text="#{article.link}"></label>
-                <input type="url" id="link" th:field="*{link}" size="20" readonly>
-                <div class="txt-error-message" th:errors="*{link}"></div>
+                <input type="url" id="link" th:field="*{link}" size="20" th:errorclass="txt-error-message" readonly>
+                <div hidden class="txt-error-message" id="error-link"></div>
             </div>
-            <div class="partial-form">
+            <div class="article-form-item">
                 <label for="year" th:text="#{year}"></label>
                 <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
+            </div>
+            <div class="article-form-item">
                 <label for="month" th:text="#{month}"></label>
                 <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
+            </div>
+            <div class="article-form-item">
                 <label for="days" th:text="#{days}"></label>
                 <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-                <div class="txt-error-message" th:errors="*{year}"></div>
-                <div class="txt-error-message" th:errors="*{month}"></div>
-                <div class="txt-error-message" th:errors="*{days}"></div>
+                <div hidden class="txt-error-message" id="error-date"></div>
             </div>
-            <div class="partial-form">
+            <div class="article-form-item">
                 <label for="importance" th:text="#{article.importance}"></label>
                 <input type="text" id="importance" th:field="*{importance}" size="20">
-                <div class="txt-error-message" th:errors="*{importance}"></div>
+                <div hidden class="txt-error-message" id="error-importance"></div>
             </div>
-            <div class="partial-form">
+            <div class="article-form-item">
                 <label for="subjectFirstCategory" th:text="#{article.subjectFirstCategory}"></label>
                 <input type="text" id="subjectFirstCategory" th:field="*{subjectFirstCategory}" size="20">
-                <div class="txt-error-message" th:errors="*{subjectFirstCategory}"></div>
+                <div hidden class="txt-error-message" id="error-subjectFirstCategory"></div>
             </div>
-            <div class="partial-form">
-                <label for="subjectSecondCategories" th:text="#{article.subjectSecondCategories}"></label>
-                <input type="text" id="subjectSecondCategories" th:field="*{subjectSecondCategories}" size="20">
-                <div class="txt-error-message" th:errors="*{subjectSecondCategories}"></div>
+            <div class="article-form-item article-subject-second-category">
+                <label for="subjectSecondCategory0" th:text="|#{article.subjectSecondCategory}0|"></label>
+                <input type="text" id="subjectSecondCategory0" size="20">
+                <div hidden class="txt-error-message" id="error-subjectSecondCategories"></div>
             </div>
         </div>
-        <button type="submit" th:text="#{function.correct}"></button>
+        <div class="article-form-buttons">
+            <button id="addBtn-subjectSecondCategory" type="button" th:text="|#{article.subjectSecondCategory} #{function.add}|"></button>
+            <button id="removeBtn-subjectSecondCategory" type="button" th:text="|#{article.subjectSecondCategory} #{function.remove}|"></button>
+            <button id="submitBtn" type="submit" th:text="#{function.correct}"></button>
+        </div>
     </form>
 </div>
+<!--suppress HtmlUnknownAttribute -->
+<div hidden id="container-data"
+     th:data-subject-second-category-name="#{article.subjectSecondCategory}"
+     th:data-subject-second-category-json="${article.subjectSecondCategories}">
+</div>
+<script th:inline="javascript" type="module" src="/scripts/manager/processReceivedSecondCategoryScript.js"></script>
+<script th:inline="javascript" type="module" src="/scripts/manager/processSubmittedSecondCategoryScript.js"></script>
 </body>
 </html>

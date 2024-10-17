@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head><link/></head>
 <body>
 <div>
     <p th:text="|#{article} #{data.main}을 #{function.correct}합니다.|"></p>
@@ -33,5 +34,6 @@
         <button type="submit" th:text="#{function.correct}"></button>
     </form>
 </div>
+<script></script>
 </body>
 </html>

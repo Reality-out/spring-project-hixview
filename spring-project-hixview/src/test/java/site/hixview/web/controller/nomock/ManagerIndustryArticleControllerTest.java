@@ -34,7 +34,8 @@ import static site.hixview.domain.vo.manager.Layout.ADD_FINISH_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_INDUSTRY_ARTICLE_VIEW;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_FIRST_CATEGORY;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
 
@@ -96,7 +97,7 @@ public class ManagerIndustryArticleControllerTest implements IndustryArticleTest
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                        put(SUBJECT_SECOND_CATEGORIES, articleBuffer.getSubjectSecondCategories());
+                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
                     }}))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))

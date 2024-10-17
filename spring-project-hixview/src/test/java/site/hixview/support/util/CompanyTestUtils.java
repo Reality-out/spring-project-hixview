@@ -10,14 +10,14 @@ import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.name.EntityName.Company.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_COMPANY_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_VIEW;
+import static site.hixview.domain.vo.name.EntityName.Company.*;
+import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SINGLE_PROCESS;
 
 public interface CompanyTestUtils extends ObjectTestUtils {
     // Assertion
