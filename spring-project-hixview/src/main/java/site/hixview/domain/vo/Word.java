@@ -11,6 +11,7 @@ public final class Word {
     public static final String DAYS = "days";
 
     // error
+    public static final String CHECK = "check";
     public static final String ERROR = "error";
     public static final String ERROR_SINGLE = "errorSingle";
     public static final String ERRORS_ARE = "errors = {}";

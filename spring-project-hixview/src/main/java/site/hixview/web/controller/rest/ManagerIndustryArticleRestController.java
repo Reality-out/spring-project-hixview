@@ -9,7 +9,6 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -111,7 +110,7 @@ public class ManagerIndustryArticleRestController {
      */
     @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
     public ResponseEntity<?> submitModifyIndustryArticle(@ModelAttribute(ARTICLE) @Validated IndustryArticleDto articleDto,
-                                             BindingResult bindingResult, Model model) {
+                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> returnedFieldErrorMap = new HashMap<>();
             Map<String, String> registeredFieldErrorMap = new HashMap<>();

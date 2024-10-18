@@ -66,7 +66,7 @@
      th:data-subject-second-category-name="#{article.subjectSecondCategory}"
      th:data-subject-second-category-json="${article.subjectSecondCategories}">
 </div>
-<script th:inline="javascript" type="module" src="/scripts/manager/processReceivedSecondCategoryScript.js"></script>
-<script th:inline="javascript" type="module" src="/scripts/manager/processSubmittedSecondCategoryScript.js"></script>
+<script defer type="module" src="/scripts/manager/processReceivedSecondCategoryScript.js"></script>
+<script defer type="module" src="/scripts/manager/processSubmittedSecondCategoryScript.js"></script>
 </body>
 </html>

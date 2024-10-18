@@ -118,22 +118,7 @@
     border-collapse: collapse;
 }
 
-#gnbScb .gnbScb-wrapInput .gnbScb-wrapError {
-    display: flex;
-    position: relative;
-}
-
-#gnbScb .gnbScb-wrapInput .gnbScb-wrapError .txt-error-message {
-    display: block;
-    position: absolute;
-    z-index: 1;
-    margin-top: -24px;
-    margin-left: -90px;
-    top: 50%;
-    left: 50%;
-}
-
-#gnbScb .gnbScb-btn {
+#gnbScb #gnbScb-btn {
     display: flex;
     position: absolute;
     z-index: 3;

@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('processSubmittedSecondCategoryScript started')
+
     let count = 0;
     const articleForm = document.getElementById('articleForm');
     const articleFormItems = document.getElementById('article-form-items');
@@ -45,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body: urlSearchParams.toString()
         })
         .then(async response => {
-            if (response.status != 303) {
+            if (response.status !== 303) {
                 const errResponse = await response.json();
                 throw errResponse;
             }
@@ -64,14 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })
 
-    function clearErrorMessage() {
+    async function clearErrorMessage() {
         for (const element of document.getElementsByClassName('txt-error-message')) {
             element.hidden = true;
             element.textContent = '';
         }
     }
 
-    function showFieldErrors(fieldErrorMap) {
+    async function showFieldErrors(fieldErrorMap) {
         for (let [errTarget, errMessage] of Object.entries(fieldErrorMap)) {
             let errClassName = `error-${errTarget}`;
             if (errClassName === 'error-days' || errClassName === 'error-month' || errClassName === 'error-year') {

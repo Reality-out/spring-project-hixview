@@ -9,5 +9,6 @@ public final class RequestUrl {
     public static final String REDIRECT_URL = "redirect:";
 
     // Suffix
+    public static final String BEFORE_PATH_VARIABLE = "/";
     public static final String FINISH_URL = "/finish";
 }

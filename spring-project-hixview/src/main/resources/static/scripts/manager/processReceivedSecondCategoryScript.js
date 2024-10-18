@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('processReceivedSecondCategoryScript started')
+
     let count = 0;
     const articleFormItems = document.getElementById('article-form-items');
     const secondCategoryArr = JSON.parse(document.getElementById('container-data').dataset.subjectSecondCategoryJson)['subjectSecondCategory'];

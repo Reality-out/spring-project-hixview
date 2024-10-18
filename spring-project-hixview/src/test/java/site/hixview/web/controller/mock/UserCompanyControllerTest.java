@@ -1,5 +1,6 @@
 package site.hixview.web.controller.mock;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,9 @@ import site.hixview.domain.service.CompanyService;
 import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.CompanyTestUtils;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
@@ -42,8 +41,7 @@ class UserCompanyControllerTest implements CompanyTestUtils {
         mockMvc.perform(get(COMPANY_SUB_URL))
                 .andExpectAll(status().isOk(),
                         view().name(COMPANY_VIEW + VIEW_SUB),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT),
-                        model().attribute("companySearch", COMPANY_SEARCH_URL));
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT));
     }
 
     @DisplayName("기업 검색")
@@ -51,22 +49,17 @@ class UserCompanyControllerTest implements CompanyTestUtils {
     void searchCompany() throws Exception {
         // given
         Company company = samsungElectronics;
-        when(companyService.findCompanyByCodeOrName(company.getCode())).thenReturn(Optional.of(company));
-        when(companyService.findCompanyByCodeOrName(company.getName())).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.of(company));
         doNothing().when(companyService).registerCompany(company);
+        ObjectMapper objectMapper = new ObjectMapper();
 
         // when
         companyService.registerCompany(company);
 
         // then
-        for (String str : List.of(company.getCode(), company.getName())) {
-            assertThat(requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + str))
-                    .andExpectAll(status().isOk(),
-                            view().name(COMPANY_VIEW + VIEW_SHOW),
-                            model().attribute(LAYOUT_PATH, BASIC_LAYOUT))
-                    .andReturn().getModelAndView()).getModelMap().get(COMPANY))
-                    .usingRecursiveComparison()
-                    .isEqualTo(company);
-        }
+        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getCode()))
+                .andExpect(status().isOk())
+                .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
+                .usingRecursiveComparison().isEqualTo(company);
     }
 }

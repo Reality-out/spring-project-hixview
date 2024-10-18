@@ -5,166 +5,166 @@
     <link href="/styles/user/main/user-main-style.css" rel="stylesheet"/>
 </head>
 <body>
-    <section class="section-main">
-        <div class="container-main-top">
-            <div class="newest-wrapper">
-                <div class="newest-column">
-                    <div class="newest-row first-row">
-                        <p class="newest-title" th:text="|일간 #{company}|"></p>
-                        <div class="newest-info">
-                            <div class="newest-info-item text subject">
-                                [[${latestCompanyArticle.subjectCompany}]]
-                            </div>
-                            <a class="newest-info-item picture-wrapper"
-                               th:href="${latestCompanyArticle.link}">
-                                <div class="picture company-picture"
-                                    th:style="|background-image: url(${latestCompanyArticleMain.imagePath})|"></div>
-                            </a>
-                            <div class="newest-info-item text title">
-                                [[${latestCompanyArticle.name}]]
-                            </div>
-                            <div class="newest-info-item text newest-info-summary">
-                                [[#{article.summary}]]: [[${latestCompanyArticleMain.summary}]]
-                            </div>
+<section class="section-main">
+    <div class="container-main-top">
+        <div class="newest-wrapper">
+            <div class="newest-column">
+                <div class="newest-row first-row">
+                    <p class="newest-title" th:text="|일간 #{company}|"></p>
+                    <div class="newest-info">
+                        <div class="newest-info-item text subject">
+                            [[${latestCompanyArticle.subjectCompany}]]
                         </div>
-                    </div>
-                    <div class="newest-row second-row">
-                        <p class="newest-title" th:text="|일간 국내 #{economy}|"></p>
-                        <div class="newest-info">
-                            <div class="newest-info-item text subject">
-                                지구가열화
-                            </div>
-                            <a class="newest-info-item picture-wrapper"
-                               href="https://m.sedaily.com/NewsView/2DD7VN3IT0#cb">
-                                <div class="picture domestic-picture"
-                                     style="background-image: url(/images/main/newest/economy/Global_Boiling_001.png)"></div>
-                            </a>
-                            <div class="newest-info-item text title">
-                                폭염에 물폭탄 그리고…올여름 ‘이 것’ 사상 최악이었다
-                            </div>
-                            <div class="newest-info-item text newest-info-summary">
-                                한 줄 요약: 대한민국에 찾아온 역대 최악의 여름
-                            </div>
+                        <a class="newest-info-item picture-wrapper"
+                           th:href="${latestCompanyArticle.link}">
+                            <div class="picture company-picture"
+                                 th:style="|background-image: url(${latestCompanyArticleMain.imagePath})|"></div>
+                        </a>
+                        <div class="newest-info-item text title">
+                            [[${latestCompanyArticle.name}]]
+                        </div>
+                        <div class="newest-info-item text newest-info-summary">
+                            [[#{article.summary}]]: [[${latestCompanyArticleMain.summary}]]
                         </div>
                     </div>
                 </div>
-                <div class="newest-column">
-                    <div class="newest-row first-row">
-                        <p class="newest-title" th:text="|일간 #{industry}|"></p>
-                        <div class="newest-info">
-                            <div class="newest-info-item text subject">
-                                [[${latestIndustryArticle.subjectFirstCategory.firstCategoryValue}]]
-                            </div>
-                            <a class="newest-info-item picture-wrapper"
-                               th:href="${latestIndustryArticle.link}">
-                                <div class="picture industry-picture"
-                                     th:style="|background-image: url(${latestIndustryArticleMain.imagePath})|"></div>
-                            </a>
-                            <div class="newest-info-item text title">
-                                [[${latestIndustryArticle.name}]]
-                            </div>
-                            <div class="newest-info-item text newest-info-summary">
-                                [[#{article.summary}]]: [[${latestIndustryArticleMain.summary}]]
-                            </div>
+                <div class="newest-row second-row">
+                    <p class="newest-title" th:text="|일간 국내 #{economy}|"></p>
+                    <div class="newest-info">
+                        <div class="newest-info-item text subject">
+                            지구가열화
                         </div>
-                    </div>
-                    <div class="newest-row second-row">
-                        <p class="newest-title" th:text="|일간 해외 #{economy}|"></p>
-                        <div class="newest-info">
-                            <div class="newest-info-item text subject">
-                                빅테크 / AI
-                            </div>
-                            <a class="newest-info-item picture-wrapper"
-                               href="https://biz.chosun.com/it-science/ict/2024/08/30/OZO3RRA2KVDSBJBVYWN6QAEH3U/">
-                                <div class="picture foreign-picture"
-                                     style="background-image: url(/images/main/newest/economy/Big_Tech_001.png)"></div>
-                            </a>
-                            <div class="newest-info-item text title">
-                                ‘돈 먹는 하마’ AR·MR·XR 접고 AI 집중하는 글로벌 빅테크
-                            </div>
-                            <div class="newest-info-item text newest-info-summary">
-                                한 줄 요약: AI에 전력을 다하다시피 하는 빅테크
-                            </div>
+                        <a class="newest-info-item picture-wrapper"
+                           href="https://m.sedaily.com/NewsView/2DD7VN3IT0#cb">
+                            <div class="picture domestic-picture"
+                                 style="background-image: url(/images/main/newest/economy/Global_Boiling_001.png)"></div>
+                        </a>
+                        <div class="newest-info-item text title">
+                            폭염에 물폭탄 그리고…올여름 ‘이 것’ 사상 최악이었다
+                        </div>
+                        <div class="newest-info-item text newest-info-summary">
+                            한 줄 요약: 대한민국에 찾아온 역대 최악의 여름
                         </div>
                     </div>
                 </div>
-                <div class="newest-clearLine"></div>
-                <div class="newest-column">
-                    <div class="newest-row first-row">
-                        <div class="ad"></div>
+            </div>
+            <div class="newest-column">
+                <div class="newest-row first-row">
+                    <p class="newest-title" th:text="|일간 #{industry}|"></p>
+                    <div class="newest-info">
+                        <div class="newest-info-item text subject">
+                            [[${latestIndustryArticle.subjectFirstCategory.firstCategoryValue}]]
+                        </div>
+                        <a class="newest-info-item picture-wrapper"
+                           th:href="${latestIndustryArticle.link}">
+                            <div class="picture industry-picture"
+                                 th:style="|background-image: url(${latestIndustryArticleMain.imagePath})|"></div>
+                        </a>
+                        <div class="newest-info-item text title">
+                            [[${latestIndustryArticle.name}]]
+                        </div>
+                        <div class="newest-info-item text newest-info-summary">
+                            [[#{article.summary}]]: [[${latestIndustryArticleMain.summary}]]
+                        </div>
                     </div>
-                    <div class="newest-row second-row">
-                        <div class="ad"></div>
+                </div>
+                <div class="newest-row second-row">
+                    <p class="newest-title" th:text="|일간 해외 #{economy}|"></p>
+                    <div class="newest-info">
+                        <div class="newest-info-item text subject">
+                            빅테크 / AI
+                        </div>
+                        <a class="newest-info-item picture-wrapper"
+                           href="https://biz.chosun.com/it-science/ict/2024/08/30/OZO3RRA2KVDSBJBVYWN6QAEH3U/">
+                            <div class="picture foreign-picture"
+                                 style="background-image: url(/images/main/newest/economy/Big_Tech_001.png)"></div>
+                        </a>
+                        <div class="newest-info-item text title">
+                            ‘돈 먹는 하마’ AR·MR·XR 접고 AI 집중하는 글로벌 빅테크
+                        </div>
+                        <div class="newest-info-item text newest-info-summary">
+                            한 줄 요약: AI에 전력을 다하다시피 하는 빅테크
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="newest-clearLine"></div>
+            <div class="newest-column">
+                <div class="newest-row first-row">
+                    <div class="ad"></div>
+                </div>
+                <div class="newest-row second-row">
+                    <div class="ad"></div>
                 </div>
             </div>
         </div>
-        <div class="container-main-bottom">
-            <div class="post-wrapper">
-                <p class="post-title" th:text="|#{company} 주요 포스팅|"></p>
-                <p class="post-subject-name" th:text="이노와이어리스"></p>
-                <div class="post-blog">
-                    <a class="post-image post-company"
-                       style="background-image: url(/images/company/logo/innoWireless.png)"
-                       href="https://blog.naver.com/akdnjs0308/223491404394"></a>
-                    <div class="post-clearLine"></div>
-                    <div class="post-news post-company-news">
-                        <div class="post-news-related" th:text="|관련 뉴스|"></div>
-                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                    </div>
-                </div>
-            </div>
-            <div class="post-wrapper">
-                <p class="post-title" th:text="|#{industry} 주요 포스팅|"></p>
-                <p class="post-subject-name" th:text="디스플레이"></p>
-                <div class="post-blog">
-                    <a class="post-image post-industry"
-                       style="background-image: url(/images/industry/display.png)"
-                       href="https://blog.naver.com/akdnjs0308/223456567261"></a>
-                    <div class="post-clearLine"></div>
-                    <div class="post-news post-industry-news">
-                        <div class="post-news-related" th:text="|관련 뉴스|"></div>
-                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                    </div>
-                </div>
-            </div>
-            <div class="post-wrapper">
-                <p class="post-title" th:text="|#{economy} 주요 포스팅|"></p>
-                <p class="post-subject-name" th:text="중국"></p>
-                <div class="post-blog">
-                    <a class="post-image post-economy"
-                       style="background-image: url(/images/industry/flag/chinese_flag.png)"
-                       href="https://blog.naver.com/akdnjs0308/223527440189"></a>
-                    <div class="post-clearLine"></div>
-                    <div class="post-news post-economy-news">
-                        <div class="post-news-related" th:text="|관련 뉴스|"></div>
-                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                        <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                    </div>
+    </div>
+    <div class="container-main-bottom">
+        <div class="post-wrapper">
+            <p class="post-title" th:text="|#{company} 주요 포스팅|"></p>
+            <p class="post-subject-name" th:text="이노와이어리스"></p>
+            <div class="post-blog">
+                <a class="post-image post-company"
+                   style="background-image: url(/images/company/logo/innoWireless.png)"
+                   href="https://blog.naver.com/akdnjs0308/223491404394"></a>
+                <div class="post-clearLine"></div>
+                <div class="post-news post-company-news">
+                    <div class="post-news-related" th:text="|관련 뉴스|"></div>
+                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
                 </div>
             </div>
         </div>
-    </section>
-    <script async>
-        await (function () {
-            const body = document.body;
-            if (body.scrollWidth > body.clientWidth) {
-                body.style.overflowX = 'scroll';
-            } else {
-                body.style.overflowX = 'hidden';
-            }
-        })();
-    </script>
+        <div class="post-wrapper">
+            <p class="post-title" th:text="|#{industry} 주요 포스팅|"></p>
+            <p class="post-subject-name" th:text="디스플레이"></p>
+            <div class="post-blog">
+                <a class="post-image post-industry"
+                   style="background-image: url(/images/industry/display.png)"
+                   href="https://blog.naver.com/akdnjs0308/223456567261"></a>
+                <div class="post-clearLine"></div>
+                <div class="post-news post-industry-news">
+                    <div class="post-news-related" th:text="|관련 뉴스|"></div>
+                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                </div>
+            </div>
+        </div>
+        <div class="post-wrapper">
+            <p class="post-title" th:text="|#{economy} 주요 포스팅|"></p>
+            <p class="post-subject-name" th:text="중국"></p>
+            <div class="post-blog">
+                <a class="post-image post-economy"
+                   style="background-image: url(/images/industry/flag/chinese_flag.png)"
+                   href="https://blog.naver.com/akdnjs0308/223527440189"></a>
+                <div class="post-clearLine"></div>
+                <div class="post-news post-economy-news">
+                    <div class="post-news-related" th:text="|관련 뉴스|"></div>
+                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script async>
+    (function () {
+        const body = document.body;
+        if (body.scrollWidth > body.clientWidth) {
+            body.style.overflowX = 'scroll';
+        } else {
+            body.style.overflowX = 'hidden';
+        }
+    })();
+</script>
 </body>
 </html>
