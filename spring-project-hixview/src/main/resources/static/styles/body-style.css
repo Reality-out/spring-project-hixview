@@ -34,10 +34,6 @@ body::-webkit-scrollbar-track {
     background-color: #d3d3d3;
 }
 
-ul, ol, li {
-    list-style: none;
-}
-
 a {
     color: black;
     text-decoration: none;
@@ -47,14 +43,23 @@ a:link {
     color: black;
 }
 
-a: visited {
+a:visited {
     color: black;
+}
+
+button {
+    background: none;
 }
 
 input:focus {
     outline: none;
 }
 
-button {
-    background: none;
+input::placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+ul, ol, li {
+    list-style: none;
 }

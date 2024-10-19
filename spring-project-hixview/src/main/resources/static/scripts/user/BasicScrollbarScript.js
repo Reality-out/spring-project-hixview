@@ -7,8 +7,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgFunctionFillIn = messageContainerDataset.functionFillin;
     const msgCompany = messageContainerDataset.company;
 
+    const style = document.createElement('style');
+    document.head.appendChild(style);
+    async function initializePlaceholderColor() {
+        style.textContent = `
+            #codeOrName::placeholder {
+                color: grey;
+            }
+        `;
+    };
+    async function reflectErrPlaceholderColor() {
+        style.textContent = `
+            #codeOrName::placeholder {
+                color: #FF7777;
+            }
+        `;
+    }
+
     document.getElementById('gnbScb').addEventListener('submit', function(event) {
         event.preventDefault();
+        initializePlaceholderColor();
         const form = document.getElementById('gnbScb');
         const checkURL = codeOrName.dataset.checkUrl;
         fetch(form.action + checkURL + codeOrName.value, {
@@ -31,10 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let errorName = errorData.error;
             if (errorName) {
                 codeOrName.value = '';
+                reflectErrPlaceholderColor();
                 if (errorName === "notExistCompanyError") {
                     codeOrName.placeholder = `${msgFunctionSearch}될 ${msgCompany}을 ${msgFunctionFillIn}해 주세요.`;
                 } else if (errorName === "notFoundCompanyError") {
-                    codeOrName.placeholder = `${msgFunctionSearch}된 ${msgCompany}이 없습니다.`;
+                    codeOrName.placeholder = `${msgFunctionSearch}된 ${msgCompany}이 존재하지 않습니다.`;
                 }
             }
         })
