@@ -9,6 +9,8 @@
 
 body {
     overflow-y: scroll;
+    scrollbar-color: #a9a9a9, #d3d3d3;
+    scrollbar-width: auto;
 }
 
 body::-webkit-scrollbar {

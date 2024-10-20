@@ -84,7 +84,7 @@
 
 .section-main {
     display: flex;
-    width: calc(100vw - 14px);
+    width: calc(100vw - 12px);
     margin: 0 auto;
     flex-direction: column;
 }

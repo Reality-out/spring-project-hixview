@@ -23,7 +23,7 @@
 
 .container-total {
     display: flex;
-    width: calc(100vw - 14px);
+    width: calc(100vw - 12px);
     flex-direction: column;
 }
 
