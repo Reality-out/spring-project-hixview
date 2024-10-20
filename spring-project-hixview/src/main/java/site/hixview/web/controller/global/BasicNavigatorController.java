@@ -14,12 +14,8 @@ import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
 public class BasicNavigatorController {
 
     @ModelAttribute
-    public void companySearchURL(Model model) {
+    public void addURL(Model model) {
         model.addAttribute("companySearchURL", COMPANY_SEARCH_URL);
-    }
-
-    @ModelAttribute
-    public void checkURL(Model model) {
         model.addAttribute("checkURL", CHECK_URL);
     }
 }
