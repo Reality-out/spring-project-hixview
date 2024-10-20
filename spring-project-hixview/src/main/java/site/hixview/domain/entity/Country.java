@@ -9,13 +9,9 @@ public enum Country {
     CHINA("중국"),
     INDIA("인도");
 
-    private final String countryValue;
+    private final String value;
 
-    Country(String countryValue) {
-        this.countryValue = countryValue;
-    }
-
-    public String getValue() {
-        return countryValue;
+    Country(String value) {
+        this.value = value;
     }
 }

@@ -103,7 +103,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         CompanyArticleDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
         CompanyArticleDto articleDtoKorean = article.toDto();
-        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getValue());
         CompanyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
@@ -139,7 +139,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         CompanyArticleDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
         CompanyArticleDto articleDtoKorean = article.toDto();
-        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getValue());
         CompanyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
@@ -171,7 +171,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         IndustryArticleDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
         IndustryArticleDto articleDtoKorean = article.toDto();
-        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getValue());
         IndustryArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
         String commonName = article.toDto().getName();
@@ -202,7 +202,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         IndustryArticleDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
         IndustryArticleDto articleDtoKorean = article.toDto();
-        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getPressValue());
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getValue());
         IndustryArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
@@ -237,7 +237,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         ArticleMainDto articleDtoRightSpace = createTestCompanyArticleMainDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
         ArticleMainDto articleDtoKoreanClassification = createTestCompanyArticleMainDto();
-        articleDtoKoreanClassification.setClassification(testCompanyArticleMain.getClassification().getClassificationValue());
+        articleDtoKoreanClassification.setClassification(testCompanyArticleMain.getClassification().getValue());
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setClassification(articleDtoLowerCase.getClassification().toLowerCase());
 
@@ -269,7 +269,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         ArticleMainDto articleDtoRightSpace = article.toDto();
         articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
         ArticleMainDto articleDtoKoreanClassification = createTestCompanyArticleMainDto();
-        articleDtoKoreanClassification.setClassification(testCompanyArticleMain.getClassification().getClassificationValue());
+        articleDtoKoreanClassification.setClassification(testCompanyArticleMain.getClassification().getValue());
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setClassification(articleDtoLowerCase.getClassification().toLowerCase());
 
@@ -297,10 +297,10 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         doNothing().when(companyAddValidator).validate(any(), any());
 
         CompanyDto companyDtoKorean = company.toDto();
-        companyDtoKorean.setCountry(Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
-        companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
-        companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
-        companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
+        companyDtoKorean.setCountry(Country.valueOf(companyDtoKorean.getCountry()).getValue());
+        companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getValue());
+        companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getValue());
+        companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getValue());
 
         CompanyDto companyDtoLowercase = company.toDto();
         companyDtoLowercase.setCountry(Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());
@@ -332,10 +332,10 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         doNothing().when(companyService).correctCompany(company);
 
         CompanyDto companyDtoKorean = company.toDto();
-        companyDtoKorean.setCountry(Country.valueOf(companyDtoKorean.getCountry()).getCountryValue());
-        companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getScaleValue());
-        companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getFirstCategoryValue());
-        companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getSecondCategoryValue());
+        companyDtoKorean.setCountry(Country.valueOf(companyDtoKorean.getCountry()).getValue());
+        companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getValue());
+        companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getValue());
+        companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getValue());
 
         CompanyDto companyDtoLowercase = company.toDto();
         companyDtoLowercase.setCountry(Country.valueOf(companyDtoLowercase.getCountry()).name().toLowerCase());

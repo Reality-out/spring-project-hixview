@@ -53,7 +53,7 @@
                     <p class="newest-title" th:text="|일간 #{industry}|"></p>
                     <div class="newest-info">
                         <div class="newest-info-item text subject">
-                            [[${latestIndustryArticle.subjectFirstCategory.firstCategoryValue}]]
+                            [[${latestIndustryArticle.subjectFirstCategory.value}]]
                         </div>
                         <a class="newest-info-item picture-wrapper"
                            th:href="${latestIndustryArticle.link}">

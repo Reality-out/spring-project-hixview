@@ -93,8 +93,8 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         String articleStringRightSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), article1.getName() + " ");
         String articleStringKorean = testCompanyArticleBuffer.getNameDatePressString()
-                .replace(article1.getPress().name(), article1.getPress().getPressValue())
-                .replace(article2.getPress().name(), article2.getPress().getPressValue());
+                .replace(article1.getPress().name(), article1.getPress().getValue())
+                .replace(article2.getPress().name(), article2.getPress().getValue());
         String articleStringLowercase = testCompanyArticleBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
                 .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
@@ -142,8 +142,8 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         String articleStringRightSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), article1.getName() + " ");
         String articleStringKorean = testIndustryArticleBuffer.getNameDatePressString()
-                .replace(article1.getPress().name(), article1.getPress().getPressValue())
-                .replace(article2.getPress().name(), article2.getPress().getPressValue());
+                .replace(article1.getPress().name(), article1.getPress().getValue())
+                .replace(article2.getPress().name(), article2.getPress().getValue());
         String articleStringLowercase = testIndustryArticleBuffer.getNameDatePressString()
                 .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
                 .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());

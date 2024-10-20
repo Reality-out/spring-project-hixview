@@ -21,13 +21,9 @@ public enum SecondCategory {
     STOCK("증권"),
     TELECOMMUNICATION_EQUIPMENT("통신 장비");
 
-    private final String secondCategoryValue;
+    private final String value;
 
-    SecondCategory(String secondCategoryValue) {
-        this.secondCategoryValue = secondCategoryValue;
-    }
-
-    public String getValue() {
-        return secondCategoryValue;
+    SecondCategory(String value) {
+        this.value = value;
     }
 }

@@ -53,13 +53,9 @@ public enum Press {
     YTN("YTN"),
     ZDNET_KOREA("지디넷코리아");
 
-    private final String pressValue;
+    private final String value;
 
-    Press(String pressValue) {
-        this.pressValue = pressValue;
-    }
-
-    public String getValue() {
-        return pressValue;
+    Press(String value) {
+        this.value = value;
     }
 }

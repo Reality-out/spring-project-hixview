@@ -13,11 +13,11 @@
             </div>
             <div th:text="#{company.country}"></div>
             <select class="partialForm" th:field="*{country}">
-                <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.countryValue}"></option>
+                <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.value}"></option>
             </select>
             <div th:text="#{company.scale}"></div>
             <select class="partialForm" th:field="*{scale}">
-                <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.scaleValue}"></option>
+                <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.value}"></option>
             </select>
             <div class="partial-form">
                 <label for="name" th:text="#{company.name}"></label>

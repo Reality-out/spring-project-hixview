@@ -19,11 +19,11 @@
         <tbody>
             <tr th:each="company : ${companies}">
                 <td th:text="${company.code}"></td>
-                <td th:text="${company.country.countryValue}"></td>
-                <td th:text="${company.scale.scaleValue}"></td>
+                <td th:text="${company.country.value}"></td>
+                <td th:text="${company.scale.value}"></td>
                 <td th:text="${company.name}"></td>
-                <td th:text="${company.firstCategory.firstCategoryValue}"></td>
-                <td th:text="${company.secondCategory.secondCategoryValue}"></td>
+                <td th:text="${company.firstCategory.value}"></td>
+                <td th:text="${company.secondCategory.value}"></td>
             </tr>
         </tbody>
     </table>

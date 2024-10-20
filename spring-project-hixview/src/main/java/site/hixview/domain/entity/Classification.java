@@ -7,13 +7,9 @@ public enum Classification {
     COMPANY("기업"),
     INDUSTRY("산업");
 
-    private final String classificationValue;
+    private final String value;
 
-    Classification(String classificationValue) {
-        this.classificationValue = classificationValue;
-    }
-
-    public String getValue() {
-        return classificationValue;
+    Classification(String value) {
+        this.value = value;
     }
 }

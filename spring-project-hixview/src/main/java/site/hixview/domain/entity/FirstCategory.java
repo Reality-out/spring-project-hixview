@@ -17,13 +17,9 @@ public enum FirstCategory {
     SPACE("우주"),
     TELECOMMUNICATION("통신");
 
-    private final String firstCategoryValue;
+    private final String value;
 
-    FirstCategory(String firstCategoryValue) {
-        this.firstCategoryValue = firstCategoryValue;
-    }
-
-    public String getValue() {
-        return firstCategoryValue;
+    FirstCategory(String value) {
+        this.value = value;
     }
 }

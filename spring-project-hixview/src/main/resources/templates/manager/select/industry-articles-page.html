@@ -22,11 +22,11 @@
             <tr th:each="article : ${articles}">
                 <td th:text="${article.number}"></td>
                 <td th:text="${article.name}"></td>
-                <td th:text="${article.press.pressValue}"></td>
+                <td th:text="${article.press.value}"></td>
                 <td th:text="${article.link}"></td>
                 <td th:text="${article.date}"></td>
                 <td th:text="${article.importance}"></td>
-                <td th:text="${article.subjectFirstCategory.firstCategoryValue}"></td>
+                <td th:text="${article.subjectFirstCategory.value}"></td>
                 <td class="subject-second-category" th:text="${article.subjectSecondCategories}"></td>
             </tr>
         </tbody>

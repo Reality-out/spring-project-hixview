@@ -8,13 +8,9 @@ public enum Scale {
     MIDDLE("중견기업"),
     SMALL("중소기업");
 
-    private final String scaleValue;
+    private final String value;
 
-    Scale(String scaleValue) {
-        this.scaleValue = scaleValue;
-    }
-
-    public String getValue() {
-        return scaleValue;
+    Scale(String value) {
+        this.value = value;
     }
 }
