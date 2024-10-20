@@ -9,8 +9,8 @@ import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 
-import static site.hixview.domain.vo.name.EntityName.Article.LINK;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.EntityName.Article.LINK;
 
 @Component
 @RequiredArgsConstructor

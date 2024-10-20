@@ -10,13 +10,13 @@ import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
+import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
 import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 import static site.hixview.util.JsonUtils.serializeEnumWithOneMap;
 
 @Getter
@@ -153,7 +153,7 @@ public class IndustryArticle extends Article {
             date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
             importance = articleDto.getImportance();
             subjectFirstCategory = FirstCategory.valueOf(articleDto.getSubjectFirstCategory());
-            subjectSecondCategories = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY,
+            subjectSecondCategories = JsonUtils.deserializeEnumWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY,
                     articleDto.getSubjectSecondCategories(), SecondCategory.class);
             return this;
         }

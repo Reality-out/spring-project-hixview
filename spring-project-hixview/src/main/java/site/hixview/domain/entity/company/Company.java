@@ -16,8 +16,8 @@ import site.hixview.domain.validation.annotation.CodeConstraint;
 
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.name.EntityName.Company.*;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.EntityName.Company.*;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

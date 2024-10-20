@@ -14,6 +14,7 @@ import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.repository.IndustryArticleRepository;
+import site.hixview.util.JsonUtils;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
@@ -22,7 +23,6 @@ import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
-import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
 @Repository
 @Primary
@@ -120,7 +120,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      */
     private RowMapper<IndustryArticle> articleRowMapper() {
         return (resultSet, rowNumber) -> {
-            List<SecondCategory> subjectSecondCategories = deserializeWithOneMapToList(objectMapper, SUBJECT_SECOND_CATEGORY, resultSet.getString(SUBJECT_SECOND_CATEGORIES), SecondCategory.class);
+            List<SecondCategory> subjectSecondCategories = JsonUtils.deserializeEnumWithOneMapToList(objectMapper, SUBJECT_SECOND_CATEGORY, resultSet.getString(SUBJECT_SECOND_CATEGORIES), SecondCategory.class);
             return IndustryArticle.builder()
                     .number(resultSet.getLong(NUMBER))
                     .name(resultSet.getString(NAME))

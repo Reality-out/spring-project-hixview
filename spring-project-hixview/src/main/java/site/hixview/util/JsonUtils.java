@@ -34,7 +34,7 @@ public abstract class JsonUtils {
     }
 
     @SneakyThrows
-    public static <T extends Enum<T>> List<T> deserializeWithOneMapToList(ObjectMapper objectMapper, String keyName, String jsonString, Class<T> clazz) {
+    public static <T extends Enum<T>> List<T> deserializeEnumWithOneMapToList(ObjectMapper objectMapper, String keyName, String jsonString, Class<T> clazz) {
         Map<String, List<String>> deserializedMap = objectMapper.readValue(jsonString, new TypeReference<>() {
         });
         return deserializedMap.get(keyName) == null ? Collections.emptyList() :

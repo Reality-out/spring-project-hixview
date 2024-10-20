@@ -11,7 +11,7 @@ import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

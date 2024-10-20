@@ -13,11 +13,11 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.name.EntityName.Article.CLASSIFICATION;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
+import static site.hixview.domain.vo.name.EntityName.Article.CLASSIFICATION;
 import static site.hixview.domain.vo.name.EntityName.Article.IMAGE_PATH;
 import static site.hixview.util.FilterUtils.applyStrip;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;

@@ -6,6 +6,7 @@ import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
+import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import java.util.List;
 
 import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
-import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
 public class IndustryArticleBufferSimple {
 
@@ -27,7 +27,7 @@ public class IndustryArticleBufferSimple {
     private List<IndustryArticle> parsedArticles() {
         List<String> nameDatePressElement = List.of(this.nameDatePressBuffer.toString().split("\\R"));
         List<String> linkElement = List.of(linkBuffer.toString().split("\\R"));
-        List<SecondCategory> subjectSecondCategories = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, this.subjectSecondCategories, SecondCategory.class);
+        List<SecondCategory> subjectSecondCategories = JsonUtils.deserializeEnumWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, this.subjectSecondCategories, SecondCategory.class);
 
         ArrayList<IndustryArticle> articleList = new ArrayList<>();
         for (int i = 0; i < linkElement.size(); i++) {

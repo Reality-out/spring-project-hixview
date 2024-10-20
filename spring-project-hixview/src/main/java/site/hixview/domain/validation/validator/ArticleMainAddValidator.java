@@ -10,8 +10,8 @@ import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.IndustryArticleService;
 
-import static site.hixview.domain.vo.name.EntityName.Article.IMAGE_PATH;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.EntityName.Article.IMAGE_PATH;
 
 @Component
 @RequiredArgsConstructor

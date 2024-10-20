@@ -8,8 +8,8 @@ import org.springframework.validation.Validator;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 
-import static site.hixview.domain.vo.name.EntityName.Article.LINK;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.EntityName.Article.LINK;
 
 @Component
 @RequiredArgsConstructor
