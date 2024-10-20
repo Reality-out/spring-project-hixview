@@ -31,7 +31,7 @@ public class EconomyArticle extends Article {
     private final List<String> targetEconomyContents;
 
     public String getSerializedTargetEconomyContents() {
-        return serializeWithOneMap(objectMapper, TARGET_ECONOMY_CONTENTS, targetEconomyContents);
+        return serializeWithOneMap(objectMapper, TARGET_ECONOMY_CONTENT, targetEconomyContents);
     }
 
     @SneakyThrows

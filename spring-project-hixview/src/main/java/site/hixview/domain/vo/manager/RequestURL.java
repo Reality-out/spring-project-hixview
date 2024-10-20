@@ -20,6 +20,13 @@ public final class RequestURL {
     public static final String UPDATE_INDUSTRY_ARTICLE_URL = "/manager/article/industry/update";
     public static final String REMOVE_INDUSTRY_ARTICLE_URL = "/manager/article/industry/remove";
 
+    // EconomyArticle
+    public static final String ADD_SINGLE_ECONOMY_ARTICLE_URL = "/manager/article/economy/add/single";
+    public static final String ADD_ECONOMY_ARTICLE_WITH_STRING_URL = "/manager/article/economy/add/string";
+    public static final String SELECT_ECONOMY_ARTICLE_URL = "/manager/article/economy/select";
+    public static final String UPDATE_ECONOMY_ARTICLE_URL = "/manager/article/economy/update";
+    public static final String REMOVE_ECONOMY_ARTICLE_URL = "/manager/article/economy/remove";
+
     // ArticleMain
     public static final String ADD_ARTICLE_MAIN_URL = "/manager/article/main/add";
     public static final String SELECT_ARTICLE_MAIN_URL = "/manager/article/main/select";

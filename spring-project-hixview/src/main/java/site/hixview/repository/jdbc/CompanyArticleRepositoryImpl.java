@@ -24,7 +24,7 @@ import static site.hixview.domain.vo.name.EntityName.Article.*;
 @Primary
 public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
 
-    @Value("${schema.article.companies}")
+    @Value("${schema.articles.company}")
     private String CURRENT_SCHEMA;
 
     private final JdbcTemplate jdbcTemplate;

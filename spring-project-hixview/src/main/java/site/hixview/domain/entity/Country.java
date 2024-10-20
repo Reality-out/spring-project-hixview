@@ -4,10 +4,11 @@ import lombok.Getter;
 
 @Getter
 public enum Country {
-    SOUTH_KOREA("대한민국"),
     AMERICA("미국"),
     CHINA("중국"),
-    INDIA("인도");
+    GERMANY("독일"),
+    INDIA("인도"),
+    SOUTH_KOREA("대한민국");
 
     private final String value;
 

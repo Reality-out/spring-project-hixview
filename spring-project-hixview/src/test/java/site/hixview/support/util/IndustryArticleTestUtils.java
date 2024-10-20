@@ -80,7 +80,6 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
 
     default IndustryArticleDto copyIndustryArticleDto(IndustryArticleDto source) {
         IndustryArticleDto target = new IndustryArticleDto();
-
         target.setName(source.getName());
         target.setPress(source.getPress());
         target.setLink(source.getLink());
@@ -90,7 +89,6 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
         target.setImportance(source.getImportance());
         target.setSubjectFirstCategory(source.getSubjectFirstCategory());
         target.setSubjectSecondCategories(source.getSubjectSecondCategories());
-
         return target;
     }
 
@@ -121,7 +119,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
                 .param(MONTH, String.valueOf(articleDto.getMonth()))
                 .param(DAYS, String.valueOf(articleDto.getDays()))
                 .param(IMPORTANCE, String.valueOf(articleDto.getImportance()))
-                .param(SUBJECT_FIRST_CATEGORY, String.valueOf(articleDto.getSubjectFirstCategory()))
-                .param(SUBJECT_SECOND_CATEGORIES, String.valueOf(articleDto.getSubjectSecondCategories()));
+                .param(SUBJECT_FIRST_CATEGORY, articleDto.getSubjectFirstCategory())
+                .param(SUBJECT_SECOND_CATEGORIES, articleDto.getSubjectSecondCategories());
     }
 }

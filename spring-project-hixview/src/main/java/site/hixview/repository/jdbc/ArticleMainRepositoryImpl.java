@@ -23,7 +23,7 @@ import static site.hixview.domain.vo.name.EntityName.Article.*;
 @Primary
 public class ArticleMainRepositoryImpl implements ArticleMainRepository {
 
-    @Value("${schema.article.mains}")
+    @Value("${schema.articles.main}")
     private String CURRENT_SCHEMA;
 
     private final JdbcTemplate jdbcTemplate;

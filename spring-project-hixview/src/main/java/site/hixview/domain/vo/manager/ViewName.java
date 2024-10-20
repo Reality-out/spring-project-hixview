@@ -16,6 +16,11 @@ public final class ViewName {
     public static final String UPDATE_INDUSTRY_ARTICLE_VIEW = "manager/update/article/industry/";
     public static final String REMOVE_INDUSTRY_ARTICLE_VIEW = "manager/remove/article/industry/";
 
+    // EconomyArticle
+    public static final String ADD_ECONOMY_ARTICLE_VIEW = "manager/add/article/economy/";
+    public static final String UPDATE_ECONOMY_ARTICLE_VIEW = "manager/update/article/economy/";
+    public static final String REMOVE_ECONOMY_ARTICLE_VIEW = "manager/remove/article/economy/";
+
     // ArticleMain
     public static final String ADD_ARTICLE_MAIN_VIEW = "manager/add/article/main/";
     public static final String UPDATE_ARTICLE_MAIN_VIEW = "manager/update/article/main/";

@@ -10,9 +10,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @TestPropertySource(properties = {
-        "schema.article.companies=test_company_articles",
-        "schema.article.industries=test_industry_articles",
-        "schema.article.mains=test_article_mains",
+        "schema.articles.company=test_company_articles",
+        "schema.articles.industry=test_industry_articles",
+        "schema.articles.economy=test_economy_articles",
+        "schema.articles.main=test_article_mains",
         "schema.companies=test_companies",
         "schema.members=test_members"
 })
