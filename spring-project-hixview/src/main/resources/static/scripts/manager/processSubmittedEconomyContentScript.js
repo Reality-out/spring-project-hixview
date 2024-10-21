@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let count = 0;
     const articleForm = document.getElementById('articleForm');
-    const articleFormItems = document.getElementById('basic-form-items');
+    const articleFormItems = document.getElementById('basicFormItems');
 
     document.getElementById('addBtn').addEventListener('click', () => {
         count++;

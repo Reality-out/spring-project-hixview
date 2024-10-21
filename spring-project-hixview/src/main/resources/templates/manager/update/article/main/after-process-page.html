@@ -11,7 +11,7 @@
         <div th:if="${error} != null" th:classappend="txt-error-message">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
-        <div id="basic-form-items">
+        <div id="basicFormItems">
             <div class="basic-form-item">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>

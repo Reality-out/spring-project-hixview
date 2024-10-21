@@ -200,7 +200,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
                                 put(nameDatePressString, articleString);
                                 put(linkString, articleBuffer.getLinkString());
                                 put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
-                                put(TARGET_ECONOMY_CONTENTS, articleBuffer.getTargetEconomyContents());
+                                put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                             }}))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processReceivedEconomyContentScript started')
 
     let count = 0;
-    const articleFormItems = document.getElementById('basic-form-items');
+    const articleFormItems = document.getElementById('basicFormItems');
     const economyContentArr = JSON.parse(document.getElementById('container-data').dataset.targetEconomyContentJson)['targetEconomyContent'];
 
     document.getElementById('targetEconomyContent0').value = economyContentArr[0];

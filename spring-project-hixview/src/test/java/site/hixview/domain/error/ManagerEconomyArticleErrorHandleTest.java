@@ -29,7 +29,7 @@ import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
-import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENTS;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
@@ -53,7 +53,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
                     put(nameDatePressString, testEqualDateEconomyArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateEconomyArticleBuffer.getLinkString());
                     put(SUBJECT_COUNTRY, INVALID_VALUE);
-                    put(TARGET_ECONOMY_CONTENTS, testEqualDateEconomyArticleBuffer.getTargetEconomyContents());
+                    put(TARGET_ECONOMY_CONTENT, testEqualDateEconomyArticleBuffer.getTargetEconomyContents());
                 }}))
                 .andExpectAll(view().name(addStringEconomyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -67,7 +67,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
                     put(nameDatePressString, testEconomyArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateEconomyArticle.getLink());
                     put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENTS, testEconomyArticleBuffer.getTargetEconomyContents());
+                    put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
                 }}))
                 .andExpectAll(view().name(addStringEconomyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -81,7 +81,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
                     put(nameDatePressString, EconomyArticleBufferSimple.builder().article(testNewEconomyArticle).build().getNameDatePressString());
                     put(linkString, testEconomyArticleBuffer.getLinkString());
                     put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENTS, testEconomyArticleBuffer.getTargetEconomyContents());
+                    put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
                 }}))
                 .andExpectAll(view().name(addStringEconomyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -95,7 +95,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
                     put(nameDatePressString, "");
                     put(linkString, "");
                     put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENTS, testEconomyArticleBuffer.getTargetEconomyContents());
+                    put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
                 }}))
                 .andExpectAll(view().name(addStringEconomyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -128,7 +128,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
-                        put(TARGET_ECONOMY_CONTENTS, articleBuffer.getTargetEconomyContents());
+                        put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                     }}))
                     .andExpectAll(view().name(
                                     REDIRECT_URL + ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL),

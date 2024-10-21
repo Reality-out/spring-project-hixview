@@ -83,9 +83,10 @@ public class ManagerEconomyArticleController {
     }
 
     @PostMapping(ADD_ECONOMY_ARTICLE_WITH_STRING_URL)
-    public String submitAddEconomyArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
+    public String submitAddEconomyArticlesWithString(@RequestParam String nameDatePressString,
+                                                     @RequestParam String linkString,
                                                      @RequestParam String subjectCountry,
-                                                     @RequestParam String targetEconomyContents,
+                                                     @RequestParam String targetEconomyContent,
                                                      RedirectAttributes redirect, Model model) {
         String senderPage = ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
         if (!inEnumConstants(Country.class, subjectCountry)) {
@@ -117,7 +118,7 @@ public class ManagerEconomyArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectCountry(subjectCountry);
-                articleDto.setTargetEconomyContents(targetEconomyContents);
+                articleDto.setTargetEconomyContents(targetEconomyContent);
                 if (inEnumValues(Press.class, articleDto.getPress()))
                     articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 

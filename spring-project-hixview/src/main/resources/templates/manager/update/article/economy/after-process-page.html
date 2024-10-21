@@ -9,7 +9,7 @@
     <p class="intro-basic-form" th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
     <form id="basicForm" th:action="${updateUrl}" th:object="${article}" method="POST">
         <div hidden class="txt-error-message" id="error-bean" th:value="#{BeanValidation}"></div>
-        <div id="basic-form-items">
+        <div id="basicFormItems">
             <div class="basic-form-item">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>

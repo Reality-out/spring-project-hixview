@@ -87,7 +87,8 @@ public class ManagerIndustryArticleController {
     }
 
     @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
-    public String submitAddIndustryArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
+    public String submitAddIndustryArticlesWithString(@RequestParam String nameDatePressString,
+                                                      @RequestParam String linkString,
                                                      @RequestParam String subjectFirstCategory,
                                                      @RequestParam String subjectSecondCategory,
                                                      RedirectAttributes redirect, Model model) {

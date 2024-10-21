@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processReceivedSecondCategoryScript started')
 
     let count = 0;
-    const articleFormItems = document.getElementById('basic-form-items');
+    const articleFormItems = document.getElementById('basicFormItems');
     const secondCategoryArr = JSON.parse(document.getElementById('container-data').dataset.subjectSecondCategoryJson)['subjectSecondCategory'];
 
     document.getElementById('subjectSecondCategory0').value = secondCategoryArr[0];

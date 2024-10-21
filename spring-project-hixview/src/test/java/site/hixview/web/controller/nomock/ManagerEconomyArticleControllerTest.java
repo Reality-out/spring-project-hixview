@@ -35,7 +35,7 @@ import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
-import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENTS;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
 
@@ -97,7 +97,7 @@ public class ManagerEconomyArticleControllerTest implements EconomyArticleTestUt
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
-                        put(TARGET_ECONOMY_CONTENTS, articleBuffer.getTargetEconomyContents());
+                        put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                     }}))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))

@@ -28,7 +28,7 @@ import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.ERROR_SINGLE;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
-import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENTS;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
@@ -74,7 +74,7 @@ class EconomyArticleValidationErrorTest implements EconomyArticleTestUtils {
                     put(nameDatePressString, articleBuffer.getNameDatePressString());
                     put(linkString, articleBuffer.getLinkString());
                     put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENTS, articleBuffer.getTargetEconomyContents());
+                    put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -100,7 +100,7 @@ class EconomyArticleValidationErrorTest implements EconomyArticleTestUtils {
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
-                        put(TARGET_ECONOMY_CONTENTS, articleBuffer.getTargetEconomyContents());
+                        put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                     }}))
                     .andExpectAll(view().name(
                                     REDIRECT_URL + ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL),

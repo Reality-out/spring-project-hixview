@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head><link/></head>
+<head>
+    <link href="/styles/manager/data/basic-form-style.css" rel="stylesheet"/>
+</head>
 <body>
 <div>
-    <p th:text="|#{company} #{article}를 #{function.register}합니다.|"></p>
-    <form th:action method="POST">
+    <p class="intro-basic-form" th:text="|#{company} #{article}를 #{function.register}합니다.|"></p>
+    <form id="basicForm" th:action method="POST">
         <div th:if="${error} != null" th:classappend="txt-error-message">
             <th:block th:switch="${error}">
                 <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
@@ -12,21 +14,23 @@
                 <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
             </th:block>
         </div>
-        <div>
-            <div>
+        <div id="basicFormItems">
+            <div class="basic-form-item">
                 <label for="nameDatePressString" th:text="|#{data.multiple} #{article}|"></label>
                 <textarea id="nameDatePressString" name="nameDatePressString" spellcheck="false" wrap="soft"></textarea>
             </div>
-            <div>
+            <div class="basic-form-item">
                 <label for="linkString" th:text="|#{data.multiple} #{article.link}|"></label>
                 <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
             </div>
-            <div>
+            <div class="basic-form-item">
                 <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
                 <input type="text" id="subjectCompany" name="subjectCompany">
             </div>
         </div>
-        <button type="submit" th:text="#{function.register}"></button>
+        <div class="basic-form-buttons">
+            <button id="submitBtn" type="submit" th:text="#{function.register}"></button>
+        </div>
     </form>
 </div>
 <script></script>

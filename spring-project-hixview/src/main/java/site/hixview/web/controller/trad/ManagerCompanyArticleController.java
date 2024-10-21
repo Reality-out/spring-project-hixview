@@ -106,8 +106,10 @@ public class ManagerCompanyArticleController {
     }
 
     @PostMapping(ADD_COMPANY_ARTICLE_WITH_STRING_URL)
-    public String submitAddCompanyArticlesWithString(@RequestParam String nameDatePressString, @RequestParam String linkString,
-                                                     @RequestParam String subjectCompany, RedirectAttributes redirect, Model model) {
+    public String submitAddCompanyArticlesWithString(@RequestParam String nameDatePressString,
+                                                     @RequestParam String linkString,
+                                                     @RequestParam String subjectCompany,
+                                                     RedirectAttributes redirect, Model model) {
         String senderPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
         if (companyService.findCompanyByName(subjectCompany).isEmpty()) {
             finishForRollback(NO_COMPANY_WITH_THAT_NAME, ADD_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ERROR, model);
