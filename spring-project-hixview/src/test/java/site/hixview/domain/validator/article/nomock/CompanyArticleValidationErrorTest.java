@@ -65,10 +65,13 @@ public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtil
     public void invalidDateCompanyArticleAddWithString() throws Exception {
         // given
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-        CompanyArticleBufferSimple articleBuffer = CompanyArticleBufferSimple.builder().articleDto(articleDto).build();
+        CompanyArticleBufferSimple articleBuffer = CompanyArticleBufferSimple.builder()
+                .nameDatePressString(testCompanyArticleBuffer.getNameDatePressString()
+                        .replace("2024", "2000")
+                        .replace("8", "2"))
+                .linkString(testCompanyArticleBuffer.getLinkString())
+                .importance(testCompanyArticleBuffer.getImportance())
+                .subjectCompany(testCompanyArticleBuffer.getSubjectCompany()).build();
 
         // when
         companyService.registerCompany(samsungElectronics);

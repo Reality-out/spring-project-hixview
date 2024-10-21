@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
+import site.hixview.domain.entity.article.parent.Article;
 
 import java.time.LocalDate;
 import java.util.HashMap;

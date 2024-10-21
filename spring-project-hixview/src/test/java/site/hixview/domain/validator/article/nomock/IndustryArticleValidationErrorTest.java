@@ -3,6 +3,8 @@ package site.hixview.domain.validator.article.nomock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +39,7 @@ import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR
 @Transactional
 class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(IndustryArticleValidationErrorTest.class);
     @Autowired
     private MockMvc mockMvc;
 
@@ -60,10 +63,14 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
     void invalidDateIndustryArticleAddWithString() throws Exception {
         // given & when
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-        IndustryArticleBufferSimple articleBuffer = IndustryArticleBufferSimple.builder().articleDto(articleDto).build();
+        IndustryArticleBufferSimple articleBuffer = IndustryArticleBufferSimple.builder()
+                .nameDatePressString(testIndustryArticleBuffer.getNameDatePressString()
+                        .replace("2024", "2000")
+                        .replace("8", "2"))
+                .linkString(testIndustryArticleBuffer.getLinkString())
+                .importance(testIndustryArticleBuffer.getImportance())
+                .subjectFirstCategory(testIndustryArticleBuffer.getSubjectFirstCategory())
+                .subjectSecondCategories(testIndustryArticleBuffer.getSubjectSecondCategories()).build();
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{

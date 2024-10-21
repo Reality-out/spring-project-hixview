@@ -5,6 +5,7 @@ import lombok.Getter;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
+import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
@@ -12,44 +13,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.lineSeparator;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
 
-public class EconomyArticleBufferSimple {
+@Getter
+public class EconomyArticleBufferSimple extends ArticleBufferSimple {
 
-    private final StringBuffer nameDatePressBuffer;
-    private final StringBuffer linkBuffer;
+    private final String subjectCountry;
+    private final String targetEconomyContents;
 
-    @Getter private final Integer importance;
-    @Getter private final String subjectCountry;
-    @Getter private final String targetEconomyContents;
-
-    private List<EconomyArticle> parsedArticles() {
-        List<String> nameDatePressElement = List.of(this.nameDatePressBuffer.toString().split("\\R"));
-        List<String> linkElement = List.of(linkBuffer.toString().split("\\R"));
-        List<String> targetEconomyContents = JsonUtils.deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, this.targetEconomyContents);
-
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<EconomyArticle> parsedArticles() {
+        List<String> parsedNameList = getParsedNameList();
+        List<List<String>> parsedDatePressList = getParsedDatePressList();
+        List<String> linkList = getLinkList();
+        List<String> targetEconomyContents = JsonUtils.deserializeWithOneMapToList(new ObjectMapper(), TARGET_ECONOMY_CONTENT, this.targetEconomyContents);
         ArrayList<EconomyArticle> articleList = new ArrayList<>();
-        for (int i = 0; i < linkElement.size(); i++) {
-            List<String> datePressElement = List.of(nameDatePressElement.get(2 * i + 1)
-                    .replaceAll("^\\(|\\)$", "").split(",\\s|-"));
-
+        Country subjectCountry = Country.valueOf(this.subjectCountry);
+        for (int i = 0; i < getLength(); i++) {
+            List<String> datePressElement = parsedDatePressList.get(i);
             articleList.add(EconomyArticle.builder()
-                    .name(nameDatePressElement.get(2 * i)).press(Press.valueOf(datePressElement.getLast()))
+                    .name(parsedNameList.get(i)).press(Press.valueOf(datePressElement.getLast()))
                     .date(LocalDate.of(Integer.parseInt(datePressElement.getFirst()),
                             Integer.parseInt(datePressElement.get(1)), Integer.parseInt(datePressElement.get(2))))
                     .importance(importance)
-                    .subjectCountry(Country.valueOf(subjectCountry))
-                    .targetEconomyContents(targetEconomyContents).link(linkElement.get(i)).build());
+                    .subjectCountry(subjectCountry)
+                    .targetEconomyContents(targetEconomyContents).link(linkList.get(i)).build());
         }
         return articleList;
-    }
-
-    public String getNameDatePressString() {
-        return String.valueOf(nameDatePressBuffer);
-    }
-
-    public String getLinkString() {
-        return String.valueOf(linkBuffer);
     }
 
     public static EconomyArticleBufferSimpleBuilder builder() {
@@ -57,17 +48,12 @@ public class EconomyArticleBufferSimple {
     }
 
     private EconomyArticleBufferSimple(StringBuffer nameDatePressBuffer, StringBuffer linkBuffer, Integer importance, String subjectCountry, String targetEconomyContents) {
-        this.nameDatePressBuffer = nameDatePressBuffer;
-        this.linkBuffer = linkBuffer;
-        this.importance = importance;
+        super(nameDatePressBuffer, linkBuffer, importance);
         this.subjectCountry = subjectCountry;
         this.targetEconomyContents = targetEconomyContents;
     }
 
-    public static final class EconomyArticleBufferSimpleBuilder {
-        private StringBuffer nameDatePressBuffer;
-        private StringBuffer linkBuffer;
-        private Integer importance;
+    public static final class EconomyArticleBufferSimpleBuilder extends ArticleBufferSimpleBuilder {
         private String subjectCountry;
         private String targetEconomyContents;
 
@@ -107,9 +93,7 @@ public class EconomyArticleBufferSimple {
         }
 
         public EconomyArticleBufferSimpleBuilder article(EconomyArticle article) {
-            String concatenatedNameDatePress = article.getName() + lineSeparator() +
-                    "(" + article.getDate().getYear() + "-" + article.getDate().getMonthValue() + "-" +
-                    article.getDate().getDayOfMonth() + ", " + article.getPress() + ")";
+            StringBuffer concatenatedNameDatePress = article.getConcatenatedNameDatePress();
             if (nameDatePressBuffer == null) {
                 nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
                 linkBuffer = new StringBuffer(article.getLink());
@@ -131,8 +115,7 @@ public class EconomyArticleBufferSimple {
         }
 
         public EconomyArticleBufferSimpleBuilder articleDto(EconomyArticleDto articleDto) {
-            String concatenatedNameDatePress = articleDto.getName() + lineSeparator() +
-                    "(" + articleDto.getYear() + "-" + articleDto.getMonth() + "-" + articleDto.getDays() + ", " + articleDto.getPress() + ")";
+            StringBuffer concatenatedNameDatePress = EconomyArticle.builder().articleDto(articleDto).build().getConcatenatedNameDatePress();
             if (nameDatePressBuffer == null) {
                 nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
                 linkBuffer = new StringBuffer(articleDto.getLink());

@@ -1,6 +1,6 @@
 package site.hixview.domain.repository;
 
-import site.hixview.domain.entity.article.Article;
+import site.hixview.domain.entity.article.parent.Article;
 
 import java.time.LocalDate;
 import java.util.List;

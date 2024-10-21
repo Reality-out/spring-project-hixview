@@ -27,7 +27,8 @@ import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.ERROR_SINGLE;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENTS;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
@@ -59,10 +60,14 @@ class EconomyArticleValidationErrorTest implements EconomyArticleTestUtils {
     void invalidDateEconomyArticleAddWithString() throws Exception {
         // given & when
         EconomyArticleDto articleDto = createTestEconomyArticleDto();
-        articleDto.setYear(2000);
-        articleDto.setMonth(2);
-        articleDto.setDays(31);
-        EconomyArticleBufferSimple articleBuffer = EconomyArticleBufferSimple.builder().articleDto(articleDto).build();
+        EconomyArticleBufferSimple articleBuffer = EconomyArticleBufferSimple.builder()
+                .nameDatePressString(testEconomyArticleBuffer.getNameDatePressString()
+                        .replace("2024", "2000")
+                        .replace("8", "2"))
+                .linkString(testEconomyArticleBuffer.getLinkString())
+                .importance(testEconomyArticleBuffer.getImportance())
+                .subjectCountry(testEconomyArticleBuffer.getSubjectCountry())
+                .targetEconomyContents(testEconomyArticleBuffer.getTargetEconomyContents()).build();
 
         // then
         requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{

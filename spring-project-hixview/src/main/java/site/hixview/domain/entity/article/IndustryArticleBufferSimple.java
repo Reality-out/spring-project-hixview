@@ -6,6 +6,7 @@ import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
+import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
@@ -15,42 +16,32 @@ import java.util.List;
 import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 
-public class IndustryArticleBufferSimple {
+@Getter
+public class IndustryArticleBufferSimple extends ArticleBufferSimple {
 
-    private final StringBuffer nameDatePressBuffer;
-    private final StringBuffer linkBuffer;
+    private final String subjectFirstCategory;
+    private final String subjectSecondCategories;
 
-    @Getter private final Integer importance;
-    @Getter private final String subjectFirstCategory;
-    @Getter private final String subjectSecondCategories;
-
-    private List<IndustryArticle> parsedArticles() {
-        List<String> nameDatePressElement = List.of(this.nameDatePressBuffer.toString().split("\\R"));
-        List<String> linkElement = List.of(linkBuffer.toString().split("\\R"));
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<IndustryArticle> parsedArticles() {
+        List<String> parsedNameList = getParsedNameList();
+        List<List<String>> parsedDatePressList = getParsedDatePressList();
+        List<String> linkList = getLinkList();
         List<SecondCategory> subjectSecondCategories = JsonUtils.deserializeEnumWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, this.subjectSecondCategories, SecondCategory.class);
-
         ArrayList<IndustryArticle> articleList = new ArrayList<>();
-        for (int i = 0; i < linkElement.size(); i++) {
-            List<String> datePressElement = List.of(nameDatePressElement.get(2 * i + 1)
-                    .replaceAll("^\\(|\\)$", "").split(",\\s|-"));
-
+        FirstCategory subjectFirstCategory = FirstCategory.valueOf(this.subjectFirstCategory);
+        for (int i = 0; i < getLength(); i++) {
+            List<String> datePressElement = parsedDatePressList.get(i);
             articleList.add(IndustryArticle.builder()
-                    .name(nameDatePressElement.get(2 * i)).press(Press.valueOf(datePressElement.getLast()))
+                    .name(parsedNameList.get(i)).press(Press.valueOf(datePressElement.getLast()))
                     .date(LocalDate.of(Integer.parseInt(datePressElement.getFirst()),
                             Integer.parseInt(datePressElement.get(1)), Integer.parseInt(datePressElement.get(2))))
                     .importance(importance)
-                    .subjectFirstCategory(FirstCategory.valueOf(subjectFirstCategory))
-                    .subjectSecondCategories(subjectSecondCategories).link(linkElement.get(i)).build());
+                    .subjectFirstCategory(subjectFirstCategory)
+                    .subjectSecondCategories(subjectSecondCategories).link(linkList.get(i)).build());
         }
         return articleList;
-    }
-
-    public String getNameDatePressString() {
-        return String.valueOf(nameDatePressBuffer);
-    }
-
-    public String getLinkString() {
-        return String.valueOf(linkBuffer);
     }
 
     public static IndustryArticleBufferSimpleBuilder builder() {
@@ -58,17 +49,12 @@ public class IndustryArticleBufferSimple {
     }
 
     private IndustryArticleBufferSimple(StringBuffer nameDatePressBuffer, StringBuffer linkBuffer, Integer importance, String subjectFirstCategory, String subjectSecondCategories) {
-        this.nameDatePressBuffer = nameDatePressBuffer;
-        this.linkBuffer = linkBuffer;
-        this.importance = importance;
+        super(nameDatePressBuffer, linkBuffer, importance);
         this.subjectFirstCategory = subjectFirstCategory;
         this.subjectSecondCategories = subjectSecondCategories;
     }
 
-    public static final class IndustryArticleBufferSimpleBuilder {
-        private StringBuffer nameDatePressBuffer;
-        private StringBuffer linkBuffer;
-        private Integer importance;
+    public static final class IndustryArticleBufferSimpleBuilder extends ArticleBufferSimpleBuilder {
         private String subjectFirstCategory;
         private String subjectSecondCategories;
 
@@ -108,9 +94,7 @@ public class IndustryArticleBufferSimple {
         }
 
         public IndustryArticleBufferSimpleBuilder article(IndustryArticle article) {
-            String concatenatedNameDatePress = article.getName() + lineSeparator() +
-                    "(" + article.getDate().getYear() + "-" + article.getDate().getMonthValue() + "-" +
-                    article.getDate().getDayOfMonth() + ", " + article.getPress() + ")";
+            StringBuffer concatenatedNameDatePress = article.getConcatenatedNameDatePress();
             if (nameDatePressBuffer == null) {
                 nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
                 linkBuffer = new StringBuffer(article.getLink());
@@ -132,8 +116,7 @@ public class IndustryArticleBufferSimple {
         }
 
         public IndustryArticleBufferSimpleBuilder articleDto(IndustryArticleDto articleDto) {
-            String concatenatedNameDatePress = articleDto.getName() + lineSeparator() +
-                    "(" + articleDto.getYear() + "-" + articleDto.getMonth() + "-" + articleDto.getDays() + ", " + articleDto.getPress() + ")";
+            StringBuffer concatenatedNameDatePress = IndustryArticle.builder().articleDto(articleDto).build().getConcatenatedNameDatePress();
             if (nameDatePressBuffer == null) {
                 nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
                 linkBuffer = new StringBuffer(articleDto.getLink());

@@ -3,6 +3,7 @@ package site.hixview.domain.entity.article;
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
+import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,39 +11,28 @@ import java.util.List;
 
 import static java.lang.System.lineSeparator;
 
-public class CompanyArticleBufferSimple {
+@Getter
+public class CompanyArticleBufferSimple extends ArticleBufferSimple {
 
-    private final StringBuffer nameDatePressBuffer;
-    private final StringBuffer linkBuffer;
+    private final String subjectCompany;
 
-    @Getter private final Integer importance;
-    @Getter private final String subjectCompany;
-
-    private List<CompanyArticle> parsedArticles() {
-        List<String> nameDatePressElement = List.of(this.nameDatePressBuffer.toString().split("\\R"));
-        List<String> linkElement = List.of(linkBuffer.toString().split("\\R"));
-
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<CompanyArticle> parsedArticles() {
+        List<String> parsedNameList = getParsedNameList();
+        List<List<String>> parsedDatePressList = getParsedDatePressList();
+        List<String> linkList = getLinkList();
         ArrayList<CompanyArticle> articleList = new ArrayList<>();
-        for (int i = 0; i < linkElement.size(); i++) {
-            List<String> datePressElement = List.of(nameDatePressElement.get(2 * i + 1)
-                    .replaceAll("^\\(|\\)$", "").split(",\\s|-"));
-
+        for (int i = 0; i < getLength(); i++) {
+            List<String> datePressElement = parsedDatePressList.get(i);
             articleList.add(CompanyArticle.builder()
-                    .name(nameDatePressElement.get(2 * i)).press(Press.valueOf(datePressElement.getLast()))
+                    .name(parsedNameList.get(i)).press(Press.valueOf(datePressElement.getLast()))
                     .date(LocalDate.of(Integer.parseInt(datePressElement.getFirst()),
                             Integer.parseInt(datePressElement.get(1)), Integer.parseInt(datePressElement.get(2))))
                     .importance(importance)
-                    .subjectCompany(subjectCompany).link(linkElement.get(i)).build());
+                    .subjectCompany(subjectCompany).link(linkList.get(i)).build());
         }
         return articleList;
-    }
-
-    public String getNameDatePressString() {
-        return String.valueOf(nameDatePressBuffer);
-    }
-
-    public String getLinkString() {
-        return String.valueOf(linkBuffer);
     }
 
     public static CompanyArticleBufferSimpleBuilder builder() {
@@ -50,16 +40,11 @@ public class CompanyArticleBufferSimple {
     }
 
     private CompanyArticleBufferSimple(StringBuffer nameDatePressBuffer, StringBuffer linkBuffer, Integer importance, String subjectCompany) {
-        this.nameDatePressBuffer = nameDatePressBuffer;
-        this.linkBuffer = linkBuffer;
-        this.importance = importance;
+        super(nameDatePressBuffer, linkBuffer, importance);
         this.subjectCompany = subjectCompany;
     }
 
-    public static final class CompanyArticleBufferSimpleBuilder {
-        private StringBuffer nameDatePressBuffer;
-        private StringBuffer linkBuffer;
-        private Integer importance;
+    public static final class CompanyArticleBufferSimpleBuilder extends ArticleBufferSimpleBuilder {
         private String subjectCompany;
 
         public CompanyArticleBufferSimpleBuilder() {}
@@ -93,11 +78,9 @@ public class CompanyArticleBufferSimple {
         }
 
         public CompanyArticleBufferSimpleBuilder article(CompanyArticle article) {
-            String concatenatedNameDatePress = article.getName() + lineSeparator() +
-                    "(" + article.getDate().getYear() + "-" + article.getDate().getMonthValue() + "-" +
-                    article.getDate().getDayOfMonth() + ", " + article.getPress() + ")";
+            StringBuffer concatenatedNameDatePress = article.getConcatenatedNameDatePress();
             if (nameDatePressBuffer == null) {
-                nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
+                nameDatePressBuffer = concatenatedNameDatePress;
                 linkBuffer = new StringBuffer(article.getLink());
             } else {
                 nameDatePressBuffer.append(lineSeparator()).append(concatenatedNameDatePress);
@@ -116,8 +99,7 @@ public class CompanyArticleBufferSimple {
         }
 
         public CompanyArticleBufferSimpleBuilder articleDto(CompanyArticleDto articleDto) {
-            String concatenatedNameDatePress = articleDto.getName() + lineSeparator() +
-                    "(" + articleDto.getYear() + "-" + articleDto.getMonth() + "-" + articleDto.getDays() + ", " + articleDto.getPress() + ")";
+            StringBuffer concatenatedNameDatePress = CompanyArticle.builder().articleDto(articleDto).build().getConcatenatedNameDatePress();
             if (nameDatePressBuffer == null) {
                 nameDatePressBuffer = new StringBuffer(concatenatedNameDatePress);
                 linkBuffer = new StringBuffer(articleDto.getLink());

@@ -3,7 +3,7 @@ package site.hixview.domain.service;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.domain.entity.article.Article;
+import site.hixview.domain.entity.article.parent.Article;
 import site.hixview.domain.repository.ArticleRepository;
 
 import java.time.LocalDate;

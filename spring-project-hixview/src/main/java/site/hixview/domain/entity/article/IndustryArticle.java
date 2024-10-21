@@ -10,6 +10,7 @@ import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
+import site.hixview.domain.entity.article.parent.Article;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;

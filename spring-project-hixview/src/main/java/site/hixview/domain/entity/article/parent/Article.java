@@ -1,4 +1,4 @@
-package site.hixview.domain.entity.article;
+package site.hixview.domain.entity.article.parent;
 
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
@@ -10,6 +10,7 @@ import site.hixview.domain.validation.annotation.ImportanceConstraint;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.Regex.URL_REGEX;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
@@ -38,6 +39,15 @@ public abstract class Article {
     @ImportanceConstraint
     protected final Integer importance;
 
+    public static String[] getFieldNamesWithNoNumber() {
+        return new String[]{NAME, PRESS, LINK, DATE, IMPORTANCE};
+    }
+
+    public StringBuffer getConcatenatedNameDatePress() {
+        return new StringBuffer(name + lineSeparator() + "(" + date.getYear() + "-" + date.getMonthValue() + "-" +
+                date.getDayOfMonth() + ", " + press + ")");
+    }
+
     protected HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
             put(NAME, name);
@@ -46,10 +56,6 @@ public abstract class Article {
             put(DATE, date);
             put(IMPORTANCE, importance);
         }};
-    }
-
-    public static String[] getFieldNamesWithNoNumber() {
-        return new String[]{NAME, PRESS, LINK, DATE, IMPORTANCE};
     }
 
     protected abstract static class ArticleBuilder {

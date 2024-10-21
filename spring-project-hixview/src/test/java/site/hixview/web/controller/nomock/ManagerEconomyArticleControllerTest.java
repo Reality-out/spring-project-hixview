@@ -34,7 +34,8 @@ import static site.hixview.domain.vo.manager.Layout.ADD_FINISH_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ECONOMY_ARTICLE_VIEW;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENTS;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
 

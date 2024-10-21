@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
+import site.hixview.domain.entity.article.parent.Article;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
