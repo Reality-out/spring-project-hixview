@@ -112,6 +112,9 @@ public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtil
     public void notRegisteredSubjectCompanyArticleAdd() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        when(articleService.findArticleByName(articleDto.getName())).thenReturn(Optional.empty());
+        when(articleService.findArticleByLink(articleDto.getLink())).thenReturn(Optional.empty());
+        when(companyService.findCompanyByName(articleDto.getSubjectCompany())).thenReturn(Optional.empty());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
@@ -192,6 +195,9 @@ public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtil
     public void notRegisteredSubjectCompanyArticleModify() throws Exception {
         // given & when
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
+        when(articleService.findArticleByName(articleDto.getName())).thenReturn(Optional.empty());
+        when(articleService.findArticleByLink(articleDto.getLink())).thenReturn(Optional.empty());
+        when(companyService.findCompanyByName(articleDto.getSubjectCompany())).thenReturn(Optional.empty());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))

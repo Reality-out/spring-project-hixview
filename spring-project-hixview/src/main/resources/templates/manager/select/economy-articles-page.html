@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="wrapper-select-table">
+    <table class="select-table">
+        <caption>
+            <strong>&lt;&lt; [[#{industry}]] [[#{article}]] [[#{data}]] &gt;&gt;</strong>
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col" th:text="#{article.number}"></th>
+                <th scope="col" th:text="#{article.name}"></th>
+                <th scope="col" th:text="#{article.press}"></th>
+                <th scope="col" th:text="#{article.link}"></th>
+                <th scope="col" th:text="#{article.date}"></th>
+                <th scope="col" th:text="#{article.importance}"></th>
+                <th scope="col" th:text="#{article.subjectCountry}"></th>
+                <th scope="col" th:text="#{article.targetEconomyContents}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.number}"></td>
+                <td th:text="${article.name}"></td>
+                <td th:text="${article.press.value}"></td>
+                <td th:text="${article.link}"></td>
+                <td th:text="${article.date}"></td>
+                <td th:text="${article.importance}"></td>
+                <td th:text="${article.subjectCountry.value}"></td>
+                <td class="target-economy-content" th:text="${article.targetEconomyContents}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script defer th:inline="javascript" type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.target-economy-content').forEach(
+            economyContentNode => {
+                economyContentNode.textContent = economyContentNode.textContent.slice(1, -1).split(',').map(economyContentStr => economyContentStr.trim()).join();
+            }
+        )
+    })
+</script>
+</body>
+</html>

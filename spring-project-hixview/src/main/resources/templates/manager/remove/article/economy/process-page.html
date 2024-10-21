@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <p th:text="|#{article.number} 또는 #{article.name}을 통해 #{economy} #{article}를 #{function.remove}합니다.|"></p>
+    <div th:if="${error} != null" th:classappend="txt-error-message">
+        <p th:if="${error} == 'notFoundEconomyArticleError'" th:text="#{NotFound.article}"></p>
+    </div>
+    <form th:action method="POST">
+        <div>
+            <label th:for="numberOrName" th:text="#{article}"></label>
+            <input type="text" th:id="numberOrName" th:name="numberOrName">
+        </div>
+        <button type="submit" th:text="#{function.remove}"></button>
+    </form>
+</div>
+</body>
+</html>

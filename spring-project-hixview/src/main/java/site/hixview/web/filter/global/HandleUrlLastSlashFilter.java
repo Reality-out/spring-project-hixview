@@ -1,4 +1,4 @@
-package site.hixview.web.filter;
+package site.hixview.web.filter.global;
 
 import io.micrometer.common.lang.NonNullApi;
 import jakarta.servlet.FilterChain;

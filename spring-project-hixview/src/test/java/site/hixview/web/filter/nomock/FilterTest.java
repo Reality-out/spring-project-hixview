@@ -10,14 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import site.hixview.domain.entity.article.CompanyArticle;
-import site.hixview.domain.entity.article.CompanyArticleBufferSimple;
-import site.hixview.domain.entity.article.IndustryArticle;
-import site.hixview.domain.entity.article.IndustryArticleBufferSimple;
-import site.hixview.domain.service.ArticleMainService;
-import site.hixview.domain.service.CompanyArticleService;
-import site.hixview.domain.service.CompanyService;
-import site.hixview.domain.service.IndustryArticleService;
+import site.hixview.domain.entity.article.*;
+import site.hixview.domain.service.*;
 import site.hixview.support.property.TestSchemaName;
 import site.hixview.support.util.ArticleMainTestUtils;
 import site.hixview.support.util.CompanyArticleTestUtils;
@@ -36,10 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.ERROR_SINGLE;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH_STRING_URL;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
+import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static site.hixview.support.util.EconomyArticleTestUtils.*;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
@@ -55,6 +49,9 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
 
     @Autowired
     private IndustryArticleService industryArticleService;
+
+    @Autowired
+    private EconomyArticleService economyArticleService;
 
     @Autowired
     private ArticleMainService articleMainService;
@@ -168,6 +165,53 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
 
             industryArticleService.removeArticleByName(article1.getName());
             industryArticleService.removeArticleByName(article2.getName());
+        }
+    }
+
+    @DisplayName("문자열을 사용하는 경제 기사 추가에 대한 기사 지원 필터 테스트")
+    @Test
+    void economyArticleDtoSupportFilterAddWithStringTest() throws Exception {
+        // given & when
+        EconomyArticle article1 = testEqualDateEconomyArticle;
+        EconomyArticle article2 = testNewEconomyArticle;
+        EconomyArticleBufferSimple articleBuffer = testEconomyArticleBuffer;
+
+        List<String> nameList = Stream.of(article1, article2)
+                .map(EconomyArticle::getName).collect(Collectors.toList());
+        String nameListForURL = toStringForUrl(nameList);
+        String nameListString = "nameList";
+
+        String articleStringLeftSpace = articleBuffer.getNameDatePressString()
+                .replace(article1.getName(), " " + article1.getName());
+        String articleStringRightSpace = articleBuffer.getNameDatePressString()
+                .replace(article1.getName(), article1.getName() + " ");
+        String articleStringKorean = testEconomyArticleBuffer.getNameDatePressString()
+                .replace(article1.getPress().name(), article1.getPress().getValue())
+                .replace(article2.getPress().name(), article2.getPress().getValue());
+        String articleStringLowercase = testEconomyArticleBuffer.getNameDatePressString()
+                .replace(article1.getPress().name(), article1.getPress().name().toLowerCase())
+                .replace(article2.getPress().name(), article2.getPress().name().toLowerCase());
+
+        // then
+        for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
+                articleStringKorean, articleStringLowercase)) {
+            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
+                            ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                                put(nameDatePressString, articleString);
+                                put(linkString, articleBuffer.getLinkString());
+                                put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
+                                put(TARGET_ECONOMY_CONTENTS, articleBuffer.getTargetEconomyContents());
+                            }}))
+                    .andExpectAll(status().isFound(),
+                            redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                    .andReturn().getModelAndView()).getModelMap();
+
+            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
+            assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
+
+            economyArticleService.removeArticleByName(article1.getName());
+            economyArticleService.removeArticleByName(article2.getName());
         }
     }
 }

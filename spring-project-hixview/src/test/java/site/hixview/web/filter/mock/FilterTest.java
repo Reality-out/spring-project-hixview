@@ -7,25 +7,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.*;
 import site.hixview.domain.entity.article.ArticleMain;
 import site.hixview.domain.entity.article.CompanyArticle;
+import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
-import site.hixview.domain.service.ArticleMainService;
-import site.hixview.domain.service.CompanyArticleService;
-import site.hixview.domain.service.CompanyService;
-import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.domain.validation.validator.ArticleMainAddValidator;
-import site.hixview.domain.validation.validator.CompanyAddValidator;
-import site.hixview.domain.validation.validator.CompanyArticleAddSimpleValidator;
-import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
+import site.hixview.domain.service.*;
+import site.hixview.domain.validation.validator.*;
 import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.support.util.ArticleMainTestUtils;
-import site.hixview.support.util.CompanyArticleTestUtils;
-import site.hixview.support.util.CompanyTestUtils;
-import site.hixview.support.util.IndustryArticleTestUtils;
+import site.hixview.support.util.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +40,7 @@ import static site.hixview.domain.vo.user.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
-class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
+class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,6 +50,9 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
 
     @Autowired
     private IndustryArticleService industryArticleService;
+
+    @Autowired
+    private EconomyArticleService economyArticleService;
 
     @Autowired
     private ArticleMainService articleMainService;
@@ -69,6 +65,9 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
 
     @Autowired
     private IndustryArticleAddSimpleValidator industryArticleAddSimpleValidator;
+
+    @Autowired
+    private EconomyArticleAddSimpleValidator economyArticleAddSimpleValidator;
 
     @Autowired
     private ArticleMainAddValidator articleMainAddValidator;
@@ -215,6 +214,69 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
                 articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
+        }
+    }
+
+    @DisplayName("경제 기사 추가에 대한 기사 지원 필터 테스트")
+    @Test
+    void economyArticleDtoSupportFilterAddTest() throws Exception {
+        // given & when
+        EconomyArticle article = testEconomyArticle;
+        when(economyArticleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(economyArticleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
+        doNothing().when(economyArticleService).removeArticleByName(article.getName());
+        doNothing().when(economyArticleAddSimpleValidator).validate(any(), any());
+
+        EconomyArticleDto articleDtoLeftSpace = article.toDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        EconomyArticleDto articleDtoRightSpace = article.toDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        EconomyArticleDto articleDtoKorean = article.toDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getValue());
+        EconomyArticleDto articleDtoLowercase = article.toDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
+        String commonName = article.toDto().getName();
+
+        // then
+        for (EconomyArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
+                articleDtoKorean, articleDtoLowercase)) {
+            mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_URL, articleDto))
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
+            economyArticleService.removeArticleByName(commonName);
+        }
+    }
+
+    @DisplayName("경제 기사 변경에 대한 기사 지원 필터 테스트")
+    @Test
+    void economyArticleDtoSupportFilterModifyTest() throws Exception {
+        // given
+        EconomyArticle beforeModifyArticle = testEconomyArticle;
+        EconomyArticle article = EconomyArticle.builder().article(testNewEconomyArticle)
+                .name(beforeModifyArticle.getName()).link(beforeModifyArticle.getLink()).build();
+        when(economyArticleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
+        when(economyArticleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
+        when(economyArticleService.registerArticle(testEconomyArticle)).thenReturn(article);
+        doNothing().when(economyArticleService).correctArticle(article);
+
+        EconomyArticleDto articleDtoLeftSpace = article.toDto();
+        articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
+        EconomyArticleDto articleDtoRightSpace = article.toDto();
+        articleDtoRightSpace.setName(articleDtoRightSpace.getName() + " ");
+        EconomyArticleDto articleDtoKorean = article.toDto();
+        articleDtoKorean.setPress(Press.valueOf(articleDtoKorean.getPress()).getValue());
+        EconomyArticleDto articleDtoLowercase = article.toDto();
+        articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
+
+        String redirectedURL = fromPath(modifyEconomyArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+
+        // when
+        economyArticleService.registerArticle(beforeModifyArticle);
+
+        // then
+        for (EconomyArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
+                articleDtoKorean, articleDtoLowercase)) {
+            mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                     .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
         }
     }

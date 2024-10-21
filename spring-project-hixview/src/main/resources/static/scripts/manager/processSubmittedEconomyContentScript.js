@@ -1,22 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processSubmittedSecondCategoryScript started')
+    console.log('processSubmittedEconomyContentScript started')
 
     let count = 0;
     const articleForm = document.getElementById('articleForm');
     const articleFormItems = document.getElementById('article-form-items');
-    
+
     document.getElementById('addBtn').addEventListener('click', () => {
         count++;
         const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'article-form-item article-subject-second-category');
+        formItem.setAttribute('class', 'article-form-item article-target-economy-content');
 
         const label = document.createElement('label');
-        label.setAttribute('for', 'subjectSecondCategory' + count);
-        label.textContent = document.getElementById('container-data').dataset.subjectSecondCategoryName + count;
+        label.setAttribute('for', 'targetEconomyContent' + count);
+        label.textContent = document.getElementById('container-data').dataset.targetEconomyContentName + count;
 
         const input = document.createElement('input');
         input.setAttribute('type', 'text');
-        input.setAttribute('id', 'subjectSecondCategory' + count);
+        input.setAttribute('id', 'targetEconomyContent' + count);
         input.setAttribute('size', "20");
 
         formItem.append(label);
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('removeBtn').addEventListener('click', () => {
-        if (articleFormItems.lastElementChild.querySelector('input').id !== 'subjectSecondCategory0') {
+        if (articleFormItems.lastElementChild.querySelector('input').id !== 'targetEconomyContent0') {
             count--;
             articleFormItems.removeChild(articleFormItems.lastElementChild);
         }
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         clearErrorMessage();
 
         const urlSearchParams = new URLSearchParams(new FormData(articleForm));
-        urlSearchParams.append('subjectSecondCategories', JSON.stringify({'subjectSecondCategory': 
-                Array.from(document.getElementsByClassName('article-subject-second-category')).map(element => element.querySelector('input').value)}));
+        urlSearchParams.append('targetEconomyContents', JSON.stringify({'targetEconomyContent':
+                Array.from(document.getElementsByClassName('article-target-economy-content')).map(element => element.querySelector('input').value)}));
 
         fetch(articleForm.action, {
             method: 'POST',

@@ -57,6 +57,28 @@
             </ol>
         </ol>
         <ol class="function-list">
+            <li class="function-intro" th:text="|#{economy} #{article} 관련 기능|"></li>
+            <ol class="function-detailed-list">
+                <li class="number-of-data" th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->
+                <li><a th:href="${addSingleEconomyArticle}" th:text="|#{data.single} #{article} #{function.register}|"></a></li>
+                <li><a th:href="${updateEconomyArticle}" th:text="|#{data.single} #{article} #{function.correct}|"></a></li>
+                <li><a th:href="${removeEconomyArticle}" th:text="|#{data.single} #{article} #{function.remove}|"></a></li>
+            </ol>
+            <ol class="function-detailed-list">
+                <li class="number-of-data" th:text="#{data.multiple}"></li> <!-- CREATE, READ 구현 -->
+                <li>
+                    <a th:href="${addEconomyArticlesWithString}"
+                       th:text="|#{data.multiple} #{article} #{function.register}
+                       (#{data.single.string}, #{article.subjectCountry},
+                       #{article.targetEconomyContent} 및 #{article.importance} 고정)|">
+                    </a>
+                </li>
+                <li>
+                    <a th:href="${selectEconomyArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a>
+                </li>
+            </ol>
+        </ol>
+        <ol class="function-list">
             <li class="function-intro" th:text="|#{article} #{data.main} 관련 기능|"></li>
             <ol class="function-detailed-list">
                 <li class="number-of-data" th:text="#{data.single}"></li>

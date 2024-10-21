@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head><link/></head>
+<body>
+<div>
+    <p th:text="|#{economy} #{article}를 #{function.register}합니다.|"></p>
+    <form th:action method="POST">
+        <div th:if="${error} != null" th:classappend="txt-error-message">
+            <th:block th:switch="${error}">
+                <p th:case="notBlankArticleError" th:text="#{NotBlank.article}"></p>
+                <p th:case="notFoundFirstCategoryError" th:text="#{NotFound.article.subjectCountry}"></p>
+                <p th:case="indexOutOfBoundError" th:text="#{Size.java.util.List}"></p>
+            </th:block>
+        </div>
+        <div>
+            <div>
+                <label for="nameDatePressString" th:text="|#{data.multiple} #{article}|"></label>
+                <textarea id="nameDatePressString" name="nameDatePressString" spellcheck="false" wrap="soft"></textarea>
+            </div>
+            <div>
+                <label for="linkString" th:text="|#{data.multiple} #{article.link}|"></label>
+                <textarea id="linkString" name="linkString" spellcheck="false" wrap="soft"></textarea>
+            </div>
+            <div>
+                <label for="subjectCountry" th:text="#{article.subjectCountry}"></label>
+                <input type="text" id="subjectCountry" name="subjectCountry">
+            </div>
+            <div>
+                <label for="targetEconomyContents" th:text="#{article.targetEconomyContents}"></label>
+                <input type="text" id="targetEconomyContents" name="targetEconomyContents">
+            </div>
+        </div>
+        <button type="submit" th:text="#{function.register}"></button>
+    </form>
+</div>
+<script></script>
+</body>
+</html>

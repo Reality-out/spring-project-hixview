@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="/styles/manager/data/industry-article-form-style.css" rel="stylesheet"/>
+    <link href="/styles/manager/data/article-form-style.css" rel="stylesheet"/>
 </head>
 <body>
 <div>
@@ -55,8 +55,8 @@
             </div>
         </div>
         <div class="article-form-buttons">
-            <button id="addBtn-subjectSecondCategory" type="button" th:text="|#{article.subjectSecondCategory} #{function.add}|"></button>
-            <button id="removeBtn-subjectSecondCategory" type="button" th:text="|#{article.subjectSecondCategory} #{function.remove}|"></button>
+            <button id="addBtn" type="button" th:text="|#{article.subjectSecondCategory} #{function.add}|"></button>
+            <button id="removeBtn" type="button" th:text="|#{article.subjectSecondCategory} #{function.remove}|"></button>
             <button id="submitBtn" type="submit" th:text="#{function.correct}"></button>
         </div>
     </form>

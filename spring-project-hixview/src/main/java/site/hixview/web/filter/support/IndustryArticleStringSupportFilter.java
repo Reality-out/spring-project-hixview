@@ -1,4 +1,4 @@
-package site.hixview.web.filter;
+package site.hixview.web.filter.support;
 
 import io.micrometer.common.lang.NonNullApi;
 import jakarta.servlet.FilterChain;
@@ -14,17 +14,15 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithMap;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_INDUSTRY_ARTICLE_URL, UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL})
-@Order(2)
-public class IndustryArticleDtoSupportFilter extends OncePerRequestFilter {
+@WebFilter(urlPatterns = ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
+@Order(1)
+public class IndustryArticleStringSupportFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
