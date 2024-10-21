@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processReceivedEconomyContentScript started')
 
     let count = 0;
-    const articleFormItems = document.getElementById('article-form-items');
+    const articleFormItems = document.getElementById('basic-form-items');
     const economyContentArr = JSON.parse(document.getElementById('container-data').dataset.targetEconomyContentJson)['targetEconomyContent'];
 
     document.getElementById('targetEconomyContent0').value = economyContentArr[0];
     for (let i = 1; i < economyContentArr.length - 1; i++) {
         count++;
         const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'article-form-item article-target-economy-content');
+        formItem.setAttribute('class', 'basic-form-item article-target-economy-content');
 
         const label = document.createElement('label');
         label.setAttribute('for', 'targetEconomyContent' + count);

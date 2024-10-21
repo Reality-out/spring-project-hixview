@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="/styles/manager/data/article-form-style.css" rel="stylesheet"/>
+    <link href="/styles/manager/data/basic-form-style.css" rel="stylesheet"/>
 </head>
 <body>
 <div>
-    <p class="intro-article-form" th:text="|#{economy} #{article}를 #{function.correct}합니다.|"></p>
-    <p class="intro-article-form" th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
-    <form id="articleForm" th:action="${updateUrl}" th:object="${article}" method="POST">
+    <p class="intro-basic-form" th:text="|#{economy} #{article}를 #{function.correct}합니다.|"></p>
+    <p class="intro-basic-form" th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
+    <form id="basicForm" th:action="${updateUrl}" th:object="${article}" method="POST">
         <div hidden class="txt-error-message" id="error-bean" th:value="#{BeanValidation}"></div>
-        <div id="article-form-items">
-            <div class="article-form-item">
+        <div id="basic-form-items">
+            <div class="basic-form-item">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
                 <div hidden class="txt-error-message" id="error-name"></div>
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="press" th:text="#{article.press}"></label>
                 <input type="text" id="press" th:field="*{press}" size="20" th:errorclass="txt-error-message">
                 <div hidden class="txt-error-message" id="error-press"></div>
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="link" th:text="#{article.link}"></label>
                 <input type="url" id="link" th:field="*{link}" size="20" th:errorclass="txt-error-message" readonly>
                 <div hidden class="txt-error-message" id="error-link"></div>
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="year" th:text="#{year}"></label>
                 <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="month" th:text="#{month}"></label>
                 <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="days" th:text="#{days}"></label>
                 <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
                 <div hidden class="txt-error-message" id="error-date"></div>
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="importance" th:text="#{article.importance}"></label>
                 <input type="text" id="importance" th:field="*{importance}" size="20">
                 <div hidden class="txt-error-message" id="error-importance"></div>
             </div>
-            <div class="article-form-item">
+            <div class="basic-form-item">
                 <label for="subjectCountry" th:text="#{article.subjectCountry}"></label>
                 <input type="text" id="subjectCountry" th:field="*{subjectCountry}" size="20">
                 <div hidden class="txt-error-message" id="error-subjectCountry"></div>
             </div>
-            <div class="article-form-item article-target-economy-content">
+            <div class="basic-form-item article-target-economy-content">
                 <label for="targetEconomyContent0" th:text="|#{article.targetEconomyContent}0|"></label>
                 <input type="text" id="targetEconomyContent0" size="20">
                 <div hidden class="txt-error-message" id="error-targetEconomyContents"></div>
             </div>
         </div>
-        <div class="article-form-buttons">
+        <div class="basic-form-buttons">
             <button id="addBtn" type="button" th:text="|#{article.targetEconomyContent} #{function.add}|"></button>
             <button id="removeBtn" type="button" th:text="|#{article.targetEconomyContent} #{function.remove}|"></button>
-            <button id="submitBtn" type="submit" th:text="#{function.register}"></button>
+            <button id="submitBtn" type="submit" th:text="#{function.correct}"></button>
         </div>
     </form>
 </div>

@@ -1,0 +1,63 @@
+.intro-basic-form {
+    display: flex;
+    width: 95vw;
+    margin-top: 1.5rem;
+    margin-left: 1.5rem;
+    font-size: 20px;
+    font-weight: 700;
+    color: black;
+}
+
+#basicForm {
+    display: flex;
+    width: 95vw;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    padding: 1rem;
+    flex-flow: column nowrap;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+#basicForm #basic-form-items {
+    display: flex;
+    width: inherit;
+    flex-flow: column nowrap;
+}
+
+#basicForm #basic-form-items .basic-form-item {
+    display: flex;
+    width: inherit;
+}
+
+#basicForm #basic-form-items .basic-form-item.basic-form-select-item {
+    width: 80%;
+}
+
+#basicForm #basic-form-items div:nth-child(n+1) {
+    margin-top: 0.5rem;
+}
+
+#basicForm #basic-form-items .basic-form-item label,
+#basicForm #basic-form-items .basic-form-item input {
+    margin-right: 0.5rem;
+}
+
+#basicForm #basic-form-items .basic-form-item label {
+    width: 120px;
+}
+
+#basicForm #basic-form-items .basic-form-item input {
+    width: max(calc(100% - 400px), 200px);
+}
+
+#basicForm .basic-form-buttons {
+    display: flex;
+    width: inherit;
+    margin-top: 1rem;
+}
+
+#basicForm .basic-form-buttons #addBtn,
+#basicForm .basic-form-buttons #removeBtn {
+    margin-right: 1rem;
+}

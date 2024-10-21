@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let count = 0;
     const articleForm = document.getElementById('articleForm');
-    const articleFormItems = document.getElementById('article-form-items');
+    const articleFormItems = document.getElementById('basic-form-items');
 
     document.getElementById('addBtn').addEventListener('click', () => {
         count++;
         const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'article-form-item article-target-economy-content');
+        formItem.setAttribute('class', 'basic-form-item article-target-economy-content');
 
         const label = document.createElement('label');
         label.setAttribute('for', 'targetEconomyContent' + count);

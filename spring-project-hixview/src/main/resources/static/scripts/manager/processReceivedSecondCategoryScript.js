@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processReceivedSecondCategoryScript started')
 
     let count = 0;
-    const articleFormItems = document.getElementById('article-form-items');
+    const articleFormItems = document.getElementById('basic-form-items');
     const secondCategoryArr = JSON.parse(document.getElementById('container-data').dataset.subjectSecondCategoryJson)['subjectSecondCategory'];
 
     document.getElementById('subjectSecondCategory0').value = secondCategoryArr[0];
     for (let i = 1; i < secondCategoryArr.length - 1; i++) {
         count++;
         const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'article-form-item article-subject-second-category');
+        formItem.setAttribute('class', 'basic-form-item article-subject-second-category');
 
         const label = document.createElement('label');
         label.setAttribute('for', 'subjectSecondCategory' + count);

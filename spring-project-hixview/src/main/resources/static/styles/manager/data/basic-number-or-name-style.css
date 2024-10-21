@@ -1,4 +1,4 @@
-.intro-article-query {
+.intro-basic-query {
     display: flex;
     width: 95vw;
     margin-top: 1.5rem;
@@ -8,7 +8,7 @@
     color: black;
 }
 
-#articleQuery {
+#basicQuery {
     display: flex;
     width: 95vw;
     margin-top: 1rem;
@@ -19,15 +19,15 @@
     border-collapse: collapse;
 }
 
-#articleQuery .div-article-query label {
+#basicQuery .div-basic-query label {
     width: 50px;
 }
 
-#articleQuery .div-article-query input {
+#basicQuery .div-basic-query input {
     width: calc(100% - 200px);
 }
 
-#articleQuery .article-query-button {
+#basicQuery .basic-query-button {
     display: flex;
     width: inherit;
     margin-top: 1rem;

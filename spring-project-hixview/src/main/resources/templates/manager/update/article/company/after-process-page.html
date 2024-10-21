@@ -1,53 +1,61 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head><link/></head>
+<head>
+    <link href="/styles/manager/data/basic-form-style.css" rel="stylesheet"/>
+</head>
 <body>
 <div>
-    <p th:text="|#{company} #{article}를 #{function.correct}합니다.|"></p>
-    <p th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
-    <form th:action="${updateUrl}" th:object="${article}" method="POST">
+    <p class="intro-basic-form" th:text="|#{company} #{article}를 #{function.correct}합니다.|"></p>
+    <p class="intro-basic-form" th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
+    <form id="basicForm" th:action="${updateUrl}" th:object="${article}" method="POST">
         <div th:if="${error} != null" th:classappend="txt-error-message">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>
-        <div>
-            <div class="partial-form">
+        <div id="basic-form-items">
+            <div class="basic-form-item">
                 <label for="name" th:text="#{article.name}"></label>
                 <input type="text" id="name" th:field="*{name}" size="20" readonly>
                 <div class="txt-error-message" th:errors="*{name}"></div>
             </div>
-            <div class="partial-form">
+            <div class="basic-form-item">
                 <label for="press" th:text="#{article.press}"></label>
                 <input type="text" id="press" th:field="*{press}" size="20">
                 <div class="txt-error-message" th:errors="*{press}"></div>
             </div>
-            <div class="partial-form">
+            <div class="basic-form-item">
                 <label for="subjectCompany" th:text="#{article.subjectCompany}"></label>
                 <input type="text" id="subjectCompany" th:field="*{subjectCompany}" size="20">
                 <div class="txt-error-message" th:errors="*{subjectCompany}"></div>
             </div>
-            <div class="partial-form">
+            <div class="basic-form-item">
                 <label for="link" th:text="#{article.link}"></label>
                 <input type="url" id="link" th:field="*{link}" size="20" readonly>
                 <div class="txt-error-message" th:errors="*{link}"></div>
             </div>
-            <div class="partial-form">
+            <div class="basic-form-item">
                 <label for="year" th:text="#{year}"></label>
                 <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
+                <div class="txt-error-message" th:errors="*{year}"></div>
+            </div>
+            <div class="basic-form-item">
                 <label for="month" th:text="#{month}"></label>
                 <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
+                <div class="txt-error-message" th:errors="*{month}"></div>
+            </div>
+            <div class="basic-form-item">
                 <label for="days" th:text="#{days}"></label>
                 <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-                <div class="txt-error-message" th:errors="*{year}"></div>
-                <div class="txt-error-message" th:errors="*{month}"></div>
                 <div class="txt-error-message" th:errors="*{days}"></div>
             </div>
-            <div class="partial-form">
+            <div class="basic-form-item">
                 <label for="importance" th:text="#{article.importance}"></label>
                 <input type="text" id="importance" th:field="*{importance}" size="20">
                 <div class="txt-error-message" th:errors="*{importance}"></div>
             </div>
         </div>
-        <button type="submit" th:text="#{function.correct}"></button>
+        <div class="basic-form-buttons">
+            <button id="submitBtn" type="submit" th:text="#{function.correct}"></button>
+        </div>
     </form>
 </div>
 <script></script>
