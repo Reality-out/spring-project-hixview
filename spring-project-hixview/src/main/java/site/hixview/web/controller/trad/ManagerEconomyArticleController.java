@@ -1,5 +1,6 @@
 package site.hixview.web.controller.trad;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,12 @@ import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
+import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.*;
 import static site.hixview.util.EnumUtils.*;
+import static site.hixview.util.JsonUtils.serializeWithOneMap;
 
 @Controller
 @RequiredArgsConstructor
@@ -106,6 +109,7 @@ public class ManagerEconomyArticleController {
 
         List<String> nameList = new ArrayList<>();
         EconomyArticleDto articleDto = new EconomyArticleDto();
+        String targetEconomyContentJson = serializeWithOneMap(new ObjectMapper(), TARGET_ECONOMY_CONTENT, List.of(targetEconomyContent));
         try {
             for (int i = 0; i < linkList.size(); i++) {
                 List<String> partialArticle = nameDatePressList.get(i);
@@ -118,7 +122,7 @@ public class ManagerEconomyArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectCountry(subjectCountry);
-                articleDto.setTargetEconomyContents(targetEconomyContent);
+                articleDto.setTargetEconomyContents(targetEconomyContentJson);
                 if (inEnumValues(Press.class, articleDto.getPress()))
                     articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 

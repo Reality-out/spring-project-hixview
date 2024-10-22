@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div>
+<div class="wrapper-finish-submit">
     <div th:if="${isBeanValidationError} == true" th:classappend="txt-error-message">
         <p th:text="#{BeanValidation}"></p>
     </div>
@@ -11,8 +11,8 @@
             <p th:case="numberFormatLocalDateError" th:text="#{typeMismatch.article.date}"></p>
         </th:block>
     </div>
-    <p th:text="|다음 #{article.name}의 #{industry} #{article} #{function.register}이 #{function.finish}되었습니다:|"></p>
-    <table>
+    <p class="intro-finish-submit" th:text="|다음 #{article.name}의 #{industry} #{article} #{function.register}이 #{function.finish}되었습니다:|"></p>
+    <table class="table-finish-submit">
         <tbody>
         <tr th:each="name : ${nameList}">
             <th th:text="#{article.name}"></th>

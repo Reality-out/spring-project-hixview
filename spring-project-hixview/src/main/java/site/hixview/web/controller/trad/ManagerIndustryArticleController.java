@@ -45,6 +45,7 @@ import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.*;
 import static site.hixview.util.EnumUtils.*;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
+import static site.hixview.util.JsonUtils.serializeWithOneMap;
 
 @Controller
 @RequiredArgsConstructor
@@ -97,7 +98,8 @@ public class ManagerIndustryArticleController {
             finishForRollback(NO_FIRST_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_FIRST_CATEGORY_ERROR, model);
             return senderPage;
         }
-        String secondCategory = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, subjectSecondCategory).getFirst();
+        String subjectSecondCategoryJson = serializeWithOneMap(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, List.of(subjectSecondCategory));
+        String secondCategory = deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, subjectSecondCategoryJson).getFirst();
         if (!inEnumConstants(SecondCategory.class, secondCategory)) {
             finishForRollback(NO_SECOND_CATEGORY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_SECOND_CATEGORY_ERROR, model);
             return senderPage;
@@ -127,7 +129,7 @@ public class ManagerIndustryArticleController {
                 articleDto.setDays(parseInt(partialArticle.get(3)));
                 articleDto.setImportance(0);
                 articleDto.setSubjectFirstCategory(subjectFirstCategory);
-                articleDto.setSubjectSecondCategories(subjectSecondCategory);
+                articleDto.setSubjectSecondCategories(subjectSecondCategoryJson);
                 if (inEnumValues(Press.class, articleDto.getPress()))
                     articleDto.setPress(convertToEnum(Press.class, articleDto.getPress()).name());
 

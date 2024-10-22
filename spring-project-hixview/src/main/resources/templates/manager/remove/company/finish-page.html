@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html th:replace="~{${layoutPath} :: layout(~{::div})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div>
-    <p th:text="|다음 #{company.name}의 #{company} #{function.remove}가 #{function.finish}되었습니다:|"></p>
-    <p th:text="${value}"></p>
+<div class="wrapper-finish-submit">
+    <p class="intro-finish-submit" th:text="|다음 #{company.name}의 #{company} #{function.remove}가 #{function.finish}되었습니다:|"></p>
+    <p class="text-finish-submit" th:text="${value}"></p>
 </div>
 </body>
 </html>

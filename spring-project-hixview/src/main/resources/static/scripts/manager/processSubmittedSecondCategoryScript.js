@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processSubmittedSecondCategoryScript started')
 
     let count = 0;
-    const articleForm = document.getElementById('articleForm');
+    const articleForm = document.getElementById('basicForm');
     const articleFormItems = document.getElementById('basicFormItems');
     
     document.getElementById('addBtn').addEventListener('click', () => {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = articleForm.action + '/finish?name=' + data.name;
+            window.location = articleForm.action + '?name=' + data.name;
         })
         .catch(error => {
             if (error.isBeanValidationError) {

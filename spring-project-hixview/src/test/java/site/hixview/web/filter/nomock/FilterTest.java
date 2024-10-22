@@ -155,7 +155,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
                                 put(nameDatePressString, articleString);
                                 put(linkString, articleBuffer.getLinkString());
                                 put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                                put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
+                                put(SUBJECT_SECOND_CATEGORY, articleBuffer.getParsedArticles().getFirst().getSubjectSecondCategories().getFirst().name());
                             }}))
                     .andExpectAll(status().isFound(),
                             redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))

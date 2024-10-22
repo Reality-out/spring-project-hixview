@@ -77,7 +77,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
                     put(nameDatePressString, articleBuffer.getNameDatePressString());
                     put(linkString, articleBuffer.getLinkString());
                     put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
+                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
                 }}))
                 .andExpectAll(view().name(
                                 REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),
@@ -103,7 +103,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
-                        put(SUBJECT_SECOND_CATEGORY, articleBuffer.getSubjectSecondCategories());
+                        put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticle.getSubjectSecondCategories().getFirst().name());
                     }}))
                     .andExpectAll(view().name(
                                     REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL),

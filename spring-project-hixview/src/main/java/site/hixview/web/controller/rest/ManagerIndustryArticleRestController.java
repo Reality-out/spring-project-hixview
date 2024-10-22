@@ -146,7 +146,7 @@ public class ManagerIndustryArticleRestController {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
                     new SingleArticleErrorResponse(UPDATE_PROCESS_LAYOUT, false, fieldErrorMap));
         }
-        articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
+        articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
                 new SingleArticleSuccessResponse(encodeWithUTF8(articleDto.getName()), UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL));
     }

@@ -7,10 +7,11 @@
     <link href="/styles/html-style.css" rel="stylesheet"/>
     <link href="/styles/body-style.css" rel="stylesheet"/>
     <link href="/styles/error-style.css" rel="stylesheet"/>
+    <link href="/styles/manager/data/finish-submit-style.css" rel="stylesheet"/>
 </head>
 <body>
 <div th:replace="${div}"></div>
-<form action="/manager" method="get">
+<form class="form-main-page" action="/manager" method="get">
     <button type="submit" th:text="|#{page.main}로 이동|"></button>
 </form>
 </body>

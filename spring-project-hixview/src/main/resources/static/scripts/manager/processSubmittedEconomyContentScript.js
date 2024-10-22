@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = basicForm.action + '/finish?name=' + data.name;
+            window.location = basicForm.action + '?name=' + data.name;
         })
         .catch(error => {
             if (error.isBeanValidationError) {

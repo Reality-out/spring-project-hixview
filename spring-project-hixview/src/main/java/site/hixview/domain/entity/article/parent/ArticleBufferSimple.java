@@ -53,7 +53,7 @@ public abstract class ArticleBufferSimple {
         return datePressList;
     }
 
-    protected abstract <T extends Article> List<T> parsedArticles();
+    protected abstract <T extends Article> List<T> getParsedArticles();
 
     protected abstract static class ArticleBufferSimpleBuilder {
         protected StringBuffer nameDatePressBuffer;

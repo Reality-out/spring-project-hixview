@@ -23,7 +23,7 @@ public class EconomyArticleBufferSimple extends ArticleBufferSimple {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<EconomyArticle> parsedArticles() {
+    public List<EconomyArticle> getParsedArticles() {
         List<String> parsedNameList = getParsedNameList();
         List<List<String>> parsedDatePressList = getParsedDatePressList();
         List<String> linkList = getLinkList();

@@ -24,7 +24,7 @@ public class IndustryArticleBufferSimple extends ArticleBufferSimple {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<IndustryArticle> parsedArticles() {
+    public List<IndustryArticle> getParsedArticles() {
         List<String> parsedNameList = getParsedNameList();
         List<List<String>> parsedDatePressList = getParsedDatePressList();
         List<String> linkList = getLinkList();
