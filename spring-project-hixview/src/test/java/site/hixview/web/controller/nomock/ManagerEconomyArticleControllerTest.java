@@ -124,6 +124,7 @@ public class ManagerEconomyArticleControllerTest implements EconomyArticleTestUt
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", ADD_ECONOMY_ARTICLE_WITH_STRING_URL),
                         model().attribute(nameListString, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 

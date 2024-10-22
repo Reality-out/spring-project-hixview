@@ -88,6 +88,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", ADD_ARTICLE_MAIN_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleMainService.findArticleByName(name).orElseThrow().toDto())
@@ -192,6 +193,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", UPDATE_ARTICLE_MAIN_URL),
                         model().attribute(VALUE, commonName));
 
         assertThat(articleMainService.findArticleByName(commonName).orElseThrow())
@@ -238,6 +240,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", REMOVE_ARTICLE_MAIN_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleMainService.findArticles()).isEmpty();

@@ -96,6 +96,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                             model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                            model().attribute("repeatUrl", ADD_SINGLE_INDUSTRY_ARTICLE_URL),
                             model().attribute(VALUE, name));
 
             assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
@@ -189,6 +190,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                             model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
+                            model().attribute("repeatUrl", UPDATE_INDUSTRY_ARTICLE_URL),
                             model().attribute(VALUE, commonName));
 
             assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -237,6 +239,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
+                        model().attribute(("repeatUrl"), REMOVE_INDUSTRY_ARTICLE_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

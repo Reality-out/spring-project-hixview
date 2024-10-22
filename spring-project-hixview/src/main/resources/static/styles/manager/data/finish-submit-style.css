@@ -36,9 +36,13 @@
     margin-top: 0.2rem;
 }
 
-.form-main-page {
+.wrapper-btn {
     display: flex;
     width: inherit;
     margin-top: 1rem;
     margin-left: 1rem;
+}
+
+.wrapper-btn .form-repeat-page {
+    margin-left: 0.5rem;
 }

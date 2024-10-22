@@ -130,6 +130,7 @@ public class ManagerCompanyArticleControllerTest implements CompanyArticleTestUt
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", ADD_COMPANY_ARTICLE_WITH_STRING_URL),
                         model().attribute(nameListString, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 

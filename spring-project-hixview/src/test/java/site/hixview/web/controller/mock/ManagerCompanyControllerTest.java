@@ -84,6 +84,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", ADD_SINGLE_COMPANY_URL),
                         model().attribute(VALUE, companyDto.getName()));
 
         assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
@@ -171,6 +172,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", UPDATE_COMPANY_URL),
                         model().attribute(VALUE, commonName));
 
         assertThat(companyService.findCompanyByName(commonName).orElseThrow())
@@ -215,6 +217,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", REMOVE_COMPANY_URL),
                         model().attribute(VALUE, name));
 
         assertThat(companyService.findCompanies()).isEmpty();

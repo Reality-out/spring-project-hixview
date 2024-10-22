@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html th:fragment="layout (div)" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name=”viewport” content=”width=device-width”>
-    <title>[[#{site.title}]]</title>
-    <link href="/styles/html-style.css" rel="stylesheet"/>
-    <link href="/styles/body-style.css" rel="stylesheet"/>
-    <link href="/styles/error-style.css" rel="stylesheet"/>
-    <link href="/styles/manager/data/finish-submit-style.css" rel="stylesheet"/>
+    <th:block th:replace="~{/layout/global-layout :: headFragment}"></th:block>
+    <link th:replace="~{/layout/manager-finish-layout :: linkFragment}"/>
 </head>
 <body>
 <div th:replace="${div}"></div>
-<form class="form-main-page" action="/manager" method="get">
-    <button type="submit" th:text="|#{page.main}로 이동|"></button>
-</form>
+<div th:replace="~{/layout/manager-finish-layout :: buttonFragment}"></div>
+<script th:replace="~{/layout/manager-finish-layout :: scriptFragment}"></script>
 </body>
 </html>

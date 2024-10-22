@@ -81,6 +81,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
+        model.addAttribute("repeatUrl", ADD_ARTICLE_MAIN_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }
@@ -164,6 +165,7 @@ public class ManagerArticleMainController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
+        model.addAttribute("repeatUrl", UPDATE_ARTICLE_MAIN_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
 	}
@@ -198,6 +200,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
+        model.addAttribute("repeatUrl", REMOVE_ARTICLE_MAIN_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }

@@ -95,6 +95,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(ADD_ECONOMY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                             model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
+                            model().attribute("repeatUrl", ADD_SINGLE_ECONOMY_ARTICLE_URL),
                             model().attribute(VALUE, name));
 
             assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
@@ -189,6 +190,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_FINISH),
                             model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
+                            model().attribute("repeatUrl", UPDATE_ECONOMY_ARTICLE_URL),
                             model().attribute(VALUE, commonName));
 
             assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -237,6 +239,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
+                        model().attribute("repeatUrl", REMOVE_ECONOMY_ARTICLE_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

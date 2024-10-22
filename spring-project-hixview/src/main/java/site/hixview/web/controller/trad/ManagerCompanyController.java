@@ -82,6 +82,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
+        model.addAttribute("repeatUrl", ADD_SINGLE_COMPANY_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -148,6 +149,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
+        model.addAttribute("repeatUrl", UPDATE_COMPANY_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_VIEW + VIEW_FINISH;
     }
@@ -181,6 +183,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
+        model.addAttribute("repeatUrl", REMOVE_COMPANY_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_URL_VIEW + VIEW_FINISH;
     }
