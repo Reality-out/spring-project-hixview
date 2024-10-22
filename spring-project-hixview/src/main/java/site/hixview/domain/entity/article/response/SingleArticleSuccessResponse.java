@@ -1,4 +1,4 @@
-package site.hixview.domain.entity.article;
+package site.hixview.domain.entity.article.response;
 
 import java.io.Serializable;
 

@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.name.EntityName.Member.ID;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 

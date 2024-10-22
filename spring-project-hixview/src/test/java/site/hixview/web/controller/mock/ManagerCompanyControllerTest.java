@@ -33,7 +33,6 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.domain.vo.name.EntityName.Company.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 

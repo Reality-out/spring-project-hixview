@@ -19,8 +19,7 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Company.*;
+import static site.hixview.domain.vo.Word.*;
 
 @Repository
 @Primary

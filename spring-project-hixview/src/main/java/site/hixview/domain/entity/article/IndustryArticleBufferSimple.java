@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.lineSeparator;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
+import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
 
 @Getter
 public class IndustryArticleBufferSimple extends ArticleBufferSimple {

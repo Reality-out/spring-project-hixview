@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.util.JsonUtils.serializeWithOneMap;
 
 @Getter

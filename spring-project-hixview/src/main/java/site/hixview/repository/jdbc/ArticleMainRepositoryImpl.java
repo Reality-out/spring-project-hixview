@@ -9,15 +9,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import site.hixview.domain.entity.Classification;
-import site.hixview.domain.entity.article.ArticleMain;
+import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.repository.ArticleMainRepository;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.Word.*;
 
 @Repository
 @Primary

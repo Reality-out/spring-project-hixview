@@ -23,7 +23,7 @@ import static site.hixview.domain.vo.ExceptionMessage.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
+import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.*;

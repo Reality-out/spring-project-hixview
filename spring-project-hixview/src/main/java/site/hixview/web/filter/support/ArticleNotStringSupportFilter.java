@@ -15,8 +15,8 @@ import java.io.IOException;
 
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.Word.PRESS;
 import static site.hixview.domain.vo.manager.RequestURL.*;
-import static site.hixview.domain.vo.name.EntityName.Article.PRESS;
 import static site.hixview.util.FilterUtils.applyStrip;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 

@@ -29,9 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.Word.ERROR_SINGLE;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.support.util.EconomyArticleTestUtils.*;
 

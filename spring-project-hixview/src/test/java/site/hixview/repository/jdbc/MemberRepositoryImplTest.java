@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.name.EntityName.Member.IDENTIFIER;
+import static site.hixview.domain.vo.Word.IDENTIFIER;
 
 @OnlyRealRepositoryContext
 class MemberRepositoryImplTest implements MemberTestUtils {

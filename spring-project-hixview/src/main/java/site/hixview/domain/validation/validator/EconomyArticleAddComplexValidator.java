@@ -9,9 +9,7 @@ import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.service.EconomyArticleService;
 
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.LINK;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 
 @Component

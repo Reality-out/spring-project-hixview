@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.article.dto.ArticleMainDto;
+import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 
+import static site.hixview.domain.vo.Word.IMAGE_PATH;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.IMAGE_PATH;
 
 @Component
 @RequiredArgsConstructor

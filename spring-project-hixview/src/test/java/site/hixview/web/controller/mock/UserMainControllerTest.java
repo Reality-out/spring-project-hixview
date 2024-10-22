@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.*;

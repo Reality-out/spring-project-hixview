@@ -12,7 +12,7 @@ import site.hixview.support.util.MemberTestUtils;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
+import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
 @RealControllerAndValidatorContext

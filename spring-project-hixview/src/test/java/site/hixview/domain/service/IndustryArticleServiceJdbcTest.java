@@ -21,7 +21,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
+import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
 class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {

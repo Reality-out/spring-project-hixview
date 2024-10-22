@@ -3,7 +3,7 @@ package site.hixview.domain.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import site.hixview.domain.entity.article.ArticleMain;
+import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.error.AlreadyExistException;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.repository.ArticleMainRepository;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_ARTICLE_MAIN_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
+import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
 class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {

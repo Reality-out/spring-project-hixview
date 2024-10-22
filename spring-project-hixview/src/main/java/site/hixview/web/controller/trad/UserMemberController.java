@@ -19,7 +19,7 @@ import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
+import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;

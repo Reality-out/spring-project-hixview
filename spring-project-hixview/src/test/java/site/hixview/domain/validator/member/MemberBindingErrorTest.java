@@ -18,8 +18,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.name.EntityName.Member.ID;
-import static site.hixview.domain.vo.name.EntityName.Member.MEMBER;
 import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
 
 @OnlyRealControllerContext

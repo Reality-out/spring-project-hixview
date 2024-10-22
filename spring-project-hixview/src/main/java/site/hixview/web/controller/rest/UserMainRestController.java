@@ -13,9 +13,7 @@ import site.hixview.domain.service.CompanyService;
 
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.Word.CHECK;
-import static site.hixview.domain.vo.Word.ERROR;
-import static site.hixview.domain.vo.name.EntityName.Company.CODE;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_EXIST_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.user.RequestUrl.CHECK_URL;

@@ -15,12 +15,10 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.Word.ERROR;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
 @OnlyRealControllerContext

@@ -1,4 +1,4 @@
-package site.hixview.domain.entity.article;
+package site.hixview.domain.entity.home;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
@@ -6,13 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Classification;
-import site.hixview.domain.entity.article.dto.ArticleMainDto;
+import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.validation.annotation.ClassificationConstraint;
 
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.Word.*;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

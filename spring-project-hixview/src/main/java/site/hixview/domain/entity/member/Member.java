@@ -16,8 +16,8 @@ import java.util.HashMap;
 
 import static site.hixview.domain.vo.Regex.NAME_REGEX;
 import static site.hixview.domain.vo.Regex.PW_REGEX;
+import static site.hixview.domain.vo.Word.ID;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Member.ID;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

@@ -30,7 +30,6 @@ import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_COMPANY_URL_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIEW;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_BEFORE_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;

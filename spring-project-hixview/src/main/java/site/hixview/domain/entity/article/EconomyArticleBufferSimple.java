@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.System.lineSeparator;
-import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
+import static site.hixview.domain.vo.Word.TARGET_ECONOMY_CONTENT;
 
 @Getter
 public class EconomyArticleBufferSimple extends ArticleBufferSimple {

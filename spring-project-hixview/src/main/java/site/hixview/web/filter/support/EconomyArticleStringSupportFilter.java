@@ -13,8 +13,8 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
+import static site.hixview.domain.vo.Word.SUBJECT_COUNTRY;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi

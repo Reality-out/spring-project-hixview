@@ -3,7 +3,7 @@ package site.hixview.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.domain.entity.article.ArticleMain;
+import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.error.AlreadyExistException;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.repository.ArticleMainRepository;

@@ -12,7 +12,7 @@ import site.hixview.domain.entity.SecondCategory;
 import java.util.List;
 import java.util.Locale;
 
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
+import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 

@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import site.hixview.domain.service.CompanyService;
 
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
-import static site.hixview.domain.vo.name.EntityName.Company.CODE;
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;

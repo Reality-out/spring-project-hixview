@@ -15,9 +15,9 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 import java.io.IOException;
 
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithMap;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 

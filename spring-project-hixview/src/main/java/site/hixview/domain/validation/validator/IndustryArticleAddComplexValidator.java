@@ -11,8 +11,7 @@ import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 

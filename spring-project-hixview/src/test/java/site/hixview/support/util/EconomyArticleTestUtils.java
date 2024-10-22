@@ -16,7 +16,6 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ECONOMY_ARTICLE_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ECONOMY_ARTICLE_VIEW;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 
 public interface EconomyArticleTestUtils extends ObjectTestUtils {

@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.NUMBER;
+import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealRepositoryContext
 class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {

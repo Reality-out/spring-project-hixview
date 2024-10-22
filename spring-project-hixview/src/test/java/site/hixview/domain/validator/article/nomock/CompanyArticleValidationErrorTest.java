@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.ERROR_SINGLE;
+import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH_STRING_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")

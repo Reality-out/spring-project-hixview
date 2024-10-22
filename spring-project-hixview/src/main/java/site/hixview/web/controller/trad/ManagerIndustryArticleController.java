@@ -38,8 +38,6 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.*;

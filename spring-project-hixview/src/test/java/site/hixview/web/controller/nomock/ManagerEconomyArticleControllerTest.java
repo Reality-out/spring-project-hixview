@@ -28,14 +28,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.Word.ERROR_SINGLE;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_FINISH_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ECONOMY_ARTICLE_VIEW;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COUNTRY;
-import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
 

@@ -1,7 +1,7 @@
 package site.hixview.domain.repository;
 
 
-import site.hixview.domain.entity.article.ArticleMain;
+import site.hixview.domain.entity.home.ArticleMain;
 
 import java.util.List;
 import java.util.Optional;

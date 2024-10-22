@@ -4,8 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.entity.article.ArticleMain;
-import site.hixview.domain.entity.article.dto.ArticleMainDto;
+import site.hixview.domain.entity.home.ArticleMain;
+import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.IndustryArticleService;
@@ -20,12 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.Word.ERROR;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 
 @RealControllerAndValidatorContext
 class ArticleMainValidationErrorTest implements ArticleMainTestUtils {

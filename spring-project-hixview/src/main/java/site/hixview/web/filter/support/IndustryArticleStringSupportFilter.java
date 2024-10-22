@@ -14,9 +14,9 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
+import static site.hixview.domain.vo.Word.SUBJECT_FIRST_CATEGORY;
+import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_FIRST_CATEGORY;
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi

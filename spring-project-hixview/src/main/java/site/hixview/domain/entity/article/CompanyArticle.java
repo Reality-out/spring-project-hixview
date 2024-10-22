@@ -12,7 +12,7 @@ import site.hixview.domain.entity.article.parent.Article;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.name.EntityName.Article.SUBJECT_COMPANY;
+import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)

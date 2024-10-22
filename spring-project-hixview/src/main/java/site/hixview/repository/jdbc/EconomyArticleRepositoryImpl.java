@@ -22,8 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.Word.*;
 
 @Repository
 @Primary

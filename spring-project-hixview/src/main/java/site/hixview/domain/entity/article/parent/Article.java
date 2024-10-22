@@ -12,8 +12,7 @@ import java.util.HashMap;
 
 import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.Regex.URL_REGEX;
-import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.EntityName.Article.*;
+import static site.hixview.domain.vo.Word.*;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)

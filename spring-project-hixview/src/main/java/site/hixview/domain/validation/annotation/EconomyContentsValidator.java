@@ -11,7 +11,7 @@ import org.springframework.context.MessageSource;
 import java.util.List;
 import java.util.Locale;
 
-import static site.hixview.domain.vo.name.EntityName.Article.TARGET_ECONOMY_CONTENT;
+import static site.hixview.domain.vo.Word.TARGET_ECONOMY_CONTENT;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
 public class EconomyContentsValidator implements ConstraintValidator<EconomyContentsConstraint, String> {
