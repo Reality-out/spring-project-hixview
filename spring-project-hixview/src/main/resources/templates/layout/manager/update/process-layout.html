@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout (link, div, script)" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (div, script)" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name=”viewport” content=”width=device-width”>
@@ -7,7 +7,7 @@
     <link href="/styles/html-style.css" rel="stylesheet"/>
     <link href="/styles/body-style.css" rel="stylesheet"/>
     <link href="/styles/error-style.css" rel="stylesheet"/>
-    <link th:replace="${link}"/>
+    <link href="/styles/manager/data/basic-form-style.css" rel="stylesheet"/>
 </head>
 <body>
 <div th:replace="${div}"></div>

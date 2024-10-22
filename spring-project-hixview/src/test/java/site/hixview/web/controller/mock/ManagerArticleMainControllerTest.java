@@ -141,7 +141,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         mockMvc.perform(get(UPDATE_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT));
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT));
     }
 
     @DisplayName("기사 메인 변경 페이지 검색")

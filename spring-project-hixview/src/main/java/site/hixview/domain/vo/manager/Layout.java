@@ -8,6 +8,7 @@ public final class Layout {
     public static final String ADD_PROCESS_LAYOUT = "/layout/manager/add/process-layout";
     public static final String ADD_FINISH_LAYOUT = "/layout/manager/add/finish-layout";
     public static final String SELECT_LAYOUT = "/layout/manager/select-layout";
+    public static final String UPDATE_QUERY_LAYOUT = "/layout/manager/update/query-layout";
     public static final String UPDATE_PROCESS_LAYOUT = "/layout/manager/update/process-layout";
     public static final String UPDATE_FINISH_LAYOUT = "/layout/manager/update/finish-layout";
     public static final String REMOVE_PROCESS_LAYOUT = "/layout/manager/remove/process-layout";

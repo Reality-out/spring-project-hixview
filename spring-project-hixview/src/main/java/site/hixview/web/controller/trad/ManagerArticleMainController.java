@@ -120,7 +120,7 @@ public class ManagerArticleMainController {
     @GetMapping(UPDATE_ARTICLE_MAIN_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyArticleMain(Model model) {
-        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
+        model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
 		return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS;
 	}
 

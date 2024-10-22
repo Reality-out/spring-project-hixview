@@ -103,7 +103,7 @@ public class ManagerCompanyController {
     @GetMapping(UPDATE_COMPANY_URL)
     @ResponseStatus(HttpStatus.OK)
     public String initiateModifyCompany(Model model) {
-        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
+        model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
         return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS;
     }
 

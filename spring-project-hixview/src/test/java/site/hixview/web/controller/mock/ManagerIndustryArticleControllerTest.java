@@ -132,7 +132,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         mockMvc.perform(get(UPDATE_INDUSTRY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT));
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT));
     }
 
     @DisplayName("산업 기사 변경 페이지 검색")

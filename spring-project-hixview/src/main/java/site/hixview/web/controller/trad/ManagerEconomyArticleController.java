@@ -184,7 +184,7 @@ public class ManagerEconomyArticleController {
     @GetMapping(UPDATE_ECONOMY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyEconomyArticle(Model model) {
-        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
+        model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
 		return UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
 	}
 

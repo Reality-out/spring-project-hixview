@@ -192,7 +192,7 @@ public class ManagerIndustryArticleController {
     @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyIndustryArticle(Model model) {
-        model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
+        model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
 		return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
 	}
 
