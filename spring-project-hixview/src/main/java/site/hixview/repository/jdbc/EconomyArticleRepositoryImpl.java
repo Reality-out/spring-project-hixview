@@ -68,6 +68,20 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     }
 
     @Override
+    public List<EconomyArticle> getLatestDomesticArticles() {
+        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA +
+                " where subjectCountry = '" + Country.SOUTH_KOREA.name() +
+                "' and date = (select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
+    }
+
+    @Override
+    public List<EconomyArticle> getLatestForeignArticles() {
+        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA +
+                " where subjectCountry != '" + Country.SOUTH_KOREA.name() +
+                "' and date = (select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
+    }
+
+    @Override
     public Optional<EconomyArticle> getArticleByNumber(Long number) {
         List<EconomyArticle> oneArticleOrNull = jdbcTemplate.query(
                 "select * from " + CURRENT_SCHEMA + " where number = ?", articleRowMapper(), number);

@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processSubmittedEconomyContentScript started')
 
     let count = 0;
-    const articleForm = document.getElementById('articleForm');
-    const articleFormItems = document.getElementById('basicFormItems');
+    const basicForm = document.getElementById('basicForm');
+    const basicFormItems = document.getElementById('basicFormItems');
 
     document.getElementById('addBtn').addEventListener('click', () => {
         count++;
@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formItem.append(label);
         formItem.append(input);
-        articleFormItems.append(formItem);
+        basicFormItems.append(formItem);
     });
 
     document.getElementById('removeBtn').addEventListener('click', () => {
-        if (articleFormItems.lastElementChild.querySelector('input').id !== 'targetEconomyContent0') {
+        if (basicFormItems.lastElementChild.querySelector('input').id !== 'targetEconomyContent0') {
             count--;
-            articleFormItems.removeChild(articleFormItems.lastElementChild);
+            basicFormItems.removeChild(basicFormItems.lastElementChild);
         }
     });
 
@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         clearErrorMessage();
 
-        const urlSearchParams = new URLSearchParams(new FormData(articleForm));
+        const urlSearchParams = new URLSearchParams(new FormData(basicForm));
         urlSearchParams.append('targetEconomyContents', JSON.stringify({'targetEconomyContent':
                 Array.from(document.getElementsByClassName('article-target-economy-content')).map(element => element.querySelector('input').value)}));
 
-        fetch(articleForm.action, {
+        fetch(basicForm.action, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = articleForm.action + '/finish?name=' + data.name;
+            window.location = basicForm.action + '/finish?name=' + data.name;
         })
         .catch(error => {
             if (error.isBeanValidationError) {

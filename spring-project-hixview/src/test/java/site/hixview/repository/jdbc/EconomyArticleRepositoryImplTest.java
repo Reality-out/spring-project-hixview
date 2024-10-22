@@ -118,6 +118,42 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
                 .isEqualTo(List.of(article1, article2));
     }
 
+    @DisplayName("최신 국내 경제 기사들 획득")
+    @Test
+    void getLatestDomesticEconomyArticlesTest() {
+        // given
+        EconomyArticle article = testEconomyArticle;
+
+        // when
+        articleRepository.saveArticle(article);
+        articleRepository.saveArticle(testEqualDateEconomyArticle);
+        articleRepository.saveArticle(testNewEconomyArticle);
+
+        // then
+        assertThat(articleRepository.getLatestDomesticArticles())
+                .usingRecursiveComparison()
+                .comparingOnlyFields(fieldNames)
+                .isEqualTo(List.of(article));
+    }
+
+    @DisplayName("최신 해외 경제 기사들 획득")
+    @Test
+    void getLatestForeignEconomyArticlesTest() {
+        // given
+        EconomyArticle article = testEqualDateEconomyArticle;
+
+        // when
+        articleRepository.saveArticle(article);
+        articleRepository.saveArticle(testEconomyArticle);
+        articleRepository.saveArticle(testNewEconomyArticle);
+
+        // then
+        assertThat(articleRepository.getLatestForeignArticles())
+                .usingRecursiveComparison()
+                .comparingOnlyFields(fieldNames)
+                .isEqualTo(List.of(article));
+    }
+
     @DisplayName("번호로 경제 기사 획득")
     @Test
     void getEconomyArticleByNumberTest() {

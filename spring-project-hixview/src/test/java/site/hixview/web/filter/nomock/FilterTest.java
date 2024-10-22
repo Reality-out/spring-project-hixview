@@ -69,6 +69,8 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
     @BeforeEach
     void beforeEach() {
         resetTable(jdbcTemplateTest, TEST_COMPANY_ARTICLES_SCHEMA, true);
+        resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
+        resetTable(jdbcTemplateTest, TEST_ECONOMY_ARTICLES_SCHEMA, true);
         resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
     }
 

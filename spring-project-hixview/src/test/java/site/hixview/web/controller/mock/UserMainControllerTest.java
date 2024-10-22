@@ -5,15 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.member.Member;
-import site.hixview.domain.service.ArticleMainService;
-import site.hixview.domain.service.CompanyArticleService;
-import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.domain.service.MemberService;
+import site.hixview.domain.service.*;
 import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.support.util.ArticleMainTestUtils;
-import site.hixview.support.util.CompanyArticleTestUtils;
-import site.hixview.support.util.IndustryArticleTestUtils;
-import site.hixview.support.util.MemberTestUtils;
+import site.hixview.support.util.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -34,7 +28,7 @@ import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
 @OnlyRealControllerContext
-class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils {
+class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, ArticleMainTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,6 +38,9 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
 
     @Autowired
     private IndustryArticleService industryArticleService;
+
+    @Autowired
+    private EconomyArticleService economyArticleService;
 
     @Autowired
     private ArticleMainService articleMainService;
@@ -57,14 +54,24 @@ class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils
         // given & when
         when(articleMainService.findArticleByName(testCompanyArticle.getName())).thenReturn(Optional.of(testCompanyArticleMain));
         when(articleMainService.findArticleByName(testIndustryArticle.getName())).thenReturn(Optional.of(testIndustryArticleMain));
+        when(articleMainService.findArticleByName(testEconomyArticle.getName())).thenReturn(Optional.of(testDomesticEconomyArticleMain));
+        when(articleMainService.findArticleByName(testEqualDateEconomyArticle.getName())).thenReturn(Optional.of(testForeignEconomyArticleMain));
         when(articleMainService.registerArticle(testCompanyArticleMain)).thenReturn(testCompanyArticleMain);
         when(articleMainService.registerArticle(testIndustryArticleMain)).thenReturn(testIndustryArticleMain);
+        when(articleMainService.registerArticle(testDomesticEconomyArticleMain)).thenReturn(testDomesticEconomyArticleMain);
+        when(articleMainService.registerArticle(testForeignEconomyArticleMain)).thenReturn(testForeignEconomyArticleMain);
         when(companyArticleService.findLatestArticles()).thenReturn(List.of(testCompanyArticle));
         when(companyArticleService.registerArticle(testCompanyArticle)).thenReturn(testCompanyArticle);
         when(industryArticleService.findLatestArticles()).thenReturn(List.of(testIndustryArticle));
         when(industryArticleService.registerArticle(testIndustryArticle)).thenReturn(testIndustryArticle);
+        when(economyArticleService.findLatestDomesticArticles()).thenReturn(List.of(testEconomyArticle));
+        when(economyArticleService.registerArticle(testEconomyArticle)).thenReturn(testEconomyArticle);
+        when(economyArticleService.findLatestForeignArticles()).thenReturn(List.of(testEqualDateEconomyArticle));
+        when(economyArticleService.registerArticle(testEqualDateEconomyArticle)).thenReturn(testEqualDateEconomyArticle);
         articleMainService.registerArticle(testCompanyArticleMain);
         articleMainService.registerArticle(testIndustryArticleMain);
+        articleMainService.registerArticle(testDomesticEconomyArticleMain);
+        articleMainService.registerArticle(testForeignEconomyArticleMain);
         companyArticleService.registerArticle(testCompanyArticle);
         industryArticleService.registerArticle(testIndustryArticle);
 

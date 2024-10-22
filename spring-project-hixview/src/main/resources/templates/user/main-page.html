@@ -31,19 +31,19 @@
                 <div class="newest-row second-row">
                     <p class="newest-title" th:text="|일간 국내 #{economy}|"></p>
                     <div class="newest-info">
-                        <div class="newest-info-item text subject">
-                            부채
+                        <div id="domesticEconomyContents" class="newest-info-item text subject">
+                            [[${latestDomesticEconomyArticle.targetEconomyContents}]]
                         </div>
                         <a class="newest-info-item picture-wrapper"
-                           href="https://www.newsis.com/view/NISX20241009_0002913996">
+                           th:href="${latestDomesticEconomyArticle.link}">
                             <div class="picture domestic-picture"
-                                 style="background-image: url(/images/main/newest/economy/domestic/Bond_001.png)"></div>
+                                 th:style="|background-image: url(${latestDomesticEconomyArticleMain.imagePath})|"></div>
                         </a>
                         <div class="newest-info-item text title">
-                            韓, WGBI 26번째 편입…9번째 규모 글로벌 투자처
+                            [[${latestDomesticEconomyArticle.name}]]
                         </div>
                         <div class="newest-info-item text newest-info-summary">
-                            한 줄 요약: 세계국채지수에 9번째 규모로 편입된 우리나라 채권 시장
+                            [[#{article.summary}]]: [[${latestDomesticEconomyArticleMain.summary}]]
                         </div>
                     </div>
                 </div>
@@ -71,19 +71,19 @@
                 <div class="newest-row second-row">
                     <p class="newest-title" th:text="|일간 해외 #{economy}|"></p>
                     <div class="newest-info">
-                        <div class="newest-info-item text subject">
-                            빅테크 / AI
+                        <div id="foreignEconomyContents" class="newest-info-item text subject">
+                            [[${latestForeignEconomyArticle.targetEconomyContents}]]
                         </div>
                         <a class="newest-info-item picture-wrapper"
-                           href="https://biz.chosun.com/it-science/ict/2024/08/30/OZO3RRA2KVDSBJBVYWN6QAEH3U/">
+                           th:href="${latestForeignEconomyArticle.link}">
                             <div class="picture foreign-picture"
-                                 style="background-image: url(/images/main/newest/economy/foreign/Big_Tech_001.png)"></div>
+                                 th:style="|background-image: url(${latestForeignEconomyArticleMain.imagePath})|"></div>
                         </a>
                         <div class="newest-info-item text title">
-                            ‘돈 먹는 하마’ AR·MR·XR 접고 AI 집중하는 글로벌 빅테크
+                            [[${latestForeignEconomyArticle.name}]]
                         </div>
                         <div class="newest-info-item text newest-info-summary">
-                            한 줄 요약: AI에 전력을 다하다시피 하는 빅테크
+                            [[#{article.summary}]]: [[${latestForeignEconomyArticleMain.summary}]]
                         </div>
                     </div>
                 </div>
@@ -165,6 +165,17 @@
             body.style.overflowX = 'hidden';
         }
     })();
+</script>
+<script defer th:inline="javascript" type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        const domesticContent = document.getElementById('domesticEconomyContents');
+        const domesticText = domesticContent.textContent.trim();
+        domesticContent.textContent = domesticText.substring(1, domesticText.length - 1).replaceAll(', ', ' / ');
+
+        const foreignContent = document.getElementById('foreignEconomyContents');
+        const foreignText = foreignContent.textContent.trim();
+        foreignContent.textContent = foreignText.substring(1, foreignText.length - 1).replaceAll(', ', ' / ');
+    })
 </script>
 </body>
 </html>

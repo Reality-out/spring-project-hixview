@@ -7,22 +7,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.hixview.domain.entity.article.CompanyArticle;
+import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.error.NotFoundException;
-import site.hixview.domain.service.ArticleMainService;
-import site.hixview.domain.service.CompanyArticleService;
-import site.hixview.domain.service.IndustryArticleService;
-import site.hixview.domain.service.MemberService;
+import site.hixview.domain.service.*;
 import site.hixview.util.ControllerUtils;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_ARTICLE_WITH_THAT_CONDITION;
-import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION;
+import static site.hixview.domain.vo.ExceptionMessage.*;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
@@ -37,11 +34,9 @@ import static site.hixview.domain.vo.user.ViewName.*;
 public class UserMainController {
 
     private final MemberService memberService;
-
     private final CompanyArticleService companyArticleService;
-
     private final IndustryArticleService industryArticleService;
-
+    private final EconomyArticleService economyArticleService;
     private final ArticleMainService articleMainService;
 
     /**
@@ -62,15 +57,35 @@ public class UserMainController {
             throw new NotFoundException(NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION);
         }
 
+        Optional<EconomyArticle> latestDomesticEconomyArticleOrEmpty = economyArticleService.findLatestDomesticArticles()
+                .stream().filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
+        if (latestDomesticEconomyArticleOrEmpty.isEmpty()) {
+            throw new NotFoundException(NO_DOMESTIC_ECONOMY_ARTICLE_WITH_THAT_CONDITION);
+        }
+
+        Optional<EconomyArticle> latestForeignEconomyArticleOrEmpty = economyArticleService.findLatestForeignArticles()
+                .stream().filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
+        if (latestForeignEconomyArticleOrEmpty.isEmpty()) {
+            throw new NotFoundException(NO_FOREIGN_ECONOMY_ARTICLE_WITH_THAT_CONDITION);
+        }
+
         CompanyArticle latestCompanyArticle = latestCompanyArticleOrEmpty.orElseThrow();
         IndustryArticle latestIndustryArticle = latestIndustryArticleOrEmpty.orElseThrow();
+        EconomyArticle latestDomesticEconomyArticle = latestDomesticEconomyArticleOrEmpty.orElseThrow();
+        EconomyArticle latestForeignEconomyArticle = latestForeignEconomyArticleOrEmpty.orElseThrow();
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT);
         model.addAttribute("latestCompanyArticle", latestCompanyArticle);
         model.addAttribute("latestIndustryArticle", latestIndustryArticle);
+        model.addAttribute("latestDomesticEconomyArticle", latestDomesticEconomyArticle);
+        model.addAttribute("latestForeignEconomyArticle", latestForeignEconomyArticle);
         model.addAttribute("latestCompanyArticleMain",
                 articleMainService.findArticleByName(latestCompanyArticle.getName()).orElseThrow());
         model.addAttribute("latestIndustryArticleMain",
                 articleMainService.findArticleByName(latestIndustryArticle.getName()).orElseThrow());
+        model.addAttribute("latestDomesticEconomyArticleMain",
+                articleMainService.findArticleByName(latestDomesticEconomyArticle.getName()).orElseThrow());
+        model.addAttribute("latestForeignEconomyArticleMain",
+                articleMainService.findArticleByName(latestForeignEconomyArticle.getName()).orElseThrow());
         return USER_HOME_VIEW;
     }
 

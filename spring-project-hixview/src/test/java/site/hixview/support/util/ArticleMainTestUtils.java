@@ -17,6 +17,8 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.support.util.CompanyArticleTestUtils.testCompanyArticle;
 import static site.hixview.support.util.CompanyArticleTestUtils.testNewCompanyArticle;
+import static site.hixview.support.util.EconomyArticleTestUtils.testEconomyArticle;
+import static site.hixview.support.util.EconomyArticleTestUtils.testEqualDateEconomyArticle;
 import static site.hixview.support.util.IndustryArticleTestUtils.testIndustryArticle;
 
 public interface ArticleMainTestUtils extends ObjectTestUtils {
@@ -48,6 +50,20 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
             .imagePath("/images/main/newest/industry/Semiconductor_001.png")
             .summary("미국과 중국의 반도체 관련 디커플링 심화")
             .classification(Classification.INDUSTRY)
+            .build();
+
+    ArticleMain testDomesticEconomyArticleMain = ArticleMain.builder()
+            .name(testEconomyArticle.getName())
+            .imagePath("/images/main/newest/economy/domestic/Bond_001.png")
+            .summary("세계국채지수에 9번째 규모로 편입된 우리나라 채권 시장")
+            .classification(Classification.ECONOMY)
+            .build();
+
+    ArticleMain testForeignEconomyArticleMain = ArticleMain.builder()
+            .name(testEqualDateEconomyArticle.getName())
+            .imagePath("/images/main/newest/economy/foreign/Growth_001.png")
+            .summary("구조적인 문제들로 인한 독일의 2년 연속 역성장 예고")
+            .classification(Classification.ECONOMY)
             .build();
 
     /**

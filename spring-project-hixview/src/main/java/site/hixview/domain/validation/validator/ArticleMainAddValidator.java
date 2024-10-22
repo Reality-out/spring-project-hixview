@@ -8,6 +8,7 @@ import org.springframework.validation.Validator;
 import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyArticleService;
+import site.hixview.domain.service.EconomyArticleService;
 import site.hixview.domain.service.IndustryArticleService;
 
 import static site.hixview.domain.vo.Word.NAME;
@@ -20,6 +21,7 @@ public class ArticleMainAddValidator implements Validator {
     private final ArticleMainService articleMainService;
     private final CompanyArticleService companyArticleService;
     private final IndustryArticleService industryArticleService;
+    private final EconomyArticleService economyArticleService;
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {
@@ -31,7 +33,8 @@ public class ArticleMainAddValidator implements Validator {
         ArticleMainDto articleDto = (ArticleMainDto) target;
 
         if (companyArticleService.findArticleByName(articleDto.getName()).isEmpty() &&
-                industryArticleService.findArticleByName(articleDto.getName()).isEmpty()) {
+                industryArticleService.findArticleByName(articleDto.getName()).isEmpty() &&
+                economyArticleService.findArticleByName(articleDto.getName()).isEmpty()) {
             errors.rejectValue(NAME, "NotFound");
         } else if (articleMainService.findArticleByName(articleDto.getName()).isPresent()) {
             errors.rejectValue(NAME, "Exist");

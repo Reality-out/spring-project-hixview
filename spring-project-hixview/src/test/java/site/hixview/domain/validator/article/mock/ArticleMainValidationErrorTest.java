@@ -20,13 +20,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.name.EntityName.Article.ARTICLE;
 
 @RealControllerAndValidatorContext
@@ -92,28 +90,29 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         }
     }
 
-    @DisplayName("기사 메인명까지 변경을 시도하는 기사 메인 변경")
+    @DisplayName("기사 메인명 또는 기사 이미지 경로까지 변경을 시도하는, 기사 메인 변경")
     @Test
-    void changeNameArticleMainModify() throws Exception {
+    void changeNameOrImagePathArticleMainModify() throws Exception {
         // given
-        ArticleMainDto articleDto = testCompanyArticleMain.toDto();
-        ArticleMain article = ArticleMain.builder().articleDto(articleDto).build();
-        when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.empty());
-        when(articleMainService.registerArticle(article)).thenReturn(article);
-
-        articleMainService.registerArticle(article);
+        when(articleMainService.findArticleByName(testCompanyArticleMain.getName())).thenReturn(Optional.empty());
+        when(articleMainService.findArticleByImagePath(testCompanyArticleMain.getImagePath())).thenReturn(Optional.empty());
+        when(articleMainService.registerArticle(testCompanyArticleMain)).thenReturn(testCompanyArticleMain);
+        ArticleMain article = articleMainService.registerArticle(testCompanyArticleMain);
 
         // when
-        articleDto.setName(testNewCompanyArticleMain.getName());
+        articleMainService.registerArticle(testCompanyArticleMain);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(
-                UPDATE_ARTICLE_MAIN_URL + FINISH_URL, articleDto))
+        requireNonNull(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
+                        ArticleMain.builder().article(article).name(testIndustryArticleMain.getName()).build()))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+                        model().attribute(ERROR, (String) null)));
+
+        requireNonNull(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
+                        ArticleMain.builder().article(article).imagePath(testIndustryArticleMain.getImagePath()).build()))
+                .andExpectAll(view().name(modifyArticleMainProcessPage),
+                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(ERROR, (String) null)));
     }
 }

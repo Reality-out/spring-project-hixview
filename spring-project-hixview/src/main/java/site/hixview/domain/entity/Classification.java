@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum Classification {
     COMPANY("기업"),
-    INDUSTRY("산업");
+    INDUSTRY("산업"),
+    ECONOMY("경제");
 
     private final String value;
 

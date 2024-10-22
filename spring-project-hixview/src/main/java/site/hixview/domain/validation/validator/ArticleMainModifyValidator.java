@@ -9,6 +9,7 @@ import site.hixview.domain.entity.article.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.EntityName.Article.IMAGE_PATH;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +28,10 @@ public class ArticleMainModifyValidator implements Validator {
 
         if (articleMainService.findArticleByName(articleMainDto.getName()).isEmpty()) {
             errors.rejectValue(NAME, "NotFound");
+        }
+
+        if (articleMainService.findArticleByImagePath(articleMainDto.getImagePath()).isEmpty()) {
+            errors.rejectValue(IMAGE_PATH, "NotFound");
         }
     }
 }

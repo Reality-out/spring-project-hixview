@@ -31,6 +31,8 @@ public final class ExceptionMessage {
     public static final String NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION = "해당 조건에 부합하는 산업 기사가 없습니다.";
     public static final String NO_ECONOMY_ARTICLE_WITH_THAT_NAME = "해당 기사명과 일치하는 경제 기사가 없습니다.";
     public static final String NO_ECONOMY_ARTICLE_WITH_THAT_NUMBER_OR_NAME = "해당 기사 번호 또는 기사명과 일치하는 경제 기사가 없습니다.";
+    public static final String NO_DOMESTIC_ECONOMY_ARTICLE_WITH_THAT_CONDITION = "해당 조건에 부합하는 국내 경제 기사가 없습니다.";
+    public static final String NO_FOREIGN_ECONOMY_ARTICLE_WITH_THAT_CONDITION = "해당 조건에 부합하는 해외 경제 기사가 없습니다.";
     public static final String NO_ARTICLE_MAIN_WITH_THAT_NAME = "해당 기사명과 일치하는 기사 메인이 없습니다.";
     public static final String NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME = "해당 기사 번호 또는 기사명과 일치하는 기사 메인이 없습니다.";
     public static final String NO_SUBJECT_COUNTRY_WITH_THAT_VALUE = "해당 대상 국가와 일치하는 대상 국가가 없습니다.";

@@ -26,6 +26,17 @@ public class EconomyArticleService extends ArticleService<EconomyArticle, Econom
     }
 
     /**
+     * SELECT EconomyArticle
+     */
+    public List<EconomyArticle> findLatestDomesticArticles() {
+        return articleRepository.getLatestDomesticArticles();
+    }
+
+    public List<EconomyArticle> findLatestForeignArticles() {
+        return articleRepository.getLatestForeignArticles();
+    }
+
+    /**
      * INSERT EconomyArticle
      */
     public List<EconomyArticle> registerArticles(EconomyArticle... articles) {
