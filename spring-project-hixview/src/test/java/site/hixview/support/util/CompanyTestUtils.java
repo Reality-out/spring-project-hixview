@@ -29,10 +29,10 @@ public interface CompanyTestUtils extends ObjectTestUtils {
     String TEST_COMPANIES_SCHEMA = "test_companies";
 
     // Test Object
-    Company samsungElectronics = Company.builder().code("005930").country(Country.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")
+    Company samsungElectronics = Company.builder().code("005930").listedCountry(Country.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")
             .firstCategory(FirstCategory.SEMICONDUCTOR).secondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();
 
-    Company skHynix = Company.builder().code("000660").country(Country.SOUTH_KOREA).scale(Scale.BIG).name("SK하이닉스")
+    Company skHynix = Company.builder().code("000660").listedCountry(Country.SOUTH_KOREA).scale(Scale.BIG).name("SK하이닉스")
             .firstCategory(FirstCategory.SEMICONDUCTOR).secondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();
 
     /**
@@ -50,7 +50,7 @@ public interface CompanyTestUtils extends ObjectTestUtils {
         CompanyDto target = new CompanyDto();
 
         target.setCode(source.getCode());
-        target.setCountry(source.getCountry());
+        target.setListedCountry(source.getListedCountry());
         target.setScale(source.getScale());
         target.setName(source.getName());
         target.setFirstCategory(source.getFirstCategory());
@@ -65,7 +65,7 @@ public interface CompanyTestUtils extends ObjectTestUtils {
     default MockHttpServletRequestBuilder postWithCompany(String url, Company company) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param(CODE, company.getCode())
-                .param(COUNTRY, company.getCountry().name())
+                .param(LISTED_COUNTRY, company.getListedCountry().name())
                 .param(SCALE, company.getScale().name())
                 .param(NAME, company.getName())
                 .param(FIRST_CATEGORY, company.getFirstCategory().name())
@@ -75,7 +75,7 @@ public interface CompanyTestUtils extends ObjectTestUtils {
     default MockHttpServletRequestBuilder postWithCompanyDto(String url, CompanyDto companyDto) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param(CODE, companyDto.getCode())
-                .param(COUNTRY, companyDto.getCountry())
+                .param(LISTED_COUNTRY, companyDto.getListedCountry())
                 .param(SCALE, companyDto.getScale())
                 .param(NAME, companyDto.getName())
                 .param(FIRST_CATEGORY, companyDto.getFirstCategory())

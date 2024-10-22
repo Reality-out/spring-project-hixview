@@ -30,8 +30,10 @@ public final class EntityName {
     public static final class Company {
         public static final String COMPANY = "company";
         public static final String CODE = "code";
-        public static final String COUNTRY = "country";
+        public static final String LISTED_COUNTRY = "listedCountry";
+        public static final String LISTED_COUNTRIES = "listedCountries";
         public static final String SCALE = "scale";
+        public static final String SCALES = "scales";
         public static final String FIRST_CATEGORY = "firstCategory";
         public static final String SECOND_CATEGORY = "secondCategory";
         public static final String SECOND_CATEGORIES = "secondCategories";

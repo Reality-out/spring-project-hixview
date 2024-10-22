@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import static site.hixview.util.EnumUtils.inEnumConstants;
 
-public class CountryValidator implements ConstraintValidator<CountryConstraint, String> {
+public class ListedCountryValidator implements ConstraintValidator<ListedCountryConstraint, String> {
 
     @Autowired
     private MessageSource source;
@@ -20,13 +20,13 @@ public class CountryValidator implements ConstraintValidator<CountryConstraint, 
         context.disableDefaultConstraintViolation();
         if (country == null || country.isBlank()) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("NotBlank.company.country", null, Locale.getDefault())
+                    source.getMessage("NotBlank.company.listedCountry", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }
         if (!inEnumConstants(Country.class, country)) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("typeMismatch.enum.company.country", null, Locale.getDefault())
+                    source.getMessage("typeMismatch.enum.company.listedCountry", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }

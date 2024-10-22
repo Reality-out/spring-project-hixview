@@ -72,8 +72,8 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     @Override
     public void updateCompany(Company company) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
-                        " set country = ?, scale = ?, name = ?, firstCategory = ?, secondCategory = ? where code = ?",
-                company.getCountry().name(), company.getScale().name(), company.getName(),
+                        " set listedCountry = ?, scale = ?, name = ?, firstCategory = ?, secondCategory = ? where code = ?",
+                company.getListedCountry().name(), company.getScale().name(), company.getName(),
                 company.getFirstCategory().name(), company.getSecondCategory().name(), company.getCode());
     }
 
@@ -91,7 +91,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     private RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> Company.builder()
                         .code(resultSet.getString(CODE))
-                        .country(Country.valueOf(resultSet.getString(COUNTRY)))
+                        .listedCountry(Country.valueOf(resultSet.getString(LISTED_COUNTRY)))
                         .scale(Scale.valueOf(resultSet.getString(SCALE)))
                         .name(resultSet.getString(NAME))
                         .firstCategory(FirstCategory.valueOf(resultSet.getString(FIRST_CATEGORY)))

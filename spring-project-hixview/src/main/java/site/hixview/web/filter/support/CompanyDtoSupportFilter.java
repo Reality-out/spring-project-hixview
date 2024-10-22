@@ -30,7 +30,7 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
-        applyUppercaseAndConvertToEnumWithString(request, Country.class, COUNTRY);
+        applyUppercaseAndConvertToEnumWithString(request, Country.class, LISTED_COUNTRY);
         applyUppercaseAndConvertToEnumWithString(request, Scale.class, SCALE);
         applyUppercaseAndConvertToEnumWithString(request, FirstCategory.class, FIRST_CATEGORY);
         applyUppercaseAndConvertToEnumWithString(request, SecondCategory.class, SECOND_CATEGORY);

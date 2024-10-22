@@ -38,7 +38,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(" ");
-        companyDto.setCountry(" ");
+        companyDto.setListedCountry(" ");
         companyDto.setScale(" ");
         companyDto.setName(" ");
         companyDto.setFirstCategory(" ");
@@ -60,7 +60,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(null);
-        companyDto.setCountry(null);
+        companyDto.setListedCountry(null);
         companyDto.setScale(null);
         companyDto.setName(null);
         companyDto.setFirstCategory(null);
@@ -118,12 +118,12 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         }
     }
 
-    @DisplayName("Country의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @DisplayName("listedCountry의 typeMismatch에 대한 기업 추가 유효성 검증")
     @Test
-    void validateCountryTypeMismatchCompanyAdd() throws Exception {
+    void validateListedCountryTypeMismatchCompanyAdd() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCountry(INVALID_VALUE.toUpperCase());
+        companyDto.setListedCountry(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
@@ -192,7 +192,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(" ");
-        companyDto.setCountry(" ");
+        companyDto.setListedCountry(" ");
         companyDto.setScale(" ");
         companyDto.setName(" ");
         companyDto.setFirstCategory(" ");
@@ -214,7 +214,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
         companyDto.setCode(null);
-        companyDto.setCountry(null);
+        companyDto.setListedCountry(null);
         companyDto.setScale(null);
         companyDto.setName(null);
         companyDto.setFirstCategory(null);
@@ -272,12 +272,12 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         }
     }
 
-    @DisplayName("Country의 typeMismatch에 대한 기업 추가 유효성 검증")
+    @DisplayName("listedCountry의 typeMismatch에 대한 기업 추가 유효성 검증")
     @Test
-    void validateCountryTypeMismatchCompanyModify() throws Exception {
+    void validateListedCountryTypeMismatchCompanyModify() throws Exception {
         // given & when
         CompanyDto companyDto = createSamsungElectronicsDto();
-        companyDto.setCountry(INVALID_VALUE.toUpperCase());
+        companyDto.setListedCountry(INVALID_VALUE.toUpperCase());
 
         // then
         assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))

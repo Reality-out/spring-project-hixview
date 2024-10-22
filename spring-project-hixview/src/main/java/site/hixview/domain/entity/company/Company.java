@@ -27,7 +27,7 @@ public class Company {
     private final String code;
 
     @NotNull
-    private final Country country;
+    private final Country listedCountry;
 
     @NotNull
     private final Scale scale;
@@ -45,7 +45,7 @@ public class Company {
     public CompanyDto toDto() {
         CompanyDto companyDto = new CompanyDto();
         companyDto.setCode(code);
-        companyDto.setCountry(country.name());
+        companyDto.setListedCountry(listedCountry.name());
         companyDto.setScale(scale.name());
         companyDto.setName(name);
         companyDto.setFirstCategory(firstCategory.name());
@@ -56,7 +56,7 @@ public class Company {
     public HashMap<String, Object> toMap() {
         return new HashMap<>() {{
             put(CODE, code);
-            put(COUNTRY, country);
+            put(LISTED_COUNTRY, listedCountry);
             put(SCALE, scale);
             put(NAME, name);
             put(FIRST_CATEGORY, firstCategory);
@@ -69,7 +69,7 @@ public class Company {
 
         public CompanyBuilder company(Company company) {
             code = company.getCode();
-            country = company.getCountry();
+            listedCountry = company.getListedCountry();
             scale = company.getScale();
             name = company.getName();
             firstCategory = company.getFirstCategory();
@@ -79,7 +79,7 @@ public class Company {
 
         public CompanyBuilder companyDto(CompanyDto companyDto) {
             code = companyDto.getCode();
-            country = Country.valueOf(companyDto.getCountry());
+            listedCountry = Country.valueOf(companyDto.getListedCountry());
             scale = Scale.valueOf(companyDto.getScale());
             name = companyDto.getName();
             firstCategory = FirstCategory.valueOf(companyDto.getFirstCategory());

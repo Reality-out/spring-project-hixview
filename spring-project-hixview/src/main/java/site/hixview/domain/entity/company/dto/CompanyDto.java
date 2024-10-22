@@ -12,8 +12,8 @@ public class CompanyDto {
     @CodeConstraint
     private String code;
 
-    @CountryConstraint
-    private String country;
+    @ListedCountryConstraint
+    private String listedCountry;
 
     @ScaleConstraint
     private String scale;

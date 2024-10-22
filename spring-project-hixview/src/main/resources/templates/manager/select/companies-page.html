@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th scope="col" th:text="#{company.code}"></th>
-                <th scope="col" th:text="#{company.country}"></th>
+                <th scope="col" th:text="#{company.listedCountry}"></th>
                 <th scope="col" th:text="#{company.scale}"></th>
                 <th scope="col" th:text="#{company.name}"></th>
                 <th scope="col" th:text="#{company.firstCategory}"></th>
@@ -19,7 +19,7 @@
         <tbody>
             <tr th:each="company : ${companies}">
                 <td th:text="${company.code}"></td>
-                <td th:text="${company.country.value}"></td>
+                <td th:text="${company.listedCountry.value}"></td>
                 <td th:text="${company.scale.value}"></td>
                 <td th:text="${company.name}"></td>
                 <td th:text="${company.firstCategory.value}"></td>

@@ -33,7 +33,7 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static site.hixview.domain.vo.name.EntityName.Company.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
@@ -60,8 +60,8 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attributeExists(COMPANY),
-                        model().attribute("countries", Country.values()),
-                        model().attribute("scales", Scale.values()));
+                        model().attribute(LISTED_COUNTRIES, Country.values()),
+                        model().attribute(SCALES, Scale.values()));
     }
 
     @DisplayName("기업 추가 완료 페이지 접속")

@@ -17,11 +17,11 @@
                 <input type="text" id="code" th:field="*{code}" size="20" readonly>
                 <div class="txt-error-message" th:errors="*{code}"></div>
             </div>
-            <div th:text="#{company.country}"></div>
-            <select class="basic-form-item basic-form-select-item" th:field="*{country}">
-                <option th:each="country : ${countries}" th:value="${country.name()}" th:text="${country.value}"></option>
+            <div th:text="#{company.listedCountry}"></div>
+            <select class="basic-form-item basic-form-select-item" th:field="*{listedCountry}">
+                <option th:each="listedCountry : ${listedCountries}" th:value="${listedCountry.name()}" th:text="${listedCountry.value}"></option>
             </select>
-            <div class="txt-error-message" th:errors="*{country}"></div>
+            <div class="txt-error-message" th:errors="*{listedCountry}"></div>
             <div th:text="#{company.scale}"></div>
             <select class="basic-form-item basic-form-select-item" th:field="*{scale}">
                 <option th:each="scale : ${scales}" th:value="${scale.name()}" th:text="${scale.value}"></option>

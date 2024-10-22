@@ -29,7 +29,7 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
-import static site.hixview.domain.vo.name.EntityName.Company.COMPANY;
+import static site.hixview.domain.vo.name.EntityName.Company.*;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ViewName.*;
@@ -55,8 +55,8 @@ public class ManagerCompanyController {
     public String processAddCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(COMPANY, new CompanyDto());
-        model.addAttribute("countries", Country.values());
-        model.addAttribute("scales", Scale.values());
+        model.addAttribute(LISTED_COUNTRIES, Country.values());
+        model.addAttribute(SCALES, Scale.values());
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
     }
 
@@ -119,8 +119,8 @@ public class ManagerCompanyController {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
         model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
-        model.addAttribute("countries", Country.values());
-        model.addAttribute("scales", Scale.values());
+        model.addAttribute(LISTED_COUNTRIES, Country.values());
+        model.addAttribute(SCALES, Scale.values());
         return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
     }
 
@@ -191,7 +191,7 @@ public class ManagerCompanyController {
     // Handle Error
     private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
         ControllerUtils.finishForRollback(logMessage, layoutPath, error, model);
-        model.addAttribute("countries", Country.values());
-        model.addAttribute("scales", Scale.values());
+        model.addAttribute(LISTED_COUNTRIES, Country.values());
+        model.addAttribute(SCALES, Scale.values());
     }
 }
