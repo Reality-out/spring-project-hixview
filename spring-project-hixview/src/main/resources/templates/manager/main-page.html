@@ -29,9 +29,7 @@
                        (#{data.single.string}, #{article.subjectCompany} 및 #{article.importance} 고정)|">
                     </a>
                 </li>
-                <li>
-                    <a th:href="${selectCompanyArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a>
-                </li>
+                <li><a th:href="${selectCompanyArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a></li>
             </ol>
         </ol>
         <ol class="function-list">
@@ -51,9 +49,7 @@
                        #{article.subjectSecondCategory} 및 #{article.importance} 고정)|">
                     </a>
                 </li>
-                <li>
-                    <a th:href="${selectIndustryArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a>
-                </li>
+                <li><a th:href="${selectIndustryArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a></li>
             </ol>
         </ol>
         <ol class="function-list">
@@ -73,9 +69,7 @@
                        #{article.targetEconomyContent} 및 #{article.importance} 고정)|">
                     </a>
                 </li>
-                <li>
-                    <a th:href="${selectEconomyArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a>
-                </li>
+                <li><a th:href="${selectEconomyArticles}" th:text="|#{data.all} #{article} #{function.inquiry}|"></a></li>
             </ol>
         </ol>
         <ol class="function-list">
@@ -88,8 +82,11 @@
             </ol>
             <ol class="function-detailed-list">
                 <li class="number-of-data" th:text="#{data.multiple}"></li>
+                <li><a th:href="${selectArticleMains}" th:text="|#{article} #{data.main} #{function.inquiry}|"></a></li>
                 <li>
-                    <a th:href="${selectArticleMains}" th:text="|#{article} #{data.main} #{function.inquiry}|"></a>
+                    <a th:href="${checkImagePathArticleMains}"
+                       th:text="|#{article} #{data.main} #{article.imagePath} #{function.check} (실제 #{data} 존재 여부)|">
+                    </a>
                 </li>
             </ol>
         </ol>
@@ -103,9 +100,7 @@
             </ol>
             <ol class="function-detailed-list">
                 <li class="number-of-data" th:text="#{data.multiple}"></li> <!-- READ 구현 -->
-                <li>
-                    <a th:href="${selectCompanies}" th:text="|#{data.all} #{company} #{function.inquiry}|"></a>
-                </li>
+                <li><a th:href="${selectCompanies}" th:text="|#{data.all} #{company} #{function.inquiry}|"></a></li>
             </ol>
         </ol>
         <ol class="function-list">

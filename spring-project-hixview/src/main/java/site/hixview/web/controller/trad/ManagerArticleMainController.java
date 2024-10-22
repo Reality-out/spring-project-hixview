@@ -16,13 +16,16 @@ import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.ArticleMainAddValidator;
 import site.hixview.domain.validation.validator.ArticleMainModifyValidator;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestUrl.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
@@ -90,6 +93,24 @@ public class ManagerArticleMainController {
     public String processSeeArticleMains(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
         model.addAttribute("articleMains", articleMainService.findArticles());
+        return SELECT_VIEW + "article-mains-page";
+    }
+
+    @GetMapping(CHECK_IMAGE_PATH_ARTICLE_MAIN_URL)
+    @ResponseStatus(HttpStatus.OK)
+    public String processCheckImagePathArticleMains(Model model) {
+        List<ArticleMain> articlesWithInvalidImagePath = new ArrayList<>();
+        Path prefix = Paths.get(ROOT_PATH).resolve(STATIC_RESOURCE_PATH);
+        for (ArticleMain article : articleMainService.findArticles()) {
+            Path filePath = prefix
+                    .resolve(article.getImagePath().substring(1))
+                    .toAbsolutePath();
+            if (!filePath.toFile().isFile()) {
+                articlesWithInvalidImagePath.add(article);
+            }
+        }
+        model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
+        model.addAttribute("articleMains", articlesWithInvalidImagePath);
         return SELECT_VIEW + "article-mains-page";
     }
 

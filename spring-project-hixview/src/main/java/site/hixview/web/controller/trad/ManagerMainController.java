@@ -42,6 +42,7 @@ public class ManagerMainController {
         model.addAttribute("updateArticleMain", UPDATE_ARTICLE_MAIN_URL);
         model.addAttribute("removeArticleMain", REMOVE_ARTICLE_MAIN_URL);
         model.addAttribute("selectArticleMains", SELECT_ARTICLE_MAIN_URL);
+        model.addAttribute("checkImagePathArticleMains", CHECK_IMAGE_PATH_ARTICLE_MAIN_URL);
 
         model.addAttribute("addSingleCompany", ADD_SINGLE_COMPANY_URL);
         model.addAttribute("updateCompany", UPDATE_COMPANY_URL);

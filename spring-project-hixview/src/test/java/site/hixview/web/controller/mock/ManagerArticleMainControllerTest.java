@@ -115,6 +115,26 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .isEqualTo(articleList);
     }
 
+    @DisplayName("기사 메인들 이미지 경로 확인 페이지 접속")
+    @Test
+    void accessArticleMainsImagePathCheck() throws Exception {
+        // given
+        List<ArticleMain> storedList = List.of(testCompanyArticleMain, testNewCompanyArticleMain);
+        when(articleMainService.findArticles()).thenReturn(storedList);
+        when(articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain)).thenReturn(storedList);
+
+        // when
+        List<ArticleMain> articleList = articleMainService.registerArticles(testCompanyArticleMain, testNewCompanyArticleMain);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_URL))
+                .andExpectAll(status().isOk(),
+                        view().name(SELECT_VIEW + "article-mains-page"))
+                .andReturn().getModelAndView()).getModelMap().get("articleMains"))
+                .usingRecursiveComparison()
+                .isEqualTo(emptyList());
+    }
+
     @DisplayName("기사 메인 변경 페이지 접속")
     @Test
     void accessArticleMainModify() throws Exception {

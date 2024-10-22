@@ -32,6 +32,7 @@ public final class RequestURL {
     public static final String SELECT_ARTICLE_MAIN_URL = "/manager/article/main/select";
     public static final String UPDATE_ARTICLE_MAIN_URL = "/manager/article/main/update";
     public static final String REMOVE_ARTICLE_MAIN_URL = "/manager/article/main/remove";
+    public static final String CHECK_IMAGE_PATH_ARTICLE_MAIN_URL = "/manager/article/main/check/imagepath";
 
     // Company
     public static final String ADD_SINGLE_COMPANY_URL = "/manager/company/add/single";
