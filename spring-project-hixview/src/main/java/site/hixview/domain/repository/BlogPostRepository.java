@@ -16,6 +16,8 @@ public interface BlogPostRepository {
 
     Optional<BlogPost> getPostByName(String name);
 
+    Optional<BlogPost> getPostByLink(String link);
+
     /**
      * INSERT BlogPost
      */

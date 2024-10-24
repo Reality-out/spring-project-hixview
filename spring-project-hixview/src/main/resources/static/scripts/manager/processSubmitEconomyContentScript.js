@@ -1,33 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processSubmittedSecondCategoryScript started')
+    console.log('processSubmitEconomyContentScript started')
 
     let count = 0;
-    const articleForm = document.getElementById('basicForm');
-    const articleFormItems = document.getElementById('basicFormItems');
-    
+    const basicForm = document.getElementById('basicForm');
+    const basicFormItems = document.getElementById('basicFormItems');
+
     document.getElementById('addBtn').addEventListener('click', () => {
         count++;
         const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'basic-form-item article-subject-second-category');
+        formItem.setAttribute('class', 'basic-form-item article-target-economy-content');
 
         const label = document.createElement('label');
-        label.setAttribute('for', 'subjectSecondCategory' + count);
-        label.textContent = document.getElementById('container-data').dataset.subjectSecondCategoryName + count;
+        label.setAttribute('for', 'targetEconomyContent' + count);
+        label.textContent = document.getElementById('container-data').dataset.targetEconomyContentName + count;
 
         const input = document.createElement('input');
         input.setAttribute('type', 'text');
-        input.setAttribute('id', 'subjectSecondCategory' + count);
+        input.setAttribute('id', 'targetEconomyContent' + count);
         input.setAttribute('size', "20");
 
         formItem.append(label);
         formItem.append(input);
-        articleFormItems.append(formItem);
+        basicFormItems.append(formItem);
     });
 
     document.getElementById('removeBtn').addEventListener('click', () => {
-        if (articleFormItems.lastElementChild.querySelector('input').id !== 'subjectSecondCategory0') {
+        if (basicFormItems.lastElementChild.querySelector('input').id !== 'targetEconomyContent0') {
             count--;
-            articleFormItems.removeChild(articleFormItems.lastElementChild);
+            basicFormItems.removeChild(basicFormItems.lastElementChild);
         }
     });
 
@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         clearErrorMessage();
 
-        const urlSearchParams = new URLSearchParams(new FormData(articleForm));
-        urlSearchParams.append('subjectSecondCategories', JSON.stringify({'subjectSecondCategory': 
-                Array.from(document.getElementsByClassName('article-subject-second-category')).map(element => element.querySelector('input').value)}));
+        const urlSearchParams = new URLSearchParams(new FormData(basicForm));
+        urlSearchParams.append('targetEconomyContents', JSON.stringify({'targetEconomyContent':
+                Array.from(document.getElementsByClassName('article-target-economy-content')).map(element => element.querySelector('input').value)}));
 
-        fetch(articleForm.action, {
+        fetch(basicForm.action, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = articleForm.action + '?name=' + data.name;
+            window.location = data['redirectURL'] + '?name=' + data.name;
         })
         .catch(error => {
             if (error.isBeanValidationError) {

@@ -23,7 +23,7 @@ import static site.hixview.support.util.CompanyTestUtils.samsungElectronics;
 import static site.hixview.support.util.CompanyTestUtils.skHynix;
 
 @OnlyRealServiceContext
-class CompanyServiceJdbcTest implements CompanyArticleTestUtils {
+class CompanyServiceTest implements CompanyArticleTestUtils {
 
     @Autowired
     private CompanyService companyService;

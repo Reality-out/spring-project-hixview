@@ -44,6 +44,12 @@ public class ManagerMainController {
         model.addAttribute("selectArticleMains", SELECT_ARTICLE_MAIN_URL);
         model.addAttribute("checkImagePathArticleMains", CHECK_IMAGE_PATH_ARTICLE_MAIN_URL);
 
+        model.addAttribute("addBlogPost", ADD_BLOG_POST_URL);
+        model.addAttribute("updateBlogPost", UPDATE_BLOG_POST_URL);
+        model.addAttribute("removeBlogPost", REMOVE_BLOG_POST_URL);
+        model.addAttribute("selectBlogPosts", SELECT_BLOG_POST_URL);
+        model.addAttribute("checkImagePathBlogPosts", CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL);
+
         model.addAttribute("addSingleCompany", ADD_SINGLE_COMPANY_URL);
         model.addAttribute("updateCompany", UPDATE_COMPANY_URL);
         model.addAttribute("removeCompany", REMOVE_COMPANY_URL);

@@ -149,7 +149,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         // then
         for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
             assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                            UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", str))
+                            UPDATE_INDUSTRY_ARTICLE_URL, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyIndustryArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
@@ -226,7 +226,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
-            mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, "numberOrName", str))
+            mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
             articleService.registerArticle(article);

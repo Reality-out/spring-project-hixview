@@ -157,7 +157,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         // then
         for (String str : List.of(String.valueOf(number), article.getName())) {
             assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                            UPDATE_ARTICLE_MAIN_URL, "numberOrName", str))
+                            UPDATE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyArticleMainProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
@@ -228,7 +228,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
-            mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, "numberOrName", str))
+            mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
             articleMainService.registerArticle(article);

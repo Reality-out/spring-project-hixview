@@ -24,7 +24,7 @@ import static site.hixview.domain.vo.ExceptionMessage.NO_ECONOMY_ARTICLE_WITH_TH
 import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
-class EconomyArticleServiceJdbcTest implements EconomyArticleTestUtils {
+class EconomyArticleServiceTest implements EconomyArticleTestUtils {
 
     @Autowired
     private EconomyArticleService articleService;

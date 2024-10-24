@@ -56,6 +56,13 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
         return onePostOrNull.isEmpty() ? Optional.empty() : Optional.of(onePostOrNull.getFirst());
     }
 
+    @Override
+    public Optional<BlogPost> getPostByLink(String link) {
+        List<BlogPost> onePostOrNull = jdbcTemplate.query(
+                "select * from " + CURRENT_SCHEMA + " where link = ?", postRowMapper(), link);
+        return onePostOrNull.isEmpty() ? Optional.empty() : Optional.of(onePostOrNull.getFirst());
+    }
+
     /**
      * INSERT BlogPost
      */

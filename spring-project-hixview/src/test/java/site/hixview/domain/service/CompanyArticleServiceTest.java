@@ -24,7 +24,7 @@ import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_ARTICLE_WITH_TH
 import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
-class CompanyArticleServiceJdbcTest implements CompanyArticleTestUtils {
+class CompanyArticleServiceTest implements CompanyArticleTestUtils {
 
     @Autowired
     private CompanyArticleService articleService;

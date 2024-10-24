@@ -91,6 +91,24 @@
             </ol>
         </ol>
         <ol class="function-list">
+            <li class="function-intro" th:text="|#{post.blog} 관련 기능|"></li>
+            <ol class="function-detailed-list">
+                <li class="number-of-data" th:text="#{data.single}"></li>
+                <li><a th:href="${addBlogPost}" th:text="|#{post.blog} #{function.register}|"></a></li>
+                <li><a th:href="${updateBlogPost}" th:text="|#{post.blog} #{function.correct}|"></a></li>
+                <li><a th:href="${removeBlogPost}" th:text="|#{post.blog} #{function.remove}|"></a></li>
+            </ol>
+            <ol class="function-detailed-list">
+                <li class="number-of-data" th:text="#{data.multiple}"></li>
+                <li><a th:href="${selectBlogPosts}" th:text="|#{post.blog} #{function.inquiry}|"></a></li>
+                <li>
+                    <a th:href="${checkTargetImagePathBlogPosts}"
+                       th:text="|#{post.blog} #{post.targetImagePath} #{function.check} (실제 #{data} 존재 여부)|">
+                    </a>
+                </li>
+            </ol>
+        </ol>
+        <ol class="function-list">
             <li class="function-intro" th:text="|#{company} 관련 기능|"></li>
             <ol class="function-detailed-list">
                 <li class="number-of-data" th:text="#{data.single}"></li> <!-- CREATE, UPDATE, DELETE 구현 -->

@@ -148,7 +148,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
         // then
         for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
             assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                            UPDATE_ECONOMY_ARTICLE_URL, "numberOrName", str))
+                            UPDATE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyEconomyArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
@@ -226,7 +226,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
-            mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_URL, "numberOrName", str))
+            mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
 
             articleService.registerArticle(article);

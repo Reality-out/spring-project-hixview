@@ -90,6 +90,23 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
                 .isEqualTo(post);
     }
 
+    @DisplayName("링크로 블로그 포스트 획득")
+    @Test
+    void getBlogPostByLinkTest() {
+        // given
+        BlogPost post = testBlogPostCompany;
+
+        // when
+        postRepository.savePost(post);
+
+        // then
+        assertThat(postRepository.getPostByLink(post.getLink()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
+                .isEqualTo(post);
+    }
+
     @DisplayName("비어 있는 블로그 포스트 획득")
     @Test
     void getEmptyBlogPostTest() {
@@ -99,7 +116,8 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         // then
         for (Optional<BlogPost> emptyPost : List.of(
                 postRepository.getPostByNumber(post.getNumber()),
-                postRepository.getPostByName(post.getName()))) {
+                postRepository.getPostByName(post.getName()),
+                postRepository.getPostByLink(post.getLink()))) {
             assertThat(emptyPost).isEmpty();
         }
     }

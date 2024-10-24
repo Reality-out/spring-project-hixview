@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processReceivedEconomyContentScript started')
+    console.log('processReceiveEconomyContentScript started')
 
     let count = 0;
-    const articleFormItems = document.getElementById('basicFormItems');
+    const basicFormItems = document.getElementById('basicFormItems');
     const economyContentArr = JSON.parse(document.getElementById('container-data').dataset.targetEconomyContentJson)['targetEconomyContent'];
 
     document.getElementById('targetEconomyContent0').value = economyContentArr[0];
@@ -23,6 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formItem.append(label);
         formItem.append(input);
-        articleFormItems.append(formItem);
+        basicFormItems.append(formItem);
     }
 });

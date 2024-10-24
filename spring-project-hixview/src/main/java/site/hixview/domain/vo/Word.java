@@ -19,6 +19,8 @@ public final class Word {
     public static final String ARTICLE = "article";
     public static final String ARTICLES = "articles";
     public static final String ARTICLE_MAINS = "articleMains";
+    public static final String BLOG_POST = "blogPost";
+    public static final String BLOG_POSTS = "blogPosts";
     public static final String CLASSIFICATION = "classification";
     public static final String CODE = "code";
     public static final String CODE_OR_NAME = "codeOrName";
@@ -40,6 +42,8 @@ public final class Word {
     public static final String NAME = "name";
     public static final String NAME_LIST = "nameList";
     public static final String NUMBER = "number";
+    public static final String NUMBER_OR_NAME = "numberOrName";
+    public static final String POST = "post";
     public static final String PRESS = "press";
     public static final String SCALE = "scale";
     public static final String SCALES = "scales";

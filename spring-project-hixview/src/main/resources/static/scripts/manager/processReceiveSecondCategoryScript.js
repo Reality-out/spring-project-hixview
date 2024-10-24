@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processReceivedSecondCategoryScript started')
+    console.log('processReceiveSecondCategoryScript started')
 
     let count = 0;
-    const articleFormItems = document.getElementById('basicFormItems');
+    const basicFormItems = document.getElementById('basicFormItems');
     const secondCategoryArr = JSON.parse(document.getElementById('container-data').dataset.subjectSecondCategoryJson)['subjectSecondCategory'];
 
     document.getElementById('subjectSecondCategory0').value = secondCategoryArr[0];
@@ -23,6 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         formItem.append(label);
         formItem.append(input);
-        articleFormItems.append(formItem);
+        basicFormItems.append(formItem);
     }
 });

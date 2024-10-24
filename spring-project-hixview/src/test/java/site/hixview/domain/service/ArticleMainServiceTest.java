@@ -24,7 +24,7 @@ import static site.hixview.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_
 import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
-class ArticleMainServiceJdbcTest implements ArticleMainTestUtils {
+class ArticleMainServiceTest implements ArticleMainTestUtils {
 
     @Autowired
     private ArticleMainService articleMainService;

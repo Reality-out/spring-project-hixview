@@ -24,7 +24,7 @@ import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_T
 import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
-class IndustryArticleServiceJdbcTest implements IndustryArticleTestUtils {
+class IndustryArticleServiceTest implements IndustryArticleTestUtils {
 
     @Autowired
     private IndustryArticleService articleService;

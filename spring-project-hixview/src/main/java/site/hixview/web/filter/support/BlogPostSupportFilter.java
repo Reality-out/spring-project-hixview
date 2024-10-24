@@ -15,26 +15,25 @@ import java.io.IOException;
 
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
+import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.util.FilterUtils.*;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_ARTICLE_MAIN_URL, UPDATE_ARTICLE_MAIN_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_BLOG_POST_URL, UPDATE_BLOG_POST_URL + FINISH_URL})
 @Order(1)
-public class ArticleMainSupportFilter extends OncePerRequestFilter {
+public class BlogPostSupportFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
         applyStrip(request, NAME);
         applyUppercaseAndConvertToEnumWithString(request, Classification.class, CLASSIFICATION);
-        addImagePathPrefixSuffix(request);
+        addTargetImagePathPrefixSuffix(request);
         chain.doFilter(request, response);
     }
 
-    private static void addImagePathPrefixSuffix(ModifiableHttpServletRequest request) {
-        String imagePath = request.getParameter(IMAGE_PATH);
+    private static void addTargetImagePathPrefixSuffix(ModifiableHttpServletRequest request) {
+        String imagePath = request.getParameter(TARGET_IMAGE_PATH);
         if (imagePath != null) {
             if (!imagePath.startsWith(IMAGE_PATH_PREFIX)) {
                 imagePath = IMAGE_PATH_PREFIX + imagePath;
@@ -42,7 +41,7 @@ public class ArticleMainSupportFilter extends OncePerRequestFilter {
             if (!imagePath.endsWith(IMAGE_PATH_SUFFIX)) {
                 imagePath = imagePath + IMAGE_PATH_SUFFIX;
             }
-            request.setParameter(IMAGE_PATH, imagePath);
+            request.setParameter(TARGET_IMAGE_PATH, imagePath);
         }
     }
 }

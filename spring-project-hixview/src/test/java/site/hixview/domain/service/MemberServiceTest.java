@@ -21,7 +21,7 @@ import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_MEMBER_ID;
 import static site.hixview.domain.vo.ExceptionMessage.NO_MEMBER_WITH_THAT_ID;
 
 @OnlyRealServiceContext
-class MemberServiceJdbcTest implements MemberTestUtils {
+class MemberServiceTest implements MemberTestUtils {
 
     @Autowired
     private MemberService memberService;
