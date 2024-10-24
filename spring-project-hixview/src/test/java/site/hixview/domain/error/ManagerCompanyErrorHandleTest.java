@@ -16,8 +16,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
+import static site.hixview.domain.vo.manager.Layout.*;
 import static site.hixview.domain.vo.manager.RequestURL.REMOVE_COMPANY_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_COMPANY_URL_VIEW;
@@ -44,17 +43,17 @@ class ManagerCompanyErrorHandleTest implements CompanyTestUtils {
         // then
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, "000000"))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
     }
 

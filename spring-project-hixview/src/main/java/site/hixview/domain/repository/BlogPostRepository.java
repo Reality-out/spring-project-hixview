@@ -1,0 +1,33 @@
+package site.hixview.domain.repository;
+
+
+import site.hixview.domain.entity.home.BlogPost;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface BlogPostRepository {
+    /**
+     * SELECT BlogPost
+     */
+    List<BlogPost> getPosts();
+
+    Optional<BlogPost> getPostByNumber(Long number);
+
+    Optional<BlogPost> getPostByName(String name);
+
+    /**
+     * INSERT BlogPost
+     */
+    Long savePost(BlogPost article);
+
+    /**
+     * UPDATE BlogPost
+     */
+    void updatePost(BlogPost article);
+
+    /**
+     * REMOVE BlogPost
+     */
+    void deletePostByName(String name);
+}

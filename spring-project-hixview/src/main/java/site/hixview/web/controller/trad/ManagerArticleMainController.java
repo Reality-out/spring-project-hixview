@@ -130,7 +130,7 @@ public class ManagerArticleMainController {
         Optional<ArticleMain> articleOrEmpty = articleMainService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
             finishForRollback(NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME,
-                    UPDATE_PROCESS_LAYOUT, NOT_FOUND_ARTICLE_MAIN_ERROR, model);
+                    UPDATE_QUERY_LAYOUT, NOT_FOUND_ARTICLE_MAIN_ERROR, model);
             return UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS;
         }
 

@@ -36,7 +36,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
         resetTable(jdbcTemplateTest, TEST_ARTICLE_MAINS_SCHEMA, true);
     }
 
-    @DisplayName("기업 기사들 메인 획득")
+    @DisplayName("기업 기사 메인들 획득")
     @Test
     void getArticleMainsTest() {
         // given

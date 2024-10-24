@@ -34,6 +34,13 @@ public final class RequestURL {
     public static final String REMOVE_ARTICLE_MAIN_URL = "/manager/article/main/remove";
     public static final String CHECK_IMAGE_PATH_ARTICLE_MAIN_URL = "/manager/article/main/check/imagepath";
 
+    // BlogPost
+    public static final String ADD_BLOG_POST_URL = "/manager/post/blog/add";
+    public static final String SELECT_BLOG_POST_URL = "/manager/post/blog/select";
+    public static final String UPDATE_BLOG_POST_URL = "/manager/post/blog/update";
+    public static final String REMOVE_BLOG_POST_URL = "/manager/post/blog/remove";
+    public static final String CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL = "/manager/post/blog/check/imagepath";
+
     // Company
     public static final String ADD_SINGLE_COMPANY_URL = "/manager/company/add/single";
     public static final String SELECT_COMPANY_URL = "/manager/company/select";

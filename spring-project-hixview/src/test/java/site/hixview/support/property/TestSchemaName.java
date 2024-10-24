@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
         "schema.articles.industry=test_industry_articles",
         "schema.articles.economy=test_economy_articles",
         "schema.articles.main=test_article_mains",
+        "schema.posts.blog=test_blog_posts",
         "schema.companies=test_companies",
         "schema.members=test_members"
 })

@@ -112,7 +112,7 @@ public class ManagerCompanyController {
     public String processModifyCompany(@RequestParam String codeOrName, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
-            finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, UPDATE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ERROR, model);
+            finishForRollback(NO_COMPANY_WITH_THAT_CODE_OR_NAME, UPDATE_QUERY_LAYOUT, NOT_FOUND_COMPANY_ERROR, model);
             return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS;
         }
 

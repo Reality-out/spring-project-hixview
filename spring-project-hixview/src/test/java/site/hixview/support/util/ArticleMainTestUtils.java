@@ -32,35 +32,35 @@ public interface ArticleMainTestUtils extends ObjectTestUtils {
     // Test Object
     ArticleMain testCompanyArticleMain = ArticleMain.builder()
             .name(testCompanyArticle.getName())
-            .imagePath("/images/main/newest/company/Samsung_Display_001.png")
+            .imagePath("/images/main/newest/company/samsung_display_001.png")
             .summary("다급해진 삼성디스플레이, 주당 64시간 근무로 비상경영 돌입")
             .classification(Classification.COMPANY)
             .build();
 
     ArticleMain testNewCompanyArticleMain = ArticleMain.builder()
             .name(testNewCompanyArticle.getName())
-            .imagePath("/images/main/newest/company/Samsung_Electronics_001.png")
+            .imagePath("/images/main/newest/company/samsung_electronics_001.png")
             .summary("긴축 경영의 일환인 삼성전자의 네트워크사업부 인력 감축")
             .classification(Classification.COMPANY)
             .build();
 
     ArticleMain testIndustryArticleMain = ArticleMain.builder()
             .name(testIndustryArticle.getName())
-            .imagePath("/images/main/newest/industry/Semiconductor_001.png")
+            .imagePath("/images/main/newest/industry/semiconductor_001.png")
             .summary("미국과 중국의 반도체 관련 디커플링 심화")
             .classification(Classification.INDUSTRY)
             .build();
 
     ArticleMain testDomesticEconomyArticleMain = ArticleMain.builder()
             .name(testEconomyArticle.getName())
-            .imagePath("/images/main/newest/economy/domestic/Bond_001.png")
+            .imagePath("/images/main/newest/economy/domestic/bond_001.png")
             .summary("세계국채지수에 9번째 규모로 편입된 우리나라 채권 시장")
             .classification(Classification.ECONOMY)
             .build();
 
     ArticleMain testForeignEconomyArticleMain = ArticleMain.builder()
             .name(testEqualDateEconomyArticle.getName())
-            .imagePath("/images/main/newest/economy/foreign/Growth_001.png")
+            .imagePath("/images/main/newest/economy/foreign/growth_001.png")
             .summary("구조적인 문제들로 인한 독일의 2년 연속 역성장 예고")
             .classification(Classification.ECONOMY)
             .build();

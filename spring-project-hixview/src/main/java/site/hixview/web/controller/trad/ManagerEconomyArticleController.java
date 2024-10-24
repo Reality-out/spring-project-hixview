@@ -193,7 +193,7 @@ public class ManagerEconomyArticleController {
     public String processModifyEconomyArticle(@RequestParam String numberOrName, Model model) {
         Optional<EconomyArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(NO_ECONOMY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR, model);
+            finishForRollback(NO_ECONOMY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_QUERY_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR, model);
             return UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
         }
 

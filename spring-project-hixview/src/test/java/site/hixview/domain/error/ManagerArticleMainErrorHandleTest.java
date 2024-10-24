@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
+import static site.hixview.domain.vo.manager.Layout.UPDATE_QUERY_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.REMOVE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_ARTICLE_MAIN_VIEW;
@@ -45,17 +45,17 @@ class ManagerArticleMainErrorHandleTest implements ArticleMainTestUtils {
         // then
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_URL, "numberOrName", ""))
                 .andExpectAll(view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_URL, "numberOrName", "1"))
                 .andExpectAll(view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_URL, "numberOrName", INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
     }
 

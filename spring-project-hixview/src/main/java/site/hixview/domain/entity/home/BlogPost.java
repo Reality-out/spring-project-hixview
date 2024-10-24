@@ -28,7 +28,7 @@ public class BlogPost {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private Integer number;
+    private Long number;
 
     @NotBlank(message = "{NotBlank.post.name}")
     @Size(max = 80, message = "{Size.post.name}")
@@ -93,6 +93,18 @@ public class BlogPost {
             put(TARGET_ARTICLE_NAMES, targetArticleNames);
             put(TARGET_ARTICLE_LINKS, targetArticleLinks);
         }};
+    }
+
+    public HashMap<String, Object> toSerializedMapWithNoNumber() {
+        return new HashMap<>() {{
+            putAll(toMapWithNoNumber());
+            put(TARGET_ARTICLE_NAMES, getSerializedTargetArticleNames());
+            put(TARGET_ARTICLE_LINKS, getSerializedTargetArticleLinks());
+        }};
+    }
+
+    public static String[] getFieldNamesWithNoNumber() {
+        return new String[]{NAME, LINK, DATE, CLASSIFICATION, TARGET_NAME, TARGET_IMAGE_PATH, TARGET_ARTICLE_NAMES, TARGET_ARTICLE_LINKS};
     }
 
     public static final class BlogPostBuilder {

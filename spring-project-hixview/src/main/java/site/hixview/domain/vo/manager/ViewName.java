@@ -26,6 +26,11 @@ public final class ViewName {
     public static final String UPDATE_ARTICLE_MAIN_VIEW = "manager/update/article/main/";
     public static final String REMOVE_ARTICLE_MAIN_VIEW = "manager/remove/article/main/";
 
+    // BlogPost
+    public static final String ADD_BLOG_POST_VIEW = "manager/add/post/blog/";
+    public static final String UPDATE_BLOG_POST_VIEW = "manager/update/post/blog/";
+    public static final String REMOVE_BLOG_POST_VIEW = "manager/remove/post/blog/";
+
     // Company
     public static final String ADD_COMPANY_VIEW = "manager/add/company/";
     public static final String UPDATE_COMPANY_VIEW = "manager/update/company/";

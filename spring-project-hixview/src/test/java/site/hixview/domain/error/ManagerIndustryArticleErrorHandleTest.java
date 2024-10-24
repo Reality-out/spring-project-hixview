@@ -169,17 +169,17 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
         // then
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", ""))
                 .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", "1"))
                 .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
 
         requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_URL, "numberOrName", INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
     }
 

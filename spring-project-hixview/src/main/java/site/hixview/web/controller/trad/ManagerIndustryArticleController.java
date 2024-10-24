@@ -201,7 +201,7 @@ public class ManagerIndustryArticleController {
     public String processModifyIndustryArticle(@RequestParam String numberOrName, Model model) {
         Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
-            finishForRollback(NO_INDUSTRY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_PROCESS_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR, model);
+            finishForRollback(NO_INDUSTRY_ARTICLE_WITH_THAT_NUMBER_OR_NAME, UPDATE_QUERY_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR, model);
             return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
         }
 
