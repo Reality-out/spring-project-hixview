@@ -71,7 +71,7 @@ public abstract class ControllerUtils {
         if (!logMessage.isEmpty()) {
             log.error(ERRORS_ARE, logMessage);
         }
-        redirect.addAttribute("nameList", nameListString);
+        redirect.addAttribute(NAME_LIST, nameListString);
         redirect.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         redirect.addAttribute(ERROR_SINGLE, errorSingle);
     }

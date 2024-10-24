@@ -83,7 +83,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", ADD_SINGLE_COMPANY_URL),
+                        model().attribute(REPEAT_URL, ADD_SINGLE_COMPANY_URL),
                         model().attribute(VALUE, companyDto.getName()));
 
         assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
@@ -105,7 +105,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "companies-page"))
-                .andReturn().getModelAndView()).getModelMap().get("companies"))
+                .andReturn().getModelAndView()).getModelMap().get(COMPANIES))
                 .usingRecursiveComparison()
                 .isEqualTo(storedList);
     }
@@ -135,11 +135,11 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         // then
         for (String str : List.of(company.getCode(), company.getName())) {
-            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", str))
+            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyCompanyProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute("updateUrl", modifyCompanyFinishUrl))
+                            model().attribute(UPDATE_URL, modifyCompanyFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                     .usingRecursiveComparison()
                     .isEqualTo(companyDto);
@@ -171,7 +171,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", UPDATE_COMPANY_URL),
+                        model().attribute(REPEAT_URL, UPDATE_COMPANY_URL),
                         model().attribute(VALUE, commonName));
 
         assertThat(companyService.findCompanyByName(commonName).orElseThrow())
@@ -208,7 +208,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         for (String str : List.of(company.getCode(), name)) {
             companyService.registerCompany(company);
 
-            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", str))
+            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, CODE_OR_NAME, str))
                     .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
         }
 
@@ -216,7 +216,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", REMOVE_COMPANY_URL),
+                        model().attribute(REPEAT_URL, REMOVE_COMPANY_URL),
                         model().attribute(VALUE, name));
 
         assertThat(companyService.findCompanies()).isEmpty();

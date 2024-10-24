@@ -86,7 +86,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", ADD_ARTICLE_MAIN_URL),
+                        model().attribute(REPEAT_URL, ADD_ARTICLE_MAIN_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleMainService.findArticleByName(name).orElseThrow().toDto())
@@ -109,7 +109,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "article-mains-page"))
-                .andReturn().getModelAndView()).getModelMap().get("articleMains"))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
     }
@@ -129,7 +129,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_URL))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "article-mains-page"))
-                .andReturn().getModelAndView()).getModelMap().get("articleMains"))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
                 .usingRecursiveComparison()
                 .isEqualTo(emptyList());
     }
@@ -161,7 +161,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(modifyArticleMainProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute("updateUrl", modifyArticleMainFinishUrl))
+                            model().attribute(UPDATE_URL, modifyArticleMainFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
@@ -191,7 +191,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", UPDATE_ARTICLE_MAIN_URL),
+                        model().attribute(REPEAT_URL, UPDATE_ARTICLE_MAIN_URL),
                         model().attribute(VALUE, commonName));
 
         assertThat(articleMainService.findArticleByName(commonName).orElseThrow())
@@ -238,7 +238,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", REMOVE_ARTICLE_MAIN_URL),
+                        model().attribute(REPEAT_URL, REMOVE_ARTICLE_MAIN_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleMainService.findArticles()).isEmpty();

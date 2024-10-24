@@ -86,7 +86,6 @@ public class ManagerEconomyArticleControllerTest implements EconomyArticleTestUt
         List<String> nameList = Stream.of(article1, article2)
                 .map(EconomyArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
 
         // then
         for (EconomyArticleBufferSimple articleBuffer : List.of(articleBufferOriginal, articleBufferAddFaultNameDatePress)) {
@@ -100,7 +99,7 @@ public class ManagerEconomyArticleControllerTest implements EconomyArticleTestUt
                             redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -114,18 +113,18 @@ public class ManagerEconomyArticleControllerTest implements EconomyArticleTestUt
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
                         ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL,
                         new HashMap<>() {{
-                            put(nameListString, nameListForURL);
+                            put(NAME_LIST, nameListForURL);
                             put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
                             put(ERROR_SINGLE, null);
                         }}))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", ADD_ECONOMY_ARTICLE_WITH_STRING_URL),
-                        model().attribute(nameListString, ControllerUtils.decodeWithUTF8(nameList)))
+                        model().attribute(REPEAT_URL, ADD_ECONOMY_ARTICLE_WITH_STRING_URL),
+                        model().attribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 
-        assertThat(modelMapGet.get(nameListString)).usingRecursiveComparison().isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
+        assertThat(modelMapGet.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
         assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
 

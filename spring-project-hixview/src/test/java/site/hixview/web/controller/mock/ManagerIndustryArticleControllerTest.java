@@ -94,7 +94,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                             model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                            model().attribute("repeatUrl", ADD_SINGLE_INDUSTRY_ARTICLE_URL),
+                            model().attribute(REPEAT_URL, ADD_SINGLE_INDUSTRY_ARTICLE_URL),
                             model().attribute(VALUE, name));
 
             assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
@@ -120,7 +120,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_INDUSTRY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "industry-articles-page"))
-                .andReturn().getModelAndView()).getModelMap().get("articles"))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
     }
@@ -153,7 +153,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(modifyIndustryArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute("updateUrl", modifyIndustryArticleFinishUrl))
+                            model().attribute(UPDATE_URL, modifyIndustryArticleFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
@@ -188,7 +188,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                             model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                            model().attribute("repeatUrl", UPDATE_INDUSTRY_ARTICLE_URL),
+                            model().attribute(REPEAT_URL, UPDATE_INDUSTRY_ARTICLE_URL),
                             model().attribute(VALUE, commonName));
 
             assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -237,7 +237,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute(("repeatUrl"), REMOVE_INDUSTRY_ARTICLE_URL),
+                        model().attribute((REPEAT_URL), REMOVE_INDUSTRY_ARTICLE_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

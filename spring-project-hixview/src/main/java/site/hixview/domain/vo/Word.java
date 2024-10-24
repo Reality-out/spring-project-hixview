@@ -11,10 +11,18 @@ public final class Word {
     public static final String ERROR_SINGLE = "errorSingle";
     public static final String ERRORS_ARE = "errors = {}";
 
+    // url
+    public static final String REPEAT_URL = "repeatUrl";
+    public static final String UPDATE_URL = "updateUrl";
+
     // others
     public static final String ARTICLE = "article";
+    public static final String ARTICLES = "articles";
+    public static final String ARTICLE_MAINS = "articleMains";
     public static final String CLASSIFICATION = "classification";
     public static final String CODE = "code";
+    public static final String CODE_OR_NAME = "codeOrName";
+    public static final String COMPANIES = "companies";
     public static final String COMPANY = "company";
     public static final String DATE = "date";
     public static final String DAYS = "days";
@@ -30,6 +38,7 @@ public final class Word {
     public static final String MEMBER = "member";
     public static final String MONTH = "month";
     public static final String NAME = "name";
+    public static final String NAME_LIST = "nameList";
     public static final String NUMBER = "number";
     public static final String PRESS = "press";
     public static final String SCALE = "scale";

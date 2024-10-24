@@ -90,7 +90,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_SINGLE_COMPANY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, ADD_SINGLE_COMPANY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -178,8 +178,8 @@ public class ManagerCompanyArticleController {
     public String finishAddCompanyArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_COMPANY_ARTICLE_WITH_STRING_URL);
-        model.addAttribute("nameList", ControllerUtils.decodeWithUTF8(nameList));
+        model.addAttribute(REPEAT_URL, ADD_COMPANY_ARTICLE_WITH_STRING_URL);
+        model.addAttribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return ADD_COMPANY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH;
@@ -192,7 +192,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processSeeCompanyArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute("articles", articleService.findArticles());
+        model.addAttribute(ARTICLES, articleService.findArticles());
         return SELECT_VIEW + "company-articles-page";
     }
 
@@ -216,7 +216,7 @@ public class ManagerCompanyArticleController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
+        model.addAttribute(UPDATE_URL, UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
@@ -226,14 +226,14 @@ public class ManagerCompanyArticleController {
                                              BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
+            model.addAttribute(UPDATE_URL, UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
+            model.addAttribute(UPDATE_URL, UPDATE_COMPANY_ARTICLE_URL + FINISH_URL);
             return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
         }
 
@@ -245,7 +245,7 @@ public class ManagerCompanyArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", UPDATE_COMPANY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, UPDATE_COMPANY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH;
 	}
@@ -279,7 +279,7 @@ public class ManagerCompanyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompanyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", REMOVE_COMPANY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, REMOVE_COMPANY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_FINISH;
     }

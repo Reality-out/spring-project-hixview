@@ -28,7 +28,7 @@ public class UserMainRestController {
 
     @SneakyThrows
     @GetMapping(value = {COMPANY_SEARCH_URL + CHECK, COMPANY_SEARCH_URL + CHECK_URL + "{codeOrName}"})
-    public ResponseEntity<?> checkCodeOrNameCompanyShow(@PathVariable(name = "codeOrName", required = false) String codeOrName) {
+    public ResponseEntity<?> checkCodeOrNameCompanyShow(@PathVariable(name = CODE_OR_NAME, required = false) String codeOrName) {
         ObjectMapper objectMapper = new ObjectMapper();
         if (codeOrName == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(objectMapper.writeValueAsString(new HashMap<>(){{

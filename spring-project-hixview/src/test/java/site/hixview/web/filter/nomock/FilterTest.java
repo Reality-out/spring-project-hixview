@@ -84,7 +84,6 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         List<String> nameList = Stream.of(article1, article2)
                 .map(CompanyArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
 
         String articleStringLeftSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), " " + article1.getName());
@@ -113,7 +112,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
                             redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -133,7 +132,6 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         List<String> nameList = Stream.of(article1, article2)
                 .map(IndustryArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
 
         String articleStringLeftSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), " " + article1.getName());
@@ -160,7 +158,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
                             redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -180,7 +178,6 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         List<String> nameList = Stream.of(article1, article2)
                 .map(EconomyArticle::getName).collect(Collectors.toList());
         String nameListForURL = toStringForUrl(nameList);
-        String nameListString = "nameList";
 
         String articleStringLeftSpace = articleBuffer.getNameDatePressString()
                 .replace(article1.getName(), " " + article1.getName());
@@ -207,7 +204,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
                             redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(nameListString)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 

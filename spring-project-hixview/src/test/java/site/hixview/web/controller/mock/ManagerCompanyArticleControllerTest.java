@@ -96,7 +96,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", ADD_SINGLE_COMPANY_ARTICLE_URL),
+                        model().attribute(REPEAT_URL, ADD_SINGLE_COMPANY_ARTICLE_URL),
                         model().attribute(VALUE, articleDto.getName()));
 
         assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
@@ -119,7 +119,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "company-articles-page"))
-                .andReturn().getModelAndView()).getModelMap().get("articles"))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
     }
@@ -152,7 +152,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                     .andExpectAll(status().isOk(),
                             view().name(modifyCompanyArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute("updateUrl", modifyCompanyArticleFinishUrl))
+                            model().attribute(UPDATE_URL, modifyCompanyArticleFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
@@ -188,7 +188,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", UPDATE_COMPANY_ARTICLE_URL),
+                        model().attribute(REPEAT_URL, UPDATE_COMPANY_ARTICLE_URL),
                         model().attribute(VALUE, commonName));
 
         assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -236,7 +236,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", REMOVE_COMPANY_ARTICLE_URL),
+                        model().attribute(REPEAT_URL, REMOVE_COMPANY_ARTICLE_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

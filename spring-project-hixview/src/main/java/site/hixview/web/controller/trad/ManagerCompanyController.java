@@ -81,7 +81,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_SINGLE_COMPANY_URL);
+        model.addAttribute(REPEAT_URL, ADD_SINGLE_COMPANY_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -93,7 +93,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String processSeeCompanies(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute("companies", companyService.findCompanies());
+        model.addAttribute(COMPANIES, companyService.findCompanies());
         return SELECT_VIEW + "companies-page";
     }
 
@@ -117,7 +117,7 @@ public class ManagerCompanyController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
+        model.addAttribute(UPDATE_URL, UPDATE_COMPANY_URL + FINISH_URL);
         model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
         model.addAttribute(LISTED_COUNTRIES, Country.values());
         model.addAttribute(SCALES, Scale.values());
@@ -129,14 +129,14 @@ public class ManagerCompanyController {
                                       BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
+            model.addAttribute(UPDATE_URL, UPDATE_COMPANY_URL + FINISH_URL);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute("updateUrl", UPDATE_COMPANY_URL + FINISH_URL);
+            model.addAttribute(UPDATE_URL, UPDATE_COMPANY_URL + FINISH_URL);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
 
@@ -148,7 +148,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", UPDATE_COMPANY_URL);
+        model.addAttribute(REPEAT_URL, UPDATE_COMPANY_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_VIEW + VIEW_FINISH;
     }
@@ -182,7 +182,7 @@ public class ManagerCompanyController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", REMOVE_COMPANY_URL);
+        model.addAttribute(REPEAT_URL, REMOVE_COMPANY_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_URL_VIEW + VIEW_FINISH;
     }

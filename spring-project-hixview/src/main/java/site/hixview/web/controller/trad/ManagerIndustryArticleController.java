@@ -71,7 +71,7 @@ public class ManagerIndustryArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_SINGLE_INDUSTRY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, ADD_SINGLE_INDUSTRY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -167,8 +167,8 @@ public class ManagerIndustryArticleController {
     public String finishAddIndustryArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_INDUSTRY_ARTICLE_WITH_STRING_URL);
-        model.addAttribute("nameList", ControllerUtils.decodeWithUTF8(nameList));
+        model.addAttribute(REPEAT_URL, ADD_INDUSTRY_ARTICLE_WITH_STRING_URL);
+        model.addAttribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH;
@@ -181,7 +181,7 @@ public class ManagerIndustryArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processSeeIndustryArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute("articles", articleService.findArticles());
+        model.addAttribute(ARTICLES, articleService.findArticles());
         model.addAttribute("secondCategoryMap", getMapNameKorean(SecondCategory.class));
         return SELECT_VIEW + "industry-articles-page";
     }
@@ -206,7 +206,7 @@ public class ManagerIndustryArticleController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute("updateUrl", UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
+        model.addAttribute(UPDATE_URL, UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
@@ -215,7 +215,7 @@ public class ManagerIndustryArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", UPDATE_INDUSTRY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, UPDATE_INDUSTRY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
 	}
@@ -249,7 +249,7 @@ public class ManagerIndustryArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", REMOVE_INDUSTRY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, REMOVE_INDUSTRY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
     }

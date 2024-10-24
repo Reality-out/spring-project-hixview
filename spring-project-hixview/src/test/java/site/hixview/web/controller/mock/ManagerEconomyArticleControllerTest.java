@@ -93,7 +93,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(ADD_ECONOMY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                             model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                            model().attribute("repeatUrl", ADD_SINGLE_ECONOMY_ARTICLE_URL),
+                            model().attribute(REPEAT_URL, ADD_SINGLE_ECONOMY_ARTICLE_URL),
                             model().attribute(VALUE, name));
 
             assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
@@ -119,7 +119,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_ECONOMY_ARTICLE_URL))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "economy-articles-page"))
-                .andReturn().getModelAndView()).getModelMap().get("articles"))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
                 .usingRecursiveComparison()
                 .isEqualTo(articleList);
     }
@@ -152,7 +152,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(modifyEconomyArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute("updateUrl", modifyEconomyArticleFinishUrl))
+                            model().attribute(UPDATE_URL, modifyEconomyArticleFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
@@ -188,7 +188,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_FINISH),
                             model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                            model().attribute("repeatUrl", UPDATE_ECONOMY_ARTICLE_URL),
+                            model().attribute(REPEAT_URL, UPDATE_ECONOMY_ARTICLE_URL),
                             model().attribute(VALUE, commonName));
 
             assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -237,7 +237,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute("repeatUrl", REMOVE_ECONOMY_ARTICLE_URL),
+                        model().attribute(REPEAT_URL, REMOVE_ECONOMY_ARTICLE_URL),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

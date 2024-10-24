@@ -15,8 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.Word.ERROR;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.REMOVE_COMPANY_URL;
@@ -43,17 +42,17 @@ class ManagerCompanyErrorHandleTest implements CompanyTestUtils {
         when(companyService.findCompanyByCodeOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", "000000"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, "000000"))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, "codeOrName", INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
@@ -66,17 +65,17 @@ class ManagerCompanyErrorHandleTest implements CompanyTestUtils {
         when(companyService.findCompanyByCodeOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, CODE_OR_NAME, ""))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", "000000"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, CODE_OR_NAME, "000000"))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, "codeOrName", INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, CODE_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));

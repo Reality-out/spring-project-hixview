@@ -69,7 +69,7 @@ public class ManagerEconomyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddEconomyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_SINGLE_ECONOMY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, ADD_SINGLE_ECONOMY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_ECONOMY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -160,8 +160,8 @@ public class ManagerEconomyArticleController {
     public String finishAddEconomyArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_ECONOMY_ARTICLE_WITH_STRING_URL);
-        model.addAttribute("nameList", ControllerUtils.decodeWithUTF8(nameList));
+        model.addAttribute(REPEAT_URL, ADD_ECONOMY_ARTICLE_WITH_STRING_URL);
+        model.addAttribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
         return ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH;
@@ -174,7 +174,7 @@ public class ManagerEconomyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String processSeeEconomyArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute("articles", articleService.findArticles());
+        model.addAttribute(ARTICLES, articleService.findArticles());
         return SELECT_VIEW + "economy-articles-page";
     }
 
@@ -198,7 +198,7 @@ public class ManagerEconomyArticleController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute("updateUrl", UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL);
+        model.addAttribute(UPDATE_URL, UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
@@ -207,7 +207,7 @@ public class ManagerEconomyArticleController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyEconomyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", UPDATE_ECONOMY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, UPDATE_ECONOMY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_FINISH;
 	}
@@ -241,7 +241,7 @@ public class ManagerEconomyArticleController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidEconomyArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", REMOVE_ECONOMY_ARTICLE_URL);
+        model.addAttribute(REPEAT_URL, REMOVE_ECONOMY_ARTICLE_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_FINISH;
     }

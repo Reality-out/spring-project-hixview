@@ -80,7 +80,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String finishAddArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", ADD_ARTICLE_MAIN_URL);
+        model.addAttribute(REPEAT_URL, ADD_ARTICLE_MAIN_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }
@@ -92,7 +92,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String processSeeArticleMains(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute("articleMains", articleMainService.findArticles());
+        model.addAttribute(ARTICLE_MAINS, articleMainService.findArticles());
         return SELECT_VIEW + "article-mains-page";
     }
 
@@ -110,7 +110,7 @@ public class ManagerArticleMainController {
             }
         }
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute("articleMains", articlesWithInvalidImagePath);
+        model.addAttribute(ARTICLE_MAINS, articlesWithInvalidImagePath);
         return SELECT_VIEW + "article-mains-page";
     }
 
@@ -135,7 +135,7 @@ public class ManagerArticleMainController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
+        model.addAttribute(UPDATE_URL, UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
     }
@@ -145,14 +145,14 @@ public class ManagerArticleMainController {
                                                  BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
+            model.addAttribute(UPDATE_URL, UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
             return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute("updateUrl", UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
+            model.addAttribute(UPDATE_URL, UPDATE_ARTICLE_MAIN_URL + FINISH_URL);
             return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
         }
 
@@ -164,7 +164,7 @@ public class ManagerArticleMainController {
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", UPDATE_ARTICLE_MAIN_URL);
+        model.addAttribute(REPEAT_URL, UPDATE_ARTICLE_MAIN_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
 	}
@@ -199,7 +199,7 @@ public class ManagerArticleMainController {
     @ResponseStatus(HttpStatus.OK)
     public String finishRidArticleMain(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute("repeatUrl", REMOVE_ARTICLE_MAIN_URL);
+        model.addAttribute(REPEAT_URL, REMOVE_ARTICLE_MAIN_URL);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH;
     }

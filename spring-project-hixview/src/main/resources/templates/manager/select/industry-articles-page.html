@@ -38,7 +38,7 @@
         document.querySelectorAll('.subject-second-category').forEach(
             secondCategoryNode => {
                 secondCategoryNode.textContent = secondCategoryNode.textContent.slice(1, -1).split(',').map(secondCategoryStr => secondCategoryStr.trim())
-                .map(secondCategoryStr => secondCategoryMap[secondCategoryStr]).join();
+                .map(secondCategoryStr => secondCategoryMap[secondCategoryStr]).join(', ');
             }
         )
     })
