@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import site.hixview.domain.validation.annotation.ClassificationConstraint;
+import site.hixview.domain.validation.annotation.TargetArticleLinksConstraint;
+import site.hixview.domain.validation.annotation.TargetArticleNamesConstraint;
 
 import static site.hixview.domain.vo.Regex.URL_REGEX;
 
@@ -47,9 +49,9 @@ public class BlogPostDto {
     @Size(max = 80, message = "{Size.post.targetImagePath}")
     private String targetImagePath;
 
-    @NotNull
+    @TargetArticleNamesConstraint
     private String targetArticleNames;
 
-    @NotNull
+    @TargetArticleLinksConstraint
     private String targetArticleLinks;
 }

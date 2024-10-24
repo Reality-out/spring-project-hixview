@@ -7,6 +7,8 @@ import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
+import site.hixview.domain.validation.annotation.SubjectFirstCategoryConstraint;
+import site.hixview.domain.validation.annotation.SubjectSecondCategoriesConstraint;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
@@ -19,7 +21,10 @@ import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
 @Getter
 public class IndustryArticleBufferSimple extends ArticleBufferSimple {
 
+    @SubjectFirstCategoryConstraint
     private final String subjectFirstCategory;
+
+    @SubjectSecondCategoriesConstraint
     private final String subjectSecondCategories;
 
     @Override

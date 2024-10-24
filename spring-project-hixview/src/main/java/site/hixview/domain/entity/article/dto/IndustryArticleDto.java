@@ -7,10 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
-import site.hixview.domain.validation.annotation.FirstCategoryConstraint;
-import site.hixview.domain.validation.annotation.ImportanceConstraint;
-import site.hixview.domain.validation.annotation.PressConstraint;
-import site.hixview.domain.validation.annotation.SubjectSecondCategoriesConstraint;
+import site.hixview.domain.validation.annotation.*;
 
 import static site.hixview.domain.vo.Regex.URL_REGEX;
 
@@ -44,7 +41,7 @@ public class IndustryArticleDto {
     @ImportanceConstraint
     private Integer importance;
 
-    @FirstCategoryConstraint
+    @SubjectFirstCategoryConstraint
     private String subjectFirstCategory;
 
     @SubjectSecondCategoriesConstraint

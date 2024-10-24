@@ -6,6 +6,8 @@ import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
+import site.hixview.domain.validation.annotation.SubjectCountryConstraint;
+import site.hixview.domain.validation.annotation.TargetEconomyContentsConstraint;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
@@ -18,7 +20,10 @@ import static site.hixview.domain.vo.Word.TARGET_ECONOMY_CONTENT;
 @Getter
 public class EconomyArticleBufferSimple extends ArticleBufferSimple {
 
+    @SubjectCountryConstraint
     private final String subjectCountry;
+
+    @TargetEconomyContentsConstraint
     private final String targetEconomyContents;
 
     @Override

@@ -3,18 +3,20 @@ package site.hixview.domain.entity.home;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
-import site.hixview.domain.validation.annotation.ClassificationConstraint;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
+import static site.hixview.domain.vo.Regex.URL_REGEX;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 import static site.hixview.util.JsonUtils.serializeWithOneMap;
@@ -28,22 +30,27 @@ public class BlogPost {
 
     private Integer number;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.post.name}")
+    @Size(max = 80, message = "{Size.post.name}")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.post.link}")
+    @Size(max = 400, message = "{Size.post.link}")
+    @Pattern(regexp = URL_REGEX, message = "{Pattern.post.link}")
     private String link;
 
     @NotNull
     private LocalDate date;
 
-    @ClassificationConstraint
+    @NotNull
     private Classification classification;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.post.targetName}")
+    @Size(max = 80, message = "{Size.post.targetName}")
     private String targetName;
 
-    @NotBlank
+    @NotBlank(message = "{NotBlank.post.targetImagePath}")
+    @Size(max = 80, message = "{Size.post.targetImagePath}")
     private String targetImagePath;
 
     @NotNull

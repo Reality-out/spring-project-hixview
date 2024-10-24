@@ -74,9 +74,9 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
                 .isEqualTo(messageSource.getMessage("NotBlank.article.press", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.article.subjectFirstCategory", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_SECOND_CATEGORIES)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.subjectSecondCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.article.subjectSecondCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 추가 유효성 검증")
@@ -108,7 +108,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
                 .isEqualTo(messageSource.getMessage("NotBlank.article.press", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.article.subjectFirstCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotNull에 대한 산업 기사 추가 유효성 검증")
@@ -330,9 +330,9 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
                 .isEqualTo(messageSource.getMessage("NotBlank.article.press", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.article.subjectFirstCategory", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_SECOND_CATEGORIES)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.subjectSecondCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.article.subjectSecondCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 변경 유효성 검증")
@@ -364,7 +364,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         assertThat(decodeWithUTF8((fieldErrorMap).get(PRESS)))
                 .isEqualTo(messageSource.getMessage("NotBlank.article.press", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.article.subjectFirstCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotNull에 대한 산업 기사 변경 유효성 검증")

@@ -18,8 +18,8 @@ import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
 @Builder(access = AccessLevel.PUBLIC)
 public class CompanyArticle extends Article {
 
-    @NotBlank
-    @Size(max = 12)
+    @NotBlank(message = "{NotBlank.article.subjectCompany}")
+    @Size(max = 12, message = "{Size.article.subjectCompany}")
     private final String subjectCompany;
 
     public CompanyArticleDto toDto() {

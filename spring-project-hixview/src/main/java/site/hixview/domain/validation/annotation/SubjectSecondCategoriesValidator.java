@@ -30,7 +30,7 @@ public class SubjectSecondCategoriesValidator implements ConstraintValidator<Sub
         for (String secondCategory : secondCategoriesList) {
             if (secondCategory.isBlank()) {
                 context.buildConstraintViolationWithTemplate(
-                        source.getMessage("NotBlank.company.subjectSecondCategory", null, Locale.getDefault())
+                        source.getMessage("NotBlank.article.subjectSecondCategory", null, Locale.getDefault())
                 ).addConstraintViolation();
                 return false;
             }
