@@ -48,17 +48,18 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
     @Test
     void validateNotBlankSpaceIndustryArticleAdd() throws Exception {
         // given & when
+        ObjectMapper objectMapper = new ObjectMapper();
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
         articleDto.setName(" ");
         articleDto.setLink(" ");
         articleDto.setPress(" ");
         articleDto.setSubjectFirstCategory(" ");
-        articleDto.setSubjectSecondCategories(new ObjectMapper().writeValueAsString(new HashMap<>() {{
+        articleDto.setSubjectSecondCategories(objectMapper.writeValueAsString(new HashMap<>() {{
             put(SUBJECT_SECOND_CATEGORY, List.of(" "));
         }}));
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = objectMapper.readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -75,7 +76,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
                 .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_SECOND_CATEGORIES)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.company.subjectSecondCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 추가 유효성 검증")
@@ -331,7 +332,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_FIRST_CATEGORY)))
                 .isEqualTo(messageSource.getMessage("NotBlank.company.firstCategory", null, Locale.getDefault()));
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_SECOND_CATEGORIES)))
-                .isEqualTo(messageSource.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("NotBlank.company.subjectSecondCategory", null, Locale.getDefault()));
     }
 
     @DisplayName("NotBlank(null)에 대한 산업 기사 변경 유효성 검증")

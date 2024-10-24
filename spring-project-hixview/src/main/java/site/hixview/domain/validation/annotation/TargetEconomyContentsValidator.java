@@ -14,12 +14,12 @@ import java.util.Locale;
 import static site.hixview.domain.vo.Word.TARGET_ECONOMY_CONTENT;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
-public class EconomyContentsValidator implements ConstraintValidator<EconomyContentsConstraint, String> {
+public class TargetEconomyContentsValidator implements ConstraintValidator<TargetEconomyContentsConstraint, String> {
 
     @Autowired
     private MessageSource source;
 
-    private final Logger log = LoggerFactory.getLogger(EconomyContentsValidator.class);
+    private final Logger log = LoggerFactory.getLogger(TargetEconomyContentsValidator.class);
 
     @Override
     public boolean isValid(String economyContents, ConstraintValidatorContext context) {

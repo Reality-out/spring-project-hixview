@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
-import site.hixview.domain.validation.annotation.EconomyContentsConstraint;
+import site.hixview.domain.validation.annotation.TargetEconomyContentsConstraint;
 import site.hixview.domain.validation.annotation.ImportanceConstraint;
 import site.hixview.domain.validation.annotation.PressConstraint;
 import site.hixview.domain.validation.annotation.SubjectCountryConstraint;
@@ -47,6 +47,6 @@ public class EconomyArticleDto {
     @SubjectCountryConstraint
     private String subjectCountry;
 
-    @EconomyContentsConstraint
+    @TargetEconomyContentsConstraint
     private String targetEconomyContents;
 }

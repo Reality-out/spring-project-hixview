@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
 import site.hixview.domain.validation.annotation.FirstCategoryConstraint;
 import site.hixview.domain.validation.annotation.ImportanceConstraint;
 import site.hixview.domain.validation.annotation.PressConstraint;
-import site.hixview.domain.validation.annotation.SecondCategoriesConstraint;
+import site.hixview.domain.validation.annotation.SubjectSecondCategoriesConstraint;
 
 import static site.hixview.domain.vo.Regex.URL_REGEX;
 
@@ -47,6 +47,6 @@ public class IndustryArticleDto {
     @FirstCategoryConstraint
     private String subjectFirstCategory;
 
-    @SecondCategoriesConstraint
+    @SubjectSecondCategoriesConstraint
     private String subjectSecondCategories;
 }

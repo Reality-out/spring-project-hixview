@@ -16,12 +16,12 @@ import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
-public class SecondCategoriesValidator implements ConstraintValidator<SecondCategoriesConstraint, String> {
+public class SubjectSecondCategoriesValidator implements ConstraintValidator<SubjectSecondCategoriesConstraint, String> {
 
     @Autowired
     private MessageSource source;
 
-    private final Logger log = LoggerFactory.getLogger(SecondCategoriesValidator.class);
+    private final Logger log = LoggerFactory.getLogger(SubjectSecondCategoriesValidator.class);
 
     @Override
     public boolean isValid(String secondCategories, ConstraintValidatorContext context) {
@@ -30,7 +30,7 @@ public class SecondCategoriesValidator implements ConstraintValidator<SecondCate
         for (String secondCategory : secondCategoriesList) {
             if (secondCategory.isBlank()) {
                 context.buildConstraintViolationWithTemplate(
-                        source.getMessage("NotBlank.company.secondCategory", null, Locale.getDefault())
+                        source.getMessage("NotBlank.company.subjectSecondCategory", null, Locale.getDefault())
                 ).addConstraintViolation();
                 return false;
             }

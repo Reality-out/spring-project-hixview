@@ -26,7 +26,7 @@ public class ListedCountryValidator implements ConstraintValidator<ListedCountry
         }
         if (!inEnumConstants(Country.class, country)) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("typeMismatch.enum.company.listedCountry", null, Locale.getDefault())
+                    source.getMessage("typeMismatch.enum.company.country", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }

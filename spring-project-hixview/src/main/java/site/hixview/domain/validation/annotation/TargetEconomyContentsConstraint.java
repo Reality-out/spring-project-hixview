@@ -7,9 +7,9 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EconomyContentsValidator.class)
+@Constraint(validatedBy = TargetEconomyContentsValidator.class)
 @Documented
-public @interface EconomyContentsConstraint {
+public @interface TargetEconomyContentsConstraint {
 
     String message() default "EconomyContents default message";
 
