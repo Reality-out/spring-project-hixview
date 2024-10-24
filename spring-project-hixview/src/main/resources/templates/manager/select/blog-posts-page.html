@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html th:replace="~{${layoutPath} :: layout(~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="wrapper-select-table">
+    <table class="select-table">
+        <caption>
+            <strong>&lt;&lt; [[#{post.blog}]] [[#{data}]] &gt;&gt;</strong>
+        </caption>
+        <thead>
+        <tr>
+            <th scope="col" th:text="#{post.number}"></th>
+            <th scope="col" th:text="#{post.name}"></th>
+            <th scope="col" th:text="#{post.link}"></th>
+            <th scope="col" th:text="#{post.date}"></th>
+            <th scope="col" th:text="#{post.classification}"></th>
+            <th scope="col" th:text="#{post.targetName}"></th>
+            <th scope="col" th:text="#{post.targetImagePath}"></th>
+            <th scope="col" th:text="#{post.targetArticleNames}"></th>
+            <th scope="col" th:text="#{post.targetArticleLinks}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${blogPosts}">
+            <td th:text="${post.number}"></td>
+            <td th:text="${post.name}"></td>
+            <td th:text="${post.link}"></td>
+            <td th:text="${post.date}"></td>
+            <td th:text="${post.classification.value}"></td>
+            <td th:text="${post.targetName}"></td>
+            <td th:text="${post.targetImagePath}"></td>
+            <td class="target-article-name" th:text="${post.targetArticleNames}"></td>
+            <td class="target-article-link" th:text="${post.targetArticleLinks}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script defer th:inline="javascript" type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.target-article-name').forEach(
+            articleNameNode => {
+                articleNameNode.textContent = articleNameNode.textContent.slice(1, -1).replaceAll(',', ', ');
+            }
+        );
+        document.querySelectorAll('.target-article-link').forEach(
+            articleLinkNode => {
+                articleLinkNode.textContent = articleLinkNode.textContent.slice(1, -1).replaceAll(',', ', ');
+            }
+        );
+    })
+</script>
+</body>
+</html>

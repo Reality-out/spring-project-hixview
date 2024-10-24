@@ -39,7 +39,7 @@ import static site.hixview.util.ControllerUtils.*;
 @RequiredArgsConstructor
 public class ManagerBlogPostController {
 
-    private final BlogPostService postMainService;
+    private final BlogPostService blogPostService;
     private final CompanyService companyService;
 
     private final BlogPostAddValidator addValidator;
@@ -74,8 +74,8 @@ public class ManagerBlogPostController {
     @ResponseStatus(HttpStatus.OK)
     public String processSeeBlogPosts(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
-        model.addAttribute(BLOG_POSTS, postMainService.findPosts());
-        return SELECT_VIEW + "post-mains-page";
+        model.addAttribute(BLOG_POSTS, blogPostService.findPosts());
+        return SELECT_VIEW + "blog-posts-page";
     }
 
     @GetMapping(CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL)
@@ -83,7 +83,7 @@ public class ManagerBlogPostController {
     public String processCheckTargetImagePathBlogPosts(Model model) {
         List<BlogPost> postsWithInvalidImagePath = new ArrayList<>();
         Path prefix = Paths.get(ROOT_PATH).resolve(STATIC_RESOURCE_PATH);
-        for (BlogPost post : postMainService.findPosts()) {
+        for (BlogPost post : blogPostService.findPosts()) {
             Path filePath = prefix
                     .resolve(post.getTargetImagePath().substring(1))
                     .toAbsolutePath();
@@ -93,7 +93,7 @@ public class ManagerBlogPostController {
         }
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
         model.addAttribute(BLOG_POSTS, postsWithInvalidImagePath);
-        return SELECT_VIEW + "post-mains-page";
+        return SELECT_VIEW + "blog-posts-page";
     }
 
     /**
@@ -109,7 +109,7 @@ public class ManagerBlogPostController {
     @PostMapping(UPDATE_BLOG_POST_URL)
     @ResponseStatus(HttpStatus.OK)
     public String processModifyBlogPost(@RequestParam String numberOrName, Model model) {
-        Optional<BlogPost> postOrEmpty = postMainService.findPostByNumberOrName(numberOrName);
+        Optional<BlogPost> postOrEmpty = blogPostService.findPostByNumberOrName(numberOrName);
         if (postOrEmpty.isEmpty()) {
             finishForRollback(NO_BLOG_POST_WITH_THAT_NUMBER_OR_NAME,
                     UPDATE_QUERY_LAYOUT, NOT_FOUND_BLOG_POST_ERROR, model);
@@ -143,7 +143,7 @@ public class ManagerBlogPostController {
 
     @PostMapping(REMOVE_BLOG_POST_URL)
     public String submitRidBlogPost(@RequestParam String numberOrName, Model model) {
-        Optional<BlogPost> postOrEmpty = postMainService.findPostByNumberOrName(numberOrName);
+        Optional<BlogPost> postOrEmpty = blogPostService.findPostByNumberOrName(numberOrName);
         if (postOrEmpty.isEmpty()) {
             finishForRollback(NO_BLOG_POST_WITH_THAT_NUMBER_OR_NAME,
                     REMOVE_PROCESS_LAYOUT, NOT_FOUND_BLOG_POST_ERROR, model);
@@ -151,9 +151,9 @@ public class ManagerBlogPostController {
         }
 
         if (NUMBER_PATTERN.matcher(numberOrName).matches()) {
-            numberOrName = postMainService.findPostByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
+            numberOrName = blogPostService.findPostByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
-        postMainService.removePostByName(numberOrName);
+        blogPostService.removePostByName(numberOrName);
         return REDIRECT_URL + fromPath(REMOVE_BLOG_POST_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
     }
 

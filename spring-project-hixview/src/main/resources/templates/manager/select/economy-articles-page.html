@@ -36,8 +36,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.target-economy-content').forEach(
             economyContentNode => {
-                economyContentNode.textContent = economyContentNode.textContent.slice(1, -1).split(',')
-                .map(economyContentStr => economyContentStr.trim()).join(', ');
+                economyContentNode.textContent = economyContentNode.textContent.slice(1, -1).replaceAll(',', ', ');
             }
         )
     })

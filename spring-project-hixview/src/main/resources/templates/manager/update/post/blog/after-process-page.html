@@ -2,18 +2,19 @@
 <html th:replace="~{${layoutPath} :: layout(~{::div}, ~{::script})}" lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div>
-    <p class="intro-basic-form" th:text="|#{post.blog}를 #{function.register}합니다.|"></p>
-    <form id="basicForm" th:action th:object="${post}" method="POST">
+    <p class="intro-basic-form" th:text="|#{article} #{data.main}을 #{function.correct}합니다.|"></p>
+    <p class="intro-basic-form" th:text="|해당 #{article.number} 또는 #{article.name}과 일치하는 #{article}가 확인되었습니다.|"></p>
+    <form id="basicForm" th:action="${updateUrl}" th:object="${post}" method="POST">
         <div hidden class="txt-error-message" id="error-bean" th:value="#{BeanValidation}"></div>
         <div id="basicFormItems">
             <div class="basic-form-item">
                 <label for="name" th:text="#{post.name}"></label>
-                <input type="text" id="name" th:field="*{name}" size="20">
+                <input type="text" id="name" th:field="*{name}" size="20" readonly>
                 <div hidden class="txt-error-message" id="error-name"></div>
             </div>
             <div class="basic-form-item">
                 <label for="link" th:text="#{post.link}"></label>
-                <input type="text" id="link" th:field="*{link}" size="20">
+                <input type="text" id="link" th:field="*{link}" size="20" readonly>
                 <div hidden class="txt-error-message" id="error-link"></div>
             </div>
             <div class="basic-form-item">
@@ -67,8 +68,11 @@
 <!--suppress HtmlUnknownAttribute -->
 <div hidden id="container-data"
      th:data-target-article-name="#{post.targetArticleName}"
-     th:data-target-article-link="#{post.targetArticleLink}">
+     th:data-target-article-name-json="${post.targetArticleNames}"
+     th:data-target-article-link="#{post.targetArticleLink}"
+     th:data-target-article-link-json="${post.targetArticleLinks}">
 </div>
+<script defer type="module" src="/scripts/manager/processReceiveArticleNameAndLinkScript.js"></script>
 <script defer type="module" src="/scripts/manager/processSubmitArticleNameAndLinkScript.js"></script>
 </body>
 </html>

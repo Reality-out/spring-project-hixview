@@ -37,7 +37,7 @@
         const secondCategoryMap = /*[[${secondCategoryMap}]]*/ {};
         document.querySelectorAll('.subject-second-category').forEach(
             secondCategoryNode => {
-                secondCategoryNode.textContent = secondCategoryNode.textContent.slice(1, -1).split(',').map(secondCategoryStr => secondCategoryStr.trim())
+                secondCategoryNode.textContent = secondCategoryNode.textContent.slice(1, -1).split(',')
                 .map(secondCategoryStr => secondCategoryMap[secondCategoryStr]).join(', ');
             }
         )

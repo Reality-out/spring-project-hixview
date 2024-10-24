@@ -5,22 +5,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
-import site.hixview.domain.service.BlogPostService;
-import site.hixview.domain.service.CompanyArticleService;
-import site.hixview.domain.service.EconomyArticleService;
-import site.hixview.domain.service.IndustryArticleService;
+import site.hixview.domain.service.*;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.EnumUtils.inEnumConstants;
 
 @Component
 @RequiredArgsConstructor
 public class BlogPostAddValidator implements Validator {
 
-    private final CompanyArticleService companyArticleService;
-    private final IndustryArticleService industryArticleService;
-    private final EconomyArticleService economyArticleService;
+    private final CompanyService companyService;
     private final BlogPostService blogPostService;
 
     @Override
@@ -40,9 +38,10 @@ public class BlogPostAddValidator implements Validator {
             errors.rejectValue(LINK, "Exist");
         }
 
-        if (companyArticleService.findArticleByName(postDto.getTargetName()).isEmpty() &&
-                industryArticleService.findArticleByName(postDto.getTargetName()).isEmpty() &&
-                economyArticleService.findArticleByName(postDto.getTargetName()).isEmpty()) {
+        String targetName = postDto.getTargetName();
+        if (companyService.findCompanyByName(targetName).isEmpty() &&
+                !inEnumConstants(FirstCategory.class, targetName) &&
+                !inEnumConstants(Country.class, targetName)) {
             errors.rejectValue(TARGET_NAME, "NotFound");
         }
     }
