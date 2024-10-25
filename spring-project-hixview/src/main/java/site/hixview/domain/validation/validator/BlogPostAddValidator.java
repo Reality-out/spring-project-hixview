@@ -7,12 +7,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
-import site.hixview.domain.service.*;
+import site.hixview.domain.service.BlogPostService;
+import site.hixview.domain.service.CompanyService;
 
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.util.EnumUtils.inEnumConstants;
+import static site.hixview.util.EnumUtils.inEnumValues;
 
 @Component
 @RequiredArgsConstructor
@@ -20,28 +21,33 @@ public class BlogPostAddValidator implements Validator {
 
     private final CompanyService companyService;
     private final BlogPostService blogPostService;
+    private final BlogPostEntryDateValidator blogPostEntryDateValidator;
 
     @Override
     public boolean supports(@NonNull Class<?> clazz) {
-        return ArticleMainDto.class.isAssignableFrom(clazz);
+        return BlogPostDto.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(@NonNull Object target, @NonNull Errors errors) {
-        BlogPostDto postDto = (BlogPostDto) target;
+        BlogPostDto blogPostDto = (BlogPostDto) target;
 
-        if (blogPostService.findPostByName(postDto.getName()).isPresent()) {
+        blogPostEntryDateValidator.validate(blogPostDto, errors);
+
+        if (blogPostService.findPostByName(blogPostDto.getName()).isPresent()) {
             errors.rejectValue(NAME, "Exist");
         }
 
-        if (blogPostService.findPostByLink(postDto.getLink()).isPresent()) {
+        if (blogPostService.findPostByLink(blogPostDto.getLink()).isPresent()) {
             errors.rejectValue(LINK, "Exist");
         }
 
-        String targetName = postDto.getTargetName();
+        String targetName = blogPostDto.getTargetName();
         if (companyService.findCompanyByName(targetName).isEmpty() &&
                 !inEnumConstants(FirstCategory.class, targetName) &&
-                !inEnumConstants(Country.class, targetName)) {
+                !inEnumValues(FirstCategory.class, targetName) &&
+                !inEnumConstants(Country.class, targetName) &&
+                !inEnumValues(Country.class, targetName)) {
             errors.rejectValue(TARGET_NAME, "NotFound");
         }
     }

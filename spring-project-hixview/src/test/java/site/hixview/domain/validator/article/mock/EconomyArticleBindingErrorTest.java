@@ -42,7 +42,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
     private final Logger log = LoggerFactory.getLogger(EconomyArticleBindingErrorTest.class);
 
     private final String IS_BEAN_VALIDATION_ERROR = "isBeanValidationError";
-    private final String FIELD_ERROR_MAP = "fieldErrorMap";
 
     @DisplayName("NotBlank(공백)에 대한 경제 기사 추가 유효성 검증")
     @Test
@@ -91,7 +90,7 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
                             put(MONTH, String.valueOf(articleDto.getMonth()));
                             put(DAYS, String.valueOf(articleDto.getDays()));
                             put(IMPORTANCE, String.valueOf(articleDto.getImportance()));
-                            put(TARGET_ECONOMY_CONTENTS, String.valueOf(articleDto.getTargetEconomyContents()));
+                            put(TARGET_ECONOMY_CONTENTS, articleDto.getTargetEconomyContents());
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });

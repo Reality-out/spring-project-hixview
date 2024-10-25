@@ -28,7 +28,7 @@ public class TargetArticleLinksValidator implements ConstraintValidator<TargetAr
         for (String economyContent : articleLinksList) {
             if (economyContent.isBlank()) {
                 context.buildConstraintViolationWithTemplate(
-                        source.getMessage("NotBlank.article.targetArticleLink", null, Locale.getDefault())
+                        source.getMessage("NotBlank.post.targetArticleLink", null, Locale.getDefault())
                 ).addConstraintViolation();
                 return false;
             }

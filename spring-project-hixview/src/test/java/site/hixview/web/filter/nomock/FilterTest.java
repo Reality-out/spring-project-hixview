@@ -26,12 +26,16 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
+import static site.hixview.domain.vo.user.RequestUrl.*;
+import static site.hixview.domain.vo.user.ViewName.*;
 import static site.hixview.support.util.EconomyArticleTestUtils.*;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
@@ -71,6 +75,17 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, A
         resetTable(jdbcTemplateTest, TEST_INDUSTRY_ARTICLES_SCHEMA, true);
         resetTable(jdbcTemplateTest, TEST_ECONOMY_ARTICLES_SCHEMA, true);
         resetTable(jdbcTemplateTest, TEST_COMPANIES_SCHEMA);
+    }
+
+    @DisplayName("URL 맨 끝 슬래시 제거 필터 테스트")
+    @Test
+    void handleUrlLastSlashFilterTest() throws Exception {
+        mockMvc.perform(getWithNoParam(LOGIN_URL + "/"))
+                .andExpectAll(status().isOk(), view().name(LOGIN_VIEW + VIEW_SHOW));
+        mockMvc.perform(getWithNoParam(FIND_ID_URL + "/"))
+                .andExpectAll(status().isOk(), view().name(FIND_ID_VIEW + VIEW_PROCESS));
+        mockMvc.perform(getWithNoParam(MEMBERSHIP_URL + "/"))
+                .andExpectAll(status().isOk(), view().name(MEMBERSHIP_VIEW + VIEW_PROCESS));
     }
 
     @DisplayName("문자열을 사용하는 기업 기사 추가에 대한 기사 지원 필터 테스트")

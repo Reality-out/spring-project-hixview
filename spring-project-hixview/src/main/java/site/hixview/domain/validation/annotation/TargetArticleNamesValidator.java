@@ -28,7 +28,7 @@ public class TargetArticleNamesValidator implements ConstraintValidator<TargetAr
         for (String economyContent : articleNamesList) {
             if (economyContent.isBlank()) {
                 context.buildConstraintViolationWithTemplate(
-                        source.getMessage("NotBlank.article.targetArticleName", null, Locale.getDefault())
+                        source.getMessage("NotBlank.post.targetArticleName", null, Locale.getDefault())
                 ).addConstraintViolation();
                 return false;
             }

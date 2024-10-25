@@ -39,7 +39,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
     private MessageSource messageSource;
 
     private final String IS_BEAN_VALIDATION_ERROR = "isBeanValidationError";
-    private final String FIELD_ERROR_MAP = "fieldErrorMap";
 
     @DisplayName("미래의 기사 입력일을 사용하는 산업 기사 추가 유효성 검증")
     @Test

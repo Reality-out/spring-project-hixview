@@ -14,7 +14,9 @@ import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.entity.home.ArticleMain;
+import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
+import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.service.*;
 import site.hixview.domain.validation.validator.*;
 import site.hixview.support.context.OnlyRealControllerContext;
@@ -33,14 +35,10 @@ import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.manager.RequestURL.*;
-import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
-import static site.hixview.domain.vo.user.RequestUrl.*;
-import static site.hixview.domain.vo.user.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
-class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
+class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, ArticleMainTestUtils, BlogPostTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,33 +56,46 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
     private ArticleMainService articleMainService;
 
     @Autowired
+    private BlogPostService blogPostService;
+    
+    @Autowired
     private CompanyService companyService;
 
     @Autowired
     private CompanyArticleAddSimpleValidator companyArticleAddSimpleValidator;
 
     @Autowired
+    private CompanyArticleModifyValidator companyArticleModifyValidator;
+
+    @Autowired
     private IndustryArticleAddSimpleValidator industryArticleAddSimpleValidator;
+
+    @Autowired
+    private IndustryArticleModifyValidator industryArticleModifyValidator;
 
     @Autowired
     private EconomyArticleAddSimpleValidator economyArticleAddSimpleValidator;
 
     @Autowired
+    private EconomyArticleModifyValidator economyArticleModifyValidator;
+
+    @Autowired
     private ArticleMainAddValidator articleMainAddValidator;
+
+    @Autowired
+    private ArticleMainModifyValidator articleMainModifyValidator;
+
+    @Autowired
+    private BlogPostAddValidator blogPostAddValidator;
+
+    @Autowired
+    private BlogPostModifyValidator blogPostModifyValidator;
 
     @Autowired
     private CompanyAddValidator companyAddValidator;
 
-    @DisplayName("URL 맨 끝 슬래시 제거 필터 테스트")
-    @Test
-    void handleUrlLastSlashFilterTest() throws Exception {
-        mockMvc.perform(getWithNoParam(LOGIN_URL + "/"))
-                .andExpectAll(status().isOk(), view().name(LOGIN_VIEW + VIEW_SHOW));
-        mockMvc.perform(getWithNoParam(FIND_ID_URL + "/"))
-                .andExpectAll(status().isOk(), view().name(FIND_ID_VIEW + VIEW_PROCESS));
-        mockMvc.perform(getWithNoParam(MEMBERSHIP_URL + "/"))
-                .andExpectAll(status().isOk(), view().name(MEMBERSHIP_VIEW + VIEW_PROCESS));
-    }
+    @Autowired
+    private CompanyModifyValidator companyModifyValidator;
 
     @DisplayName("기업 기사 추가에 대한 기사 지원 필터 테스트")
     @Test
@@ -132,6 +143,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
         when(companyArticleService.registerArticle(testCompanyArticle)).thenReturn(article);
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
         doNothing().when(companyArticleService).correctArticle(article);
+        doNothing().when(companyArticleModifyValidator).validate(any(), any());
 
         CompanyArticleDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
@@ -195,6 +207,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
         when(industryArticleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
         when(industryArticleService.registerArticle(testIndustryArticle)).thenReturn(article);
         doNothing().when(industryArticleService).correctArticle(article);
+        doNothing().when(industryArticleModifyValidator).validate(any(), any());
 
         IndustryArticleDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
@@ -258,6 +271,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
         when(economyArticleService.findArticleByLink(article.getLink())).thenReturn(Optional.of(article));
         when(economyArticleService.registerArticle(testEconomyArticle)).thenReturn(article);
         doNothing().when(economyArticleService).correctArticle(article);
+        doNothing().when(economyArticleModifyValidator).validate(any(), any());
 
         EconomyArticleDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
@@ -325,6 +339,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
         when(articleMainService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
         when(articleMainService.registerArticle(testCompanyArticleMain)).thenReturn(article);
         doNothing().when(articleMainService).correctArticle(article);
+        doNothing().when(articleMainModifyValidator).validate(any(), any());
 
         ArticleMainDto articleDtoLeftSpace = article.toDto();
         articleDtoLeftSpace.setName(" " + articleDtoLeftSpace.getName());
@@ -348,6 +363,73 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
         }
     }
 
+    @DisplayName("추가에 대한 블로그 포스트 지원 필터 테스트")
+    @Test
+    void blogPostDtoSupportFilterAddTest() throws Exception {
+        // given & when
+        BlogPost post = testBlogPostCompany;
+        String name = post.getName();
+        when(blogPostService.findPostByName(name)).thenReturn(Optional.empty());
+        when(blogPostService.findPostByLink(post.getLink())).thenReturn(Optional.empty());
+        when(blogPostService.registerPost(argThat(Objects::nonNull))).thenReturn(post);
+        when(companyService.findCompanyByName(name)).thenReturn(
+                Optional.of(Company.builder().company(samsungElectronics).name(name).build()));
+        doNothing().when(blogPostService).removePostByName(name);
+        doNothing().when(blogPostAddValidator).validate(any(), any());
+
+        BlogPostDto postDtoOriginal = post.toDto();
+        BlogPostDto postDtoLeftSpace = post.toDto();
+        postDtoLeftSpace.setName(" " + postDtoLeftSpace.getName());
+        BlogPostDto postDtoRightSpace = post.toDto();
+        postDtoRightSpace.setName(postDtoRightSpace.getName() + " ");
+        BlogPostDto postDtoKoreanClassification = post.toDto();
+        postDtoKoreanClassification.setClassification(testBlogPostCompany.getClassification().getValue());
+        BlogPostDto postDtoLowerCase = post.toDto();
+        postDtoLowerCase.setClassification(postDtoLowerCase.getClassification().toLowerCase());
+
+        // then
+        for (BlogPostDto postDto : List.of(
+                postDtoLeftSpace, postDtoRightSpace, postDtoKoreanClassification, postDtoLowerCase)){
+            mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_URL, postDto))
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
+
+            blogPostService.removePostByName(postDtoOriginal.getName());
+        }
+    }
+
+    @DisplayName("변경에 대한 블로그 포스트 지원 필터 테스트")
+    @Test
+    void blogPostDtoSupportFilterModifyTest() throws Exception {
+        // given
+        BlogPost beforeModifyPost = testBlogPostCompany;
+        BlogPost post = BlogPost.builder().blogPostDto(testBlogPostEconomy.toDto()).name(beforeModifyPost.getName()).build();
+        String name = post.getName();
+        when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
+        when(blogPostService.findPostByLink(post.getLink())).thenReturn(Optional.of(post));
+        when(blogPostService.registerPost(testBlogPostCompany)).thenReturn(post);
+        doNothing().when(blogPostService).correctPost(post);
+        doNothing().when(blogPostModifyValidator).validate(any(), any());
+
+        BlogPostDto postDtoLeftSpace = post.toDto();
+        postDtoLeftSpace.setName(" " + postDtoLeftSpace.getName());
+        BlogPostDto postDtoRightSpace = post.toDto();
+        postDtoRightSpace.setName(postDtoRightSpace.getName() + " ");
+        BlogPostDto postDtoKoreanClassification = post.toDto();
+        postDtoKoreanClassification.setClassification(testBlogPostCompany.getClassification().getValue());
+        BlogPostDto postDtoLowerCase = post.toDto();
+        postDtoLowerCase.setClassification(postDtoLowerCase.getClassification().toLowerCase());
+
+        // when
+        blogPostService.registerPost(beforeModifyPost);
+
+        // then
+        for (BlogPostDto postDto : List.of(
+                postDtoLeftSpace, postDtoRightSpace, postDtoKoreanClassification, postDtoLowerCase)) {
+            mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
+                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
+        }
+    }
+    
     @DisplayName("추가에 대한 기업 지원 필터 테스트")
     @Test
     void companyDtoSupportFilterAddTest() throws Exception {
@@ -392,6 +474,7 @@ class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, E
         when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
         doNothing().when(companyService).registerCompany(samsungElectronics);
         doNothing().when(companyService).correctCompany(company);
+        doNothing().when(companyModifyValidator).validate(any(), any());
 
         CompanyDto companyDtoKorean = company.toDto();
         companyDtoKorean.setListedCountry(Country.valueOf(companyDtoKorean.getListedCountry()).getValue());

@@ -4,9 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
+import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
+import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.validation.validator.*;
 import site.hixview.support.context.RealControllerAndValidatorContext;
@@ -16,12 +18,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RealControllerAndValidatorContext
 public class ValidatorSupportsTest {
 
-    // Article
+    // ArticleMain
     @Autowired
     private ArticleMainAddValidator articleMainAddValidator;
 
     @Autowired
     private ArticleMainModifyValidator articleMainModifyValidator;
+
+    // BlogPost
+    @Autowired
+    private BlogPostAddValidator blogPostAddValidator;
+
+    @Autowired
+    private BlogPostModifyValidator blogPostModifyValidator;
 
     // Company
     @Autowired
@@ -56,6 +65,19 @@ public class ValidatorSupportsTest {
     @Autowired
     private IndustryArticleModifyValidator industryArticleModifyValidator;
 
+    // EconomyArticle
+    @Autowired
+    private EconomyArticleAddComplexValidator economyArticleAddComplexValidator;
+
+    @Autowired
+    private EconomyArticleAddSimpleValidator economyArticleAddSimpleValidator;
+
+    @Autowired
+    private EconomyArticleEntryDateValidator economyArticleEntryDateValidator;
+
+    @Autowired
+    private EconomyArticleModifyValidator economyArticleModifyValidator;
+
     // Member
     @Autowired
     private MemberBirthdayValidator memberBirthdayValidator;
@@ -63,9 +85,13 @@ public class ValidatorSupportsTest {
     @DisplayName("검증자 supports 이용 가능 클래스 테스트")
     @Test
     public void validatorSupportsTest() {
-        // Article
+        // ArticleMain
         assertThat(articleMainAddValidator.supports(ArticleMainDto.class)).isEqualTo(true);
         assertThat(articleMainModifyValidator.supports(ArticleMainDto.class)).isEqualTo(true);
+
+        // BlogPost
+        assertThat(blogPostAddValidator.supports(BlogPostDto.class)).isEqualTo(true);
+        assertThat(blogPostModifyValidator.supports(BlogPostDto.class)).isEqualTo(true);
 
         // Company
         assertThat(companyAddValidator.supports(CompanyDto.class)).isEqualTo(true);
@@ -82,6 +108,12 @@ public class ValidatorSupportsTest {
         assertThat(industryArticleAddSimpleValidator.supports(IndustryArticleDto.class)).isEqualTo(true);
         assertThat(industryArticleEntryDateValidator.supports(IndustryArticleDto.class)).isEqualTo(true);
         assertThat(industryArticleModifyValidator.supports(IndustryArticleDto.class)).isEqualTo(true);
+
+        // EconomyArticle
+        assertThat(economyArticleAddComplexValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
+        assertThat(economyArticleAddSimpleValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
+        assertThat(economyArticleEntryDateValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
+        assertThat(economyArticleModifyValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
 
         // Member
         assertThat(memberBirthdayValidator.supports(MemberDto.class)).isEqualTo(true);

@@ -42,7 +42,6 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
     private final Logger log = LoggerFactory.getLogger(IndustryArticleBindingErrorTest.class);
 
     private final String IS_BEAN_VALIDATION_ERROR = "isBeanValidationError";
-    private final String FIELD_ERROR_MAP = "fieldErrorMap";
 
     @DisplayName("NotBlank(공백)에 대한 산업 기사 추가 유효성 검증")
     @Test

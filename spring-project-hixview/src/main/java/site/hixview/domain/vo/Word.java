@@ -28,6 +28,7 @@ public final class Word {
     public static final String COMPANY = "company";
     public static final String DATE = "date";
     public static final String DAYS = "days";
+    public static final String FIELD_ERROR_MAP = "fieldErrorMap";
     public static final String FIRST_CATEGORY = "firstCategory";
     public static final String ID = "id";
     public static final String IDENTIFIER = "identifier";
