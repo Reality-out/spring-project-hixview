@@ -13,17 +13,17 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.Word.PRESS;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.util.FilterUtils.applyStrip;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_ARTICLE_URL, UPDATE_COMPANY_ARTICLE_URL + FINISH_URL,
-        ADD_SINGLE_INDUSTRY_ARTICLE_URL, UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL,
-        ADD_SINGLE_ECONOMY_ARTICLE_URL, UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_ARTICLE_PATH, UPDATE_COMPANY_ARTICLE_PATH + FINISH_PATH,
+        ADD_SINGLE_INDUSTRY_ARTICLE_PATH, UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH,
+        ADD_SINGLE_ECONOMY_ARTICLE_PATH, UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH})
 @Order(1)
 public class ArticleNotStringSupportFilter extends OncePerRequestFilter {
 

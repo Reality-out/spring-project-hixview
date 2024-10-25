@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
-import static site.hixview.domain.vo.user.RequestUrl.*;
+import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.domain.vo.user.ViewName.COMPANY_VIEW;
 
 @OnlyRealControllerContext
@@ -54,7 +54,7 @@ class UserCompanyControllerTest implements CompanyTestUtils, CompanyArticleTestU
     @DisplayName("기업 서브 페이지 접속")
     @Test
     void accessCompanySubPage() throws Exception {
-        mockMvc.perform(get(COMPANY_SUB_URL))
+        mockMvc.perform(get(COMPANY_SUB_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(COMPANY_VIEW + VIEW_SUB),
                         model().attribute(LAYOUT_PATH, BASIC_LAYOUT));
@@ -74,13 +74,13 @@ class UserCompanyControllerTest implements CompanyTestUtils, CompanyArticleTestU
         companyService.registerCompany(company);
 
         // then
-        Map<String, String> returnMap = new ObjectMapper().readValue(mockMvc.perform(get(COMPANY_SEARCH_URL + CHECK_URL + code))
+        Map<String, String> returnMap = new ObjectMapper().readValue(mockMvc.perform(get(COMPANY_SEARCH_PATH + CHECK_PATH + code))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(returnMap.get(CODE)).isEqualTo(code);
 
-        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + code))
+        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_PATH + code))
                 .andExpect(status().isOk())
                 .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
                 .usingRecursiveComparison().isEqualTo(company);
@@ -102,12 +102,12 @@ class UserCompanyControllerTest implements CompanyTestUtils, CompanyArticleTestU
         articleMainService.registerArticle(testCompanyArticleMain);
 
         // then
-        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL))
+        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_PATH))
                 .andExpect(status().isOk())
                 .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
                 .usingRecursiveComparison().isEqualTo(samsungElectronics);
 
-        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + INVALID_VALUE))
+        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_PATH + INVALID_VALUE))
                 .andExpect(status().isOk())
                 .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
                 .usingRecursiveComparison().isEqualTo(samsungElectronics);

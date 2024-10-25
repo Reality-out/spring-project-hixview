@@ -4,7 +4,7 @@
 <div>
     <p class="intro-basic-form" th:text="|#{company}을 #{function.correct}합니다.|"></p>
     <p class="intro-basic-form" th:text="|해당 #{company.code} 또는 #{company.name}에 해당하는 #{company}이 확인되었습니다.|"></p>
-    <form id="basicForm" th:action="${updateUrl}" th:object="${company}" method="POST">
+    <form id="basicForm" th:action="${updatePath}" th:object="${company}" method="POST">
         <div th:if="${error} != null" th:classappend="txt-error-message">
             <p th:if="${error} == 'beanValidationError'" th:text="#{BeanValidation}"></p>
         </div>

@@ -13,7 +13,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.Word.MEMBER;
-import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 
 @RealControllerAndValidatorContext
 class MemberValidationErrorTest implements MemberTestUtils {
@@ -34,7 +34,7 @@ class MemberValidationErrorTest implements MemberTestUtils {
         memberDto.setDays(1);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
                 .andExpectAll(view().name(membershipProcessPage))
                 .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                 .usingRecursiveComparison()
@@ -51,7 +51,7 @@ class MemberValidationErrorTest implements MemberTestUtils {
         memberDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
                 .andExpectAll(view().name(membershipProcessPage))
                 .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                 .usingRecursiveComparison()

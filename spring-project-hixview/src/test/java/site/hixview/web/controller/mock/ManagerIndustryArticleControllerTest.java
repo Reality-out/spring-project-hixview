@@ -30,10 +30,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.entity.SecondCategory.SEMICONDUCTOR_EQUIPMENT;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -62,7 +62,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     @DisplayName("산업 기사 추가 페이지 접속")
     @Test
     void accessIndustryArticleAdd() throws Exception {
-        mockMvc.perform(get(ADD_SINGLE_INDUSTRY_ARTICLE_URL))
+        mockMvc.perform(get(ADD_SINGLE_INDUSTRY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(addSingleIndustryArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -77,6 +77,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         SecondCategory commonSubjectCategory = articleOneSecondCategory.getSubjectSecondCategories().getFirst();
         IndustryArticle articleTwoSecondCategories = IndustryArticle.builder()
                 .article(testIndustryArticle).subjectSecondCategories(commonSubjectCategory, SEMICONDUCTOR_EQUIPMENT).build();
+        String redirectPath = ADD_SINGLE_INDUSTRY_ARTICLE_PATH + FINISH_PATH;
         doNothing().when(industryArticleAddSimpleValidator).validate(any(), any());
 
         // then
@@ -87,14 +88,16 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
             when(articleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
             doNothing().when(articleService).removeArticleByName(name);
 
-            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
-                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
+            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
+                    .andExpectAll(status().isSeeOther(),
+                            jsonPath(NAME).value(encodeWithUTF8(name)),
+                            jsonPath(REDIRECT_PATH).value(redirectPath));
 
-            mockMvc.perform(getWithNoParam(fromPath(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
+            mockMvc.perform(getWithNoParam(fromPath(redirectPath).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
                     .andExpectAll(status().isOk(),
                             view().name(ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                             model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                            model().attribute(REPEAT_URL, ADD_SINGLE_INDUSTRY_ARTICLE_URL),
+                            model().attribute(REPEAT_PATH, ADD_SINGLE_INDUSTRY_ARTICLE_PATH),
                             model().attribute(VALUE, name));
 
             assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
@@ -117,7 +120,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         List<IndustryArticle> articleList = articleService.registerArticles(testIndustryArticle, testNewIndustryArticle);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_INDUSTRY_ARTICLE_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_INDUSTRY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "industry-articles-page"))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
@@ -128,7 +131,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     @DisplayName("산업 기사 변경 페이지 접속")
     @Test
     void accessIndustryArticleModify() throws Exception {
-        mockMvc.perform(get(UPDATE_INDUSTRY_ARTICLE_URL))
+        mockMvc.perform(get(UPDATE_INDUSTRY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT));
@@ -149,11 +152,11 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         // then
         for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
             assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                            UPDATE_INDUSTRY_ARTICLE_URL, NUMBER_OR_NAME, str))
+                            UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyIndustryArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(UPDATE_URL, modifyIndustryArticleFinishUrl))
+                            model().attribute(UPDATE_PATH, modifyIndustryArticleFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
@@ -168,6 +171,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         SecondCategory commonSubjectCategory = articleOneSecondCategory.getSubjectSecondCategories().getFirst();
         IndustryArticle articleTwoSecondCategories = IndustryArticle.builder()
                 .article(testIndustryArticle).subjectSecondCategories(commonSubjectCategory, SEMICONDUCTOR_EQUIPMENT).build();
+        String redirectPath = modifyIndustryArticleFinishUrl;
 
         // then
         for (IndustryArticle article : List.of(articleOneSecondCategory, articleTwoSecondCategories)) {
@@ -181,14 +185,16 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
             IndustryArticleDto articleDto = article.toDto();
 
             // then
-            mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
-                    .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())));
+            mockMvc.perform(postWithIndustryArticleDto(redirectPath, articleDto))
+                    .andExpectAll(status().isSeeOther(),
+                            jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())),
+                            jsonPath(REDIRECT_PATH).value(redirectPath));
 
-            mockMvc.perform(getWithNoParam(fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString()))
+            mockMvc.perform(getWithNoParam(fromPath(redirectPath).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString()))
                     .andExpectAll(status().isOk(),
                             view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                             model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                            model().attribute(REPEAT_URL, UPDATE_INDUSTRY_ARTICLE_URL),
+                            model().attribute(REPEAT_PATH, UPDATE_INDUSTRY_ARTICLE_PATH),
                             model().attribute(VALUE, commonName));
 
             assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -200,7 +206,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     @DisplayName("산업 기사 없애기 페이지 접속")
     @Test
     void accessIndustryArticleRid() throws Exception {
-        mockMvc.perform(get(REMOVE_INDUSTRY_ARTICLE_URL))
+        mockMvc.perform(get(REMOVE_INDUSTRY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
@@ -219,25 +225,25 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         doNothing().when(articleService).removeArticleByName(article.getName());
 
         String name = article.getName();
-        String redirectedURL = fromPath(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectPath = fromPath(REMOVE_INDUSTRY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // when
         Long number = articleService.registerArticle(article).getNumber();
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
-            mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_URL, NUMBER_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
             articleService.registerArticle(article);
         }
         articleService.removeArticleByName(name);
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute((REPEAT_URL), REMOVE_INDUSTRY_ARTICLE_URL),
+                        model().attribute((REPEAT_PATH), REMOVE_INDUSTRY_ARTICLE_PATH),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

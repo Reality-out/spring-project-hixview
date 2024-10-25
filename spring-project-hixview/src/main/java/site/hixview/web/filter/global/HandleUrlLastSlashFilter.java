@@ -14,14 +14,14 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
+import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
 
 @NonNullApi
 @WebFilter(urlPatterns = "/*")
 @Order(0)
 public class HandleUrlLastSlashFilter extends OncePerRequestFilter {
 
-    private final List<String> excludedURL = List.of(COMPANY_SEARCH_URL);
+    private final List<String> excludedURL = List.of(COMPANY_SEARCH_PATH);
 
     @Override
     protected void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {

@@ -17,12 +17,12 @@ import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
-import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 import static site.hixview.util.ControllerUtils.finishForRollback;
 
@@ -39,14 +39,14 @@ public class UserMemberController {
     /**
      * Membership
      */
-    @GetMapping(MEMBERSHIP_URL)
+    @GetMapping(MEMBERSHIP_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processMembershipPage(Model model) {
         model.addAttribute(MEMBER, new MemberDto());
         return MEMBERSHIP_VIEW + VIEW_PROCESS;
     }
 
-    @PostMapping(MEMBERSHIP_URL)
+    @PostMapping(MEMBERSHIP_PATH)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitMembershipPage(@ModelAttribute(MEMBER) @Validated MemberDto memberDto,
                                        BindingResult bindingResult, Model model) {
@@ -62,10 +62,10 @@ public class UserMemberController {
         }
 
         memberService.registerMember(Member.builder().memberDto(memberDto).build());
-        return REDIRECT_URL + MEMBERSHIP_URL + FINISH_URL;
+        return RELATIVE_REDIRECT_PATH + MEMBERSHIP_PATH + FINISH_PATH;
     }
 
-    @GetMapping(MEMBERSHIP_URL + FINISH_URL)
+    @GetMapping(MEMBERSHIP_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishMembershipPage() {
         return MEMBERSHIP_VIEW + VIEW_FINISH;

@@ -20,8 +20,8 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SUB_URL;
+import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
+import static site.hixview.domain.vo.user.RequestPath.COMPANY_SUB_PATH;
 import static site.hixview.domain.vo.user.ViewName.COMPANY_VIEW;
 
 @Controller
@@ -40,7 +40,7 @@ public class UserCompanyController {
     /**
      * Main
      */
-    @GetMapping(COMPANY_SUB_URL)
+    @GetMapping(COMPANY_SUB_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processCompanySubPage(Model model) {
         return COMPANY_VIEW + VIEW_SUB;
@@ -49,7 +49,7 @@ public class UserCompanyController {
     /**
      * Search
      */
-    @GetMapping(value = {COMPANY_SEARCH_URL, COMPANY_SEARCH_URL + "{code}"})
+    @GetMapping(value = {COMPANY_SEARCH_PATH, COMPANY_SEARCH_PATH + "{code}"})
     public String processCompanyShowPage(@PathVariable(name = CODE, required = false) String code, Model model) {
         Optional<Company> companyByCode = companyService.findCompanyByCode(code);
         if (companyByCode.isEmpty()) {

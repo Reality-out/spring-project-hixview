@@ -10,9 +10,9 @@ import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_COMPANY_ARTICLE_PATH;
 import static site.hixview.domain.vo.manager.ViewName.ADD_COMPANY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.ViewName.*;
@@ -22,7 +22,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
     String addSingleCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     String addStringCompanyArticleProcessPage = ADD_COMPANY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     String modifyCompanyArticleProcessPage = UPDATE_COMPANY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-    String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_URL + FINISH_URL;
+    String modifyCompanyArticleFinishUrl = UPDATE_COMPANY_ARTICLE_PATH + FINISH_PATH;
 
     // Schema Name
     String TEST_COMPANY_ARTICLES_SCHEMA = "test_company_articles";

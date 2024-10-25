@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.SELECT_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.SELECT_MEMBER_URL;
+import static site.hixview.domain.vo.manager.RequestPath.SELECT_MEMBER_PATH;
 import static site.hixview.domain.vo.manager.ViewName.SELECT_VIEW;
 
 @OnlyRealControllerContext
@@ -46,7 +46,7 @@ class ManagerMemberControllerTest implements MemberTestUtils {
         memberService.registerMember(testNewMember);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_MEMBER_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_MEMBER_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "members-page"),
                         model().attribute(LAYOUT_PATH, SELECT_LAYOUT))

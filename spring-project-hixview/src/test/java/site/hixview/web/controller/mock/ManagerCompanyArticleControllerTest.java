@@ -30,10 +30,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -65,7 +65,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @DisplayName("기업 기사 추가 페이지 접속")
     @Test
     void accessCompanyArticleAdd() throws Exception {
-        mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_URL))
+        mockMvc.perform(get(ADD_SINGLE_COMPANY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -83,20 +83,20 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         doNothing().when(companyArticleAddSimpleValidator).validate(any(), any());
 
         CompanyArticleDto articleDto = article.toDto();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
+        String redirectPath = fromPath(ADD_SINGLE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
+                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, ADD_SINGLE_COMPANY_ARTICLE_URL),
+                        model().attribute(REPEAT_PATH, ADD_SINGLE_COMPANY_ARTICLE_PATH),
                         model().attribute(VALUE, articleDto.getName()));
 
         assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
@@ -116,7 +116,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         List<CompanyArticle> articleList = articleService.registerArticles(testCompanyArticle, testNewCompanyArticle);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "company-articles-page"))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
@@ -127,7 +127,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @DisplayName("기업 기사 변경 페이지 접속")
     @Test
     void accessCompanyArticleModify() throws Exception {
-        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_URL))
+        mockMvc.perform(get(UPDATE_COMPANY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT));
@@ -148,11 +148,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         // then
         for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
             assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                            UPDATE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, str))
+                            UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyCompanyArticleProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(UPDATE_URL, modifyCompanyArticleFinishUrl))
+                            model().attribute(UPDATE_PATH, modifyCompanyArticleFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
@@ -172,7 +172,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
         doNothing().when(articleService).correctArticle(article);
 
-        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectPath = fromPath(UPDATE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -182,13 +182,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, UPDATE_COMPANY_ARTICLE_URL),
+                        model().attribute(REPEAT_PATH, UPDATE_COMPANY_ARTICLE_PATH),
                         model().attribute(VALUE, commonName));
 
         assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
@@ -199,7 +199,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
     @DisplayName("기업 기사 없애기 페이지 접속")
     @Test
     void accessCompanyArticleRid() throws Exception {
-        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_URL))
+        mockMvc.perform(get(REMOVE_COMPANY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
@@ -218,25 +218,25 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         doNothing().when(articleService).removeArticleByName(article.getName());
 
         String name = article.getName();
-        String redirectedURL = fromPath(REMOVE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectPath = fromPath(REMOVE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // when
         Long number = articleService.registerArticle(article).getNumber();
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
-            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
             articleService.registerArticle(article);
         }
         articleService.removeArticleByName(name);
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, REMOVE_COMPANY_ARTICLE_URL),
+                        model().attribute(REPEAT_PATH, REMOVE_COMPANY_ARTICLE_PATH),
                         model().attribute(VALUE, name));
 
         assertThat(articleService.findArticles()).isEmpty();

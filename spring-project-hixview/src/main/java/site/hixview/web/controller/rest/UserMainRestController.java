@@ -18,8 +18,8 @@ import java.util.Optional;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_EXIST_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
-import static site.hixview.domain.vo.user.RequestUrl.CHECK_URL;
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
+import static site.hixview.domain.vo.user.RequestPath.CHECK_PATH;
+import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +29,7 @@ public class UserMainRestController {
     private final CompanyService companyService;
 
     @SneakyThrows
-    @GetMapping(value = {COMPANY_SEARCH_URL + CHECK, COMPANY_SEARCH_URL + CHECK_URL + "{codeOrName}"})
+    @GetMapping(value = {COMPANY_SEARCH_PATH + CHECK, COMPANY_SEARCH_PATH + CHECK_PATH + "{codeOrName}"})
     public ResponseEntity<?> checkCodeOrNameCompanyShow(@PathVariable(name = CODE_OR_NAME, required = false) String codeOrName) {
         ObjectMapper objectMapper = new ObjectMapper();
         if (codeOrName == null) {

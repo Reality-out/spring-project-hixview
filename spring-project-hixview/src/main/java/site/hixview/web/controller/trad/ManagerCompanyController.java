@@ -23,11 +23,11 @@ import java.util.Optional;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_WITH_THAT_CODE_OR_NAME;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
@@ -49,7 +49,7 @@ public class ManagerCompanyController {
     /**
      * Add - Single
      */
-    @GetMapping(ADD_SINGLE_COMPANY_URL)
+    @GetMapping(ADD_SINGLE_COMPANY_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processAddCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
@@ -59,7 +59,7 @@ public class ManagerCompanyController {
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
     }
 
-    @PostMapping(ADD_SINGLE_COMPANY_URL)
+    @PostMapping(ADD_SINGLE_COMPANY_PATH)
     public String submitAddCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                    BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -74,14 +74,14 @@ public class ManagerCompanyController {
         }
 
         companyService.registerCompany(Company.builder().companyDto(companyDto).build());
-        return REDIRECT_URL + fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
+        return RELATIVE_REDIRECT_PATH + fromPath(ADD_SINGLE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
     }
 
-    @GetMapping(ADD_SINGLE_COMPANY_URL + FINISH_URL)
+    @GetMapping(ADD_SINGLE_COMPANY_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, ADD_SINGLE_COMPANY_URL);
+        model.addAttribute(REPEAT_PATH, ADD_SINGLE_COMPANY_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -89,7 +89,7 @@ public class ManagerCompanyController {
     /**
      * See
      */
-    @GetMapping(SELECT_COMPANY_URL)
+    @GetMapping(SELECT_COMPANY_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processSeeCompanies(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
@@ -100,14 +100,14 @@ public class ManagerCompanyController {
     /**
      * Modify
      */
-    @GetMapping(UPDATE_COMPANY_URL)
+    @GetMapping(UPDATE_COMPANY_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String initiateModifyCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
         return UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS;
     }
 
-    @PostMapping(UPDATE_COMPANY_URL)
+    @PostMapping(UPDATE_COMPANY_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processModifyCompany(@RequestParam String codeOrName, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
@@ -117,38 +117,38 @@ public class ManagerCompanyController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute(UPDATE_URL, UPDATE_COMPANY_URL + FINISH_URL);
+        model.addAttribute(UPDATE_PATH, UPDATE_COMPANY_PATH + FINISH_PATH);
         model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
         model.addAttribute(LISTED_COUNTRIES, Country.values());
         model.addAttribute(SCALES, Scale.values());
         return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
     }
 
-    @PostMapping(UPDATE_COMPANY_URL + FINISH_URL)
+    @PostMapping(UPDATE_COMPANY_PATH + FINISH_PATH)
     public String submitModifyCompany(@ModelAttribute(COMPANY) @Validated CompanyDto companyDto,
                                       BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
-            model.addAttribute(UPDATE_URL, UPDATE_COMPANY_URL + FINISH_URL);
+            model.addAttribute(UPDATE_PATH, UPDATE_COMPANY_PATH + FINISH_PATH);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
 
         modifyValidator.validate(companyDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
-            model.addAttribute(UPDATE_URL, UPDATE_COMPANY_URL + FINISH_URL);
+            model.addAttribute(UPDATE_PATH, UPDATE_COMPANY_PATH + FINISH_PATH);
             return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
         }
 
         companyService.correctCompany(Company.builder().companyDto(companyDto).build());
-        return REDIRECT_URL + fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
+        return RELATIVE_REDIRECT_PATH + fromPath(UPDATE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
     }
 
-    @GetMapping(UPDATE_COMPANY_URL + FINISH_URL)
+    @GetMapping(UPDATE_COMPANY_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishModifyCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, UPDATE_COMPANY_URL);
+        model.addAttribute(REPEAT_PATH, UPDATE_COMPANY_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_COMPANY_VIEW + VIEW_FINISH;
     }
@@ -156,14 +156,14 @@ public class ManagerCompanyController {
     /**
      * Get rid of
      */
-    @GetMapping(REMOVE_COMPANY_URL)
+    @GetMapping(REMOVE_COMPANY_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processRidCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT);
         return REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS;
     }
 
-    @PostMapping(REMOVE_COMPANY_URL)
+    @PostMapping(REMOVE_COMPANY_PATH)
     public String submitRidCompany(@RequestParam String codeOrName, Model model) {
         Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
         if (companyOrEmpty.isEmpty()) {
@@ -175,14 +175,14 @@ public class ManagerCompanyController {
             codeOrName = companyService.findCompanyByCode(codeOrName).orElseThrow().getName();
         }
         companyService.removeCompanyByCode(companyService.findCompanyByName(codeOrName).orElseThrow().getCode());
-        return REDIRECT_URL + fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(codeOrName)).build().toUriString();
+        return RELATIVE_REDIRECT_PATH + fromPath(REMOVE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(codeOrName)).build().toUriString();
     }
 
-    @GetMapping(REMOVE_COMPANY_URL + FINISH_URL)
+    @GetMapping(REMOVE_COMPANY_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidCompany(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, REMOVE_COMPANY_URL);
+        model.addAttribute(REPEAT_PATH, REMOVE_COMPANY_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_COMPANY_URL_VIEW + VIEW_FINISH;
     }

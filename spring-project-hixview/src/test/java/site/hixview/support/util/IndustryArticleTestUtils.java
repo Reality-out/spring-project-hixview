@@ -12,9 +12,9 @@ import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_INDUSTRY_ARTICLE_PATH;
 import static site.hixview.domain.vo.manager.ViewName.ADD_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_INDUSTRY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.ViewName.*;
@@ -24,7 +24,7 @@ public interface IndustryArticleTestUtils extends ObjectTestUtils {
     String addSingleIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     String addStringIndustryArticleProcessPage = ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     String modifyIndustryArticleProcessPage = UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-    String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL;
+    String modifyIndustryArticleFinishUrl = UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH;
 
     // Schema Name
     String TEST_INDUSTRY_ARTICLES_SCHEMA = "test_industry_articles";

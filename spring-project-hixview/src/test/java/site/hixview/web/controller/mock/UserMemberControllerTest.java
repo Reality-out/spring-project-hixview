@@ -13,10 +13,10 @@ import site.hixview.support.util.MemberTestUtils;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
-import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 
 @OnlyRealControllerContext
@@ -34,7 +34,7 @@ class UserMemberControllerTest implements MemberTestUtils {
     @DisplayName("회원 가입 페이지 접속")
     @Test
     void accessMembership() throws Exception {
-        mockMvc.perform(get(MEMBERSHIP_URL))
+        mockMvc.perform(get(MEMBERSHIP_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(membershipProcessPage),
                         model().attributeExists(MEMBER));
@@ -48,11 +48,11 @@ class UserMemberControllerTest implements MemberTestUtils {
         when(memberService.registerMember(member)).thenReturn(member);
 
         // then
-        mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, member.toDto()))
+        mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, member.toDto()))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrl(MEMBERSHIP_URL + FINISH_URL));
+                        redirectedUrl(MEMBERSHIP_PATH + FINISH_PATH));
 
-        mockMvc.perform(get(MEMBERSHIP_URL + FINISH_URL))
+        mockMvc.perform(get(MEMBERSHIP_PATH + FINISH_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(MEMBERSHIP_VIEW + VIEW_FINISH));
     }

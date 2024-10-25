@@ -10,9 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_BLOG_POST_URL;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_BLOG_POST_PATH;
 import static site.hixview.domain.vo.manager.ViewName.ADD_BLOG_POST_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_BLOG_POST_VIEW;
 import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
@@ -22,7 +22,7 @@ public interface BlogPostTestUtils extends ObjectTestUtils {
     // Assertion
     String addBlogPostProcessPage = ADD_BLOG_POST_VIEW + VIEW_PROCESS;
     String modifyBlogPostProcessPage = UPDATE_BLOG_POST_VIEW + VIEW_AFTER_PROCESS;
-    String modifyBlogPostFinishUrl = UPDATE_BLOG_POST_URL + FINISH_URL;
+    String modifyBlogPostFinishUrl = UPDATE_BLOG_POST_PATH + FINISH_PATH;
 
     // Schema Name
     String TEST_BLOG_POSTS_SCHEMA = "test_blog_posts";

@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_ARTICLE_MAIN_PATH;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
 @OnlyRealControllerContext
@@ -42,7 +42,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setSummary(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -63,7 +63,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setClassification(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -80,7 +80,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setClassification(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -98,7 +98,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setSummary(getRandomLongString(37));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))

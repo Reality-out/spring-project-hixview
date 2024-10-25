@@ -11,7 +11,7 @@ import site.hixview.domain.service.MemberService;
 
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.manager.Layout.SELECT_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.SELECT_MEMBER_URL;
+import static site.hixview.domain.vo.manager.RequestPath.SELECT_MEMBER_PATH;
 import static site.hixview.domain.vo.manager.ViewName.SELECT_VIEW;
 
 @Controller
@@ -24,7 +24,7 @@ public class ManagerMemberController {
     /**
      * See
      */
-    @GetMapping(SELECT_MEMBER_URL)
+    @GetMapping(SELECT_MEMBER_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processSeeMembers(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);

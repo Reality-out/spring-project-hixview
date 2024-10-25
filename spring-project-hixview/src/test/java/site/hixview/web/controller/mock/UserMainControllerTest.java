@@ -18,10 +18,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.*;
-import static site.hixview.domain.vo.user.RequestUrl.*;
+import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.domain.vo.user.ViewName.FIND_ID_VIEW;
 import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
 
@@ -37,17 +37,17 @@ class UserMainControllerTest implements MemberTestUtils {
     @DisplayName("로그인 페이지 접속")
     @Test
     void accessLogin() throws Exception {
-        mockMvc.perform(get(LOGIN_URL))
+        mockMvc.perform(get(LOGIN_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(LOGIN_VIEW + VIEW_SHOW),
-                        model().attribute("membership", MEMBERSHIP_URL),
-                        model().attribute("findId", FIND_ID_URL));
+                        model().attribute("membership", MEMBERSHIP_PATH),
+                        model().attribute("findId", FIND_ID_PATH));
     }
 
     @DisplayName("아이디 찾기 페이지 접속")
     @Test
     void accessFindId() throws Exception {
-        mockMvc.perform(get(FIND_ID_URL))
+        mockMvc.perform(get(FIND_ID_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(FIND_ID_VIEW + VIEW_PROCESS),
                         model().attributeExists(MEMBER));
@@ -74,19 +74,19 @@ class UserMainControllerTest implements MemberTestUtils {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
+        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_PATH, new HashMap<>() {{
                     put(NAME, commonName);
                     put(YEAR, String.valueOf(commonBirthday.getYear()));
                     put(MONTH, String.valueOf(commonBirthday.getMonthValue()));
                     put(DAYS, String.valueOf(commonBirthday.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(FIND_ID_URL + FINISH_URL + ALL_QUERY_STRING))
+                        redirectedUrlPattern(FIND_ID_PATH + FINISH_PATH + ALL_QUERY_STRING))
                 .andReturn().getModelAndView()).getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);
 
-        mockMvc.perform(getWithSingleParam(FIND_ID_URL + FINISH_URL, idListString, idListForUrl))
+        mockMvc.perform(getWithSingleParam(FIND_ID_PATH + FINISH_PATH, idListString, idListForUrl))
                 .andExpectAll(status().isOk(),
                         view().name(FIND_ID_VIEW + VIEW_FINISH),
                         model().attribute(idListString, idList));
@@ -113,14 +113,14 @@ class UserMainControllerTest implements MemberTestUtils {
         String idListForUrl = toStringForUrl(idList);
         String idListString = "idList";
 
-        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_URL, new HashMap<>() {{
+        assertThat(requireNonNull(mockMvc.perform(postWithMultipleParams(FIND_ID_PATH, new HashMap<>() {{
                     put(NAME, commonName);
                     put(YEAR, String.valueOf(commonBirthday.getYear()));
                     put(MONTH, String.valueOf(commonBirthday.getMonthValue()));
                     put(DAYS, String.valueOf(commonBirthday.getDayOfMonth()));
                 }}))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrlPattern(FIND_ID_URL + FINISH_URL + ALL_QUERY_STRING))
+                        redirectedUrlPattern(FIND_ID_PATH + FINISH_PATH + ALL_QUERY_STRING))
                 .andReturn().getModelAndView()).getModelMap().get(idListString))
                 .usingRecursiveComparison()
                 .isEqualTo(idListForUrl);

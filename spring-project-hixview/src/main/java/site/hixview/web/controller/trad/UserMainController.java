@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static site.hixview.domain.vo.ExceptionMessage.*;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
-import static site.hixview.domain.vo.user.RequestUrl.*;
+import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
 @Controller
@@ -83,34 +83,34 @@ public class UserMainController {
     /**
      * Login
      */
-    @GetMapping(LOGIN_URL)
+    @GetMapping(LOGIN_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processLoginPage(Model model) {
-        model.addAttribute("membership", MEMBERSHIP_URL);
-        model.addAttribute("findId", FIND_ID_URL);
+        model.addAttribute("membership", MEMBERSHIP_PATH);
+        model.addAttribute("findId", FIND_ID_PATH);
         return LOGIN_VIEW + VIEW_SHOW;
     }
 
     /**
      * Find ID
      */
-    @GetMapping(FIND_ID_URL)
+    @GetMapping(FIND_ID_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processFindIdPage(Model model) {
         model.addAttribute(MEMBER, new MemberDto());
         return FIND_ID_VIEW + VIEW_PROCESS;
     }
 
-    @PostMapping(FIND_ID_URL)
+    @PostMapping(FIND_ID_PATH)
     @ResponseStatus(HttpStatus.SEE_OTHER)
     public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
         Member member = Member.builder().memberDto(memberDto).build();
         redirect.addAttribute("idList", ControllerUtils.encodeWithUTF8(memberService.findMembersByNameAndBirthday(
                 member.getName(), member.getBirthday()).stream().map(Member::getId).collect(Collectors.toList())));
-        return REDIRECT_URL + FIND_ID_URL + FINISH_URL;
+        return RELATIVE_REDIRECT_PATH + FIND_ID_PATH + FINISH_PATH;
     }
 
-    @GetMapping(FIND_ID_URL + FINISH_URL)
+    @GetMapping(FIND_ID_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
         model.addAttribute("idList", ControllerUtils.decodeWithUTF8(idList));

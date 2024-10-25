@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_QUERY_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.REMOVE_ARTICLE_MAIN_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
+import static site.hixview.domain.vo.manager.RequestPath.REMOVE_ARTICLE_MAIN_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_ARTICLE_MAIN_PATH;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_ARTICLE_MAIN_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ARTICLE_MAIN_VIEW;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_ARTICLE_MAIN_ERROR;
@@ -42,17 +42,17 @@ class ManagerArticleMainErrorHandleTest implements ArticleMainTestUtils {
         when(articleMainService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
@@ -65,17 +65,17 @@ class ManagerArticleMainErrorHandleTest implements ArticleMainTestUtils {
         when(articleMainService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ARTICLE_MAIN_ERROR)));

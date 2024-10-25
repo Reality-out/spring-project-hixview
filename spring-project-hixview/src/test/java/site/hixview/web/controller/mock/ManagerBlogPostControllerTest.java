@@ -27,10 +27,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -56,7 +56,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
     @DisplayName("블로그 포스트 추가 페이지 접속")
     @Test
     void accessBlogPostAdd() throws Exception {
-        mockMvc.perform(get(ADD_BLOG_POST_URL))
+        mockMvc.perform(get(ADD_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(addBlogPostProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -69,23 +69,25 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // given & when
         BlogPost post = testBlogPostCompany;
         String name = post.getName();
+        String redirectPath = ADD_BLOG_POST_PATH + FINISH_PATH;
         when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
         when(blogPostService.registerPost(argThat(Objects::nonNull))).thenReturn(post);
         doNothing().when(blogPostAddValidator).validate(any(), any());
 
         BlogPostDto postDto = post.toDto();
-        String redirectedURL = fromPath(ADD_BLOG_POST_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name))
-                .build().toUriString();
 
         // then
-        mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_URL, postDto))
-                .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
+        mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
+                .andExpectAll(status().isSeeOther(),
+                        jsonPath(NAME).value(encodeWithUTF8(name)),
+                        jsonPath(REDIRECT_PATH).value(redirectPath));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(fromPath(redirectPath).queryParam(NAME, encodeWithUTF8(name))
+                .build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_BLOG_POST_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, ADD_BLOG_POST_URL),
+                        model().attribute(REPEAT_PATH, ADD_BLOG_POST_PATH),
                         model().attribute(VALUE, name));
 
         assertThat(blogPostService.findPostByName(name).orElseThrow().toDto())
@@ -105,7 +107,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         List<BlogPost> postList = blogPostService.registerPosts(testBlogPostCompany, testBlogPostEconomy);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_BLOG_POST_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "blog-posts-page"))
                 .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
@@ -125,7 +127,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         List<BlogPost> postList = blogPostService.registerPosts(testBlogPostCompany, testBlogPostEconomy);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "blog-posts-page"))
                 .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
@@ -147,7 +149,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         List<BlogPost> postList = blogPostService.registerPosts(testBlogPost1, testBlogPost2);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "blog-posts-page"))
                 .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
@@ -158,7 +160,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
     @DisplayName("블로그 포스트 변경 페이지 접속")
     @Test
     void accessBlogPostModify() throws Exception {
-        mockMvc.perform(get(UPDATE_BLOG_POST_URL))
+        mockMvc.perform(get(UPDATE_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_BLOG_POST_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT));
@@ -178,11 +180,11 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // then
         for (String str : List.of(String.valueOf(number), post.getName())) {
             assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(
-                            UPDATE_BLOG_POST_URL, NUMBER_OR_NAME, str))
+                            UPDATE_BLOG_POST_PATH, NUMBER_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyBlogPostProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(UPDATE_URL, modifyBlogPostFinishUrl))
+                            model().attribute(UPDATE_PATH, modifyBlogPostFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(POST))
                     .usingRecursiveComparison()
                     .isEqualTo(post.toDto());
@@ -195,25 +197,27 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // given
         BlogPost post = BlogPost.builder().blogPost(testBlogPostEconomy).name(testBlogPostCompany.getName()).build();
         String name = post.getName();
+        String redirectPath = UPDATE_BLOG_POST_PATH + FINISH_PATH;
         when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
         when(blogPostService.registerPost(testBlogPostCompany)).thenReturn(post);
         doNothing().when(blogPostService).correctPost(post);
 
         String commonName = testBlogPostCompany.getName();
-        String redirectedURL = fromPath(UPDATE_BLOG_POST_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // when
         blogPostService.registerPost(testBlogPostCompany);
 
         // then
         mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, post.toDto()))
-                .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
+                .andExpectAll(status().isSeeOther(),
+                        jsonPath(NAME).value(encodeWithUTF8(name)),
+                        jsonPath(REDIRECT_PATH).value(redirectPath));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(fromPath(redirectPath).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_BLOG_POST_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, UPDATE_BLOG_POST_URL),
+                        model().attribute(REPEAT_PATH, UPDATE_BLOG_POST_PATH),
                         model().attribute(VALUE, commonName));
 
         assertThat(blogPostService.findPostByName(commonName).orElseThrow())
@@ -225,7 +229,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
     @DisplayName("블로그 포스트 없애기 페이지 접속")
     @Test
     void accessBlogPostRid() throws Exception {
-        mockMvc.perform(get(REMOVE_BLOG_POST_URL))
+        mockMvc.perform(get(REMOVE_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_BLOG_POST_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
@@ -246,21 +250,21 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         Long number = blogPostService.registerPost(post).getNumber();
         String name = post.getName();
         System.out.println(String.valueOf(number) + ' ' + name);
-        String redirectedURL = fromPath(REMOVE_BLOG_POST_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectPath = fromPath(REMOVE_BLOG_POST_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
-            mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_URL, NUMBER_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_PATH, NUMBER_OR_NAME, str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
             blogPostService.registerPost(post);
         }
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_BLOG_POST_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, REMOVE_BLOG_POST_URL),
+                        model().attribute(REPEAT_PATH, REMOVE_BLOG_POST_PATH),
                         model().attribute(VALUE, name));
 
         assertThat(blogPostService.findPosts()).isEmpty();

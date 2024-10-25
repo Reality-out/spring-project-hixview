@@ -10,9 +10,9 @@ import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_COMPANY_PATH;
 import static site.hixview.domain.vo.manager.ViewName.ADD_COMPANY_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_VIEW;
 import static site.hixview.domain.vo.name.ViewName.VIEW_AFTER_PROCESS;
@@ -22,7 +22,7 @@ public interface CompanyTestUtils extends ObjectTestUtils {
     // Assertion
     String addSingleCompanyProcessPage = ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
     String modifyCompanyProcessPage = UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
-    String modifyCompanyFinishUrl = UPDATE_COMPANY_URL + FINISH_URL;
+    String modifyCompanyFinishUrl = UPDATE_COMPANY_PATH + FINISH_PATH;
 
     // Schema Name
     String TEST_COMPANIES_SCHEMA = "test_companies";

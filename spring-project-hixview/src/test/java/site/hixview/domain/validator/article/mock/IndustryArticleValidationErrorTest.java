@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_INDUSTRY_ARTICLE_PATH;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
 @RealControllerAndValidatorContext
@@ -50,7 +50,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         articleDtoFuture.setDays(31);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDtoFuture))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDtoFuture))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
@@ -66,7 +66,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         articleDto.setDays(31);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
@@ -93,7 +93,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         articleService.registerArticle(article);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDtoName))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDtoName))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
@@ -120,7 +120,7 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         articleService.registerArticle(article);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDtoLink))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDtoLink))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);

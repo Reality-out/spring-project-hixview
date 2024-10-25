@@ -27,11 +27,11 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_FINISH_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_ECONOMY_ARTICLE_WITH_STRING_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_ECONOMY_ARTICLE_WITH_STRING_PATH;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
@@ -65,7 +65,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
     @DisplayName("문자열을 사용하는 경제 기사들 추가 페이지 접속")
     @Test
     void accessEconomyArticleAddWithString() throws Exception {
-        mockMvc.perform(get(ADD_ECONOMY_ARTICLE_WITH_STRING_URL))
+        mockMvc.perform(get(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(addStringEconomyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT));
@@ -89,14 +89,14 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
 
         // then
         for (EconomyArticleBufferSimple articleBuffer : List.of(articleBufferOriginal, articleBufferAddFaultNameDatePress)) {
-            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+            ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
                         put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                     }}))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                            redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
             assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
@@ -111,7 +111,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
         economyArticleService.registerArticle(article2);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
-                        ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL,
+                        ADD_ECONOMY_ARTICLE_WITH_STRING_PATH + FINISH_PATH,
                         new HashMap<>() {{
                             put(NAME_LIST, nameListForURL);
                             put(IS_BEAN_VALIDATION_ERROR, String.valueOf(false));
@@ -120,7 +120,7 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, ADD_ECONOMY_ARTICLE_WITH_STRING_URL),
+                        model().attribute(REPEAT_PATH, ADD_ECONOMY_ARTICLE_WITH_STRING_PATH),
                         model().attribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 

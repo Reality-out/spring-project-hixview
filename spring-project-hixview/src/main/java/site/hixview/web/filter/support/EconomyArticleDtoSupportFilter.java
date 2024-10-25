@@ -13,14 +13,14 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.SUBJECT_COUNTRY;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_ECONOMY_ARTICLE_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ECONOMY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_ECONOMY_ARTICLE_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_ECONOMY_ARTICLE_PATH;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_ECONOMY_ARTICLE_URL, UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_SINGLE_ECONOMY_ARTICLE_PATH, UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH})
 @Order(2)
 public class EconomyArticleDtoSupportFilter extends OncePerRequestFilter {
 

@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_COMPANY_ARTICLE_PATH;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
 @OnlyRealControllerContext
@@ -50,7 +50,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         returnedArticleDto.setName("");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -70,7 +70,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -90,7 +90,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -107,7 +107,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -135,7 +135,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                     .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                             model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                             model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -153,7 +153,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -172,7 +172,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(getRandomLongString(401));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -188,7 +188,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
-        mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+        mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_PATH).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param(NAME, articleDto.getName())
                         .param(PRESS, articleDto.getPress())
                         .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
@@ -211,7 +211,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR),
@@ -271,7 +271,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))

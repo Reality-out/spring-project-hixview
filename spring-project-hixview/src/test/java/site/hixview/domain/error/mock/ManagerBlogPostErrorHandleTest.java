@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.REMOVE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_QUERY_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.REMOVE_BLOG_POST_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_BLOG_POST_URL;
+import static site.hixview.domain.vo.manager.RequestPath.REMOVE_BLOG_POST_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_BLOG_POST_PATH;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_BLOG_POST_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_BLOG_POST_VIEW;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_BLOG_POST_ERROR;
@@ -42,17 +42,17 @@ class ManagerBlogPostErrorHandleTest implements BlogPostTestUtils {
         when(blogPostService.findPostByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_BLOG_POST_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_BLOG_POST_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(UPDATE_BLOG_POST_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_BLOG_POST_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_BLOG_POST_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_BLOG_POST_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(UPDATE_BLOG_POST_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_BLOG_POST_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_BLOG_POST_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_BLOG_POST_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_BLOG_POST_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_BLOG_POST_ERROR)));
@@ -65,17 +65,17 @@ class ManagerBlogPostErrorHandleTest implements BlogPostTestUtils {
         when(blogPostService.findPostByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(REMOVE_BLOG_POST_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_BLOG_POST_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(REMOVE_BLOG_POST_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_BLOG_POST_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(REMOVE_BLOG_POST_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_BLOG_POST_ERROR)));

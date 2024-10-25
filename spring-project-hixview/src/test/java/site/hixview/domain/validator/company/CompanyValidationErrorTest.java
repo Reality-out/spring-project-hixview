@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_COMPANY_PATH;
 
 @RealControllerAndValidatorContext
 class CompanyValidationErrorTest implements CompanyTestUtils {
@@ -52,7 +52,7 @@ class CompanyValidationErrorTest implements CompanyTestUtils {
 
         // then
         for (CompanyDto companyDto : List.of(companyDtoDuplicatedCode, companyDtoDuplicatedName)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                     .andExpectAll(view().name(addSingleCompanyProcessPage),
                             model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                             model().attribute(ERROR, (String) null))

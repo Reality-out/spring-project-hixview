@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_COMPANY_PATH;
 import static site.hixview.domain.vo.name.ExceptionName.BEAN_VALIDATION_ERROR;
 
 @OnlyRealControllerContext
@@ -43,7 +43,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setSecondCategory(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -65,7 +65,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setSecondCategory(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -82,7 +82,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setCode(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -106,7 +106,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
 
         // then
         for (CompanyDto companyDto : List.of(companyDtoLongCode, companyDtoShortCode, companyDtoLongName)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                     .andExpectAll(view().name(addSingleCompanyProcessPage),
                             model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                             model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -124,7 +124,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setListedCountry(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -141,7 +141,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setScale(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -158,7 +158,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setFirstCategory(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
@@ -175,7 +175,7 @@ class CompanyBindingErrorTest implements CompanyTestUtils {
         companyDto.setSecondCategory(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
                 .andExpectAll(view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))

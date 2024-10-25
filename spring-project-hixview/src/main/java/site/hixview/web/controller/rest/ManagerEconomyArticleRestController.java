@@ -20,7 +20,7 @@ import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.response.SingleErrorResponse;
 import site.hixview.domain.entity.article.response.SingleSuccessResponse;
 import site.hixview.domain.service.EconomyArticleService;
-import site.hixview.domain.validation.validator.EconomyArticleAddComplexValidator;
+import site.hixview.domain.validation.validator.EconomyArticleAddSimpleValidator;
 import site.hixview.domain.validation.validator.EconomyArticleModifyValidator;
 
 import java.util.HashMap;
@@ -29,12 +29,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import static site.hixview.domain.vo.Regex.MESSAGE_PATTERN;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.ARTICLE;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_ECONOMY_ARTICLE_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ECONOMY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_ECONOMY_ARTICLE_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_ECONOMY_ARTICLE_PATH;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 import static site.hixview.util.RestControllerUtils.processMessagePatternString;
 
@@ -47,7 +47,7 @@ public class ManagerEconomyArticleRestController {
 
     private final EconomyArticleService articleService;
 
-    private final EconomyArticleAddComplexValidator complexValidator;
+    private final EconomyArticleAddSimpleValidator simpleValidator;
     private final EconomyArticleModifyValidator modifyValidator;
 
     private final Logger log = LoggerFactory.getLogger(ManagerEconomyArticleRestController.class);
@@ -55,7 +55,7 @@ public class ManagerEconomyArticleRestController {
     /**
      * Add - Single
      */
-    @PostMapping(ADD_SINGLE_ECONOMY_ARTICLE_URL)
+    @PostMapping(ADD_SINGLE_ECONOMY_ARTICLE_PATH)
     public ResponseEntity<?> submitAddEconomyArticle(@ModelAttribute(ARTICLE) @Validated EconomyArticleDto articleDto,
                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -73,7 +73,7 @@ public class ManagerEconomyArticleRestController {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
                     new SingleErrorResponse(ADD_PROCESS_LAYOUT, true, returnedFieldErrorMap));
         }
-        complexValidator.validate(articleDto, bindingResult);
+        simpleValidator.validate(articleDto, bindingResult);
         if (bindingResult.hasErrors()) {
             Map<String, String> fieldErrorMap = new HashMap<>();
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -91,13 +91,13 @@ public class ManagerEconomyArticleRestController {
         }
         articleService.registerArticle(EconomyArticle.builder().articleDto(articleDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), ADD_SINGLE_ECONOMY_ARTICLE_URL + FINISH_URL));
+                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), ADD_SINGLE_ECONOMY_ARTICLE_PATH + FINISH_PATH));
     }
 
     /**
      * Modify
      */
-    @PostMapping(UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL)
+    @PostMapping(UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH)
     public ResponseEntity<?> submitModifyEconomyArticle(@ModelAttribute(ARTICLE) @Validated EconomyArticleDto articleDto,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -133,6 +133,6 @@ public class ManagerEconomyArticleRestController {
         }
         articleService.correctArticle(EconomyArticle.builder().articleDto(articleDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL));
+                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH));
     }
 }

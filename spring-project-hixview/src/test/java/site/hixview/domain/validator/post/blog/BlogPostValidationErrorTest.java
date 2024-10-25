@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_BLOG_POST_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_BLOG_POST_PATH;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
@@ -53,7 +53,7 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
         postDtoFuture.setDays(31);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_URL, postDtoFuture))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDtoFuture))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
@@ -77,7 +77,7 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(
-                        postWithBlogPostDto(ADD_BLOG_POST_URL, postDtoDuplicatedName)).andExpectAll(
+                        postWithBlogPostDto(ADD_BLOG_POST_PATH, postDtoDuplicatedName)).andExpectAll(
                         jsonPath(LAYOUT_PATH).value(ADD_PROCESS_LAYOUT),
                         jsonPath(IS_BEAN_VALIDATION_ERROR).value(false))
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
@@ -107,7 +107,7 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(
-                        postWithBlogPostDto(ADD_BLOG_POST_URL, postDtoDuplicatedLink)).andExpectAll(
+                        postWithBlogPostDto(ADD_BLOG_POST_PATH, postDtoDuplicatedLink)).andExpectAll(
                         jsonPath(LAYOUT_PATH).value(ADD_PROCESS_LAYOUT),
                         jsonPath(IS_BEAN_VALIDATION_ERROR).value(false)
                 )

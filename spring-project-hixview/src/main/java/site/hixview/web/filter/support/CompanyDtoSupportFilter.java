@@ -16,14 +16,14 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_COMPANY_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_COMPANY_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_COMPANY_PATH;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_URL, UPDATE_COMPANY_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_SINGLE_COMPANY_PATH, UPDATE_COMPANY_PATH + FINISH_PATH})
 @Order(1)
 public class CompanyDtoSupportFilter extends OncePerRequestFilter {
 

@@ -13,14 +13,14 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_ARTICLE_MAIN_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ARTICLE_MAIN_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_ARTICLE_MAIN_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_ARTICLE_MAIN_PATH;
 import static site.hixview.util.FilterUtils.*;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_ARTICLE_MAIN_URL, UPDATE_ARTICLE_MAIN_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_ARTICLE_MAIN_PATH, UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH})
 @Order(1)
 public class ArticleMainSupportFilter extends OncePerRequestFilter {
 

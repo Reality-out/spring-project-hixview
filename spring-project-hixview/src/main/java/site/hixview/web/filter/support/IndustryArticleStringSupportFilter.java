@@ -16,11 +16,11 @@ import java.io.IOException;
 
 import static site.hixview.domain.vo.Word.SUBJECT_FIRST_CATEGORY;
 import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_INDUSTRY_ARTICLE_WITH_STRING_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
-@WebFilter(urlPatterns = ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
+@WebFilter(urlPatterns = ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH)
 @Order(1)
 public class IndustryArticleStringSupportFilter extends OncePerRequestFilter {
 

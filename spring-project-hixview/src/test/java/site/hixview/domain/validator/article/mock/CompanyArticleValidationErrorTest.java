@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_COMPANY_ARTICLE_PATH;
 
 @RealControllerAndValidatorContext
 class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
@@ -46,7 +46,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         articleDtoFuture.setMonth(12);
         articleDtoFuture.setDays(31);
 
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDtoFuture))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDtoFuture))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
@@ -65,7 +65,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         articleDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))
@@ -95,7 +95,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedLink)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                     .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                             model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                             model().attribute(ERROR, (String) null))
@@ -115,7 +115,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         when(companyService.findCompanyByName(articleDto.getSubjectCompany())).thenReturn(Optional.empty());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
                 .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attribute(ERROR, (String) null))

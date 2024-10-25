@@ -28,10 +28,10 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -54,7 +54,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @DisplayName("기업 추가 페이지 접속")
     @Test
     void accessCompanyAdd() throws Exception {
-        mockMvc.perform(get(ADD_SINGLE_COMPANY_URL))
+        mockMvc.perform(get(ADD_SINGLE_COMPANY_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
@@ -73,17 +73,17 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyAddValidator).validate(any(), any());
 
         CompanyDto companyDto = company.toDto();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
+        String redirectPath = fromPath(ADD_SINGLE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
 
         // then
-        mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+        mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
+                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, ADD_SINGLE_COMPANY_URL),
+                        model().attribute(REPEAT_PATH, ADD_SINGLE_COMPANY_PATH),
                         model().attribute(VALUE, companyDto.getName()));
 
         assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
@@ -102,7 +102,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         companyService.registerCompanies(samsungElectronics, skHynix);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_URL))
+        assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "companies-page"))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANIES))
@@ -113,7 +113,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @DisplayName("기업 변경 페이지 접속")
     @Test
     void accessCompanyModify() throws Exception {
-        mockMvc.perform(get(UPDATE_COMPANY_URL))
+        mockMvc.perform(get(UPDATE_COMPANY_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT));
@@ -135,11 +135,11 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
 
         // then
         for (String str : List.of(company.getCode(), company.getName())) {
-            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_URL, CODE_OR_NAME, str))
+            assertThat(requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_PATH, CODE_OR_NAME, str))
                     .andExpectAll(status().isOk(),
                             view().name(modifyCompanyProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(UPDATE_URL, modifyCompanyFinishUrl))
+                            model().attribute(UPDATE_PATH, modifyCompanyFinishUrl))
                     .andReturn().getModelAndView()).getModelMap().get(COMPANY))
                     .usingRecursiveComparison()
                     .isEqualTo(companyDto);
@@ -157,20 +157,20 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyModifyValidator).validate(any(), any());
 
         String commonName = samsungElectronics.getName();
-        String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
+        String redirectPath = fromPath(UPDATE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
         mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, company.toDto()))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, UPDATE_COMPANY_URL),
+                        model().attribute(REPEAT_PATH, UPDATE_COMPANY_PATH),
                         model().attribute(VALUE, commonName));
 
         assertThat(companyService.findCompanyByName(commonName).orElseThrow())
@@ -181,7 +181,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
     @DisplayName("기업 없애기 페이지 접속")
     @Test
     void accessCompanyRid() throws Exception {
-        mockMvc.perform(get(REMOVE_COMPANY_URL))
+        mockMvc.perform(get(REMOVE_COMPANY_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT));
@@ -201,21 +201,21 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyService).removeCompanyByCode(company.getCode());
 
         String name = company.getName();
-        String redirectedURL = fromPath(REMOVE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectPath = fromPath(REMOVE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(company.getCode(), name)) {
             companyService.registerCompany(company);
 
-            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_URL, CODE_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_PATH, CODE_OR_NAME, str))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
         }
 
-        mockMvc.perform(getWithNoParam(redirectedURL))
+        mockMvc.perform(getWithNoParam(redirectPath))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
-                        model().attribute(REPEAT_URL, REMOVE_COMPANY_URL),
+                        model().attribute(REPEAT_PATH, REMOVE_COMPANY_PATH),
                         model().attribute(VALUE, name));
 
         assertThat(companyService.findCompanies()).isEmpty();

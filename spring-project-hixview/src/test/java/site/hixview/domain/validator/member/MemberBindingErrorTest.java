@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.user.RequestUrl.MEMBERSHIP_URL;
+import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 
 @OnlyRealControllerContext
 class MemberBindingErrorTest implements MemberTestUtils {
@@ -46,7 +46,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
 
         // then
         for (MemberDto memberDto : List.of(memberDtoSpace, memberDtoNull)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDtoSpace))
+            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDtoSpace))
                     .andExpectAll(view().name(membershipProcessPage))
                     .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                     .usingRecursiveComparison()
@@ -64,7 +64,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
         memberDto.setDays(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
                 .andExpectAll(view().name(membershipProcessPage))
                 .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                 .usingRecursiveComparison()
@@ -82,7 +82,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
         memberDto.setPhoneNumber(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
+        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
                 .andExpectAll(view().name(membershipProcessPage))
                 .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                 .usingRecursiveComparison()
@@ -104,7 +104,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
 
         // then
         for (MemberDto memberDto : List.of(memberDtoFallShortOf, memberDtoExceed)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_URL, memberDto))
+            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
                     .andExpectAll(view().name(membershipProcessPage))
                     .andReturn().getModelAndView()).getModelMap().get(MEMBER))
                     .usingRecursiveComparison()
@@ -119,7 +119,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
         MemberDto memberDto = createTestMemberDto();
 
         // then
-        requireNonNull(mockMvc.perform(post(MEMBERSHIP_URL).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+        requireNonNull(mockMvc.perform(post(MEMBERSHIP_PATH).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param(ID, memberDto.getId())
                         .param("password", memberDto.getPassword())
                         .param(NAME, memberDto.getName())

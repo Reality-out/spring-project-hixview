@@ -13,13 +13,13 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.util.FilterUtils.*;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_BLOG_POST_URL, UPDATE_BLOG_POST_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_BLOG_POST_PATH, UPDATE_BLOG_POST_PATH + FINISH_PATH})
 @Order(1)
 public class BlogPostSupportFilter extends OncePerRequestFilter {
 

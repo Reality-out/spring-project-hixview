@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_INDUSTRY_ARTICLE_PATH;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
 @OnlyRealControllerContext
@@ -58,7 +58,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         }}));
 
         // then
-        Map<String, Object> jsonMap = objectMapper.readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = objectMapper.readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -85,7 +85,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(ADD_SINGLE_INDUSTRY_ARTICLE_URL,
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(ADD_SINGLE_INDUSTRY_ARTICLE_PATH,
                         new HashMap<>() {{
                             put(YEAR, String.valueOf(articleDto.getYear()));
                             put(MONTH, String.valueOf(articleDto.getMonth()));
@@ -117,7 +117,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         IndustryArticleDto articleDto = createTestIndustryArticleDto();
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(ADD_SINGLE_INDUSTRY_ARTICLE_URL,
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMultipleParams(ADD_SINGLE_INDUSTRY_ARTICLE_PATH,
                         new HashMap<>() {{
                             put(NAME, articleDto.getName());
                             put(PRESS, articleDto.getPress());
@@ -150,7 +150,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setLink(INVALID_VALUE);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -178,7 +178,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
 
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
-            Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+            Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                     .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
             });
             assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -203,7 +203,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setImportance(3);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -224,7 +224,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setLink(createTestIndustryArticleDto().getLink() + getRandomLongString(401));
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -246,7 +246,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -266,7 +266,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         articleDto.setSubjectFirstCategory(INVALID_VALUE);
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
@@ -288,7 +288,7 @@ class IndustryArticleBindingErrorTest implements IndustryArticleTestUtils {
         }}));
 
         // then
-        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+        Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);

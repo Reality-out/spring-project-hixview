@@ -14,15 +14,15 @@ import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
 
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_INDUSTRY_ARTICLE_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_INDUSTRY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_INDUSTRY_ARTICLE_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_INDUSTRY_ARTICLE_PATH;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithMap;
 import static site.hixview.util.FilterUtils.applyUppercaseAndConvertToEnumWithString;
 
 @NonNullApi
-@WebFilter(urlPatterns = {ADD_SINGLE_INDUSTRY_ARTICLE_URL, UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL})
+@WebFilter(urlPatterns = {ADD_SINGLE_INDUSTRY_ARTICLE_PATH, UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH})
 @Order(2)
 public class IndustryArticleDtoSupportFilter extends OncePerRequestFilter {
 

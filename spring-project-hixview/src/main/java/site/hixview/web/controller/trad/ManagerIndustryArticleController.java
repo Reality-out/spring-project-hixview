@@ -32,11 +32,11 @@ import static java.lang.Integer.parseInt;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.ExceptionMessage.*;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ExceptionName.*;
 import static site.hixview.domain.vo.name.ViewName.*;
@@ -59,7 +59,7 @@ public class ManagerIndustryArticleController {
     /**
      * Add - Single
      */
-    @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL)
+    @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processAddIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
@@ -67,11 +67,11 @@ public class ManagerIndustryArticleController {
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     }
 
-    @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_URL + FINISH_URL)
+    @GetMapping(ADD_SINGLE_INDUSTRY_ARTICLE_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, ADD_SINGLE_INDUSTRY_ARTICLE_URL);
+        model.addAttribute(REPEAT_PATH, ADD_SINGLE_INDUSTRY_ARTICLE_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_SINGLE_FINISH;
     }
@@ -79,14 +79,14 @@ public class ManagerIndustryArticleController {
     /**
      * Add - Multiple
      */
-    @GetMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
+    @GetMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processAddIndustryArticlesWithString(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         return ADD_INDUSTRY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     }
 
-    @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL)
+    @PostMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH)
     public String submitAddIndustryArticlesWithString(@RequestParam String nameDatePressString,
                                                       @RequestParam String linkString,
                                                      @RequestParam String subjectFirstCategory,
@@ -159,15 +159,15 @@ public class ManagerIndustryArticleController {
             finishForRedirect(CONSTRAINT_VALIDATION_VIOLATED + '\n' + e.getError(), redirect,
                     ControllerUtils.encodeWithUTF8(nameList), e.isBeanValidationViolated(), null);
         }
-        return REDIRECT_URL + ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL;
+        return RELATIVE_REDIRECT_PATH + ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH + FINISH_PATH;
     }
 
-    @GetMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL)
+    @GetMapping(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddIndustryArticlesWithString(@RequestParam List<String> nameList, Model model,
                                                      Boolean isBeanValidationError, String errorSingle) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, ADD_INDUSTRY_ARTICLE_WITH_STRING_URL);
+        model.addAttribute(REPEAT_PATH, ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH);
         model.addAttribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList));
         model.addAttribute(IS_BEAN_VALIDATION_ERROR, isBeanValidationError);
         model.addAttribute(ERROR_SINGLE, errorSingle);
@@ -177,7 +177,7 @@ public class ManagerIndustryArticleController {
     /**
      * See
      */
-    @GetMapping(SELECT_INDUSTRY_ARTICLE_URL)
+    @GetMapping(SELECT_INDUSTRY_ARTICLE_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processSeeIndustryArticles(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
@@ -189,14 +189,14 @@ public class ManagerIndustryArticleController {
     /**
      * Modify
      */
-    @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL)
+    @GetMapping(UPDATE_INDUSTRY_ARTICLE_PATH)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
 		return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS;
 	}
 
-    @PostMapping(UPDATE_INDUSTRY_ARTICLE_URL)
+    @PostMapping(UPDATE_INDUSTRY_ARTICLE_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processModifyIndustryArticle(@RequestParam String numberOrName, Model model) {
         Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
@@ -206,16 +206,16 @@ public class ManagerIndustryArticleController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute(UPDATE_URL, UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL);
+        model.addAttribute(UPDATE_PATH, UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
         return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
 
-    @GetMapping(UPDATE_INDUSTRY_ARTICLE_URL + FINISH_URL)
+    @GetMapping(UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, UPDATE_INDUSTRY_ARTICLE_URL);
+        model.addAttribute(REPEAT_PATH, UPDATE_INDUSTRY_ARTICLE_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
 	}
@@ -223,14 +223,14 @@ public class ManagerIndustryArticleController {
     /**
      * Get Rid of
      */
-    @GetMapping(REMOVE_INDUSTRY_ARTICLE_URL)
+    @GetMapping(REMOVE_INDUSTRY_ARTICLE_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processRidIndustryArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT);
         return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS;
     }
 
-    @PostMapping(REMOVE_INDUSTRY_ARTICLE_URL)
+    @PostMapping(REMOVE_INDUSTRY_ARTICLE_PATH)
     public String submitRidIndustryArticle(@RequestParam String numberOrName, Model model) {
         Optional<IndustryArticle> articleOrEmpty = articleService.findArticleByNumberOrName(numberOrName);
         if (articleOrEmpty.isEmpty()) {
@@ -242,14 +242,14 @@ public class ManagerIndustryArticleController {
             numberOrName = articleService.findArticleByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         articleService.removeArticleByName(numberOrName);
-        return REDIRECT_URL + fromPath(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
+        return RELATIVE_REDIRECT_PATH + fromPath(REMOVE_INDUSTRY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
     }
 
-    @GetMapping(REMOVE_INDUSTRY_ARTICLE_URL + FINISH_URL)
+    @GetMapping(REMOVE_INDUSTRY_ARTICLE_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidIndustryArticle(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, REMOVE_INDUSTRY_ARTICLE_URL);
+        model.addAttribute(REPEAT_PATH, REMOVE_INDUSTRY_ARTICLE_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_FINISH;
     }

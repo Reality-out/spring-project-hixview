@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
-import static site.hixview.domain.vo.user.RequestUrl.*;
+import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
@@ -76,11 +76,11 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
     @DisplayName("URL 맨 끝 슬래시 제거 필터 테스트")
     @Test
     void handleUrlLastSlashFilterTest() throws Exception {
-        mockMvc.perform(getWithNoParam(LOGIN_URL + "/"))
+        mockMvc.perform(getWithNoParam(LOGIN_PATH + "/"))
                 .andExpectAll(status().isOk(), view().name(LOGIN_VIEW + VIEW_SHOW));
-        mockMvc.perform(getWithNoParam(FIND_ID_URL + "/"))
+        mockMvc.perform(getWithNoParam(FIND_ID_PATH + "/"))
                 .andExpectAll(status().isOk(), view().name(FIND_ID_VIEW + VIEW_PROCESS));
-        mockMvc.perform(getWithNoParam(MEMBERSHIP_URL + "/"))
+        mockMvc.perform(getWithNoParam(MEMBERSHIP_PATH + "/"))
                 .andExpectAll(status().isOk(), view().name(MEMBERSHIP_VIEW + VIEW_PROCESS));
     }
 
@@ -114,13 +114,13 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
         for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
                 articleStringKorean, articleStringLowercase)) {
             ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
-                            ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                            ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                                 put(nameDatePressString, articleString);
                                 put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
                                 put(linkString, articleBuffer.getLinkString());
                             }}))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                            redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
             assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
@@ -159,14 +159,14 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
         for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
                 articleStringKorean, articleStringLowercase)) {
             ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
-                            ADD_INDUSTRY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                            ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                                 put(nameDatePressString, articleString);
                                 put(linkString, articleBuffer.getLinkString());
                                 put(SUBJECT_FIRST_CATEGORY, articleBuffer.getSubjectFirstCategory());
                                 put(SUBJECT_SECOND_CATEGORY, articleBuffer.getParsedArticles().getFirst().getSubjectSecondCategories().getFirst().name());
                             }}))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                            redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
             assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
@@ -205,14 +205,14 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
         for (String articleString : List.of(articleStringLeftSpace, articleStringRightSpace,
                 articleStringKorean, articleStringLowercase)) {
             ModelMap modelMapPost = requireNonNull(mockMvc.perform(postWithMultipleParams(
-                            ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+                            ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                                 put(nameDatePressString, articleString);
                                 put(linkString, articleBuffer.getLinkString());
                                 put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
                                 put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                             }}))
                     .andExpectAll(status().isFound(),
-                            redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL + ALL_QUERY_STRING))
+                            redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
             assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);

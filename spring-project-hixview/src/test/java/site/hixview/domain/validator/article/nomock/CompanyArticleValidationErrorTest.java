@@ -25,11 +25,11 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.ERROR_SINGLE;
 import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_COMPANY_ARTICLE_WITH_STRING_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_COMPANY_ARTICLE_WITH_STRING_PATH;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
@@ -77,13 +77,13 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, articleBuffer.getNameDatePressString());
                     put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
                     put(linkString, articleBuffer.getLinkString());
                 }}))
                 .andExpectAll(view().name(
-                                REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
+                                RELATIVE_REDIRECT_PATH + ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH),
                         model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                         model().attribute(ERROR_SINGLE, (String) null)));
     }
@@ -103,13 +103,13 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
 
         // then
         for (CompanyArticleBufferSimple articleBuffer : List.of(articleBufferDuplicatedName, articleBufferDuplicatedLink)) {
-            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
                         put(linkString, articleBuffer.getLinkString());
                     }}))
                     .andExpectAll(view().name(
-                                    REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
+                                    RELATIVE_REDIRECT_PATH + ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH),
                             model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                             model().attribute(ERROR_SINGLE, (String) null)));
         }

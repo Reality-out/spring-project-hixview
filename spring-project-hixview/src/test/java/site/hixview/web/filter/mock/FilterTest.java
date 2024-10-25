@@ -32,9 +32,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
@@ -118,15 +118,15 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
         String commonName = article.getName();
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
+        String redirectPath = fromPath(ADD_SINGLE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace, articleDtoKorean, articleDtoLowercase)) {
-            mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_URL, articleDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
             companyArticleService.removeArticleByName(commonName);
         }
     }
@@ -154,7 +154,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         CompanyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String redirectedURL = fromPath(UPDATE_COMPANY_ARTICLE_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectPath = fromPath(UPDATE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -163,7 +163,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace, articleDtoKorean, articleDtoLowercase)) {
             mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                    .andExpectAll(status().isFound(), redirectedUrlPattern(redirectedURL));
+                    .andExpectAll(status().isFound(), redirectedUrlPattern(redirectPath));
         }
     }
 
@@ -190,7 +190,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         // then
         for (IndustryArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
                 articleDtoKorean, articleDtoLowercase)) {
-            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_URL, articleDto))
+            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                     .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
             industryArticleService.removeArticleByName(commonName);
         }
@@ -218,7 +218,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         IndustryArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String redirectedURL = fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectPath = fromPath(modifyIndustryArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         industryArticleService.registerArticle(beforeModifyArticle);
@@ -254,7 +254,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         // then
         for (EconomyArticleDto articleDto : List.of(articleDtoLeftSpace, articleDtoRightSpace,
                 articleDtoKorean, articleDtoLowercase)) {
-            mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_URL, articleDto))
+            mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                     .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(article.toDto().getName())));
             economyArticleService.removeArticleByName(commonName);
         }
@@ -282,7 +282,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         EconomyArticleDto articleDtoLowercase = article.toDto();
         articleDtoLowercase.setPress(Press.valueOf(articleDtoLowercase.getPress()).name().toLowerCase());
 
-        String redirectedURL = fromPath(modifyEconomyArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectPath = fromPath(modifyEconomyArticleFinishUrl).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         economyArticleService.registerArticle(beforeModifyArticle);
@@ -317,14 +317,14 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setClassification(articleDtoLowerCase.getClassification().toLowerCase());
 
-        String redirectedURL = fromPath(ADD_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(articleDtoOriginal.getName()))
+        String redirectPath = fromPath(ADD_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(articleDtoOriginal.getName()))
                 .build().toUriString();
 
         // then
         for (ArticleMainDto articleDto : List.of(
                 articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanClassification, articleDtoLowerCase)){
-            mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_URL, articleDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
             articleMainService.removeArticleByName(articleDtoOriginal.getName());
         }
@@ -350,7 +350,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         ArticleMainDto articleDtoLowerCase = createTestCompanyArticleMainDto();
         articleDtoLowerCase.setClassification(articleDtoLowerCase.getClassification().toLowerCase());
 
-        String redirectedURL = fromPath(UPDATE_ARTICLE_MAIN_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectPath = fromPath(UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         articleMainService.registerArticle(beforeModifyArticle);
@@ -359,7 +359,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         for (ArticleMainDto articleDto : List.of(
                 articleDtoLeftSpace, articleDtoRightSpace, articleDtoKoreanClassification, articleDtoLowerCase)) {
             mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
         }
     }
 
@@ -390,7 +390,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         // then
         for (BlogPostDto postDto : List.of(
                 postDtoLeftSpace, postDtoRightSpace, postDtoKoreanClassification, postDtoLowerCase)){
-            mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_URL, postDto))
+            mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                     .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
 
             blogPostService.removePostByName(postDtoOriginal.getName());
@@ -452,12 +452,12 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
-        String redirectedURL = fromPath(ADD_SINGLE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(company.toDto().getName())).build().toUriString();
+        String redirectPath = fromPath(ADD_SINGLE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(company.toDto().getName())).build().toUriString();
 
         // then
         for (CompanyDto companyDto : List.of(companyDtoKorean, companyDtoLowercase)) {
-            mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_URL, companyDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+            mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
 
             companyService.removeCompanyByCode(companyDto.getCode());
         }
@@ -488,7 +488,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
 
-        String redirectedURL = fromPath(modifyCompanyFinishUrl).queryParam(NAME, encodeWithUTF8(beforeModifyCompany.getName())).build().toUriString();
+        String redirectPath = fromPath(modifyCompanyFinishUrl).queryParam(NAME, encodeWithUTF8(beforeModifyCompany.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(beforeModifyCompany);
@@ -497,7 +497,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         // then
         for (CompanyDto companyDto : List.of(companyDtoKorean, companyDtoLowercase)) {
             mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, companyDto))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectedURL));
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
         }
     }
 }

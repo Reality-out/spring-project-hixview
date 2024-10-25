@@ -26,10 +26,10 @@ import java.util.Optional;
 import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.ExceptionMessage.NO_BLOG_POST_WITH_THAT_NUMBER_OR_NAME;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
-import static site.hixview.domain.vo.RequestUrl.*;
+import static site.hixview.domain.vo.RequestPath.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_BLOG_POST_ERROR;
 import static site.hixview.domain.vo.name.ViewName.*;
@@ -50,7 +50,7 @@ public class ManagerBlogPostController {
     /**
      * Add
      */
-    @GetMapping(ADD_BLOG_POST_URL)
+    @GetMapping(ADD_BLOG_POST_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processAddBlogPost(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
@@ -58,11 +58,11 @@ public class ManagerBlogPostController {
         return ADD_BLOG_POST_VIEW + VIEW_PROCESS;
     }
 
-    @GetMapping(ADD_BLOG_POST_URL + FINISH_URL)
+    @GetMapping(ADD_BLOG_POST_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishAddBlogPost(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, ADD_BLOG_POST_URL);
+        model.addAttribute(REPEAT_PATH, ADD_BLOG_POST_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return ADD_BLOG_POST_VIEW + VIEW_FINISH;
     }
@@ -70,7 +70,7 @@ public class ManagerBlogPostController {
     /**
      * See
      */
-    @GetMapping(SELECT_BLOG_POST_URL)
+    @GetMapping(SELECT_BLOG_POST_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processSeeBlogPosts(Model model) {
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
@@ -78,7 +78,7 @@ public class ManagerBlogPostController {
         return SELECT_VIEW + "blog-posts-page";
     }
 
-    @GetMapping(CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL)
+    @GetMapping(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processCheckTargetImagePathBlogPosts(Model model) {
         List<BlogPost> postsWithInvalidImagePath = new ArrayList<>();
@@ -97,14 +97,14 @@ public class ManagerBlogPostController {
     /**
      * Modify
      */
-    @GetMapping(UPDATE_BLOG_POST_URL)
+    @GetMapping(UPDATE_BLOG_POST_PATH)
 	@ResponseStatus(HttpStatus.OK)
 	public String initiateModifyBlogPost(Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT);
 		return UPDATE_BLOG_POST_VIEW + VIEW_BEFORE_PROCESS;
 	}
 
-    @PostMapping(UPDATE_BLOG_POST_URL)
+    @PostMapping(UPDATE_BLOG_POST_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processModifyBlogPost(@RequestParam String numberOrName, Model model) {
         Optional<BlogPost> postOrEmpty = blogPostService.findPostByNumberOrName(numberOrName);
@@ -115,16 +115,16 @@ public class ManagerBlogPostController {
         }
 
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
-        model.addAttribute(UPDATE_URL, UPDATE_BLOG_POST_URL + FINISH_URL);
+        model.addAttribute(UPDATE_PATH, UPDATE_BLOG_POST_PATH + FINISH_PATH);
         model.addAttribute(POST, postOrEmpty.orElseThrow().toDto());
         return UPDATE_BLOG_POST_VIEW + VIEW_AFTER_PROCESS;
     }
 
-    @GetMapping(UPDATE_BLOG_POST_URL + FINISH_URL)
+    @GetMapping(UPDATE_BLOG_POST_PATH + FINISH_PATH)
 	@ResponseStatus(HttpStatus.OK)
 	public String finishModifyBlogPost(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, UPDATE_BLOG_POST_URL);
+        model.addAttribute(REPEAT_PATH, UPDATE_BLOG_POST_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return UPDATE_BLOG_POST_VIEW + VIEW_FINISH;
 	}
@@ -132,14 +132,14 @@ public class ManagerBlogPostController {
     /**
      * Get Rid of
      */
-    @GetMapping(REMOVE_BLOG_POST_URL)
+    @GetMapping(REMOVE_BLOG_POST_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String processRidBlogPost(Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT);
         return REMOVE_BLOG_POST_VIEW + VIEW_PROCESS;
     }
 
-    @PostMapping(REMOVE_BLOG_POST_URL)
+    @PostMapping(REMOVE_BLOG_POST_PATH)
     public String submitRidBlogPost(@RequestParam String numberOrName, Model model) {
         Optional<BlogPost> postOrEmpty = blogPostService.findPostByNumberOrName(numberOrName);
         if (postOrEmpty.isEmpty()) {
@@ -152,14 +152,14 @@ public class ManagerBlogPostController {
             numberOrName = blogPostService.findPostByNumber(Long.parseLong(numberOrName)).orElseThrow().getName();
         }
         blogPostService.removePostByName(numberOrName);
-        return REDIRECT_URL + fromPath(REMOVE_BLOG_POST_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
+        return RELATIVE_REDIRECT_PATH + fromPath(REMOVE_BLOG_POST_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(numberOrName)).build().toUriString();
     }
 
-    @GetMapping(REMOVE_BLOG_POST_URL + FINISH_URL)
+    @GetMapping(REMOVE_BLOG_POST_PATH + FINISH_PATH)
     @ResponseStatus(HttpStatus.OK)
     public String finishRidBlogPost(@RequestParam String name, Model model) {
         model.addAttribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT);
-        model.addAttribute(REPEAT_URL, REMOVE_BLOG_POST_URL);
+        model.addAttribute(REPEAT_PATH, REMOVE_BLOG_POST_PATH);
         model.addAttribute(VALUE, decodeWithUTF8(name));
         return REMOVE_BLOG_POST_VIEW + VIEW_FINISH;
     }

@@ -5,16 +5,17 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Word {
+    // path
+    public static final String REDIRECT_PATH = "redirectPath";
+    public static final String REPEAT_PATH = "repeatPath";
+    public static final String UPDATE_PATH = "updatePath";
+
     // error
     public static final String CHECK = "check";
     public static final String ERROR = "error";
     public static final String ERROR_SINGLE = "errorSingle";
     public static final String ERRORS_ARE = "errors = {}";
-
-    // url
-    public static final String REPEAT_URL = "repeatUrl";
-    public static final String UPDATE_URL = "updateUrl";
-
+    
     // others
     public static final String ARTICLE = "article";
     public static final String ARTICLES = "articles";

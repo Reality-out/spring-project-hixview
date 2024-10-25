@@ -11,9 +11,9 @@ import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_ECONOMY_ARTICLE_URL;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_ECONOMY_ARTICLE_PATH;
 import static site.hixview.domain.vo.manager.ViewName.ADD_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.ViewName.*;
@@ -23,7 +23,7 @@ public interface EconomyArticleTestUtils extends ObjectTestUtils {
     String addSingleEconomyArticleProcessPage = ADD_ECONOMY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     String addStringEconomyArticleProcessPage = ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
     String modifyEconomyArticleProcessPage = UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
-    String modifyEconomyArticleFinishUrl = UPDATE_ECONOMY_ARTICLE_URL + FINISH_URL;
+    String modifyEconomyArticleFinishUrl = UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH;
 
     // Schema Name
     String TEST_ECONOMY_ARTICLES_SCHEMA = "test_economy_articles";

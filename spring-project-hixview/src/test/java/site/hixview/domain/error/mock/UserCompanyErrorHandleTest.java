@@ -18,8 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.Word.ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_EXIST_COMPANY_ERROR;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_COMPANY_ERROR;
-import static site.hixview.domain.vo.user.RequestUrl.CHECK_URL;
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
+import static site.hixview.domain.vo.user.RequestPath.CHECK_PATH;
+import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
 
 @OnlyRealControllerContext
 class UserCompanyErrorHandleTest implements CompanyTestUtils {
@@ -33,7 +33,7 @@ class UserCompanyErrorHandleTest implements CompanyTestUtils {
     @DisplayName("비어 있는 값을 사용하는 기업 검색")
     @Test
     void emptyCompanySearch() throws Exception {
-        requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL + CHECK_URL))
+        requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_PATH + CHECK_PATH))
                 .andExpectAll(status().isNotFound(),
                         jsonPath(ERROR).value(NOT_EXIST_COMPANY_ERROR)));
     }
@@ -45,11 +45,11 @@ class UserCompanyErrorHandleTest implements CompanyTestUtils {
         when(companyService.findCompanyByCodeOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL + CHECK_URL + "000000"))
+        requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_PATH + CHECK_PATH + "000000"))
                 .andExpectAll(status().isNotFound(),
                         jsonPath(ERROR).value(NOT_FOUND_COMPANY_ERROR)));
 
-        requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_URL + CHECK_URL + INVALID_VALUE))
+        requireNonNull(mockMvc.perform(getWithNoParam(COMPANY_SEARCH_PATH + CHECK_PATH + INVALID_VALUE))
                 .andExpectAll(status().isNotFound(),
                         jsonPath(ERROR).value(NOT_FOUND_COMPANY_ERROR)));
     }

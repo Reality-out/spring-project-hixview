@@ -21,11 +21,11 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_ECONOMY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.ExceptionName.*;
@@ -47,7 +47,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
     @DisplayName("존재하지 않는 대상 국가를 사용하는, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void notFoundSubjectFirstCategoryEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, testEqualDateEconomyArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateEconomyArticleBuffer.getLinkString());
                     put(SUBJECT_COUNTRY, INVALID_VALUE);
@@ -61,7 +61,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void articleListBiggerEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, testEconomyArticleBuffer.getNameDatePressString());
                     put(linkString, testEqualDateEconomyArticle.getLink());
                     put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
@@ -75,7 +75,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
     @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void linkListBiggerEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, EconomyArticleBufferSimple.builder().article(testNewEconomyArticle).build().getNameDatePressString());
                     put(linkString, testEconomyArticleBuffer.getLinkString());
                     put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
@@ -89,7 +89,7 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
     @DisplayName("비어 있는 기사를 사용하는, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void emptyEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, "");
                     put(linkString, "");
                     put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
@@ -122,14 +122,14 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
 
         // then
         for (EconomyArticleBufferSimple articleBuffer : List.of(invalidFormatArticleBuffer, invalidFormatArticleAddNameDatePress)) {
-            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(linkString, articleBuffer.getLinkString());
                         put(SUBJECT_COUNTRY, articleBuffer.getSubjectCountry());
                         put(TARGET_ECONOMY_CONTENT, articleBuffer.getTargetEconomyContents());
                     }}))
                     .andExpectAll(view().name(
-                                    REDIRECT_URL + ADD_ECONOMY_ARTICLE_WITH_STRING_URL + FINISH_URL),
+                                    RELATIVE_REDIRECT_PATH + ADD_ECONOMY_ARTICLE_WITH_STRING_PATH + FINISH_PATH),
                             model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                             model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
         }
@@ -142,17 +142,17 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
         when(economyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
@@ -165,17 +165,17 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
         when(economyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));

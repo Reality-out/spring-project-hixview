@@ -29,12 +29,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import static site.hixview.domain.vo.Regex.MESSAGE_PATTERN;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.POST;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestURL.ADD_BLOG_POST_URL;
-import static site.hixview.domain.vo.manager.RequestURL.UPDATE_BLOG_POST_URL;
+import static site.hixview.domain.vo.manager.RequestPath.ADD_BLOG_POST_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.UPDATE_BLOG_POST_PATH;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 import static site.hixview.util.RestControllerUtils.processMessagePatternString;
 
@@ -55,7 +55,7 @@ public class ManagerBlogPostRestController {
     /**
      * Add - Single
      */
-    @PostMapping(ADD_BLOG_POST_URL)
+    @PostMapping(ADD_BLOG_POST_PATH)
     public ResponseEntity<?> submitAddBlogPost(@ModelAttribute(POST) @Validated BlogPostDto postDto,
                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -91,13 +91,13 @@ public class ManagerBlogPostRestController {
         }
         postService.registerPost(BlogPost.builder().blogPostDto(postDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(postDto.getName()), ADD_BLOG_POST_URL + FINISH_URL));
+                new SingleSuccessResponse(encodeWithUTF8(postDto.getName()), ADD_BLOG_POST_PATH + FINISH_PATH));
     }
 
     /**
      * Modify
      */
-    @PostMapping(UPDATE_BLOG_POST_URL + FINISH_URL)
+    @PostMapping(UPDATE_BLOG_POST_PATH + FINISH_PATH)
     public ResponseEntity<?> submitModifyBlogPost(@ModelAttribute(POST) @Validated BlogPostDto postDto,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -133,6 +133,6 @@ public class ManagerBlogPostRestController {
         }
         postService.correctPost(BlogPost.builder().blogPostDto(postDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(postDto.getName()), UPDATE_BLOG_POST_URL + FINISH_URL));
+                new SingleSuccessResponse(encodeWithUTF8(postDto.getName()), UPDATE_BLOG_POST_PATH + FINISH_PATH));
     }
 }

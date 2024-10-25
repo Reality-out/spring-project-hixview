@@ -4,13 +4,13 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class RequestUrl {
+public final class RequestPath {
     // Prefix
-    public static final String REDIRECT_URL = "redirect:";
+    public static final String RELATIVE_REDIRECT_PATH = "redirect:";
 
     // Suffix
     public static final String BEFORE_PATH_VARIABLE = "/";
-    public static final String FINISH_URL = "/finish";
+    public static final String FINISH_PATH = "/finish";
 
     // Others
     public static final String ROOT_PATH = System.getProperty("user.dir");

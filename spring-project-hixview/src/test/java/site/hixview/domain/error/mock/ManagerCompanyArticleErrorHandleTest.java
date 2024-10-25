@@ -23,11 +23,11 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
-import static site.hixview.domain.vo.RequestUrl.REDIRECT_URL;
+import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
+import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.*;
-import static site.hixview.domain.vo.manager.RequestURL.*;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.manager.ViewName.REMOVE_COMPANY_URL_ARTICLE_VIEW;
 import static site.hixview.domain.vo.manager.ViewName.UPDATE_COMPANY_ARTICLE_VIEW;
 import static site.hixview.domain.vo.name.ExceptionName.*;
@@ -56,7 +56,7 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         when(companyService.findCompanyByName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
                     put(SUBJECT_COMPANY, INVALID_VALUE);
                     put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
@@ -77,7 +77,7 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, testCompanyArticleBuffer.getNameDatePressString());
                     put(SUBJECT_COMPANY, testCompanyArticleBuffer.getSubjectCompany());
                     put(linkString, testEqualDateCompanyArticle.getLink());
@@ -98,7 +98,7 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewCompanyArticle).build().getNameDatePressString());
                     put(SUBJECT_COMPANY, testCompanyArticleBuffer.getSubjectCompany());
                     put(linkString, testCompanyArticleBuffer.getLinkString());
@@ -119,7 +119,7 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                     put(nameDatePressString, "");
                     put(SUBJECT_COMPANY, samsungElectronics.getName());
                     put(linkString, "");
@@ -155,13 +155,13 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
 
         // then
         for (CompanyArticleBufferSimple articleBuffer : List.of(invalidFormatArticleBuffer, invalidFormatArticleAddNameDatePress)) {
-            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_URL, new HashMap<>() {{
+            requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
                         put(nameDatePressString, articleBuffer.getNameDatePressString());
                         put(SUBJECT_COMPANY, articleBuffer.getSubjectCompany());
                         put(linkString, articleBuffer.getLinkString());
                     }}))
                     .andExpectAll(view().name(
-                                    REDIRECT_URL + ADD_COMPANY_ARTICLE_WITH_STRING_URL + FINISH_URL),
+                                    RELATIVE_REDIRECT_PATH + ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH),
                             model().attribute(IS_BEAN_VALIDATION_ERROR, String.valueOf(false)),
                             model().attribute(ERROR_SINGLE, NUMBER_FORMAT_LOCAL_DATE_ERROR)));
         }
@@ -174,17 +174,17 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         when(companyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
                         model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
@@ -197,17 +197,17 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         when(companyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, ""))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, "1"))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_URL, NUMBER_OR_NAME, INVALID_VALUE))
+        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
                 .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
                         model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
                         model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
