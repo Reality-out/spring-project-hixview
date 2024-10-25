@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
@@ -55,6 +56,7 @@ public class ManagerArticleMainController {
     public String processAddArticleMain(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new ArticleMainDto());
+        model.addAttribute(CLASSIFICATIONS, Classification.values());
         return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
     }
 
@@ -135,6 +137,7 @@ public class ManagerArticleMainController {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute(UPDATE_PATH, UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
+        model.addAttribute(CLASSIFICATIONS, Classification.values());
         return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
     }
 

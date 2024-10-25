@@ -39,11 +39,10 @@
                 <input type="text" id="importance" th:field="*{importance}" size="20">
                 <div hidden class="txt-error-message" id="error-importance"></div>
             </div>
-            <div class="basic-form-item">
-                <label for="subjectCountry" th:text="#{article.subjectCountry}"></label>
-                <input type="text" id="subjectCountry" th:field="*{subjectCountry}" size="20">
-                <div hidden class="txt-error-message" id="error-subjectCountry"></div>
-            </div>
+            <div th:text="#{article.subjectCountry}"></div>
+            <select class="basic-form-item basic-form-select-item" th:field="*{subjectCountry}">
+                <option th:each="subjectCountry : ${subjectCountries}" th:value="${subjectCountry.name()}" th:text="${subjectCountry.value}"></option>
+            </select>
             <div class="basic-form-item article-target-economy-content">
                 <label for="targetEconomyContent0" th:text="|#{article.targetEconomyContent}0|"></label>
                 <input type="text" id="targetEconomyContent0" size="20">

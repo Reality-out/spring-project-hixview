@@ -24,11 +24,10 @@
                 <input type="text" id="summary" th:field="*{summary}" size="20">
                 <div class="txt-error-message" th:errors="*{summary}"></div>
             </div>
-            <div class="basic-form-item">
-                <label for="classification" th:text="#{article.classification}"></label>
-                <input type="text" id="classification" th:field="*{classification}" size="20">
-                <div class="txt-error-message" th:errors="*{classification}"></div>
-            </div>
+            <div th:text="#{article.classification}"></div>
+            <select class="basic-form-item basic-form-select-item" th:field="*{classification}">
+                <option th:each="classification : ${classifications}" th:value="${classification.name()}" th:text="${classification.value}"></option>
+            </select>
         </div>
         <div class="basic-form-buttons">
             <button id="submitBtn" type="submit" th:text="#{function.correct}"></button>

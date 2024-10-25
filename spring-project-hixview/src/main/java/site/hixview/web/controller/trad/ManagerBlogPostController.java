@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.service.BlogPostService;
@@ -55,6 +56,7 @@ public class ManagerBlogPostController {
     public String processAddBlogPost(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(POST, new BlogPostDto());
+        model.addAttribute(CLASSIFICATIONS, Classification.values());
         return ADD_BLOG_POST_VIEW + VIEW_PROCESS;
     }
 
@@ -117,6 +119,7 @@ public class ManagerBlogPostController {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute(UPDATE_PATH, UPDATE_BLOG_POST_PATH + FINISH_PATH);
         model.addAttribute(POST, postOrEmpty.orElseThrow().toDto());
+        model.addAttribute(CLASSIFICATIONS, Classification.values());
         return UPDATE_BLOG_POST_VIEW + VIEW_AFTER_PROCESS;
     }
 

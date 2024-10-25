@@ -102,6 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (errClassName === 'error-days' || errClassName === 'error-month' || errClassName === 'error-year') {
                 errClassName = 'error-date';
             }
+            if (errClassName === 'error-classification') {
+                continue;
+            }
             const errElement = document.getElementById(errClassName);
             errElement.hidden = false;
             errElement.textContent = decodeURIComponent(errMessage).replaceAll('+', ' ');

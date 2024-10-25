@@ -23,6 +23,7 @@ public final class Word {
     public static final String BLOG_POST = "blogPost";
     public static final String BLOG_POSTS = "blogPosts";
     public static final String CLASSIFICATION = "classification";
+    public static final String CLASSIFICATIONS = "classifications";
     public static final String CODE = "code";
     public static final String CODE_OR_NAME = "codeOrName";
     public static final String COMPANIES = "companies";
@@ -52,6 +53,7 @@ public final class Word {
     public static final String SECOND_CATEGORY = "secondCategory";
     public static final String SECOND_CATEGORIES = "secondCategories";
     public static final String SUBJECT_COMPANY = "subjectCompany";
+    public static final String SUBJECT_COUNTRIES = "subjectCountries";
     public static final String SUBJECT_COUNTRY = "subjectCountry";
     public static final String SUBJECT_FIRST_CATEGORY = "subjectFirstCategory";
     public static final String SUBJECT_SECOND_CATEGORY = "subjectSecondCategory";

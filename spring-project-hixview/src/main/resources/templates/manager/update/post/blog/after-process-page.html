@@ -30,11 +30,10 @@
                 <input type="text" id="days" th:field="*{days}" size="20">
                 <div hidden class="txt-error-message" id="error-date"></div>
             </div>
-            <div class="basic-form-item">
-                <label for="classification" th:text="#{post.classification}"></label>
-                <input type="text" id="classification" th:field="*{classification}" size="20">
-                <div hidden class="txt-error-message" id="error-classification"></div>
-            </div>
+            <div th:text="#{article.classification}"></div>
+            <select class="basic-form-item basic-form-select-item" th:field="*{classification}">
+                <option th:each="classification : ${classifications}" th:value="${classification.name()}" th:text="${classification.value}"></option>
+            </select>
             <div class="basic-form-item">
                 <label for="targetName" th:text="#{post.targetName}"></label>
                 <input type="text" id="targetName" th:field="*{targetName}" size="20">

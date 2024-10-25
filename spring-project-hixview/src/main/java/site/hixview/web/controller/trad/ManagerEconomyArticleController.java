@@ -62,6 +62,7 @@ public class ManagerEconomyArticleController {
     public String processAddEconomyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new EconomyArticleDto());
+        model.addAttribute(SUBJECT_COUNTRIES, Country.values());
         return ADD_ECONOMY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     }
 
@@ -200,6 +201,7 @@ public class ManagerEconomyArticleController {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute(UPDATE_PATH, UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
+        model.addAttribute(SUBJECT_COUNTRIES, Country.values());
         return UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
 
