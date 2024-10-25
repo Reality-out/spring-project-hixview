@@ -1,3 +1,4 @@
+import {clearErrorMessage} from '/scripts/manager/module/utils.js';
 document.addEventListener('DOMContentLoaded', () => {
     console.log('processSubmitArticleNameAndLink started')
 
@@ -90,13 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showFieldErrors(error.fieldErrorMap);
         });
     })
-
-    async function clearErrorMessage() {
-        for (const element of document.getElementsByClassName('txt-error-message')) {
-            element.hidden = true;
-            element.textContent = '';
-        }
-    }
 
     async function showFieldErrors(fieldErrorMap) {
         for (let [errTarget, errMessage] of Object.entries(fieldErrorMap)) {
