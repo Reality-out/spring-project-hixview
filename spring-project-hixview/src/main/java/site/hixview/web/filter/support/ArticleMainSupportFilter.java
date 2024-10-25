@@ -36,8 +36,8 @@ public class ArticleMainSupportFilter extends OncePerRequestFilter {
     private static void addImagePathPrefixSuffix(ModifiableHttpServletRequest request) {
         String imagePath = request.getParameter(IMAGE_PATH);
         if (imagePath != null) {
-            if (!imagePath.startsWith(IMAGE_PATH_PREFIX)) {
-                imagePath = IMAGE_PATH_PREFIX + imagePath;
+            if (!imagePath.startsWith(NEWEST_IMAGE_PATH_PREFIX)) {
+                imagePath = NEWEST_IMAGE_PATH_PREFIX + imagePath;
             }
             if (!imagePath.endsWith(IMAGE_PATH_SUFFIX)) {
                 imagePath = imagePath + IMAGE_PATH_SUFFIX;

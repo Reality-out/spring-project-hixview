@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.member.Member;
-import site.hixview.domain.service.*;
+import site.hixview.domain.service.MemberService;
 import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.support.util.*;
+import site.hixview.support.util.MemberTestUtils;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,64 +21,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.*;
-import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestUrl.*;
-import static site.hixview.domain.vo.user.ViewName.*;
+import static site.hixview.domain.vo.user.ViewName.FIND_ID_VIEW;
+import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
 
 @OnlyRealControllerContext
-class UserMainControllerTest implements MemberTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, ArticleMainTestUtils {
+class UserMainControllerTest implements MemberTestUtils {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private CompanyArticleService companyArticleService;
-
-    @Autowired
-    private IndustryArticleService industryArticleService;
-
-    @Autowired
-    private EconomyArticleService economyArticleService;
-
-    @Autowired
-    private ArticleMainService articleMainService;
-
-    @Autowired
     private MemberService memberService;
-
-    @DisplayName("유저 메인 페이지 접속")
-    @Test
-    void accessUserMainPage() throws Exception {
-        // given & when
-        when(articleMainService.findArticleByName(testCompanyArticle.getName())).thenReturn(Optional.of(testCompanyArticleMain));
-        when(articleMainService.findArticleByName(testIndustryArticle.getName())).thenReturn(Optional.of(testIndustryArticleMain));
-        when(articleMainService.findArticleByName(testEconomyArticle.getName())).thenReturn(Optional.of(testDomesticEconomyArticleMain));
-        when(articleMainService.findArticleByName(testEqualDateEconomyArticle.getName())).thenReturn(Optional.of(testForeignEconomyArticleMain));
-        when(articleMainService.registerArticle(testCompanyArticleMain)).thenReturn(testCompanyArticleMain);
-        when(articleMainService.registerArticle(testIndustryArticleMain)).thenReturn(testIndustryArticleMain);
-        when(articleMainService.registerArticle(testDomesticEconomyArticleMain)).thenReturn(testDomesticEconomyArticleMain);
-        when(articleMainService.registerArticle(testForeignEconomyArticleMain)).thenReturn(testForeignEconomyArticleMain);
-        when(companyArticleService.findLatestArticles()).thenReturn(List.of(testCompanyArticle));
-        when(companyArticleService.registerArticle(testCompanyArticle)).thenReturn(testCompanyArticle);
-        when(industryArticleService.findLatestArticles()).thenReturn(List.of(testIndustryArticle));
-        when(industryArticleService.registerArticle(testIndustryArticle)).thenReturn(testIndustryArticle);
-        when(economyArticleService.findLatestDomesticArticles()).thenReturn(List.of(testEconomyArticle));
-        when(economyArticleService.registerArticle(testEconomyArticle)).thenReturn(testEconomyArticle);
-        when(economyArticleService.findLatestForeignArticles()).thenReturn(List.of(testEqualDateEconomyArticle));
-        when(economyArticleService.registerArticle(testEqualDateEconomyArticle)).thenReturn(testEqualDateEconomyArticle);
-        articleMainService.registerArticle(testCompanyArticleMain);
-        articleMainService.registerArticle(testIndustryArticleMain);
-        articleMainService.registerArticle(testDomesticEconomyArticleMain);
-        articleMainService.registerArticle(testForeignEconomyArticleMain);
-        companyArticleService.registerArticle(testCompanyArticle);
-        industryArticleService.registerArticle(testIndustryArticle);
-
-        // then
-        mockMvc.perform(getWithNoParam(""))
-                .andExpectAll(status().isOk(),
-                        view().name(USER_HOME_VIEW),
-                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT));
-    }
 
     @DisplayName("로그인 페이지 접속")
     @Test

@@ -84,9 +84,7 @@ public class ManagerBlogPostController {
         List<BlogPost> postsWithInvalidImagePath = new ArrayList<>();
         Path prefix = Paths.get(ROOT_PATH).resolve(STATIC_RESOURCE_PATH);
         for (BlogPost post : blogPostService.findPosts()) {
-            Path filePath = prefix
-                    .resolve(post.getTargetImagePath().substring(1))
-                    .toAbsolutePath();
+            Path filePath = prefix.resolve(post.getTargetImagePath().substring(1)).toAbsolutePath();
             if (!filePath.toFile().isFile()) {
                 postsWithInvalidImagePath.add(post);
             }

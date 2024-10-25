@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.service.CompanyService;
+import site.hixview.domain.service.HomeService;
+
+import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
@@ -23,9 +27,10 @@ import static site.hixview.domain.vo.user.ViewName.COMPANY_VIEW;
 @Controller
 @RequiredArgsConstructor
 public class UserCompanyController {
+    private final HomeService homeService;
+    private final CompanyService companyService;
 
     private final Logger log = LoggerFactory.getLogger(UserCompanyController.class);
-    private final CompanyService companyService;
 
     @ModelAttribute(LAYOUT_PATH)
     public String layoutPath() {
@@ -44,9 +49,14 @@ public class UserCompanyController {
     /**
      * Search
      */
-    @GetMapping(COMPANY_SEARCH_URL + "{code}")
-    public String processCompanyShowPage(@PathVariable(name = CODE) String code, Model model) {
-        model.addAttribute(COMPANY, companyService.findCompanyByCode(code).orElseThrow());
+    @GetMapping(value = {COMPANY_SEARCH_URL, COMPANY_SEARCH_URL + "{code}"})
+    public String processCompanyShowPage(@PathVariable(name = CODE, required = false) String code, Model model) {
+        Optional<Company> companyByCode = companyService.findCompanyByCode(code);
+        if (companyByCode.isEmpty()) {
+            model.addAttribute(COMPANY, companyService.findCompanyByName(homeService.findUsableLatestCompanyArticles().getFirst().getSubjectCompany()).orElseThrow());
+        } else {
+            model.addAttribute(COMPANY, companyByCode.orElseThrow());
+        }
         return COMPANY_VIEW + VIEW_SHOW;
     }
 }

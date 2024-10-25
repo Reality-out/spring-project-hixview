@@ -16,7 +16,6 @@ import site.hixview.domain.service.*;
 import site.hixview.util.ControllerUtils;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static site.hixview.domain.vo.ExceptionMessage.*;
@@ -32,7 +31,7 @@ import static site.hixview.domain.vo.user.ViewName.*;
 @Controller
 @RequiredArgsConstructor
 public class UserMainController {
-
+    private final HomeService homeService;
     private final MemberService memberService;
     private final CompanyArticleService companyArticleService;
     private final IndustryArticleService industryArticleService;
@@ -45,34 +44,26 @@ public class UserMainController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String processUserMainPage(Model model) {
-        Optional<CompanyArticle> latestCompanyArticleOrEmpty = companyArticleService.findLatestArticles().stream()
-                .filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
-        if (latestCompanyArticleOrEmpty.isEmpty()) {
+        List<CompanyArticle> latestCompanyArticleList = homeService.findUsableLatestCompanyArticles();
+        if (latestCompanyArticleList.isEmpty()) {
             throw new NotFoundException(NO_COMPANY_ARTICLE_WITH_THAT_CONDITION);
         }
-
-        Optional<IndustryArticle> latestIndustryArticleOrEmpty = industryArticleService.findLatestArticles().stream()
-                .filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
-        if (latestIndustryArticleOrEmpty.isEmpty()) {
+        List<IndustryArticle> latestIndustryArticleList = homeService.findUsableLatestIndustryArticles();
+        if (latestIndustryArticleList.isEmpty()) {
             throw new NotFoundException(NO_INDUSTRY_ARTICLE_WITH_THAT_CONDITION);
         }
-
-        Optional<EconomyArticle> latestDomesticEconomyArticleOrEmpty = economyArticleService.findLatestDomesticArticles()
-                .stream().filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
-        if (latestDomesticEconomyArticleOrEmpty.isEmpty()) {
+        List<EconomyArticle> latestDomesticEconomyArticleList = homeService.findUsableLatestDomesticEconomyArticles();
+        if (latestDomesticEconomyArticleList.isEmpty()) {
             throw new NotFoundException(NO_DOMESTIC_ECONOMY_ARTICLE_WITH_THAT_CONDITION);
         }
-
-        Optional<EconomyArticle> latestForeignEconomyArticleOrEmpty = economyArticleService.findLatestForeignArticles()
-                .stream().filter(article -> articleMainService.findArticleByName(article.getName()).isPresent()).findFirst();
+        List<EconomyArticle> latestForeignEconomyArticleOrEmpty = homeService.findUsableLatestForeignEconomyArticles();
         if (latestForeignEconomyArticleOrEmpty.isEmpty()) {
             throw new NotFoundException(NO_FOREIGN_ECONOMY_ARTICLE_WITH_THAT_CONDITION);
         }
-
-        CompanyArticle latestCompanyArticle = latestCompanyArticleOrEmpty.orElseThrow();
-        IndustryArticle latestIndustryArticle = latestIndustryArticleOrEmpty.orElseThrow();
-        EconomyArticle latestDomesticEconomyArticle = latestDomesticEconomyArticleOrEmpty.orElseThrow();
-        EconomyArticle latestForeignEconomyArticle = latestForeignEconomyArticleOrEmpty.orElseThrow();
+        CompanyArticle latestCompanyArticle = latestCompanyArticleList.getFirst();
+        IndustryArticle latestIndustryArticle = latestIndustryArticleList.getFirst();
+        EconomyArticle latestDomesticEconomyArticle = latestDomesticEconomyArticleList.getFirst();
+        EconomyArticle latestForeignEconomyArticle = latestForeignEconomyArticleOrEmpty.getFirst();
         model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT);
         model.addAttribute("latestCompanyArticle", latestCompanyArticle);
         model.addAttribute("latestIndustryArticle", latestIndustryArticle);

@@ -102,9 +102,7 @@ public class ManagerArticleMainController {
         List<ArticleMain> articlesWithInvalidImagePath = new ArrayList<>();
         Path prefix = Paths.get(ROOT_PATH).resolve(STATIC_RESOURCE_PATH);
         for (ArticleMain article : articleMainService.findArticles()) {
-            Path filePath = prefix
-                    .resolve(article.getImagePath().substring(1))
-                    .toAbsolutePath();
+            Path filePath = prefix.resolve(article.getImagePath().substring(1)).toAbsolutePath();
             if (!filePath.toFile().isFile()) {
                 articlesWithInvalidImagePath.add(article);
             }
