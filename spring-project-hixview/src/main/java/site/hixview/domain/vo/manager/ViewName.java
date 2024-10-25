@@ -39,4 +39,5 @@ public final class ViewName {
     // Others
     public static final String MANAGER_HOME_VIEW = "manager/main-page";
     public static final String SELECT_VIEW = "manager/select/";
+    public static final String SELECT_CHECK_IMAGE_PATH_VIEW = "manager/select/check/imagepath/";
 }

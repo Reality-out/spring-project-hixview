@@ -129,7 +129,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "blog-posts-page"))
+                        view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "blog-posts-page"))
                 .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
                 .usingRecursiveComparison()
                 .isEqualTo(emptyList());
@@ -151,7 +151,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "blog-posts-page"))
+                        view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "blog-posts-page"))
                 .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
                 .usingRecursiveComparison()
                 .isEqualTo(storedList);

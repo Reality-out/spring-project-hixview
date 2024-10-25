@@ -128,7 +128,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_PATH))
                 .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "article-mains-page"))
+                        view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "article-mains-page"))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
                 .usingRecursiveComparison()
                 .isEqualTo(emptyList());
@@ -150,7 +150,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         // then
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_PATH))
                 .andExpectAll(status().isOk(),
-                        view().name(SELECT_VIEW + "article-mains-page"))
+                        view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "article-mains-page"))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
                 .usingRecursiveComparison()
                 .isEqualTo(storedList);

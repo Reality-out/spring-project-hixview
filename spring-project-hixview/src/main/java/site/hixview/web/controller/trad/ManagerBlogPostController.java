@@ -93,7 +93,7 @@ public class ManagerBlogPostController {
         }
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
         model.addAttribute(BLOG_POSTS, postsWithInvalidImagePath);
-        return SELECT_VIEW + "blog-posts-page";
+        return SELECT_CHECK_IMAGE_PATH_VIEW + "blog-posts-page";
     }
 
     /**

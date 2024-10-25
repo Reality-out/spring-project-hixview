@@ -111,7 +111,7 @@ public class ManagerArticleMainController {
         }
         model.addAttribute(LAYOUT_PATH, SELECT_LAYOUT);
         model.addAttribute(ARTICLE_MAINS, articlesWithInvalidImagePath);
-        return SELECT_VIEW + "article-mains-page";
+        return SELECT_CHECK_IMAGE_PATH_VIEW + "article-mains-page";
     }
 
     /**
