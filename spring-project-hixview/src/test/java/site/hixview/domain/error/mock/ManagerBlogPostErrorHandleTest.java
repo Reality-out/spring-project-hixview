@@ -1,4 +1,4 @@
-package site.hixview.domain.error;
+package site.hixview.domain.error.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

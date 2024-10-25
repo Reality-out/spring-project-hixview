@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import static site.hixview.domain.entity.home.BlogPost.getFieldNamesWithNoNumber;
 
 @OnlyRealServiceContext
-class HomeServiceTest implements BlogPostTestUtils, ArticleMainTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils {
+class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
 
     @Autowired
     private HomeService homeService;

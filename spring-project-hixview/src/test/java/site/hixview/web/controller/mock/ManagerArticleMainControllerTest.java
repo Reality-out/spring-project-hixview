@@ -114,9 +114,9 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .isEqualTo(articleList);
     }
 
-    @DisplayName("기사 메인들 이미지 경로 확인 페이지 접속")
+    @DisplayName("기사 메인의 유효한 이미지 경로 확인 페이지 접속")
     @Test
-    void accessArticleMainsImagePathCheck() throws Exception {
+    void accessArticleMainValidImagePathCheck() throws Exception {
         // given
         List<ArticleMain> storedList = List.of(testCompanyArticleMain, testNewCompanyArticleMain);
         when(articleMainService.findArticles()).thenReturn(storedList);
@@ -132,6 +132,28 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
                 .usingRecursiveComparison()
                 .isEqualTo(emptyList());
+    }
+
+    @DisplayName("기사 메인의 유효하지 않은 이미지 경로 확인 페이지 접속")
+    @Test
+    void accessArticleMainInvalidImagePathCheck() throws Exception {
+        // given
+        ArticleMain testArticleMain1 = ArticleMain.builder().article(testCompanyArticleMain).imagePath(INVALID_VALUE + "0").build();
+        ArticleMain testArticleMain2 = ArticleMain.builder().article(testNewCompanyArticleMain).imagePath(INVALID_VALUE + "1").build();
+        List<ArticleMain> storedList = List.of(testArticleMain1, testArticleMain2);
+        when(articleMainService.findArticles()).thenReturn(storedList);
+        when(articleMainService.registerArticles(testArticleMain1, testArticleMain2)).thenReturn(storedList);
+
+        // when
+        List<ArticleMain> articleList = articleMainService.registerArticles(testArticleMain1, testArticleMain2);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_URL))
+                .andExpectAll(status().isOk(),
+                        view().name(SELECT_VIEW + "article-mains-page"))
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
+                .usingRecursiveComparison()
+                .isEqualTo(storedList);
     }
 
     @DisplayName("기사 메인 변경 페이지 접속")

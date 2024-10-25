@@ -113,9 +113,9 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
                 .isEqualTo(postList);
     }
 
-    @DisplayName("블로그 포스트들 이미지 경로 확인 페이지 접속")
+    @DisplayName("포스트의 유효한 타겟 이미지 경로 확인 페이지 접속")
     @Test
-    void accessBlogPostsImagePathCheck() throws Exception {
+    void accessPostValidTargetImagePathCheck() throws Exception {
         // given
         List<BlogPost> storedList = List.of(testBlogPostCompany, testBlogPostEconomy);
         when(blogPostService.findPosts()).thenReturn(storedList);
@@ -131,6 +131,28 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
                 .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
                 .usingRecursiveComparison()
                 .isEqualTo(emptyList());
+    }
+
+    @DisplayName("포스트의 유효하지 않은 타겟 이미지 경로 확인 페이지 접속")
+    @Test
+    void accessPostInvalidTargetImagePathCheck() throws Exception {
+        // given
+        BlogPost testBlogPost1 = BlogPost.builder().blogPost(testBlogPostCompany).targetImagePath(INVALID_VALUE + "0").build();
+        BlogPost testBlogPost2 = BlogPost.builder().blogPost(testBlogPostEconomy).targetImagePath(INVALID_VALUE + "1").build();
+        List<BlogPost> storedList = List.of(testBlogPost1, testBlogPost2);
+        when(blogPostService.findPosts()).thenReturn(storedList);
+        when(blogPostService.registerPosts(testBlogPost1, testBlogPost2)).thenReturn(storedList);
+
+        // when
+        List<BlogPost> postList = blogPostService.registerPosts(testBlogPost1, testBlogPost2);
+
+        // then
+        assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_URL))
+                .andExpectAll(status().isOk(),
+                        view().name(SELECT_VIEW + "blog-posts-page"))
+                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
+                .usingRecursiveComparison()
+                .isEqualTo(storedList);
     }
 
     @DisplayName("블로그 포스트 변경 페이지 접속")

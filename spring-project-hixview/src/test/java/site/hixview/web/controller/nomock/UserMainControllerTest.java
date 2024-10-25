@@ -22,7 +22,7 @@ import static site.hixview.domain.vo.user.ViewName.USER_HOME_VIEW;
 @AutoConfigureMockMvc
 @TestSchemaName
 @Transactional
-class UserMainControllerTest implements ArticleMainTestUtils, CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, BlogPostTestUtils {
+class UserMainControllerTest implements ArticleTestUtils, BlogPostTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

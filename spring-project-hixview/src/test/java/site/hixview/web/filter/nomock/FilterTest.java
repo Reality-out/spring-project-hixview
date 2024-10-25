@@ -13,10 +13,8 @@ import org.springframework.ui.ModelMap;
 import site.hixview.domain.entity.article.*;
 import site.hixview.domain.service.*;
 import site.hixview.support.property.TestSchemaName;
-import site.hixview.support.util.ArticleMainTestUtils;
-import site.hixview.support.util.CompanyArticleTestUtils;
+import site.hixview.support.util.ArticleTestUtils;
 import site.hixview.support.util.CompanyTestUtils;
-import site.hixview.support.util.IndustryArticleTestUtils;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -27,7 +25,6 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static site.hixview.domain.vo.RequestUrl.FINISH_URL;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.RequestURL.*;
@@ -36,13 +33,12 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.*;
-import static site.hixview.support.util.EconomyArticleTestUtils.*;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
 @TestSchemaName
 @Transactional
-class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, ArticleMainTestUtils, CompanyTestUtils {
+class FilterTest implements ArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

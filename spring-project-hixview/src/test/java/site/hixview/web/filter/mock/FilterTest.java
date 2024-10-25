@@ -38,7 +38,7 @@ import static site.hixview.domain.vo.manager.RequestURL.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
-class FilterTest implements CompanyArticleTestUtils, IndustryArticleTestUtils, EconomyArticleTestUtils, ArticleMainTestUtils, BlogPostTestUtils, CompanyTestUtils {
+class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

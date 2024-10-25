@@ -152,10 +152,9 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         // given
         Company company = Company.builder().company(skHynix)
                 .name(samsungElectronics.getName()).code(samsungElectronics.getCode()).build();
-        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.of(company));
         when(companyService.findCompanyByName(company.getName())).thenReturn(Optional.of(company));
-        doNothing().when(companyService).registerCompany(samsungElectronics);
         doNothing().when(companyService).correctCompany(company);
+        doNothing().when(companyModifyValidator).validate(any(), any());
 
         String commonName = samsungElectronics.getName();
         String redirectedURL = fromPath(UPDATE_COMPANY_URL + FINISH_URL).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
