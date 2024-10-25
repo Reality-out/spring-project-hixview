@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processReceiveSecondCategoryScript started')
+    console.log('processReceiveSecondCategory started')
 
     let count = 0;
     const basicFormItems = document.getElementById('basicFormItems');

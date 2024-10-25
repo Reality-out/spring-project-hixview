@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processReceiveEconomyContentScript started')
+    console.log('processReceiveEconomyContent started')
 
     let count = 0;
     const basicFormItems = document.getElementById('basicFormItems');

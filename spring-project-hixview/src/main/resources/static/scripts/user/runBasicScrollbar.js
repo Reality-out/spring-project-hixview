@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('BasicScrollbarScript started')
+    console.log('runBasicScrollbar started')
 
     const codeOrName = document.getElementById('codeOrName');
     const messageContainerDataset = document.getElementById('container-message').dataset;

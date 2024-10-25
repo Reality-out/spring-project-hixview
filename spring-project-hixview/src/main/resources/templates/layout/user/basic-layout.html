@@ -5,8 +5,8 @@
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <th:block th:replace="~{/layout/global-layout :: headFragment}"></th:block>
-    <link href="/styles/user/header-style.css" rel="stylesheet"/>
-    <link href="/styles/user/footer-style.css" rel="stylesheet"/>
+    <link href="/styles/user/header.css" rel="stylesheet"/>
+    <link href="/styles/user/footer.css" rel="stylesheet"/>
     <link th:replace="${link}"/>
 </head>
 <body>
@@ -52,7 +52,7 @@
      th:data-function-fillin="#{function.fillIn}"
      th:data-company="#{company}">
 </div>
-<script defer src="/scripts/user/BasicScrollbarScript.js"></script>
+<script defer src="/scripts/user/runBasicScrollbar.js"></script>
 <script th:replace="${script}"></script>
 </body>
 </html>

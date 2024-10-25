@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processReceiveArticleNameAndLinkScript started')
+    console.log('processReceiveArticleNameAndLink started')
 
     let count = 0;
     const basicFormItems = document.getElementById('basicFormItems');

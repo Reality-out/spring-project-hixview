@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('processSubmitArticleNameAndLinkScript started')
+    console.log('processSubmitArticleNameAndLink started')
 
     let count = 0;
     const basicForm = document.getElementById('basicForm');
