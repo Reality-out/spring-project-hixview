@@ -6,22 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const basicFormItems = document.getElementById('basicFormItems');
     
     document.getElementById('addBtn').addEventListener('click', () => {
-        count++;
-        const formItem = document.createElement('div');
-        formItem.setAttribute('class', 'basic-form-item article-subject-second-category');
-
-        const label = document.createElement('label');
-        label.setAttribute('for', 'subjectSecondCategory' + count);
-        label.textContent = document.getElementById('container-data').dataset.subjectSecondCategoryName + count;
-
-        const input = document.createElement('input');
-        input.setAttribute('type', 'text');
-        input.setAttribute('id', 'subjectSecondCategory' + count);
-        input.setAttribute('size', "20");
-
-        formItem.append(label);
-        formItem.append(input);
-        basicFormItems.append(formItem);
+        if (count < 4) {
+            count++;
+            const formItem = document.createElement('div');
+            formItem.setAttribute('class', 'basic-form-item article-subject-second-category');
+    
+            const label = document.createElement('label');
+            label.setAttribute('for', 'subjectSecondCategory' + count);
+            label.textContent = document.getElementById('container-data').dataset.subjectSecondCategoryName + count;
+    
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('id', 'subjectSecondCategory' + count);
+            input.setAttribute('size', "20");
+    
+            formItem.append(label);
+            formItem.append(input);
+            basicFormItems.append(formItem);    
+        }
     });
 
     document.getElementById('removeBtn').addEventListener('click', () => {
