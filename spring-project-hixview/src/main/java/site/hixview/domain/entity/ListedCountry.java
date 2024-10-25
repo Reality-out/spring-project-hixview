@@ -3,8 +3,7 @@ package site.hixview.domain.entity;
 import lombok.Getter;
 
 @Getter
-public enum Country {
-    GLOBAL("글로벌"),
+public enum ListedCountry {
     AMERICA("미국"),
     CHINA("중국"),
     GERMANY("독일"),
@@ -13,7 +12,7 @@ public enum Country {
 
     private final String value;
 
-    Country(String value) {
+    ListedCountry(String value) {
         this.value = value;
     }
 }

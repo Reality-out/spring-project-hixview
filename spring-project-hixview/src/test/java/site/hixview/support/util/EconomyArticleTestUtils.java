@@ -2,7 +2,7 @@ package site.hixview.support.util;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.EconomyArticleBufferSimple;
@@ -35,7 +35,7 @@ public interface EconomyArticleTestUtils extends ObjectTestUtils {
             .link("https://www.newsis.com/view/NISX20241009_0002913996")
             .date(LocalDate.of(2024, 10, 9))
             .importance(0)
-            .subjectCountry(Country.SOUTH_KOREA)
+            .subjectCountry(SubjectCountry.SOUTH_KOREA)
             .targetEconomyContents("채권", "WGBI")
             .build();
 
@@ -45,7 +45,7 @@ public interface EconomyArticleTestUtils extends ObjectTestUtils {
             .link("https://m.edaily.co.kr/News/Read?newsId=03499766639025368&mediaCodeNo=257")
             .date(LocalDate.of(2024, 9, 30))
             .importance(0)
-            .subjectCountry(Country.CHINA)
+            .subjectCountry(SubjectCountry.CHINA)
             .targetEconomyContents("증시", "부양책")
             .build();
 
@@ -55,7 +55,7 @@ public interface EconomyArticleTestUtils extends ObjectTestUtils {
             .link("https://www.mk.co.kr/news/world/11135707")
             .date(LocalDate.of(2024, 10, 9))
             .importance(0)
-            .subjectCountry(Country.GERMANY)
+            .subjectCountry(SubjectCountry.GERMANY)
             .targetEconomyContents("성장", "위기")
             .build();
 

@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.Article;
@@ -26,7 +26,7 @@ public class EconomyArticle extends Article {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @NotNull
-    private final Country subjectCountry;
+    private final SubjectCountry subjectCountry;
 
     @NotNull
     private final List<String> targetEconomyContents;
@@ -77,14 +77,14 @@ public class EconomyArticle extends Article {
     }
 
     private EconomyArticle(Long number, String name, Press press, String link, LocalDate date,
-                            Integer importance, Country subjectCountry, List<String> targetEconomyContents) {
+                           Integer importance, SubjectCountry subjectCountry, List<String> targetEconomyContents) {
         super(number, name, press, link, date, importance);
         this.subjectCountry = subjectCountry;
         this.targetEconomyContents = targetEconomyContents;
     }
 
     public static final class EconomyArticleBuilder extends Article.ArticleBuilder {
-        private Country subjectCountry;
+        private SubjectCountry subjectCountry;
         private List<String> targetEconomyContents;
 
         public EconomyArticleBuilder() {}
@@ -152,7 +152,7 @@ public class EconomyArticle extends Article {
             link = articleDto.getLink();
             date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
             importance = articleDto.getImportance();
-            subjectCountry = Country.valueOf(articleDto.getSubjectCountry());
+            subjectCountry = SubjectCountry.valueOf(articleDto.getSubjectCountry());
             targetEconomyContents = JsonUtils.deserializeWithOneMapToList(new ObjectMapper(), TARGET_ECONOMY_CONTENT,
                     articleDto.getTargetEconomyContents());
             return this;

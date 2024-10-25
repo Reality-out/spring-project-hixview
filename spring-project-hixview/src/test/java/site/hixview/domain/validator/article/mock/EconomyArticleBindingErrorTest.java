@@ -274,7 +274,7 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_COUNTRY)))
-                .isEqualTo(messageSource.getMessage("typeMismatch.enum.company.country", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("typeMismatch.enum.article.subjectCountry", null, Locale.getDefault()));
     }
     
     @DisplayName("NotBlank(공백)에 대한 경제 기사 변경 유효성 검증")
@@ -508,6 +508,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
         assertThat(decodeWithUTF8((fieldErrorMap).get(SUBJECT_COUNTRY)))
-                .isEqualTo(messageSource.getMessage("typeMismatch.enum.company.country", null, Locale.getDefault()));
+                .isEqualTo(messageSource.getMessage("typeMismatch.enum.article.subjectCountry", null, Locale.getDefault()));
     }
 }

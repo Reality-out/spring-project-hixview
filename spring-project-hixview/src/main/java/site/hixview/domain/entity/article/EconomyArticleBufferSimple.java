@@ -2,7 +2,7 @@ package site.hixview.domain.entity.article;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
@@ -34,7 +34,7 @@ public class EconomyArticleBufferSimple extends ArticleBufferSimple {
         List<String> linkList = getLinkList();
         List<String> targetEconomyContents = JsonUtils.deserializeWithOneMapToList(new ObjectMapper(), TARGET_ECONOMY_CONTENT, this.targetEconomyContents);
         ArrayList<EconomyArticle> articleList = new ArrayList<>();
-        Country subjectCountry = Country.valueOf(this.subjectCountry);
+        SubjectCountry subjectCountry = SubjectCountry.valueOf(this.subjectCountry);
         for (int i = 0; i < getLength(); i++) {
             List<String> datePressElement = parsedDatePressList.get(i);
             articleList.add(EconomyArticle.builder()

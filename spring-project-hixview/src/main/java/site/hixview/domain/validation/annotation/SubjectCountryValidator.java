@@ -4,7 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.SubjectCountry;
 
 import java.util.Locale;
 
@@ -24,9 +24,9 @@ public class SubjectCountryValidator implements ConstraintValidator<SubjectCount
             ).addConstraintViolation();
             return false;
         }
-        if (!inEnumConstants(Country.class, country)) {
+        if (!inEnumConstants(SubjectCountry.class, country)) {
             context.buildConstraintViolationWithTemplate(
-                    source.getMessage("typeMismatch.enum.company.country", null, Locale.getDefault())
+                    source.getMessage("typeMismatch.enum.article.subjectCountry", null, Locale.getDefault())
             ).addConstraintViolation();
             return false;
         }

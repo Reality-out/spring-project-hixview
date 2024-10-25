@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
@@ -59,7 +59,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         view().name(addSingleCompanyProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
                         model().attributeExists(COMPANY),
-                        model().attribute(LISTED_COUNTRIES, Country.values()),
+                        model().attribute(LISTED_COUNTRIES, ListedCountry.values()),
                         model().attribute(SCALES, Scale.values()));
     }
 

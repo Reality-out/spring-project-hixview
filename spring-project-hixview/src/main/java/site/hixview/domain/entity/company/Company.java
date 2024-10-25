@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
@@ -26,7 +26,7 @@ public class Company {
     private final String code;
 
     @NotNull
-    private final Country listedCountry;
+    private final ListedCountry listedCountry;
 
     @NotNull
     private final Scale scale;
@@ -78,7 +78,7 @@ public class Company {
 
         public CompanyBuilder companyDto(CompanyDto companyDto) {
             code = companyDto.getCode();
-            listedCountry = Country.valueOf(companyDto.getListedCountry());
+            listedCountry = ListedCountry.valueOf(companyDto.getListedCountry());
             scale = Scale.valueOf(companyDto.getScale());
             name = companyDto.getName();
             firstCategory = FirstCategory.valueOf(companyDto.getFirstCategory());

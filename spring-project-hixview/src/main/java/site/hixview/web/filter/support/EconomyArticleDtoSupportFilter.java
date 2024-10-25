@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class EconomyArticleDtoSupportFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
-        applyUppercaseAndConvertToEnumWithString(request, Country.class, SUBJECT_COUNTRY);
+        applyUppercaseAndConvertToEnumWithString(request, SubjectCountry.class, SUBJECT_COUNTRY);
         chain.doFilter(request, response);
     }
 }

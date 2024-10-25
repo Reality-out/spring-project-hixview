@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import site.hixview.domain.entity.Country;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.repository.EconomyArticleRepository;
@@ -69,14 +69,14 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     @Override
     public List<EconomyArticle> getLatestDomesticArticles() {
         return jdbcTemplate.query("select * from " + CURRENT_SCHEMA +
-                " where subjectCountry = '" + Country.SOUTH_KOREA.name() +
+                " where subjectCountry = '" + SubjectCountry.SOUTH_KOREA.name() +
                 "' and date = (select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
     }
 
     @Override
     public List<EconomyArticle> getLatestForeignArticles() {
         return jdbcTemplate.query("select * from " + CURRENT_SCHEMA +
-                " where subjectCountry != '" + Country.SOUTH_KOREA.name() +
+                " where subjectCountry != '" + SubjectCountry.SOUTH_KOREA.name() +
                 "' and date = (select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
     }
 
@@ -143,7 +143,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
                     .link(resultSet.getString(LINK))
                     .date(resultSet.getDate(DATE).toLocalDate())
                     .importance(resultSet.getInt(IMPORTANCE))
-                    .subjectCountry(Country.valueOf(resultSet.getString(SUBJECT_COUNTRY)))
+                    .subjectCountry(SubjectCountry.valueOf(resultSet.getString(SUBJECT_COUNTRY)))
                     .targetEconomyContents(targetEconomyContents)
                     .build();
         };
