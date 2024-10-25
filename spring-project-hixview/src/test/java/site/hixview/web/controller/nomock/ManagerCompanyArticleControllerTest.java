@@ -42,7 +42,7 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_MULTIPLE_FINISH;
 @AutoConfigureMockMvc
 @TestSchemaName
 @Transactional
-public class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, CompanyTestUtils {
+class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

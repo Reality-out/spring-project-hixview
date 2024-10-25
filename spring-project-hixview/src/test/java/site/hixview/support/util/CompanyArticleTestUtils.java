@@ -43,7 +43,7 @@ public interface CompanyArticleTestUtils extends ObjectTestUtils {
             .subjectCompany("삼성전자")
             .link("https://biz.heraldcorp.com/view.php?ud=20240617050050")
             .date(LocalDate.of(2024, 6, 17))
-            .importance(0)
+            .importance(1)
             .build();
 
     CompanyArticle testEqualDateCompanyArticle = CompanyArticle.builder()

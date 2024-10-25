@@ -36,7 +36,7 @@ import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR
 @AutoConfigureMockMvc
 @TestSchemaName
 @Transactional
-public class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
+class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

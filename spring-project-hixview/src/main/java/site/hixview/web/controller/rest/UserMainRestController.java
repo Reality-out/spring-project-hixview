@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.service.CompanyService;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_EXIST_COMPANY_ERROR;
@@ -35,13 +37,14 @@ public class UserMainRestController {
                 put(ERROR, NOT_EXIST_COMPANY_ERROR);
             }}));
         }
-        if (companyService.findCompanyByCodeOrName(codeOrName).isEmpty()) {
+        Optional<Company> companyOrEmpty = companyService.findCompanyByCodeOrName(codeOrName);
+        if (companyOrEmpty.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(objectMapper.writeValueAsString(new HashMap<>(){{
                 put(ERROR, NOT_FOUND_COMPANY_ERROR);
             }}));
         }
         return ResponseEntity.ok().body(objectMapper.writeValueAsString(new HashMap<>(){{
-            put(CODE, companyService.findCompanyByCodeOrName(codeOrName).orElseThrow().getCode());
+            put(CODE, companyOrEmpty.orElseThrow().getCode());
         }}));
     }
 }

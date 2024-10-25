@@ -25,7 +25,7 @@ import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestURL.ADD_SINGLE_COMPANY_URL;
 
 @RealControllerAndValidatorContext
-public class CompanyValidationErrorTest implements CompanyTestUtils {
+class CompanyValidationErrorTest implements CompanyTestUtils {
 
     @Autowired
     private MockMvc mockMvc;

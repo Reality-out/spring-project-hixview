@@ -16,7 +16,7 @@ import site.hixview.support.context.RealControllerAndValidatorContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RealControllerAndValidatorContext
-public class ValidatorSupportsTest {
+class ValidatorSupportsTest {
 
     // ArticleMain
     @Autowired

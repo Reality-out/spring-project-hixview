@@ -1,5 +1,7 @@
 package site.hixview.web.controller.mock;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import site.hixview.support.util.CompanyArticleTestUtils;
 import site.hixview.support.util.CompanyTestUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,12 +27,10 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static site.hixview.domain.vo.Word.COMPANY;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SEARCH_URL;
-import static site.hixview.domain.vo.user.RequestUrl.COMPANY_SUB_URL;
+import static site.hixview.domain.vo.user.RequestUrl.*;
 import static site.hixview.domain.vo.user.ViewName.COMPANY_VIEW;
 
 @OnlyRealControllerContext
@@ -64,14 +65,22 @@ class UserCompanyControllerTest implements CompanyTestUtils, CompanyArticleTestU
     void validCodeSearchCompany() throws Exception {
         // given
         Company company = samsungElectronics;
-        when(companyService.findCompanyByCode(company.getCode())).thenReturn(Optional.of(company));
+        String code = company.getCode();
         doNothing().when(companyService).registerCompany(company);
+        when(companyService.findCompanyByCodeOrName(code)).thenReturn(Optional.of(company));
+        when(companyService.findCompanyByCode(code)).thenReturn(Optional.of(company));
 
         // when
         companyService.registerCompany(company);
 
         // then
-        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + company.getCode()))
+        Map<String, String> returnMap = new ObjectMapper().readValue(mockMvc.perform(get(COMPANY_SEARCH_URL + CHECK_URL + code))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        assertThat(returnMap.get(CODE)).isEqualTo(code);
+
+        assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_URL + code))
                 .andExpect(status().isOk())
                 .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
                 .usingRecursiveComparison().isEqualTo(company);

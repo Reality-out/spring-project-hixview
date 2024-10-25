@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Configuration
 public class AppConfig {
@@ -30,9 +31,7 @@ public class AppConfig {
 
         for (Resource resource : resources) {
             String filename = resource.getFilename();
-            if (filename != null) {
-                baseNames.add("message/" + filename.substring(0, filename.lastIndexOf('.')));
-            }
+            baseNames.add("message/" + Objects.requireNonNull(filename).substring(0, filename.lastIndexOf('.')));
         }
 
         return baseNames.toArray(new String[0]);
