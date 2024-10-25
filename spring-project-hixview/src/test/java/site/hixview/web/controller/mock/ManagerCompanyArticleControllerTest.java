@@ -83,16 +83,16 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         doNothing().when(companyArticleAddSimpleValidator).validate(any(), any());
 
         CompanyArticleDto articleDto = article.toDto();
-        String redirectPath = fromPath(ADD_SINGLE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
+        String redirectUrl = fromPath(ADD_SINGLE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
@@ -172,7 +172,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
         doNothing().when(articleService).correctArticle(article);
 
-        String redirectPath = fromPath(UPDATE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectUrl = fromPath(UPDATE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
@@ -182,9 +182,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
 
         // then
         mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
@@ -218,7 +218,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         doNothing().when(articleService).removeArticleByName(article.getName());
 
         String name = article.getName();
-        String redirectPath = fromPath(REMOVE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectUrl = fromPath(REMOVE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // when
         Long number = articleService.registerArticle(article).getNumber();
@@ -226,13 +226,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         // then
         for (String str : List.of(String.valueOf(number), name)) {
             mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
             articleService.registerArticle(article);
         }
         articleService.removeArticleByName(name);
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),

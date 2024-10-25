@@ -73,13 +73,13 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyAddValidator).validate(any(), any());
 
         CompanyDto companyDto = company.toDto();
-        String redirectPath = fromPath(ADD_SINGLE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
+        String redirectUrl = fromPath(ADD_SINGLE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(companyDto.getName())).build().toUriString();
 
         // then
         mockMvc.perform(postWithCompanyDto(ADD_SINGLE_COMPANY_PATH, companyDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_COMPANY_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
@@ -157,16 +157,16 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyModifyValidator).validate(any(), any());
 
         String commonName = samsungElectronics.getName();
-        String redirectPath = fromPath(UPDATE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
+        String redirectUrl = fromPath(UPDATE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(commonName)).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
         mockMvc.perform(postWithCompanyDto(modifyCompanyFinishUrl, company.toDto()))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_COMPANY_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
@@ -201,17 +201,17 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
         doNothing().when(companyService).removeCompanyByCode(company.getCode());
 
         String name = company.getName();
-        String redirectPath = fromPath(REMOVE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectUrl = fromPath(REMOVE_COMPANY_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(company.getCode(), name)) {
             companyService.registerCompany(company);
 
             mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_PATH, CODE_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
         }
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_COMPANY_URL_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),

@@ -75,14 +75,14 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         doNothing().when(articleMainAddValidator).validate(any(), any());
 
         ArticleMainDto articleDto = article.toDto();
-        String redirectPath = fromPath(ADD_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name))
+        String redirectUrl = fromPath(ADD_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name))
                 .build().toUriString();
 
         // then
         mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
@@ -200,16 +200,16 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         doNothing().when(articleMainService).correctArticle(article);
 
         String commonName = testCompanyArticleMain.getName();
-        String redirectPath = fromPath(UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
+        String redirectUrl = fromPath(UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         articleMainService.registerArticle(testCompanyArticleMain);
 
         // then
         mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, article.toDto()))
-                .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
@@ -246,17 +246,17 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         Long number = articleMainService.registerArticle(article).getNumber();
         String name = article.getName();
         System.out.println(String.valueOf(number) + ' ' + name);
-        String redirectPath = fromPath(REMOVE_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectUrl = fromPath(REMOVE_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
             mockMvc.perform(postWithSingleParam(REMOVE_ARTICLE_MAIN_PATH, NUMBER_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
             articleMainService.registerArticle(article);
         }
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_ARTICLE_MAIN_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),

@@ -12,7 +12,7 @@ import static site.hixview.util.JsonUtils.serializeWithOneMap;
 
 public abstract class FilterUtils {
 
-    public static final String IMAGE_PATH_PREFIX = "/images";
+    public static final String IMAGE_PATH_PREFIX = "/images/";
     public static final String NEWEST_IMAGE_PATH_PREFIX = "/images/main/newest/";
     public static final String IMAGE_PATH_SUFFIX = ".png";
 

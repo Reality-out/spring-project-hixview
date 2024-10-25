@@ -69,7 +69,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // given & when
         BlogPost post = testBlogPostCompany;
         String name = post.getName();
-        String redirectPath = ADD_BLOG_POST_PATH + FINISH_PATH;
+        String redirectUrl = ADD_BLOG_POST_PATH + FINISH_PATH;
         when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
         when(blogPostService.registerPost(argThat(Objects::nonNull))).thenReturn(post);
         doNothing().when(blogPostAddValidator).validate(any(), any());
@@ -80,9 +80,9 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                 .andExpectAll(status().isSeeOther(),
                         jsonPath(NAME).value(encodeWithUTF8(name)),
-                        jsonPath(REDIRECT_PATH).value(redirectPath));
+                        jsonPath(REDIRECT_PATH).value(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(fromPath(redirectPath).queryParam(NAME, encodeWithUTF8(name))
+        mockMvc.perform(getWithNoParam(fromPath(redirectUrl).queryParam(NAME, encodeWithUTF8(name))
                 .build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(ADD_BLOG_POST_VIEW + VIEW_FINISH),
@@ -197,7 +197,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // given
         BlogPost post = BlogPost.builder().blogPost(testBlogPostEconomy).name(testBlogPostCompany.getName()).build();
         String name = post.getName();
-        String redirectPath = UPDATE_BLOG_POST_PATH + FINISH_PATH;
+        String redirectUrl = UPDATE_BLOG_POST_PATH + FINISH_PATH;
         when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
         when(blogPostService.registerPost(testBlogPostCompany)).thenReturn(post);
         doNothing().when(blogPostService).correctPost(post);
@@ -211,9 +211,9 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, post.toDto()))
                 .andExpectAll(status().isSeeOther(),
                         jsonPath(NAME).value(encodeWithUTF8(name)),
-                        jsonPath(REDIRECT_PATH).value(redirectPath));
+                        jsonPath(REDIRECT_PATH).value(redirectUrl));
 
-        mockMvc.perform(getWithNoParam(fromPath(redirectPath).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
+        mockMvc.perform(getWithNoParam(fromPath(redirectUrl).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(UPDATE_BLOG_POST_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, UPDATE_FINISH_LAYOUT),
@@ -250,17 +250,17 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         Long number = blogPostService.registerPost(post).getNumber();
         String name = post.getName();
         System.out.println(String.valueOf(number) + ' ' + name);
-        String redirectPath = fromPath(REMOVE_BLOG_POST_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
+        String redirectUrl = fromPath(REMOVE_BLOG_POST_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString();
 
         // then
         for (String str : List.of(String.valueOf(number), name)) {
             mockMvc.perform(postWithSingleParam(REMOVE_BLOG_POST_PATH, NUMBER_OR_NAME, str))
-                    .andExpectAll(status().isFound(), redirectedUrl(redirectPath));
+                    .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
             blogPostService.registerPost(post);
         }
 
-        mockMvc.perform(getWithNoParam(redirectPath))
+        mockMvc.perform(getWithNoParam(redirectUrl))
                 .andExpectAll(status().isOk(),
                         view().name(REMOVE_BLOG_POST_VIEW + VIEW_FINISH),
                         model().attribute(LAYOUT_PATH, REMOVE_FINISH_LAYOUT),
