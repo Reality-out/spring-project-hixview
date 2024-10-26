@@ -14,7 +14,7 @@ import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
 
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Transactional(readOnly = true)
-public abstract class ArticleService<T extends Article, U extends ArticleRepository<T>> {
+public abstract class ArticleService<T extends Article<T>, U extends ArticleRepository<T>> {
 
     private final U articleRepository;
 

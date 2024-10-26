@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface ArticleRepository<T extends Article> {
+public interface ArticleRepository<T extends Article<T>> {
     /**
      * SELECT Article
      */

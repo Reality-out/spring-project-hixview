@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ArticleBufferSimple {
+public abstract class ArticleBufferSimple<E extends ArticleBufferSimple<E>> {
     protected final StringBuffer nameDatePressBuffer;
     protected final StringBuffer linkBuffer;
     @Getter protected final Integer importance;
@@ -53,7 +53,7 @@ public abstract class ArticleBufferSimple {
         return datePressList;
     }
 
-    protected abstract <T extends Article> List<T> getParsedArticles();
+    protected abstract <T extends Article<T>> List<T> getParsedArticles();
 
     protected abstract static class ArticleBufferSimpleBuilder {
         protected StringBuffer nameDatePressBuffer;

@@ -21,7 +21,7 @@ import static site.hixview.util.JsonUtils.serializeWithOneMap;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
-public class EconomyArticle extends Article {
+public class EconomyArticle extends Article<EconomyArticle> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

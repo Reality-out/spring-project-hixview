@@ -19,7 +19,7 @@ import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.Word.SUBJECT_SECOND_CATEGORY;
 
 @Getter
-public class IndustryArticleBufferSimple extends ArticleBufferSimple {
+public class IndustryArticleBufferSimple extends ArticleBufferSimple<IndustryArticleBufferSimple> {
 
     @SubjectFirstCategoryConstraint
     private final String subjectFirstCategory;

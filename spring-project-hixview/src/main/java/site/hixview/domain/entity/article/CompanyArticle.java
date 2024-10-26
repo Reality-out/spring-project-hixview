@@ -16,7 +16,7 @@ import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
-public class CompanyArticle extends Article {
+public class CompanyArticle extends Article<CompanyArticle> {
 
     @NotBlank(message = "{NotBlank.article.subjectCompany}")
     @Size(max = 12, message = "{Size.article.subjectCompany}")

@@ -16,7 +16,7 @@ import static site.hixview.domain.vo.Word.*;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class Article {
+public abstract class Article<E extends Article<E>> {
     protected final Long number;
 
     @NotBlank

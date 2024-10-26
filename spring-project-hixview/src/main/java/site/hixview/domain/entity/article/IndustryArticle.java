@@ -22,7 +22,7 @@ import static site.hixview.util.JsonUtils.serializeEnumWithOneMap;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
-public class IndustryArticle extends Article {
+public class IndustryArticle extends Article<IndustryArticle> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 

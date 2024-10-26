@@ -14,7 +14,7 @@ import java.util.List;
 import static java.lang.System.lineSeparator;
 
 @Getter
-public class CompanyArticleBufferSimple extends ArticleBufferSimple {
+public class CompanyArticleBufferSimple extends ArticleBufferSimple<CompanyArticleBufferSimple> {
 
     @NotBlank(message = "{NotBlank.article.subjectCompany}")
     @Size(max = 12, message = "{Size.article.subjectCompany}")

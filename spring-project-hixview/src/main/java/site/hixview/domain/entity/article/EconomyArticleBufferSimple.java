@@ -18,7 +18,7 @@ import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.Word.TARGET_ECONOMY_CONTENT;
 
 @Getter
-public class EconomyArticleBufferSimple extends ArticleBufferSimple {
+public class EconomyArticleBufferSimple extends ArticleBufferSimple<EconomyArticleBufferSimple> {
 
     @SubjectCountryConstraint
     private final String subjectCountry;
