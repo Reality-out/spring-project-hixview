@@ -1,53 +1,52 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
+      lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name=”viewport” content=”width=device-width”>
-    <title>[[#{site.title}]]</title>
-    <link href="/styles/html.css" rel="stylesheet"/>
-    <link href="/styles/body.css" rel="stylesheet"/>
-    <link href="/styles/error.css" rel="stylesheet"/>
+    <link href="/styles/user/main/user-membership.css" rel="stylesheet"/>
 </head>
 <body>
-    <div>
-        <link href="/styles/user/membershipStyle.css" rel="stylesheet"/>
-        <form th:action th:object="${member}" method="post">
-            <div>
-                <div class="partial-form">
+<section class="section-membership">
+    <div class="intro-membership" th:text="#{member.membership}"></div>
+    <div class="wrapper-membership-form">
+        <form id="membershipForm" th:action th:object="${member}" method="post">
+            <div class="membership-form-items">
+                <div class="membership-form-item">
                     <label for="id">[[#{member.ID}]]</label>
                     <input type="text" id="id" th:field="*{id}" size="20">
                     <div class="txt-error-message" th:errors="*{id}"></div>
                 </div>
-                <div class="partial-form">
+                <div class="membership-form-item">
                     <label for="password">[[#{member.PW}]]</label>
                     <input type="password" id="password" th:field="*{password}" size="20">
                     <div class="txt-error-message" th:errors="*{password}"></div>
                 </div>
-                <div class="partial-form">
+                <div class="membership-form-item">
                     <label for="name">[[#{member.NAME}]]</label>
                     <input type="text" id="name" th:field="*{name}" size="20">
                     <div class="txt-error-message" th:errors="*{name}"></div>
                 </div>
-                <p>[[#{member.birthday}]]</p>
-                <div class="partial-form">
-                    <label for="year">[[#{year}]]</label>
-                    <input type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-                    <label for="month">[[#{month}]]</label>
-                    <input type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-                    <label for="days">[[#{days}]]</label>
-                    <input type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
+                <div class="membership-form-item">
+                    <label>[[#{member.birthday}]]</label>
+                    <label class="label-birthday-member" for="year">[[#{year}]]</label>
+                    <input class="input-birthday-member" type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
+                    <label class="label-birthday-member" for="month">[[#{month}]]</label>
+                    <input class="input-birthday-member" type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
+                    <label class="label-birthday-member" for="days">[[#{days}]]</label>
+                    <input class="input-birthday-member" type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
                     <div class="txt-error-message" th:errors="*{year}"></div>
                     <div class="txt-error-message" th:errors="*{month}"></div>
                     <div class="txt-error-message" th:errors="*{days}"></div>
                 </div>
-                <div class="partial-form">
+                <div class="membership-form-item">
                     <label for="phoneNumber">[[#{member.cellphoneNumber}]]</label>
                     <input type="text" id="phoneNumber" th:field="*{phoneNumber}" size="13">
                     <div class="txt-error-message" th:errors="*{phoneNumber}"></div>
                 </div>
             </div>
-            <button type="submit">[[#{function.register}]]</button>
+            <button id="submitBtn" type="submit">[[#{function.register}]]</button>
         </form>
     </div>
+</section>
+<script></script>
 </body>
 </html>

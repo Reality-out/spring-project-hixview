@@ -141,7 +141,7 @@
     display: flex;
     width: inherit;
     border: 1px solid black;
-    background: padding-box center/contain no-repeat transparent url(/images/main/Testing.png);
+    background: padding-box center/contain no-repeat transparent url(/images/others/testing.png);
 }
 
 .newest-info {

@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import site.hixview.domain.entity.company.Company;
@@ -16,10 +15,10 @@ import site.hixview.domain.service.HomeService;
 
 import java.util.Optional;
 
-import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.Word.CODE;
+import static site.hixview.domain.vo.Word.COMPANY;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SUB;
-import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
 import static site.hixview.domain.vo.user.RequestPath.COMPANY_SUB_PATH;
 import static site.hixview.domain.vo.user.ViewName.COMPANY_VIEW;
@@ -31,11 +30,6 @@ public class UserCompanyController {
     private final CompanyService companyService;
 
     private final Logger log = LoggerFactory.getLogger(UserCompanyController.class);
-
-    @ModelAttribute(LAYOUT_PATH)
-    public String layoutPath() {
-        return BASIC_LAYOUT;
-    }
 
     /**
      * Main

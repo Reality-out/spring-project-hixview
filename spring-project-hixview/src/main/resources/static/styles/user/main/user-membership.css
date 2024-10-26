@@ -1,0 +1,79 @@
+@media screen and (max-width: 650px) {
+    body #membershipForm .membership-form-item label {
+        width: 140px;
+    }
+    
+    body #membershipForm .membership-form-item input {
+        width: calc(100% - 180px);
+    }
+}
+
+.section-membership {
+    display: flex;
+    width: 80vw;
+    margin: 6rem auto 4rem auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #170F49;
+}
+
+.section-membership .intro-membership {
+    display: flex;
+    width: max-content;
+    margin: 0 auto;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.section-membership .wrapper-membership-form {
+    display: flex;
+    width: inherit;
+    margin: 6rem 0 2rem;
+    border: 3px outset #170F49;
+    border-collapse: collapse;
+}
+
+.wrapper-membership-form #membershipForm {
+    display: flex;
+    width: 90%;
+    margin: 2rem auto;
+    flex-direction: column; 
+}
+
+.wrapper-membership-form #membershipForm .membership-form-item {
+    display: flex;
+    width: inherit;
+    margin: 3rem 0;
+    padding-left: 3rem;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+#membershipForm .membership-form-item label {
+    width: 210px;
+}
+
+#membershipForm .membership-form-item input {
+    width: calc(100% - 270px);
+}
+
+#membershipForm .membership-form-item label.label-birthday-member {
+    width: 60px;
+}
+
+#membershipForm .membership-form-item input.input-birthday-member {
+    width: 30%;
+    margin-right: 15px;
+}
+
+#membershipForm #submitBtn {
+    display: flex;
+    width: 100%;
+    height: 1.8rem;
+    margin-bottom: 2rem;
+    background-color: #668AFF;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+}

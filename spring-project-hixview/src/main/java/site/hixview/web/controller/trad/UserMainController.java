@@ -21,10 +21,8 @@ import java.util.stream.Collectors;
 import static site.hixview.domain.vo.ExceptionMessage.*;
 import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
-import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.*;
-import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.domain.vo.user.ViewName.*;
 
@@ -64,7 +62,6 @@ public class UserMainController {
         IndustryArticle latestIndustryArticle = latestIndustryArticleList.getFirst();
         EconomyArticle latestDomesticEconomyArticle = latestDomesticEconomyArticleList.getFirst();
         EconomyArticle latestForeignEconomyArticle = latestForeignEconomyArticleOrEmpty.getFirst();
-        model.addAttribute(LAYOUT_PATH, BASIC_LAYOUT);
         model.addAttribute("latestCompanyArticle", latestCompanyArticle);
         model.addAttribute("latestIndustryArticle", latestIndustryArticle);
         model.addAttribute("latestDomesticEconomyArticle", latestDomesticEconomyArticle);

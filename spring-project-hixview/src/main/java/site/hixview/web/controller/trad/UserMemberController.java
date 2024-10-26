@@ -22,6 +22,7 @@ import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
 import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
+import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 import static site.hixview.util.ControllerUtils.finishForRollback;
@@ -51,13 +52,13 @@ public class UserMemberController {
     public String submitMembershipPage(@ModelAttribute(MEMBER) @Validated MemberDto memberDto,
                                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), null, null, model);
+            finishForRollback(bindingResult.getAllErrors().toString(), BASIC_LAYOUT, null, model);
             return MEMBERSHIP_VIEW + VIEW_PROCESS;
         }
 
         birthValidator.validate(memberDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            finishForRollback(bindingResult.getAllErrors().toString(), null, null, model);
+            finishForRollback(bindingResult.getAllErrors().toString(), BASIC_LAYOUT, null, model);
             return MEMBERSHIP_VIEW + VIEW_PROCESS;
         }
 
