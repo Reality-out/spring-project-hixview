@@ -9,7 +9,6 @@ import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
-import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.validation.validator.*;
 import site.hixview.support.context.RealControllerAndValidatorContext;
 
@@ -78,10 +77,6 @@ class ValidatorSupportsTest {
     @Autowired
     private EconomyArticleModifyValidator economyArticleModifyValidator;
 
-    // Member
-    @Autowired
-    private MemberBirthdayValidator memberBirthdayValidator;
-
     @DisplayName("검증자 supports 이용 가능 클래스 테스트")
     @Test
     public void validatorSupportsTest() {
@@ -114,8 +109,5 @@ class ValidatorSupportsTest {
         assertThat(economyArticleAddSimpleValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
         assertThat(economyArticleEntryDateValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
         assertThat(economyArticleModifyValidator.supports(EconomyArticleDto.class)).isEqualTo(true);
-
-        // Member
-        assertThat(memberBirthdayValidator.supports(MemberDto.class)).isEqualTo(true);
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.repository.MemberRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,14 +28,6 @@ public class MemberService {
 
     public List<Member> findMembersByName(String name) {
         return memberRepository.getMembersByName(name);
-    }
-
-    public List<Member> findMembersByBirthday(LocalDate birthday) {
-        return memberRepository.getMembersByBirthday(birthday);
-    }
-
-    public List<Member> findMembersByNameAndBirthday(String name, LocalDate birthday) {
-        return memberRepository.getMembersByNameAndBirthday(name, birthday);
     }
 
     public Optional<Member> findMemberByIdentificationNumber(Long identificationNumber) {

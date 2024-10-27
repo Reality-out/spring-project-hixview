@@ -13,40 +13,30 @@
                 <div class="membership-form-item">
                     <label for="id">[[#{member.ID}]]</label>
                     <input type="text" id="id" th:field="*{id}" size="20">
-                    <div class="txt-error-message" th:errors="*{id}"></div>
                 </div>
                 <div class="membership-form-item">
                     <label for="password">[[#{member.PW}]]</label>
                     <input type="password" id="password" th:field="*{password}" size="20">
-                    <div class="txt-error-message" th:errors="*{password}"></div>
                 </div>
                 <div class="membership-form-item">
                     <label for="name">[[#{member.NAME}]]</label>
                     <input type="text" id="name" th:field="*{name}" size="20">
-                    <div class="txt-error-message" th:errors="*{name}"></div>
                 </div>
                 <div class="membership-form-item">
-                    <label>[[#{member.birthday}]]</label>
-                    <label class="label-birthday-member" for="year">[[#{year}]]</label>
-                    <input class="input-birthday-member" type="number" min="1900" max="2024" id="year" th:field="*{year}" size="4">
-                    <label class="label-birthday-member" for="month">[[#{month}]]</label>
-                    <input class="input-birthday-member" type="number" min="1" max="12" id="month" th:field="*{month}" size="2">
-                    <label class="label-birthday-member" for="days">[[#{days}]]</label>
-                    <input class="input-birthday-member" type="number" min="1" max="31" id="days" th:field="*{days}" size="2">
-                    <div class="txt-error-message" th:errors="*{year}"></div>
-                    <div class="txt-error-message" th:errors="*{month}"></div>
-                    <div class="txt-error-message" th:errors="*{days}"></div>
+                    <label for="email">[[#{member.EMAIL}]]</label>
+                    <input type="text" id="email" th:field="*{email}" size="13">
                 </div>
-                <div class="membership-form-item">
-                    <label for="phoneNumber">[[#{member.cellphoneNumber}]]</label>
-                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" size="13">
-                    <div class="txt-error-message" th:errors="*{phoneNumber}"></div>
-                </div>
+            </div>
+            <div class="txt-error-messages">
+                <div class="txt-error-message" id="error-id"></div>
+                <div class="txt-error-message" id="error-password"></div>
+                <div class="txt-error-message" id="error-name"></div>
+                <div class="txt-error-message" id="error-email"></div>
             </div>
             <button id="submitBtn" type="submit">[[#{function.register}]]</button>
         </form>
     </div>
 </section>
-<script></script>
+<script defer type="module" src="/scripts/user/processSubmitMembership.js"></script>
 </body>
 </html>

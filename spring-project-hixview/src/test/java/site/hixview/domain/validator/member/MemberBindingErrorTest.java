@@ -1,24 +1,28 @@
 package site.hixview.domain.validator.member;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import site.hixview.domain.entity.member.dto.MemberDto;
+import site.hixview.domain.entity.member.dto.MembershipDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.MemberTestUtils;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
+import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
 class MemberBindingErrorTest implements MemberTestUtils {
@@ -33,101 +37,54 @@ class MemberBindingErrorTest implements MemberTestUtils {
     @Test
     void validateNotBlankMembership() throws Exception {
         // given & when
-        MemberDto memberDtoSpace = createTestMemberDto();
-        memberDtoSpace.setId(" ");
-        memberDtoSpace.setPassword(" ");
-        memberDtoSpace.setName(" ");
-        memberDtoSpace.setPhoneNumber(" ");
-        MemberDto memberDtoNull = createTestMemberDto();
-        memberDtoNull.setId(null);
-        memberDtoNull.setPassword(null);
-        memberDtoNull.setName(null);
-        memberDtoNull.setPhoneNumber(null);
+        ObjectMapper objectMapper = new ObjectMapper();
+        MembershipDto membershipDtoSpace = createTestMembershipDto();
+        membershipDtoSpace.setId(" ");
+        membershipDtoSpace.setPassword(" ");
+        membershipDtoSpace.setName(" ");
+        membershipDtoSpace.setEmail(" ");
+        MembershipDto membershipDtoNull = new MembershipDto();
 
         // then
-        for (MemberDto memberDto : List.of(memberDtoSpace, memberDtoNull)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDtoSpace))
-                    .andExpectAll(view().name(membershipProcessPage))
-                    .andReturn().getModelAndView()).getModelMap().get(MEMBER))
-                    .usingRecursiveComparison()
-                    .isEqualTo(memberDtoSpace);
+        for (MembershipDto memberDto : List.of(membershipDtoSpace, membershipDtoNull)) {
+            Map<String, Object> resultMap = objectMapper.readValue(requireNonNull(mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, memberDto))
+                    .andExpectAll(status().isBadRequest(),
+                            jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT),
+                            jsonPath(IS_BEAN_VALIDATION_ERROR).value(true)
+                    )).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+            });
+            @SuppressWarnings("unchecked")
+            Map<String, String> fieldErrorMap = (Map<String, String>) resultMap.get(FIELD_ERROR_MAP);
+            assertThat(fieldErrorMap.get(ID)).isEqualTo(encodeWithUTF8("ID: ID가 비어 있습니다."));
+            assertThat(fieldErrorMap.get(PASSWORD)).isEqualTo(encodeWithUTF8("PW: PW가 비어 있습니다."));
+            assertThat(fieldErrorMap.get(NAME)).isEqualTo(encodeWithUTF8("이름: 이름이 비어 있습니다."));
+            assertThat(fieldErrorMap.get(EMAIL)).isEqualTo(encodeWithUTF8("이메일: 이메일 값이 비어 있습니다."));
         }
-    }
-
-    @DisplayName("NotNull에 대한 회원 가입 유효성 검증")
-    @Test
-    void validateNotNullMembership() throws Exception {
-        // given & when
-        MemberDto memberDto = createTestMemberDto();
-        memberDto.setYear(null);
-        memberDto.setMonth(null);
-        memberDto.setDays(null);
-
-        // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
-                .andExpectAll(view().name(membershipProcessPage))
-                .andReturn().getModelAndView()).getModelMap().get(MEMBER))
-                .usingRecursiveComparison()
-                .isEqualTo(memberDto);
     }
 
     @DisplayName("Pattern에 대한 회원 가입 유효성 검증")
     @Test
     void validatePatternMembership() throws Exception {
         // given & when
-        MemberDto memberDto = createTestMemberDto();
-        memberDto.setId(INVALID_VALUE);
-        memberDto.setPassword(INVALID_VALUE);
-        memberDto.setName(INVALID_VALUE);
-        memberDto.setPhoneNumber(INVALID_VALUE);
+        ObjectMapper objectMapper = new ObjectMapper();
+        MembershipDto membershipDto = createTestMembershipDto();
+        membershipDto.setId(getRandomLongString(8));
+        membershipDto.setPassword(getRandomLongString(8));
+        membershipDto.setName(getRandomLongString(8));
+        membershipDto.setEmail(getRandomLongString(8));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
-                .andExpectAll(view().name(membershipProcessPage))
-                .andReturn().getModelAndView()).getModelMap().get(MEMBER))
-                .usingRecursiveComparison()
-                .isEqualTo(memberDto);
-    }
-
-    @DisplayName("Range에 대한 회원 가입 유효성 검증")
-    @Test
-    void validateRangeMembership() throws Exception {
-        // given & when
-        MemberDto memberDtoFallShortOf = createTestMemberDto();
-        memberDtoFallShortOf.setMonth(0);
-        memberDtoFallShortOf.setDays(0);
-
-        MemberDto memberDtoExceed = createTestMemberDto();
-        memberDtoExceed.setYear(2100);
-        memberDtoExceed.setMonth(13);
-        memberDtoExceed.setDays(32);
-
-        // then
-        for (MemberDto memberDto : List.of(memberDtoFallShortOf, memberDtoExceed)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, memberDto))
-                    .andExpectAll(view().name(membershipProcessPage))
-                    .andReturn().getModelAndView()).getModelMap().get(MEMBER))
-                    .usingRecursiveComparison()
-                    .isEqualTo(memberDto);
-        }
-    }
-
-    @DisplayName("typeMismatch에 대한 회원 가입 유효성 검증")
-    @Test
-    void validateTypeMismatchMembership() throws Exception {
-        // given & when
-        MemberDto memberDto = createTestMemberDto();
-
-        // then
-        requireNonNull(mockMvc.perform(post(MEMBERSHIP_PATH).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param(ID, memberDto.getId())
-                        .param("password", memberDto.getPassword())
-                        .param(NAME, memberDto.getName())
-                        .param(YEAR, INVALID_VALUE)
-                        .param(MONTH, INVALID_VALUE)
-                        .param(DAYS, INVALID_VALUE)
-                        .param("phoneNumber", memberDto.getPhoneNumber()))
-                .andExpectAll(view().name(membershipProcessPage),
-                        model().attributeExists(MEMBER)));
+        Map<String, Object> resultMap = objectMapper.readValue(requireNonNull(mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, membershipDto))
+                .andExpectAll(status().isBadRequest(),
+                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT),
+                        jsonPath(IS_BEAN_VALIDATION_ERROR).value(true)
+                )).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
+        });
+        @SuppressWarnings("unchecked")
+        Map<String, String> fieldErrorMap = (Map<String, String>) resultMap.get(FIELD_ERROR_MAP);
+        assertThat(fieldErrorMap.get(ID)).isEqualTo(encodeWithUTF8("ID: ID 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(PASSWORD)).isEqualTo(encodeWithUTF8("PW: PW 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(NAME)).isEqualTo(encodeWithUTF8("이름: 이름 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(EMAIL)).isEqualTo(encodeWithUTF8("이메일: 이메일 형식이 올바르지 않습니다."));
     }
 }

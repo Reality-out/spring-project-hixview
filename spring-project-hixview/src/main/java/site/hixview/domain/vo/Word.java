@@ -30,6 +30,7 @@ public final class Word {
     public static final String COMPANY = "company";
     public static final String DATE = "date";
     public static final String DAYS = "days";
+    public static final String EMAIL = "email";
     public static final String FIELD_ERROR_MAP = "fieldErrorMap";
     public static final String FIRST_CATEGORY = "firstCategory";
     public static final String ID = "id";
@@ -46,6 +47,7 @@ public final class Word {
     public static final String NAME_LIST = "nameList";
     public static final String NUMBER = "number";
     public static final String NUMBER_OR_NAME = "numberOrName";
+    public static final String PASSWORD = "password";
     public static final String POST = "post";
     public static final String PRESS = "press";
     public static final String SCALE = "scale";

@@ -4,8 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.entity.member.dto.MemberDto;
-
-import java.time.LocalDate;
+import site.hixview.domain.entity.member.dto.MembershipDto;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static site.hixview.domain.vo.Word.*;
@@ -21,10 +20,10 @@ public interface MemberTestUtils extends ObjectTestUtils {
 
     // Test Object
     Member testMember = Member.builder().id("ABcd1234!").password("EFgh1234!").name("박진하")
-            .birthday(LocalDate.of(2000, 4, 1)).phoneNumber("010-1234-5678").build();
+            .email("abcd1234@naver.com").build();
 
     Member testNewMember = Member.builder().id("abCD4321!").password("OPqr4321!").name("박하진")
-            .birthday(LocalDate.of(1999, 9, 1)).phoneNumber("010-2345-6789").build();
+            .email("efgh5678@gmail.com").build();
 
     default MemberDto createTestMemberDto() {
         return testMember.toDto();
@@ -34,28 +33,40 @@ public interface MemberTestUtils extends ObjectTestUtils {
         return testNewMember.toDto();
     }
 
+    default MembershipDto createTestMembershipDto() {
+        MembershipDto membershipDto = new MembershipDto();
+        membershipDto.setId(testMember.getId());
+        membershipDto.setPassword(testMember.getPassword());
+        membershipDto.setName(testMember.getName());
+        membershipDto.setEmail(testMember.getEmail());
+        return membershipDto;
+    }
+
     /**
      * Request
      */
     default MockHttpServletRequestBuilder postWithMember(String url, Member member) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(IDENTIFIER, member.getIdentifier().toString())
                 .param(ID, member.getId())
-                .param("password", member.getPassword())
+                .param(PASSWORD, member.getPassword())
                 .param(NAME, member.getName())
-                .param(YEAR, String.valueOf(member.getBirthday().getYear()))
-                .param(MONTH, String.valueOf(member.getBirthday().getMonthValue()))
-                .param(DAYS, String.valueOf(member.getBirthday().getDayOfMonth()))
-                .param("phoneNumber", member.getPhoneNumber().toStringWithDash());
+                .param(EMAIL, member.getEmail());
     }
 
     default MockHttpServletRequestBuilder postWithMemberDto(String url, MemberDto memberDto) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param(ID, memberDto.getId())
-                .param("password", memberDto.getPassword())
+                .param(PASSWORD, memberDto.getPassword())
                 .param(NAME, memberDto.getName())
-                .param(YEAR, String.valueOf(memberDto.getYear()))
-                .param(MONTH, String.valueOf(memberDto.getMonth()))
-                .param(DAYS, String.valueOf(memberDto.getDays()))
-                .param("phoneNumber", memberDto.getPhoneNumber());
+                .param(EMAIL, memberDto.getEmail());
+    }
+
+    default MockHttpServletRequestBuilder postWithMembershipDto(String url, MembershipDto memberDto) {
+        return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(ID, memberDto.getId())
+                .param(PASSWORD, memberDto.getPassword())
+                .param(NAME, memberDto.getName())
+                .param(EMAIL, memberDto.getEmail());
     }
 }

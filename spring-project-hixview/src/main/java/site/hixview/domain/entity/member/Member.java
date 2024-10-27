@@ -1,23 +1,19 @@
 package site.hixview.domain.entity.member;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.member.dto.MemberDto;
+import site.hixview.domain.entity.member.dto.MembershipDto;
 import site.hixview.domain.vo.Regex;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 
-import static site.hixview.domain.vo.Regex.NAME_REGEX;
-import static site.hixview.domain.vo.Regex.PW_REGEX;
-import static site.hixview.domain.vo.Word.ID;
-import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.Regex.*;
+import static site.hixview.domain.vo.Word.*;
 
 @Getter
 @Builder(access = AccessLevel.PUBLIC)
@@ -37,55 +33,37 @@ public class Member {
     @Pattern(regexp = NAME_REGEX)
     private final String name;
 
-    @NotNull
-    @PastOrPresent
-    private final LocalDate birthday;
-
-    @NotNull
-    private final PhoneNumber phoneNumber;
+    @NotBlank
+    @Pattern(regexp = EMAIL_REGEX)
+    private final String email;
 
     public MemberDto toDto() {
         MemberDto memberDto = new MemberDto();
         memberDto.setId(id);
         memberDto.setPassword(password);
         memberDto.setName(name);
-        memberDto.setYear(birthday.getYear());
-        memberDto.setMonth(birthday.getMonthValue());
-        memberDto.setDays(birthday.getDayOfMonth());
-        memberDto.setPhoneNumber(phoneNumber.toStringWithDash());
+        memberDto.setEmail(email);
         return memberDto;
     }
 
     public HashMap<String, Object> toMapWithNoIdentifier() {
         return new HashMap<>() {{
             put(ID, id);
-            put("password", password);
+            put(PASSWORD, password);
             put(NAME, name);
-            put("birthday", birthday);
-            put("phoneNumber", phoneNumber.toStringWithDash());
+            put(EMAIL, email);
         }};
     }
 
     public static class MemberBuilder {
         public MemberBuilder() {}
 
-        public MemberBuilder phoneNumber(PhoneNumber phoneNumber) {
-            this.phoneNumber = phoneNumber;
-            return this;
-        }
-
-        public MemberBuilder phoneNumber(String phoneNumber) {
-            this.phoneNumber = PhoneNumber.builder().phoneNumber(phoneNumber).build();
-            return this;
-        }
-
         public MemberBuilder member(Member member) {
             identifier = member.getIdentifier();
             id = member.getId();
             password = member.getPassword();
             name = member.getName();
-            birthday = member.getBirthday();
-            phoneNumber = member.getPhoneNumber();
+            email = member.getEmail();
             return this;
         }
 
@@ -93,8 +71,15 @@ public class Member {
             id = memberDto.getId();
             password = memberDto.getPassword();
             name = memberDto.getName();
-            birthday = LocalDate.of(memberDto.getYear(), memberDto.getMonth(), memberDto.getDays());
-            phoneNumber = PhoneNumber.builder().phoneNumber(memberDto.getPhoneNumber()).build();
+            email = memberDto.getEmail();
+            return this;
+        }
+
+        public MemberBuilder membershipDto(MembershipDto membershipDto) {
+            id = membershipDto.getId();
+            password = membershipDto.getPassword();
+            name = membershipDto.getName();
+            email = membershipDto.getEmail();
             return this;
         }
     }

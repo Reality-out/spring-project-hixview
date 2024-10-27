@@ -11,7 +11,6 @@ import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.util.MemberTestUtils;
 
 import javax.sql.DataSource;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,84 +94,6 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .isEqualTo(List.of(member1, member2));
     }
 
-    @DisplayName("회원 생일로 획득")
-    @Test
-    void getMemberByBirthdayTest() {
-        // given
-        Member member1 = testMember;
-        Member member2 = testNewMember;
-
-        // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
-
-        // then
-        assertThat(memberRepository.getMembersByBirthday(member1.getBirthday()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member1);
-
-        assertThat(memberRepository.getMembersByBirthday(member2.getBirthday()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member2);
-    }
-
-    @DisplayName("회원들 생일로 획득")
-    @Test
-    void getMembersByBirthdayTest() {
-        // given
-        Member member1 = testMember;
-        LocalDate commonBirthday = member1.getBirthday();
-        Member member2 = Member.builder().member(testNewMember).birthday(commonBirthday).build();
-
-        // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
-
-        // then
-        assertThat(memberRepository.getMembersByBirthday(commonBirthday))
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(List.of(member1, member2));
-    }
-
-    @DisplayName("회원 이름과 생일로 획득")
-    @Test
-    void getMemberByNameAndBirthdayTest() {
-        // given
-        Member member = testMember;
-
-        // when
-        memberRepository.saveMember(member);
-
-        // then
-        assertThat(memberRepository.getMembersByNameAndBirthday(member.getName(), member.getBirthday()))
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(List.of(member));
-    }
-
-    @DisplayName("회원들 이름과 생일로 획득")
-    @Test
-    void getMembersByNameAndBirthdayTest() {
-        // given
-        Member member1 = testMember;
-        String commonName = member1.getName();
-        LocalDate commonBirthday = member1.getBirthday();
-        Member member2 = Member.builder().member(testNewMember).name(commonName).birthday(commonBirthday).build();
-
-        // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
-
-        // then
-        assertThat(memberRepository.getMembersByBirthday(commonBirthday))
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(List.of(member1, member2));
-    }
-
     @DisplayName("회원 식별자로 획득")
     @Test
     void getMemberByIdentifierTest() {
@@ -247,22 +168,6 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .usingRecursiveComparison()
                 .ignoringFields(IDENTIFIER)
                 .isEqualTo(member);
-    }
-
-    @DisplayName("대시가 있는 버전과 없는 버전의 휴대폰 번호를 사용하는 회원 저장")
-    @Test
-    void saveMemberWithVariousPhoneNumber() {
-        // given
-        Member member1 = testMember;
-        Member member2 = Member.builder().member(testNewMember).phoneNumber("01023456789").build();
-
-        // when
-        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
-        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
-
-        // then
-        assertThat(memberRepository.getMemberByID(member1.getId()).orElseThrow()).usingRecursiveComparison().isEqualTo(member1);
-        assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow()).usingRecursiveComparison().isEqualTo(member2);
     }
 
     @DisplayName("회원 ID로 제거")

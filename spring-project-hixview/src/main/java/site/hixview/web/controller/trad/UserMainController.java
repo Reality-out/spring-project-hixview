@@ -4,27 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.IndustryArticle;
-import site.hixview.domain.entity.member.Member;
-import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.service.*;
-import site.hixview.util.ControllerUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static site.hixview.domain.vo.ExceptionMessage.*;
-import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
-import static site.hixview.domain.vo.RequestPath.RELATIVE_REDIRECT_PATH;
-import static site.hixview.domain.vo.Word.MEMBER;
-import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.RequestPath.*;
-import static site.hixview.domain.vo.user.ViewName.*;
+import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
+import static site.hixview.domain.vo.user.ViewName.USER_HOME_VIEW;
 
 @Controller
 @RequiredArgsConstructor
@@ -86,31 +80,5 @@ public class UserMainController {
         model.addAttribute("membership", MEMBERSHIP_PATH);
         model.addAttribute("findId", FIND_ID_PATH);
         return LOGIN_VIEW + VIEW_SHOW;
-    }
-
-    /**
-     * Find ID
-     */
-    @GetMapping(FIND_ID_PATH)
-    @ResponseStatus(HttpStatus.OK)
-    public String processFindIdPage(Model model) {
-        model.addAttribute(MEMBER, new MemberDto());
-        return FIND_ID_VIEW + VIEW_PROCESS;
-    }
-
-    @PostMapping(FIND_ID_PATH)
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public String submitFindIdPage(RedirectAttributes redirect, @ModelAttribute MemberDto memberDto) {
-        Member member = Member.builder().memberDto(memberDto).build();
-        redirect.addAttribute("idList", ControllerUtils.encodeWithUTF8(memberService.findMembersByNameAndBirthday(
-                member.getName(), member.getBirthday()).stream().map(Member::getId).collect(Collectors.toList())));
-        return RELATIVE_REDIRECT_PATH + FIND_ID_PATH + FINISH_PATH;
-    }
-
-    @GetMapping(FIND_ID_PATH + FINISH_PATH)
-    @ResponseStatus(HttpStatus.OK)
-    public String finishFindIdPage(Model model, @RequestParam List<String> idList) {
-        model.addAttribute("idList", ControllerUtils.decodeWithUTF8(idList));
-        return FIND_ID_VIEW + VIEW_FINISH;
     }
 }

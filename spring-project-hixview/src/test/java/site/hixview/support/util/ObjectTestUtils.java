@@ -24,6 +24,7 @@ public interface ObjectTestUtils {
 
     // Others
     String INVALID_VALUE = "invalidValue";
+    String QUERY_STRING = "?";
     String ALL_QUERY_STRING = "?*";
 
     /**

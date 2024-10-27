@@ -5,19 +5,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.member.Member;
+import site.hixview.domain.entity.member.dto.MembershipDto;
 import site.hixview.domain.service.MemberService;
-import site.hixview.domain.validation.validator.MemberBirthdayValidator;
 import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.MemberTestUtils;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
-import static site.hixview.domain.vo.Word.MEMBER;
+import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
+import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 
 @OnlyRealControllerContext
 class UserMemberControllerTest implements MemberTestUtils {
@@ -27,9 +29,6 @@ class UserMemberControllerTest implements MemberTestUtils {
 
     @Autowired
     private MemberService memberService;
-
-    @Autowired
-    private MemberBirthdayValidator memberBirthdayValidator;
 
     @DisplayName("회원 가입 페이지 접속")
     @Test
@@ -43,16 +42,21 @@ class UserMemberControllerTest implements MemberTestUtils {
     @DisplayName("회원 가입 완료 페이지 접속")
     @Test
     void accessMembershipFinish() throws Exception {
-        // given & when
-        Member member = testMember;
+        // given
+        MembershipDto membershipDto = createTestMembershipDto();
+        Member member = Member.builder().membershipDto(membershipDto).build();
+        String name = membershipDto.getName();
+
+        // when
         when(memberService.registerMember(member)).thenReturn(member);
 
         // then
-        mockMvc.perform(postWithMemberDto(MEMBERSHIP_PATH, member.toDto()))
+        mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, membershipDto))
                 .andExpectAll(status().isSeeOther(),
-                        redirectedUrl(MEMBERSHIP_PATH + FINISH_PATH));
+                        jsonPath(NAME).value(name),
+                        jsonPath(REDIRECT_PATH).value(MEMBERSHIP_PATH + FINISH_PATH));
 
-        mockMvc.perform(get(MEMBERSHIP_PATH + FINISH_PATH))
+        mockMvc.perform(get(fromPath(MEMBERSHIP_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
                 .andExpectAll(status().isOk(),
                         view().name(MEMBERSHIP_VIEW + VIEW_FINISH));
     }

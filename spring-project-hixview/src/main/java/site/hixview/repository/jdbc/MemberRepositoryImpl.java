@@ -12,7 +12,6 @@ import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.repository.MemberRepository;
 
 import javax.sql.DataSource;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,16 +42,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public List<Member> getMembersByName(String name) {
         return jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where name = ?", memberRowMapper(), name);
-    }
-
-    @Override
-    public List<Member> getMembersByBirthday(LocalDate birthday) {
-        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where birthday = ?", memberRowMapper(), birthday);
-    }
-
-    @Override
-    public List<Member> getMembersByNameAndBirthday(String name, LocalDate birthday) {
-        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where name = ? and birthday = ?", memberRowMapper(), name, birthday);
     }
 
     @Override
@@ -91,10 +80,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         return (resultSet, rowNumber) -> Member.builder()
                         .identifier(resultSet.getLong(IDENTIFIER))
                         .id(resultSet.getString(ID))
-                        .password(resultSet.getString("password"))
+                        .password(resultSet.getString(PASSWORD))
                         .name(resultSet.getString(NAME))
-                        .birthday(resultSet.getDate("birthday").toLocalDate())
-                        .phoneNumber(resultSet.getString("phoneNumber"))
+                        .email(resultSet.getString(EMAIL))
                         .build();
     }
 }

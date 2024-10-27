@@ -78,8 +78,6 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
     void handleUrlLastSlashFilterTest() throws Exception {
         mockMvc.perform(getWithNoParam(LOGIN_PATH + "/"))
                 .andExpectAll(status().isOk(), view().name(LOGIN_VIEW + VIEW_SHOW));
-        mockMvc.perform(getWithNoParam(FIND_ID_PATH + "/"))
-                .andExpectAll(status().isOk(), view().name(FIND_ID_VIEW + VIEW_PROCESS));
         mockMvc.perform(getWithNoParam(MEMBERSHIP_PATH + "/"))
                 .andExpectAll(status().isOk(), view().name(MEMBERSHIP_VIEW + VIEW_PROCESS));
     }
