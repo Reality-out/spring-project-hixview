@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{${layoutPath} :: layout(~{::link}, ~{::section}, ~{::script})}"
+      lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name=”viewport” content=”width=device-width”>
-    <title>[[#{site.title}]]</title>
-    <link href="/styles/html.css" rel="stylesheet"/>
-    <link href="/styles/body.css" rel="stylesheet"/>
-    <link href="/styles/error.css" rel="stylesheet"/>
+    <link href="/styles/user/main/user-membership-finish.css" rel="stylesheet"/>
 </head>
 <body>
-    <div>
-        <p>[[#{member.membership}]]이 [[#{function.finish}]]되었습니다.</p>
-        <form action="/" method="get">
-            <button type="submit" th:text="|#{page.main}로 이동|"></button>
-        </form>
+<section>
+    <div class="image-welcome">
+        <div class="txt-welcome">환영합니다!</div>
+        <div class="txt-welcome-details">[[${name}]]님의 [[#{member.membership}]]이 [[#{function.finish}]]되었습니다.</div>
+        <div class="txt-welcome-details">이제 마음껏 [[#{site.name}]]를 즐겨보세요!</div>
     </div>
+</section>
+<script></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ import static org.springframework.web.util.UriComponentsBuilder.fromPath;
 import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
+import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -58,6 +59,7 @@ class UserMemberControllerTest implements MemberTestUtils {
 
         mockMvc.perform(get(fromPath(MEMBERSHIP_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name)).build().toUriString()))
                 .andExpectAll(status().isOk(),
+                        model().attribute(LAYOUT_PATH, BASIC_LAYOUT),
                         view().name(MEMBERSHIP_VIEW + VIEW_FINISH));
     }
 }
