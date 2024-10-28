@@ -55,10 +55,10 @@ class MemberBindingErrorTest implements MemberTestUtils {
             });
             @SuppressWarnings("unchecked")
             Map<String, String> fieldErrorMap = (Map<String, String>) resultMap.get(FIELD_ERROR_MAP);
-            assertThat(fieldErrorMap.get(ID)).isEqualTo(encodeWithUTF8("ID: ID가 비어 있습니다."));
-            assertThat(fieldErrorMap.get(PASSWORD)).isEqualTo(encodeWithUTF8("PW: PW가 비어 있습니다."));
-            assertThat(fieldErrorMap.get(NAME)).isEqualTo(encodeWithUTF8("이름: 이름이 비어 있습니다."));
-            assertThat(fieldErrorMap.get(EMAIL)).isEqualTo(encodeWithUTF8("이메일: 이메일 값이 비어 있습니다."));
+            assertThat(fieldErrorMap.get(ID)).isEqualTo(encodeWithUTF8("ID가 비어 있습니다."));
+            assertThat(fieldErrorMap.get(PASSWORD)).isEqualTo(encodeWithUTF8("비밀번호가 비어 있습니다."));
+            assertThat(fieldErrorMap.get(NAME)).isEqualTo(encodeWithUTF8("이름이 비어 있습니다."));
+            assertThat(fieldErrorMap.get(EMAIL)).isEqualTo(encodeWithUTF8("이메일 값이 비어 있습니다."));
         }
     }
 
@@ -82,9 +82,9 @@ class MemberBindingErrorTest implements MemberTestUtils {
         });
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) resultMap.get(FIELD_ERROR_MAP);
-        assertThat(fieldErrorMap.get(ID)).isEqualTo(encodeWithUTF8("ID: ID 형식이 올바르지 않습니다."));
-        assertThat(fieldErrorMap.get(PASSWORD)).isEqualTo(encodeWithUTF8("PW: PW 형식이 올바르지 않습니다."));
-        assertThat(fieldErrorMap.get(NAME)).isEqualTo(encodeWithUTF8("이름: 이름 형식이 올바르지 않습니다."));
-        assertThat(fieldErrorMap.get(EMAIL)).isEqualTo(encodeWithUTF8("이메일: 이메일 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(ID)).isEqualTo(encodeWithUTF8("ID 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(PASSWORD)).isEqualTo(encodeWithUTF8("비밀번호 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(NAME)).isEqualTo(encodeWithUTF8("이름 형식이 올바르지 않습니다."));
+        assertThat(fieldErrorMap.get(EMAIL)).isEqualTo(encodeWithUTF8("이메일 형식이 올바르지 않습니다."));
     }
 }

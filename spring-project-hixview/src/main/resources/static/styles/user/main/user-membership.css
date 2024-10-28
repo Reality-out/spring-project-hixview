@@ -48,18 +48,35 @@
     padding-left: 3rem;
     font-size: 20px;
     font-weight: 400;
+    flex-flow: row wrap;
 }
 
 #membershipForm .membership-form-item label {
+    display: flex;
     width: 180px;
     min-width: 150px;
 }
 
-#membershipForm .membership-form-item input {
-    width: calc(100% - 260px);
+#membershipForm .membership-form-item .input-error-membership {
+    display: flex;
+    width: calc(100% - 280px);
+    flex-flow: column;
+}
+
+#membershipForm .membership-form-item .input-error-membership input {
+    display: flex;
+    width: 100%;
+    height: 30px;
     padding-left: 4px;
     border: 1px solid black;
     border-radius: 6px;
+}
+
+#membershipForm .membership-form-item .input-error-membership .txt-error-message {
+    display: flex;
+    width: 100%;
+    margin-top: 4px;
+    font-size: 13px;
 }
 
 #membershipForm #submitBtn {
@@ -71,18 +88,4 @@
     justify-content: center;
     font-size: 18px;
     font-weight: 500;
-}
-
-#membershipForm .txt-error-messages {
-    display: flex;
-    width: 100%;
-    flex-flow: column;
-}
-
-#membershipForm .txt-error-messages .txt-error-message {
-    display: flex;
-    width: inherit;
-    margin: 4px 0;
-    padding-left: 3rem;
-    font-size: 13px;
 }

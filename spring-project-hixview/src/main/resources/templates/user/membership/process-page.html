@@ -12,26 +12,41 @@
             <div class="membership-form-items">
                 <div class="membership-form-item">
                     <label for="id">[[#{member.ID}]]</label>
-                    <input type="text" id="id" th:field="*{id}" size="20">
+                    <div class="input-error-membership">
+                        <input type="text" id="id" th:field="*{id}" size="20">
+                        <div hidden class="txt-error-message" id="error-id"></div>
+                    </div>
                 </div>
                 <div class="membership-form-item">
                     <label for="password">[[#{member.PW}]]</label>
-                    <input type="password" id="password" th:field="*{password}" size="20">
+                    <div class="input-error-membership">
+                        <input type="password" id="password" th:field="*{password}" size="20">
+                        <div hidden class="txt-error-message" id="error-password"></div>
+                    </div>
                 </div>
                 <div class="membership-form-item">
+                    <label for="passwordCheck">[[#{member.PW.check}]]</label>
+                    <div class="input-error-membership">
+                        <input type="password" id="passwordCheck" size="20">
+                        <div hidden class="txt-error-message" id="error-passwordCheck"></div>
+                    </div>
+                    </div>
+                <div class="membership-form-item">
                     <label for="name">[[#{member.NAME}]]</label>
-                    <input type="text" id="name" th:field="*{name}" size="20">
+                    <div class="input-error-membership">
+                        <input type="text" id="name" th:field="*{name}" size="20">
+                        <div hidden class="txt-error-message" id="error-name"></div>
+                    </div>
                 </div>
                 <div class="membership-form-item">
                     <label for="email">[[#{member.EMAIL}]]</label>
-                    <input type="text" id="email" th:field="*{email}" size="13">
+                    <div class="input-error-membership">
+                        <input type="text" id="email" th:field="*{email}" size="13">
+                        <div hidden class="txt-error-message" id="error-email"></div>
+                    </div>
                 </div>
             </div>
             <div class="txt-error-messages">
-                <div class="txt-error-message" id="error-id"></div>
-                <div class="txt-error-message" id="error-password"></div>
-                <div class="txt-error-message" id="error-name"></div>
-                <div class="txt-error-message" id="error-email"></div>
             </div>
             <button id="submitBtn" type="submit">[[#{function.register}]]</button>
         </form>

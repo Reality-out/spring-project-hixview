@@ -36,6 +36,11 @@ public class UserMainController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String processUserMainPage(Model model) {
+        addLatestArticlesInModel(model);
+        return USER_HOME_VIEW;
+    }
+
+    private void addLatestArticlesInModel(Model model) {
         List<CompanyArticle> latestCompanyArticleList = homeService.findUsableLatestCompanyArticles();
         if (latestCompanyArticleList.isEmpty()) {
             throw new NotFoundException(NO_COMPANY_ARTICLE_WITH_THAT_CONDITION);
@@ -68,7 +73,6 @@ public class UserMainController {
                 articleMainService.findArticleByName(latestDomesticEconomyArticle.getName()).orElseThrow());
         model.addAttribute("latestForeignEconomyArticleMain",
                 articleMainService.findArticleByName(latestForeignEconomyArticle.getName()).orElseThrow());
-        return USER_HOME_VIEW;
     }
 
     /**
