@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -49,8 +48,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
         for (MembershipDto memberDto : List.of(membershipDtoSpace, membershipDtoNull)) {
             Map<String, Object> resultMap = objectMapper.readValue(requireNonNull(mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, memberDto))
                     .andExpectAll(status().isBadRequest(),
-                            jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT),
-                            jsonPath(IS_BEAN_VALIDATION_ERROR).value(true)
+                            jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT)
                     )).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
             });
             @SuppressWarnings("unchecked")
@@ -76,8 +74,7 @@ class MemberBindingErrorTest implements MemberTestUtils {
         // then
         Map<String, Object> resultMap = objectMapper.readValue(requireNonNull(mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, membershipDto))
                 .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT),
-                        jsonPath(IS_BEAN_VALIDATION_ERROR).value(true)
+                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT)
                 )).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
         @SuppressWarnings("unchecked")

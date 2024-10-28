@@ -17,6 +17,8 @@ public interface MemberRepository {
 
     Optional<Member> getMemberByID(String id);
 
+    Optional<Member> getMemberByEmail(String email);
+
     /**
      * INSERT Member
      */

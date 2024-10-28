@@ -19,19 +19,6 @@ public abstract class ControllerUtils {
     private static final Logger log = LoggerFactory.getLogger(ControllerUtils.class);
 
     /**
-     * Constant
-     */
-    public static final Map<String, Integer> errorHierarchy = new HashMap<>() {{
-        put("NotBlank", 0);
-        put("NotNull", 0);
-        put("typeMismatch", 0);
-        put("Pattern", 1);
-        put("Range", 1);
-        put("Size", 2);
-        put("Restrict", 3);
-    }};
-
-    /**
      * Decode
      */
     public static List<String> decodeWithUTF8(List<String> list) {

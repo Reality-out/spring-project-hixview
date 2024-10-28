@@ -56,6 +56,12 @@ public class MemberRepositoryImpl implements MemberRepository {
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
     }
 
+    @Override
+    public Optional<Member> getMemberByEmail(String email) {
+        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where email = ?", memberRowMapper(), email);
+        return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
+    }
+
     /**
      * INSERT Member
      */

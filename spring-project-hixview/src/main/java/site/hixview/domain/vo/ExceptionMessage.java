@@ -17,6 +17,9 @@ public final class ExceptionMessage {
     // ConstraintValidationException
     public static final String CONSTRAINT_VALIDATION_VIOLATED = "제약 조건 위반이 발생하였습니다.";
 
+    // IllegalStateException
+    public static final String COMPARE_SAME_VALUE_OF_ERROR_HIERARCHY = "같은 수치의 오류 위계 구조를 비교하고 있습니다.";
+
     // IndexOutOfBoundsException
     public static final String NOT_EQUAL_LIST_SIZE = "리스트의 크기가 일치하지 않습니다.";
 

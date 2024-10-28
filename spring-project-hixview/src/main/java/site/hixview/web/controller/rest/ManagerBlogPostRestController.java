@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import site.hixview.domain.entity.article.response.SingleErrorResponse;
+import site.hixview.domain.entity.article.response.SingleErrorBeanResponse;
 import site.hixview.domain.entity.article.response.SingleSuccessResponse;
 import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
@@ -24,7 +23,6 @@ import site.hixview.domain.validation.validator.BlogPostAddValidator;
 import site.hixview.domain.validation.validator.BlogPostModifyValidator;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -37,6 +35,7 @@ import static site.hixview.domain.vo.manager.RequestPath.ADD_BLOG_POST_PATH;
 import static site.hixview.domain.vo.manager.RequestPath.UPDATE_BLOG_POST_PATH;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 import static site.hixview.util.RestControllerUtils.processMessagePatternString;
+import static site.hixview.util.RestControllerUtils.getMapWithNameMessageFromProperty;
 
 @RestController
 @RequiredArgsConstructor
@@ -71,23 +70,13 @@ public class ManagerBlogPostRestController {
                 }
             }
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
-                    new SingleErrorResponse(ADD_PROCESS_LAYOUT, true, returnedFieldErrorMap));
+                    new SingleErrorBeanResponse(ADD_PROCESS_LAYOUT, true, returnedFieldErrorMap));
         }
         addValidator.validate(postDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            Map<String, String> fieldErrorMap = new HashMap<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                for (String code : Objects.requireNonNull(fieldError.getCodes())) {
-                    try {
-                        fieldErrorMap.put(fieldError.getField(),
-                                encodeWithUTF8(source.getMessage(code, null, Locale.getDefault())));
-                        break;
-                    } catch (NoSuchMessageException ignored) {
-                    }
-                }
-            }
+            Map<String, String> fieldErrorMap = getMapWithNameMessageFromProperty(source, bindingResult);
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
-                    new SingleErrorResponse(ADD_PROCESS_LAYOUT, false, fieldErrorMap));
+                    new SingleErrorBeanResponse(ADD_PROCESS_LAYOUT, false, fieldErrorMap));
         }
         postService.registerPost(BlogPost.builder().blogPostDto(postDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
@@ -113,23 +102,13 @@ public class ManagerBlogPostRestController {
                 }
             }
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
-                    new SingleErrorResponse(UPDATE_PROCESS_LAYOUT, true, returnedFieldErrorMap));
+                    new SingleErrorBeanResponse(UPDATE_PROCESS_LAYOUT, true, returnedFieldErrorMap));
         }
         modifyValidator.validate(postDto, bindingResult);
         if (bindingResult.hasErrors()) {
-            Map<String, String> fieldErrorMap = new HashMap<>();
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                for (String code : Objects.requireNonNull(fieldError.getCodes())) {
-                    try {
-                        fieldErrorMap.put(fieldError.getField(),
-                                encodeWithUTF8(source.getMessage(code, null, Locale.getDefault())));
-                        break;
-                    } catch (NoSuchMessageException ignored) {
-                    }
-                }
-            }
+            Map<String, String> fieldErrorMap = getMapWithNameMessageFromProperty(source, bindingResult);
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
-                    new SingleErrorResponse(UPDATE_PROCESS_LAYOUT, false, fieldErrorMap));
+                    new SingleErrorBeanResponse(UPDATE_PROCESS_LAYOUT, false, fieldErrorMap));
         }
         postService.correctPost(BlogPost.builder().blogPostDto(postDto).build());
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(

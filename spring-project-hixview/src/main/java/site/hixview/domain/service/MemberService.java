@@ -34,8 +34,12 @@ public class MemberService {
         return memberRepository.getMemberByIdentifier(identificationNumber);
     }
 
-    public Optional<Member> findMemberByID(String Id) {
-        return memberRepository.getMemberByID(Id);
+    public Optional<Member> findMemberByID(String id) {
+        return memberRepository.getMemberByID(id);
+    }
+
+    public Optional<Member> findMemberByEmail(String email) {
+        return memberRepository.getMemberByEmail(email);
     }
 
     /**

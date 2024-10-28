@@ -140,6 +140,29 @@ class MemberRepositoryImplTest implements MemberTestUtils {
                 .isEqualTo(member2);
     }
 
+    @DisplayName("회원 이메일로 획득")
+    @Test
+    void getMemberByEmailTest() {
+        // given
+        Member member1 = testMember;
+        Member member2 = testNewMember;
+
+        // when
+        memberRepository.saveMember(member1);
+        memberRepository.saveMember(member2);
+
+        // then
+        assertThat(memberRepository.getMemberByEmail(member1.getEmail()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields(IDENTIFIER)
+                .isEqualTo(member1);
+
+        assertThat(memberRepository.getMemberByEmail(member2.getEmail()).orElseThrow())
+                .usingRecursiveComparison()
+                .ignoringFields(IDENTIFIER)
+                .isEqualTo(member2);
+    }
+
     @DisplayName("비어 있는 회원 획득")
     @Test
     void getEmptyMemberTest() {
