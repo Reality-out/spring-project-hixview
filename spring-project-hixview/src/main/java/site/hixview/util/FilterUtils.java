@@ -13,8 +13,11 @@ import static site.hixview.util.JsonUtils.serializeWithOneMap;
 public abstract class FilterUtils {
 
     public static final String IMAGE_PATH_PREFIX = "/images/";
+    public static final String INDUSTRY_IMAGE_PATH_PREFIX = "/images/industry/";
+    public static final String COUNTRY_FLAG_IMAGE_PATH_PREFIX = "/images/economy/flag/";
     public static final String NEWEST_IMAGE_PATH_PREFIX = "/images/main/newest/";
     public static final String IMAGE_PATH_SUFFIX = ".png";
+    public static final String COUNTRY_FLAG_IMAGE_PATH_SUFFIX = "_flag";
 
     public static void applyStrip(ModifiableHttpServletRequest request, final String constant) {
         String string = request.getParameter(constant);

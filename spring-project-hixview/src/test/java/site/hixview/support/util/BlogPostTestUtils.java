@@ -45,7 +45,7 @@ public interface BlogPostTestUtils extends ObjectTestUtils {
             .date(LocalDate.of(2024, 7, 27))
             .classification(Classification.ECONOMY)
             .targetName("중국")
-            .targetImagePath("/images/economy/flag/chinese_flag_001.png")
+            .targetImagePath("/images/economy/flag/china_flag")
             .targetArticleNames(List.of("'경제 위기론' 인정…中, 부동산 부채에 칼 뺀다", "2024년 상반기 중국 경제, 소비 기여도 60.5% 기록", "중국 총부채 비율 300% 육박…일본식 장기침체 현실화되나", "지방정부 인프라 남발 부메랑…中 '숨은 부채'만 최대 11조弗", "中 정부, 사상 최악 실업률로 통계 발표 잠정 중단"))
             .targetArticleLinks(List.of("https://www.sedaily.com/NewsView/2DBSVTPLGN", "https://www.nvp.co.kr/news/articleView.html?idxno=312386", "https://www.sedaily.com/NewsView/2D9E1I8EAF", "https://www.sedaily.com/NewsView/2DBR29XBZG", "https://csf.kiep.go.kr/issueInfoView.es?article_id=51325&mid=a20200000000&board_id=2"))
             .build();

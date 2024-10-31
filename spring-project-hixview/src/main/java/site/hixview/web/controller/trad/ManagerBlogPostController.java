@@ -35,6 +35,7 @@ import static site.hixview.domain.vo.manager.ViewName.*;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_FOUND_BLOG_POST_ERROR;
 import static site.hixview.domain.vo.name.ViewName.*;
 import static site.hixview.util.ControllerUtils.*;
+import static site.hixview.util.FilterUtils.IMAGE_PATH_SUFFIX;
 
 @Controller
 @RequiredArgsConstructor
@@ -86,7 +87,13 @@ public class ManagerBlogPostController {
         List<BlogPost> postsWithInvalidImagePath = new ArrayList<>();
         Path prefix = Paths.get(ROOT_PATH).resolve(STATIC_RESOURCE_PATH);
         for (BlogPost post : blogPostService.findPosts()) {
-            Path filePath = prefix.resolve(post.getTargetImagePath().substring(1)).toAbsolutePath();
+            String targetImagePath = post.getTargetImagePath().substring(1);
+            Path filePath;
+            if (targetImagePath.endsWith(".png")) {
+                filePath = prefix.resolve(targetImagePath).toAbsolutePath();
+            } else {
+                filePath = prefix.resolve(targetImagePath + "_001" + IMAGE_PATH_SUFFIX).toAbsolutePath();
+            }
             if (!filePath.toFile().isFile()) {
                 postsWithInvalidImagePath.add(post);
             }
