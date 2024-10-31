@@ -50,7 +50,7 @@
 
 #basicForm #basicFormItems .basic-form-item textarea,
 #basicForm #basicFormItems .basic-form-item input {
-    width: max(calc(100% - 400px), 200px);
+    width: max(calc(100% - 500px), 200px);
 }
 
 #basicForm .basic-form-buttons {

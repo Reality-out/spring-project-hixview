@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = data['redirectPath'] + '?name=' + data.name;
+            window.location = data['redirectPath'] + '?name=' + encodeURIComponent(data.name);
         })
         .catch(error => {
             if (error.isBeanValidationError) {

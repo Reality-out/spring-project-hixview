@@ -5,8 +5,10 @@ import lombok.Getter;
 @Getter
 public enum SecondCategory {
     BANK("은행"),
+    BATTERY_MANUFACTURING("배터리 제조"),
     CATHODE_MATERIAL_MANUFACTURING("양극재 제조"),
     CLIMATE_CRISIS("기후 위기"),
+    COLLABORATIVE_ROBOT("협동 로봇"),
     DISPLAY_EQUIPMENT("디스플레이 장비"),
     DISPLAY_PANEL("디스플레이 패널"),
     ELECTRIC_VEHICLE_MANUFACTURING("전기차 제조"),

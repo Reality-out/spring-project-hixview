@@ -36,16 +36,16 @@ public abstract class FilterUtils {
         ObjectMapper objectMapper = new ObjectMapper();
         String parameter = request.getParameter(paramName);
         if (parameter != null) {
-            List<String> classificationList = deserializeWithOneMapToList(objectMapper, keyName, parameter);
-            for (int i = 0; i < classificationList.size(); i++){
-                String classification = classificationList.get(i);
-                if (classification != null) {
-                    classificationList.set(i, classification.toUpperCase());
-                    if (inEnumValues(enumClass, classification))
-                        classificationList.set(i, convertToEnum(enumClass, classification).name());
+            List<String> jsonList = deserializeWithOneMapToList(objectMapper, keyName, parameter);
+            for (int i = 0; i < jsonList.size(); i++){
+                String jsonItem = jsonList.get(i);
+                if (jsonItem != null) {
+                    jsonList.set(i, jsonItem.toUpperCase());
+                    if (inEnumValues(enumClass, jsonItem))
+                        jsonList.set(i, convertToEnum(enumClass, jsonItem).name());
                 }
             }
-            request.setParameter(paramName, serializeWithOneMap(objectMapper, keyName, classificationList));
+            request.setParameter(paramName, serializeWithOneMap(objectMapper, keyName, jsonList));
         }
     }
 }
