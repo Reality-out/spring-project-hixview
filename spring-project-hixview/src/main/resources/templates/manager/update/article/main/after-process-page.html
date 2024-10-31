@@ -16,7 +16,7 @@
             </div>
             <div class="basic-form-item">
                 <label for="imagePath" th:text="#{article.imagePath}"></label>
-                <input type="text" id="imagePath" th:field="*{imagePath}" size="20">
+                <input type="text" id="imagePath" th:field="*{imagePath}" size="20" readonly>
                 <div class="txt-error-message" th:errors="*{imagePath}"></div>
             </div>
             <div class="basic-form-item">

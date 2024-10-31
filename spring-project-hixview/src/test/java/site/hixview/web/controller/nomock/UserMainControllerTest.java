@@ -66,6 +66,9 @@ class UserMainControllerTest implements ArticleTestUtils, BlogPostTestUtils {
         economyArticleService.registerArticle(testEqualDateEconomyArticle);
         articleMainService.registerArticle(testDomesticEconomyArticleMain);
         articleMainService.registerArticle(testForeignEconomyArticleMain);
+        blogPostService.registerPost(testBlogPostCompany);
+        blogPostService.registerPost(testBlogPostIndustry);
+        blogPostService.registerPost(testBlogPostEconomy);
 
         // then
         mockMvc.perform(getWithNoParam(""))

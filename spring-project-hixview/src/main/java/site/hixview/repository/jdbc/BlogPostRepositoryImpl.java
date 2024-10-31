@@ -43,6 +43,13 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     }
 
     @Override
+    public List<BlogPost> getLatestPosts(Classification classification) {
+        return jdbcTemplate.query("with filtered_blog_posts as (select * from " + CURRENT_SCHEMA +
+                " where classification = ?) select * from filtered_blog_posts where date =" +
+                " (select max(date) from filtered_blog_posts)", postRowMapper(), classification.name());
+    }
+
+    @Override
     public Optional<BlogPost> getPostByNumber(Long number) {
         List<BlogPost> onePostOrNull = jdbcTemplate.query(
                 "select * from " + CURRENT_SCHEMA + " where number = ?", postRowMapper(), number);

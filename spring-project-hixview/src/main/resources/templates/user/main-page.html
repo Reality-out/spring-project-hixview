@@ -102,11 +102,11 @@
     <div class="container-main-bottom">
         <div class="post-wrapper">
             <p class="post-title" th:text="|#{company} 주요 포스팅|"></p>
-            <p class="post-subject-name" th:text="이노와이어리스"></p>
+            <p class="post-subject-name" th:text="${latestCompanyBlogPost.targetName}"></p>
             <div class="post-blog">
                 <a class="post-image post-company"
-                   style="background-image: url(/images/company/logo/inno_wireless.png)"
-                   href="https://blog.naver.com/akdnjs0308/223491404394"></a>
+                   th:style="|background-image: url(${latestCompanyBlogPost.targetImagePath})|"
+                   th:href="${latestCompanyBlogPost.link}"></a>
                 <div class="post-clearLine"></div>
                 <div class="post-news post-company-news">
                     <div class="post-news-related" th:text="|관련 뉴스|"></div>
@@ -120,11 +120,11 @@
         </div>
         <div class="post-wrapper">
             <p class="post-title" th:text="|#{industry} 주요 포스팅|"></p>
-            <p class="post-subject-name" th:text="디스플레이"></p>
+            <p class="post-subject-name" th:text="${latestIndustryBlogPost.targetName}"></p>
             <div class="post-blog">
                 <a class="post-image post-industry"
-                   style="background-image: url(/images/industry/display_001.png)"
-                   href="https://blog.naver.com/akdnjs0308/223456567261"></a>
+                   th:style="|background-image: url(${latestIndustryBlogPost.targetImagePath})|"
+                   th:href="${latestIndustryBlogPost.link}"></a>
                 <div class="post-clearLine"></div>
                 <div class="post-news post-industry-news">
                     <div class="post-news-related" th:text="|관련 뉴스|"></div>
@@ -138,11 +138,11 @@
         </div>
         <div class="post-wrapper">
             <p class="post-title" th:text="|#{economy} 주요 포스팅|"></p>
-            <p class="post-subject-name" th:text="중국"></p>
+            <p class="post-subject-name" th:text="${latestEconomyBlogPost.targetName}"></p>
             <div class="post-blog">
                 <a class="post-image post-economy"
-                   style="background-image: url(/images/economy/flag/chinese_flag_001.png)"
-                   href="https://blog.naver.com/akdnjs0308/223527440189"></a>
+                   th:style="|background-image: url(${latestEconomyBlogPost.targetImagePath})|"
+                   th:href="${latestEconomyBlogPost.link}"></a>
                 <div class="post-clearLine"></div>
                 <div class="post-news post-economy-news">
                     <div class="post-news-related" th:text="|관련 뉴스|"></div>

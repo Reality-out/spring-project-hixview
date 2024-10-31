@@ -65,12 +65,14 @@ public class ManagerArticleMainController {
                                        BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
+            model.addAttribute(CLASSIFICATIONS, Classification.values());
             return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
         }
 
         addValidator.validate(articleMainDto, bindingResult);
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), ADD_PROCESS_LAYOUT, null, model);
+            model.addAttribute(CLASSIFICATIONS, Classification.values());
             return ADD_ARTICLE_MAIN_VIEW + VIEW_PROCESS;
         }
 
@@ -147,6 +149,7 @@ public class ManagerArticleMainController {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, BEAN_VALIDATION_ERROR, model);
             model.addAttribute(UPDATE_PATH, UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH);
+            model.addAttribute(CLASSIFICATIONS, Classification.values());
             return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
         }
 
@@ -154,6 +157,7 @@ public class ManagerArticleMainController {
         if (bindingResult.hasErrors()) {
             finishForRollback(bindingResult.getAllErrors().toString(), UPDATE_PROCESS_LAYOUT, null, model);
             model.addAttribute(UPDATE_PATH, UPDATE_ARTICLE_MAIN_PATH + FINISH_PATH);
+            model.addAttribute(CLASSIFICATIONS, Classification.values());
             return UPDATE_ARTICLE_MAIN_VIEW + VIEW_AFTER_PROCESS;
         }
 

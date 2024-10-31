@@ -3,6 +3,8 @@ package site.hixview.support.util;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.domain.entity.Classification;
+import site.hixview.domain.entity.FirstCategory;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
 
@@ -39,12 +41,23 @@ public interface BlogPostTestUtils extends ObjectTestUtils {
             .targetArticleLinks(List.of("https://www.etri.re.kr/webzine/20210709/sub01.html", "https://www.topdaily.kr/articles/95860", "https://www.digitaltoday.co.kr/news/articleView.html?idxno=494324", "https://www.fnnews.com/news/202301181417178001", "https://www.fnnews.com/news/202404231827480715"))
             .build();
 
+    BlogPost testBlogPostIndustry = BlogPost.builder()
+            .name("왜 부동산에 몰려들며, 몰려들면 안 되는 걸까")
+            .link("https://blog.naver.com/akdnjs0308/223639761474")
+            .date(LocalDate.of(2024, 10, 31))
+            .classification(Classification.INDUSTRY)
+            .targetName(FirstCategory.CONSTRUCTION.getValue())
+            .targetImagePath("/images/industry/construction")
+            .targetArticleNames(List.of("\"전세사기 무서워\"…올해 전국 아파트 거래 비중 역대 최대", "韓, 여전한 '아파트 불패신화'…\"가계 자산 80% 부동산 몰빵\"", "가계대출 60%가 ‘주담대’… “부동산 경기부양책 지양해야” [심층기획-'저성장의 늪' 기로에 선 한국]", "KCGI, 한양증권 인수 SPA 체결…인수가 10% 낮췄다(종합)", "[단독] 두산밥캣·로보틱스 흡수합병 철회...금감원 정정 요구에 원안 수정"))
+            .targetArticleLinks(List.of("https://www.yna.co.kr/view/AKR20240520041200003", "https://www.hankyung.com/article/2024041782271", "https://www.segye.com/newsView/20240117514927", "https://news.einfomax.co.kr/news/articleView.html?idxno=4325458", "https://www.mk.co.kr/news/stock/11104530"))
+            .build();
+
     BlogPost testBlogPostEconomy = BlogPost.builder()
             .name("중국 경제 진단(중국은 어떤 처지에 놓여 있을까)")
             .link("https://blog.naver.com/akdnjs0308/223527440189")
             .date(LocalDate.of(2024, 7, 27))
             .classification(Classification.ECONOMY)
-            .targetName("중국")
+            .targetName(SubjectCountry.CHINA.getValue())
             .targetImagePath("/images/economy/flag/china_flag")
             .targetArticleNames(List.of("'경제 위기론' 인정…中, 부동산 부채에 칼 뺀다", "2024년 상반기 중국 경제, 소비 기여도 60.5% 기록", "중국 총부채 비율 300% 육박…일본식 장기침체 현실화되나", "지방정부 인프라 남발 부메랑…中 '숨은 부채'만 최대 11조弗", "中 정부, 사상 최악 실업률로 통계 발표 잠정 중단"))
             .targetArticleLinks(List.of("https://www.sedaily.com/NewsView/2DBSVTPLGN", "https://www.nvp.co.kr/news/articleView.html?idxno=312386", "https://www.sedaily.com/NewsView/2D9E1I8EAF", "https://www.sedaily.com/NewsView/2DBR29XBZG", "https://csf.kiep.go.kr/issueInfoView.es?article_id=51325&mid=a20200000000&board_id=2"))
@@ -55,6 +68,10 @@ public interface BlogPostTestUtils extends ObjectTestUtils {
      */
     default BlogPostDto createTestBlogPostCompanyDto() {
         return testBlogPostCompany.toDto();
+    }
+
+    default BlogPostDto createTestBlogPostIndustryDto() {
+        return testBlogPostIndustry.toDto();
     }
 
     default BlogPostDto createTestBlogPostEconomyDto() {

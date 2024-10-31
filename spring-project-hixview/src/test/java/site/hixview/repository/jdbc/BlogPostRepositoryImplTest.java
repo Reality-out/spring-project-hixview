@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.repository.BlogPostRepository;
@@ -55,6 +56,39 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
                 .ignoringFields(NUMBER)
                 .comparingOnlyFields(fieldNames)
                 .isEqualTo(List.of(post1, post2));
+    }
+
+    @DisplayName("최신 블로그 포스트들 획득")
+    @Test
+    void getLatestBlogPostsTest() {
+        // given
+        BlogPost post1 = testBlogPostCompany;
+        BlogPost post2 = testBlogPostIndustry;
+        BlogPost post3 = testBlogPostEconomy;
+
+        // when
+        postRepository.savePost(post1);
+        postRepository.savePost(post2);
+        postRepository.savePost(post3);
+
+        // then
+        assertThat(postRepository.getLatestPosts(Classification.COMPANY))
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
+                .isEqualTo(List.of(post1));
+
+        assertThat(postRepository.getLatestPosts(Classification.INDUSTRY))
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
+                .isEqualTo(List.of(post2));
+
+        assertThat(postRepository.getLatestPosts(Classification.ECONOMY))
+                .usingRecursiveComparison()
+                .ignoringFields(NUMBER)
+                .comparingOnlyFields(fieldNames)
+                .isEqualTo(List.of(post3));
     }
 
     @DisplayName("번호로 블로그 포스트 획득")

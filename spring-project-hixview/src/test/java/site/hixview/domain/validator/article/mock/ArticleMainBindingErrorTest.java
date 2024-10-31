@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
@@ -45,6 +46,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -66,6 +68,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -83,6 +86,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -101,6 +105,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -121,6 +126,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -142,6 +148,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -159,6 +166,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -177,6 +185,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, BEAN_VALIDATION_ERROR))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()

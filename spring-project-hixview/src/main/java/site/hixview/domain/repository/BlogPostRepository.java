@@ -1,6 +1,7 @@
 package site.hixview.domain.repository;
 
 
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.BlogPost;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public interface BlogPostRepository {
      * SELECT BlogPost
      */
     List<BlogPost> getPosts();
+
+    List<BlogPost> getLatestPosts(Classification classification);
 
     Optional<BlogPost> getPostByNumber(Long number);
 

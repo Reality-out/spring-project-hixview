@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
@@ -53,6 +54,7 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, notRegisteredArticleDto))
                 .andExpectAll(view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, (String) null))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
@@ -81,6 +83,7 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
             assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
                     .andExpectAll(view().name(addArticleMainProcessPage),
                             model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                            model().attribute(CLASSIFICATIONS, Classification.values()),
                             model().attribute(ERROR, (String) null))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
@@ -105,12 +108,14 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
                         ArticleMain.builder().article(article).name(testIndustryArticleMain.getName()).build()))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, (String) null)));
 
         requireNonNull(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
                         ArticleMain.builder().article(article).imagePath(testIndustryArticleMain.getImagePath()).build()))
                 .andExpectAll(view().name(modifyArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attribute(ERROR, (String) null)));
     }
 }

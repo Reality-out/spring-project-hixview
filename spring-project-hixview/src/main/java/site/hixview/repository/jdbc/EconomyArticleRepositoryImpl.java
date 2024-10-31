@@ -68,16 +68,18 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
 
     @Override
     public List<EconomyArticle> getLatestDomesticArticles() {
-        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA +
-                " where subjectCountry = '" + SubjectCountry.SOUTH_KOREA.name() +
-                "' and date = (select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
+        return jdbcTemplate.query("with filtered_economy_articles as (select * from " + CURRENT_SCHEMA +
+                " where subjectCountry = '" + SubjectCountry.SOUTH_KOREA.name() + "')" +
+                " select * from filtered_economy_articles where date = (select max(date) from" +
+                " filtered_economy_articles)", articleRowMapper());
     }
 
     @Override
     public List<EconomyArticle> getLatestForeignArticles() {
-        return jdbcTemplate.query("select * from " + CURRENT_SCHEMA +
-                " where subjectCountry != '" + SubjectCountry.SOUTH_KOREA.name() +
-                "' and date = (select max(date) from " + CURRENT_SCHEMA + ")", articleRowMapper());
+        return jdbcTemplate.query("with filtered_economy_articles as (select * from " + CURRENT_SCHEMA +
+                " where subjectCountry != '" + SubjectCountry.SOUTH_KOREA.name() + "')" +
+                " select * from filtered_economy_articles where date = (select max(date) from" +
+                " filtered_economy_articles)", articleRowMapper());
     }
 
     @Override

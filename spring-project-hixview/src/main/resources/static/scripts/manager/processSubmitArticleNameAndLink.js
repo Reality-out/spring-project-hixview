@@ -1,8 +1,8 @@
-import {clearErrorMessage} from '/scripts/manager/module/utils.js';
+import {clearErrorMessage, encodeWithUTF8} from '/scripts/manager/module/utils.js';
 document.addEventListener('DOMContentLoaded', () => {
     console.log('processSubmitArticleNameAndLink started')
 
-    let count = 0;
+    let count = document.getElementsByClassName('post-target-article-content').length - 1;
     const basicForm = document.getElementById('basicForm');
     const basicFormItems = document.getElementById('basicFormItems');
     
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            window.location = data['redirectPath'] + '?name=' + encodeURIComponent(data.name);
+            window.location = data['redirectPath'] + '?name=' + encodeWithUTF8(data.name);
         })
         .catch(error => {
             if (error.isBeanValidationError) {

@@ -23,6 +23,9 @@ public final class ExceptionMessage {
     // IndexOutOfBoundsException
     public static final String NOT_EQUAL_LIST_SIZE = "리스트의 크기가 일치하지 않습니다.";
 
+    // InvalidPathException
+    public static final String NO_TARGET_IMAGE_DIRECTORY = "타겟 이미지 디렉토리가 존재하지 않습니다.";
+
     // NotBlankException
     public static final String EMPTY_ARTICLE = "기사가 비어 있습니다.";
 
@@ -41,6 +44,9 @@ public final class ExceptionMessage {
     public static final String NO_ARTICLE_MAIN_WITH_THAT_NUMBER_OR_NAME = "해당 기사 번호 또는 기사명과 일치하는 기사 메인이 없습니다.";
     public static final String NO_BLOG_POST_WITH_THAT_NAME = "해당 포스트명과 일치하는 블로그 포스트가 없습니다.";
     public static final String NO_BLOG_POST_WITH_THAT_NUMBER_OR_NAME = "해당 포스트 번호 또는 포스트명과 일치하는 블로그 포스트가 없습니다.";
+    public static final String NO_COMPANY_BLOG_POST_WITH_THAT_CONDITION = "해당 조건에 부합하는 기업 블로그 포스트가 없습니다.";
+    public static final String NO_INDUSTRY_BLOG_POST_WITH_THAT_CONDITION = "해당 조건에 부합하는 산업 블로그 포스트가 없습니다.";
+    public static final String NO_ECONOMY_BLOG_POST_WITH_THAT_CONDITION = "해당 조건에 부합하는 경제 블로그 포스트가 없습니다.";
     public static final String NO_SUBJECT_COUNTRY_WITH_THAT_VALUE = "해당 대상 국가와 일치하는 대상 국가가 없습니다.";
 
     // NotFoundException - Company

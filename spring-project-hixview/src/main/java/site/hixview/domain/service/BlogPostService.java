@@ -3,6 +3,7 @@ package site.hixview.domain.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.error.AlreadyExistException;
 import site.hixview.domain.error.NotFoundException;
@@ -27,6 +28,10 @@ public class BlogPostService {
      */
     public List<BlogPost> findPosts() {
         return postRepository.getPosts();
+    }
+
+    public List<BlogPost> findLatestPosts(Classification classification) {
+        return postRepository.getLatestPosts(classification);
     }
 
     public Optional<BlogPost> findPostByNumber(Long number) {

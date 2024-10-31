@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
@@ -60,6 +61,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(addArticleMainProcessPage),
                         model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                        model().attribute(CLASSIFICATIONS, Classification.values()),
                         model().attributeExists(ARTICLE));
     }
 
@@ -183,7 +185,8 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                     .andExpectAll(status().isOk(),
                             view().name(modifyArticleMainProcessPage),
                             model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(UPDATE_PATH, modifyArticleMainFinishUrl))
+                            model().attribute(UPDATE_PATH, modifyArticleMainFinishUrl),
+                            model().attribute(CLASSIFICATIONS, Classification.values()))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(article.toDto());
