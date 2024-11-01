@@ -3,6 +3,7 @@ package site.hixview.support.util;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.domain.entity.member.Member;
+import site.hixview.domain.entity.member.dto.LoginDto;
 import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.entity.member.dto.MembershipDto;
 
@@ -62,11 +63,17 @@ public interface MemberTestUtils extends ObjectTestUtils {
                 .param(EMAIL, memberDto.getEmail());
     }
 
-    default MockHttpServletRequestBuilder postWithMembershipDto(String url, MembershipDto memberDto) {
+    default MockHttpServletRequestBuilder postWithMembershipDto(String url, MembershipDto membershipDto) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param(ID, memberDto.getId())
-                .param(PASSWORD, memberDto.getPassword())
-                .param(NAME, memberDto.getName())
-                .param(EMAIL, memberDto.getEmail());
+                .param(ID, membershipDto.getId())
+                .param(PASSWORD, membershipDto.getPassword())
+                .param(NAME, membershipDto.getName())
+                .param(EMAIL, membershipDto.getEmail());
+    }
+
+    default MockHttpServletRequestBuilder postWithLoginDto(String url, LoginDto loginDto) {
+        return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(ID, loginDto.getId())
+                .param(PASSWORD, loginDto.getPassword());
     }
 }
