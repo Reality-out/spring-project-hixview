@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
@@ -17,8 +18,7 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
@@ -37,6 +37,20 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
     @Autowired
     private CompanyService companyService;
 
+    private ResultActions expectAddProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(addSingleCompanyArticleProcessPage),
+                model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                model().attribute(ERROR, BEAN_VALIDATION_ERROR));
+    }
+
+    private ResultActions expectUpdateProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(modifyCompanyArticleProcessPage),
+                model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                model().attribute(ERROR, BEAN_VALIDATION_ERROR));
+    }
+
     @DisplayName("NotBlank(공백)에 대한 기업 기사 추가 유효성 검증")
     @Test
     void validateNotBlankSpaceCompanyArticleAdd() throws Exception {
@@ -50,10 +64,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         returnedArticleDto.setName("");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(returnedArticleDto);
@@ -70,10 +81,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -90,10 +98,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -107,10 +112,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -135,10 +137,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                    .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+            assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(articleDto);
@@ -153,10 +152,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -172,10 +168,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(getRandomLongString(401));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -188,19 +181,16 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
-        mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_PATH).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param(NAME, articleDto.getName())
-                        .param(PRESS, articleDto.getPress())
-                        .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
-                        .param(LINK, articleDto.getLink())
-                        .param(YEAR, INVALID_VALUE)
-                        .param(MONTH, INVALID_VALUE)
-                        .param(DAYS, INVALID_VALUE)
-                        .param(IMPORTANCE, INVALID_VALUE))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
-                        model().attributeExists(ARTICLE));
+        expectAddProcessStatusViewLayoutPathError(mockMvc.perform(post(ADD_SINGLE_COMPANY_ARTICLE_PATH).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(NAME, articleDto.getName())
+                .param(PRESS, articleDto.getPress())
+                .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
+                .param(LINK, articleDto.getLink())
+                .param(YEAR, INVALID_VALUE)
+                .param(MONTH, INVALID_VALUE)
+                .param(DAYS, INVALID_VALUE)
+                .param(IMPORTANCE, INVALID_VALUE)))
+                .andExpectAll(model().attributeExists(ARTICLE));
     }
 
     @DisplayName("Press의 typeMismatch에 대한 기업 기사 추가 유효성 검증")
@@ -211,11 +201,8 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
-                        model().attributeExists(ARTICLE));
+        expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
+                .andExpectAll(model().attributeExists(ARTICLE));
     }
 
     @DisplayName("NotBlank(공백)에 대한 기업 기사 변경 유효성 검증")
@@ -231,10 +218,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         returnedArticleDto.setName("");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(returnedArticleDto);
@@ -251,16 +235,13 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
     }
 
-    @DisplayName("NotNull에 대한 기업 기사 추가 유효성 검증")
+    @DisplayName("NotNull에 대한 기업 기사 변경 유효성 검증")
     @Test
     void validateNotNullCompanyArticleModify() throws Exception {
         // given & when
@@ -271,10 +252,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -288,10 +266,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(INVALID_VALUE);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -316,10 +291,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoFallShortOf, articleDtoExceed)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                    .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                            model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+            assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(articleDto);
@@ -337,10 +309,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setImportance(3);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -356,10 +325,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setLink(getRandomLongString(401));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -372,19 +338,16 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         CompanyArticleDto articleDto = createTestCompanyArticleDto();
 
         // then
-        mockMvc.perform(post(modifyCompanyArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param(NAME, articleDto.getName())
-                        .param(PRESS, articleDto.getPress())
-                        .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
-                        .param(LINK, articleDto.getLink())
-                        .param(YEAR, INVALID_VALUE)
-                        .param(MONTH, INVALID_VALUE)
-                        .param(DAYS, INVALID_VALUE)
-                        .param(IMPORTANCE, INVALID_VALUE))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
-                        model().attributeExists(ARTICLE));
+        expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(post(modifyCompanyArticleFinishUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(NAME, articleDto.getName())
+                .param(PRESS, articleDto.getPress())
+                .param(SUBJECT_COMPANY, articleDto.getSubjectCompany())
+                .param(LINK, articleDto.getLink())
+                .param(YEAR, INVALID_VALUE)
+                .param(MONTH, INVALID_VALUE)
+                .param(DAYS, INVALID_VALUE)
+                .param(IMPORTANCE, INVALID_VALUE)))
+                .andExpectAll(model().attributeExists(ARTICLE));
     }
 
     @DisplayName("Press의 typeMismatch에 대한 기업 기사 변경 유효성 검증")
@@ -395,10 +358,7 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
         articleDto.setPress(INVALID_VALUE);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR),
-                        model().attributeExists(ARTICLE));
+        expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
+                .andExpectAll(model().attributeExists(ARTICLE));
     }
 }

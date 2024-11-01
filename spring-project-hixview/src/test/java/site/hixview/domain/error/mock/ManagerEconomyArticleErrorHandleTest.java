@@ -47,57 +47,45 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
     @DisplayName("존재하지 않는 대상 국가를 사용하는, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void notFoundSubjectFirstCategoryEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateEconomyArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateEconomyArticleBuffer.getLinkString());
-                    put(SUBJECT_COUNTRY, INVALID_VALUE);
-                    put(TARGET_ECONOMY_CONTENT, testEqualDateEconomyArticleBuffer.getTargetEconomyContents());
-                }}))
-                .andExpectAll(view().name(addStringEconomyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_SUBJECT_COUNTRY_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testEqualDateEconomyArticleBuffer.getNameDatePressString());
+            put(linkString, testEqualDateEconomyArticleBuffer.getLinkString());
+            put(SUBJECT_COUNTRY, INVALID_VALUE);
+            put(TARGET_ECONOMY_CONTENT, testEqualDateEconomyArticleBuffer.getTargetEconomyContents());
+        }})), addStringEconomyArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_FOUND_SUBJECT_COUNTRY_ERROR);
     }
 
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void articleListBiggerEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testEconomyArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateEconomyArticle.getLink());
-                    put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
-                }}))
-                .andExpectAll(view().name(addStringEconomyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testEconomyArticleBuffer.getNameDatePressString());
+            put(linkString, testEqualDateEconomyArticle.getLink());
+            put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
+            put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
+        }})), addStringEconomyArticleProcessPage, ADD_PROCESS_LAYOUT, INDEX_OUT_OF_BOUND_ERROR);
     }
 
     @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void linkListBiggerEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, EconomyArticleBufferSimple.builder().article(testNewEconomyArticle).build().getNameDatePressString());
-                    put(linkString, testEconomyArticleBuffer.getLinkString());
-                    put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
-                }}))
-                .andExpectAll(view().name(addStringEconomyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, EconomyArticleBufferSimple.builder().article(testNewEconomyArticle).build().getNameDatePressString());
+            put(linkString, testEconomyArticleBuffer.getLinkString());
+            put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
+            put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
+        }})), addStringEconomyArticleProcessPage, ADD_PROCESS_LAYOUT, INDEX_OUT_OF_BOUND_ERROR);
     }
 
     @DisplayName("비어 있는 기사를 사용하는, 문자열을 사용하는 경제 기사들 추가")
     @Test
     void emptyEconomyArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, "");
-                    put(linkString, "");
-                    put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
-                    put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
-                }}))
-                .andExpectAll(view().name(addStringEconomyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, "");
+            put(linkString, "");
+            put(SUBJECT_COUNTRY, testEconomyArticleBuffer.getSubjectCountry());
+            put(TARGET_ECONOMY_CONTENT, testEconomyArticleBuffer.getTargetEconomyContents());
+        }})), addStringEconomyArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_BLANK_ARTICLE_ERROR);
     }
 
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 경제 기사들 추가")
@@ -142,20 +130,14 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
         when(economyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
-                .andExpectAll(view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "")),
+                UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
-                .andExpectAll(view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "1")),
+                UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE)),
+                UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR);
     }
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 경제 기사 없애기")
@@ -165,19 +147,13 @@ class ManagerEconomyArticleErrorHandleTest implements EconomyArticleTestUtils {
         when(economyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
-                .andExpectAll(view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "")),
+                REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
-                .andExpectAll(view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, "1")),
+                REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_ECONOMY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_ECONOMY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE)),
+                REMOVE_ECONOMY_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_ECONOMY_ARTICLE_ERROR);
     }
 }

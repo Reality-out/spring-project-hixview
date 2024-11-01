@@ -2,6 +2,7 @@ package site.hixview.support.util;
 
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.util.ControllerUtils;
 
@@ -12,6 +13,9 @@ import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static site.hixview.domain.vo.Word.ERROR;
+import static site.hixview.domain.vo.Word.LAYOUT_PATH;
 
 public interface ObjectTestUtils {
 
@@ -84,6 +88,13 @@ public interface ObjectTestUtils {
             requestBuilder = requestBuilder.param(str, map.get(str));
         }
         return requestBuilder;
+    }
+
+    /**
+     * Test
+     */
+    default void expectOkViewLayoutPathError(ResultActions resultActions, String view, String layoutPath, String error) throws Exception {
+        resultActions.andExpectAll(status().isOk(), view().name(view), model().attribute(LAYOUT_PATH, layoutPath), model().attribute(ERROR, error));
     }
 
     /**

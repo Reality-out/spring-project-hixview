@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
@@ -13,8 +14,7 @@ import site.hixview.support.util.ArticleMainTestUtils;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
@@ -33,6 +33,22 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     private final String IMAGE_PATH_PREFIX = "/images/main/newest/";
     private final String IMAGE_PATH_SUFFIX = ".png";
 
+    private ResultActions expectAddProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(addArticleMainProcessPage),
+                model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                model().attribute(ERROR, BEAN_VALIDATION_ERROR),
+                model().attribute(CLASSIFICATIONS, Classification.values()));
+    }
+
+    private ResultActions expectUpdateProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(modifyArticleMainProcessPage),
+                model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                model().attribute(ERROR, BEAN_VALIDATION_ERROR),
+                model().attribute(CLASSIFICATIONS, Classification.values()));
+    }
+
     @DisplayName("NotBlank(공백)에 대한 기사 메인 추가 유효성 검증")
     @Test
     void validateNotBlankSpaceArticleMainAdd() throws Exception {
@@ -43,11 +59,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setSummary(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(ArticleMain.builder().articleDto(articleDto).name("")
@@ -65,11 +77,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setClassification(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -83,11 +91,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setClassification(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -102,11 +106,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setSummary(getRandomLongString(37));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(ArticleMain.builder().articleDto(articleDto)
@@ -123,11 +123,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setSummary(" ");
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(ArticleMain.builder().articleDto(articleDto).name("")
@@ -145,11 +141,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setClassification(null);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -163,11 +155,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setClassification(INVALID_VALUE.toUpperCase());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -182,11 +170,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
         articleDto.setSummary(getRandomLongString(37));
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, BEAN_VALIDATION_ERROR))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(ArticleMain.builder().articleDto(articleDto)

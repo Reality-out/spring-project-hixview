@@ -56,14 +56,11 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         when(companyService.findCompanyByName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, INVALID_VALUE);
-                    put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
-                }}))
-                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testEqualDateCompanyArticleBuffer.getNameDatePressString());
+            put(SUBJECT_COMPANY, INVALID_VALUE);
+            put(linkString, testEqualDateCompanyArticleBuffer.getLinkString());
+        }})), addStringCompanyArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ERROR);
     }
 
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가")
@@ -77,14 +74,11 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testCompanyArticleBuffer.getNameDatePressString());
-                    put(SUBJECT_COMPANY, testCompanyArticleBuffer.getSubjectCompany());
-                    put(linkString, testEqualDateCompanyArticle.getLink());
-                }}))
-                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testCompanyArticleBuffer.getNameDatePressString());
+            put(SUBJECT_COMPANY, testCompanyArticleBuffer.getSubjectCompany());
+            put(linkString, testEqualDateCompanyArticle.getLink());
+        }})), addStringCompanyArticleProcessPage, ADD_PROCESS_LAYOUT, INDEX_OUT_OF_BOUND_ERROR);
     }
 
     @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 기업 기사들 추가")
@@ -98,14 +92,11 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewCompanyArticle).build().getNameDatePressString());
-                    put(SUBJECT_COMPANY, testCompanyArticleBuffer.getSubjectCompany());
-                    put(linkString, testCompanyArticleBuffer.getLinkString());
-                }}))
-                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, CompanyArticleBufferSimple.builder().article(testNewCompanyArticle).build().getNameDatePressString());
+            put(SUBJECT_COMPANY, testCompanyArticleBuffer.getSubjectCompany());
+            put(linkString, testCompanyArticleBuffer.getLinkString());
+        }})), addStringCompanyArticleProcessPage, ADD_PROCESS_LAYOUT, INDEX_OUT_OF_BOUND_ERROR);
     }
 
     @DisplayName("비어 있는 기사를 사용하는, 문자열을 사용하는 기업 기사들 추가")
@@ -119,14 +110,11 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, "");
-                    put(SUBJECT_COMPANY, samsungElectronics.getName());
-                    put(linkString, "");
-                }}))
-                .andExpectAll(view().name(addStringCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_COMPANY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, "");
+            put(SUBJECT_COMPANY, samsungElectronics.getName());
+            put(linkString, "");
+        }})), addStringCompanyArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_BLANK_ARTICLE_ERROR);
     }
 
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 기업 기사들 추가")
@@ -174,20 +162,14 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         when(companyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "")),
+                UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "1")),
+                UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE)),
+                UPDATE_COMPANY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR);
     }
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 기업 기사 없애기")
@@ -197,19 +179,13 @@ class ManagerCompanyArticleErrorHandleTest implements CompanyArticleTestUtils, C
         when(companyArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "")),
+                REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, "1")),
+                REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_COMPANY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_COMPANY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE)),
+                REMOVE_COMPANY_URL_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_COMPANY_ARTICLE_ERROR);
     }
 }

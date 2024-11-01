@@ -50,15 +50,12 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
     @DisplayName("존재하지 않는 대상 1차 업종을 사용하는, 문자열을 사용하는 산업 기사들 추가")
     @Test
     void notFoundSubjectFirstCategoryIndustryArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, INVALID_VALUE);
-                    put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategories());
-                }}))
-                .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_FIRST_CATEGORY_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
+            put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
+            put(SUBJECT_FIRST_CATEGORY, INVALID_VALUE);
+            put(SUBJECT_SECOND_CATEGORY, testEqualDateIndustryArticleBuffer.getSubjectSecondCategories());
+        }})), addStringIndustryArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_FOUND_FIRST_CATEGORY_ERROR);
     }
 
     @DisplayName("존재하지 않는 대상 2차 업종을 사용하는, 문자열을 사용하는 산업 기사들 추가")
@@ -72,57 +69,45 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
         objectNode.set(SUBJECT_SECOND_CATEGORY, arrayNode);
 
         // then
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticle.getSubjectFirstCategory().name());
-                    put(SUBJECT_SECOND_CATEGORY, objectMapper.writeValueAsString(objectNode));
-                }}))
-                .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_SECOND_CATEGORY_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testEqualDateIndustryArticleBuffer.getNameDatePressString());
+            put(linkString, testEqualDateIndustryArticleBuffer.getLinkString());
+            put(SUBJECT_FIRST_CATEGORY, testEqualDateIndustryArticle.getSubjectFirstCategory().name());
+            put(SUBJECT_SECOND_CATEGORY, objectMapper.writeValueAsString(objectNode));
+        }})), addStringIndustryArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_FOUND_SECOND_CATEGORY_ERROR);
     }
 
     @DisplayName("기사 리스트의 크기가 링크 리스트의 크기보다 큰, 문자열을 사용하는 산업 기사들 추가")
     @Test
     void articleListBiggerIndustryArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, testIndustryArticleBuffer.getNameDatePressString());
-                    put(linkString, testEqualDateIndustryArticle.getLink());
-                    put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
-                }}))
-                .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, testIndustryArticleBuffer.getNameDatePressString());
+            put(linkString, testEqualDateIndustryArticle.getLink());
+            put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
+            put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
+        }})), addStringIndustryArticleProcessPage, ADD_PROCESS_LAYOUT, INDEX_OUT_OF_BOUND_ERROR);
     }
 
     @DisplayName("링크 리스트의 크기가 기사 리스트의 크기보다 큰, 문자열을 사용하는 산업 기사들 추가")
     @Test
     void linkListBiggerIndustryArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, IndustryArticleBufferSimple.builder().article(testNewIndustryArticle).build().getNameDatePressString());
-                    put(linkString, testIndustryArticleBuffer.getLinkString());
-                    put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
-                }}))
-                .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, INDEX_OUT_OF_BOUND_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, IndustryArticleBufferSimple.builder().article(testNewIndustryArticle).build().getNameDatePressString());
+            put(linkString, testIndustryArticleBuffer.getLinkString());
+            put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
+            put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
+        }})), addStringIndustryArticleProcessPage, ADD_PROCESS_LAYOUT, INDEX_OUT_OF_BOUND_ERROR);
     }
 
     @DisplayName("비어 있는 기사를 사용하는, 문자열을 사용하는 산업 기사들 추가")
     @Test
     void emptyIndustryArticleAddWithString() throws Exception {
-        requireNonNull(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
-                    put(nameDatePressString, "");
-                    put(linkString, "");
-                    put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
-                    put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
-                }}))
-                .andExpectAll(view().name(addStringIndustryArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_BLANK_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithMultipleParams(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH, new HashMap<>() {{
+            put(nameDatePressString, "");
+            put(linkString, "");
+            put(SUBJECT_FIRST_CATEGORY, testIndustryArticleBuffer.getSubjectFirstCategory());
+            put(SUBJECT_SECOND_CATEGORY, testIndustryArticle.getSubjectSecondCategories().getFirst().name());
+        }})), addStringIndustryArticleProcessPage, ADD_PROCESS_LAYOUT, NOT_BLANK_ARTICLE_ERROR);
     }
 
     @DisplayName("서식이 올바르지 않은 입력일 값을 포함하는, 문자열을 사용하는 산업 기사들 추가")
@@ -167,20 +152,14 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
         when(industryArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
-                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, "")),
+                UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
-                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, "1")),
+                UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
-                .andExpectAll(view().name(UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS),
-                        model().attribute(LAYOUT_PATH, UPDATE_QUERY_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(UPDATE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE)),
+                UPDATE_INDUSTRY_ARTICLE_VIEW + VIEW_BEFORE_PROCESS, UPDATE_QUERY_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR);
     }
 
     @DisplayName("존재하지 않는 기사 번호 또는 기사명을 사용하는, 산업 기사 없애기")
@@ -190,19 +169,13 @@ class ManagerIndustryArticleErrorHandleTest implements IndustryArticleTestUtils 
         when(industryArticleService.findArticleByNumberOrName(any())).thenReturn(Optional.empty());
 
         // then
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, ""))
-                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, "")),
+                REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, "1"))
-                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, "1")),
+                REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR);
 
-        requireNonNull(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE))
-                .andExpectAll(view().name(REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS),
-                        model().attribute(LAYOUT_PATH, REMOVE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, NOT_FOUND_INDUSTRY_ARTICLE_ERROR)));
+        expectOkViewLayoutPathError(mockMvc.perform(postWithSingleParam(REMOVE_INDUSTRY_ARTICLE_PATH, NUMBER_OR_NAME, INVALID_VALUE)),
+                REMOVE_INDUSTRY_ARTICLE_VIEW + VIEW_PROCESS, REMOVE_PROCESS_LAYOUT, NOT_FOUND_INDUSTRY_ARTICLE_ERROR);
     }
 }

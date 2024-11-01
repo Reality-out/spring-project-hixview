@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
@@ -19,8 +20,7 @@ import java.util.Optional;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
@@ -41,6 +41,22 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
     @Autowired
     private IndustryArticleService industryArticleService;
 
+    private ResultActions expectAddProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(addArticleMainProcessPage),
+                model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                model().attribute(ERROR, (String) null),
+                model().attribute(CLASSIFICATIONS, Classification.values()));
+    }
+
+    private ResultActions expectUpdateProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(modifyArticleMainProcessPage),
+                model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                model().attribute(ERROR, (String) null),
+                model().attribute(CLASSIFICATIONS, Classification.values()));
+    }
+
     @DisplayName("기사 DB에 등록되지 않은 기사명을 사용하는 기사 메인 추가")
     @Test
     void notRegisteredArticleMainAdd() throws Exception {
@@ -51,11 +67,7 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         when(industryArticleService.findArticleByName(notRegisteredArticle.getImagePath())).thenReturn(Optional.empty());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, notRegisteredArticleDto))
-                .andExpectAll(view().name(addArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, notRegisteredArticleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(notRegisteredArticleDto);
@@ -80,11 +92,7 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
 
         // then
         for (ArticleMainDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedImagePath)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
-                    .andExpectAll(view().name(addArticleMainProcessPage),
-                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                            model().attribute(CLASSIFICATIONS, Classification.values()),
-                            model().attribute(ERROR, (String) null))
+            assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto)))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(articleDto);
@@ -104,18 +112,10 @@ class ArticleMainValidationErrorTest implements ArticleMainTestUtils {
         articleMainService.registerArticle(testCompanyArticleMain);
 
         // then
-        requireNonNull(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
-                        ArticleMain.builder().article(article).name(testIndustryArticleMain.getName()).build()))
-                .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, (String) null)));
+        requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
+                ArticleMain.builder().article(article).name(testIndustryArticleMain.getName()).build()))));
 
-        requireNonNull(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
-                        ArticleMain.builder().article(article).imagePath(testIndustryArticleMain.getImagePath()).build()))
-                .andExpectAll(view().name(modifyArticleMainProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(CLASSIFICATIONS, Classification.values()),
-                        model().attribute(ERROR, (String) null)));
+        requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl,
+                ArticleMain.builder().article(article).imagePath(testIndustryArticleMain.getImagePath()).build()))));
     }
 }

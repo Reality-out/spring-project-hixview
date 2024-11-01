@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
@@ -19,8 +20,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
@@ -38,6 +38,20 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
     @Autowired
     private CompanyService companyService;
 
+    private ResultActions expectAddProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(addSingleCompanyArticleProcessPage),
+                model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
+                model().attribute(ERROR, (String) null));
+    }
+
+    private ResultActions expectUpdateProcessStatusViewLayoutPathError(ResultActions resultActions) throws Exception {
+        return resultActions.andExpectAll(status().isOk(),
+                view().name(modifyCompanyArticleProcessPage),
+                model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
+                model().attribute(ERROR, (String) null));
+    }
+
     @DisplayName("미래의 기사 입력일을 사용하는 기업 기사 추가 유효성 검증")
     @Test
     public void futureDateCompanyArticleAdd() throws Exception {
@@ -46,10 +60,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         articleDtoFuture.setMonth(12);
         articleDtoFuture.setDays(31);
 
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDtoFuture))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDtoFuture)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDtoFuture);
@@ -65,10 +76,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         articleDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -95,10 +103,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
 
         // then
         for (CompanyArticleDto articleDto : List.of(articleDtoDuplicatedName, articleDtoDuplicatedLink)) {
-            assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                    .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                            model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                            model().attribute(ERROR, (String) null))
+            assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                     .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                     .usingRecursiveComparison()
                     .isEqualTo(articleDto);
@@ -115,10 +120,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         when(companyService.findCompanyByName(articleDto.getSubjectCompany())).thenReturn(Optional.empty());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
-                .andExpectAll(view().name(addSingleCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -134,10 +136,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         articleDtoFuture.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDtoFuture))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDtoFuture)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDtoFuture);
@@ -153,10 +152,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         articleDto.setDays(31);
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
@@ -175,17 +171,11 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         companyService.registerCompany(samsungElectronics);
 
         // then
-        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
-                        CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null)));
+        requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
+                CompanyArticle.builder().article(article).name(testNewCompanyArticle.getName()).build()))));
 
-        requireNonNull(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
-                        CompanyArticle.builder().article(article).link(testNewCompanyArticle.getLink()).build()))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null)));
+        requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl,
+                CompanyArticle.builder().article(article).link(testNewCompanyArticle.getLink()).build()))));
     }
 
     @DisplayName("대상 기업이 추가되지 않은 기업 기사 변경")
@@ -198,10 +188,7 @@ class CompanyArticleValidationErrorTest implements CompanyArticleTestUtils, Comp
         when(companyService.findCompanyByName(articleDto.getSubjectCompany())).thenReturn(Optional.empty());
 
         // then
-        assertThat(requireNonNull(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
-                .andExpectAll(view().name(modifyCompanyArticleProcessPage),
-                        model().attribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT),
-                        model().attribute(ERROR, (String) null))
+        assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
                 .andReturn().getModelAndView()).getModelMap().get(ARTICLE))
                 .usingRecursiveComparison()
                 .isEqualTo(articleDto);
