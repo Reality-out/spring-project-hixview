@@ -293,3 +293,8 @@
     width: inherit;
     padding-left: 1rem;
 }
+
+.post-blog .post-news .post-news-item a {
+    display: flex;
+    width: inherit;
+}

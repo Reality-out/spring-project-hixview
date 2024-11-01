@@ -110,11 +110,11 @@
                 <div class="post-clearLine"></div>
                 <div class="post-news post-company-news">
                     <div class="post-news-related" th:text="|관련 뉴스|"></div>
-                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-company-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-company-news-item"></div>
+                    <div class="post-news-item post-company-news-item"></div>
+                    <div class="post-news-item post-company-news-item"></div>
+                    <div class="post-news-item post-company-news-item"></div>
+                    <div class="post-news-item post-company-news-item"></div>
                 </div>
             </div>
         </div>
@@ -128,11 +128,11 @@
                 <div class="post-clearLine"></div>
                 <div class="post-news post-industry-news">
                     <div class="post-news-related" th:text="|관련 뉴스|"></div>
-                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-industry-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-industry-news-item"></div>
+                    <div class="post-news-item post-industry-news-item"></div>
+                    <div class="post-news-item post-industry-news-item"></div>
+                    <div class="post-news-item post-industry-news-item"></div>
+                    <div class="post-news-item post-industry-news-item"></div>
                 </div>
             </div>
         </div>
@@ -146,14 +146,23 @@
                 <div class="post-clearLine"></div>
                 <div class="post-news post-economy-news">
                     <div class="post-news-related" th:text="|관련 뉴스|"></div>
-                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
-                    <div class="post-news-item post-economy-news-item"><p th:text="#{function.test}"></p></div>
+                    <div class="post-news-item post-economy-news-item"></div>
+                    <div class="post-news-item post-economy-news-item"></div>
+                    <div class="post-news-item post-economy-news-item"></div>
+                    <div class="post-news-item post-economy-news-item"></div>
+                    <div class="post-news-item post-economy-news-item"></div>
                 </div>
             </div>
         </div>
+    </div>
+    <!--suppress HtmlUnknownAttribute -->
+    <div hidden id="container-data"
+         th:data-company-target-article-names="${latestCompanyBlogPost.targetArticleNames}"
+         th:data-company-target-article-links="${latestCompanyBlogPost.targetArticleLinks}"
+         th:data-industry-target-article-names="${latestIndustryBlogPost.targetArticleNames}"
+         th:data-industry-target-article-links="${latestIndustryBlogPost.targetArticleLinks}"
+         th:data-economy-target-article-names="${latestEconomyBlogPost.targetArticleNames}"
+         th:data-economy-target-article-links="${latestEconomyBlogPost.targetArticleLinks}">
     </div>
 </section>
 <script async>
@@ -166,16 +175,6 @@
         }
     })();
 </script>
-<script defer th:inline="javascript" type="module">
-    document.addEventListener('DOMContentLoaded', () => {
-        const domesticContent = document.getElementById('domesticEconomyContents');
-        const domesticText = domesticContent.textContent.trim();
-        domesticContent.textContent = domesticText.substring(1, domesticText.length - 1).replaceAll(', ', ' / ');
-
-        const foreignContent = document.getElementById('foreignEconomyContents');
-        const foreignText = foreignContent.textContent.trim();
-        foreignContent.textContent = foreignText.substring(1, foreignText.length - 1).replaceAll(', ', ' / ');
-    })
-</script>
+<script defer th:inline="javascript" type="module" src="/scripts/user/page/processUserMainPage.js"></script>
 </body>
 </html>
