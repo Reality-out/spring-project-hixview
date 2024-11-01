@@ -10,6 +10,7 @@ import site.hixview.domain.service.CompanyService;
 
 import static site.hixview.domain.vo.Word.CODE;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
 
 @Component
 @RequiredArgsConstructor
@@ -27,10 +28,10 @@ public class CompanyAddValidator implements Validator {
         CompanyDto companyDto = (CompanyDto) target;
 
         if (companyService.findCompanyByCode(companyDto.getCode()).isPresent()) {
-            errors.rejectValue(CODE, "Exist");
+            errors.rejectValue(CODE, EXIST);
         }
         if (companyService.findCompanyByName(companyDto.getName()).isPresent()) {
-            errors.rejectValue(NAME, "Exist");
+            errors.rejectValue(NAME, EXIST);
         }
     }
 }

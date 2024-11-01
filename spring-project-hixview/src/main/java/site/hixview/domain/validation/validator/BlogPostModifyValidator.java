@@ -12,6 +12,7 @@ import site.hixview.domain.service.BlogPostService;
 import site.hixview.domain.service.CompanyService;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 import static site.hixview.util.EnumUtils.inEnumValues;
 
@@ -35,11 +36,11 @@ public class BlogPostModifyValidator implements Validator {
         blogPostEntryDateValidator.validate(blogPostDto, errors);
 
         if (blogPostService.findPostByName(blogPostDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+            errors.rejectValue(NAME, NOT_FOUND);
         }
 
         if (blogPostService.findPostByLink(blogPostDto.getLink()).isEmpty()) {
-            errors.rejectValue(LINK, "NotFound");
+            errors.rejectValue(LINK, NOT_FOUND);
         }
 
         String targetName = blogPostDto.getTargetName();
@@ -48,7 +49,7 @@ public class BlogPostModifyValidator implements Validator {
                 !inEnumValues(FirstCategory.class, targetName) &&
                 !inEnumConstants(SubjectCountry.class, targetName) &&
                 !inEnumValues(SubjectCountry.class, targetName)) {
-            errors.rejectValue(TARGET_NAME, "NotFound");
+            errors.rejectValue(TARGET_NAME, NOT_FOUND);
         }
     }
 }

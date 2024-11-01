@@ -10,6 +10,7 @@ import site.hixview.domain.service.EconomyArticleService;
 
 import static site.hixview.domain.vo.Word.LINK;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
 
 @Component
 @RequiredArgsConstructor
@@ -30,10 +31,10 @@ public class EconomyArticleAddSimpleValidator implements Validator {
         entryDateValidator.validate(articleDto, errors);
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.rejectValue(NAME, "Exist");
+            errors.rejectValue(NAME, EXIST);
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
-            errors.rejectValue(LINK, "Exist");
+            errors.rejectValue(LINK, EXIST);
         }
     }
 }

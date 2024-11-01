@@ -13,6 +13,8 @@ import site.hixview.domain.service.IndustryArticleService;
 
 import static site.hixview.domain.vo.Word.IMAGE_PATH;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -35,13 +37,13 @@ public class ArticleMainAddValidator implements Validator {
         if (companyArticleService.findArticleByName(articleDto.getName()).isEmpty() &&
                 industryArticleService.findArticleByName(articleDto.getName()).isEmpty() &&
                 economyArticleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+            errors.rejectValue(NAME, NOT_FOUND);
         } else if (articleMainService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.rejectValue(NAME, "Exist");
+            errors.rejectValue(NAME, NOT_FOUND);
         }
 
         if (articleMainService.findArticleByImagePath(articleDto.getImagePath()).isPresent()) {
-            errors.rejectValue(IMAGE_PATH, "Exist");
+            errors.rejectValue(IMAGE_PATH, EXIST);
         }
     }
 }

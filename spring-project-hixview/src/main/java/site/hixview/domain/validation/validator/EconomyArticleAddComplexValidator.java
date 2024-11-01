@@ -10,6 +10,8 @@ import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.service.EconomyArticleService;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 
 @Component
@@ -31,13 +33,13 @@ public class EconomyArticleAddComplexValidator implements Validator {
         entryDateValidator.validate(articleDto, errors);
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.rejectValue(NAME, "Exist");
+            errors.rejectValue(NAME, EXIST);
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
-            errors.rejectValue(LINK, "Exist");
+            errors.rejectValue(LINK, EXIST);
         }
         if (!inEnumConstants(SubjectCountry.class, articleDto.getSubjectCountry())) {
-            errors.rejectValue(SUBJECT_COUNTRY, "NotFound");
+            errors.rejectValue(SUBJECT_COUNTRY, NOT_FOUND);
         }
     }
 }

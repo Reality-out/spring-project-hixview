@@ -57,6 +57,12 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
+    public Optional<Member> getMemberByIDAndPassword(String id, String password) {
+        List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where id = ? and password = ?", memberRowMapper(), id, password);
+        return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());
+    }
+
+    @Override
     public Optional<Member> getMemberByEmail(String email) {
         List<Member> oneMemberOrNull = jdbcTemplate.query("select * from " + CURRENT_SCHEMA + " where email = ?", memberRowMapper(), email);
         return oneMemberOrNull.isEmpty() ? Optional.empty() : Optional.of(oneMemberOrNull.getFirst());

@@ -38,6 +38,10 @@ public class MemberService {
         return memberRepository.getMemberByID(id);
     }
 
+    public Optional<Member> findMemberByIDAndPassword(String id, String password) {
+        return memberRepository.getMemberByIDAndPassword(id, password);
+    }
+
     public Optional<Member> findMemberByEmail(String email) {
         return memberRepository.getMemberByEmail(email);
     }

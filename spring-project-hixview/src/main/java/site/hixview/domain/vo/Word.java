@@ -41,6 +41,7 @@ public final class Word {
     public static final String LINK = "link";
     public static final String LISTED_COUNTRY = "listedCountry";
     public static final String LISTED_COUNTRIES = "listedCountries";
+    public static final String LOGIN_INFO = "loginInfo";
     public static final String MEMBER = "member";
     public static final String MONTH = "month";
     public static final String NAME = "name";

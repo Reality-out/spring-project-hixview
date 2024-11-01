@@ -10,6 +10,7 @@ import site.hixview.domain.service.EconomyArticleService;
 
 import static site.hixview.domain.vo.Word.LINK;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -30,10 +31,10 @@ public class EconomyArticleModifyValidator implements Validator {
         entryDateValidator.validate(articleDto, errors);
 
         if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+            errors.rejectValue(NAME, NOT_FOUND);
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            errors.rejectValue(LINK, "NotFound");
+            errors.rejectValue(LINK, NOT_FOUND);
         }
     }
 }

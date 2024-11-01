@@ -14,9 +14,9 @@ import site.hixview.domain.entity.member.dto.MemberDto;
 import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.MEMBER;
 import static site.hixview.domain.vo.Word.NAME;
-import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
-import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
-import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
+import static site.hixview.domain.vo.name.ViewName.*;
+import static site.hixview.domain.vo.user.RequestPath.*;
+import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
@@ -43,4 +43,14 @@ public class UserMemberController {
         return MEMBERSHIP_VIEW + VIEW_FINISH;
     }
 
+    /**
+     * Login
+     */
+    @GetMapping(LOGIN_PATH)
+    @ResponseStatus(HttpStatus.OK)
+    public String processLoginPage(Model model) {
+        model.addAttribute("membership", MEMBERSHIP_PATH);
+        model.addAttribute("findId", FIND_ID_PATH);
+        return LOGIN_VIEW + VIEW_SHOW;
+    }
 }

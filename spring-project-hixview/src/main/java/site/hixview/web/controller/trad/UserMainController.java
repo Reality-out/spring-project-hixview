@@ -1,5 +1,6 @@
 package site.hixview.web.controller.trad;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.home.BlogPost;
+import site.hixview.domain.entity.member.dto.LoginInfoDto;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.service.*;
 
@@ -29,14 +33,13 @@ import java.util.stream.Stream;
 import static site.hixview.domain.vo.ExceptionMessage.*;
 import static site.hixview.domain.vo.RequestPath.ROOT_PATH;
 import static site.hixview.domain.vo.RequestPath.STATIC_RESOURCE_PATH;
-import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
-import static site.hixview.domain.vo.user.RequestPath.*;
-import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
+import static site.hixview.domain.vo.Word.LOGIN_INFO;
 import static site.hixview.domain.vo.user.ViewName.USER_HOME_VIEW;
 import static site.hixview.util.FilterUtils.IMAGE_PATH_SUFFIX;
 
 @Controller
 @RequiredArgsConstructor
+@SessionAttributes(LOGIN_INFO)
 public class UserMainController {
     private static final Logger log = LoggerFactory.getLogger(UserMainController.class);
     private final HomeService homeService;
@@ -52,10 +55,17 @@ public class UserMainController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public String processUserMainPage(Model model) {
+    public ModelAndView processUserMainPage(HttpSession session, Model model) {
+        ModelAndView modelAndView = new ModelAndView(USER_HOME_VIEW);
+        LoginInfoDto loginInfoDto = (LoginInfoDto) session.getAttribute(LOGIN_INFO);
+        if (loginInfoDto != null) {
+            modelAndView.addObject(LOGIN_INFO, loginInfoDto);
+        }
         addLatestArticlesInModel(model);
         addLatestBlogPostsInModel(model);
-        return USER_HOME_VIEW;
+        modelAndView.addAllObjects(model.asMap());
+        log.info(modelAndView.toString());
+        return modelAndView;
     }
 
     private void addLatestArticlesInModel(Model model) {
@@ -148,16 +158,5 @@ public class UserMainController {
         } catch(IOException e) {
             throw new InvalidPathException(e.toString(), NO_TARGET_IMAGE_DIRECTORY);
         }
-    }
-
-    /**
-     * Login
-     */
-    @GetMapping(LOGIN_PATH)
-    @ResponseStatus(HttpStatus.OK)
-    public String processLoginPage(Model model) {
-        model.addAttribute("membership", MEMBERSHIP_PATH);
-        model.addAttribute("findId", FIND_ID_PATH);
-        return LOGIN_VIEW + VIEW_SHOW;
     }
 }

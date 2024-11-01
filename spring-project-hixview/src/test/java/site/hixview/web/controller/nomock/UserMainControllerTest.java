@@ -11,7 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.domain.service.*;
 import site.hixview.support.property.TestSchemaName;
-import site.hixview.support.util.*;
+import site.hixview.support.util.ArticleTestUtils;
+import site.hixview.support.util.BlogPostTestUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;

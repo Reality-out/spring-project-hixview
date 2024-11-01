@@ -10,6 +10,7 @@ import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -31,13 +32,13 @@ public class CompanyArticleModifyValidator implements Validator {
         entryDateValidator.validate(articleDto, errors);
 
         if (articleService.findArticleByName(articleDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+            errors.rejectValue(NAME, NOT_FOUND);
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isEmpty()) {
-            errors.rejectValue(LINK, "NotFound");
+            errors.rejectValue(LINK, NOT_FOUND);
         }
         if (companyService.findCompanyByName(articleDto.getSubjectCompany()).isEmpty()) {
-            errors.rejectValue(SUBJECT_COMPANY, "NotFound");
+            errors.rejectValue(SUBJECT_COMPANY, NOT_FOUND);
         }
     }
 }

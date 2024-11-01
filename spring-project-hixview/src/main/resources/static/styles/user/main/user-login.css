@@ -83,6 +83,15 @@
     height: 24px;
     margin-top: 4px;
     padding-left: 8px;
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+#loginForm .login-form-items .login-form-item .txt-error-message {
+    display: flex;
+    width: inherit;
+    margin-top: 4px;
+    font-size: 13px;
 }
 
 #loginForm .button-login {

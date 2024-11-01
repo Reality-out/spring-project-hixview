@@ -12,6 +12,8 @@ import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.service.IndustryArticleService;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 import static site.hixview.util.EnumUtils.inEnumConstants;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 
@@ -34,17 +36,17 @@ public class IndustryArticleAddComplexValidator implements Validator {
         entryDateValidator.validate(articleDto, errors);
 
         if (articleService.findArticleByName(articleDto.getName()).isPresent()) {
-            errors.rejectValue(NAME, "Exist");
+            errors.rejectValue(NAME, EXIST);
         }
         if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
-            errors.rejectValue(LINK, "Exist");
+            errors.rejectValue(LINK, EXIST);
         }
         if (!inEnumConstants(FirstCategory.class, articleDto.getSubjectFirstCategory())) {
-            errors.rejectValue(SUBJECT_FIRST_CATEGORY, "NotFound");
+            errors.rejectValue(SUBJECT_FIRST_CATEGORY, NOT_FOUND);
         }
         for (String secondCategory : deserializeWithOneMapToList(new ObjectMapper(), SUBJECT_SECOND_CATEGORY, articleDto.getSubjectSecondCategories())) {
             if (!inEnumConstants(SecondCategory.class, secondCategory)) {
-                errors.rejectValue(SUBJECT_SECOND_CATEGORY, "NotFound");
+                errors.rejectValue(SUBJECT_SECOND_CATEGORY, NOT_FOUND);
                 break;
             }
         }

@@ -10,6 +10,7 @@ import site.hixview.domain.service.CompanyService;
 
 import static site.hixview.domain.vo.Word.CODE;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -27,10 +28,10 @@ public class CompanyModifyValidator implements Validator {
         CompanyDto companyDto = (CompanyDto) target;
 
         if (companyService.findCompanyByCode(companyDto.getCode()).isEmpty()) {
-            errors.rejectValue(CODE, "NotFound");
+            errors.rejectValue(CODE, NOT_FOUND);
         }
         if (companyService.findCompanyByName(companyDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+            errors.rejectValue(NAME, NOT_FOUND);
         }
     }
 }

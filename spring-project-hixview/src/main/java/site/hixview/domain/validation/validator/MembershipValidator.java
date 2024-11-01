@@ -10,6 +10,7 @@ import site.hixview.domain.service.MemberService;
 
 import static site.hixview.domain.vo.Word.EMAIL;
 import static site.hixview.domain.vo.Word.ID;
+import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
 
 @Component
 @RequiredArgsConstructor
@@ -28,10 +29,10 @@ public class MembershipValidator implements Validator {
         String id = membershipDto.getId();
         String email = membershipDto.getEmail();
         if (id != null && memberService.findMemberByID(id).isPresent()) {
-            errors.rejectValue(ID, "Exist", "이미 가입된 ID입니다.");
+            errors.rejectValue(ID, EXIST, "이미 가입된 ID입니다.");
         }
         if (email != null && memberService.findMemberByEmail(email).isPresent()) {
-            errors.rejectValue(EMAIL, "Exist", "이미 가입된 이메일입니다.");
+            errors.rejectValue(EMAIL, EXIST, "이미 가입된 이메일입니다.");
         }
     }
 }

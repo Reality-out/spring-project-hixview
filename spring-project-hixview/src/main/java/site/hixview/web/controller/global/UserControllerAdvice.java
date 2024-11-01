@@ -13,7 +13,7 @@ import static site.hixview.domain.vo.user.RequestPath.CHECK_PATH;
 import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
 
 @ControllerAdvice(assignableTypes = {UserMainController.class, UserMemberController.class, UserCompanyController.class})
-public class BasicNavigatorController {
+public class UserControllerAdvice {
 
     @ModelAttribute
     public void addURL(Model model) {

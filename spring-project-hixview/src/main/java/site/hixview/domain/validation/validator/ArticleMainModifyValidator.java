@@ -10,6 +10,7 @@ import site.hixview.domain.service.ArticleMainService;
 
 import static site.hixview.domain.vo.Word.IMAGE_PATH;
 import static site.hixview.domain.vo.Word.NAME;
+import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
@@ -27,11 +28,11 @@ public class ArticleMainModifyValidator implements Validator {
         ArticleMainDto articleMainDto = (ArticleMainDto) target;
 
         if (articleMainService.findArticleByName(articleMainDto.getName()).isEmpty()) {
-            errors.rejectValue(NAME, "NotFound");
+            errors.rejectValue(NAME, NOT_FOUND);
         }
 
         if (articleMainService.findArticleByImagePath(articleMainDto.getImagePath()).isEmpty()) {
-            errors.rejectValue(IMAGE_PATH, "NotFound");
+            errors.rejectValue(IMAGE_PATH, NOT_FOUND);
         }
     }
 }
