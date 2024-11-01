@@ -116,7 +116,6 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
-        log.info(fieldErrorMap.toString());
         assertThat(decodeWithUTF8(fieldErrorMap.get(LINK)))
                 .isEqualTo(messageSource.getMessage("Exist.post.link", null, Locale.getDefault()));
     }
@@ -157,7 +156,6 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
-        log.info(fieldErrorMap.toString());
         assertThat(decodeWithUTF8(fieldErrorMap.get(NAME)))
                 .isEqualTo(messageSource.getMessage("NotFound.post.name", null, Locale.getDefault()));
     }
@@ -182,7 +180,6 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
-        log.info(fieldErrorMap.toString());
         assertThat(decodeWithUTF8(fieldErrorMap.get(LINK)))
                 .isEqualTo(messageSource.getMessage("NotFound.post.link", null, Locale.getDefault()));
     }

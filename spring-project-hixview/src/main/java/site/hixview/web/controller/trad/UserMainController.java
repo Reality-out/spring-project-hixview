@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -55,20 +54,18 @@ public class UserMainController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ModelAndView processUserMainPage(HttpSession session, Model model) {
+    public ModelAndView processUserMainPage(HttpSession session) {
         ModelAndView modelAndView = new ModelAndView(USER_HOME_VIEW);
         LoginInfoDto loginInfoDto = (LoginInfoDto) session.getAttribute(LOGIN_INFO);
         if (loginInfoDto != null) {
             modelAndView.addObject(LOGIN_INFO, loginInfoDto);
         }
-        addLatestArticlesInModel(model);
-        addLatestBlogPostsInModel(model);
-        modelAndView.addAllObjects(model.asMap());
-        log.info(modelAndView.toString());
+        addLatestArticlesInModelAndView(modelAndView);
+        addLatestBlogPostsInModelAndView(modelAndView);
         return modelAndView;
     }
 
-    private void addLatestArticlesInModel(Model model) {
+    private void addLatestArticlesInModelAndView(ModelAndView modelAndView) {
         List<CompanyArticle> latestCompanyArticleList = homeService.findUsableLatestCompanyArticles();
         List<IndustryArticle> latestIndustryArticleList = homeService.findUsableLatestIndustryArticles();
         List<EconomyArticle> latestDomesticEconomyArticleList = homeService.findUsableLatestDomesticEconomyArticles();
@@ -78,17 +75,17 @@ public class UserMainController {
         IndustryArticle latestIndustryArticle = latestIndustryArticleList.getFirst();
         EconomyArticle latestDomesticEconomyArticle = latestDomesticEconomyArticleList.getFirst();
         EconomyArticle latestForeignEconomyArticle = latestForeignEconomyArticleOrEmpty.getFirst();
-        model.addAttribute("latestCompanyArticle", latestCompanyArticle);
-        model.addAttribute("latestIndustryArticle", latestIndustryArticle);
-        model.addAttribute("latestDomesticEconomyArticle", latestDomesticEconomyArticle);
-        model.addAttribute("latestForeignEconomyArticle", latestForeignEconomyArticle);
-        model.addAttribute("latestCompanyArticleMain",
+        modelAndView.addObject("latestCompanyArticle", latestCompanyArticle);
+        modelAndView.addObject("latestIndustryArticle", latestIndustryArticle);
+        modelAndView.addObject("latestDomesticEconomyArticle", latestDomesticEconomyArticle);
+        modelAndView.addObject("latestForeignEconomyArticle", latestForeignEconomyArticle);
+        modelAndView.addObject("latestCompanyArticleMain",
                 articleMainService.findArticleByName(latestCompanyArticle.getName()).orElseThrow());
-        model.addAttribute("latestIndustryArticleMain",
+        modelAndView.addObject("latestIndustryArticleMain",
                 articleMainService.findArticleByName(latestIndustryArticle.getName()).orElseThrow());
-        model.addAttribute("latestDomesticEconomyArticleMain",
+        modelAndView.addObject("latestDomesticEconomyArticleMain",
                 articleMainService.findArticleByName(latestDomesticEconomyArticle.getName()).orElseThrow());
-        model.addAttribute("latestForeignEconomyArticleMain",
+        modelAndView.addObject("latestForeignEconomyArticleMain",
                 articleMainService.findArticleByName(latestForeignEconomyArticle.getName()).orElseThrow());
     }
 
@@ -107,7 +104,7 @@ public class UserMainController {
         }
     }
 
-    private void addLatestBlogPostsInModel(Model model) {
+    private void addLatestBlogPostsInModelAndView(ModelAndView modelAndView) {
         Random random = new Random();
         List<BlogPost> latestCompanyBlogPostList = blogPostService.findLatestPosts(Classification.COMPANY);
         List<BlogPost> latestIndustryBlogPostList = blogPostService.findLatestPosts(Classification.INDUSTRY);
@@ -117,9 +114,9 @@ public class UserMainController {
         BlogPost latestEconomyBlogPost = latestEconomyBlogPostList.get(random.nextInt(latestEconomyBlogPostList.size()));
         latestIndustryBlogPost = BlogPost.builder().blogPost(latestIndustryBlogPost).targetImagePath(getTargetImagePath(latestIndustryBlogPost, random)).build();
         latestEconomyBlogPost = BlogPost.builder().blogPost(latestEconomyBlogPost).targetImagePath(getTargetImagePath(latestEconomyBlogPost, random)).build();
-        model.addAttribute("latestCompanyBlogPost", latestCompanyBlogPostList.get(random.nextInt(latestCompanyBlogPostList.size())).toDto());
-        model.addAttribute("latestIndustryBlogPost", latestIndustryBlogPost.toDto());
-        model.addAttribute("latestEconomyBlogPost", latestEconomyBlogPost.toDto());
+        modelAndView.addObject("latestCompanyBlogPost", latestCompanyBlogPostList.get(random.nextInt(latestCompanyBlogPostList.size())).toDto());
+        modelAndView.addObject("latestIndustryBlogPost", latestIndustryBlogPost.toDto());
+        modelAndView.addObject("latestEconomyBlogPost", latestEconomyBlogPost.toDto());
     }
 
     private void errorHandle(List<BlogPost> latestCompanyBlogPostList, List<BlogPost> latestIndustryBlogPostList, List<BlogPost> latestEconomyBlogPostList) {
