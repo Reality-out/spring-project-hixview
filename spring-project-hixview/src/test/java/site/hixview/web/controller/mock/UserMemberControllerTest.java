@@ -2,11 +2,15 @@ package site.hixview.web.controller.mock;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.entity.member.dto.LoginDto;
+import site.hixview.domain.entity.member.dto.LoginInfoDto;
 import site.hixview.domain.entity.member.dto.MembershipDto;
 import site.hixview.domain.service.MemberService;
 import site.hixview.support.context.OnlyRealControllerContext;
@@ -14,6 +18,8 @@ import site.hixview.support.util.MemberTestUtils;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -24,7 +30,6 @@ import static site.hixview.domain.vo.name.ViewName.VIEW_FINISH;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.*;
-import static site.hixview.domain.vo.user.RequestPath.LOGIN_PATH;
 import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
 import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
@@ -32,6 +37,7 @@ import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 @OnlyRealControllerContext
 class UserMemberControllerTest implements MemberTestUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(UserMemberControllerTest.class);
     @Autowired
     private MockMvc mockMvc;
 
@@ -86,20 +92,24 @@ class UserMemberControllerTest implements MemberTestUtils {
     @Test
     void accessLoginFinish() throws Exception {
         // given
-        LoginDto loginDto = new LoginDto();
-        loginDto.setId(testMember.getId());
-        loginDto.setPassword(testMember.getPassword());
+        LoginDto loginDto = createTestMemberLoginDto();
         when(memberService.findMemberByID(loginDto.getId())).thenReturn(Optional.of(testMember));
         when(memberService.findMemberByIDAndPassword(loginDto.getId(), loginDto.getPassword())).thenReturn(Optional.of(testMember));
         when(memberService.registerMember(testMember)).thenReturn(testMember);
 
         // when
+        MockHttpSession mockHttpSession = spy(new MockHttpSession());
+        LoginInfoDto loginInfoDto = createTestMemberLoginInfoDto();
         memberService.registerMember(testMember);
 
         // then
-        mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
+        mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto).session(mockHttpSession))
                 .andExpectAll(status().isSeeOther(),
                         header().string(HttpHeaders.LOCATION, ""),
                         jsonPath(REDIRECT_PATH).value(""));
+
+        assertThat((LoginInfoDto) mockHttpSession.getAttribute(LOGIN_INFO))
+                .usingRecursiveComparison().isEqualTo(loginInfoDto);
+        assertThat(mockHttpSession.getMaxInactiveInterval()).isEqualTo(600);
     }
 }

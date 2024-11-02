@@ -116,7 +116,7 @@ public class UserMemberRestController {
         HttpSession session = request.getSession();
         LoginInfoDto loginInfoDto = new LoginInfoDto();
         loginInfoDto.setId(loginDto.getId());
-        loginInfoDto.setName(loginInfoDto.getName());
+        loginInfoDto.setName(memberService.findMemberByID(loginDto.getId()).orElseThrow().getName());
         session.setAttribute(LOGIN_INFO, loginInfoDto);
         session.setMaxInactiveInterval(600);
         HttpHeaders headers = new HttpHeaders();

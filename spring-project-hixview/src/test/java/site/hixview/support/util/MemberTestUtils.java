@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.entity.member.dto.LoginDto;
+import site.hixview.domain.entity.member.dto.LoginInfoDto;
 import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.entity.member.dto.MembershipDto;
 
@@ -41,6 +42,20 @@ public interface MemberTestUtils extends ObjectTestUtils {
         membershipDto.setName(testMember.getName());
         membershipDto.setEmail(testMember.getEmail());
         return membershipDto;
+    }
+
+    default LoginDto createTestMemberLoginDto() {
+        LoginDto loginDto = new LoginDto();
+        loginDto.setId(testMember.getId());
+        loginDto.setPassword(testMember.getPassword());
+        return loginDto;
+    }
+
+    default LoginInfoDto createTestMemberLoginInfoDto() {
+        LoginInfoDto loginInfoDto = new LoginInfoDto();
+        loginInfoDto.setId(testMember.getId());
+        loginInfoDto.setName(testMember.getName());
+        return loginInfoDto;
     }
 
     /**
