@@ -74,11 +74,12 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
     @Test
     void validateNotBlankNullCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setName(null);
-        articleDto.setPress(null);
-        articleDto.setSubjectCompany(null);
-        articleDto.setLink(null);
+        CompanyArticleDto rawArticleDto = createTestCompanyArticleDto();
+        CompanyArticleDto articleDto = new CompanyArticleDto();
+        articleDto.setYear(rawArticleDto.getYear());
+        articleDto.setMonth(rawArticleDto.getMonth());
+        articleDto.setDays(rawArticleDto.getDays());
+        articleDto.setImportance(rawArticleDto.getImportance());
 
         // then
         assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
@@ -91,11 +92,12 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
     @Test
     void validateNotNullCompanyArticleAdd() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(null);
-        articleDto.setMonth(null);
-        articleDto.setDays(null);
-        articleDto.setImportance(null);
+        CompanyArticleDto rawArticleDto = createTestCompanyArticleDto();
+        CompanyArticleDto articleDto = new CompanyArticleDto();
+        articleDto.setName(rawArticleDto.getName());
+        articleDto.setPress(rawArticleDto.getPress());
+        articleDto.setLink(rawArticleDto.getLink());
+        articleDto.setSubjectCompany(rawArticleDto.getSubjectCompany());
 
         // then
         assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto)))
@@ -228,11 +230,12 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
     @Test
     void validateNotBlankNullCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setName(null);
-        articleDto.setPress(null);
-        articleDto.setSubjectCompany(null);
-        articleDto.setLink(null);
+        CompanyArticleDto rawArticleDto = createTestCompanyArticleDto();
+        CompanyArticleDto articleDto = new CompanyArticleDto();
+        articleDto.setYear(rawArticleDto.getYear());
+        articleDto.setMonth(rawArticleDto.getMonth());
+        articleDto.setDays(rawArticleDto.getDays());
+        articleDto.setImportance(rawArticleDto.getImportance());
 
         // then
         assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))
@@ -245,11 +248,12 @@ class CompanyArticleBindingErrorTest implements CompanyArticleTestUtils, Company
     @Test
     void validateNotNullCompanyArticleModify() throws Exception {
         // given & when
-        CompanyArticleDto articleDto = createTestCompanyArticleDto();
-        articleDto.setYear(null);
-        articleDto.setMonth(null);
-        articleDto.setDays(null);
-        articleDto.setImportance(null);
+        CompanyArticleDto rawArticleDto = createTestCompanyArticleDto();
+        CompanyArticleDto articleDto = new CompanyArticleDto();
+        articleDto.setName(rawArticleDto.getName());
+        articleDto.setPress(rawArticleDto.getPress());
+        articleDto.setLink(rawArticleDto.getLink());
+        articleDto.setSubjectCompany(rawArticleDto.getSubjectCompany());
 
         // then
         assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto)))

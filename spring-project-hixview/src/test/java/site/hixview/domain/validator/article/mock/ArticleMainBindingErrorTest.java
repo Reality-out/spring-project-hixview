@@ -70,11 +70,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     void validateNotBlankNullArticleMainAdd() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
-        articleDto.setName(null);
-        articleDto.setImagePath(null);
-        articleDto.setSummary(null);
-        articleDto.setClassification(null);
+        ArticleMainDto articleDto = new ArticleMainDto();
 
         // then
         assertThat(requireNonNull(expectAddProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto)))
@@ -135,11 +131,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     @Test
     void validateNotBlankNullArticleMainModify() throws Exception {
         // given & when
-        ArticleMainDto articleDto = createTestCompanyArticleMainDto();
-        articleDto.setName(null);
-        articleDto.setImagePath(null);
-        articleDto.setSummary(null);
-        articleDto.setClassification(null);
+        ArticleMainDto articleDto = new ArticleMainDto();
 
         // then
         assertThat(requireNonNull(expectUpdateProcessStatusViewLayoutPathError(mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, articleDto)))
