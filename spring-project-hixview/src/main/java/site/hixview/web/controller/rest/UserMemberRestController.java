@@ -67,8 +67,11 @@ public class UserMemberRestController {
                     new SingleErrorResponse(BASIC_LAYOUT, returnedFieldErrorMap));
         }
         memberService.registerMember(Member.builder().membershipDto(membershipDto).build());
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(new SingleSuccessResponse(
-                membershipDto.getName(), MEMBERSHIP_PATH + FINISH_PATH));
+        HttpHeaders headers = new HttpHeaders();
+        String redirectPath = MEMBERSHIP_PATH + FINISH_PATH;
+        headers.setLocation(URI.create(redirectPath));
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
+                .headers(headers).body(new SingleSuccessResponse(membershipDto.getName(), redirectPath));
     }
 
     private Map<String, String> getMapWithNameDefaultMessageMembership(BindingResult bindingResult) {

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import site.hixview.domain.service.IndustryArticleService;
 import site.hixview.domain.validation.validator.IndustryArticleAddSimpleValidator;
 import site.hixview.domain.validation.validator.IndustryArticleModifyValidator;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -79,8 +81,11 @@ public class ManagerIndustryArticleRestController {
                     new SingleErrorBeanResponse(ADD_PROCESS_LAYOUT, false, fieldErrorMap));
         }
         articleService.registerArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), ADD_SINGLE_INDUSTRY_ARTICLE_PATH + FINISH_PATH));
+        HttpHeaders headers = new HttpHeaders();
+        String redirectPath = ADD_SINGLE_INDUSTRY_ARTICLE_PATH + FINISH_PATH;
+        headers.setLocation(URI.create(redirectPath));
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
+                .headers(headers).body(new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), redirectPath));
     }
 
     /**
@@ -111,7 +116,10 @@ public class ManagerIndustryArticleRestController {
                     new SingleErrorBeanResponse(UPDATE_PROCESS_LAYOUT, false, fieldErrorMap));
         }
         articleService.correctArticle(IndustryArticle.builder().articleDto(articleDto).build());
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH));
+        HttpHeaders headers = new HttpHeaders();
+        String redirectPath = UPDATE_INDUSTRY_ARTICLE_PATH + FINISH_PATH;
+        headers.setLocation(URI.create(redirectPath));
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
+                .headers(headers).body(new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), redirectPath));
     }
 }

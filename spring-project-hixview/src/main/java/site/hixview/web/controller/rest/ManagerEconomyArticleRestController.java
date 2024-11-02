@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import site.hixview.domain.service.EconomyArticleService;
 import site.hixview.domain.validation.validator.EconomyArticleAddSimpleValidator;
 import site.hixview.domain.validation.validator.EconomyArticleModifyValidator;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -31,8 +33,7 @@ import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.ARTICLE;
 import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_ECONOMY_ARTICLE_PATH;
-import static site.hixview.domain.vo.manager.RequestPath.UPDATE_ECONOMY_ARTICLE_PATH;
+import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 import static site.hixview.util.RestControllerUtils.processMessagePatternString;
 import static site.hixview.util.RestControllerUtils.getMapWithNameMessageFromProperty;
@@ -79,8 +80,11 @@ public class ManagerEconomyArticleRestController {
                     new SingleErrorBeanResponse(ADD_PROCESS_LAYOUT, false, fieldErrorMap));
         }
         articleService.registerArticle(EconomyArticle.builder().articleDto(articleDto).build());
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), ADD_SINGLE_ECONOMY_ARTICLE_PATH + FINISH_PATH));
+        HttpHeaders headers = new HttpHeaders();
+        String redirectPath = ADD_SINGLE_ECONOMY_ARTICLE_PATH + FINISH_PATH;
+        headers.setLocation(URI.create(redirectPath));
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
+                .headers(headers).body(new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), redirectPath));
     }
 
     /**
@@ -111,7 +115,10 @@ public class ManagerEconomyArticleRestController {
                     new SingleErrorBeanResponse(UPDATE_PROCESS_LAYOUT, false, fieldErrorMap));
         }
         articleService.correctArticle(EconomyArticle.builder().articleDto(articleDto).build());
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).body(
-                new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH));
+        HttpHeaders headers = new HttpHeaders();
+        String redirectPath = UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH;
+        headers.setLocation(URI.create(redirectPath));
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
+                .headers(headers).body(new SingleSuccessResponse(encodeWithUTF8(articleDto.getName()), redirectPath));
     }
 }

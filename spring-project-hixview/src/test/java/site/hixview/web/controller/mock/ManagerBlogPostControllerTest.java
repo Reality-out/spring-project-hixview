@@ -3,6 +3,7 @@ package site.hixview.web.controller.mock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.home.BlogPost;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
@@ -79,6 +80,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // then
         mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                 .andExpectAll(status().isSeeOther(),
+                        header().string(HttpHeaders.LOCATION, redirectUrl),
                         jsonPath(NAME).value(encodeWithUTF8(name)),
                         jsonPath(REDIRECT_PATH).value(redirectUrl));
 
@@ -210,6 +212,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         // then
         mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, post.toDto()))
                 .andExpectAll(status().isSeeOther(),
+                        header().string(HttpHeaders.LOCATION, redirectUrl),
                         jsonPath(NAME).value(encodeWithUTF8(name)),
                         jsonPath(REDIRECT_PATH).value(redirectUrl));
 
