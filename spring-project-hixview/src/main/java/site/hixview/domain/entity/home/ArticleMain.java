@@ -1,14 +1,15 @@
 package site.hixview.domain.entity.home;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
+import site.hixview.domain.validation.annotation.ClassificationConstraint;
+import site.hixview.domain.validation.annotation.article.ArticleImagePath;
+import site.hixview.domain.validation.annotation.article.ArticleName;
+import site.hixview.domain.validation.annotation.article.ArticleSummary;
 
 import java.util.HashMap;
 
@@ -21,18 +22,16 @@ public class ArticleMain {
 
     private final Long number;
 
-    @NotBlank(message = "{NotBlank.article.name}")
+    @ArticleName
     private final String name;
 
-    @NotBlank(message = "{NotBlank.article.imagePath}")
-    @Size(max = 80, message = "{Size.article.imagePath}")
+    @ArticleImagePath
     private final String imagePath;
 
-    @NotBlank(message = "{NotBlank.article.summary}")
-    @Size(max = 36, message = "{Size.article.summary}")
+    @ArticleSummary
     private final String summary;
 
-    @NotNull
+    @ClassificationConstraint
     private final Classification classification;
 
     public ArticleMainDto toDto() {

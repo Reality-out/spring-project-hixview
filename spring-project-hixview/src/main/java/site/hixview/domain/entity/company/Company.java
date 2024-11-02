@@ -1,18 +1,16 @@
 package site.hixview.domain.entity.company;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.FirstCategory;
+import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 import site.hixview.domain.validation.annotation.*;
+import site.hixview.domain.validation.annotation.company.CompanyName;
 
 import java.util.HashMap;
 
@@ -25,20 +23,19 @@ public class Company {
     @CodeConstraint
     private final String code;
 
-    @NotNull
+    @ListedCountryConstraint
     private final ListedCountry listedCountry;
 
-    @NotNull
+    @ScaleConstraint
     private final Scale scale;
 
-    @NotBlank
-    @Size(max = 12)
+    @CompanyName
     private final String name;
 
-    @NotNull
+    @FirstCategoryConstraint
     private final FirstCategory firstCategory;
 
-    @NotNull
+    @SecondCategoryConstraint
     private final SecondCategory secondCategory;
 
     public CompanyDto toDto() {

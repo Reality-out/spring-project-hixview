@@ -102,6 +102,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     void validateSizeArticleMainAdd() throws Exception {
         // given & when
         ArticleMainDto articleDto = createTestCompanyArticleMainDto();
+        articleDto.setName(getRandomLongString(81));
         articleDto.setImagePath(getRandomLongString(81));
         articleDto.setSummary(getRandomLongString(37));
 
@@ -166,6 +167,7 @@ class ArticleMainBindingErrorTest implements ArticleMainTestUtils {
     void validateSizeArticleMainModify() throws Exception {
         // given & when
         ArticleMainDto articleDto = createTestCompanyArticleMainDto();
+        articleDto.setName(getRandomLongString(81));
         articleDto.setImagePath(getRandomLongString(81));
         articleDto.setSummary(getRandomLongString(37));
 

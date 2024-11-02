@@ -1,29 +1,25 @@
 package site.hixview.domain.entity.home.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import site.hixview.domain.validation.annotation.ClassificationConstraint;
 import site.hixview.domain.validation.annotation.TargetArticleLinksConstraint;
 import site.hixview.domain.validation.annotation.TargetArticleNamesConstraint;
-
-import static site.hixview.domain.vo.Regex.URL_REGEX;
+import site.hixview.domain.validation.annotation.post.PostLink;
+import site.hixview.domain.validation.annotation.post.PostName;
+import site.hixview.domain.validation.annotation.post.PostTargetImagePath;
+import site.hixview.domain.validation.annotation.post.PostTargetName;
 
 @Getter
 @Setter
 public class BlogPostDto {
 
-    @NotBlank(message = "{NotBlank.post.name}")
-    @Size(max = 80, message = "{Size.post.name}")
+    @PostName
     private String name;
 
-    @NotBlank(message = "{NotBlank.post.link}")
-    @Size(max = 400, message = "{Size.post.link}")
-    @Pattern(regexp = URL_REGEX, message = "{Pattern.post.link}")
+    @PostLink
     private String link;
 
     @NotNull(message = "{NotNull.post.year}")
@@ -41,12 +37,10 @@ public class BlogPostDto {
     @ClassificationConstraint
     private String classification;
 
-    @NotBlank(message = "{NotBlank.post.targetName}")
-    @Size(max = 80, message = "{Size.post.targetName}")
+    @PostTargetName
     private String targetName;
 
-    @NotBlank(message = "{NotBlank.post.targetImagePath}")
-    @Size(max = 80, message = "{Size.post.targetImagePath}")
+    @PostTargetImagePath
     private String targetImagePath;
 
     @TargetArticleNamesConstraint

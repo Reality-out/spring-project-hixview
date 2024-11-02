@@ -1,22 +1,26 @@
 package site.hixview.domain.entity.home;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
+import site.hixview.domain.validation.annotation.ClassificationConstraint;
+import site.hixview.domain.validation.annotation.TargetArticleLinksConstraint;
+import site.hixview.domain.validation.annotation.TargetArticleNamesConstraint;
+import site.hixview.domain.validation.annotation.post.PostLink;
+import site.hixview.domain.validation.annotation.post.PostName;
+import site.hixview.domain.validation.annotation.post.PostTargetImagePath;
+import site.hixview.domain.validation.annotation.post.PostTargetName;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
-import static site.hixview.domain.vo.Regex.URL_REGEX;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.util.JsonUtils.deserializeWithOneMapToList;
 import static site.hixview.util.JsonUtils.serializeWithOneMap;
@@ -30,33 +34,29 @@ public class BlogPost {
 
     private Long number;
 
-    @NotBlank(message = "{NotBlank.post.name}")
-    @Size(max = 80, message = "{Size.post.name}")
+    @PostName
     private String name;
 
-    @NotBlank(message = "{NotBlank.post.link}")
-    @Size(max = 400, message = "{Size.post.link}")
-    @Pattern(regexp = URL_REGEX, message = "{Pattern.post.link}")
+    @PostLink
     private String link;
 
     @NotNull
+    @PastOrPresent
     private LocalDate date;
 
-    @NotNull
+    @ClassificationConstraint
     private Classification classification;
 
-    @NotBlank(message = "{NotBlank.post.targetName}")
-    @Size(max = 80, message = "{Size.post.targetName}")
+    @PostTargetName
     private String targetName;
 
-    @NotBlank(message = "{NotBlank.post.targetImagePath}")
-    @Size(max = 80, message = "{Size.post.targetImagePath}")
+    @PostTargetImagePath
     private String targetImagePath;
 
-    @NotNull
+    @TargetArticleNamesConstraint
     private List<String> targetArticleNames;
 
-    @NotNull
+    @TargetArticleLinksConstraint
     private List<String> targetArticleLinks;
 
     public String getSerializedTargetArticleNames() {

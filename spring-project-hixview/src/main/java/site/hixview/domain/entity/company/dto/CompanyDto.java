@@ -1,10 +1,9 @@
 package site.hixview.domain.entity.company.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import site.hixview.domain.validation.annotation.*;
+import site.hixview.domain.validation.annotation.company.CompanyName;
 
 @Getter
 @Setter
@@ -18,8 +17,7 @@ public class CompanyDto {
     @ScaleConstraint
     private String scale;
 
-    @NotBlank
-    @Size(max = 12)
+    @CompanyName
     private String name;
 
     @FirstCategoryConstraint

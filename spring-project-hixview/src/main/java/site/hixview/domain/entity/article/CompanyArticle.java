@@ -1,13 +1,12 @@
 package site.hixview.domain.entity.article;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.entity.article.parent.Article;
+import site.hixview.domain.validation.annotation.article.ArticleSubjectCompany;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -18,8 +17,7 @@ import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
 @Builder(access = AccessLevel.PUBLIC)
 public class CompanyArticle extends Article<CompanyArticle> {
 
-    @NotBlank(message = "{NotBlank.article.subjectCompany}")
-    @Size(max = 12, message = "{Size.article.subjectCompany}")
+    @ArticleSubjectCompany
     private final String subjectCompany;
 
     public CompanyArticleDto toDto() {

@@ -1,15 +1,16 @@
 package site.hixview.domain.entity.article;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.Press;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.Article;
+import site.hixview.domain.validation.annotation.SubjectCountryConstraint;
+import site.hixview.domain.validation.annotation.TargetEconomyContentsConstraint;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
@@ -25,10 +26,10 @@ public class EconomyArticle extends Article<EconomyArticle> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @NotNull
+    @SubjectCountryConstraint
     private final SubjectCountry subjectCountry;
 
-    @NotNull
+    @TargetEconomyContentsConstraint
     private final List<String> targetEconomyContents;
 
     public String getSerializedTargetEconomyContents() {

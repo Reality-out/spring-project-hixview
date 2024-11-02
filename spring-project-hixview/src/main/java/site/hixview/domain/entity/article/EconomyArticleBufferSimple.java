@@ -2,8 +2,8 @@ package site.hixview.domain.entity.article;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.Press;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
 import site.hixview.domain.validation.annotation.SubjectCountryConstraint;

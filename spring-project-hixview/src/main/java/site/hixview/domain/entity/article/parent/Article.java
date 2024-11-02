@@ -1,17 +1,19 @@
 package site.hixview.domain.entity.article.parent;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.validation.annotation.ImportanceConstraint;
+import site.hixview.domain.validation.annotation.article.ArticleLink;
+import site.hixview.domain.validation.annotation.article.ArticleName;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 
 import static java.lang.System.lineSeparator;
-import static site.hixview.domain.vo.Regex.URL_REGEX;
 import static site.hixview.domain.vo.Word.*;
 
 @Getter
@@ -19,16 +21,13 @@ import static site.hixview.domain.vo.Word.*;
 public abstract class Article<E extends Article<E>> {
     protected final Long number;
 
-    @NotBlank
-    @Size(max = 80)
+    @ArticleName
     protected final String name;
 
     @NotNull
     protected final Press press;
 
-    @NotBlank
-    @Size(max = 400)
-    @Pattern(regexp = URL_REGEX)
+    @ArticleLink
     protected final String link;
 
     @NotNull

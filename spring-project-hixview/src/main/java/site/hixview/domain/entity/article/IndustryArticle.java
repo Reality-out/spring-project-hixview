@@ -1,7 +1,6 @@
 package site.hixview.domain.entity.article;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +10,8 @@ import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.article.dto.IndustryArticleDto;
 import site.hixview.domain.entity.article.parent.Article;
+import site.hixview.domain.validation.annotation.SubjectFirstCategoryConstraint;
+import site.hixview.domain.validation.annotation.SubjectSecondCategoriesConstraint;
 import site.hixview.util.JsonUtils;
 
 import java.time.LocalDate;
@@ -26,10 +27,10 @@ public class IndustryArticle extends Article<IndustryArticle> {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @NotNull
+    @SubjectFirstCategoryConstraint
     private final FirstCategory subjectFirstCategory;
 
-    @NotNull
+    @SubjectSecondCategoriesConstraint
     private final List<SecondCategory> subjectSecondCategories;
 
     public String getSerializedSubjectSecondCategories() {

@@ -1,11 +1,10 @@
 package site.hixview.domain.entity.article;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
+import site.hixview.domain.validation.annotation.article.ArticleSubjectCompany;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ import static java.lang.System.lineSeparator;
 @Getter
 public class CompanyArticleBufferSimple extends ArticleBufferSimple<CompanyArticleBufferSimple> {
 
-    @NotBlank(message = "{NotBlank.article.subjectCompany}")
-    @Size(max = 12, message = "{Size.article.subjectCompany}")
+    @ArticleSubjectCompany
     private final String subjectCompany;
 
     @Override
