@@ -53,6 +53,10 @@ button {
     background: none;
 }
 
+input {
+    outline: none;
+}
+
 input:focus {
     outline: none;
 }
@@ -60,6 +64,14 @@ input:focus {
 input::placeholder {
     color: grey;
     opacity: 1;
+}
+
+textarea {
+    outline: none;
+}
+
+textarea:focus {
+    outline: none;
 }
 
 ul, ol, li {

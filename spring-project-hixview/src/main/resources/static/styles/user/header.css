@@ -152,11 +152,12 @@
 
 #header .header-wrapContent .div-login-function {
     color: white;
-    width: 120px;
+    width: 100px;
     flex-direction: column;
 }
 
 #header .header-wrapContent .div-login-function #openDialogBtn {
+    padding-bottom: 6px;
     border: none;
     word-spacing: 0.5rem;
     font-size: 20px;
@@ -173,11 +174,13 @@
     border-radius: 6px;
     background: white;
     box-shadow: rgba(149, 157, 165, 0.6) 0px 8px 24px;
+    outline: none;
     color: black;
 }
 
 .header-wrapContent .div-login-function .dialog-login-function .form-login-function {
-    width: 120px;
+    width: 100px;
+    padding: 0 auto;
     border: none;
     cursor: pointer;
 }

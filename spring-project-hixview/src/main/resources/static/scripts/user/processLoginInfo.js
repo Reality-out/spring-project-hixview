@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginInfo = JSON.parse(notParsedLoginInfo);
         document.querySelector('.link-membership').style.display = 'none';
         document.querySelector('.link-login').style.display = 'none';
+
         const loginFuncDiv = document.querySelector('.div-login-function');
         loginFuncDiv.style.display = 'flex';
         loginFuncDiv.style.position = 'relative';
+
         const openDialogBtn = document.querySelector('#openDialogBtn');
         openDialogBtn.style.display = 'flex';
         openDialogBtn.style.position = 'static';
@@ -21,11 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const myPageButton = document.querySelector('#myPageBtn');
         const logoutButton = document.querySelector('#logoutBtn');
 
-        openDialogBtn.addEventListener('mousemove', () => {
+        loginFuncDiv.addEventListener('mouseover', () => {
             loginFuncDialog.style.display = 'flex';
             loginFuncDialog.style.position = 'absolute';
-            loginFuncDialog.style.top = '30px';
-            loginFuncDialog.style.left = '10px';
+            loginFuncDialog.style.top = '26px';
             
             loginFuncForm.style.display = 'flex';
             loginFuncForm.style.position = 'static';
@@ -33,20 +34,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             myPageButton.style.display = 'flex';
             myPageButton.style.position = 'static';
-            myPageButton.style.width = '120px'
-            myPageButton.style.height = '30px'
+            myPageButton.style.width = 'max-content';
+            myPageButton.style.height = '30px';
             myPageButton.setAttribute('style', 'justify-content:center;');
 
             logoutButton.style.display = 'flex';
             logoutButton.style.position = 'static';
-            logoutButton.style.width = '120px';
+            logoutButton.style.width = 'max-content';
             logoutButton.style.height = '30px';
             logoutButton.setAttribute('style', 'justify-content:center;');
 
             loginFuncDialog.show();
+            loginFuncDialog.focus();
         })
 
-        openDialogBtn.addEventListener('mouseout', () => {
+        loginFuncDiv.addEventListener('mouseout', () => {
             loginFuncDialog.style.display = 'none';
             loginFuncForm.style.display = 'none';
             myPageButton.style.display = 'none';
