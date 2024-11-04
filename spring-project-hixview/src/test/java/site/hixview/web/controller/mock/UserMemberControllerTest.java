@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -42,6 +43,7 @@ import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 class UserMemberControllerTest implements MemberTestUtils {
 
     private static final Logger log = LoggerFactory.getLogger(UserMemberControllerTest.class);
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -119,5 +121,29 @@ class UserMemberControllerTest implements MemberTestUtils {
         assertThat(loginInfoJson.get(ID)).isEqualTo(testMember.getId());
         assertThat(loginInfoJson.get(NAME)).isEqualTo(testMember.getName());
         assertThat(mockHttpSession.getMaxInactiveInterval()).isEqualTo(600);
+    }
+
+    @DisplayName("로그아웃 완료 페이지 접속")
+    @Test
+    void accessLogoutFinish() throws Exception {
+        // given
+        LoginDto loginDto = createTestMemberLoginDto();
+        when(memberService.findMemberByID(loginDto.getId())).thenReturn(Optional.of(testMember));
+        when(memberService.findMemberByIDAndPassword(loginDto.getId(), loginDto.getPassword())).thenReturn(Optional.of(testMember));
+        when(memberService.registerMember(testMember)).thenReturn(testMember);
+
+        // when
+        MockHttpSession mockHttpSession = spy(new MockHttpSession());
+        LoginInfoDto loginInfoDto = createTestMemberLoginInfoDto();
+        ObjectMapper objectMapper = new ObjectMapper();
+        memberService.registerMember(testMember);
+        mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto).session(mockHttpSession));
+
+        // then
+        mockMvc.perform(postWithNoParam(LOGOUT_PATH).session(mockHttpSession))
+                .andExpectAll(status().isSeeOther(),
+                        header().string(HttpHeaders.LOCATION, ""),
+                        jsonPath(REDIRECT_PATH).value(""));
+        assertTrue(mockHttpSession.isInvalid());
     }
 }

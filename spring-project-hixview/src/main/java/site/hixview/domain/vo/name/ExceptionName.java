@@ -8,6 +8,7 @@ public final class ExceptionName {
     // Not Relative with any Exception class
     public static final String BEAN_VALIDATION_ERROR = "beanValidationError";
     public static final String IS_BEAN_VALIDATION_ERROR = "isBeanValidationError";
+    public static final String NOT_LOGGED_IN_ERROR = "notLoggedInError";
 
     // Relative with an Exception class
     public static final String INDEX_OUT_OF_BOUND_ERROR = "indexOutOfBoundError";

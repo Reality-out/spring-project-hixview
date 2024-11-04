@@ -39,9 +39,11 @@ import static site.hixview.domain.vo.RequestPath.FINISH_PATH;
 import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
 import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
+import static site.hixview.domain.vo.name.ExceptionName.NOT_LOGGED_IN_ERROR;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
+import static site.hixview.util.SessionUtils.hasLoginInfo;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,6 +61,9 @@ public class UserMemberRestController {
         put(EXIST, 2);
     }};
 
+    /**
+     * Membership
+     */
     @PostMapping(MEMBERSHIP_PATH)
     public ResponseEntity<?> submitMembershipPage(@ModelAttribute(MEMBER) @Validated MembershipDto membershipDto, BindingResult bindingResult, Model model) {
         membershipValidator.validate(membershipDto, bindingResult);
@@ -103,6 +108,9 @@ public class UserMemberRestController {
         }
     }
 
+    /**
+     * Login
+     */
     @PostMapping(LOGIN_PATH)
     public ResponseEntity<?> submitLoginPage(@ModelAttribute(MEMBER) @Validated LoginDto loginDto, BindingResult bindingResult, Model model, HttpServletRequest request) throws JsonProcessingException {
         loginValidator.validate(loginDto, bindingResult);
@@ -124,8 +132,7 @@ public class UserMemberRestController {
         session.setMaxInactiveInterval(600);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(""));
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
-                .headers(headers)
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).headers(headers)
                 .body(new HashMap<>() {{
                     put(REDIRECT_PATH, "");
                 }});
@@ -145,5 +152,25 @@ public class UserMemberRestController {
             }
         }
         return returnedFieldErrorMap;
+    }
+
+    /**
+     * Logout
+     */
+    @PostMapping(LOGOUT_PATH)
+    public ResponseEntity<?> processLogout(HttpSession session) {
+        if (!hasLoginInfo(session)) {
+            return ResponseEntity.badRequest().body(new HashMap<>() {{
+                put(ERROR, NOT_LOGGED_IN_ERROR);
+            }});
+        } else {
+            session.invalidate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(""));
+            return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).headers(headers)
+                    .body(new HashMap<>() {{
+                        put(REDIRECT_PATH, "");
+                    }});
+        }
     }
 }

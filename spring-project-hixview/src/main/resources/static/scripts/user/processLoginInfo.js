@@ -39,5 +39,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             loginFuncDialog.close();
         })
+
+        logoutButton.addEventListener('click', () => {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(async response => {
+                if (response.status !== 303) {
+                    const errResponse = await response.json();
+                    throw errResponse;
+                }
+                return response.json();
+            })
+            .then(data => {
+                window.location = data['redirectPath'];
+            })
+            .catch(error => {
+                console.log(data['error']);
+            });
+        })
     }
 })

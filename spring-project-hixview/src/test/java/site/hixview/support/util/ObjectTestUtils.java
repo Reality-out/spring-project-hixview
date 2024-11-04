@@ -78,6 +78,10 @@ public interface ObjectTestUtils {
         return requestBuilder;
     }
 
+    default MockHttpServletRequestBuilder postWithNoParam(String url) {
+        return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED);
+    }
+
     default MockHttpServletRequestBuilder postWithSingleParam(String url, String key, String value) {
         return post(url).contentType(MediaType.APPLICATION_FORM_URLENCODED).param(key, value);
     }

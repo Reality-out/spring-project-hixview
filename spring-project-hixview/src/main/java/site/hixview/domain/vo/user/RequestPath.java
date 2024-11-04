@@ -8,6 +8,7 @@ import static site.hixview.domain.vo.RequestPath.BEFORE_PATH_VARIABLE;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RequestPath {
     public static final String LOGIN_PATH = "/login";
+    public static final String LOGOUT_PATH = "/logout";
     public static final String FIND_ID_PATH = "/login/find/id";
     public static final String MEMBERSHIP_PATH = "/membership";
     public static final String COMPANY_SUB_PATH = "/company";

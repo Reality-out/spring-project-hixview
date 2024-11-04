@@ -9,10 +9,10 @@ import site.hixview.web.controller.trad.UserMainController;
 import site.hixview.web.controller.trad.UserMemberController;
 
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
-import static site.hixview.domain.vo.Word.LOGIN_INFO;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.CHECK_PATH;
 import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
+import static site.hixview.util.SessionUtils.hasLoginInfo;
 
 @ControllerAdvice(assignableTypes = {UserMainController.class, UserMemberController.class, UserCompanyController.class})
 public class UserControllerAdvice {
@@ -30,6 +30,6 @@ public class UserControllerAdvice {
 
     @ModelAttribute("loginInfoExists")
     public boolean addLoginInfoExists(HttpSession session) {
-        return session.getAttribute(LOGIN_INFO) != null;
+        return hasLoginInfo(session);
     }
 }
