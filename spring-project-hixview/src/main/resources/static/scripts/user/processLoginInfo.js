@@ -24,25 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const logoutButton = document.querySelector('#logoutBtn');
 
         loginFuncDiv.addEventListener('mouseover', () => {
-            loginFuncDialog.style.display = 'flex';
-            loginFuncDialog.style.position = 'absolute';
-            loginFuncDialog.style.top = '26px';
-            
-            loginFuncForm.style.display = 'flex';
-            loginFuncForm.style.position = 'static';
-            loginFuncForm.setAttribute('style', 'flex-direction:column;');
-
-            myPageButton.style.display = 'flex';
-            myPageButton.style.position = 'static';
-            myPageButton.style.width = 'max-content';
-            myPageButton.style.height = '30px';
-            myPageButton.setAttribute('style', 'justify-content:center;');
-
-            logoutButton.style.display = 'flex';
-            logoutButton.style.position = 'static';
-            logoutButton.style.width = 'max-content';
-            logoutButton.style.height = '30px';
-            logoutButton.setAttribute('style', 'justify-content:center;');
+            loginFuncDialog.style.cssText = 'display: flex; position: absolute; top: 26px;';
+            loginFuncForm.style.cssText = 'display: flex; flex-direction: column;';
+            myPageButton.style.cssText = 'display: flex; width: max-content; height: 30px; align-items: center;';
+            logoutButton.style.cssText = 'display: flex; width: max-content; height: 30px; align-items: center;';
 
             loginFuncDialog.show();
             loginFuncDialog.focus();

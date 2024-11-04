@@ -180,16 +180,22 @@
 
 .header-wrapContent .div-login-function .dialog-login-function .form-login-function {
     width: 100px;
-    padding: 0 auto;
+    padding: auto;
     border: none;
     cursor: pointer;
 }
 
 .div-login-function .dialog-login-function .form-login-function button {
+    padding: 0 4px;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 18px;
     font-weight: 600;
+}
+
+.div-login-function .dialog-login-function .form-login-function button:hover {
+    background-color: #00BFFF;
 }
 
 .div-login-function .dialog-login-function .form-login-function button:last-child {
