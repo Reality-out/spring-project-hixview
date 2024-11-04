@@ -1,5 +1,6 @@
 package site.hixview.web.controller.global;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,6 +9,7 @@ import site.hixview.web.controller.trad.UserMainController;
 import site.hixview.web.controller.trad.UserMemberController;
 
 import static site.hixview.domain.vo.Word.LAYOUT_PATH;
+import static site.hixview.domain.vo.Word.LOGIN_INFO;
 import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.CHECK_PATH;
 import static site.hixview.domain.vo.user.RequestPath.COMPANY_SEARCH_PATH;
@@ -24,5 +26,10 @@ public class UserControllerAdvice {
     @ModelAttribute(LAYOUT_PATH)
     public String addLayoutPath() {
         return BASIC_LAYOUT;
+    }
+
+    @ModelAttribute("loginInfoExists")
+    public boolean addLoginInfoExists(HttpSession session) {
+        return session.getAttribute(LOGIN_INFO) != null;
     }
 }

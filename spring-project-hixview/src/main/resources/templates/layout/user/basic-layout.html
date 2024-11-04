@@ -63,7 +63,7 @@
 </div>
 <!--suppress HtmlUnknownAttribute -->
 <div hidden id="container-session"
-     th:data-session-login-info="${session.loginInfo}">
+     th:data-login-info-exists="${loginInfoExists}">
 </div>
 <script defer src="/scripts/user/runBasicScrollbar.js"></script>
 <script defer type="module" src="/scripts/user/processLoginInfo.js"></script>

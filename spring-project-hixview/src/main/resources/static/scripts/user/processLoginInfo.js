@@ -2,10 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('processLoginInfo started');
 
     const sessionContainer = document.getElementById('container-session');
-    const notParsedLoginInfo = sessionContainer.dataset.sessionLoginInfo;
-    console.log(notParsedLoginInfo);
-    if (notParsedLoginInfo) {
-        const loginInfo = JSON.parse(notParsedLoginInfo);
+    const loginInfoExists = sessionContainer.dataset.loginInfoExists;
+    if (loginInfoExists == 'true') {
         document.querySelector('.link-membership').style.display = 'none';
         document.querySelector('.link-login').style.display = 'none';
 
