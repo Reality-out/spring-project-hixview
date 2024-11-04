@@ -1,5 +1,7 @@
 package site.hixview.web.controller.mock;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -16,6 +18,8 @@ import site.hixview.domain.service.MemberService;
 import site.hixview.support.context.OnlyRealControllerContext;
 import site.hixview.support.util.MemberTestUtils;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -100,6 +104,7 @@ class UserMemberControllerTest implements MemberTestUtils {
         // when
         MockHttpSession mockHttpSession = spy(new MockHttpSession());
         LoginInfoDto loginInfoDto = createTestMemberLoginInfoDto();
+        ObjectMapper objectMapper = new ObjectMapper();
         memberService.registerMember(testMember);
 
         // then
@@ -108,8 +113,11 @@ class UserMemberControllerTest implements MemberTestUtils {
                         header().string(HttpHeaders.LOCATION, ""),
                         jsonPath(REDIRECT_PATH).value(""));
 
-        assertThat((LoginInfoDto) mockHttpSession.getAttribute(LOGIN_INFO))
-                .usingRecursiveComparison().isEqualTo(loginInfoDto);
+        Map<String, String> loginInfoJson = objectMapper.readValue(Objects.requireNonNull(
+                mockHttpSession.getAttribute(LOGIN_INFO)).toString(), new TypeReference<>() {
+        });
+        assertThat(loginInfoJson.get(ID)).isEqualTo(testMember.getId());
+        assertThat(loginInfoJson.get(NAME)).isEqualTo(testMember.getName());
         assertThat(mockHttpSession.getMaxInactiveInterval()).isEqualTo(600);
     }
 }

@@ -1,6 +1,5 @@
 package site.hixview.web.controller.trad;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import site.hixview.domain.entity.article.CompanyArticle;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.IndustryArticle;
 import site.hixview.domain.entity.home.BlogPost;
-import site.hixview.domain.entity.member.dto.LoginInfoDto;
 import site.hixview.domain.error.NotFoundException;
 import site.hixview.domain.service.*;
 
@@ -54,12 +52,8 @@ public class UserMainController {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ModelAndView processUserMainPage(HttpSession session) {
+    public ModelAndView processUserMainPage() {
         ModelAndView modelAndView = new ModelAndView(USER_HOME_VIEW);
-        LoginInfoDto loginInfoDto = (LoginInfoDto) session.getAttribute(LOGIN_INFO);
-        if (loginInfoDto != null) {
-            modelAndView.addObject(LOGIN_INFO, loginInfoDto);
-        }
         addLatestArticlesInModelAndView(modelAndView);
         addLatestBlogPostsInModelAndView(modelAndView);
         return modelAndView;

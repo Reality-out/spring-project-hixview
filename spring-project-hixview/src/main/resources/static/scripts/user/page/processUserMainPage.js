@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         companyTargetArticle.setAttribute('href', companyTargetArticleLinksArr[i]);
         companyTargetArticle.textContent = companyTargetArticleNamesArr[i];
         companyPostNewsItemsArr[i].append(companyTargetArticle);
-    };
+    }
 
     const industryPostNewsItemsArr = document.querySelectorAll('.post-industry-news-item');
     const industryTargetArticleNamesArr = JSON.parse(dataContainer.dataset.industryTargetArticleNames)['targetArticleName'];

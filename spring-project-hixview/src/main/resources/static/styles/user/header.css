@@ -21,11 +21,15 @@
         flex-basis: 100%;
     }
     
-    #header .header-wrapContent .membership {
+    #header .header-wrapContent .link-membership {
         padding-top: 4px;
     }
 
     #header .header-wrapContent .link-login {
+        padding-top: 4px;
+    }
+    
+    #header .header-wrapContent .div-login-function {
         padding-top: 4px;
     }
 }
@@ -131,7 +135,7 @@
     cursor: pointer;
 }
 
-#header .header-wrapContent .membership {
+#header .header-wrapContent .link-membership {
     display: flex;
     color: white;
     width: max-content;
@@ -144,4 +148,47 @@
     color: white;
     font-size: 16px;
     font-weight: 700;
+}
+
+#header .header-wrapContent .div-login-function {
+    color: white;
+    width: 120px;
+    flex-direction: column;
+}
+
+#header .header-wrapContent .div-login-function #openDialogBtn {
+    border: none;
+    word-spacing: 0.5rem;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+}
+
+.header-wrapContent .div-login-function .dialog-login-function {
+    margin-top: 6px;
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 6px;
+    background: white;
+    box-shadow: rgba(149, 157, 165, 0.6) 0px 8px 24px;
+    color: black;
+}
+
+.header-wrapContent .div-login-function .dialog-login-function .form-login-function {
+    width: 120px;
+    border: none;
+    cursor: pointer;
+}
+
+.div-login-function .dialog-login-function .form-login-function button {
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.div-login-function .dialog-login-function .form-login-function button:last-child {
+    margin-top: 0.5rem;
 }

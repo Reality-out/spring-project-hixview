@@ -1,5 +1,7 @@
 package site.hixview.web.controller.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -102,7 +104,7 @@ public class UserMemberRestController {
     }
 
     @PostMapping(LOGIN_PATH)
-    public ResponseEntity<?> submitLoginPage(@ModelAttribute(MEMBER) @Validated LoginDto loginDto, BindingResult bindingResult, Model model, HttpServletRequest request) {
+    public ResponseEntity<?> submitLoginPage(@ModelAttribute(MEMBER) @Validated LoginDto loginDto, BindingResult bindingResult, Model model, HttpServletRequest request) throws JsonProcessingException {
         loginValidator.validate(loginDto, bindingResult);
         if (bindingResult.hasErrors()) {
             Map<String, String> returnedFieldErrorMap = getMapWithNameDefaultMessageLogin(bindingResult);
@@ -115,9 +117,10 @@ public class UserMemberRestController {
         }
         HttpSession session = request.getSession();
         LoginInfoDto loginInfoDto = new LoginInfoDto();
+        ObjectMapper objectMapper = new ObjectMapper();
         loginInfoDto.setId(loginDto.getId());
         loginInfoDto.setName(memberService.findMemberByID(loginDto.getId()).orElseThrow().getName());
-        session.setAttribute(LOGIN_INFO, loginInfoDto);
+        session.setAttribute(LOGIN_INFO, objectMapper.writeValueAsString(loginInfoDto));
         session.setMaxInactiveInterval(600);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(""));
