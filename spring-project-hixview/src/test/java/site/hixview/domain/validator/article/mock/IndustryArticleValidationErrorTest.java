@@ -21,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_INDUSTRY_ARTICLE_PATH;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
@@ -52,7 +50,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDtoFuture))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
     }
 
@@ -68,7 +65,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
 
         @SuppressWarnings("unchecked")
@@ -95,7 +91,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDtoName))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
 
         @SuppressWarnings("unchecked")
@@ -122,7 +117,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDtoLink))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
 
         @SuppressWarnings("unchecked")
@@ -148,7 +142,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
 
         @SuppressWarnings("unchecked")
@@ -174,7 +167,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticleDto(modifyIndustryArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
 
         @SuppressWarnings("unchecked")
@@ -198,7 +190,6 @@ class IndustryArticleValidationErrorTest implements IndustryArticleTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithIndustryArticle(modifyIndustryArticleFinishUrl, article))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
 
         @SuppressWarnings("unchecked")

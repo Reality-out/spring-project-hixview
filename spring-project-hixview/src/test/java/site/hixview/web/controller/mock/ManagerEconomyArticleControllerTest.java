@@ -3,7 +3,6 @@ package site.hixview.web.controller.mock;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
@@ -90,7 +89,6 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
 
             mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                     .andExpectAll(status().isSeeOther(),
-                            header().string(HttpHeaders.LOCATION, redirectPath),
                             jsonPath(NAME).value(encodeWithUTF8(name)),
                             jsonPath(REDIRECT_PATH).value(redirectPath));
 
@@ -189,7 +187,6 @@ class ManagerEconomyArticleControllerTest implements EconomyArticleTestUtils {
             // then
             mockMvc.perform(postWithEconomyArticleDto(redirectPath, articleDto))
                     .andExpectAll(status().isSeeOther(),
-                            header().string(HttpHeaders.LOCATION, redirectPath),
                             jsonPath(NAME).value(encodeWithUTF8(articleDto.getName())),
                             jsonPath(REDIRECT_PATH).value(redirectPath));
 

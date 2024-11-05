@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import site.hixview.domain.entity.article.response.SingleErrorResponse;
-import site.hixview.domain.entity.article.response.SingleSuccessResponse;
+import site.hixview.domain.entity.article.response.BasicErrorResponse;
+import site.hixview.domain.entity.article.response.BasicSuccessResponse;
 import site.hixview.domain.entity.member.Member;
 import site.hixview.domain.entity.member.dto.LoginDto;
 import site.hixview.domain.entity.member.dto.LoginInfoDto;
@@ -29,7 +28,6 @@ import site.hixview.domain.service.MemberService;
 import site.hixview.domain.validation.validator.LoginValidator;
 import site.hixview.domain.validation.validator.MembershipValidator;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +38,6 @@ import static site.hixview.domain.vo.Word.*;
 import static site.hixview.domain.vo.name.ErrorCodeName.EXIST;
 import static site.hixview.domain.vo.name.ErrorCodeName.NOT_FOUND;
 import static site.hixview.domain.vo.name.ExceptionName.NOT_LOGGED_IN_ERROR;
-import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.*;
 import static site.hixview.util.ControllerUtils.encodeWithUTF8;
 import static site.hixview.util.SessionUtils.hasLoginInfo;
@@ -71,14 +68,12 @@ public class UserMemberRestController {
             Map<String, String> returnedFieldErrorMap = getMapWithNameDefaultMessageMembership(bindingResult);
             returnedFieldErrorMap.replaceAll((k, v) -> encodeWithUTF8(returnedFieldErrorMap.get(k)));
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
-                    new SingleErrorResponse(BASIC_LAYOUT, returnedFieldErrorMap));
+                    new BasicErrorResponse(returnedFieldErrorMap));
         }
         memberService.registerMember(Member.builder().membershipDto(membershipDto).build());
-        HttpHeaders headers = new HttpHeaders();
         String redirectPath = MEMBERSHIP_PATH + FINISH_PATH;
-        headers.setLocation(URI.create(redirectPath));
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
-                .headers(headers).body(new SingleSuccessResponse(membershipDto.getName(), redirectPath));
+                .body(new BasicSuccessResponse(membershipDto.getName(), redirectPath));
     }
 
     private Map<String, String> getMapWithNameDefaultMessageMembership(BindingResult bindingResult) {
@@ -121,7 +116,7 @@ public class UserMemberRestController {
             }
             returnedFieldErrorMap.replaceAll((k, v) -> encodeWithUTF8(returnedFieldErrorMap.get(k)));
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
-                    new SingleErrorResponse(BASIC_LAYOUT, returnedFieldErrorMap));
+                    new BasicErrorResponse(returnedFieldErrorMap));
         }
         HttpSession session = request.getSession();
         LoginInfoDto loginInfoDto = new LoginInfoDto();
@@ -130,9 +125,7 @@ public class UserMemberRestController {
         loginInfoDto.setName(memberService.findMemberByID(loginDto.getId()).orElseThrow().getName());
         session.setAttribute(LOGIN_INFO, objectMapper.writeValueAsString(loginInfoDto));
         session.setMaxInactiveInterval(600);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(""));
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).headers(headers)
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
                 .body(new HashMap<>() {{
                     put(REDIRECT_PATH, "");
                 }});
@@ -165,9 +158,7 @@ public class UserMemberRestController {
             }});
         } else {
             session.invalidate();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(""));
-            return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON).headers(headers)
+            return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
                     .body(new HashMap<>() {{
                         put(REDIRECT_PATH, "");
                     }});

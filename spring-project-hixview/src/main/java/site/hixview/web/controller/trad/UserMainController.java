@@ -38,7 +38,7 @@ import static site.hixview.util.FilterUtils.IMAGE_PATH_SUFFIX;
 @RequiredArgsConstructor
 @SessionAttributes(LOGIN_INFO)
 public class UserMainController {
-    private static final Logger log = LoggerFactory.getLogger(UserMainController.class);
+    private final Logger log = LoggerFactory.getLogger(UserMainController.class);
     private final HomeService homeService;
     private final MemberService memberService;
     private final CompanyArticleService companyArticleService;

@@ -18,10 +18,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.LOGIN_PATH;
 import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
@@ -53,7 +51,6 @@ public class UserMemberValidationErrorTest implements MemberTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, membershipDtoId))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(BASIC_LAYOUT);
 
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
@@ -79,7 +76,6 @@ public class UserMemberValidationErrorTest implements MemberTestUtils {
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, membershipDtoId))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(BASIC_LAYOUT);
 
         @SuppressWarnings("unchecked")
         Map<String, String> fieldErrorMap = (Map<String, String>) jsonMap.get(FIELD_ERROR_MAP);
@@ -100,8 +96,7 @@ public class UserMemberValidationErrorTest implements MemberTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
-                .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT))
+                .andExpectAll(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 
@@ -127,8 +122,7 @@ public class UserMemberValidationErrorTest implements MemberTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
-                .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT))
+                .andExpectAll(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 

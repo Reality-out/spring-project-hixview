@@ -13,10 +13,8 @@ import site.hixview.support.util.MemberTestUtils;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.user.Layout.BASIC_LAYOUT;
 import static site.hixview.domain.vo.user.RequestPath.LOGIN_PATH;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
@@ -36,8 +34,7 @@ public class UserMemberBindingErrorTest implements MemberTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
-                .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT))
+                .andExpectAll(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 
@@ -54,8 +51,7 @@ public class UserMemberBindingErrorTest implements MemberTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
-                .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT))
+                .andExpectAll(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 
@@ -74,8 +70,7 @@ public class UserMemberBindingErrorTest implements MemberTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
-                .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT))
+                .andExpectAll(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 
@@ -93,8 +88,7 @@ public class UserMemberBindingErrorTest implements MemberTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto))
-                .andExpectAll(status().isBadRequest(),
-                        jsonPath(LAYOUT_PATH).value(BASIC_LAYOUT))
+                .andExpectAll(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 

@@ -22,8 +22,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestPath.ADD_SINGLE_ECONOMY_ARTICLE_PATH;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
 
@@ -60,7 +58,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -94,7 +91,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -126,7 +122,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -152,7 +147,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -180,7 +174,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
             Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                     .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
             });
-            assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
             assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
             @SuppressWarnings("unchecked")
@@ -205,7 +198,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -226,7 +218,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -248,7 +239,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -268,7 +258,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(ADD_SINGLE_ECONOMY_ARTICLE_PATH, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -294,7 +283,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -328,7 +316,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -360,7 +347,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -386,7 +372,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -414,7 +399,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
             Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                     .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
             });
-            assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
             assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
             @SuppressWarnings("unchecked")
@@ -439,7 +423,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -460,7 +443,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -482,7 +464,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -502,7 +483,6 @@ class EconomyArticleBindingErrorTest implements EconomyArticleTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithEconomyArticleDto(modifyEconomyArticleFinishUrl, articleDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")

@@ -20,7 +20,9 @@ import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.service.*;
 import site.hixview.domain.validation.validator.*;
 import site.hixview.support.context.OnlyRealControllerContext;
-import site.hixview.support.util.*;
+import site.hixview.support.util.ArticleTestUtils;
+import site.hixview.support.util.BlogPostTestUtils;
+import site.hixview.support.util.CompanyTestUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -391,15 +393,17 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         BlogPostDto postDtoShortTargetImagePath = post.toDto();
         postDtoShortTargetImagePath.setTargetImagePath("company/logo/inno_wireless");
         BlogPostDto postDtoIndustryNoImagePath = post.toDto();
-        postDtoIndustryNoImagePath.setTargetName(Classification.INDUSTRY.name());
+        postDtoIndustryNoImagePath.setClassification(Classification.INDUSTRY.name());
+        postDtoIndustryNoImagePath.setTargetName(FirstCategory.CONSTRUCTION.name());
         postDtoIndustryNoImagePath.setTargetImagePath("");
         BlogPostDto postDtoEconomyNoImagePath = post.toDto();
-        postDtoEconomyNoImagePath.setTargetName(Classification.ECONOMY.name());
+        postDtoEconomyNoImagePath.setClassification(Classification.ECONOMY.name());
+        postDtoEconomyNoImagePath.setTargetName(SubjectCountry.GLOBAL.name());
         postDtoEconomyNoImagePath.setTargetImagePath("");
 
         // then
         for (BlogPostDto postDto : List.of(postDtoLeftSpace, postDtoRightSpace, postDtoKoreanClassification,
-                postDtoLowerCase, postDtoShortTargetImagePath, postDtoIndustryNoImagePath, postDtoEconomyNoImagePath)){
+                postDtoLowerCase, postDtoShortTargetImagePath, postDtoIndustryNoImagePath, postDtoEconomyNoImagePath)) {
             mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                     .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
 
@@ -431,10 +435,12 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         BlogPostDto postDtoShortTargetImagePath = post.toDto();
         postDtoShortTargetImagePath.setTargetImagePath("company/logo/inno_wireless");
         BlogPostDto postDtoIndustryNoImagePath = post.toDto();
-        postDtoIndustryNoImagePath.setTargetName(Classification.INDUSTRY.name());
+        postDtoIndustryNoImagePath.setClassification(Classification.INDUSTRY.name());
+        postDtoIndustryNoImagePath.setTargetName(FirstCategory.CONSTRUCTION.name());
         postDtoIndustryNoImagePath.setTargetImagePath("");
         BlogPostDto postDtoEconomyNoImagePath = post.toDto();
-        postDtoEconomyNoImagePath.setTargetName(Classification.ECONOMY.name());
+        postDtoEconomyNoImagePath.setClassification(Classification.ECONOMY.name());
+        postDtoEconomyNoImagePath.setTargetName(SubjectCountry.GLOBAL.name());
         postDtoEconomyNoImagePath.setTargetImagePath("");
 
         // when
@@ -442,7 +448,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
 
         // then
         for (BlogPostDto postDto : List.of(postDtoLeftSpace, postDtoRightSpace, postDtoKoreanClassification,
-                postDtoLowerCase, postDtoShortTargetImagePath, postDtoIndustryNoImagePath, postDtoEconomyNoImagePath)){
+                postDtoLowerCase, postDtoShortTargetImagePath, postDtoIndustryNoImagePath, postDtoEconomyNoImagePath)) {
             mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
                     .andExpectAll(status().isSeeOther(), jsonPath(NAME).value(encodeWithUTF8(name)));
         }

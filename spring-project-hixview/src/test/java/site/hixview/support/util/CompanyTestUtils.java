@@ -2,8 +2,8 @@ package site.hixview.support.util;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.FirstCategory;
+import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.company.Company;

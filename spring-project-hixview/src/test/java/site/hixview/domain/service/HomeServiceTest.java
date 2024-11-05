@@ -12,7 +12,8 @@ import site.hixview.domain.repository.CompanyArticleRepository;
 import site.hixview.domain.repository.EconomyArticleRepository;
 import site.hixview.domain.repository.IndustryArticleRepository;
 import site.hixview.support.context.OnlyRealServiceContext;
-import site.hixview.support.util.*;
+import site.hixview.support.util.ArticleTestUtils;
+import site.hixview.support.util.BlogPostTestUtils;
 
 import java.util.List;
 import java.util.Optional;

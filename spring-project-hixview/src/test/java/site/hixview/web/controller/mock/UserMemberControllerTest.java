@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.member.Member;
@@ -74,7 +73,6 @@ class UserMemberControllerTest implements MemberTestUtils {
         // then
         mockMvc.perform(postWithMembershipDto(MEMBERSHIP_PATH, membershipDto))
                 .andExpectAll(status().isSeeOther(),
-                        header().string(HttpHeaders.LOCATION, redirectPath),
                         jsonPath(NAME).value(name),
                         jsonPath(REDIRECT_PATH).value(redirectPath));
 
@@ -112,7 +110,6 @@ class UserMemberControllerTest implements MemberTestUtils {
         // then
         mockMvc.perform(postWithLoginDto(LOGIN_PATH, loginDto).session(mockHttpSession))
                 .andExpectAll(status().isSeeOther(),
-                        header().string(HttpHeaders.LOCATION, ""),
                         jsonPath(REDIRECT_PATH).value(""));
 
         Map<String, String> loginInfoJson = objectMapper.readValue(Objects.requireNonNull(
@@ -142,7 +139,6 @@ class UserMemberControllerTest implements MemberTestUtils {
         // then
         mockMvc.perform(postWithNoParam(LOGOUT_PATH).session(mockHttpSession))
                 .andExpectAll(status().isSeeOther(),
-                        header().string(HttpHeaders.LOCATION, ""),
                         jsonPath(REDIRECT_PATH).value(""));
         assertTrue(mockHttpSession.isInvalid());
     }

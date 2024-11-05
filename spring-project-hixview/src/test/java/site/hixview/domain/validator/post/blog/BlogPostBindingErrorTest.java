@@ -20,8 +20,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static site.hixview.domain.vo.Word.*;
-import static site.hixview.domain.vo.manager.Layout.ADD_PROCESS_LAYOUT;
-import static site.hixview.domain.vo.manager.Layout.UPDATE_PROCESS_LAYOUT;
 import static site.hixview.domain.vo.manager.RequestPath.ADD_BLOG_POST_PATH;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.util.ControllerUtils.decodeWithUTF8;
@@ -59,7 +57,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -95,7 +92,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -131,7 +127,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -155,7 +150,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -183,7 +177,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
             Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                     .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
             });
-            assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
             assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
             @SuppressWarnings("unchecked")
@@ -211,7 +204,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -237,7 +229,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(ADD_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -267,7 +258,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -303,7 +293,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -339,7 +328,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
                         }}))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -363,7 +351,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -391,7 +378,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
             Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
                     .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
             });
-            assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
             assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
             @SuppressWarnings("unchecked")
@@ -419,7 +405,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")
@@ -445,7 +430,6 @@ class BlogPostBindingErrorTest implements BlogPostTestUtils {
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPostDto(modifyBlogPostFinishUrl, postDto))
                 .andExpectAll(status().isBadRequest()).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
-        assertThat(jsonMap.get(LAYOUT_PATH)).isEqualTo(UPDATE_PROCESS_LAYOUT);
         assertThat(jsonMap.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(true);
 
         @SuppressWarnings("unchecked")

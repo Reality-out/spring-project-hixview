@@ -31,8 +31,10 @@ import static site.hixview.domain.vo.manager.RequestPath.*;
 import static site.hixview.domain.vo.name.ExceptionName.IS_BEAN_VALIDATION_ERROR;
 import static site.hixview.domain.vo.name.ViewName.VIEW_PROCESS;
 import static site.hixview.domain.vo.name.ViewName.VIEW_SHOW;
-import static site.hixview.domain.vo.user.RequestPath.*;
-import static site.hixview.domain.vo.user.ViewName.*;
+import static site.hixview.domain.vo.user.RequestPath.LOGIN_PATH;
+import static site.hixview.domain.vo.user.RequestPath.MEMBERSHIP_PATH;
+import static site.hixview.domain.vo.user.ViewName.LOGIN_VIEW;
+import static site.hixview.domain.vo.user.ViewName.MEMBERSHIP_VIEW;
 
 @SpringBootTest(properties = "junit.jupiter.execution.parallel.mode.classes.default=same_thread")
 @AutoConfigureMockMvc
