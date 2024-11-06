@@ -46,9 +46,7 @@ class CompanyServiceTest implements CompanyArticleTestUtils {
 
         // then
         for (String str : List.of(company.getCode(), company.getName())) {
-            assertThat(companyService.findCompanyByCodeOrName(str).orElseThrow())
-                    .usingRecursiveComparison()
-                    .isEqualTo(company);
+            assertThat(companyService.findCompanyByCodeOrName(str).orElseThrow()).isEqualTo(company);
         }
     }
 

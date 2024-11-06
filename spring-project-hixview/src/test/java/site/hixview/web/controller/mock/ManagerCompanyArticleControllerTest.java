@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.article.CompanyArticle;
-import site.hixview.domain.entity.article.dto.CompanyArticleDto;
 import site.hixview.domain.service.CompanyArticleService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.CompanyArticleAddComplexValidator;
@@ -82,14 +81,13 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         when(companyService.findCompanyByName(article.getSubjectCompany())).thenReturn(Optional.of(samsungElectronics));
         doNothing().when(companyArticleAddSimpleValidator).validate(any(), any());
 
-        CompanyArticleDto articleDto = article.toDto();
-        String redirectUrl = fromPath(ADD_SINGLE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(articleDto.getName())).build().toUriString();
+        String redirectUrl = fromPath(ADD_SINGLE_COMPANY_ARTICLE_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(article.getName())).build().toUriString();
 
         // when
         companyService.registerCompany(samsungElectronics);
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(ADD_SINGLE_COMPANY_ARTICLE_PATH, articleDto))
+        mockMvc.perform(postWithCompanyArticle(ADD_SINGLE_COMPANY_ARTICLE_PATH, article))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
         mockMvc.perform(getWithNoParam(redirectUrl))
@@ -97,12 +95,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         view().name(ADD_COMPANY_ARTICLE_VIEW + VIEW_SINGLE_FINISH),
                         model().attribute(LAYOUT_PATH, ADD_FINISH_LAYOUT),
                         model().attribute(REPEAT_PATH, ADD_SINGLE_COMPANY_ARTICLE_PATH),
-                        model().attribute(VALUE, articleDto.getName()));
+                        model().attribute(VALUE, article.getName()));
 
-        assertThat(articleService.findArticleByName(articleDto.getName()).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(articleDto);
+        assertThat(articleService.findArticleByName(article.getName()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("기업 기사들 조회 페이지 접속")
@@ -178,10 +173,9 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         companyService.registerCompany(samsungElectronics);
         articleService.registerArticle(beforeModifyArticle);
         String commonName = beforeModifyArticle.getName();
-        CompanyArticleDto articleDto = article.toDto();
 
         // then
-        mockMvc.perform(postWithCompanyArticleDto(modifyCompanyArticleFinishUrl, articleDto))
+        mockMvc.perform(postWithCompanyArticle(modifyCompanyArticleFinishUrl, article))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
         mockMvc.perform(getWithNoParam(redirectUrl))
@@ -191,9 +185,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         model().attribute(REPEAT_PATH, UPDATE_COMPANY_ARTICLE_PATH),
                         model().attribute(VALUE, commonName));
 
-        assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .isEqualTo(articleDto);
+        assertThat(articleService.findArticleByName(commonName).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("기업 기사 없애기 페이지 접속")

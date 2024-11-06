@@ -47,9 +47,7 @@ class CompanyArticleServiceTest implements CompanyArticleTestUtils {
 
         // then
         for (String numberOrName : List.of(String.valueOf(article.getNumber()), article.getName())) {
-            assertThat(articleService.findArticleByNumberOrName(numberOrName).orElseThrow())
-                    .usingRecursiveComparison()
-                    .isEqualTo(article);
+            assertThat(articleService.findArticleByNumberOrName(numberOrName).orElseThrow()).isEqualTo(article);
         }
     }
 
@@ -85,9 +83,7 @@ class CompanyArticleServiceTest implements CompanyArticleTestUtils {
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(articleService.findArticles().getFirst())
-                .usingRecursiveComparison()
-                .isEqualTo(article);
+        assertThat(articleService.findArticles().getFirst()).isEqualTo(article);
     }
 
     @DisplayName("기업 기사 중복 이름으로 등록")

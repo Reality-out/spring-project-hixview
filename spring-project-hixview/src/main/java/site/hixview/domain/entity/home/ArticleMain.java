@@ -1,9 +1,6 @@
 package site.hixview.domain.entity.home;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.validation.annotation.ClassificationConstraint;
@@ -16,6 +13,7 @@ import java.util.HashMap;
 import static site.hixview.domain.vo.Word.*;
 
 @Getter
+@EqualsAndHashCode
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArticleMain {

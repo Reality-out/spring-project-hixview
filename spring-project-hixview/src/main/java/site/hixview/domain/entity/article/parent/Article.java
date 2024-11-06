@@ -3,6 +3,7 @@ package site.hixview.domain.entity.article.parent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import site.hixview.domain.entity.Press;
@@ -17,6 +18,7 @@ import static java.lang.System.lineSeparator;
 import static site.hixview.domain.vo.Word.*;
 
 @Getter
+@EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Article<E extends Article<E>> {
     protected final Long number;

@@ -86,9 +86,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         model().attribute(REPEAT_PATH, ADD_SINGLE_COMPANY_PATH),
                         model().attribute(VALUE, companyDto.getName()));
 
-        assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .isEqualTo(samsungElectronics);
+        assertThat(companyService.findCompanyByName(companyDto.getName()).orElseThrow()).isEqualTo(samsungElectronics);
     }
 
     @DisplayName("기업들 조회 페이지 접속")
@@ -173,9 +171,7 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                         model().attribute(REPEAT_PATH, UPDATE_COMPANY_PATH),
                         model().attribute(VALUE, commonName));
 
-        assertThat(companyService.findCompanyByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .isEqualTo(company);
+        assertThat(companyService.findCompanyByName(commonName).orElseThrow()).isEqualTo(company);
     }
 
     @DisplayName("기업 없애기 페이지 접속")

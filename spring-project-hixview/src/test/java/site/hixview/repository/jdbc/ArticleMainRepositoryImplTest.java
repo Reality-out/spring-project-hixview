@@ -64,9 +64,7 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
         article = ArticleMain.builder().article(article).number(articleRepository.saveArticle(article)).build();
 
         // then
-        assertThat(articleRepository.getArticleByNumber(article.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .isEqualTo(article);
+        assertThat(articleRepository.getArticleByNumber(article.getNumber()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("이름으로 기사 메인 획득")
@@ -76,13 +74,10 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
         ArticleMain article = testCompanyArticleMain;
 
         // when
-        articleRepository.saveArticle(article);
+        article = ArticleMain.builder().article(article).number(articleRepository.saveArticle(article)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("이미지 경로로 기사 메인 획득")
@@ -92,13 +87,10 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
         ArticleMain article = testCompanyArticleMain;
 
         // when
-        articleRepository.saveArticle(article);
+        article = ArticleMain.builder().article(article).number(articleRepository.saveArticle(article)).build();
 
         // then
-        assertThat(articleRepository.getArticleByImagePath(article.getImagePath()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article);
+        assertThat(articleRepository.getArticleByImagePath(article.getImagePath()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("비어 있는 기사 메인 획득")
@@ -145,13 +137,11 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
 
         // when
         articleRepository.saveArticle(ArticleMain.builder().articleDto(article1).build());
-        articleRepository.updateArticle(ArticleMain.builder().articleDto(article2).build());
+        ArticleMain articleMainUpdate = ArticleMain.builder().articleDto(article2).number(1L).build();
+        articleRepository.updateArticle(articleMainUpdate);
 
         // then
-        assertThat(articleRepository.getArticleByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(ArticleMain.builder().articleDto(article2).build());
+        assertThat(articleRepository.getArticleByName(commonName).orElseThrow()).isEqualTo(articleMainUpdate);
     }
 
     @DisplayName("기사 메인 삭제")

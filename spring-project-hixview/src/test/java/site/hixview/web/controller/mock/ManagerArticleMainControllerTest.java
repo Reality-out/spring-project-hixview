@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.ArticleMain;
-import site.hixview.domain.entity.home.dto.ArticleMainDto;
 import site.hixview.domain.service.ArticleMainService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.ArticleMainAddValidator;
@@ -76,12 +75,11 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         when(articleMainService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
         doNothing().when(articleMainAddValidator).validate(any(), any());
 
-        ArticleMainDto articleDto = article.toDto();
         String redirectUrl = fromPath(ADD_ARTICLE_MAIN_PATH + FINISH_PATH).queryParam(NAME, encodeWithUTF8(name))
                 .build().toUriString();
 
         // then
-        mockMvc.perform(postWithArticleMainDto(ADD_ARTICLE_MAIN_PATH, articleDto))
+        mockMvc.perform(postWithArticleMain(ADD_ARTICLE_MAIN_PATH, article))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
         mockMvc.perform(getWithNoParam(redirectUrl))
@@ -91,10 +89,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                         model().attribute(REPEAT_PATH, ADD_ARTICLE_MAIN_PATH),
                         model().attribute(VALUE, name));
 
-        assertThat(articleMainService.findArticleByName(name).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(articleDto);
+        assertThat(articleMainService.findArticleByName(name).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("기사 메인들 조회 페이지 접속")
@@ -209,7 +204,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         articleMainService.registerArticle(testCompanyArticleMain);
 
         // then
-        mockMvc.perform(postWithArticleMainDto(modifyArticleMainFinishUrl, article.toDto()))
+        mockMvc.perform(postWithArticleMain(modifyArticleMainFinishUrl, article))
                 .andExpectAll(status().isFound(), redirectedUrl(redirectUrl));
 
         mockMvc.perform(getWithNoParam(redirectUrl))
@@ -219,10 +214,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
                         model().attribute(REPEAT_PATH, UPDATE_ARTICLE_MAIN_PATH),
                         model().attribute(VALUE, commonName));
 
-        assertThat(articleMainService.findArticleByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article);
+        assertThat(articleMainService.findArticleByName(commonName).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("기사 메인 없애기 페이지 접속")

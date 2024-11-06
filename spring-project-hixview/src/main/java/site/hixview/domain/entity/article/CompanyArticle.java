@@ -2,6 +2,7 @@ package site.hixview.domain.entity.article;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.dto.CompanyArticleDto;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import static site.hixview.domain.vo.Word.SUBJECT_COMPANY;
 
 @Getter
+@EqualsAndHashCode(callSuper = true)
 @Builder(access = AccessLevel.PUBLIC)
 public class CompanyArticle extends Article<CompanyArticle> {
 

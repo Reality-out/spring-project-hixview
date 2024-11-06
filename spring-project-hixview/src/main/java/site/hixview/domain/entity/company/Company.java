@@ -1,9 +1,6 @@
 package site.hixview.domain.entity.company;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.Scale;
@@ -17,6 +14,7 @@ import java.util.HashMap;
 import static site.hixview.domain.vo.Word.*;
 
 @Getter
+@EqualsAndHashCode
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Company {

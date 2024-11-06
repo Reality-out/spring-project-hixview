@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.Word.NAME;
 import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealRepositoryContext
@@ -130,15 +129,8 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("기업 기사 이름으로 획득")
@@ -149,19 +141,12 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article2 = testNewCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("기업 기사 링크로 획득")
@@ -172,19 +157,12 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article2 = testNewCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("비어 있는 기업 기사 획득")
@@ -209,13 +187,10 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article = testCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = CompanyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("기업 기사 갱신")
@@ -225,14 +200,11 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article = testCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = CompanyArticle.builder().article(article).number(articleRepository.saveArticle(article)).name(article.getName()).build();
+        articleRepository.updateArticle(article);
 
         // then
-        articleRepository.updateArticle(CompanyArticle.builder().article(testNewCompanyArticle).name(article.getName()).build());
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER, NAME)
-                .isEqualTo(testNewCompanyArticle);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("기업 기사 이름으로 제거")
