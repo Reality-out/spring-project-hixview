@@ -16,7 +16,6 @@ import java.util.Objects;
 @NonNullApi
 public class MockServiceBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
-    private static final String SERVICE_KOREAN = "서비스";
     private static final String SERVICE_BASE_PACKAGE = "site.hixview.domain.service";
 
     @Override
@@ -25,12 +24,12 @@ public class MockServiceBeanFactoryPostProcessor implements BeanFactoryPostProce
         scanner.addIncludeFilter(new AnnotationTypeFilter(Service.class));
         ClassLoader classLoader = this.getClass().getClassLoader();
 
-        for (BeanDefinition validator : scanner.findCandidateComponents(SERVICE_BASE_PACKAGE)) {
+        for (BeanDefinition serviceDef : scanner.findCandidateComponents(SERVICE_BASE_PACKAGE)) {
             Class<?> clazz;
             try {
-                clazz = ClassUtils.forName(Objects.requireNonNull(validator.getBeanClassName()), classLoader);
+                clazz = ClassUtils.forName(Objects.requireNonNull(serviceDef.getBeanClassName()), classLoader);
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException("해당 " + SERVICE_KOREAN + " 클래스를 불러오는 데 실패하였습니다: " + validator.getBeanClassName());
+                throw new RuntimeException("해당 서비스 클래스를 불러오는 데 실패하였습니다: " + serviceDef.getBeanClassName());
             }
             beanFactory.registerSingleton(clazz.getSimpleName(), Mockito.mock(clazz));
         }

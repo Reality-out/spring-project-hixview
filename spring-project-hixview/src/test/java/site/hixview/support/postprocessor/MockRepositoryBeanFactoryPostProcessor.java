@@ -16,7 +16,6 @@ import java.util.Objects;
 @NonNullApi
 public class MockRepositoryBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
-    private static final String REPOSITORY_KOREAN = "리포지토리";
     private static final String REPOSITORY_BASE_PACKAGE = "site.hixview.repository.jdbc";
 
     @Override
@@ -25,12 +24,12 @@ public class MockRepositoryBeanFactoryPostProcessor implements BeanFactoryPostPr
         scanner.addIncludeFilter(new AnnotationTypeFilter(Repository.class));
         ClassLoader classLoader = this.getClass().getClassLoader();
 
-        for (BeanDefinition validator : scanner.findCandidateComponents(REPOSITORY_BASE_PACKAGE)) {
+        for (BeanDefinition repositoryDef : scanner.findCandidateComponents(REPOSITORY_BASE_PACKAGE)) {
             Class<?> clazz;
             try {
-                clazz = ClassUtils.forName(Objects.requireNonNull(validator.getBeanClassName()), classLoader);
+                clazz = ClassUtils.forName(Objects.requireNonNull(repositoryDef.getBeanClassName()), classLoader);
             } catch (ClassNotFoundException e) {
-                throw new RuntimeException("해당 " + REPOSITORY_KOREAN + " 클래스를 불러오는 데 실패하였습니다: " + validator.getBeanClassName());
+                throw new RuntimeException("해당 리포지토리 클래스를 불러오는 데 실패하였습니다: " + repositoryDef.getBeanClassName());
             }
             beanFactory.registerSingleton(clazz.getSimpleName(), Mockito.mock(clazz));
         }
