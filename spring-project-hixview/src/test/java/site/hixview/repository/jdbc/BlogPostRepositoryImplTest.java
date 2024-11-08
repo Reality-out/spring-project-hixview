@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.BlogPost;
-import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.repository.BlogPostRepository;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.util.BlogPostTestUtils;
@@ -17,8 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.entity.home.BlogPost.getFieldNamesWithNoNumber;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealRepositoryContext
 class BlogPostRepositoryImplTest implements BlogPostTestUtils {
@@ -27,7 +24,6 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
     private BlogPostRepository postRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String[] fieldNames = getFieldNamesWithNoNumber();
 
     @Autowired
     BlogPostRepositoryImplTest(DataSource dataSource) {
@@ -47,15 +43,11 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         BlogPost post2 = testBlogPostEconomy;
 
         // when
-        postRepository.savePost(post1);
-        postRepository.savePost(post2);
+        post1 = BlogPost.builder().post(post1).number(postRepository.savePost(post1)).build();
+        post2 = BlogPost.builder().post(post2).number(postRepository.savePost(post2)).build();
 
         // then
-        assertThat(postRepository.getPosts())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(post1, post2));
+        assertThat(postRepository.getPosts()).isEqualTo(List.of(post1, post2));
     }
 
     @DisplayName("최신 블로그 포스트들 획득")
@@ -67,28 +59,14 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         BlogPost post3 = testBlogPostEconomy;
 
         // when
-        postRepository.savePost(post1);
-        postRepository.savePost(post2);
-        postRepository.savePost(post3);
+        post1 = BlogPost.builder().post(post1).number(postRepository.savePost(post1)).build();
+        post2 = BlogPost.builder().post(post2).number(postRepository.savePost(post2)).build();
+        post3 = BlogPost.builder().post(post3).number(postRepository.savePost(post3)).build();
 
         // then
-        assertThat(postRepository.getLatestPosts(Classification.COMPANY))
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(post1));
-
-        assertThat(postRepository.getLatestPosts(Classification.INDUSTRY))
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(post2));
-
-        assertThat(postRepository.getLatestPosts(Classification.ECONOMY))
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(post3));
+        assertThat(postRepository.getLatestPosts(Classification.COMPANY)).isEqualTo(List.of(post1));
+        assertThat(postRepository.getLatestPosts(Classification.INDUSTRY)).isEqualTo(List.of(post2));
+        assertThat(postRepository.getLatestPosts(Classification.ECONOMY)).isEqualTo(List.of(post3));
     }
 
     @DisplayName("번호로 블로그 포스트 획득")
@@ -98,13 +76,10 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         BlogPost post = testBlogPostCompany;
 
         // when
-        post = BlogPost.builder().blogPost(post).number(postRepository.savePost(post)).build();
+        post = BlogPost.builder().post(post).number(postRepository.savePost(post)).build();
 
         // then
-        assertThat(postRepository.getPostByNumber(post.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(post);
+        assertThat(postRepository.getPostByNumber(post.getNumber()).orElseThrow()).isEqualTo(post);
     }
 
     @DisplayName("이름으로 블로그 포스트 획득")
@@ -114,14 +89,10 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         BlogPost post = testBlogPostCompany;
 
         // when
-        postRepository.savePost(post);
+        post = BlogPost.builder().post(post).number(postRepository.savePost(post)).build();
 
         // then
-        assertThat(postRepository.getPostByName(post.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(post);
+        assertThat(postRepository.getPostByName(post.getName()).orElseThrow()).isEqualTo(post);
     }
 
     @DisplayName("링크로 블로그 포스트 획득")
@@ -131,21 +102,17 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         BlogPost post = testBlogPostCompany;
 
         // when
-        postRepository.savePost(post);
+        post = BlogPost.builder().post(post).number(postRepository.savePost(post)).build();
 
         // then
-        assertThat(postRepository.getPostByLink(post.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(post);
+        assertThat(postRepository.getPostByLink(post.getLink()).orElseThrow()).isEqualTo(post);
     }
 
     @DisplayName("비어 있는 블로그 포스트 획득")
     @Test
     void getEmptyBlogPostTest() {
         // given & when
-        BlogPost post = BlogPost.builder().blogPost(testBlogPostCompany).number(1L).build();
+        BlogPost post = BlogPost.builder().post(testBlogPostCompany).number(1L).build();
 
         // then
         for (Optional<BlogPost> emptyPost : List.of(
@@ -164,39 +131,27 @@ class BlogPostRepositoryImplTest implements BlogPostTestUtils {
         BlogPost post2 = testBlogPostEconomy;
 
         // when
-        postRepository.savePost(post1);
-        postRepository.savePost(post2);
+        post1 = BlogPost.builder().post(post1).number(postRepository.savePost(post1)).build();
+        post2 = BlogPost.builder().post(post2).number(postRepository.savePost(post2)).build();
 
         // then
-        assertThat(postRepository.getPosts())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(post1, post2));
+        assertThat(postRepository.getPosts()).isEqualTo(List.of(post1, post2));
     }
 
     @DisplayName("블로그 포스트 갱신")
     @Test
     void updateBlogPostTest() {
         // given
-        BlogPostDto post1 = createTestBlogPostCompanyDto();
+        BlogPost post1 = testBlogPostCompany;
         String commonName = post1.getName();
         String commonLink = post1.getLink();
-        BlogPostDto post2 = createTestBlogPostEconomyDto();
-        post2.setName(commonName);
-        post2.setLink(commonLink);
+        BlogPost post2 = BlogPost.builder().post(testBlogPostEconomy).name(commonName).link(commonLink).number(postRepository.savePost(post1)).build();
 
         // when
-        postRepository.savePost(BlogPost.builder().blogPostDto(post1).build());
-        BlogPost blogPost2 = BlogPost.builder().blogPostDto(post2).build();
-        postRepository.updatePost(blogPost2);
+        postRepository.updatePost(post2);
 
         // then
-        assertThat(postRepository.getPostByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(blogPost2);
+        assertThat(postRepository.getPostByName(commonName).orElseThrow()).isEqualTo(post2);
     }
 
     @DisplayName("블로그 포스트 삭제")

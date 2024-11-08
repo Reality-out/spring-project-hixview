@@ -47,7 +47,7 @@ class CompanyRepositoryImplTest implements CompanyTestUtils, CompanyArticleTestU
         companyRepository.saveCompany(company2);
 
         // then
-        assertThat(companyRepository.getCompanies()).usingRecursiveComparison().isEqualTo(List.of(company2, company1));
+        assertThat(companyRepository.getCompanies()).isEqualTo(List.of(company2, company1));
     }
 
     @DisplayName("기업 코드로 획득")

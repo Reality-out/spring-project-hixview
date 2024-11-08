@@ -143,7 +143,7 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPost(modifyBlogPostFinishUrl,
-                BlogPost.builder().blogPost(post).name(testBlogPostEconomy.getName()).build())).andExpectAll(
+                BlogPost.builder().post(post).name(testBlogPostEconomy.getName()).build())).andExpectAll(
                 jsonPath(IS_BEAN_VALIDATION_ERROR).value(false)).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 
@@ -166,7 +166,7 @@ class BlogPostValidationErrorTest implements BlogPostTestUtils {
 
         // then
         Map<String, Object> jsonMap = new ObjectMapper().readValue(mockMvc.perform(postWithBlogPost(modifyBlogPostFinishUrl,
-                BlogPost.builder().blogPost(post).link(testBlogPostEconomy.getLink()).build())).andExpectAll(
+                BlogPost.builder().post(post).link(testBlogPostEconomy.getLink()).build())).andExpectAll(
                 jsonPath(IS_BEAN_VALIDATION_ERROR).value(false)).andReturn().getResponse().getContentAsString(), new TypeReference<>() {
         });
 

@@ -51,7 +51,6 @@ class ManagerMemberControllerTest implements MemberTestUtils {
                         view().name(SELECT_VIEW + "members-page"),
                         model().attribute(LAYOUT_PATH, SELECT_LAYOUT))
                 .andReturn().getModelAndView()).getModelMap().get("members"))
-                .usingRecursiveComparison()
                 .isEqualTo(storedList);
     }
 }

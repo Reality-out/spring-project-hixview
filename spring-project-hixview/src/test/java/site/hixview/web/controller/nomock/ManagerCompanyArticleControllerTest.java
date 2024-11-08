@@ -105,7 +105,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                             redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -113,8 +113,8 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
             companyArticleService.removeArticleByName(article2.getName());
         }
 
-        companyArticleService.registerArticle(article1);
-        companyArticleService.registerArticle(article2);
+        article1 = companyArticleService.registerArticle(article1);
+        article2 = companyArticleService.registerArticle(article2);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
                         ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH,
@@ -130,18 +130,11 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
                         model().attribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 
-        assertThat(modelMapGet.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
+        assertThat(modelMapGet.get(NAME_LIST)).isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
         assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
 
-        assertThat(companyArticleService.findArticleByName(nameList.getFirst()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article1);
-
-        assertThat(companyArticleService.findArticleByName(nameList.getLast()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(article2);
+        assertThat(companyArticleService.findArticleByName(nameList.getFirst()).orElseThrow()).isEqualTo(article1);
+        assertThat(companyArticleService.findArticleByName(nameList.getLast()).orElseThrow()).isEqualTo(article2);
     }
 }

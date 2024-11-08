@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealRepositoryContext
 class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
@@ -44,14 +43,11 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article2 = testNewCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("기업 기사들 날짜로 획득")
@@ -62,14 +58,11 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article2 = testEqualDateCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticlesByDate(article1.getDate()))
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticlesByDate(article1.getDate())).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("기업 기사들 날짜 범위로 획득")
@@ -86,16 +79,13 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
                 .toList();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
-        articleRepository.saveArticle(article3);
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
+        article3 = CompanyArticle.builder().article(article3).number(articleRepository.saveArticle(article3)).build();
 
         // then
-        assertThat(articleRepository
-                .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(article1, article2, article3));
+        assertThat(articleRepository.getArticlesByDate(sortedArticles.getFirst().getDate(),
+                sortedArticles.getLast().getDate())).isEqualTo(List.of(article1, article2, article3));
     }
 
     @DisplayName("최신 기업 기사들 획득")
@@ -106,15 +96,12 @@ class CompanyArticleRepositoryImplTest implements CompanyArticleTestUtils {
         CompanyArticle article2 = testEqualDateCompanyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = CompanyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = CompanyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
         articleRepository.saveArticle(testNewCompanyArticle);
 
         // then
-        assertThat(articleRepository.getLatestArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getLatestArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("번호로 기업 기사 획득")

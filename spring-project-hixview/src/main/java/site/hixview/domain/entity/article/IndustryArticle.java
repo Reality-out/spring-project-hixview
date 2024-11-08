@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SecondCategory;
@@ -25,13 +27,13 @@ import static site.hixview.util.JsonUtils.serializeEnumWithOneMap;
 @Builder(access = AccessLevel.PUBLIC)
 public class IndustryArticle extends Article<IndustryArticle> {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @SubjectFirstCategoryConstraint
     private final FirstCategory subjectFirstCategory;
 
     @SubjectSecondCategoriesConstraint
     private final List<SecondCategory> subjectSecondCategories;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public String getSerializedSubjectSecondCategories() {
         return serializeEnumWithOneMap(objectMapper, SUBJECT_SECOND_CATEGORY, subjectSecondCategories);
@@ -69,13 +71,26 @@ public class IndustryArticle extends Article<IndustryArticle> {
         }};
     }
 
-    public static String[] getFieldNamesWithNoNumber() {
-        String[] superArr = Article.getFieldNamesWithNoNumber();
-        String[] arr = {SUBJECT_FIRST_CATEGORY, SUBJECT_SECOND_CATEGORIES};
-        String[] combinedArr = new String[superArr.length + arr.length];
-        System.arraycopy(superArr, 0, combinedArr, 0, superArr.length);
-        System.arraycopy(arr, 0, combinedArr, superArr.length, arr.length);
-        return combinedArr;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        IndustryArticle industryArticle = (IndustryArticle) obj;
+        return new EqualsBuilder()
+                .append(number, industryArticle.number)
+                .append(name, industryArticle.name)
+                .append(press, industryArticle.press)
+                .append(link, industryArticle.link)
+                .append(date, industryArticle.date)
+                .append(importance, industryArticle.importance)
+                .append(subjectFirstCategory, industryArticle.subjectFirstCategory)
+                .append(subjectSecondCategories, industryArticle.subjectSecondCategories)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(subjectFirstCategory).append(subjectSecondCategories).toHashCode();
     }
 
     private IndustryArticle(Long number, String name, Press press, String link, LocalDate date,

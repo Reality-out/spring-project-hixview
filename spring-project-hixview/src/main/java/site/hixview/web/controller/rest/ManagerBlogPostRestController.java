@@ -76,7 +76,7 @@ public class ManagerBlogPostRestController {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
                     new BeanValidationErrorResponse(false, fieldErrorMap));
         }
-        postService.registerPost(BlogPost.builder().blogPostDto(postDto).build());
+        postService.registerPost(BlogPost.builder().postDto(postDto).build());
         String redirectPath = ADD_BLOG_POST_PATH + FINISH_PATH;
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
                 .body(new BasicSuccessResponse(encodeWithUTF8(postDto.getName()), redirectPath));
@@ -109,7 +109,7 @@ public class ManagerBlogPostRestController {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
                     new BeanValidationErrorResponse(false, fieldErrorMap));
         }
-        postService.correctPost(BlogPost.builder().blogPostDto(postDto).build());
+        postService.correctPost(BlogPost.builder().postDto(postDto).build());
         String redirectPath = UPDATE_BLOG_POST_PATH + FINISH_PATH;
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
                 .body(new BasicSuccessResponse(encodeWithUTF8(postDto.getName()), redirectPath));

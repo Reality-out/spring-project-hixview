@@ -106,9 +106,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_ARTICLE_MAIN_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "article-mains-page"))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
-                .usingRecursiveComparison()
-                .isEqualTo(articleList);
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS)).isEqualTo(articleList);
     }
 
     @DisplayName("기사 메인의 유효한 이미지 경로 확인 페이지 접속")
@@ -126,9 +124,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "article-mains-page"))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
-                .usingRecursiveComparison()
-                .isEqualTo(emptyList());
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS)).isEqualTo(emptyList());
     }
 
     @DisplayName("기사 메인의 유효하지 않은 이미지 경로 확인 페이지 접속")
@@ -148,9 +144,7 @@ class ManagerArticleMainControllerTest implements ArticleMainTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_IMAGE_PATH_ARTICLE_MAIN_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "article-mains-page"))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS))
-                .usingRecursiveComparison()
-                .isEqualTo(storedList);
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLE_MAINS)).isEqualTo(storedList);
     }
 
     @DisplayName("기사 메인 변경 페이지 접속")

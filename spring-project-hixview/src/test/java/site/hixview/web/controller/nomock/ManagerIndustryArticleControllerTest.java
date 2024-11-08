@@ -49,12 +49,10 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
     private IndustryArticleService industryArticleService;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String[] fieldNames;
 
     @Autowired
     ManagerIndustryArticleControllerTest(DataSource dataSource) {
         jdbcTemplateTest = new JdbcTemplate(dataSource);
-        fieldNames = IndustryArticle.getFieldNamesWithNoNumber();
     }
 
     @BeforeEach
@@ -99,7 +97,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                             redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -107,8 +105,8 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
             industryArticleService.removeArticleByName(article2.getName());
         }
 
-        industryArticleService.registerArticle(article1);
-        industryArticleService.registerArticle(article2);
+        article1 = industryArticleService.registerArticle(article1);
+        article2 = industryArticleService.registerArticle(article2);
 
         ModelMap modelMapGet = requireNonNull(mockMvc.perform(getWithMultipleParam(
                         ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH + FINISH_PATH,
@@ -124,18 +122,11 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                         model().attribute(NAME_LIST, ControllerUtils.decodeWithUTF8(nameList)))
                 .andReturn().getModelAndView()).getModelMap();
 
-        assertThat(modelMapGet.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
+        assertThat(modelMapGet.get(NAME_LIST)).isEqualTo(ControllerUtils.decodeWithUTF8(nameList));
         assertThat(modelMapGet.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(false);
         assertThat(modelMapGet.get(ERROR_SINGLE)).isEqualTo(null);
 
-        assertThat(industryArticleService.findArticleByName(nameList.getFirst()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(industryArticleService.findArticleByName(nameList.getLast()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(industryArticleService.findArticleByName(nameList.getFirst()).orElseThrow()).isEqualTo(article1);
+        assertThat(industryArticleService.findArticleByName(nameList.getLast()).orElseThrow()).isEqualTo(article2);
     }
 }

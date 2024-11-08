@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import site.hixview.domain.entity.Classification;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.validation.annotation.ClassificationConstraint;
@@ -103,14 +105,42 @@ public class BlogPost {
         }};
     }
 
-    public static String[] getFieldNamesWithNoNumber() {
-        return new String[]{NAME, LINK, DATE, CLASSIFICATION, TARGET_NAME, TARGET_IMAGE_PATH, TARGET_ARTICLE_NAMES, TARGET_ARTICLE_LINKS};
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BlogPost blogPost = (BlogPost) obj;
+        return new EqualsBuilder()
+                .append(number, blogPost.number)
+                .append(name, blogPost.name)
+                .append(link, blogPost.link)
+                .append(date, blogPost.date)
+                .append(classification, blogPost.classification)
+                .append(targetName, blogPost.targetName)
+                .append(targetImagePath, blogPost.targetImagePath)
+                .append(targetArticleNames, blogPost.targetArticleNames)
+                .append(targetArticleLinks, blogPost.targetArticleLinks)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(number)
+                .append(name)
+                .append(link)
+                .append(classification)
+                .append(targetName)
+                .append(targetImagePath)
+                .append(targetArticleNames)
+                .append(targetArticleLinks)
+                .toHashCode();
     }
 
     public static final class BlogPostBuilder {
         public BlogPostBuilder() {}
 
-        public BlogPost.BlogPostBuilder blogPost(BlogPost blogPost) {
+        public BlogPost.BlogPostBuilder post(BlogPost blogPost) {
             name = blogPost.getName();
             link = blogPost.getLink();
             date = blogPost.getDate();
@@ -122,7 +152,7 @@ public class BlogPost {
             return this;
         }
 
-        public BlogPost.BlogPostBuilder blogPostDto(BlogPostDto blogPostDto) {
+        public BlogPost.BlogPostBuilder postDto(BlogPostDto blogPostDto) {
             name = blogPostDto.getName();
             link = blogPostDto.getLink();
             date = LocalDate.of(blogPostDto.getYear(), blogPostDto.getMonth(), blogPostDto.getDays());

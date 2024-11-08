@@ -416,7 +416,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
     void blogPostDtoSupportFilterModifyTest() throws Exception {
         // given
         BlogPost beforeModifyPost = testBlogPostCompany;
-        BlogPost post = BlogPost.builder().blogPostDto(testBlogPostEconomy.toDto()).name(beforeModifyPost.getName()).build();
+        BlogPost post = BlogPost.builder().postDto(testBlogPostEconomy.toDto()).name(beforeModifyPost.getName()).build();
         String name = post.getName();
         when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
         when(blogPostService.findPostByLink(post.getLink())).thenReturn(Optional.of(post));

@@ -104,7 +104,6 @@ class ManagerCompanyControllerTest implements CompanyTestUtils {
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "companies-page"))
                 .andReturn().getModelAndView()).getModelMap().get(COMPANIES))
-                .usingRecursiveComparison()
                 .isEqualTo(storedList);
     }
 

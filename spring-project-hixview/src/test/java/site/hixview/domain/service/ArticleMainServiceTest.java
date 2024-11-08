@@ -21,7 +21,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_ARTICLE_MAIN_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_ARTICLE_MAIN_WITH_THAT_NAME;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
 class ArticleMainServiceTest implements ArticleMainTestUtils {
@@ -47,10 +46,7 @@ class ArticleMainServiceTest implements ArticleMainTestUtils {
         articleMainService.registerArticles(firstArticle, secondArticle);
 
         // then
-        assertThat(articleMainService.findArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(firstArticle, secondArticle));
+        assertThat(articleMainService.findArticles()).isEqualTo(List.of(firstArticle, secondArticle));
     }
 
     @DisplayName("기사 메인 등록")
@@ -66,9 +62,7 @@ class ArticleMainServiceTest implements ArticleMainTestUtils {
         article = articleMainService.registerArticle(article);
 
         // then
-        assertThat(articleMainService.findArticles())
-                .usingRecursiveComparison()
-                .isEqualTo(List.of(article));
+        assertThat(articleMainService.findArticles()).isEqualTo(List.of(article));
     }
 
     @DisplayName("기사 메인 중복 이름으로 등록")

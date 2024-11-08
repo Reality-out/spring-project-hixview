@@ -42,7 +42,7 @@ class MemberServiceTest implements MemberTestUtils {
         member = memberService.registerMember(member);
 
         // then
-        assertThat(memberService.findMembers()).usingRecursiveComparison().isEqualTo(List.of(member));
+        assertThat(memberService.findMembers()).isEqualTo(List.of(member));
     }
 
     @DisplayName("회원 중복 ID로 가입")

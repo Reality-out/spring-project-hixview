@@ -114,9 +114,7 @@ class ManagerCompanyArticleControllerTest implements CompanyArticleTestUtils, Co
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_COMPANY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "company-articles-page"))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
-                .usingRecursiveComparison()
-                .isEqualTo(articleList);
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLES)).isEqualTo(articleList);
     }
 
     @DisplayName("기업 기사 변경 페이지 접속")

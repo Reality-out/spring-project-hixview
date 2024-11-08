@@ -39,10 +39,6 @@ public abstract class Article<E extends Article<E>> {
     @ImportanceConstraint
     protected final Integer importance;
 
-    public static String[] getFieldNamesWithNoNumber() {
-        return new String[]{NAME, PRESS, LINK, DATE, IMPORTANCE};
-    }
-
     public StringBuffer getConcatenatedNameDatePress() {
         return new StringBuffer(name + lineSeparator() + "(" + date.getYear() + "-" + date.getMonthValue() + "-" +
                 date.getDayOfMonth() + ", " + press + ")");

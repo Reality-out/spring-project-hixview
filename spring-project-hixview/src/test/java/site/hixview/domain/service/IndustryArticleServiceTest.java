@@ -21,7 +21,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_INDUSTRY_ARTICLE_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_INDUSTRY_ARTICLE_WITH_THAT_NAME;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
 class IndustryArticleServiceTest implements IndustryArticleTestUtils {
@@ -31,8 +30,6 @@ class IndustryArticleServiceTest implements IndustryArticleTestUtils {
 
     @Autowired
     private IndustryArticleRepository industryArticleRepository;
-
-    private final String[] fieldNames = IndustryArticle.getFieldNamesWithNoNumber();
 
     @DisplayName("기사 번호와 이름으로 산업 기사 찾기")
     @Test
@@ -49,10 +46,7 @@ class IndustryArticleServiceTest implements IndustryArticleTestUtils {
 
         // then
         for (String str : List.of(String.valueOf(article.getNumber()), article.getName())) {
-            assertThat(articleService.findArticleByNumberOrName(str).orElseThrow())
-                    .usingRecursiveComparison()
-                    .comparingOnlyFields(fieldNames)
-                    .isEqualTo(article);
+            assertThat(articleService.findArticleByNumberOrName(str).orElseThrow()).isEqualTo(article);
         }
     }
 
@@ -69,10 +63,7 @@ class IndustryArticleServiceTest implements IndustryArticleTestUtils {
         articleService.registerArticles(firstArticle, secondArticle);
 
         // then
-        assertThat(articleService.findArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(firstArticle, secondArticle));
+        assertThat(articleService.findArticles()).isEqualTo(List.of(firstArticle, secondArticle));
     }
 
     @DisplayName("산업 기사 등록")
@@ -88,10 +79,7 @@ class IndustryArticleServiceTest implements IndustryArticleTestUtils {
         article = articleService.registerArticle(article);
 
         // then
-        assertThat(articleService.findArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article));
+        assertThat(articleService.findArticles()).isEqualTo(List.of(article));
     }
 
     @DisplayName("산업 기사 중복 이름으로 등록")

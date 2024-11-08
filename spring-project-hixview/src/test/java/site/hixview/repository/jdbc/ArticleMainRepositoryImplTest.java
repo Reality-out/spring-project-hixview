@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealRepositoryContext
 class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
@@ -44,14 +43,11 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
         ArticleMain article2 = testNewCompanyArticleMain;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = ArticleMain.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = ArticleMain.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("번호로 기사 메인 획득")
@@ -116,14 +112,11 @@ class ArticleMainRepositoryImplTest implements ArticleMainTestUtils {
         ArticleMain article2 = testNewCompanyArticleMain;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = ArticleMain.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = ArticleMain.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("기사 메인 갱신")

@@ -2,10 +2,7 @@ package site.hixview.domain.entity.member;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import site.hixview.domain.entity.member.dto.MemberDto;
 import site.hixview.domain.entity.member.dto.MembershipDto;
 import site.hixview.domain.vo.Regex;
@@ -16,6 +13,7 @@ import static site.hixview.domain.vo.Regex.*;
 import static site.hixview.domain.vo.Word.*;
 
 @Getter
+@EqualsAndHashCode
 @Builder(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Member {

@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
@@ -24,13 +26,13 @@ import static site.hixview.util.JsonUtils.serializeWithOneMap;
 @Builder(access = AccessLevel.PUBLIC)
 public class EconomyArticle extends Article<EconomyArticle> {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @SubjectCountryConstraint
     private final SubjectCountry subjectCountry;
 
     @TargetEconomyContentsConstraint
     private final List<String> targetEconomyContents;
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public String getSerializedTargetEconomyContents() {
         return serializeWithOneMap(objectMapper, TARGET_ECONOMY_CONTENT, targetEconomyContents);
@@ -68,13 +70,26 @@ public class EconomyArticle extends Article<EconomyArticle> {
         }};
     }
 
-    public static String[] getFieldNamesWithNoNumber() {
-        String[] superArr = Article.getFieldNamesWithNoNumber();
-        String[] arr = {SUBJECT_COUNTRY, TARGET_ECONOMY_CONTENTS};
-        String[] combinedArr = new String[superArr.length + arr.length];
-        System.arraycopy(superArr, 0, combinedArr, 0, superArr.length);
-        System.arraycopy(arr, 0, combinedArr, superArr.length, arr.length);
-        return combinedArr;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        EconomyArticle economyArticle = (EconomyArticle) obj;
+        return new EqualsBuilder()
+                .append(number, economyArticle.number)
+                .append(name, economyArticle.name)
+                .append(press, economyArticle.press)
+                .append(link, economyArticle.link)
+                .append(date, economyArticle.date)
+                .append(importance, economyArticle.importance)
+                .append(subjectCountry, economyArticle.subjectCountry)
+                .append(targetEconomyContents, economyArticle.targetEconomyContents)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(subjectCountry).append(targetEconomyContents).toHashCode();
     }
 
     private EconomyArticle(Long number, String name, Press press, String link, LocalDate date,

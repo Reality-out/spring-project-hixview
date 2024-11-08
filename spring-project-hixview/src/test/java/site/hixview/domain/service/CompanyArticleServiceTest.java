@@ -21,7 +21,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_COMPANY_ARTICLE_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_COMPANY_ARTICLE_WITH_THAT_NAME;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
 class CompanyArticleServiceTest implements CompanyArticleTestUtils {
@@ -64,10 +63,7 @@ class CompanyArticleServiceTest implements CompanyArticleTestUtils {
         articleService.registerArticles(firstArticle, secondArticle);
 
         // then
-        assertThat(articleService.findArticles())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(firstArticle, secondArticle));
+        assertThat(articleService.findArticles()).isEqualTo(List.of(firstArticle, secondArticle));
     }
 
     @DisplayName("기업 기사 등록")

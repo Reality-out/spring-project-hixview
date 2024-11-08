@@ -21,7 +21,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static site.hixview.domain.entity.home.BlogPost.getFieldNamesWithNoNumber;
 
 @OnlyRealServiceContext
 class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
@@ -56,8 +55,6 @@ class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
     @Autowired
     private ArticleMainRepository articleMainRepository;
 
-    private final String[] fieldNames = getFieldNamesWithNoNumber();
-
     @DisplayName("사용 가능한 최신 기업 기사들 찾기")
     @Test
     public void findUsableLatestCompanyArticlesTest() {
@@ -80,7 +77,7 @@ class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
         articleMainService.registerArticle(articleMain2);
 
         // then
-        assertThat(homeService.findUsableLatestCompanyArticles()).usingRecursiveComparison().isEqualTo(List.of(article1, article2));
+        assertThat(homeService.findUsableLatestCompanyArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("사용 가능한 최신 산업 기사들 찾기")
@@ -105,7 +102,7 @@ class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
         articleMainService.registerArticle(articleMain2);
 
         // then
-        assertThat(homeService.findUsableLatestIndustryArticles()).usingRecursiveComparison().isEqualTo(List.of(article1, article2));
+        assertThat(homeService.findUsableLatestIndustryArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("사용 가능한 최신 국내 경제 기사들 찾기")
@@ -130,7 +127,7 @@ class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
         articleMainService.registerArticle(articleMain2);
 
         // then
-        assertThat(homeService.findUsableLatestDomesticEconomyArticles()).usingRecursiveComparison().isEqualTo(List.of(article1, article2));
+        assertThat(homeService.findUsableLatestDomesticEconomyArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("사용 가능한 최신 해외 경제 기사들 찾기")
@@ -155,6 +152,6 @@ class HomeServiceTest implements ArticleTestUtils, BlogPostTestUtils {
         articleMainService.registerArticle(articleMain2);
 
         // then
-        assertThat(homeService.findUsableLatestForeignEconomyArticles()).usingRecursiveComparison().isEqualTo(List.of(article1, article2));
+        assertThat(homeService.findUsableLatestForeignEconomyArticles()).isEqualTo(List.of(article1, article2));
     }
 }

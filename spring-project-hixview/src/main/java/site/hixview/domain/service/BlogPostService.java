@@ -58,7 +58,7 @@ public class BlogPostService {
     public List<BlogPost> registerPosts(BlogPost... posts) {
         List<BlogPost> postList = new ArrayList<>();
         for (BlogPost post : posts) {
-            postList.add(BlogPost.builder().blogPost(post).number(registerPost(post).getNumber()).build());
+            postList.add(BlogPost.builder().post(post).number(registerPost(post).getNumber()).build());
         }
         return postList;
     }
@@ -66,7 +66,7 @@ public class BlogPostService {
     @Transactional
     public BlogPost registerPost(BlogPost post) {
         duplicateCheck(post);
-        return BlogPost.builder().blogPost(post).number(postRepository.savePost(post)).build();
+        return BlogPost.builder().post(post).number(postRepository.savePost(post)).build();
     }
 
     /**

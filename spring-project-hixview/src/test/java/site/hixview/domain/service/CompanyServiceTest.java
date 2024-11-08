@@ -63,7 +63,7 @@ class CompanyServiceTest implements CompanyArticleTestUtils {
         companyService.registerCompany(company);
 
         // then
-        assertThat(companyService.findCompanies()).usingRecursiveComparison().isEqualTo(List.of(company));
+        assertThat(companyService.findCompanies()).isEqualTo(List.of(company));
     }
 
     @DisplayName("기업들 등록")
@@ -82,8 +82,7 @@ class CompanyServiceTest implements CompanyArticleTestUtils {
         companyService.registerCompanies(firstCompany, secondCompany);
 
         // then
-        assertThat(companyService.findCompanies())
-                .usingRecursiveComparison().isEqualTo(List.of(firstCompany, secondCompany));
+        assertThat(companyService.findCompanies()).isEqualTo(List.of(firstCompany, secondCompany));
     }
 
     @DisplayName("기업 중복 코드로 등록")

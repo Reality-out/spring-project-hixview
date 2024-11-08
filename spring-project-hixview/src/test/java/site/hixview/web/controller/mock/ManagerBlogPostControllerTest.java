@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import site.hixview.domain.entity.home.BlogPost;
-import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.service.BlogPostService;
 import site.hixview.domain.service.CompanyService;
 import site.hixview.domain.validation.validator.BlogPostAddValidator;
@@ -74,10 +73,8 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         when(blogPostService.registerPost(argThat(Objects::nonNull))).thenReturn(post);
         doNothing().when(blogPostAddValidator).validate(any(), any());
 
-        BlogPostDto postDto = post.toDto();
-
         // then
-        mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, postDto))
+        mockMvc.perform(postWithBlogPostDto(ADD_BLOG_POST_PATH, post.toDto()))
                 .andExpectAll(status().isSeeOther(),
                         jsonPath(NAME).value(encodeWithUTF8(name)),
                         jsonPath(REDIRECT_PATH).value(redirectUrl));
@@ -90,10 +87,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
                         model().attribute(REPEAT_PATH, ADD_BLOG_POST_PATH),
                         model().attribute(VALUE, name));
 
-        assertThat(blogPostService.findPostByName(name).orElseThrow().toDto())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(postDto);
+        assertThat(blogPostService.findPostByName(name).orElseThrow()).isEqualTo(post);
     }
 
     @DisplayName("블로그 포스트들 조회 페이지 접속")
@@ -110,9 +104,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "blog-posts-page"))
-                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
-                .usingRecursiveComparison()
-                .isEqualTo(postList);
+                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS)).isEqualTo(postList);
     }
 
     @DisplayName("포스트의 유효한 타겟 이미지 경로 확인 페이지 접속")
@@ -130,17 +122,15 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "blog-posts-page"))
-                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
-                .usingRecursiveComparison()
-                .isEqualTo(emptyList());
+                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS)).isEqualTo(emptyList());
     }
 
     @DisplayName("포스트의 유효하지 않은 타겟 이미지 경로 확인 페이지 접속")
     @Test
     void accessPostInvalidTargetImagePathCheck() throws Exception {
         // given
-        BlogPost testBlogPost1 = BlogPost.builder().blogPost(testBlogPostCompany).targetImagePath(INVALID_VALUE + "0").build();
-        BlogPost testBlogPost2 = BlogPost.builder().blogPost(testBlogPostEconomy).targetImagePath(INVALID_VALUE + "1").build();
+        BlogPost testBlogPost1 = BlogPost.builder().post(testBlogPostCompany).targetImagePath(INVALID_VALUE + "0").build();
+        BlogPost testBlogPost2 = BlogPost.builder().post(testBlogPostEconomy).targetImagePath(INVALID_VALUE + "1").build();
         List<BlogPost> storedList = List.of(testBlogPost1, testBlogPost2);
         when(blogPostService.findPosts()).thenReturn(storedList);
         when(blogPostService.registerPosts(testBlogPost1, testBlogPost2)).thenReturn(storedList);
@@ -152,9 +142,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(CHECK_TARGET_IMAGE_PATH_BLOG_POST_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_CHECK_IMAGE_PATH_VIEW + "blog-posts-page"))
-                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS))
-                .usingRecursiveComparison()
-                .isEqualTo(storedList);
+                .andReturn().getModelAndView()).getModelMap().get(BLOG_POSTS)).isEqualTo(storedList);
     }
 
     @DisplayName("블로그 포스트 변경 페이지 접속")
@@ -195,7 +183,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
     @Test
     void accessBlogPostModifyFinish() throws Exception {
         // given
-        BlogPost post = BlogPost.builder().blogPost(testBlogPostEconomy).name(testBlogPostCompany.getName()).build();
+        BlogPost post = BlogPost.builder().post(testBlogPostEconomy).name(testBlogPostCompany.getName()).build();
         String name = post.getName();
         String redirectUrl = UPDATE_BLOG_POST_PATH + FINISH_PATH;
         when(blogPostService.findPostByName(name)).thenReturn(Optional.of(post));
@@ -220,10 +208,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
                         model().attribute(REPEAT_PATH, UPDATE_BLOG_POST_PATH),
                         model().attribute(VALUE, commonName));
 
-        assertThat(blogPostService.findPostByName(commonName).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(post);
+        assertThat(blogPostService.findPostByName(commonName).orElseThrow()).isEqualTo(post);
     }
 
     @DisplayName("블로그 포스트 없애기 페이지 접속")
@@ -239,7 +224,7 @@ class ManagerBlogPostControllerTest implements BlogPostTestUtils {
     @Test
     void accessBlogPostRidFinish() throws Exception {
         // given & when
-        BlogPost post = BlogPost.builder().blogPost(testBlogPostCompany).number(1L).build();
+        BlogPost post = BlogPost.builder().post(testBlogPostCompany).number(1L).build();
         when(blogPostService.findPosts()).thenReturn(emptyList());
         when(blogPostService.findPostByNumber(post.getNumber())).thenReturn(Optional.of(post));
         when(blogPostService.findPostByNumberOrName(String.valueOf(post.getNumber()))).thenReturn(Optional.of(post));

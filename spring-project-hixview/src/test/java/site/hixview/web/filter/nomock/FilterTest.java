@@ -123,7 +123,7 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
                             redirectedUrlPattern(ADD_COMPANY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -169,7 +169,7 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
                             redirectedUrlPattern(ADD_INDUSTRY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 
@@ -215,7 +215,7 @@ class FilterTest implements ArticleTestUtils, CompanyTestUtils {
                             redirectedUrlPattern(ADD_ECONOMY_ARTICLE_WITH_STRING_PATH + FINISH_PATH + ALL_QUERY_STRING))
                     .andReturn().getModelAndView()).getModelMap();
 
-            assertThat(modelMapPost.get(NAME_LIST)).usingRecursiveComparison().isEqualTo(nameListForURL);
+            assertThat(modelMapPost.get(NAME_LIST)).isEqualTo(nameListForURL);
             assertThat(modelMapPost.get(IS_BEAN_VALIDATION_ERROR)).isEqualTo(String.valueOf(false));
             assertThat(modelMapPost.get(ERROR_SINGLE)).isEqualTo(null);
 

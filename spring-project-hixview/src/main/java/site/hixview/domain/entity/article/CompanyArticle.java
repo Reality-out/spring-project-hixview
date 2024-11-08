@@ -43,15 +43,6 @@ public class CompanyArticle extends Article<CompanyArticle> {
         }};
     }
 
-    public static String[] getFieldNamesWithNoNumber() {
-        String[] superArr = Article.getFieldNamesWithNoNumber();
-        String[] arr = {SUBJECT_COMPANY};
-        String[] combinedArr = new String[superArr.length + arr.length];
-        System.arraycopy(superArr, 0, combinedArr, 0, superArr.length);
-        System.arraycopy(arr, 0, combinedArr, superArr.length, arr.length);
-        return combinedArr;
-    }
-
     private CompanyArticle(final Long number, final String name, final Press press, final String link,
                            final LocalDate date, final Integer importance, final String subjectCompany) {
         super(number, name, press, link, date, importance);

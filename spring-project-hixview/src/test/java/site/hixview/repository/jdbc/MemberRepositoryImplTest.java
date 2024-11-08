@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.Word.IDENTIFIER;
 
 @OnlyRealRepositoryContext
 class MemberRepositoryImplTest implements MemberTestUtils {
@@ -43,14 +42,11 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = testNewMember;
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMembers())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(List.of(member1, member2));
+        assertThat(memberRepository.getMembers()).isEqualTo(List.of(member1, member2));
     }
 
     @DisplayName("회원 이름으로 획득")
@@ -61,18 +57,12 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = testNewMember;
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMembersByName(member1.getName()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member1);
-        assertThat(memberRepository.getMembersByName(member2.getName()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member2);
+        assertThat(memberRepository.getMembersByName(member1.getName()).getFirst()).isEqualTo(member1);
+        assertThat(memberRepository.getMembersByName(member2.getName()).getFirst()).isEqualTo(member2);
     }
 
     @DisplayName("회원들 이름으로 획득")
@@ -84,14 +74,11 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = Member.builder().member(testNewMember).name(commonName).build();
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMembersByName(commonName))
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(List.of(member1, member2));
+        assertThat(memberRepository.getMembersByName(commonName)).isEqualTo(List.of(member1, member2));
     }
 
     @DisplayName("회원 식별자로 획득")
@@ -102,19 +89,12 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = testNewMember;
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMemberByIdentifier(1L).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member1);
-
-        assertThat(memberRepository.getMemberByIdentifier(2L).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member2);
+        assertThat(memberRepository.getMemberByIdentifier(1L).orElseThrow()).isEqualTo(member1);
+        assertThat(memberRepository.getMemberByIdentifier(2L).orElseThrow()).isEqualTo(member2);
     }
 
     @DisplayName("회원 ID로 획득")
@@ -125,19 +105,12 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = testNewMember;
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMemberByID(member1.getId()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member1);
-
-        assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member2);
+        assertThat(memberRepository.getMemberByID(member1.getId()).orElseThrow()).isEqualTo(member1);
+        assertThat(memberRepository.getMemberByID(member2.getId()).orElseThrow()).isEqualTo(member2);
     }
 
     @DisplayName("회원 ID와 비밀번호로 획득")
@@ -148,19 +121,12 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = testNewMember;
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMemberByIDAndPassword(member1.getId(), member1.getPassword()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member1);
-
-        assertThat(memberRepository.getMemberByIDAndPassword(member2.getId(), member2.getPassword()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member2);
+        assertThat(memberRepository.getMemberByIDAndPassword(member1.getId(), member1.getPassword()).orElseThrow()).isEqualTo(member1);
+        assertThat(memberRepository.getMemberByIDAndPassword(member2.getId(), member2.getPassword()).orElseThrow()).isEqualTo(member2);
     }
 
     @DisplayName("회원 이메일로 획득")
@@ -171,19 +137,12 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member2 = testNewMember;
 
         // when
-        memberRepository.saveMember(member1);
-        memberRepository.saveMember(member2);
+        member1 = Member.builder().member(member1).identifier(memberRepository.saveMember(member1)).build();
+        member2 = Member.builder().member(member2).identifier(memberRepository.saveMember(member2)).build();
 
         // then
-        assertThat(memberRepository.getMemberByEmail(member1.getEmail()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member1);
-
-        assertThat(memberRepository.getMemberByEmail(member2.getEmail()).orElseThrow())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member2);
+        assertThat(memberRepository.getMemberByEmail(member1.getEmail()).orElseThrow()).isEqualTo(member1);
+        assertThat(memberRepository.getMemberByEmail(member2.getEmail()).orElseThrow()).isEqualTo(member2);
     }
 
     @DisplayName("비어 있는 회원 획득")
@@ -207,13 +166,10 @@ class MemberRepositoryImplTest implements MemberTestUtils {
         Member member = testMember;
 
         // when
-        memberRepository.saveMember(member);
+        member = Member.builder().member(member).identifier(memberRepository.saveMember(member)).build();
 
         // then
-        assertThat(memberRepository.getMembersByName(member.getName()).getFirst())
-                .usingRecursiveComparison()
-                .ignoringFields(IDENTIFIER)
-                .isEqualTo(member);
+        assertThat(memberRepository.getMembersByName(member.getName()).getFirst()).isEqualTo(member);
     }
 
     @DisplayName("회원 ID로 제거")

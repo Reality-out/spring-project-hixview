@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.Word.NAME;
 
 @OnlyRealRepositoryContext
 class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
@@ -25,7 +24,6 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
     private IndustryArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String[] fieldNames = IndustryArticle.getFieldNamesWithNoNumber();
 
     @Autowired
     IndustryArticleRepositoryImplTest(DataSource dataSource) {
@@ -45,14 +43,11 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article2 = testNewIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = IndustryArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("산업 기사들 날짜로 획득")
@@ -63,14 +58,11 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article2 = testEqualDateIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = IndustryArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticlesByDate(article1.getDate()))
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticlesByDate(article1.getDate())).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("산업 기사들 날짜 범위로 획득")
@@ -87,16 +79,13 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
                 .toList();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
-        articleRepository.saveArticle(article3);
+        article1 = IndustryArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
+        article3 = IndustryArticle.builder().article(article3).number(articleRepository.saveArticle(article3)).build();
 
         // then
-        assertThat(articleRepository
-                .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2, article3));
+        assertThat(articleRepository.getArticlesByDate(sortedArticles.getFirst().getDate(),
+                sortedArticles.getLast().getDate())).isEqualTo(List.of(article1, article2, article3));
     }
 
     @DisplayName("최신 산업 기사들 획득")
@@ -107,15 +96,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article2 = testEqualDateIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = IndustryArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
         articleRepository.saveArticle(testNewIndustryArticle);
 
         // then
-        assertThat(articleRepository.getLatestArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getLatestArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("번호로 산업 기사 획득")
@@ -130,15 +116,8 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("산업 기사 이름으로 획득")
@@ -149,19 +128,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article2 = testNewIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = IndustryArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("산업 기사 링크로 획득")
@@ -172,19 +144,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article2 = testNewIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = IndustryArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = IndustryArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("비어 있는 산업 기사 획득")
@@ -209,13 +174,10 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article = testIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = IndustryArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("산업 기사 갱신")
@@ -225,15 +187,12 @@ class IndustryArticleRepositoryImplTest implements IndustryArticleTestUtils {
         IndustryArticle article = testIndustryArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        IndustryArticle articleUpdate = IndustryArticle.builder().article(testNewIndustryArticle)
+                .name(article.getName()).number(articleRepository.saveArticle(article)).build();
 
         // then
-        articleRepository.updateArticle(IndustryArticle.builder().article(testNewIndustryArticle).name(article.getName()).build());
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .ignoringFields(NAME)
-                .isEqualTo(testNewIndustryArticle);
+        articleRepository.updateArticle(articleUpdate);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(articleUpdate);
     }
 
     @DisplayName("산업 기사 이름으로 제거")

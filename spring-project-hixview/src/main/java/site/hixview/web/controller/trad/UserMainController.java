@@ -106,8 +106,8 @@ public class UserMainController {
         errorHandle(latestCompanyBlogPostList, latestIndustryBlogPostList, latestEconomyBlogPostList);
         BlogPost latestIndustryBlogPost = latestIndustryBlogPostList.get(random.nextInt(latestIndustryBlogPostList.size()));
         BlogPost latestEconomyBlogPost = latestEconomyBlogPostList.get(random.nextInt(latestEconomyBlogPostList.size()));
-        latestIndustryBlogPost = BlogPost.builder().blogPost(latestIndustryBlogPost).targetImagePath(getTargetImagePath(latestIndustryBlogPost, random)).build();
-        latestEconomyBlogPost = BlogPost.builder().blogPost(latestEconomyBlogPost).targetImagePath(getTargetImagePath(latestEconomyBlogPost, random)).build();
+        latestIndustryBlogPost = BlogPost.builder().post(latestIndustryBlogPost).targetImagePath(getTargetImagePath(latestIndustryBlogPost, random)).build();
+        latestEconomyBlogPost = BlogPost.builder().post(latestEconomyBlogPost).targetImagePath(getTargetImagePath(latestEconomyBlogPost, random)).build();
         modelAndView.addObject("latestCompanyBlogPost", latestCompanyBlogPostList.get(random.nextInt(latestCompanyBlogPostList.size())).toDto());
         modelAndView.addObject("latestIndustryBlogPost", latestIndustryBlogPost.toDto());
         modelAndView.addObject("latestEconomyBlogPost", latestEconomyBlogPost.toDto());

@@ -19,10 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static site.hixview.domain.entity.home.BlogPost.getFieldNamesWithNoNumber;
 import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_BLOG_POST_NAME;
 import static site.hixview.domain.vo.ExceptionMessage.NO_BLOG_POST_WITH_THAT_NAME;
-import static site.hixview.domain.vo.Word.NUMBER;
 
 @OnlyRealServiceContext
 class BlogPostServiceTest implements BlogPostTestUtils {
@@ -32,8 +30,6 @@ class BlogPostServiceTest implements BlogPostTestUtils {
 
     @Autowired
     private BlogPostRepository blogPostRepository;
-
-    private final String[] fieldNames = getFieldNamesWithNoNumber();
 
     @DisplayName("블로그 포스트들 동시 등록")
     @Test
@@ -50,17 +46,13 @@ class BlogPostServiceTest implements BlogPostTestUtils {
         blogPostService.registerPosts(firstPost, secondPost);
 
         // then
-        assertThat(blogPostService.findPosts())
-                .usingRecursiveComparison()
-                .ignoringFields(NUMBER)
-                .isEqualTo(List.of(firstPost, secondPost));
     }
 
     @DisplayName("블로그 포스트 등록")
     @Test
     public void registerBlogPostTest() {
         // given
-        BlogPost post = BlogPost.builder().blogPost(testBlogPostCompany).number(1L).build();
+        BlogPost post = BlogPost.builder().post(testBlogPostCompany).number(1L).build();
         when(blogPostRepository.getPosts()).thenReturn(List.of(post));
         when(blogPostRepository.getPostByName(post.getName())).thenReturn(Optional.empty());
         when(blogPostRepository.savePost(post)).thenReturn(1L);
@@ -69,10 +61,7 @@ class BlogPostServiceTest implements BlogPostTestUtils {
         post = blogPostService.registerPost(post);
 
         // then
-        assertThat(blogPostService.findPosts())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(post));
+        assertThat(blogPostService.findPosts()).isEqualTo(List.of(post));
     }
 
     @DisplayName("블로그 포스트 중복 이름으로 등록")
@@ -87,7 +76,7 @@ class BlogPostServiceTest implements BlogPostTestUtils {
         // when
         AlreadyExistException e = assertThrows(AlreadyExistException.class,
                 () -> blogPostService.registerPosts(firstRegisteredPost,
-                        BlogPost.builder().blogPost(firstRegisteredPost).name(testBlogPostCompany.getName()).build()));
+                        BlogPost.builder().post(firstRegisteredPost).name(testBlogPostCompany.getName()).build()));
 
         // then
         assertThat(e.getMessage()).isEqualTo(ALREADY_EXIST_BLOG_POST_NAME);

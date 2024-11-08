@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.domain.vo.Word.NAME;
 
 @OnlyRealRepositoryContext
 class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
@@ -25,7 +24,6 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
     private EconomyArticleRepository articleRepository;
 
     private final JdbcTemplate jdbcTemplateTest;
-    private final String[] fieldNames = EconomyArticle.getFieldNamesWithNoNumber();
 
     @Autowired
     EconomyArticleRepositoryImplTest(DataSource dataSource) {
@@ -45,14 +43,11 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article2 = testNewEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = EconomyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("경제 기사들 날짜로 획득")
@@ -63,14 +58,11 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article2 = testEqualDateEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = EconomyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticlesByDate(article1.getDate()))
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getArticlesByDate(article1.getDate())).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("경제 기사들 날짜 범위로 획득")
@@ -87,16 +79,13 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
                 .toList();
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
-        articleRepository.saveArticle(article3);
+        article1 = EconomyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
+        article3 = EconomyArticle.builder().article(article3).number(articleRepository.saveArticle(article3)).build();
 
         // then
-        assertThat(articleRepository
-                .getArticlesByDate(sortedArticles.getFirst().getDate(), sortedArticles.getLast().getDate()))
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2, article3));
+        assertThat(articleRepository.getArticlesByDate(sortedArticles.getFirst().getDate(),
+                sortedArticles.getLast().getDate())).isEqualTo(List.of(article1, article2, article3));
     }
 
     @DisplayName("최신 경제 기사들 획득")
@@ -107,15 +96,12 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article2 = testEqualDateEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = EconomyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
         articleRepository.saveArticle(testNewEconomyArticle);
 
         // then
-        assertThat(articleRepository.getLatestArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article1, article2));
+        assertThat(articleRepository.getLatestArticles()).isEqualTo(List.of(article1, article2));
     }
 
     @DisplayName("최신 국내 경제 기사들 획득")
@@ -125,15 +111,12 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article = testEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = EconomyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
         articleRepository.saveArticle(testEqualDateEconomyArticle);
         articleRepository.saveArticle(testNewEconomyArticle);
 
         // then
-        assertThat(articleRepository.getLatestDomesticArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article));
+        assertThat(articleRepository.getLatestDomesticArticles()).isEqualTo(List.of(article));
     }
 
     @DisplayName("최신 해외 경제 기사들 획득")
@@ -143,15 +126,12 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article = testEqualDateEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = EconomyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
         articleRepository.saveArticle(testEconomyArticle);
         articleRepository.saveArticle(testNewEconomyArticle);
 
         // then
-        assertThat(articleRepository.getLatestForeignArticles())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(List.of(article));
+        assertThat(articleRepository.getLatestForeignArticles()).isEqualTo(List.of(article));
     }
 
     @DisplayName("번호로 경제 기사 획득")
@@ -166,15 +146,8 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByNumber(article1.getNumber()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByNumber(article2.getNumber()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("경제 기사 이름으로 획득")
@@ -185,19 +158,12 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article2 = testNewEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = EconomyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByName(article1.getName()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByName(article2.getName()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("경제 기사 링크로 획득")
@@ -208,19 +174,12 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article2 = testNewEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article1);
-        articleRepository.saveArticle(article2);
+        article1 = EconomyArticle.builder().article(article1).number(articleRepository.saveArticle(article1)).build();
+        article2 = EconomyArticle.builder().article(article2).number(articleRepository.saveArticle(article2)).build();
 
         // then
-        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article1);
-
-        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article2);
+        assertThat(articleRepository.getArticleByLink(article1.getLink()).orElseThrow()).isEqualTo(article1);
+        assertThat(articleRepository.getArticleByLink(article2.getLink()).orElseThrow()).isEqualTo(article2);
     }
 
     @DisplayName("비어 있는 경제 기사 획득")
@@ -245,13 +204,10 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article = testEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = EconomyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
 
         // then
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .isEqualTo(article);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(article);
     }
 
     @DisplayName("경제 기사 갱신")
@@ -261,15 +217,12 @@ class EconomyArticleRepositoryImplTest implements EconomyArticleTestUtils {
         EconomyArticle article = testEconomyArticle;
 
         // when
-        articleRepository.saveArticle(article);
+        article = EconomyArticle.builder().article(article).number(articleRepository.saveArticle(article)).build();
+        EconomyArticle articleUpdate = EconomyArticle.builder().article(testNewEconomyArticle).name(article.getName()).number(article.getNumber()).build();
 
         // then
-        articleRepository.updateArticle(EconomyArticle.builder().article(testNewEconomyArticle).name(article.getName()).build());
-        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow())
-                .usingRecursiveComparison()
-                .comparingOnlyFields(fieldNames)
-                .ignoringFields(NAME)
-                .isEqualTo(testNewEconomyArticle);
+        articleRepository.updateArticle(articleUpdate);
+        assertThat(articleRepository.getArticleByName(article.getName()).orElseThrow()).isEqualTo(articleUpdate);
     }
 
     @DisplayName("경제 기사 이름으로 제거")

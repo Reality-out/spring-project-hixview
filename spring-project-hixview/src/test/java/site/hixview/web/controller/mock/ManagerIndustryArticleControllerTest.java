@@ -82,13 +82,12 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
 
         // then
         for (IndustryArticle article : List.of(articleOneSecondCategory, articleTwoSecondCategories)) {
-            IndustryArticleDto articleDto = article.toDto();
-            String name = articleDto.getName();
+            String name = article.getName();
             when(articleService.findArticleByName(article.getName())).thenReturn(Optional.of(article));
             when(articleService.registerArticle(argThat(Objects::nonNull))).thenReturn(article);
             doNothing().when(articleService).removeArticleByName(name);
 
-            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, articleDto))
+            mockMvc.perform(postWithIndustryArticleDto(ADD_SINGLE_INDUSTRY_ARTICLE_PATH, article.toDto()))
                     .andExpectAll(status().isSeeOther(),
                             jsonPath(NAME).value(encodeWithUTF8(name)),
                             jsonPath(REDIRECT_PATH).value(redirectPath));
@@ -100,10 +99,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                             model().attribute(REPEAT_PATH, ADD_SINGLE_INDUSTRY_ARTICLE_PATH),
                             model().attribute(VALUE, name));
 
-            assertThat(articleService.findArticleByName(name).orElseThrow().toDto())
-                    .usingRecursiveComparison()
-                    .ignoringFields(NUMBER)
-                    .isEqualTo(articleDto);
+            assertThat(articleService.findArticleByName(name).orElseThrow()).isEqualTo(article);
 
             articleService.removeArticleByName(name);
         }
@@ -123,9 +119,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
         assertThat(requireNonNull(mockMvc.perform(get(SELECT_INDUSTRY_ARTICLE_PATH))
                 .andExpectAll(status().isOk(),
                         view().name(SELECT_VIEW + "industry-articles-page"))
-                .andReturn().getModelAndView()).getModelMap().get(ARTICLES))
-                .usingRecursiveComparison()
-                .isEqualTo(articleList);
+                .andReturn().getModelAndView()).getModelMap().get(ARTICLES)).isEqualTo(articleList);
     }
 
     @DisplayName("산업 기사 변경 페이지 접속")
@@ -197,9 +191,7 @@ class ManagerIndustryArticleControllerTest implements IndustryArticleTestUtils {
                             model().attribute(REPEAT_PATH, UPDATE_INDUSTRY_ARTICLE_PATH),
                             model().attribute(VALUE, commonName));
 
-            assertThat(articleService.findArticleByName(commonName).orElseThrow().toDto())
-                    .usingRecursiveComparison()
-                    .isEqualTo(articleDto);
+            assertThat(articleService.findArticleByName(commonName).orElseThrow()).isEqualTo(article);
         }
     }
 

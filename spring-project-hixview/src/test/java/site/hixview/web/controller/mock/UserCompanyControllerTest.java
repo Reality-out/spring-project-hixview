@@ -82,8 +82,7 @@ class UserCompanyControllerTest implements CompanyTestUtils, CompanyArticleTestU
 
         assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_PATH + code))
                 .andExpect(status().isOk())
-                .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
-                .usingRecursiveComparison().isEqualTo(company);
+                .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY)).isEqualTo(company);
     }
 
     @DisplayName("유효하지 않은 기업 코드로 기업 검색")
@@ -105,11 +104,11 @@ class UserCompanyControllerTest implements CompanyTestUtils, CompanyArticleTestU
         assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_PATH))
                 .andExpect(status().isOk())
                 .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
-                .usingRecursiveComparison().isEqualTo(samsungElectronics);
+                .isEqualTo(samsungElectronics);
 
         assertThat(Objects.requireNonNull(mockMvc.perform(get(COMPANY_SEARCH_PATH + INVALID_VALUE))
                 .andExpect(status().isOk())
                 .andReturn().getModelAndView()).getModelMap().getAttribute(COMPANY))
-                .usingRecursiveComparison().isEqualTo(samsungElectronics);
+                .isEqualTo(samsungElectronics);
     }
 }
