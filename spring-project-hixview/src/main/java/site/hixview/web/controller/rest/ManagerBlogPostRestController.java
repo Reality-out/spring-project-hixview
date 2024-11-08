@@ -14,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import site.hixview.domain.entity.Classification;
+import site.hixview.domain.entity.FirstCategory;
+import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.response.BasicSuccessResponse;
 import site.hixview.domain.entity.article.response.BeanValidationErrorResponse;
 import site.hixview.domain.entity.home.BlogPost;
@@ -76,7 +79,15 @@ public class ManagerBlogPostRestController {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
                     new BeanValidationErrorResponse(false, fieldErrorMap));
         }
-        postService.registerPost(BlogPost.builder().postDto(postDto).build());
+        if (postDto.getClassification().equals(Classification.INDUSTRY.name())) {
+            postService.registerPost(BlogPost.builder().postDto(postDto)
+                    .targetName(FirstCategory.valueOf(postDto.getTargetName()).getValue()).build());
+        } else if (postDto.getClassification().equals(Classification.ECONOMY.name())) {
+            postService.registerPost(BlogPost.builder().postDto(postDto)
+                    .targetName(SubjectCountry.valueOf(postDto.getTargetName()).getValue()).build());
+        } else {
+            postService.registerPost(BlogPost.builder().postDto(postDto).build());
+        }
         String redirectPath = ADD_BLOG_POST_PATH + FINISH_PATH;
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
                 .body(new BasicSuccessResponse(encodeWithUTF8(postDto.getName()), redirectPath));
@@ -109,7 +120,15 @@ public class ManagerBlogPostRestController {
             return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(
                     new BeanValidationErrorResponse(false, fieldErrorMap));
         }
-        postService.correctPost(BlogPost.builder().postDto(postDto).build());
+        if (postDto.getClassification().equals(Classification.INDUSTRY.name())) {
+            postService.correctPost(BlogPost.builder().postDto(postDto)
+                    .targetName(FirstCategory.valueOf(postDto.getTargetName()).getValue()).build());
+        } else if (postDto.getClassification().equals(Classification.ECONOMY.name())) {
+            postService.correctPost(BlogPost.builder().postDto(postDto)
+                    .targetName(SubjectCountry.valueOf(postDto.getTargetName()).getValue()).build());
+        } else {
+            postService.correctPost(BlogPost.builder().postDto(postDto).build());
+        }
         String redirectPath = UPDATE_BLOG_POST_PATH + FINISH_PATH;
         return ResponseEntity.status(HttpStatus.SEE_OTHER).contentType(MediaType.APPLICATION_JSON)
                 .body(new BasicSuccessResponse(encodeWithUTF8(postDto.getName()), redirectPath));
