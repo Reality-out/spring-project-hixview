@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.SubjectCountry;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.home.dto.BlogPostDto;
 import site.hixview.domain.service.BlogPostService;
@@ -48,8 +48,8 @@ public class BlogPostAddValidator implements Validator {
         if (companyService.findCompanyByName(targetName).isEmpty() &&
                 !inEnumConstants(FirstCategory.class, targetName) &&
                 !inEnumValues(FirstCategory.class, targetName) &&
-                !inEnumConstants(SubjectCountry.class, targetName) &&
-                !inEnumValues(SubjectCountry.class, targetName)) {
+                !inEnumConstants(Country.class, targetName) &&
+                !inEnumValues(Country.class, targetName)) {
             errors.rejectValue(TARGET_NAME, NOT_FOUND);
         }
     }

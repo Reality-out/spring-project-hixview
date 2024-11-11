@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import site.hixview.domain.entity.ListedCountry;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
@@ -90,7 +90,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     private RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> Company.builder()
                         .code(resultSet.getString(CODE))
-                        .listedCountry(ListedCountry.valueOf(resultSet.getString(LISTED_COUNTRY)))
+                        .listedCountry(Country.valueOf(resultSet.getString(LISTED_COUNTRY)))
                         .scale(Scale.valueOf(resultSet.getString(SCALE)))
                         .name(resultSet.getString(NAME))
                         .firstCategory(FirstCategory.valueOf(resultSet.getString(FIRST_CATEGORY)))

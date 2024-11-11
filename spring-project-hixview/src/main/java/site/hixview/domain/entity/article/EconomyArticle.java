@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
-import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.Article;
 import site.hixview.domain.validation.annotation.SubjectCountryConstraint;
@@ -27,7 +27,7 @@ import static site.hixview.util.JsonUtils.serializeWithOneMap;
 public class EconomyArticle extends Article<EconomyArticle> {
 
     @SubjectCountryConstraint
-    private final SubjectCountry subjectCountry;
+    private final Country country;
 
     @TargetEconomyContentsConstraint
     private final List<String> targetEconomyContents;
@@ -48,7 +48,7 @@ public class EconomyArticle extends Article<EconomyArticle> {
         economyArticleDto.setMonth(date.getMonthValue());
         economyArticleDto.setDays(date.getDayOfMonth());
         economyArticleDto.setImportance(importance);
-        economyArticleDto.setSubjectCountry(subjectCountry.name());
+        economyArticleDto.setSubjectCountry(country.name());
         economyArticleDto.setTargetEconomyContents(getSerializedTargetEconomyContents());
         return economyArticleDto;
     }
@@ -57,7 +57,7 @@ public class EconomyArticle extends Article<EconomyArticle> {
     public HashMap<String, Object> toMapWithNoNumber() {
         return new HashMap<>() {{
             putAll(EconomyArticle.super.toMapWithNoNumber());
-            put(SUBJECT_COUNTRY, subjectCountry);
+            put(SUBJECT_COUNTRY, country);
             put(TARGET_ECONOMY_CONTENTS, targetEconomyContents);
         }};
     }
@@ -65,7 +65,7 @@ public class EconomyArticle extends Article<EconomyArticle> {
     public HashMap<String, Object> toSerializedMapWithNoNumber() {
         return new HashMap<>() {{
             putAll(EconomyArticle.super.toMapWithNoNumber());
-            put(SUBJECT_COUNTRY, subjectCountry);
+            put(SUBJECT_COUNTRY, country);
             put(TARGET_ECONOMY_CONTENTS, getSerializedTargetEconomyContents());
         }};
     }
@@ -82,25 +82,25 @@ public class EconomyArticle extends Article<EconomyArticle> {
                 .append(link, economyArticle.link)
                 .append(date, economyArticle.date)
                 .append(importance, economyArticle.importance)
-                .append(subjectCountry, economyArticle.subjectCountry)
+                .append(country, economyArticle.country)
                 .append(targetEconomyContents, economyArticle.targetEconomyContents)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().appendSuper(super.hashCode()).append(subjectCountry).append(targetEconomyContents).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(country).append(targetEconomyContents).toHashCode();
     }
 
     private EconomyArticle(Long number, String name, Press press, String link, LocalDate date,
-                           Integer importance, SubjectCountry subjectCountry, List<String> targetEconomyContents) {
+                           Integer importance, Country country, List<String> targetEconomyContents) {
         super(number, name, press, link, date, importance);
-        this.subjectCountry = subjectCountry;
+        this.country = country;
         this.targetEconomyContents = targetEconomyContents;
     }
 
     public static final class EconomyArticleBuilder extends Article.ArticleBuilder {
-        private SubjectCountry subjectCountry;
+        private Country country;
         private List<String> targetEconomyContents;
 
         public EconomyArticleBuilder() {}
@@ -157,7 +157,7 @@ public class EconomyArticle extends Article<EconomyArticle> {
             link = article.getLink();
             date = article.getDate();
             importance = article.getImportance();
-            subjectCountry = article.getSubjectCountry();
+            country = article.getCountry();
             targetEconomyContents = article.getTargetEconomyContents();
             return this;
         }
@@ -168,7 +168,7 @@ public class EconomyArticle extends Article<EconomyArticle> {
             link = articleDto.getLink();
             date = LocalDate.of(articleDto.getYear(), articleDto.getMonth(), articleDto.getDays());
             importance = articleDto.getImportance();
-            subjectCountry = SubjectCountry.valueOf(articleDto.getSubjectCountry());
+            country = Country.valueOf(articleDto.getSubjectCountry());
             targetEconomyContents = JsonUtils.deserializeWithOneMapToList(new ObjectMapper(), TARGET_ECONOMY_CONTENT,
                     articleDto.getTargetEconomyContents());
             return this;
@@ -176,7 +176,7 @@ public class EconomyArticle extends Article<EconomyArticle> {
 
         public EconomyArticle build() {
             return new EconomyArticle(this.number, this.name, this.press, this.link,
-                    this.date, this.importance, this.subjectCountry, this.targetEconomyContents);
+                    this.date, this.importance, this.country, this.targetEconomyContents);
         }
     }
 }

@@ -1,8 +1,8 @@
 package site.hixview.domain.entity.company;
 
 import lombok.*;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.ListedCountry;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.SecondCategory;
 import site.hixview.domain.entity.company.dto.CompanyDto;
@@ -22,7 +22,7 @@ public class Company {
     private final String code;
 
     @ListedCountryConstraint
-    private final ListedCountry listedCountry;
+    private final Country listedCountry;
 
     @ScaleConstraint
     private final Scale scale;
@@ -73,7 +73,7 @@ public class Company {
 
         public CompanyBuilder companyDto(CompanyDto companyDto) {
             code = companyDto.getCode();
-            listedCountry = ListedCountry.valueOf(companyDto.getListedCountry());
+            listedCountry = Country.valueOf(companyDto.getListedCountry());
             scale = Scale.valueOf(companyDto.getScale());
             name = companyDto.getName();
             firstCategory = FirstCategory.valueOf(companyDto.getFirstCategory());

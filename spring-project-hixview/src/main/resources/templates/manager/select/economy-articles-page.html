@@ -14,7 +14,7 @@
                 <th scope="col" th:text="#{article.link}"></th>
                 <th scope="col" th:text="#{article.date}"></th>
                 <th scope="col" th:text="#{article.importance}"></th>
-                <th scope="col" th:text="#{article.subjectCountry}"></th>
+                <th scope="col" th:text="#{article.country}"></th>
                 <th scope="col" th:text="#{article.targetEconomyContents}"></th>
             </tr>
         </thead>
@@ -26,7 +26,7 @@
                 <td th:text="${article.link}"></td>
                 <td th:text="${article.date}"></td>
                 <td th:text="${article.importance}"></td>
-                <td th:text="${article.subjectCountry.value}"></td>
+                <td th:text="${article.country.value}"></td>
                 <td class="target-economy-content" th:text="${article.targetEconomyContents}"></td>
             </tr>
         </tbody>

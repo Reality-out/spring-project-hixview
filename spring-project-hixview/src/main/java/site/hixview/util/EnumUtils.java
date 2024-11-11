@@ -24,7 +24,7 @@ public abstract class EnumUtils {
 
     public static <T extends Enum<T>> boolean inEnumValues(Class<T> enumClass, String str) {
         try {
-            Method method = enumClass.getMethod("getValue");
+            Method method = enumClass.getMethod(GET_VALUE);
             for (T enumConstant : enumClass.getEnumConstants()) {
                 String value = (String) method.invoke(enumConstant);
                 if (value.equals(str)) return true;

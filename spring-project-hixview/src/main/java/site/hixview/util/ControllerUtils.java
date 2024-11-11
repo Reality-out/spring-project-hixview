@@ -8,7 +8,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static site.hixview.domain.vo.Word.*;

@@ -12,8 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.filter.OncePerRequestFilter;
 import site.hixview.domain.entity.Classification;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class BlogPostSupportFilter extends OncePerRequestFilter {
         applyStrip(request, NAME);
         applyUppercaseAndConvertToEnumWithString(request, Classification.class, CLASSIFICATION);
         applyUppercaseAndConvertToEnumWithString(request, FirstCategory.class, TARGET_NAME);
-        applyUppercaseAndConvertToEnumWithString(request, SubjectCountry.class, TARGET_NAME);
+        applyUppercaseAndConvertToEnumWithString(request, Country.class, TARGET_NAME);
         addTargetImagePathPrefixSuffix(request);
         chain.doFilter(request, response);
     }
@@ -51,7 +51,7 @@ public class BlogPostSupportFilter extends OncePerRequestFilter {
             if (!imagePath.startsWith(IMAGE_PATH_PREFIX)) {
                 imagePath = IMAGE_PATH_PREFIX + imagePath;
             }
-            if (!inEnumConstants(FirstCategory.class, targetName) && !inEnumConstants(SubjectCountry.class, targetName) && !imagePath.endsWith(IMAGE_PATH_SUFFIX)) {
+            if (!inEnumConstants(FirstCategory.class, targetName) && !inEnumConstants(Country.class, targetName) && !imagePath.endsWith(IMAGE_PATH_SUFFIX)) {
                 imagePath = imagePath + IMAGE_PATH_SUFFIX;
             }
             request.setParameter(TARGET_IMAGE_PATH, imagePath);
@@ -59,7 +59,7 @@ public class BlogPostSupportFilter extends OncePerRequestFilter {
         if (request.getMethod().equals(HttpMethod.POST.name()) && (imagePath == null || imagePath.isBlank())) {
             if (inEnumConstants(FirstCategory.class, targetName)) {
                 imagePath = INDUSTRY_IMAGE_PATH_PREFIX + targetName.toLowerCase(Locale.ROOT);
-            } else if (inEnumConstants(SubjectCountry.class, targetName)) {
+            } else if (inEnumConstants(Country.class, targetName)) {
                 imagePath = COUNTRY_FLAG_IMAGE_PATH_PREFIX + targetName.toLowerCase(Locale.ROOT) + COUNTRY_FLAG_IMAGE_PATH_SUFFIX;
             }
             request.setParameter(TARGET_IMAGE_PATH, imagePath);

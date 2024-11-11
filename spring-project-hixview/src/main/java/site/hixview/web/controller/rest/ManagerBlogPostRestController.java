@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.hixview.domain.entity.Classification;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.response.BasicSuccessResponse;
 import site.hixview.domain.entity.article.response.BeanValidationErrorResponse;
 import site.hixview.domain.entity.home.BlogPost;
@@ -84,7 +84,7 @@ public class ManagerBlogPostRestController {
                     .targetName(FirstCategory.valueOf(postDto.getTargetName()).getValue()).build());
         } else if (postDto.getClassification().equals(Classification.ECONOMY.name())) {
             postService.registerPost(BlogPost.builder().postDto(postDto)
-                    .targetName(SubjectCountry.valueOf(postDto.getTargetName()).getValue()).build());
+                    .targetName(Country.valueOf(postDto.getTargetName()).getValue()).build());
         } else {
             postService.registerPost(BlogPost.builder().postDto(postDto).build());
         }
@@ -125,7 +125,7 @@ public class ManagerBlogPostRestController {
                     .targetName(FirstCategory.valueOf(postDto.getTargetName()).getValue()).build());
         } else if (postDto.getClassification().equals(Classification.ECONOMY.name())) {
             postService.correctPost(BlogPost.builder().postDto(postDto)
-                    .targetName(SubjectCountry.valueOf(postDto.getTargetName()).getValue()).build());
+                    .targetName(Country.valueOf(postDto.getTargetName()).getValue()).build());
         } else {
             postService.correctPost(BlogPost.builder().postDto(postDto).build());
         }

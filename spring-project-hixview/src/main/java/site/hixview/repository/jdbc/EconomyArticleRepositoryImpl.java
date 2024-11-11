@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import site.hixview.domain.entity.SubjectCountry;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.repository.EconomyArticleRepository;
@@ -69,7 +69,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     @Override
     public List<EconomyArticle> getLatestDomesticArticles() {
         return jdbcTemplate.query("with filtered_economy_articles as (select * from " + CURRENT_SCHEMA +
-                " where subjectCountry = '" + SubjectCountry.SOUTH_KOREA.name() + "')" +
+                " where subjectCountry = '" + Country.SOUTH_KOREA.name() + "')" +
                 " select * from filtered_economy_articles where date = (select max(date) from" +
                 " filtered_economy_articles)", articleRowMapper());
     }
@@ -77,7 +77,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     @Override
     public List<EconomyArticle> getLatestForeignArticles() {
         return jdbcTemplate.query("with filtered_economy_articles as (select * from " + CURRENT_SCHEMA +
-                " where subjectCountry != '" + SubjectCountry.SOUTH_KOREA.name() + "')" +
+                " where subjectCountry != '" + Country.SOUTH_KOREA.name() + "')" +
                 " select * from filtered_economy_articles where date = (select max(date) from" +
                 " filtered_economy_articles)", articleRowMapper());
     }
@@ -121,7 +121,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
                         " set press = ?, link = ?, date = ?, importance = ?," +
                         " subjectCountry = ?, targetEconomyContents = ? where name = ?",
                 article.getPress().name(), article.getLink(), article.getDate(), article.getImportance(),
-                article.getSubjectCountry().name(), article.getSerializedTargetEconomyContents(), article.getName());
+                article.getCountry().name(), article.getSerializedTargetEconomyContents(), article.getName());
     }
 
     /**
@@ -145,7 +145,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
                     .link(resultSet.getString(LINK))
                     .date(resultSet.getDate(DATE).toLocalDate())
                     .importance(resultSet.getInt(IMPORTANCE))
-                    .subjectCountry(SubjectCountry.valueOf(resultSet.getString(SUBJECT_COUNTRY)))
+                    .country(Country.valueOf(resultSet.getString(SUBJECT_COUNTRY)))
                     .targetEconomyContents(targetEconomyContents)
                     .build();
         };

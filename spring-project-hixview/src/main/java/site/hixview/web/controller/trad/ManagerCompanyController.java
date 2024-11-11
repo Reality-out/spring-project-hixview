@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import site.hixview.domain.entity.ListedCountry;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Scale;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
@@ -54,7 +54,7 @@ public class ManagerCompanyController {
     public String processAddCompany(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(COMPANY, new CompanyDto());
-        model.addAttribute(LISTED_COUNTRIES, ListedCountry.values());
+        model.addAttribute(LISTED_COUNTRIES, Country.listedCountries());
         model.addAttribute(SCALES, Scale.values());
         return ADD_COMPANY_VIEW + VIEW_SINGLE_PROCESS;
     }
@@ -119,7 +119,7 @@ public class ManagerCompanyController {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute(UPDATE_PATH, UPDATE_COMPANY_PATH + FINISH_PATH);
         model.addAttribute(COMPANY, companyOrEmpty.orElseThrow().toDto());
-        model.addAttribute(LISTED_COUNTRIES, ListedCountry.values());
+        model.addAttribute(LISTED_COUNTRIES, Country.listedCountries());
         model.addAttribute(SCALES, Scale.values());
         return UPDATE_COMPANY_VIEW + VIEW_AFTER_PROCESS;
     }
@@ -193,7 +193,7 @@ public class ManagerCompanyController {
     // Handle Error
     private void finishForRollback(String logMessage, String layoutPath, String error, Model model) {
         ControllerUtils.finishForRollback(logMessage, layoutPath, error, model);
-        model.addAttribute(LISTED_COUNTRIES, ListedCountry.values());
+        model.addAttribute(LISTED_COUNTRIES, Country.listedCountries());
         model.addAttribute(SCALES, Scale.values());
     }
 }

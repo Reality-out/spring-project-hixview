@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static site.hixview.domain.vo.ExceptionMessage.*;
+import static site.hixview.domain.vo.ExceptionMessage.ALREADY_EXIST_BLOG_POST_NAME;
+import static site.hixview.domain.vo.ExceptionMessage.NO_BLOG_POST_WITH_THAT_NAME;
 import static site.hixview.domain.vo.Regex.NUMBER_PATTERN;
 
 @Service

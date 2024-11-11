@@ -2,10 +2,7 @@ package site.hixview.support.util;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.ListedCountry;
-import site.hixview.domain.entity.Scale;
-import site.hixview.domain.entity.SecondCategory;
+import site.hixview.domain.entity.*;
 import site.hixview.domain.entity.company.Company;
 import site.hixview.domain.entity.company.dto.CompanyDto;
 
@@ -28,10 +25,10 @@ public interface CompanyTestUtils extends ObjectTestUtils {
     String TEST_COMPANIES_SCHEMA = "test_companies";
 
     // Test Object
-    Company samsungElectronics = Company.builder().code("005930").listedCountry(ListedCountry.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")
+    Company samsungElectronics = Company.builder().code("005930").listedCountry(Country.SOUTH_KOREA).scale(Scale.BIG).name("삼성전자")
             .firstCategory(FirstCategory.SEMICONDUCTOR).secondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();
 
-    Company skHynix = Company.builder().code("000660").listedCountry(ListedCountry.SOUTH_KOREA).scale(Scale.BIG).name("SK하이닉스")
+    Company skHynix = Company.builder().code("000660").listedCountry(Country.SOUTH_KOREA).scale(Scale.BIG).name("SK하이닉스")
             .firstCategory(FirstCategory.SEMICONDUCTOR).secondCategory(SecondCategory.SEMICONDUCTOR_MANUFACTURING).build();
 
     /**

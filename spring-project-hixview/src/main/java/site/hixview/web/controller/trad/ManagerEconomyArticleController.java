@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import site.hixview.domain.entity.SubjectCountry;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
 import site.hixview.domain.entity.article.EconomyArticle;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
@@ -62,7 +62,7 @@ public class ManagerEconomyArticleController {
     public String processAddEconomyArticle(Model model) {
         model.addAttribute(LAYOUT_PATH, ADD_PROCESS_LAYOUT);
         model.addAttribute(ARTICLE, new EconomyArticleDto());
-        model.addAttribute(SUBJECT_COUNTRIES, SubjectCountry.values());
+        model.addAttribute(SUBJECT_COUNTRIES, Country.values());
         return ADD_ECONOMY_ARTICLE_VIEW + VIEW_SINGLE_PROCESS;
     }
 
@@ -92,7 +92,7 @@ public class ManagerEconomyArticleController {
                                                      @RequestParam String targetEconomyContent,
                                                      RedirectAttributes redirect, Model model) {
         String senderPage = ADD_ECONOMY_ARTICLE_VIEW + VIEW_MULTIPLE_STRING_PROCESS;
-        if (!inEnumConstants(SubjectCountry.class, subjectCountry)) {
+        if (!inEnumConstants(Country.class, subjectCountry)) {
             finishForRollback(NO_SUBJECT_COUNTRY_WITH_THAT_VALUE, ADD_PROCESS_LAYOUT, NOT_FOUND_SUBJECT_COUNTRY_ERROR, model);
             return senderPage;
         }
@@ -201,7 +201,7 @@ public class ManagerEconomyArticleController {
         model.addAttribute(LAYOUT_PATH, UPDATE_PROCESS_LAYOUT);
         model.addAttribute(UPDATE_PATH, UPDATE_ECONOMY_ARTICLE_PATH + FINISH_PATH);
         model.addAttribute(ARTICLE, articleOrEmpty.orElseThrow().toDto());
-        model.addAttribute(SUBJECT_COUNTRIES, SubjectCountry.values());
+        model.addAttribute(SUBJECT_COUNTRIES, Country.values());
         return UPDATE_ECONOMY_ARTICLE_VIEW + VIEW_AFTER_PROCESS;
     }
 

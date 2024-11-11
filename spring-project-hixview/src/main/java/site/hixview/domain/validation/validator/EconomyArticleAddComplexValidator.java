@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import site.hixview.domain.entity.SubjectCountry;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.service.EconomyArticleService;
 
@@ -38,7 +38,7 @@ public class EconomyArticleAddComplexValidator implements Validator {
         if (articleService.findArticleByLink(articleDto.getLink()).isPresent()) {
             errors.rejectValue(LINK, EXIST);
         }
-        if (!inEnumConstants(SubjectCountry.class, articleDto.getSubjectCountry())) {
+        if (!inEnumConstants(Country.class, articleDto.getSubjectCountry())) {
             errors.rejectValue(SUBJECT_COUNTRY, NOT_FOUND);
         }
     }

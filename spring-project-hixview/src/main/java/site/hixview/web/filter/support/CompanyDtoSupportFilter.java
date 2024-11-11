@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.OncePerRequestFilter;
-import site.hixview.domain.entity.ListedCountry;
-import site.hixview.domain.entity.FirstCategory;
-import site.hixview.domain.entity.Scale;
-import site.hixview.domain.entity.SecondCategory;
+import site.hixview.domain.entity.*;
 import site.hixview.web.request.ModifiableHttpServletRequest;
 
 import java.io.IOException;
@@ -30,7 +27,7 @@ public class CompanyDtoSupportFilter extends OncePerRequestFilter {
     @Override
     public void doFilterInternal(HttpServletRequest requestBefore, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         ModifiableHttpServletRequest request = new ModifiableHttpServletRequest(requestBefore);
-        applyUppercaseAndConvertToEnumWithString(request, ListedCountry.class, LISTED_COUNTRY);
+        applyUppercaseAndConvertToEnumWithString(request, Country.class, LISTED_COUNTRY);
         applyUppercaseAndConvertToEnumWithString(request, Scale.class, SCALE);
         applyUppercaseAndConvertToEnumWithString(request, FirstCategory.class, FIRST_CATEGORY);
         applyUppercaseAndConvertToEnumWithString(request, SecondCategory.class, SECOND_CATEGORY);

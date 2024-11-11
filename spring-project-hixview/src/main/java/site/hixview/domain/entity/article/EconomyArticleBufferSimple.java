@@ -2,8 +2,8 @@ package site.hixview.domain.entity.article;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import site.hixview.domain.entity.Country;
 import site.hixview.domain.entity.Press;
-import site.hixview.domain.entity.SubjectCountry;
 import site.hixview.domain.entity.article.dto.EconomyArticleDto;
 import site.hixview.domain.entity.article.parent.ArticleBufferSimple;
 import site.hixview.domain.validation.annotation.SubjectCountryConstraint;
@@ -34,7 +34,7 @@ public class EconomyArticleBufferSimple extends ArticleBufferSimple<EconomyArtic
         List<String> linkList = getLinkList();
         List<String> targetEconomyContents = JsonUtils.deserializeWithOneMapToList(new ObjectMapper(), TARGET_ECONOMY_CONTENT, this.targetEconomyContents);
         ArrayList<EconomyArticle> articleList = new ArrayList<>();
-        SubjectCountry subjectCountry = SubjectCountry.valueOf(this.subjectCountry);
+        Country country = Country.valueOf(this.subjectCountry);
         for (int i = 0; i < getLength(); i++) {
             List<String> datePressElement = parsedDatePressList.get(i);
             articleList.add(EconomyArticle.builder()
@@ -42,7 +42,7 @@ public class EconomyArticleBufferSimple extends ArticleBufferSimple<EconomyArtic
                     .date(LocalDate.of(Integer.parseInt(datePressElement.getFirst()),
                             Integer.parseInt(datePressElement.get(1)), Integer.parseInt(datePressElement.get(2))))
                     .importance(importance)
-                    .subjectCountry(subjectCountry)
+                    .country(country)
                     .targetEconomyContents(targetEconomyContents).link(linkList.get(i)).build());
         }
         return articleList;
@@ -107,7 +107,7 @@ public class EconomyArticleBufferSimple extends ArticleBufferSimple<EconomyArtic
                 linkBuffer.append(lineSeparator()).append(article.getLink());
             }
             importance = article.getImportance();
-            subjectCountry = article.getSubjectCountry().name();
+            subjectCountry = article.getCountry().name();
             targetEconomyContents = article.getSerializedTargetEconomyContents();
             return this;
         }

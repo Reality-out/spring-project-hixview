@@ -398,7 +398,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         postDtoIndustryNoImagePath.setTargetImagePath("");
         BlogPostDto postDtoEconomyNoImagePath = post.toDto();
         postDtoEconomyNoImagePath.setClassification(Classification.ECONOMY.name());
-        postDtoEconomyNoImagePath.setTargetName(SubjectCountry.GLOBAL.name());
+        postDtoEconomyNoImagePath.setTargetName(Country.GLOBAL.name());
         postDtoEconomyNoImagePath.setTargetImagePath("");
 
         // then
@@ -440,7 +440,7 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         postDtoIndustryNoImagePath.setTargetImagePath("");
         BlogPostDto postDtoEconomyNoImagePath = post.toDto();
         postDtoEconomyNoImagePath.setClassification(Classification.ECONOMY.name());
-        postDtoEconomyNoImagePath.setTargetName(SubjectCountry.GLOBAL.name());
+        postDtoEconomyNoImagePath.setTargetName(Country.GLOBAL.name());
         postDtoEconomyNoImagePath.setTargetImagePath("");
 
         // when
@@ -465,13 +465,13 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         doNothing().when(companyAddValidator).validate(any(), any());
 
         CompanyDto companyDtoKorean = company.toDto();
-        companyDtoKorean.setListedCountry(ListedCountry.valueOf(companyDtoKorean.getListedCountry()).getValue());
+        companyDtoKorean.setListedCountry(Country.valueOf(companyDtoKorean.getListedCountry()).getValue());
         companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getValue());
         companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getValue());
         companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getValue());
 
         CompanyDto companyDtoLowercase = company.toDto();
-        companyDtoLowercase.setListedCountry(ListedCountry.valueOf(companyDtoLowercase.getListedCountry()).name().toLowerCase());
+        companyDtoLowercase.setListedCountry(Country.valueOf(companyDtoLowercase.getListedCountry()).name().toLowerCase());
         companyDtoLowercase.setScale(Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
@@ -501,13 +501,13 @@ class FilterTest implements ArticleTestUtils, BlogPostTestUtils, CompanyTestUtil
         doNothing().when(companyModifyValidator).validate(any(), any());
 
         CompanyDto companyDtoKorean = company.toDto();
-        companyDtoKorean.setListedCountry(ListedCountry.valueOf(companyDtoKorean.getListedCountry()).getValue());
+        companyDtoKorean.setListedCountry(Country.valueOf(companyDtoKorean.getListedCountry()).getValue());
         companyDtoKorean.setScale(Scale.valueOf(companyDtoKorean.getScale()).getValue());
         companyDtoKorean.setFirstCategory(FirstCategory.valueOf(companyDtoKorean.getFirstCategory()).getValue());
         companyDtoKorean.setSecondCategory(SecondCategory.valueOf(companyDtoKorean.getSecondCategory()).getValue());
 
         CompanyDto companyDtoLowercase = company.toDto();
-        companyDtoLowercase.setListedCountry(ListedCountry.valueOf(companyDtoLowercase.getListedCountry()).name().toLowerCase());
+        companyDtoLowercase.setListedCountry(Country.valueOf(companyDtoLowercase.getListedCountry()).name().toLowerCase());
         companyDtoLowercase.setScale(Scale.valueOf(companyDtoLowercase.getScale()).name().toLowerCase());
         companyDtoLowercase.setFirstCategory(FirstCategory.valueOf(companyDtoLowercase.getFirstCategory()).name().toLowerCase());
         companyDtoLowercase.setSecondCategory(SecondCategory.valueOf(companyDtoLowercase.getSecondCategory()).name().toLowerCase());
