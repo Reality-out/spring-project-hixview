@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.StringUtils.SUBJECT_COMPANY_SNAKE;
 
 @Repository
 @Primary
@@ -94,7 +95,7 @@ public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
     @Override
     public void updateArticle(CompanyArticle article) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
-                        " set press = ?, subjectCompany = ?, link = ?, date = ?, importance = ? where name = ?",
+                        " set press = ?, subject_company = ?, link = ?, date = ?, importance = ? where name = ?",
                 article.getPress().name(), article.getSubjectCompany(), article.getLink(), article.getDate(), article.getImportance(), article.getName());
     }
 
@@ -117,7 +118,7 @@ public class CompanyArticleRepositoryImpl implements CompanyArticleRepository {
                         .link(resultSet.getString(LINK))
                         .date(resultSet.getDate(DATE).toLocalDate())
                         .importance(resultSet.getInt(IMPORTANCE))
-                        .subjectCompany(resultSet.getString(SUBJECT_COMPANY))
+                        .subjectCompany(resultSet.getString(SUBJECT_COMPANY_SNAKE))
                         .build();
     }
 }

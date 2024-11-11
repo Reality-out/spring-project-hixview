@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.StringUtils.*;
 
 @Repository
 @Primary
@@ -71,7 +72,7 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     @Override
     public void updateCompany(Company company) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
-                        " set listedCountry = ?, scale = ?, name = ?, firstCategory = ?, secondCategory = ? where code = ?",
+                        " set listed_country = ?, scale = ?, name = ?, first_category = ?, second_category = ? where code = ?",
                 company.getListedCountry().name(), company.getScale().name(), company.getName(),
                 company.getFirstCategory().name(), company.getSecondCategory().name(), company.getCode());
     }
@@ -90,11 +91,11 @@ public class CompanyRepositoryImpl implements CompanyRepository {
     private RowMapper<Company> companyRowMapper() {
         return (resultSet, rowNumber) -> Company.builder()
                         .code(resultSet.getString(CODE))
-                        .listedCountry(Country.valueOf(resultSet.getString(LISTED_COUNTRY)))
+                        .listedCountry(Country.valueOf(resultSet.getString(LISTED_COUNTRY_SNAKE)))
                         .scale(Scale.valueOf(resultSet.getString(SCALE)))
                         .name(resultSet.getString(NAME))
-                        .firstCategory(FirstCategory.valueOf(resultSet.getString(FIRST_CATEGORY)))
-                        .secondCategory(SecondCategory.valueOf(resultSet.getString(SECOND_CATEGORY)))
+                        .firstCategory(FirstCategory.valueOf(resultSet.getString(FIRST_CATEGORY_SNAKE)))
+                        .secondCategory(SecondCategory.valueOf(resultSet.getString(SECOND_CATEGORY_SNAKE)))
                         .build();
     }
 }

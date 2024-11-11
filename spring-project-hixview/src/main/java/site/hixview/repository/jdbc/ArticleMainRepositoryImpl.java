@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.StringUtils.*;
 
 @Repository
 @Primary
@@ -57,7 +58,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
     @Override
     public Optional<ArticleMain> getArticleByImagePath(String imagePath) {
         List<ArticleMain> oneArticleOrNull = jdbcTemplate.query(
-                "select * from " + CURRENT_SCHEMA + " where imagePath = ?", articleRowMapper(), imagePath);
+                "select * from " + CURRENT_SCHEMA + " where image_path = ?", articleRowMapper(), imagePath);
         return oneArticleOrNull.isEmpty() ? Optional.empty() : Optional.of(oneArticleOrNull.getFirst());
     }
 
@@ -76,7 +77,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
     @Override
     public void updateArticle(ArticleMain article) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
-                        " set imagePath = ?, summary = ?, classification = ? where name = ?",
+                        " set image_path = ?, summary = ?, classification = ? where name = ?",
                 article.getImagePath(), article.getSummary(), article.getClassification().name(), article.getName());
     }
 
@@ -95,7 +96,7 @@ public class ArticleMainRepositoryImpl implements ArticleMainRepository {
         return (resultSet, rowNumber) -> ArticleMain.builder()
                 .number(resultSet.getLong(NUMBER))
                 .name(resultSet.getString(NAME))
-                .imagePath(resultSet.getString(IMAGE_PATH))
+                .imagePath(resultSet.getString(IMAGE_PATH_SNAKE))
                 .summary(resultSet.getString(SUMMARY))
                 .classification(Classification.valueOf(resultSet.getString(CLASSIFICATION)))
                 .build();

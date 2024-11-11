@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.StringUtils.*;
 
 @Repository
 @Primary
@@ -84,8 +85,8 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
      */
     @Override
     public void updatePost(BlogPost post) {
-        jdbcTemplate.update("update " + CURRENT_SCHEMA + " set date = ?, classification = ?, targetName = ?, " +
-                        "targetImagePath = ?, targetArticleNames = ?, targetArticleLinks = ? where name = ?",
+        jdbcTemplate.update("update " + CURRENT_SCHEMA + " set date = ?, classification = ?, target_name = ?, " +
+                        "target_image_path = ?, target_article_names = ?, target_article_links = ? where name = ?",
                 post.getDate(), post.getClassification().name(), post.getTargetName(), post.getTargetImagePath(),
                 post.getSerializedTargetArticleNames(), post.getSerializedTargetArticleLinks(), post.getName());
     }
@@ -104,16 +105,16 @@ public class BlogPostRepositoryImpl implements BlogPostRepository {
     private RowMapper<BlogPost> postRowMapper() {
         return (resultSet, rowNumber) -> {
             ObjectMapper objectMapper = new ObjectMapper();
-            List<String> targetArticleNames = JsonUtils.deserializeWithOneMapToList(objectMapper, TARGET_ARTICLE_NAME, resultSet.getString(TARGET_ARTICLE_NAMES));
-            List<String> targetArticleLinks = JsonUtils.deserializeWithOneMapToList(objectMapper, TARGET_ARTICLE_LINK, resultSet.getString(TARGET_ARTICLE_LINKS));
+            List<String> targetArticleNames = JsonUtils.deserializeWithOneMapToList(objectMapper, TARGET_ARTICLE_NAME, resultSet.getString(TARGET_ARTICLE_NAMES_SNAKE));
+            List<String> targetArticleLinks = JsonUtils.deserializeWithOneMapToList(objectMapper, TARGET_ARTICLE_LINK, resultSet.getString(TARGET_ARTICLE_LINKS_SNAKE));
             return BlogPost.builder()
                     .number(resultSet.getLong(NUMBER))
                     .name(resultSet.getString(NAME))
                     .link(resultSet.getString(LINK))
                     .date(resultSet.getDate(DATE).toLocalDate())
                     .classification(Classification.valueOf(resultSet.getString(CLASSIFICATION)))
-                    .targetName(resultSet.getString(TARGET_NAME))
-                    .targetImagePath(resultSet.getString(TARGET_IMAGE_PATH))
+                    .targetName(resultSet.getString(TARGET_NAME_SNAKE))
+                    .targetImagePath(resultSet.getString(TARGET_IMAGE_PATH_SNAKE))
                     .targetArticleNames(targetArticleNames)
                     .targetArticleLinks(targetArticleLinks)
                     .build();

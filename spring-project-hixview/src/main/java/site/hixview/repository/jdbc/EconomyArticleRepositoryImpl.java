@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.StringUtils.*;
 
 @Repository
 @Primary
@@ -69,7 +70,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     @Override
     public List<EconomyArticle> getLatestDomesticArticles() {
         return jdbcTemplate.query("with filtered_economy_articles as (select * from " + CURRENT_SCHEMA +
-                " where subjectCountry = '" + Country.SOUTH_KOREA.name() + "')" +
+                " where subject_country = '" + Country.SOUTH_KOREA.name() + "')" +
                 " select * from filtered_economy_articles where date = (select max(date) from" +
                 " filtered_economy_articles)", articleRowMapper());
     }
@@ -77,7 +78,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     @Override
     public List<EconomyArticle> getLatestForeignArticles() {
         return jdbcTemplate.query("with filtered_economy_articles as (select * from " + CURRENT_SCHEMA +
-                " where subjectCountry != '" + Country.SOUTH_KOREA.name() + "')" +
+                " where subject_country != '" + Country.SOUTH_KOREA.name() + "')" +
                 " select * from filtered_economy_articles where date = (select max(date) from" +
                 " filtered_economy_articles)", articleRowMapper());
     }
@@ -119,7 +120,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
     public void updateArticle(EconomyArticle article) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
                         " set press = ?, link = ?, date = ?, importance = ?," +
-                        " subjectCountry = ?, targetEconomyContents = ? where name = ?",
+                        " subject_country = ?, target_economy_contents = ? where name = ?",
                 article.getPress().name(), article.getLink(), article.getDate(), article.getImportance(),
                 article.getCountry().name(), article.getSerializedTargetEconomyContents(), article.getName());
     }
@@ -137,7 +138,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
      */
     private RowMapper<EconomyArticle> articleRowMapper() {
         return (resultSet, rowNumber) -> {
-            List<String> targetEconomyContents = JsonUtils.deserializeWithOneMapToList(objectMapper, TARGET_ECONOMY_CONTENT, resultSet.getString(TARGET_ECONOMY_CONTENTS));
+            List<String> targetEconomyContents = JsonUtils.deserializeWithOneMapToList(objectMapper, TARGET_ECONOMY_CONTENT, resultSet.getString(TARGET_ECONOMY_CONTENTS_SNAKE));
             return EconomyArticle.builder()
                     .number(resultSet.getLong(NUMBER))
                     .name(resultSet.getString(NAME))
@@ -145,7 +146,7 @@ public class EconomyArticleRepositoryImpl implements EconomyArticleRepository {
                     .link(resultSet.getString(LINK))
                     .date(resultSet.getDate(DATE).toLocalDate())
                     .importance(resultSet.getInt(IMPORTANCE))
-                    .country(Country.valueOf(resultSet.getString(SUBJECT_COUNTRY)))
+                    .country(Country.valueOf(resultSet.getString(SUBJECT_COUNTRY_SNAKE)))
                     .targetEconomyContents(targetEconomyContents)
                     .build();
         };

@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static site.hixview.domain.vo.Word.*;
+import static site.hixview.util.StringUtils.SUBJECT_FIRST_CATEGORY_SNAKE;
+import static site.hixview.util.StringUtils.SUBJECT_SECOND_CATEGORIES_SNAKE;
 
 @Repository
 @Primary
@@ -101,7 +103,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
     public void updateArticle(IndustryArticle article) {
         jdbcTemplate.update("update " + CURRENT_SCHEMA +
                         " set press = ?, link = ?, date = ?, importance = ?," +
-                        " subjectFirstCategory = ?, subjectSecondCategories = ? where name = ?",
+                        " subject_first_category = ?, subject_second_categories = ? where name = ?",
                 article.getPress().name(), article.getLink(), article.getDate(), article.getImportance(),
                 article.getSubjectFirstCategory().name(), article.getSerializedSubjectSecondCategories(), article.getName());
     }
@@ -119,7 +121,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
      */
     private RowMapper<IndustryArticle> articleRowMapper() {
         return (resultSet, rowNumber) -> {
-            List<SecondCategory> subjectSecondCategories = JsonUtils.deserializeEnumWithOneMapToList(objectMapper, SUBJECT_SECOND_CATEGORY, resultSet.getString(SUBJECT_SECOND_CATEGORIES), SecondCategory.class);
+            List<SecondCategory> subjectSecondCategories = JsonUtils.deserializeEnumWithOneMapToList(objectMapper, SUBJECT_SECOND_CATEGORY, resultSet.getString(SUBJECT_SECOND_CATEGORIES_SNAKE), SecondCategory.class);
             return IndustryArticle.builder()
                     .number(resultSet.getLong(NUMBER))
                     .name(resultSet.getString(NAME))
@@ -127,7 +129,7 @@ public class IndustryArticleRepositoryImpl implements IndustryArticleRepository 
                     .link(resultSet.getString(LINK))
                     .date(resultSet.getDate(DATE).toLocalDate())
                     .importance(resultSet.getInt(IMPORTANCE))
-                    .subjectFirstCategory(FirstCategory.valueOf(resultSet.getString(SUBJECT_FIRST_CATEGORY)))
+                    .subjectFirstCategory(FirstCategory.valueOf(resultSet.getString(SUBJECT_FIRST_CATEGORY_SNAKE)))
                     .subjectSecondCategories(subjectSecondCategories)
                     .build();
         };
