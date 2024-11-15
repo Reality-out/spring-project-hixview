@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BlogPostDto {
-    private Long number;
+public class BlogPostDtoNoNumber {
     private String name;
     private String link;
     private String date;

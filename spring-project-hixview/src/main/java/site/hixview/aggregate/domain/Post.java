@@ -4,9 +4,6 @@ import lombok.*;
 import site.hixview.aggregate.domain.convertible.ConvertibleToWholeDto;
 import site.hixview.aggregate.dto.PostDto;
 import site.hixview.aggregate.dto.PostDtoNoNumber;
-import site.hixview.aggregate.enums.Classification;
-import site.hixview.aggregate.enums.Country;
-import site.hixview.aggregate.enums.Importance;
 
 import java.time.LocalDate;
 
@@ -47,11 +44,6 @@ public class Post implements ConvertibleToWholeDto<PostDto, PostDtoNoNumber> {
         private String name;
         private String link;
         private LocalDate date;
-        private Classification classification;
-        private Country subjectCountry;
-        private Importance importance;
-        private String summary;
-        private Long pressNumber;
 
         public PostBuilder post(final Post post) {
             this.number = post.getNumber();

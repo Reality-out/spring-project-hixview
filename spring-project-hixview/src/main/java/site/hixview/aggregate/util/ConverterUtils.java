@@ -2,14 +2,14 @@ package site.hixview.aggregate.util;
 
 import java.time.LocalDate;
 
-import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_CONVERT_THIS_VALUE;
+import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_CONVERT_TO_LOCAL_DATE;
 import static site.hixview.aggregate.vo.Regex.NUMBER_REGEX;
 
 public abstract class ConverterUtils {
 
     public static LocalDate convertFromStringToLocalDate(String string) {
         if (!string.matches(NUMBER_REGEX) || string.length() != 6) {
-            throw new IllegalArgumentException(CANNOT_CONVERT_THIS_VALUE + string);
+            throw new IllegalArgumentException(CANNOT_CONVERT_TO_LOCAL_DATE + string);
         }
         return LocalDate.of(Integer.parseInt("24" + string.substring(0, 2)),
                 Integer.parseInt(string.substring(2, 4)),

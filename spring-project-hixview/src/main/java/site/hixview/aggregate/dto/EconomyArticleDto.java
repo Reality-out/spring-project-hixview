@@ -7,4 +7,13 @@ import lombok.Setter;
 @Setter
 public class EconomyArticleDto {
     private Long number;
+    private String name;
+    private String link;
+    private String date;
+    private String classification;
+    private String subjectCountry;
+    private String importance;
+    private String summary;
+    private Long pressNumber;
+    private String economyContentNumbers;
 }

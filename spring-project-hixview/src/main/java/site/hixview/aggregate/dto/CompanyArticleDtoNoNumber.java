@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IndustryArticleDto {
-    private Long number;
+public class CompanyArticleDtoNoNumber {
     private String name;
     private String link;
     private String date;
@@ -15,6 +14,5 @@ public class IndustryArticleDto {
     private String importance;
     private String summary;
     private Long pressNumber;
-    private Long firstCategoryNumber;
-    private String secondCategoryNumbers;
+    private String companyCodes;
 }
