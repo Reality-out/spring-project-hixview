@@ -10,9 +10,15 @@ public interface BasicArticleRepositoryFunction<T> {
      */
     List<T> findByDate(LocalDate date);
 
-    List<T> findByDate(LocalDate startDate, LocalDate endDate);
+    List<T> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
     List<T> findTopByDate();
+
+    List<T> findByClassification(String classification);
+
+    List<T> findBySubjectCountry(String subjectCountry);
+
+    List<T> findByImportance(String importance);
 
     Optional<T> findByNumber(Long number);
 

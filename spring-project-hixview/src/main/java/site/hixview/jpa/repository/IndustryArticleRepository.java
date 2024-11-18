@@ -1,7 +1,8 @@
 package site.hixview.jpa.repository;
 
-import site.hixview.aggregate.domain.IndustryArticle;
+import org.springframework.data.jpa.repository.JpaRepository;
+import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.repository.method.BasicArticleRepositoryFunction;
 
-public interface IndustryArticleRepository extends BasicArticleRepositoryFunction<IndustryArticle> {
+public interface IndustryArticleRepository extends BasicArticleRepositoryFunction<IndustryArticleEntity>, JpaRepository<IndustryArticleEntity, Long> {
 }

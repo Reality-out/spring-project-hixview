@@ -1,11 +1,13 @@
 package site.hixview.jpa.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import site.hixview.aggregate.domain.SiteMember;
+import site.hixview.jpa.entity.SiteMemberEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface SiteMemberRepository {
+public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Long> {
     /**
      * SELECT SiteMember
      */

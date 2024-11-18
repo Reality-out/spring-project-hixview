@@ -1,7 +1,8 @@
 package site.hixview.jpa.repository;
 
-import site.hixview.aggregate.domain.SecondCategory;
+import org.springframework.data.jpa.repository.JpaRepository;
+import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.repository.method.BasicIndustryCategoryRepositoryFunction;
 
-public interface SecondCategoryRepository extends BasicIndustryCategoryRepositoryFunction<SecondCategory> {
+public interface SecondCategoryRepository extends BasicIndustryCategoryRepositoryFunction<SecondCategoryEntity>, JpaRepository<SecondCategoryEntity, Long> {
 }

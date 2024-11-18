@@ -10,7 +10,7 @@ public interface BasicPostRepositoryFunction<T> {
      */
     List<T> findByDate(LocalDate date);
 
-    List<T> findByDate(LocalDate startDate, LocalDate endDate);
+    List<T> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
     List<T> findTopByDate();
 
