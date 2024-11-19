@@ -2,6 +2,8 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.time.LocalDate;
 
@@ -45,7 +47,24 @@ public class ArticleEntity {
     @JoinColumn(name = PRESS_NUM_SNAKE)
     private PressEntity press;
 
-    public ArticleEntity(String name, String link, LocalDate date, String classification, String subjectCountry, String importance, String summary, PressEntity press) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        ArticleEntity article = (ArticleEntity) obj;
+        return new EqualsBuilder().append(getName(), article.getName()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
+    }
+
+    public static ArticleEntityBuilder builder() {
+        return new ArticleEntityBuilder();
+    }
+
+    private ArticleEntity(String name, String link, LocalDate date, String classification, String subjectCountry, String importance, String summary, PressEntity press) {
         this.name = name;
         this.link = link;
         this.date = date;
@@ -56,35 +75,58 @@ public class ArticleEntity {
         this.press = press;
     }
 
-    public void updateName(String name) {
-        this.name = name;
-    }
+    public static final class ArticleEntityBuilder {
+        private String name;
+        private String link;
+        private LocalDate date;
+        private String classification;
+        private String subjectCountry;
+        private String importance;
+        private String summary;
+        private PressEntity press;
 
-    public void updateLink(String link) {
-        this.link = link;
-    }
+        public ArticleEntityBuilder name(final String name) {
+            this.name = name;
+            return this;
+        }
 
-    public void updateDate(LocalDate date) {
-        this.date = date;
-    }
+        public ArticleEntityBuilder link(final String link) {
+            this.link = link;
+            return this;
+        }
 
-    public void updateClassification(String classification) {
-        this.classification = classification;
-    }
+        public ArticleEntityBuilder date(final LocalDate date) {
+            this.date = date;
+            return this;
+        }
 
-    public void updateSubjectCountry(String subjectCountry) {
-        this.subjectCountry = subjectCountry;
-    }
+        public ArticleEntityBuilder classification(final String classification) {
+            this.classification = classification;
+            return this;
+        }
 
-    public void updateImportance(String importance) {
-        this.importance = importance;
-    }
+        public ArticleEntityBuilder subjectCountry(final String subjectCountry) {
+            this.subjectCountry = subjectCountry;
+            return this;
+        }
 
-    public void updateSummary(String summary) {
-        this.summary = summary;
-    }
+        public ArticleEntityBuilder importance(final String importance) {
+            this.importance = importance;
+            return this;
+        }
 
-    public void updatePress(PressEntity press) {
-        this.press = press;
+        public ArticleEntityBuilder summary(final String summary) {
+            this.summary = summary;
+            return this;
+        }
+
+        public ArticleEntityBuilder press(final PressEntity press) {
+            this.press = press;
+            return this;
+        }
+
+        public ArticleEntity build() {
+            return new ArticleEntity(this.name, this.link, this.date, this.classification, this.subjectCountry, this.importance, this.summary, this.press);
+        }
     }
 }

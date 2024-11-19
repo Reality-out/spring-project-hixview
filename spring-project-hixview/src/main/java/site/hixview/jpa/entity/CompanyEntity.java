@@ -2,7 +2,7 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import static site.hixview.aggregate.vo.WordCamel.COMPANY;
@@ -11,7 +11,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Entity
 @Table(name = COMPANY)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder(access = AccessLevel.PUBLIC)
 public class CompanyEntity {
     @Id
     @Column(nullable = false)
@@ -41,24 +41,4 @@ public class CompanyEntity {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = SEC_CATE_NUM_SNAKE)
     private SecondCategoryEntity secondCategory;
-
-    public void updateKorName(String korName) {
-        this.korName = korName;
-    }
-
-    public void updateEngName(String engName) {
-        this.engName = engName;
-    }
-
-    public void updateNameListed(String nameListed) {
-        this.nameListed = nameListed;
-    }
-
-    public void updateCountryListed(String countryListed) {
-        this.countryListed = countryListed;
-    }
-
-    public void updateScale(String scale) {
-        this.scale = scale;
-    }
 }
