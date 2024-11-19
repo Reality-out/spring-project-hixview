@@ -1,8 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
@@ -11,7 +9,6 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Entity
 @Table(name = BLOG_POST_ARTICLE_MAPPER_SNAKE)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class BlogPostArticleMapperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +24,17 @@ public class BlogPostArticleMapperEntity {
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
+
+    public BlogPostArticleMapperEntity(PostEntity post, ArticleEntity article) {
+        this.post = post;
+        this.article = article;
+    }
+
+    public void updatePost(PostEntity post) {
+        this.post = post;
+    }
+
+    public void updateArticle(ArticleEntity article) {
+        this.article = article;
+    }
 }

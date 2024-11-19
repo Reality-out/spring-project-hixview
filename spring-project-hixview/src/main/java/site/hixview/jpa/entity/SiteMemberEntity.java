@@ -1,8 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
@@ -11,7 +9,6 @@ import static site.hixview.aggregate.vo.WordSnake.SITE_MEMBER_SNAKE;
 @Entity
 @Table(name = SITE_MEMBER_SNAKE)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class SiteMemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +26,13 @@ public class SiteMemberEntity {
 
     @Column(nullable = false, length = 80)
     private String email;
+
+    public SiteMemberEntity(String id, String pw, String name, String email) {
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.email = email;
+    }
 
     public void updateId(String id) {
         this.id = id;

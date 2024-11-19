@@ -1,8 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -13,7 +11,6 @@ import static site.hixview.aggregate.vo.WordCamel.POST;
 @Entity
 @Table(name = POST)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +25,12 @@ public class PostEntity {
 
     @Column(nullable = false)
     private LocalDate date;
+
+    public PostEntity(String name, String link, LocalDate date) {
+        this.name = name;
+        this.link = link;
+        this.date = date;
+    }
 
     public void updateName(String name) {
         this.name = name;

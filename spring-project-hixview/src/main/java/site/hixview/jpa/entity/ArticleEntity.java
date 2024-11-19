@@ -1,8 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -15,7 +13,6 @@ import static site.hixview.aggregate.vo.WordSnake.SUBJECT_COUNTRY_SNAKE;
 @Entity
 @Table(name = ARTICLE)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +44,17 @@ public class ArticleEntity {
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = PRESS_NUM_SNAKE)
     private PressEntity press;
+
+    public ArticleEntity(String name, String link, LocalDate date, String classification, String subjectCountry, String importance, String summary, PressEntity press) {
+        this.name = name;
+        this.link = link;
+        this.date = date;
+        this.classification = classification;
+        this.subjectCountry = subjectCountry;
+        this.importance = importance;
+        this.summary = summary;
+        this.press = press;
+    }
 
     public void updateName(String name) {
         this.name = name;

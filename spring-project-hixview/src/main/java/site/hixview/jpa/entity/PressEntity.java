@@ -1,8 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
@@ -13,7 +11,6 @@ import static site.hixview.aggregate.vo.WordSnake.KOR_NAME_SNAKE;
 @Entity
 @Table(name = PRESS)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class PressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +22,11 @@ public class PressEntity {
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
     private String engName;
+
+    public PressEntity(String korName, String engName) {
+        this.korName = korName;
+        this.engName = engName;
+    }
 
     public void updateKorName(String korName) {
         this.korName = korName;
