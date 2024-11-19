@@ -10,4 +10,5 @@ public class BlogPostDtoNoNumber {
     private String link;
     private String date;
     private String classification;
+    private String relatedArticleNumbers;
 }
