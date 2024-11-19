@@ -1,6 +1,7 @@
 package site.hixview.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.EconomyContent;
 import site.hixview.jpa.entity.EconomyContentEntity;
 
@@ -17,5 +18,6 @@ public interface EconomyContentRepository extends JpaRepository<EconomyContentEn
     /**
      * REMOVE EconomyContent
      */
+    @Transactional
     void deleteByNumber(Long number);
 }

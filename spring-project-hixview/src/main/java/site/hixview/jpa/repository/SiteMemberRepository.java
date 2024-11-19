@@ -1,6 +1,7 @@
 package site.hixview.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.SiteMember;
 import site.hixview.jpa.entity.SiteMemberEntity;
 
@@ -24,5 +25,6 @@ public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Lo
     /**
      * REMOVE SiteMember
      */
+    @Transactional
     void deleteByNumber(Long number);
 }
