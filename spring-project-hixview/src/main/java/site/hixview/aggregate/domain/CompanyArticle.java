@@ -3,6 +3,7 @@ package site.hixview.aggregate.domain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.RuntimeJsonMappingException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,6 +14,7 @@ import site.hixview.aggregate.dto.CompanyArticleDtoNoNumber;
 import site.hixview.aggregate.enums.Classification;
 import site.hixview.aggregate.enums.Country;
 import site.hixview.aggregate.enums.Importance;
+import site.hixview.error.RuntimeJsonParsingException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,7 +46,7 @@ public class CompanyArticle implements ConvertibleToDto<CompanyArticleDto> {
         try {
             companyArticleDto.setCompanyCodes(new ObjectMapper().writeValueAsString(companyCodes));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(CANNOT_PARSE_TO_JSON + companyCodes);
+            throw new RuntimeJsonMappingException(CANNOT_PARSE_TO_JSON + companyCodes);
         }
         return companyArticleDto;
     }
@@ -138,7 +140,7 @@ public class CompanyArticle implements ConvertibleToDto<CompanyArticleDto> {
             try {
                 this.companyCodes = new ObjectMapper().readValue(companyArticleDto.getCompanyCodes(), new TypeReference<>(){});
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(CANNOT_PARSE_TO_LIST + companyArticleDto.getCompanyCodes());
+                throw new RuntimeJsonParsingException(CANNOT_PARSE_TO_LIST + companyArticleDto.getCompanyCodes());
             }
             return this;
         }
@@ -155,7 +157,7 @@ public class CompanyArticle implements ConvertibleToDto<CompanyArticleDto> {
             try {
                 this.companyCodes = new ObjectMapper().readValue(companyArticleDtoNoNumber.getCompanyCodes(), new TypeReference<>(){});
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(CANNOT_PARSE_TO_LIST + companyArticleDtoNoNumber.getCompanyCodes());
+                throw new RuntimeJsonParsingException(CANNOT_PARSE_TO_LIST + companyArticleDtoNoNumber.getCompanyCodes());
             }
             return this;
         }

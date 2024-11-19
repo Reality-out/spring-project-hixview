@@ -3,6 +3,7 @@ package site.hixview.aggregate.domain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.RuntimeJsonMappingException;
 import lombok.*;
 import site.hixview.aggregate.domain.convertible.ConvertibleToDto;
 import site.hixview.aggregate.dto.EconomyArticleDto;
@@ -10,6 +11,7 @@ import site.hixview.aggregate.dto.EconomyArticleDtoNoNumber;
 import site.hixview.aggregate.enums.Classification;
 import site.hixview.aggregate.enums.Country;
 import site.hixview.aggregate.enums.Importance;
+import site.hixview.error.RuntimeJsonParsingException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,7 +44,7 @@ public class EconomyArticle implements ConvertibleToDto<EconomyArticleDto> {
         try {
             economyArticleDto.setEconomyContentNumbers(new ObjectMapper().writeValueAsString(economyContentNumbers));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(CANNOT_PARSE_TO_JSON + economyContentNumbers);
+            throw new RuntimeJsonMappingException(CANNOT_PARSE_TO_JSON + economyContentNumbers);
         }
         return economyArticleDto;
     }
@@ -136,7 +138,7 @@ public class EconomyArticle implements ConvertibleToDto<EconomyArticleDto> {
             try {
                 this.economyContentNumbers = new ObjectMapper().readValue(economyArticleDto.getEconomyContentNumbers(), new TypeReference<>(){});
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(CANNOT_PARSE_TO_LIST + economyArticleDto.getEconomyContentNumbers());
+                throw new RuntimeJsonParsingException(CANNOT_PARSE_TO_LIST + economyArticleDto.getEconomyContentNumbers());
             }
             return this;
         }
@@ -153,7 +155,7 @@ public class EconomyArticle implements ConvertibleToDto<EconomyArticleDto> {
             try {
                 this.economyContentNumbers = new ObjectMapper().readValue(economyArticleDtoNoNumber.getEconomyContentNumbers(), new TypeReference<>(){});
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(CANNOT_PARSE_TO_LIST + economyArticleDtoNoNumber.getEconomyContentNumbers());
+                throw new RuntimeJsonParsingException(CANNOT_PARSE_TO_LIST + economyArticleDtoNoNumber.getEconomyContentNumbers());
             }
             return this;
         }

@@ -1,6 +1,7 @@
 package site.hixview.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.SiteMember;
 import site.hixview.jpa.entity.SiteMemberEntity;
@@ -8,6 +9,7 @@ import site.hixview.jpa.entity.SiteMemberEntity;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Long> {
     /**
      * SELECT SiteMember

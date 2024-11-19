@@ -1,6 +1,7 @@
 package site.hixview.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.FirstCategoryEntity;
@@ -9,6 +10,7 @@ import site.hixview.jpa.entity.SecondCategoryEntity;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, String> {
     /**
      * SELECT Company

@@ -9,7 +9,8 @@ import java.time.LocalDate;
 
 import static site.hixview.aggregate.vo.WordCamel.ARTICLE;
 import static site.hixview.aggregate.vo.WordCamel.NUM;
-import static site.hixview.aggregate.vo.WordSnake.*;
+import static site.hixview.aggregate.vo.WordSnake.PRESS_NUM_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.SUBJECT_COUNTRY_SNAKE;
 
 @Entity
 @Table(name = ARTICLE)
@@ -45,7 +46,7 @@ public class ArticleEntity {
     @Column(nullable = false)
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = PRESS_NUM_SNAKE)
-    private PressEntity pressEntity;
+    private PressEntity press;
 
     public void updateName(String name) {
         this.name = name;
@@ -73,5 +74,9 @@ public class ArticleEntity {
 
     public void updateSummary(String summary) {
         this.summary = summary;
+    }
+
+    public void updatePress(PressEntity press) {
+        this.press = press;
     }
 }

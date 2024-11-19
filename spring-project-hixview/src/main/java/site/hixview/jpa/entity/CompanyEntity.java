@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static site.hixview.aggregate.vo.WordCamel.*;
+import static site.hixview.aggregate.vo.WordCamel.COMPANY;
 import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity

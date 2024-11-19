@@ -28,12 +28,12 @@ public class SecondCategoryEntity {
     @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = INDU_CATE_NUM_SNAKE)
-    private IndustryCategoryEntity categoryEntity;
+    private IndustryCategoryEntity industryCategory;
 
     @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = FIR_CATE_NUM_SNAKE)
-    private FirstCategoryEntity firstCategoryEntity;
+    private FirstCategoryEntity firstCategory;
 
     public void updateKorName(String korName) {
         this.korName = korName;

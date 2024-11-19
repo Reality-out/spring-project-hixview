@@ -7,7 +7,8 @@ import lombok.Getter;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordCamel.PRESS;
-import static site.hixview.aggregate.vo.WordSnake.*;
+import static site.hixview.aggregate.vo.WordSnake.ENG_NAME_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.KOR_NAME_SNAKE;
 
 @Entity
 @Table(name = PRESS)

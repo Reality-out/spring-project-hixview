@@ -27,7 +27,7 @@ public class FirstCategoryEntity {
     @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = INDU_CATE_NUM_SNAKE)
-    private IndustryCategoryEntity categoryEntity;
+    private IndustryCategoryEntity industryCategory;
 
     public void updateKorName(String korName) {
         this.korName = korName;
