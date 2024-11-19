@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Configuration
 @ComponentScan(
-        basePackages = "site.hixview.repository.jdbc",
+        basePackages = "site.hixview.jpa.repository",
         includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repository.class)
 )
 public abstract class ScanRepository {

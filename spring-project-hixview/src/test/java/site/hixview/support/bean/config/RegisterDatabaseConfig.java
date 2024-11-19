@@ -1,4 +1,4 @@
-package site.hixview.support.bean;
+package site.hixview.support.bean.config;
 
 import org.springframework.context.annotation.Import;
 import site.hixview.aggregate.config.DatabaseConfig;
@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({DatabaseConfig.class})
-public @interface RegisterDatabase {
+public @interface RegisterDatabaseConfig {
 }
