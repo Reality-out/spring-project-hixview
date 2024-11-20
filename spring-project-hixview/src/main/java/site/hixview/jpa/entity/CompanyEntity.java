@@ -20,10 +20,10 @@ public class CompanyEntity {
     private String code;
 
     @Column(name = KOR_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String korName;
+    private String koreanName;
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String engName;
+    private String englishName;
 
     @Column(name = NAME_LISTED_SNAKE, length = 80, nullable = false)
     private String nameListed;
@@ -34,14 +34,12 @@ public class CompanyEntity {
     @Column(length = 80, nullable = false)
     private String scale;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = FIR_CATE_NUM_SNAKE)
+    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = SEC_CATE_NUM_SNAKE)
+    @JoinColumn(name = SEC_CATE_NUM_SNAKE, nullable = false)
     private SecondCategoryEntity secondCategory;
 
     @Override

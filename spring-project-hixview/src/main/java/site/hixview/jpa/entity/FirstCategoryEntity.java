@@ -18,14 +18,13 @@ public class FirstCategoryEntity {
     private Long number;
 
     @Column(name = KOR_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String korName;
+    private String koreanName;
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String engName;
+    private String englishName;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = INDU_CATE_NUM_SNAKE)
+    @JoinColumn(name = INDU_CATE_NUM_SNAKE, nullable = false)
     private IndustryCategoryEntity industryCategory;
 
     @Override
@@ -34,31 +33,31 @@ public class FirstCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         FirstCategoryEntity firstCategory = (FirstCategoryEntity) obj;
         return new EqualsBuilder()
-                .append(getKorName(), firstCategory.getKorName())
-                .append(getEngName(), firstCategory.getEngName())
+                .append(getKoreanName(), firstCategory.getKoreanName())
+                .append(getEnglishName(), firstCategory.getEnglishName())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKorName())
-                .append(getEngName())
+                .append(getKoreanName())
+                .append(getEnglishName())
                 .toHashCode();
     }
 
-    public FirstCategoryEntity(String korName, String engName, IndustryCategoryEntity industryCategory) {
-        this.korName = korName;
-        this.engName = engName;
+    public FirstCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
         this.industryCategory = industryCategory;
     }
 
-    public void updateKorName(String korName) {
-        this.korName = korName;
+    public void updateKoreanName(String koreanName) {
+        this.koreanName = koreanName;
     }
 
-    public void updateEngName(String engName) {
-        this.engName = engName;
+    public void updateEnglishName(String englishName) {
+        this.englishName = englishName;
     }
 
     public void updateIndustryCategory(IndustryCategoryEntity industryCategory) {

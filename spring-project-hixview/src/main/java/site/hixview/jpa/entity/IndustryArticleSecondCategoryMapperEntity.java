@@ -18,12 +18,10 @@ public class IndustryArticleSecondCategoryMapperEntity {
     private Long number;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
-    private ArticleEntity article;
+    private IndustryArticleEntity industryArticle;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = SEC_CATE_NUM_SNAKE)
     private SecondCategoryEntity secondCategory;
 
@@ -33,28 +31,28 @@ public class IndustryArticleSecondCategoryMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         IndustryArticleSecondCategoryMapperEntity industryArticleSecondCategoryMapper = (IndustryArticleSecondCategoryMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getArticle().getName(), industryArticleSecondCategoryMapper.getArticle().getName())
-                .append(getSecondCategory().getKorName(), industryArticleSecondCategoryMapper.getSecondCategory().getKorName())
-                .append(getSecondCategory().getEngName(), industryArticleSecondCategoryMapper.getSecondCategory().getEngName())
+                .append(getIndustryArticle().getArticle().getName(), industryArticleSecondCategoryMapper.getIndustryArticle().getArticle().getName())
+                .append(getSecondCategory().getKoreanName(), industryArticleSecondCategoryMapper.getSecondCategory().getKoreanName())
+                .append(getSecondCategory().getEnglishName(), industryArticleSecondCategoryMapper.getSecondCategory().getEnglishName())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getArticle().getName())
-                .append(getSecondCategory().getKorName())
-                .append(getSecondCategory().getEngName())
+                .append(getIndustryArticle().getArticle().getName())
+                .append(getSecondCategory().getKoreanName())
+                .append(getSecondCategory().getEnglishName())
                 .toHashCode();
     }
 
-    public IndustryArticleSecondCategoryMapperEntity(ArticleEntity article, SecondCategoryEntity secondCategory) {
-        this.article = article;
+    public IndustryArticleSecondCategoryMapperEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory) {
+        this.industryArticle = industryArticle;
         this.secondCategory = secondCategory;
     }
 
-    public void updateArticle(ArticleEntity article) {
-        this.article = article;
+    public void updateArticle(IndustryArticleEntity article) {
+        this.industryArticle = article;
     }
 
     public void updateSecondCategory(SecondCategoryEntity secondCategory) {

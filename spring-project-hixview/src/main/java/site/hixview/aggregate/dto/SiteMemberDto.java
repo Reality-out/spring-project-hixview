@@ -8,7 +8,7 @@ import lombok.Setter;
 public class SiteMemberDto {
     private Long number;
     private String id;
-    private String password;
+    private String pw;
     private String name;
     private String email;
 }

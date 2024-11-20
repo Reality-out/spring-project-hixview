@@ -15,10 +15,17 @@ import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class EconomyArticleEntity {
+    @Id
+    private Long articleNumber;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
+
+    protected EconomyArticleEntity(ArticleEntity article) {
+        this.article = article;
+    }
 
     @Override
     public boolean equals(Object obj) {

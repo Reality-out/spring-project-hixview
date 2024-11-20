@@ -15,23 +15,20 @@ public class SecondCategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = NUM, nullable = false)
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private Long number;
 
     @Column(name = KOR_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String korName;
+    private String koreanName;
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String engName;
+    private String englishName;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = INDU_CATE_NUM_SNAKE)
+    @JoinColumn(name = INDU_CATE_NUM_SNAKE, nullable = false)
     private IndustryCategoryEntity industryCategory;
 
-    @Column(nullable = false)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = FIR_CATE_NUM_SNAKE)
+    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 
     @Override
@@ -40,32 +37,32 @@ public class SecondCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         SecondCategoryEntity secondCategory = (SecondCategoryEntity) obj;
         return new EqualsBuilder()
-                .append(getKorName(), secondCategory.getKorName())
-                .append(getEngName(), secondCategory.getEngName())
+                .append(getKoreanName(), secondCategory.getKoreanName())
+                .append(getEnglishName(), secondCategory.getEnglishName())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKorName())
-                .append(getEngName())
+                .append(getKoreanName())
+                .append(getEnglishName())
                 .toHashCode();
     }
 
-    public SecondCategoryEntity(String korName, String engName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory) {
-        this.korName = korName;
-        this.engName = engName;
+    public SecondCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
         this.industryCategory = industryCategory;
         this.firstCategory = firstCategory;
     }
 
-    public void updateKorName(String korName) {
-        this.korName = korName;
+    public void updateKoreanName(String koreanName) {
+        this.koreanName = koreanName;
     }
 
-    public void updateEngName(String engName) {
-        this.engName = engName;
+    public void updateEnglishName(String englishName) {
+        this.englishName = englishName;
     }
 
     public void updateIndustryCategory(IndustryCategoryEntity industryCategory) {

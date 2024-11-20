@@ -15,6 +15,9 @@ import static site.hixview.aggregate.vo.WordSnake.POST_NUM_SNAKE;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class BlogPostEntity {
+    @Id
+    private Long postNumber;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = POST_NUM_SNAKE)
@@ -22,6 +25,11 @@ public class BlogPostEntity {
 
     @Column(nullable = false)
     private String classification;
+
+    protected BlogPostEntity(PostEntity post, String classification) {
+        this.post = post;
+        this.classification = classification;
+    }
 
     @Override
     public boolean equals(Object obj) {

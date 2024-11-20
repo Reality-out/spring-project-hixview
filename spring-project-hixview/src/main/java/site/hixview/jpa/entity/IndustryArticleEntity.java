@@ -14,14 +14,16 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class IndustryArticleEntity {
+    @Id
+    private Long articleNumber;
+
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
-    @JoinColumn(name = FIR_CATE_NUM_SNAKE)
+    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 
     @Override

@@ -12,7 +12,7 @@ public interface BasicArticleRepositoryFunction<T> {
 
     List<T> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
-    List<T> findTopByDate();
+    List<T> findTopByDate(LocalDate date);
 
     List<T> findByClassification(String classification);
 

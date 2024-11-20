@@ -13,7 +13,7 @@ public class SiteMember implements ConvertibleToWholeDto<SiteMemberDto, SiteMemb
 
     private final Long number;
     private final String id;
-    private final String password;
+    private final String pw;
     private final String name;
     private final String email;
 
@@ -21,7 +21,7 @@ public class SiteMember implements ConvertibleToWholeDto<SiteMemberDto, SiteMemb
     public SiteMemberDto toDto() {
         SiteMemberDto siteMemberDto = new SiteMemberDto();
         siteMemberDto.setId(id);
-        siteMemberDto.setPassword(password);
+        siteMemberDto.setPw(pw);
         siteMemberDto.setName(name);
         siteMemberDto.setEmail(email);
         return siteMemberDto;
@@ -31,7 +31,7 @@ public class SiteMember implements ConvertibleToWholeDto<SiteMemberDto, SiteMemb
     public SiteMemberDtoNoNumber toDtoNoNumber() {
         SiteMemberDtoNoNumber siteMemberDtoNoNumber = new SiteMemberDtoNoNumber();
         siteMemberDtoNoNumber.setId(id);
-        siteMemberDtoNoNumber.setPassword(password);
+        siteMemberDtoNoNumber.setPw(pw);
         siteMemberDtoNoNumber.setName(name);
         siteMemberDtoNoNumber.setEmail(email);
         return siteMemberDtoNoNumber;
@@ -42,7 +42,7 @@ public class SiteMember implements ConvertibleToWholeDto<SiteMemberDto, SiteMemb
         public SiteMemberBuilder member(SiteMember siteMember) {
             number = siteMember.getNumber();
             id = siteMember.getId();
-            password = siteMember.getPassword();
+            pw = siteMember.getPw();
             name = siteMember.getName();
             email = siteMember.getEmail();
             return this;
@@ -51,7 +51,7 @@ public class SiteMember implements ConvertibleToWholeDto<SiteMemberDto, SiteMemb
         public SiteMemberBuilder memberDto(SiteMemberDto siteMemberDto) {
             number = siteMemberDto.getNumber();
             id = siteMemberDto.getId();
-            password = siteMemberDto.getPassword();
+            pw = siteMemberDto.getPw();
             name = siteMemberDto.getName();
             email = siteMemberDto.getEmail();
             return this;
@@ -59,7 +59,7 @@ public class SiteMember implements ConvertibleToWholeDto<SiteMemberDto, SiteMemb
 
         public SiteMemberBuilder memberDtoNoNumber(SiteMemberDtoNoNumber siteMemberDtoNoNumber) {
             id = siteMemberDtoNoNumber.getId();
-            password = siteMemberDtoNoNumber.getPassword();
+            pw = siteMemberDtoNoNumber.getPw();
             name = siteMemberDtoNoNumber.getName();
             email = siteMemberDtoNoNumber.getEmail();
             return this;

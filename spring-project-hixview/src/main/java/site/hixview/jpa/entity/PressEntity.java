@@ -1,7 +1,9 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,6 +15,9 @@ import static site.hixview.aggregate.vo.WordSnake.KOR_NAME_SNAKE;
 @Entity
 @Table(name = PRESS)
 @Getter
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorValue(NUM)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +25,10 @@ public class PressEntity {
     private Long number;
 
     @Column(name = KOR_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String korName;
+    private String koreanName;
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String engName;
+    private String englishName;
 
     @Override
     public boolean equals(Object obj) {
@@ -31,29 +36,29 @@ public class PressEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         PressEntity press = (PressEntity) obj;
         return new EqualsBuilder()
-                .append(getKorName(), press.getKorName())
-                .append(getEngName(), press.getEngName())
+                .append(getKoreanName(), press.getKoreanName())
+                .append(getEnglishName(), press.getEnglishName())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKorName())
-                .append(getEngName())
+                .append(getKoreanName())
+                .append(getEnglishName())
                 .toHashCode();
     }
 
-    public PressEntity(String korName, String engName) {
-        this.korName = korName;
-        this.engName = engName;
+    public PressEntity(String koreanName, String englishName) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
     }
 
-    public void updateKorName(String korName) {
-        this.korName = korName;
+    public void updateKoreanName(String koreanName) {
+        this.koreanName = koreanName;
     }
 
-    public void updateEngName(String engName) {
-        this.engName = engName;
+    public void updateEnglishName(String englishName) {
+        this.englishName = englishName;
     }
 }

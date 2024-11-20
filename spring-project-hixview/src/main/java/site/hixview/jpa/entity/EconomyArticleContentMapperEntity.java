@@ -18,12 +18,10 @@ public class EconomyArticleContentMapperEntity {
     private Long number;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
-    private ArticleEntity article;
+    private EconomyArticleEntity economyArticle;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = ECON_CONT_NUM_SNAKE)
     private EconomyContentEntity economyContent;
 
@@ -33,7 +31,7 @@ public class EconomyArticleContentMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         EconomyArticleContentMapperEntity economyArticleContentMapper = (EconomyArticleContentMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getArticle().getName(), economyArticleContentMapper.getArticle().getName())
+                .append(getEconomyArticle().getArticle().getName(), economyArticleContentMapper.getEconomyArticle().getArticle().getName())
                 .append(getEconomyContent().getName(), economyArticleContentMapper.getEconomyContent().getName())
                 .isEquals();
     }
@@ -41,18 +39,18 @@ public class EconomyArticleContentMapperEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getArticle().getName())
+                .append(getEconomyArticle().getArticle().getName())
                 .append(getEconomyContent().getName())
                 .toHashCode();
     }
 
-    public EconomyArticleContentMapperEntity(ArticleEntity article, EconomyContentEntity economyContent) {
-        this.article = article;
+    public EconomyArticleContentMapperEntity(EconomyArticleEntity economyArticle, EconomyContentEntity economyContent) {
+        this.economyArticle = economyArticle;
         this.economyContent = economyContent;
     }
 
-    public void updateArticle(ArticleEntity article) {
-        this.article = article;
+    public void updateArticle(EconomyArticleEntity article) {
+        this.economyArticle = article;
     }
 
     public void updateEconomyContent(EconomyContentEntity economyContent) {

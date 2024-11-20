@@ -18,9 +18,9 @@ public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Lo
 
     Optional<SiteMember> findByNumber(Long number);
 
-    Optional<SiteMember> findByID(String id);
+    Optional<SiteMember> findById(String id);
 
-    Optional<SiteMember> findByIDAndPassword(String id, String password);
+    Optional<SiteMember> findByIdAndPw(String id, String pw);
 
     Optional<SiteMember> findByEmail(String email);
 

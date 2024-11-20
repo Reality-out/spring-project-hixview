@@ -18,10 +18,10 @@ public class IndustryCategoryEntity {
     private Long number;
 
     @Column(name = KOR_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String korName;
+    private String koreanName;
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
-    private String engName;
+    private String englishName;
 
     @Override
     public boolean equals(Object obj) {
@@ -29,29 +29,29 @@ public class IndustryCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         IndustryCategoryEntity industryCategory = (IndustryCategoryEntity) obj;
         return new EqualsBuilder()
-                .append(getKorName(), industryCategory.getKorName())
-                .append(getEngName(), industryCategory.getEngName())
+                .append(getKoreanName(), industryCategory.getKoreanName())
+                .append(getEnglishName(), industryCategory.getEnglishName())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKorName())
-                .append(getEngName())
+                .append(getKoreanName())
+                .append(getEnglishName())
                 .toHashCode();
     }
 
-    public IndustryCategoryEntity(String korName, String engName) {
-        this.korName = korName;
-        this.engName = engName;
+    public IndustryCategoryEntity(String koreanName, String englishName) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
     }
 
-    public void updateKorName(String korName) {
-        this.korName = korName;
+    public void updateKoreanName(String koreanName) {
+        this.koreanName = koreanName;
     }
 
-    public void updateEngName(String engName) {
-        this.engName = engName;
+    public void updateEnglishName(String englishName) {
+        this.englishName = englishName;
     }
 }

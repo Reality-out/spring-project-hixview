@@ -4,7 +4,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import site.hixview.support.bean.RegisterRepository;
 import site.hixview.support.bean.config.RegisterDatabaseConfig;
-import site.hixview.support.property.TestSchemaName;
 
 import java.lang.annotation.*;
 
@@ -15,6 +14,5 @@ import java.lang.annotation.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @RegisterDatabaseConfig
 @RegisterRepository
-@TestSchemaName
 public @interface OnlyRealRepositoryContext {
 }

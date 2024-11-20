@@ -18,12 +18,10 @@ public class BlogPostArticleMapperEntity {
     private Long number;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = POST_NUM_SNAKE)
     private PostEntity post;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
 

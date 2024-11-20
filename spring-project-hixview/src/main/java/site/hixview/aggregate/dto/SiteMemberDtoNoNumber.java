@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SiteMemberDtoNoNumber {
     private String id;
-    private String password;
+    private String pw;
     private String name;
     private String email;
 }

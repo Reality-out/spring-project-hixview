@@ -18,12 +18,10 @@ public class CompanyArticleCompanyMapperEntity {
     private Long number;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
-    private ArticleEntity article;
+    private CompanyArticleEntity companyArticle;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @MapsId
     @JoinColumn(name = COMP_CODE_SNAKE)
     private CompanyEntity company;
 
@@ -33,7 +31,7 @@ public class CompanyArticleCompanyMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         CompanyArticleCompanyMapperEntity companyArticleCompanyMapper = (CompanyArticleCompanyMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getArticle().getName(), companyArticleCompanyMapper.getArticle().getName())
+                .append(getCompanyArticle().getArticle().getName(), companyArticleCompanyMapper.getCompanyArticle().getArticle().getName())
                 .append(getCompany().getCode(), companyArticleCompanyMapper.getCompany().getCode())
                 .isEquals();
     }
@@ -41,18 +39,18 @@ public class CompanyArticleCompanyMapperEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getArticle().getName())
+                .append(getCompanyArticle().getArticle().getName())
                 .append(getCompany().getCode())
                 .toHashCode();
     }
 
-    public CompanyArticleCompanyMapperEntity(ArticleEntity article, CompanyEntity company) {
-        this.article = article;
+    public CompanyArticleCompanyMapperEntity(CompanyArticleEntity companyArticle, CompanyEntity company) {
+        this.companyArticle = companyArticle;
         this.company = company;
     }
 
-    public void updateArticle(ArticleEntity article) {
-        this.article = article;
+    public void updateArticle(CompanyArticleEntity article) {
+        this.companyArticle = article;
     }
 
     public void updateCompany(CompanyEntity company) {

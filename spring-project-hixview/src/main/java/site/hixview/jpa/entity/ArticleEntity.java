@@ -42,9 +42,8 @@ public class ArticleEntity {
     @Column(nullable = false, length = 36)
     private String summary;
 
-    @Column(nullable = false)
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = PRESS_NUM_SNAKE)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = PRESS_NUM_SNAKE, referencedColumnName = NUM, nullable = false)
     private PressEntity press;
 
     @Override
@@ -122,6 +121,18 @@ public class ArticleEntity {
 
         public ArticleEntityBuilder press(final PressEntity press) {
             this.press = press;
+            return this;
+        }
+
+        public ArticleEntityBuilder article(final ArticleEntity article) {
+            this.name = article.getName();
+            this.link = article.getLink();
+            this.date = article.getDate();
+            this.classification = article.getClassification();
+            this.subjectCountry = article.getSubjectCountry();
+            this.importance = article.getImportance();
+            this.summary = article.getSummary();
+            this.press = article.getPress();
             return this;
         }
 
