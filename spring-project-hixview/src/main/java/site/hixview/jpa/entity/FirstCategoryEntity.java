@@ -2,6 +2,8 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.*;
@@ -25,6 +27,25 @@ public class FirstCategoryEntity {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = INDU_CATE_NUM_SNAKE)
     private IndustryCategoryEntity industryCategory;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        FirstCategoryEntity firstCategory = (FirstCategoryEntity) obj;
+        return new EqualsBuilder()
+                .append(getKorName(), firstCategory.getKorName())
+                .append(getEngName(), firstCategory.getEngName())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getKorName())
+                .append(getEngName())
+                .toHashCode();
+    }
 
     public FirstCategoryEntity(String korName, String engName, IndustryCategoryEntity industryCategory) {
         this.korName = korName;

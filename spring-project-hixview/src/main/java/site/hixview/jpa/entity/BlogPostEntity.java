@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordSnake.BLOG_POST_SNAKE;
 import static site.hixview.aggregate.vo.WordSnake.POST_NUM_SNAKE;
@@ -20,4 +22,18 @@ public class BlogPostEntity {
 
     @Column(nullable = false)
     private String classification;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BlogPostEntity blogPost = (BlogPostEntity) obj;
+        return new EqualsBuilder().append(getPost().getName(), blogPost.getPost().getName()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(getPost().getName()).toHashCode();
+    }
 }

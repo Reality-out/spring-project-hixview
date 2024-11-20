@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordSnake.ARTI_NUM_SNAKE;
 import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
@@ -17,4 +19,19 @@ public class EconomyArticleEntity {
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        EconomyArticleEntity economyArticle = (EconomyArticleEntity) obj;
+        return new EqualsBuilder().append(getArticle().getName(), economyArticle.getArticle().getName())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getArticle().getName())
+                .toHashCode();
+    }
 }

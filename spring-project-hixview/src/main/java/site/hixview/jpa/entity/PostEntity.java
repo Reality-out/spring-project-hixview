@@ -2,6 +2,8 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.time.LocalDate;
 
@@ -25,6 +27,19 @@ public class PostEntity {
 
     @Column(nullable = false)
     private LocalDate date;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PostEntity post = (PostEntity) obj;
+        return new EqualsBuilder().append(getName(), post.getName()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
+    }
 
     public PostEntity(String name, String link, LocalDate date) {
         this.name = name;

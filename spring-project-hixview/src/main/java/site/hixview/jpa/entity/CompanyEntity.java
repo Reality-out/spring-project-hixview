@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordCamel.COMPANY;
 import static site.hixview.aggregate.vo.WordSnake.*;
@@ -41,4 +43,17 @@ public class CompanyEntity {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = SEC_CATE_NUM_SNAKE)
     private SecondCategoryEntity secondCategory;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        CompanyEntity company = (CompanyEntity) obj;
+        return new EqualsBuilder().append(getCode(), company.getCode()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getCode()).toHashCode();
+    }
 }

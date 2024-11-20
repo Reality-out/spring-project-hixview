@@ -2,6 +2,8 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.SITE_MEMBER_SNAKE;
@@ -26,6 +28,19 @@ public class SiteMemberEntity {
 
     @Column(nullable = false, length = 80)
     private String email;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        SiteMemberEntity siteMember = (SiteMemberEntity) obj;
+        return new EqualsBuilder().append(getId(), siteMember.getId()).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(getId()).toHashCode();
+    }
 
     public SiteMemberEntity(String id, String pw, String name, String email) {
         this.id = id;
