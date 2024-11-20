@@ -1,9 +1,9 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,7 +13,8 @@ import static site.hixview.aggregate.vo.WordSnake.POST_NUM_SNAKE;
 @Entity
 @Table(name = BLOG_POST_SNAKE)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 public class BlogPostEntity {
     @Id
     private Long postNumber;
@@ -26,7 +27,7 @@ public class BlogPostEntity {
     @Column(nullable = false)
     private String classification;
 
-    protected BlogPostEntity(PostEntity post, String classification) {
+    public BlogPostEntity(PostEntity post, String classification) {
         this.post = post;
         this.classification = classification;
     }

@@ -1,7 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -17,7 +16,7 @@ import static site.hixview.aggregate.vo.WordSnake.KOR_NAME_SNAKE;
 @Getter
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue(NUM)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class PressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

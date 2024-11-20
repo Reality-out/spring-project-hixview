@@ -1,9 +1,9 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -12,7 +12,8 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Entity
 @Table(name = INDUSTRY_ARTICLE_SNAKE)
 @Getter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor
 public class IndustryArticleEntity {
     @Id
     private Long articleNumber;

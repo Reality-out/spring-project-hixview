@@ -2,6 +2,7 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,6 +14,7 @@ import static site.hixview.aggregate.vo.WordCamel.POST;
 @Entity
 @Table(name = POST)
 @Getter
+@NoArgsConstructor
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

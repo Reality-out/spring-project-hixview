@@ -2,6 +2,7 @@ package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -11,6 +12,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Entity
 @Table(name = COMPANY_ARTICLE_COMPANY_MAPPER_SNAKE)
 @Getter
+@NoArgsConstructor
 public class CompanyArticleCompanyMapperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,7 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -13,7 +11,9 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Entity
 @Table(name = COMPANY)
 @Getter
-@Builder(access = AccessLevel.PUBLIC)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CompanyEntity {
     @Id
     @Column(nullable = false)
