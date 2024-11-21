@@ -19,11 +19,11 @@ public class EconomyArticleContentMapperEntity {
     @Column(name = NUM, nullable = false)
     private Long number;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private EconomyArticleEntity economyArticle;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = ECON_CONT_NUM_SNAKE)
     private EconomyContentEntity economyContent;
 

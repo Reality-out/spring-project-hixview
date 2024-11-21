@@ -19,11 +19,11 @@ public class IndustryArticleSecondCategoryMapperEntity {
     @Column(name = NUM, nullable = false)
     private Long number;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private IndustryArticleEntity industryArticle;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = SEC_CATE_NUM_SNAKE)
     private SecondCategoryEntity secondCategory;
 

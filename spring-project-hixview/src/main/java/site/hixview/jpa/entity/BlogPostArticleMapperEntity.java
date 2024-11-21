@@ -19,11 +19,11 @@ public class BlogPostArticleMapperEntity {
     @Column(name = NUM, nullable = false)
     private Long number;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = POST_NUM_SNAKE)
     private PostEntity post;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
 

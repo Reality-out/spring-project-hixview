@@ -1,7 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -13,7 +12,6 @@ import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
 @Entity
 @Table(name = ECONOMY_ARTICLE_SNAKE)
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class EconomyArticleEntity {
     @Id
@@ -24,7 +22,7 @@ public class EconomyArticleEntity {
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
 
-    protected EconomyArticleEntity(ArticleEntity article) {
+    public EconomyArticleEntity(ArticleEntity article) {
         this.article = article;
     }
 

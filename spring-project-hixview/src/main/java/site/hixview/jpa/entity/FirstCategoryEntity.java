@@ -25,7 +25,7 @@ public class FirstCategoryEntity {
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
     private String englishName;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = INDU_CATE_NUM_SNAKE, nullable = false)
     private IndustryCategoryEntity industryCategory;
 

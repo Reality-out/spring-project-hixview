@@ -1,7 +1,6 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -14,7 +13,6 @@ import static site.hixview.aggregate.vo.WordSnake.POST_NUM_SNAKE;
 @Table(name = BLOG_POST_SNAKE)
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class BlogPostEntity {
     @Id
     private Long postNumber;

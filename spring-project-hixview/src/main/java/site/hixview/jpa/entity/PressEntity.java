@@ -14,8 +14,6 @@ import static site.hixview.aggregate.vo.WordSnake.KOR_NAME_SNAKE;
 @Entity
 @Table(name = PRESS)
 @Getter
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorValue(NUM)
 @NoArgsConstructor
 public class PressEntity {
     @Id

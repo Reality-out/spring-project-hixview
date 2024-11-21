@@ -12,8 +12,8 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Table(name = COMPANY)
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CompanyEntity {
     @Id
     @Column(nullable = false)
@@ -34,11 +34,11 @@ public class CompanyEntity {
     @Column(length = 80, nullable = false)
     private String scale;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = SEC_CATE_NUM_SNAKE, nullable = false)
     private SecondCategoryEntity secondCategory;
 
