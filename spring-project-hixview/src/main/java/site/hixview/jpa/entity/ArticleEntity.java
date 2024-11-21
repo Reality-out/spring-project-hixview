@@ -45,7 +45,7 @@ public class ArticleEntity {
     @Column(nullable = false, length = 36)
     private String summary;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = PRESS_NUM_SNAKE, nullable = false)
     private PressEntity press;
 

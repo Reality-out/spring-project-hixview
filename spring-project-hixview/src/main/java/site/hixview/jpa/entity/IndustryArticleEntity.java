@@ -16,12 +16,12 @@ public class IndustryArticleEntity {
     @Id
     private Long articleNumber;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 

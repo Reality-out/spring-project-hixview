@@ -34,11 +34,11 @@ public class CompanyEntity {
     @Column(length = 80, nullable = false)
     private String scale;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = SEC_CATE_NUM_SNAKE, nullable = false)
     private SecondCategoryEntity secondCategory;
 
