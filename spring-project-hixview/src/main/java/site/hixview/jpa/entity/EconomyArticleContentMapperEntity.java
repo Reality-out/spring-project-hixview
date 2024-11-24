@@ -10,7 +10,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity
-@Table(name = ECONOMY_ARTICLE_CONTENT_MAPPER_SNAKE)
+@Table(name = ECON_ARTI_CONT_MAPPER_SNAKE)
 @Getter
 @NoArgsConstructor
 public class EconomyArticleContentMapperEntity {

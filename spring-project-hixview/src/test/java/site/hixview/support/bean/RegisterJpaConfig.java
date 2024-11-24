@@ -1,13 +1,13 @@
-package site.hixview.support.bean.config;
+package site.hixview.support.bean;
 
 import org.springframework.context.annotation.Import;
-import site.hixview.aggregate.config.JpaConfig;
+import site.hixview.support.config.TestJpaConfig;
 
 import java.lang.annotation.*;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({JpaConfig.class})
+@Import({TestJpaConfig.class})
 public @interface RegisterJpaConfig {
 }

@@ -1,6 +1,5 @@
 package site.hixview.jpa.repository;
 
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -11,8 +10,6 @@ import site.hixview.support.util.ArticleTestUtils;
 
 @OnlyRealRepositoryContext
 class ArticleRepositoryTest implements ArticleTestUtils {
-
-    private EntityManager entityManager;
 
     @Autowired
     private ArticleRepository articleRepository;
