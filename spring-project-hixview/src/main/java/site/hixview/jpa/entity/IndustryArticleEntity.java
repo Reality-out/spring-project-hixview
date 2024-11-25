@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.BatchSize;
 
 import static site.hixview.aggregate.vo.WordSnake.*;
 
@@ -19,6 +20,7 @@ public class IndustryArticleEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
+    @BatchSize(size = 200)
     private ArticleEntity article;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)

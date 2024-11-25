@@ -57,8 +57,6 @@ public class TestJpaConfig {
         properties.setShowSql(true);
         properties.setOpenInView(false);
         Map<String, String> propertiesMap = properties.getProperties();
-        propertiesMap.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        propertiesMap.put("hibernate.hbm2ddl.auto", "none");
         propertiesMap.put("hibernate.physical_naming_strategy", TestPrefixPhysicalNamingStrategy.class.getName());
         return properties;
     }

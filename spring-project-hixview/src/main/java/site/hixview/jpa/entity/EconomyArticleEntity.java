@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.BatchSize;
 
 import static site.hixview.aggregate.vo.WordSnake.ARTI_NUM_SNAKE;
 import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
@@ -20,6 +21,7 @@ public class EconomyArticleEntity {
     @OneToOne
     @MapsId
     @JoinColumn(name = ARTI_NUM_SNAKE)
+    @BatchSize(size = 200)
     private ArticleEntity article;
 
     public EconomyArticleEntity(ArticleEntity article) {

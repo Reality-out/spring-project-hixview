@@ -22,8 +22,6 @@ public class JpaConfig {
         em.setPackagesToScan("site.hixview.jpa.entity");
 
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "none");
         em.setJpaProperties(properties);
 
         return em;
