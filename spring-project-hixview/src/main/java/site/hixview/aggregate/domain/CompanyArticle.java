@@ -14,7 +14,7 @@ import site.hixview.aggregate.dto.CompanyArticleDtoNoNumber;
 import site.hixview.aggregate.enums.Classification;
 import site.hixview.aggregate.enums.Country;
 import site.hixview.aggregate.enums.Importance;
-import site.hixview.error.RuntimeJsonParsingException;
+import site.hixview.aggregate.error.RuntimeJsonParsingException;
 
 import java.time.LocalDate;
 import java.util.List;
