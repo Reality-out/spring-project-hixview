@@ -1,6 +1,5 @@
 package site.hixview.aggregate.config;
 
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -8,8 +7,9 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-import javax.sql.DataSource;
 import java.util.Properties;
+
+import static site.hixview.aggregate.config.DataSourceConfig.dataSource;
 
 @Configuration
 public class JpaConfig {
@@ -25,16 +25,6 @@ public class JpaConfig {
         em.setJpaProperties(properties);
 
         return em;
-    }
-
-    @Bean
-    public DataSource dataSource() {
-        return DataSourceBuilder.create()
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .url("jdbc:mysql://localhost:3306/project1build")
-                .username("JunHyeok")
-                .password("1growwhigh!")
-                .build();
     }
 
     @Bean

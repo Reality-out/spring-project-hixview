@@ -7,14 +7,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.jpa.entity.ArticleEntity;
+import site.hixview.jpa.entity.PressEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
-import site.hixview.support.util.ArticleTestUtils;
+import site.hixview.support.jpa.util.ArticleTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@OnlyRealRepositoryContext
+@OnlyRealRepositoryContext(resetTables = {ArticleEntity.class, PressEntity.class})
 class ArticleRepositoryTest implements ArticleTestUtils {
 
     @Autowired

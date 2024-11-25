@@ -1,4 +1,4 @@
-package site.hixview.support.util;
+package site.hixview.support.jpa.util;
 
 import site.hixview.jpa.entity.PressEntity;
 
