@@ -37,7 +37,7 @@ public class IndustryArticleSecondCategoryMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         IndustryArticleSecondCategoryMapperEntity industryArticleSecondCategoryMapper = (IndustryArticleSecondCategoryMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getIndustryArticle().getArticle().getName(), industryArticleSecondCategoryMapper.getIndustryArticle().getArticle().getName())
+                .append(getIndustryArticle().getName(), industryArticleSecondCategoryMapper.getIndustryArticle().getName())
                 .append(getSecondCategory().getKoreanName(), industryArticleSecondCategoryMapper.getSecondCategory().getKoreanName())
                 .append(getSecondCategory().getEnglishName(), industryArticleSecondCategoryMapper.getSecondCategory().getEnglishName())
                 .isEquals();
@@ -46,7 +46,7 @@ public class IndustryArticleSecondCategoryMapperEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getIndustryArticle().getArticle().getName())
+                .append(getIndustryArticle().getName())
                 .append(getSecondCategory().getKoreanName())
                 .append(getSecondCategory().getEnglishName())
                 .toHashCode();

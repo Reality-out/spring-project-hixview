@@ -3,7 +3,6 @@ package site.hixview.jpa.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.aggregate.domain.EconomyContent;
 import site.hixview.jpa.entity.EconomyContentEntity;
 
 import java.util.Optional;
@@ -13,9 +12,9 @@ public interface EconomyContentRepository extends JpaRepository<EconomyContentEn
     /**
      * SELECT EconomyContent
      */
-    Optional<EconomyContent> findByNumber(Long number);
+    Optional<EconomyContentEntity> findByNumber(Long number);
 
-    Optional<EconomyContent> findByName(String name);
+    Optional<EconomyContentEntity> findByName(String name);
 
     /**
      * REMOVE EconomyContent

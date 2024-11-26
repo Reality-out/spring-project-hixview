@@ -37,7 +37,7 @@ public class EconomyArticleContentMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         EconomyArticleContentMapperEntity economyArticleContentMapper = (EconomyArticleContentMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getEconomyArticle().getArticle().getName(), economyArticleContentMapper.getEconomyArticle().getArticle().getName())
+                .append(getEconomyArticle().getName(), economyArticleContentMapper.getEconomyArticle().getName())
                 .append(getEconomyContent().getName(), economyArticleContentMapper.getEconomyContent().getName())
                 .isEquals();
     }
@@ -45,7 +45,7 @@ public class EconomyArticleContentMapperEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getEconomyArticle().getArticle().getName())
+                .append(getEconomyArticle().getName())
                 .append(getEconomyContent().getName())
                 .toHashCode();
     }

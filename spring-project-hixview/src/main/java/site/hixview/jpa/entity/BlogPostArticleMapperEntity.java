@@ -21,7 +21,7 @@ public class BlogPostArticleMapperEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = POST_NUM_SNAKE)
-    private PostEntity post;
+    private BlogPostEntity blogPost;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = ARTI_NUM_SNAKE)
@@ -37,32 +37,32 @@ public class BlogPostArticleMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         BlogPostArticleMapperEntity blogPostArticleMapper = (BlogPostArticleMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getPost().getName(), blogPostArticleMapper.getPost().getName())
-                .append(getArticle().getName(), blogPostArticleMapper.getArticle().getName())
+                .append(getBlogPost().getName(), blogPostArticleMapper.getBlogPost().getName())
+                .append(getArticle().getNumber(), blogPostArticleMapper.getArticle().getNumber())
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getPost().getName())
-                .append(getArticle().getName())
+                .append(getBlogPost().getName())
+                .append(getArticle().getNumber())
                 .toHashCode();
     }
 
-    public BlogPostArticleMapperEntity(PostEntity post, ArticleEntity article, Long versionNumber) {
-        this.post = post;
+    public BlogPostArticleMapperEntity(BlogPostEntity blogPost, ArticleEntity article, Long versionNumber) {
+        this.blogPost = blogPost;
         this.article = article;
         this.versionNumber = versionNumber;
     }
 
-    public BlogPostArticleMapperEntity(PostEntity post, ArticleEntity article) {
-        this.post = post;
+    public BlogPostArticleMapperEntity(BlogPostEntity blogPost, ArticleEntity article) {
+        this.blogPost = blogPost;
         this.article = article;
     }
 
-    public void updatePost(PostEntity post) {
-        this.post = post;
+    public void updatePost(BlogPostEntity post) {
+        this.blogPost = post;
     }
 
     public void updateArticle(ArticleEntity article) {

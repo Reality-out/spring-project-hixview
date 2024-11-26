@@ -3,7 +3,6 @@ package site.hixview.jpa.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.aggregate.domain.SiteMember;
 import site.hixview.jpa.entity.SiteMemberEntity;
 
 import java.util.List;
@@ -12,20 +11,20 @@ import java.util.Optional;
 @Repository
 public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Long> {
     /**
-     * SELECT SiteMember
+     * SELECT SiteMemberEntity
      */
-    List<SiteMember> findByName(String name);
+    List<SiteMemberEntity> findByName(String name);
 
-    Optional<SiteMember> findByNumber(Long number);
+    Optional<SiteMemberEntity> findByNumber(Long number);
 
-    Optional<SiteMember> findById(String id);
+    Optional<SiteMemberEntity> findById(String id);
 
-    Optional<SiteMember> findByIdAndPw(String id, String pw);
+    Optional<SiteMemberEntity> findByIdAndPw(String id, String pw);
 
-    Optional<SiteMember> findByEmail(String email);
+    Optional<SiteMemberEntity> findByEmail(String email);
 
     /**
-     * REMOVE SiteMember
+     * REMOVE SiteMemberEntity
      */
     @Transactional
     void deleteByNumber(Long number);

@@ -37,7 +37,7 @@ public class CompanyArticleCompanyMapperEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         CompanyArticleCompanyMapperEntity companyArticleCompanyMapper = (CompanyArticleCompanyMapperEntity) obj;
         return new EqualsBuilder()
-                .append(getCompanyArticle().getArticle().getName(), companyArticleCompanyMapper.getCompanyArticle().getArticle().getName())
+                .append(getCompanyArticle().getName(), companyArticleCompanyMapper.getCompanyArticle().getName())
                 .append(getCompany().getCode(), companyArticleCompanyMapper.getCompany().getCode())
                 .isEquals();
     }
@@ -45,7 +45,7 @@ public class CompanyArticleCompanyMapperEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getCompanyArticle().getArticle().getName())
+                .append(getCompanyArticle().getName())
                 .append(getCompany().getCode())
                 .toHashCode();
     }

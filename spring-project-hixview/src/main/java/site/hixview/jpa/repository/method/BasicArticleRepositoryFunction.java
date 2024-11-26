@@ -12,8 +12,6 @@ public interface BasicArticleRepositoryFunction<T> {
 
     List<T> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
-    List<T> findByClassification(String classification);
-
     List<T> findBySubjectCountry(String subjectCountry);
 
     List<T> findByImportance(String importance);

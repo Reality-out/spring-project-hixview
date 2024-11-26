@@ -1,46 +1,91 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import site.hixview.jpa.entity.supers.PostSuperEntity;
 
+import java.time.LocalDate;
+
+import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.BLOG_POST_SNAKE;
-import static site.hixview.aggregate.vo.WordSnake.POST_NUM_SNAKE;
 
 @Entity
 @Table(name = BLOG_POST_SNAKE)
 @Getter
-@NoArgsConstructor
-public class BlogPostEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class BlogPostEntity extends PostSuperEntity {
     @Id
-    private Long postNumber;
+    private Long number;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = POST_NUM_SNAKE)
+    @JoinColumn(name = NUM)
     private PostEntity post;
 
     @Column(nullable = false)
     private String classification;
 
-    public BlogPostEntity(PostEntity post, String classification) {
-        this.post = post;
-        this.classification = classification;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        BlogPostEntity blogPost = (BlogPostEntity) obj;
-        return new EqualsBuilder().append(getPost().getName(), blogPost.getPost().getName()).isEquals();
+        BlogPostEntity post = (BlogPostEntity) obj;
+        return new EqualsBuilder().append(getName(), post.getName()).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(getPost().getName()).toHashCode();
+        return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
+    }
+
+    public static BlogPostEntityBuilder builder() {
+        return new BlogPostEntityBuilder();
+    }
+
+    private BlogPostEntity(PostEntity post, String name, String link, LocalDate date, String classification) {
+        super(name, link, date);
+        this.post = post;
+        this.classification = classification;
+    }
+
+    public static final class BlogPostEntityBuilder {
+        private PostEntity post;
+        private String name;
+        private String link;
+        private LocalDate date;
+        private String classification;
+
+        public BlogPostEntity.BlogPostEntityBuilder post(final PostEntity post) {
+            this.post = post;
+            return this;
+        }
+
+        public BlogPostEntity.BlogPostEntityBuilder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public BlogPostEntity.BlogPostEntityBuilder link(final String link) {
+            this.link = link;
+            return this;
+        }
+
+        public BlogPostEntity.BlogPostEntityBuilder date(final LocalDate date) {
+            this.date = date;
+            return this;
+        }
+
+        public BlogPostEntity.BlogPostEntityBuilder classification(final String classification) {
+            this.classification = classification;
+            return this;
+        }
+
+        public BlogPostEntity build() {
+            return new BlogPostEntity(this.post, this.name, this.link, this.date, this.classification);
+        }
     }
 }
