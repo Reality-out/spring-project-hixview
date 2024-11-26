@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.ECONOMY_CONTENT_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.VERSION_NUM_SNAKE;
 
 @Entity
 @Table(name = ECONOMY_CONTENT_SNAKE)
@@ -22,6 +23,10 @@ public class EconomyContentEntity {
     @Column(unique = true, length = 20, nullable = false)
     private String name;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -33,6 +38,11 @@ public class EconomyContentEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
+    }
+
+    public EconomyContentEntity(String name, Long versionNumber) {
+        this.name = name;
+        this.versionNumber = versionNumber;
     }
 
     public EconomyContentEntity(String name) {

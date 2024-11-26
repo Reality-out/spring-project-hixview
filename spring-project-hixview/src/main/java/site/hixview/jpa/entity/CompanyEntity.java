@@ -42,6 +42,10 @@ public class CompanyEntity {
     @JoinColumn(name = SEC_CATE_NUM_SNAKE, nullable = false)
     private SecondCategoryEntity secondCategory;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -53,5 +57,16 @@ public class CompanyEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(getCode()).toHashCode();
+    }
+
+    public CompanyEntity(String code, String koreanName, String englishName, String nameListed, String countryListed, String scale, FirstCategoryEntity firstCategory, SecondCategoryEntity secondCategory) {
+        this.code = code;
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+        this.nameListed = nameListed;
+        this.countryListed = countryListed;
+        this.scale = scale;
+        this.firstCategory = firstCategory;
+        this.secondCategory = secondCategory;
     }
 }

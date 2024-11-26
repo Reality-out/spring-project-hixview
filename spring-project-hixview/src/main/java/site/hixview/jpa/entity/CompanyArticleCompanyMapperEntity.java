@@ -27,6 +27,10 @@ public class CompanyArticleCompanyMapperEntity {
     @JoinColumn(name = COMP_CODE_SNAKE)
     private CompanyEntity company;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -44,6 +48,12 @@ public class CompanyArticleCompanyMapperEntity {
                 .append(getCompanyArticle().getArticle().getName())
                 .append(getCompany().getCode())
                 .toHashCode();
+    }
+
+    public CompanyArticleCompanyMapperEntity(CompanyArticleEntity companyArticle, CompanyEntity company, Long versionNumber) {
+        this.companyArticle = companyArticle;
+        this.company = company;
+        this.versionNumber = versionNumber;
     }
 
     public CompanyArticleCompanyMapperEntity(CompanyArticleEntity companyArticle, CompanyEntity company) {

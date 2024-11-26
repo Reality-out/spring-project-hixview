@@ -27,6 +27,10 @@ public class BlogPostArticleMapperEntity {
     @JoinColumn(name = ARTI_NUM_SNAKE)
     private ArticleEntity article;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -44,6 +48,12 @@ public class BlogPostArticleMapperEntity {
                 .append(getPost().getName())
                 .append(getArticle().getName())
                 .toHashCode();
+    }
+
+    public BlogPostArticleMapperEntity(PostEntity post, ArticleEntity article, Long versionNumber) {
+        this.post = post;
+        this.article = article;
+        this.versionNumber = versionNumber;
     }
 
     public BlogPostArticleMapperEntity(PostEntity post, ArticleEntity article) {

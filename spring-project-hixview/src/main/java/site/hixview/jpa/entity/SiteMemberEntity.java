@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.SITE_MEMBER_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.VERSION_NUM_SNAKE;
 
 @Entity
 @Table(name = SITE_MEMBER_SNAKE)
@@ -31,6 +32,10 @@ public class SiteMemberEntity {
     @Column(nullable = false, length = 80)
     private String email;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -42,6 +47,14 @@ public class SiteMemberEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(getId()).toHashCode();
+    }
+
+    public SiteMemberEntity(String id, String pw, String name, String email, Long versionNumber) {
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.email = email;
+        this.versionNumber = versionNumber;
     }
 
     public SiteMemberEntity(String id, String pw, String name, String email) {

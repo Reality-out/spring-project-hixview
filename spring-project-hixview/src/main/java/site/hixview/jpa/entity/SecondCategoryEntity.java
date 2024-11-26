@@ -33,6 +33,10 @@ public class SecondCategoryEntity {
     @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
     private FirstCategoryEntity firstCategory;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -50,6 +54,14 @@ public class SecondCategoryEntity {
                 .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
+    }
+
+    public SecondCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory, Long versionNumber) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+        this.industryCategory = industryCategory;
+        this.firstCategory = firstCategory;
+        this.versionNumber = versionNumber;
     }
 
     public SecondCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory) {

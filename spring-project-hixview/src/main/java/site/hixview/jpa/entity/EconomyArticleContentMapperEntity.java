@@ -27,6 +27,10 @@ public class EconomyArticleContentMapperEntity {
     @JoinColumn(name = ECON_CONT_NUM_SNAKE)
     private EconomyContentEntity economyContent;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -44,6 +48,12 @@ public class EconomyArticleContentMapperEntity {
                 .append(getEconomyArticle().getArticle().getName())
                 .append(getEconomyContent().getName())
                 .toHashCode();
+    }
+
+    public EconomyArticleContentMapperEntity(EconomyArticleEntity economyArticle, EconomyContentEntity economyContent, Long versionNumber) {
+        this.economyArticle = economyArticle;
+        this.economyContent = economyContent;
+        this.versionNumber = versionNumber;
     }
 
     public EconomyArticleContentMapperEntity(EconomyArticleEntity economyArticle, EconomyContentEntity economyContent) {

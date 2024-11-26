@@ -27,6 +27,10 @@ public class IndustryArticleSecondCategoryMapperEntity {
     @JoinColumn(name = SEC_CATE_NUM_SNAKE)
     private SecondCategoryEntity secondCategory;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -46,6 +50,12 @@ public class IndustryArticleSecondCategoryMapperEntity {
                 .append(getSecondCategory().getKoreanName())
                 .append(getSecondCategory().getEnglishName())
                 .toHashCode();
+    }
+
+    public IndustryArticleSecondCategoryMapperEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory, Long versionNumber) {
+        this.industryArticle = industryArticle;
+        this.secondCategory = secondCategory;
+        this.versionNumber = versionNumber;
     }
 
     public IndustryArticleSecondCategoryMapperEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory) {

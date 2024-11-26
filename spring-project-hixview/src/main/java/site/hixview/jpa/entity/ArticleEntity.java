@@ -9,8 +9,7 @@ import java.time.LocalDate;
 
 import static site.hixview.aggregate.vo.WordCamel.ARTICLE;
 import static site.hixview.aggregate.vo.WordCamel.NUM;
-import static site.hixview.aggregate.vo.WordSnake.PRESS_NUM_SNAKE;
-import static site.hixview.aggregate.vo.WordSnake.SUBJECT_COUNTRY_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity
 @Table(name = ARTICLE)
@@ -49,6 +48,10 @@ public class ArticleEntity {
     @JoinColumn(name = PRESS_NUM_SNAKE, nullable = false)
     private PressEntity press;
 
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -60,6 +63,29 @@ public class ArticleEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
+    }
+
+    private ArticleEntity(String name, String link, LocalDate date, String classification, String subjectCountry, String importance, String summary, PressEntity press, Long versionNumber) {
+        this.name = name;
+        this.link = link;
+        this.date = date;
+        this.classification = classification;
+        this.subjectCountry = subjectCountry;
+        this.importance = importance;
+        this.summary = summary;
+        this.press = press;
+        this.versionNumber = versionNumber;
+    }
+
+    private ArticleEntity(String name, String link, LocalDate date, String classification, String subjectCountry, String importance, String summary, PressEntity press) {
+        this.name = name;
+        this.link = link;
+        this.date = date;
+        this.classification = classification;
+        this.subjectCountry = subjectCountry;
+        this.importance = importance;
+        this.summary = summary;
+        this.press = press;
     }
 
     public static final class ArticleEntityBuilder {

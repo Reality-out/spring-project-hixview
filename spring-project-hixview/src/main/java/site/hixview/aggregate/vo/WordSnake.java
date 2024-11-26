@@ -31,4 +31,5 @@ public final class WordSnake {
     public static final String SEC_CATE_NUM_SNAKE = "sec_cate_num";
     public static final String SITE_MEMBER_SNAKE = "site_member";
     public static final String SUBJECT_COUNTRY_SNAKE = "subject_country";
+    public static final String VERSION_NUM_SNAKE = "version_num";
 }

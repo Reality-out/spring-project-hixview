@@ -8,8 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordCamel.PRESS;
-import static site.hixview.aggregate.vo.WordSnake.ENG_NAME_SNAKE;
-import static site.hixview.aggregate.vo.WordSnake.KOR_NAME_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity
 @Table(name = PRESS)
@@ -26,6 +25,10 @@ public class PressEntity {
 
     @Column(name = ENG_NAME_SNAKE, unique = true, length = 80, nullable = false)
     private String englishName;
+
+    @Version
+    @Column(name = VERSION_NUM_SNAKE, nullable = false)
+    private Long versionNumber;
 
     @Override
     public boolean equals(Object obj) {
@@ -44,6 +47,12 @@ public class PressEntity {
                 .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
+    }
+
+    public PressEntity(String koreanName, String englishName, Long versionNumber) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+        this.versionNumber = versionNumber;
     }
 
     public PressEntity(String koreanName, String englishName) {
