@@ -13,16 +13,11 @@ import java.util.List;
 
 public class TestResetAutoIncrementListener implements TestExecutionListener, ObjectTestUtils {
 
-    private JdbcTemplate jdbcTemplate;
     private static final Logger log = LoggerFactory.getLogger(TestResetAutoIncrementListener.class);
 
     @Override
-    public void beforeTestClass(TestContext testContext) {
-        jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
-    }
-
-    @Override
     public void afterTestClass(TestContext testContext) {
+        JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
         OnlyRealRepositoryContext annotation = testContext.getTestClass().getAnnotation(OnlyRealRepositoryContext.class);
         List<String> tableNames = Arrays.stream(annotation.resetTables()).map(this::getTestSchemaNameFromEntity).toList();
         for (String tableName : tableNames) {
