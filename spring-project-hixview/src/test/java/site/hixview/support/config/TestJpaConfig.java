@@ -14,10 +14,11 @@ import site.hixview.support.jpa.naming.TestPrefixPhysicalNamingStrategy;
 import java.util.Map;
 import java.util.Properties;
 
+import static site.hixview.aggregate.vo.Reference.JPA_REPOSITORY_REFERENCE;
 import static site.hixview.support.config.TestDataSourceConfig.dataSource;
 
 @TestConfiguration
-@EnableJpaRepositories(basePackages = "site.hixview.jpa.repository")
+@EnableJpaRepositories(basePackages = JPA_REPOSITORY_REFERENCE)
 public class TestJpaConfig {
     @Bean
     @Primary

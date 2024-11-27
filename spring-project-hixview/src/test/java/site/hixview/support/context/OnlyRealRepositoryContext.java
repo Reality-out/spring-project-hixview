@@ -23,8 +23,4 @@ import java.lang.annotation.*;
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
 )
 public @interface OnlyRealRepositoryContext {
-    /**
-     * Names of the tables that must be reset when all the test methods have finished running
-     */
-    Class[] resetTables() default {};
 }
