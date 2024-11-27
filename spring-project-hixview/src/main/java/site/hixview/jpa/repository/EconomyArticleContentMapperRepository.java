@@ -14,8 +14,7 @@ public interface EconomyArticleContentMapperRepository extends BasicMapperReposi
     /**
      * SELECT EconomyArticleContentMapper
      */
-    List<EconomyArticleContentMapperEntity> findByEconomyArticle(EconomyArticleEntity economyArticle);
+    List<EconomyArticleContentMapperEntity> findByEconomyArticle(EconomyArticleEntity article);
 
     List<EconomyArticleContentMapperEntity> findByEconomyContent(EconomyContentEntity economyContent);
-
 }

@@ -1,6 +1,5 @@
 package site.hixview.jpa.repository;
 
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -16,9 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
 class EconomyArticleRepositoryTest implements EconomyArticleTestUtils {
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private EconomyArticleRepository economyArticleRepository;

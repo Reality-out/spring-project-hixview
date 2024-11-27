@@ -26,4 +26,9 @@ public interface BasicArticleRepositoryFunction<T> {
      * REMOVE Article
      */
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK Article
+     */
+    boolean existsByNumber(Long number);
 }

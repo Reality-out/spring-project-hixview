@@ -36,4 +36,9 @@ public interface CompanyRepository extends JpaRepository<CompanyEntity, String> 
      */
     @Transactional
     void deleteByCode(String code);
+
+    /**
+     * CHECK Company
+     */
+    boolean existsByCode(String code);
 }

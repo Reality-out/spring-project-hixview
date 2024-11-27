@@ -13,4 +13,5 @@ public final class WordCamel {
     public static final String POST = "post";
     public static final String PRESS = "press";
     public static final String SECOND_CATEGORY = "secondCategory";
+    public static final String UNCHECKED = "unchecked";
 }

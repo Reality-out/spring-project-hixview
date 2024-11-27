@@ -14,7 +14,12 @@ public interface IndustryArticleSecondCategoryMapperRepository extends BasicMapp
     /**
      * SELECT IndustryArticleSecondCategoryMapper
      */
-    List<IndustryArticleSecondCategoryMapperEntity> findByIndustryArticle(IndustryArticleEntity industryArticle);
+    List<IndustryArticleSecondCategoryMapperEntity> findByIndustryArticle(IndustryArticleEntity article);
 
     List<IndustryArticleSecondCategoryMapperEntity> findBySecondCategory(SecondCategoryEntity secondCategory);
+
+    /**
+     * CHECK IndustryArticleSecondCategoryMapper
+     */
+    boolean existsByNumber(Long number);
 }

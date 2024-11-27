@@ -12,10 +12,10 @@ import site.hixview.jpa.entity.supers.ArticleSuperEntity;
 import java.time.LocalDate;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
-import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.COMPANY_ARTICLE_SNAKE;
 
 @Entity
-@Table(name = ECONOMY_ARTICLE_SNAKE)
+@Table(name = COMPANY_ARTICLE_SNAKE)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompanyArticleEntity extends ArticleSuperEntity {
@@ -32,8 +32,8 @@ public class CompanyArticleEntity extends ArticleSuperEntity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        CompanyArticleEntity economyArticle = (CompanyArticleEntity) obj;
-        return new EqualsBuilder().append(getName(), economyArticle.getName()).isEquals();
+        CompanyArticleEntity companyArticle = (CompanyArticleEntity) obj;
+        return new EqualsBuilder().append(getName(), companyArticle.getName()).isEquals();
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface EconomyArticleTestUtils extends ArticleTestUtils, PressTestUtil
                 .date(LocalDate.of(2024, 9, 30))
                 .subjectCountry(Country.CHINA.name())
                 .importance(Importance.MODERATE.name())
-                .summary("세계국채지수에 9번째 규모로 편입된 우리나라 채권 시장")
+                .summary("테스트용 첫 번째 경제 기사")
                 .press(createPress())
                 .build();
     }
@@ -31,7 +31,7 @@ public interface EconomyArticleTestUtils extends ArticleTestUtils, PressTestUtil
                 .date(LocalDate.of(2024, 10, 9))
                 .subjectCountry(Country.SOUTH_KOREA.name())
                 .importance(Importance.MODERATE.name())
-                .summary("세계국채지수에 9번째 규모로 편입된 우리나라 채권 시장")
+                .summary("테스트용 두 번째 경제 기사")
                 .press(createAnotherPress())
                 .build();
     }

@@ -17,4 +17,9 @@ public interface SecondCategoryRepository extends BasicIndustryCategoryRepositor
     List<SecondCategoryEntity> findByIndustryCategory(IndustryCategoryEntity industryCategory);
 
     List<SecondCategoryEntity> findByFirstCategory(FirstCategoryEntity firstCategory);
+
+    /**
+     * CHECK SecondCategory
+     */
+    boolean existsByNumber(Long number);
 }

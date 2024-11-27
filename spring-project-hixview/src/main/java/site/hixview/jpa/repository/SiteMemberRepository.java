@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Long> {
     /**
-     * SELECT SiteMemberEntity
+     * SELECT SiteMember
      */
     List<SiteMemberEntity> findByName(String name);
 
@@ -24,8 +24,13 @@ public interface SiteMemberRepository extends JpaRepository<SiteMemberEntity, Lo
     Optional<SiteMemberEntity> findByEmail(String email);
 
     /**
-     * REMOVE SiteMemberEntity
+     * REMOVE SiteMember
      */
     @Transactional
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK SiteMember
+     */
+    boolean existsByNumber(Long number);
 }

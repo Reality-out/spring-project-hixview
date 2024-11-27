@@ -12,11 +12,11 @@ import site.hixview.jpa.entity.supers.ArticleSuperEntity;
 import java.time.LocalDate;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
-import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
 import static site.hixview.aggregate.vo.WordSnake.FIR_CATE_NUM_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.INDUSTRY_ARTICLE_SNAKE;
 
 @Entity
-@Table(name = ECONOMY_ARTICLE_SNAKE)
+@Table(name = INDUSTRY_ARTICLE_SNAKE)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class IndustryArticleEntity extends ArticleSuperEntity {
@@ -37,8 +37,8 @@ public class IndustryArticleEntity extends ArticleSuperEntity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        IndustryArticleEntity economyArticle = (IndustryArticleEntity) obj;
-        return new EqualsBuilder().append(getName(), economyArticle.getName()).isEquals();
+        IndustryArticleEntity industryArticle = (IndustryArticleEntity) obj;
+        return new EqualsBuilder().append(getName(), industryArticle.getName()).isEquals();
     }
 
     @Override
@@ -46,8 +46,8 @@ public class IndustryArticleEntity extends ArticleSuperEntity {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
     }
 
-    public static CompanyArticleEntityBuilder builder() {
-        return new CompanyArticleEntityBuilder();
+    public static IndustryArticleEntityBuilder builder() {
+        return new IndustryArticleEntityBuilder();
     }
 
     private IndustryArticleEntity(ArticleEntity article, String name, String link, LocalDate date, String subjectCountry, String importance, String summary, PressEntity press, FirstCategoryEntity firstCategory) {
@@ -56,7 +56,7 @@ public class IndustryArticleEntity extends ArticleSuperEntity {
         this.firstCategory = firstCategory;
     }
 
-    public static final class CompanyArticleEntityBuilder {
+    public static final class IndustryArticleEntityBuilder {
         private ArticleEntity article;
         private String name;
         private String link;
@@ -67,48 +67,61 @@ public class IndustryArticleEntity extends ArticleSuperEntity {
         private PressEntity press;
         private FirstCategoryEntity firstCategory;
 
-        public CompanyArticleEntityBuilder article(final ArticleEntity article) {
+        public IndustryArticleEntityBuilder article(final ArticleEntity article) {
             this.article = article;
             return this;
         }
 
-        public CompanyArticleEntityBuilder name(final String name) {
+        public IndustryArticleEntityBuilder name(final String name) {
             this.name = name;
             return this;
         }
 
-        public CompanyArticleEntityBuilder link(final String link) {
+        public IndustryArticleEntityBuilder link(final String link) {
             this.link = link;
             return this;
         }
 
-        public CompanyArticleEntityBuilder date(final LocalDate date) {
+        public IndustryArticleEntityBuilder date(final LocalDate date) {
             this.date = date;
             return this;
         }
 
-        public CompanyArticleEntityBuilder subjectCountry(final String subjectCountry) {
+        public IndustryArticleEntityBuilder subjectCountry(final String subjectCountry) {
             this.subjectCountry = subjectCountry;
             return this;
         }
 
-        public CompanyArticleEntityBuilder importance(final String importance) {
+        public IndustryArticleEntityBuilder importance(final String importance) {
             this.importance = importance;
             return this;
         }
 
-        public CompanyArticleEntityBuilder summary(final String summary) {
+        public IndustryArticleEntityBuilder summary(final String summary) {
             this.summary = summary;
             return this;
         }
 
-        public CompanyArticleEntityBuilder press(final PressEntity press) {
+        public IndustryArticleEntityBuilder press(final PressEntity press) {
             this.press = press;
             return this;
         }
 
-        public CompanyArticleEntityBuilder firstCategory(final FirstCategoryEntity firstCategory) {
+        public IndustryArticleEntityBuilder firstCategory(final FirstCategoryEntity firstCategory) {
             this.firstCategory = firstCategory;
+            return this;
+        }
+
+        public IndustryArticleEntityBuilder industryArticle(final IndustryArticleEntity industryArticle) {
+            this.article = industryArticle.getArticle();
+            this.name = industryArticle.getName();
+            this.link = industryArticle.getLink();
+            this.date = industryArticle.getDate();
+            this.subjectCountry = industryArticle.getSubjectCountry();
+            this.importance = industryArticle.getImportance();
+            this.summary = industryArticle.getSummary();
+            this.press = industryArticle.getPress();
+            this.firstCategory = industryArticle.getFirstCategory();
             return this;
         }
 

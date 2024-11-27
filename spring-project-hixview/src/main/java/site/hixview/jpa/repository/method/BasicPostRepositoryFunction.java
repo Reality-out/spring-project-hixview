@@ -24,4 +24,9 @@ public interface BasicPostRepositoryFunction<T> {
      * REMOVE Post
      */
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK Post
+     */
+    boolean existsByNumber(Long number);
 }

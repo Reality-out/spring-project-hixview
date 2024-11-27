@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface PressRepository extends JpaRepository<PressEntity, Long> {
     /**
-     * SELECT PressEntity
+     * SELECT Press
      */
     Optional<PressEntity> findByNumber(Long number);
 
@@ -19,8 +19,13 @@ public interface PressRepository extends JpaRepository<PressEntity, Long> {
     Optional<PressEntity> findByEnglishName(String englishName);
 
     /**
-     * REMOVE PressEntity
+     * REMOVE Press
      */
     @Transactional
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK Press
+     */
+    boolean existsByNumber(Long number);
 }

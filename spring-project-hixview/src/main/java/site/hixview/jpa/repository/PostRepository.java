@@ -8,5 +8,13 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
+    /**
+     * SELECT Post
+     */
     Optional<PostEntity> findByNumber(Long number);
+
+    /**
+     * CHECK Post
+     */
+    boolean existsByNumber(Long number);
 }

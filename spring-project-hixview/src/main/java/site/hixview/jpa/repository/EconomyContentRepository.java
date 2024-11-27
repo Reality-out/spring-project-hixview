@@ -21,4 +21,9 @@ public interface EconomyContentRepository extends JpaRepository<EconomyContentEn
      */
     @Transactional
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK EconomyContent
+     */
+    boolean existsByNumber(Long number);
 }

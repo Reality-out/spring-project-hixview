@@ -12,4 +12,9 @@ public interface BasicMapperRepositoryFunction<T, S, U> {
      * REMOVE Mapper
      */
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK Mapper
+     */
+    boolean existsByNumber(Long number);
 }

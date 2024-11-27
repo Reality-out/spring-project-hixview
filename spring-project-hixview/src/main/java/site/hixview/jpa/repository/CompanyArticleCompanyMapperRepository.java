@@ -14,7 +14,7 @@ public interface CompanyArticleCompanyMapperRepository extends BasicMapperReposi
     /**
      * SELECT CompanyArticleCompanyMapper
      */
-    List<CompanyArticleCompanyMapperEntity> findByCompanyArticle(CompanyArticleEntity companyArticle);
+    List<CompanyArticleCompanyMapperEntity> findByCompanyArticle(CompanyArticleEntity article);
 
     List<CompanyArticleCompanyMapperEntity> findByCompany(CompanyEntity company);
 }

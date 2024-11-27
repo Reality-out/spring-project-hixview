@@ -8,5 +8,18 @@ import java.util.Optional;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
+    /**
+     * SELECT Article
+     */
     Optional<ArticleEntity> findByNumber(Long number);
+
+    /**
+     * DELETE Article
+     */
+    boolean deleteByNumber(Long number);
+
+    /**
+     * CHECK Article
+     */
+    boolean existsByNumber(Long number);
 }

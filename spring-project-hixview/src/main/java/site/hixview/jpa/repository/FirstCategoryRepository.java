@@ -14,4 +14,9 @@ public interface FirstCategoryRepository extends BasicIndustryCategoryRepository
      * SELECT FirstCategory
      */
     List<FirstCategoryEntity> findByIndustryCategory(IndustryCategoryEntity industryCategory);
+
+    /**
+     * CHECK FirstCategory
+     */
+    boolean existsByNumber(Long number);
 }

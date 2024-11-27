@@ -16,4 +16,9 @@ public interface BasicIndustryCategoryRepositoryFunction<T> {
      * REMOVE Category
      */
     void deleteByNumber(Long number);
+
+    /**
+     * CHECK Category
+     */
+    boolean existsByNumber(Long number);
 }
