@@ -8,6 +8,9 @@ import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import site.hixview.support.jpa.util.ObjectTestUtils;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 public class TestResetAutoIncrementListener implements TestExecutionListener, ObjectTestUtils {
 
     private static final Logger log = LoggerFactory.getLogger(TestResetAutoIncrementListener.class);
@@ -19,10 +22,11 @@ public class TestResetAutoIncrementListener implements TestExecutionListener, Ob
 
     private void resetAutoIncrement(TestContext testContext) {
         JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
-        for (String schemaName : ObjectTestUtils.getGeneratedIdClassList().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
-            log.info(schemaName);
-            jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
-            jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
-        }
+        List<String> schemaNames = ObjectTestUtils.getGeneratedIdClassList().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList();
+        jdbcTemplate.batchUpdate(schemaNames.stream()
+                .flatMap(schemaName ->
+                        Stream.of("TRUNCATE TABLE " + schemaName,
+                                "ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1")
+                ).toArray(String[]::new));
     }
 }
