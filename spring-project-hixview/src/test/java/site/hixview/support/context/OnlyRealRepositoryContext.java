@@ -3,6 +3,7 @@ package site.hixview.support.context;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.transaction.annotation.Transactional;
 import site.hixview.support.bean.RegisterDataSourceConfig;
 import site.hixview.support.bean.RegisterJdbcTemplateConfig;
 import site.hixview.support.bean.RegisterJpaConfig;
@@ -15,6 +16,7 @@ import java.lang.annotation.*;
 @Documented
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 @RegisterDataSourceConfig
 @RegisterJdbcTemplateConfig
 @RegisterJpaConfig

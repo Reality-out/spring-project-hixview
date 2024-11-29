@@ -1,5 +1,6 @@
 package site.hixview.support.jdbc.callback;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,18 +24,28 @@ import java.util.List;
 import java.util.Objects;
 
 import static site.hixview.aggregate.vo.ExceptionMessage.NOT_ENTITY_CLASS;
-import static site.hixview.aggregate.vo.Reference.JPA_REPOSITORY_REFERENCE;
+import static site.hixview.aggregate.vo.Reference.JPA_ENTITY_REFERENCE;
 
 public class TestResetAutoIncrementListener implements TestExecutionListener, ObjectTestUtils {
 
     private static final Logger log = LoggerFactory.getLogger(TestResetAutoIncrementListener.class);
 
     @Override
-    public void afterTestClass(TestContext testContext) {
+    public void beforeTestClass(@NonNull TestContext testContext) {
+        resetAutoIncrement(testContext);
+    }
+
+    @Override
+    public void afterTestClass(@NonNull TestContext testContext) {
+        resetAutoIncrement(testContext);
+    }
+
+    private void resetAutoIncrement(TestContext testContext) {
         JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
         for (String schemaName : getGeneratedIdClassList().stream().map(this::getTestSchemaNameFromEntity).toList()) {
-             jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
-             jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
+            log.info(schemaName);
+            jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
+            jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
         }
     }
 
@@ -43,7 +54,7 @@ public class TestResetAutoIncrementListener implements TestExecutionListener, Ob
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
         ClassLoader classLoader = this.getClass().getClassLoader();
         scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
-        for (BeanDefinition beanDefinition : scanner.findCandidateComponents(JPA_REPOSITORY_REFERENCE)) {
+        for (BeanDefinition beanDefinition : scanner.findCandidateComponents(JPA_ENTITY_REFERENCE)) {
             Class<?> clazz;
             try {
                 clazz = ClassUtils.forName(Objects.requireNonNull(beanDefinition.getBeanClassName()), classLoader);

@@ -100,6 +100,18 @@ public class EconomyArticleEntity extends ArticleSuperEntity {
             return this;
         }
 
+        public EconomyArticleEntityBuilder economyArticle(final EconomyArticleEntity industryArticle) {
+            this.article = industryArticle.getArticle();
+            this.name = industryArticle.getName();
+            this.link = industryArticle.getLink();
+            this.date = industryArticle.getDate();
+            this.subjectCountry = industryArticle.getSubjectCountry();
+            this.importance = industryArticle.getImportance();
+            this.summary = industryArticle.getSummary();
+            this.press = industryArticle.getPress();
+            return this;
+        }
+
         public EconomyArticleEntity build() {
             return new EconomyArticleEntity(this.article, this.name, this.link, this.date, this.subjectCountry, this.importance, this.summary, this.press);
         }

@@ -2,7 +2,6 @@ package site.hixview.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
@@ -34,7 +33,6 @@ public interface CompanyRepository extends JpaRepository<CompanyEntity, String> 
     /**
      * REMOVE Company
      */
-    @Transactional
     void deleteByCode(String code);
 
     /**

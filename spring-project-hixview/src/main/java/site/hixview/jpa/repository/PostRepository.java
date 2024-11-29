@@ -14,6 +14,11 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     Optional<PostEntity> findByNumber(Long number);
 
     /**
+     * DELETE Post
+     */
+    void deleteByNumber(Long number);
+
+    /**
      * CHECK Post
      */
     boolean existsByNumber(Long number);

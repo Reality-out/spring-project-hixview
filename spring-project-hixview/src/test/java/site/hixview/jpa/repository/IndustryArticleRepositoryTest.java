@@ -44,7 +44,7 @@ class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
         industryArticleRepository.save(article);
 
         // then
-        assertThat(industryArticleRepository.findByDate(article.getDate()).getFirst()).isEqualTo(article);
+        assertThat(industryArticleRepository.findByDate(article.getDate())).isEqualTo(List.of(article));
     }
 
     @DisplayName("날짜 범위로 산업 기사 찾기")
@@ -72,7 +72,7 @@ class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
         industryArticleRepository.save(article);
 
         // then
-        assertThat(industryArticleRepository.findBySubjectCountry(article.getSubjectCountry()).getFirst()).isEqualTo(article);
+        assertThat(industryArticleRepository.findBySubjectCountry(article.getSubjectCountry())).isEqualTo(List.of(article));
     }
 
     @DisplayName("중요성으로 산업 기사 찾기")
@@ -154,5 +154,18 @@ class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
 
         // then
         assertThat(industryArticleRepository.findAll()).isEmpty();
+    }
+
+    @DisplayName("번호로 경제 기사 확인")
+    @Test
+    void existsByNumberTest() {
+        // given
+        IndustryArticleEntity article = createIndustryArticle();
+
+        // when
+        industryArticleRepository.save(article);
+
+        // then
+        assertThat(industryArticleRepository.existsByNumber(article.getNumber())).isEqualTo(true);
     }
 }

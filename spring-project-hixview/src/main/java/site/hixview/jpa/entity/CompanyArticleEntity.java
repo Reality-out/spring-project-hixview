@@ -100,6 +100,18 @@ public class CompanyArticleEntity extends ArticleSuperEntity {
             return this;
         }
 
+        public CompanyArticleEntityBuilder companyArticle(final CompanyArticleEntity industryArticle) {
+            this.article = industryArticle.getArticle();
+            this.name = industryArticle.getName();
+            this.link = industryArticle.getLink();
+            this.date = industryArticle.getDate();
+            this.subjectCountry = industryArticle.getSubjectCountry();
+            this.importance = industryArticle.getImportance();
+            this.summary = industryArticle.getSummary();
+            this.press = industryArticle.getPress();
+            return this;
+        }
+
         public CompanyArticleEntity build() {
             return new CompanyArticleEntity(this.article, this.name, this.link, this.date, this.subjectCountry, this.importance, this.summary, this.press);
         }

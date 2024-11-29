@@ -44,7 +44,7 @@ class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
         companyArticleRepository.save(article);
 
         // then
-        assertThat(companyArticleRepository.findByDate(article.getDate()).getFirst()).isEqualTo(article);
+        assertThat(companyArticleRepository.findByDate(article.getDate())).isEqualTo(List.of(article));
     }
 
     @DisplayName("날짜 범위로 기업 기사 찾기")
@@ -72,7 +72,7 @@ class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
         companyArticleRepository.save(article);
 
         // then
-        assertThat(companyArticleRepository.findBySubjectCountry(article.getSubjectCountry()).getFirst()).isEqualTo(article);
+        assertThat(companyArticleRepository.findBySubjectCountry(article.getSubjectCountry())).isEqualTo(List.of(article));
     }
 
     @DisplayName("중요성으로 기업 기사 찾기")
@@ -141,5 +141,18 @@ class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
 
         // then
         assertThat(companyArticleRepository.findAll()).isEmpty();
+    }
+
+    @DisplayName("번호로 기업 기사 확인")
+    @Test
+    void existsByNumberTest() {
+        // given
+        CompanyArticleEntity article = createCompanyArticle();
+
+        // when
+        companyArticleRepository.save(article);
+
+        // then
+        assertThat(companyArticleRepository.existsByNumber(article.getNumber())).isEqualTo(true);
     }
 }

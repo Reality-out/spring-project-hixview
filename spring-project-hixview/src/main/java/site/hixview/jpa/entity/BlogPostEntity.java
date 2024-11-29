@@ -59,28 +59,37 @@ public class BlogPostEntity extends PostSuperEntity {
         private LocalDate date;
         private String classification;
 
-        public BlogPostEntity.BlogPostEntityBuilder post(final PostEntity post) {
+        public BlogPostEntityBuilder post(final PostEntity post) {
             this.post = post;
             return this;
         }
 
-        public BlogPostEntity.BlogPostEntityBuilder name(final String name) {
+        public BlogPostEntityBuilder name(final String name) {
             this.name = name;
             return this;
         }
 
-        public BlogPostEntity.BlogPostEntityBuilder link(final String link) {
+        public BlogPostEntityBuilder link(final String link) {
             this.link = link;
             return this;
         }
 
-        public BlogPostEntity.BlogPostEntityBuilder date(final LocalDate date) {
+        public BlogPostEntityBuilder date(final LocalDate date) {
             this.date = date;
             return this;
         }
 
-        public BlogPostEntity.BlogPostEntityBuilder classification(final String classification) {
+        public BlogPostEntityBuilder classification(final String classification) {
             this.classification = classification;
+            return this;
+        }
+
+        public BlogPostEntityBuilder blogPost(final BlogPostEntity blogPost) {
+            this.post = blogPost.getPost();
+            this.name = blogPost.getName();
+            this.link = blogPost.getLink();
+            this.date = blogPost.getDate();
+            this.classification = blogPost.getClassification();
             return this;
         }
 

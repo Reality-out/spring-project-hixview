@@ -16,7 +16,7 @@ public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
     /**
      * DELETE Article
      */
-    boolean deleteByNumber(Long number);
+    void deleteByNumber(Long number);
 
     /**
      * CHECK Article
