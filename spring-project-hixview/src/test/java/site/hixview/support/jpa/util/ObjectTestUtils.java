@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
-import site.hixview.aggregate.error.NotExpectedClassArgumentException;
+import site.hixview.aggregate.error.UnexpectedClassTypeException;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -28,6 +28,34 @@ public interface ObjectTestUtils {
     /**
      * Method
      */
+    static List<List<Class<?>>> getAllEntityClass() {
+        ArrayList<Class<?>> generatedIdEntityClass = new ArrayList<>();
+        ArrayList<Class<?>> noGeneratedIdEntityClass = new ArrayList<>();
+        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
+        for (BeanDefinition beanDefinition : scanner.findCandidateComponents(JPA_ENTITY_REFERENCE)) {
+            Class<?> clazz;
+            try {
+                clazz = ClassUtils.forName(Objects.requireNonNull(beanDefinition.getBeanClassName()), classLoader);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            boolean hasAutoIncrement = false;
+            for (Field field : clazz.getDeclaredFields()) {
+                if (field.isAnnotationPresent(Id.class) && field.isAnnotationPresent(GeneratedValue.class)) {
+                    hasAutoIncrement = true;
+                    generatedIdEntityClass.add(clazz);
+                    break;
+                }
+            }
+            if (!hasAutoIncrement) {
+                noGeneratedIdEntityClass.add(clazz);
+            }
+        }
+        return List.of(generatedIdEntityClass, noGeneratedIdEntityClass);
+    }
+
     static List<Class<?>> getGeneratedIdClassList() {
         ArrayList<Class<?>> generatedIdClassList = new ArrayList<>();
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
@@ -55,6 +83,6 @@ public interface ObjectTestUtils {
         if (tableAnnotation != null) {
             return TEST_TABLE_PREFIX + tableAnnotation.name();
         }
-        throw new NotExpectedClassArgumentException(NOT_ENTITY_CLASS + clazz.getSimpleName());
+        throw new UnexpectedClassTypeException(NOT_ENTITY_CLASS + clazz.getSimpleName());
     }
 }

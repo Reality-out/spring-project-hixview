@@ -2,12 +2,11 @@ package site.hixview.support.context;
 
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.support.bean.RegisterDataSourceConfig;
 import site.hixview.support.bean.RegisterJdbcTemplateConfig;
 import site.hixview.support.bean.RegisterJpaConfig;
-import site.hixview.support.jdbc.callback.TestResetAutoIncrementListener;
+import site.hixview.support.bean.RegisterListenerConfig;
 
 import java.lang.annotation.*;
 
@@ -20,9 +19,16 @@ import java.lang.annotation.*;
 @RegisterDataSourceConfig
 @RegisterJdbcTemplateConfig
 @RegisterJpaConfig
-@TestExecutionListeners(
-        listeners = TestResetAutoIncrementListener.class,
-        mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
-)
+@RegisterListenerConfig
 public @interface OnlyRealRepositoryContext {
+
+    ResetMode resetMode() default ResetMode.RESET_AUTO_INCREMENT;
+
+    enum ResetMode {
+        RESET_AUTO_INCREMENT,
+        RESET_TABLE;
+
+        ResetMode() {
+        }
+    }
 }
