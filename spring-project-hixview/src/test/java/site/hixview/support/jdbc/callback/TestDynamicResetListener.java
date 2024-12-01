@@ -14,11 +14,17 @@ import java.util.Map;
 
 import static site.hixview.aggregate.vo.ExceptionMessage.NOT_REGISTERED_LISTENER;
 import static site.hixview.aggregate.vo.ExceptionMessage.NOT_REPOSITORY_TEST;
+import static site.hixview.support.context.OnlyRealRepositoryContext.ResetMode;
 
-public class DynamicTestResetListener implements TestExecutionListener {
+public class TestDynamicResetListener implements TestExecutionListener {
     private final Map<String, TestExecutionListener> listeners = new HashMap<>();
 
-    private static final Logger log = LoggerFactory.getLogger(DynamicTestResetListener.class);
+    private static final Logger log = LoggerFactory.getLogger(TestDynamicResetListener.class);
+
+    public TestDynamicResetListener() {
+        addListener(ResetMode.RESET_AUTO_INCREMENT.name(), new TestResetAutoIncrementListener());
+        addListener(ResetMode.RESET_TABLE.name(), new TestResetTableListener());
+    }
 
     public void addListener(String key, TestExecutionListener listener) {
         listeners.put(key, listener);
