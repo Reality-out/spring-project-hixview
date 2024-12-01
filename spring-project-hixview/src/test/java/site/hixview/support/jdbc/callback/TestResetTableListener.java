@@ -17,7 +17,7 @@ public class TestResetTableListener implements TestExecutionListener {
     private static final Logger log = LoggerFactory.getLogger(TestResetTableListener.class);
 
     @Override
-    public void beforeTestClass(@NonNull TestContext testContext) {
+    public void prepareTestInstance(@NonNull TestContext testContext) {
         resetTable(testContext);
     }
 

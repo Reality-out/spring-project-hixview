@@ -16,7 +16,7 @@ public class TestResetAutoIncrementListener implements TestExecutionListener, Ob
     private static final Logger log = LoggerFactory.getLogger(TestResetAutoIncrementListener.class);
 
     @Override
-    public void afterTestClass(@NonNull TestContext testContext) {
+    public void prepareTestInstance(@NonNull TestContext testContext) {
         resetAutoIncrement(testContext);
     }
 

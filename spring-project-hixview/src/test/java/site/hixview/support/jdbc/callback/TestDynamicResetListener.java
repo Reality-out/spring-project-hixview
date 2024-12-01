@@ -4,6 +4,7 @@ import io.micrometer.common.lang.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.expression.AccessException;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import site.hixview.aggregate.error.ConfigurationException;
@@ -16,6 +17,7 @@ import static site.hixview.aggregate.vo.ExceptionMessage.NOT_REGISTERED_LISTENER
 import static site.hixview.aggregate.vo.ExceptionMessage.NOT_REPOSITORY_TEST;
 import static site.hixview.support.context.OnlyRealRepositoryContext.ResetMode;
 
+@Component
 public class TestDynamicResetListener implements TestExecutionListener {
     private final Map<String, TestExecutionListener> listeners = new HashMap<>();
 
@@ -31,11 +33,9 @@ public class TestDynamicResetListener implements TestExecutionListener {
     }
 
     @Override
-    public void beforeTestClass(@NonNull TestContext testContext) throws Exception {
+    public void prepareTestInstance(@NonNull TestContext testContext) throws Exception {
         TestExecutionListener listener = getTestResetListener(testContext);
-        if (listener instanceof TestResetTableListener) {
-            listener.beforeTestClass(testContext);
-        }
+        listener.prepareTestInstance(testContext);
     }
 
     @Override
@@ -43,14 +43,6 @@ public class TestDynamicResetListener implements TestExecutionListener {
         TestExecutionListener listener = getTestResetListener(testContext);
         if (listener instanceof TestResetTableListener) {
             listener.afterTestMethod(testContext);
-        }
-    }
-    
-    @Override
-    public void afterTestClass(@NonNull TestContext testContext) throws Exception {
-        TestExecutionListener listener = getTestResetListener(testContext);
-        if (listener instanceof TestResetAutoIncrementListener) {
-            listener.afterTestClass(testContext);
         }
     }
 
