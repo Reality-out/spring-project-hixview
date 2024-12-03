@@ -4,7 +4,6 @@ import io.micrometer.common.lang.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.expression.AccessException;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import site.hixview.aggregate.error.ConfigurationException;
@@ -17,29 +16,29 @@ import static site.hixview.aggregate.vo.ExceptionMessage.NOT_REGISTERED_LISTENER
 import static site.hixview.aggregate.vo.ExceptionMessage.NOT_REPOSITORY_TEST;
 import static site.hixview.support.context.OnlyRealRepositoryContext.ResetMode;
 
-@Component
 public class TestDynamicResetListener implements TestExecutionListener {
-    private final Map<String, TestExecutionListener> listeners = new HashMap<>();
-
+    private static final Map<String, TestExecutionListener> listeners = new HashMap<>();
     private static final Logger log = LoggerFactory.getLogger(TestDynamicResetListener.class);
 
-    public TestDynamicResetListener() {
+    static {
         addListener(ResetMode.RESET_AUTO_INCREMENT.name(), new TestResetAutoIncrementListener());
         addListener(ResetMode.RESET_TABLE.name(), new TestResetTableListener());
     }
 
-    public void addListener(String key, TestExecutionListener listener) {
+    public static void addListener(String key, TestExecutionListener listener) {
         listeners.put(key, listener);
     }
 
     @Override
     public void prepareTestInstance(@NonNull TestContext testContext) throws Exception {
+        log.info("prepareTestInstance");
         TestExecutionListener listener = getTestResetListener(testContext);
         listener.prepareTestInstance(testContext);
     }
 
     @Override
     public void afterTestMethod(@NonNull TestContext testContext) throws Exception {
+        log.info("afterTestMethod");
         TestExecutionListener listener = getTestResetListener(testContext);
         if (listener instanceof TestResetTableListener) {
             listener.afterTestMethod(testContext);

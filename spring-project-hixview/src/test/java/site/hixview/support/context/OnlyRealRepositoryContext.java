@@ -4,10 +4,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.transaction.annotation.Transactional;
-import site.hixview.support.bean.RegisterDataSourceConfig;
-import site.hixview.support.bean.RegisterJdbcTemplateConfig;
-import site.hixview.support.bean.RegisterJpaConfig;
-import site.hixview.support.bean.RegisterListenerConfig;
+import site.hixview.support.bean.set.RegisterRepositorySettingConfig;
 import site.hixview.support.jdbc.callback.TestDynamicResetListener;
 
 import java.lang.annotation.*;
@@ -18,10 +15,7 @@ import java.lang.annotation.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-@RegisterDataSourceConfig
-@RegisterJdbcTemplateConfig
-@RegisterJpaConfig
-@RegisterListenerConfig
+@RegisterRepositorySettingConfig
 @TestExecutionListeners(
         listeners = TestDynamicResetListener.class,
         mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS
