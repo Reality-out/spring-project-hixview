@@ -1,5 +1,6 @@
 package site.hixview.aggregate.config;
 
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -36,6 +37,16 @@ public class JpaConfig {
         vendorAdapter.setGenerateDdl(false);
         vendorAdapter.setShowSql(true);
         return vendorAdapter;
+    }
+
+    @Bean
+    public JpaProperties jpaProperties() {
+        JpaProperties properties = new JpaProperties();
+        properties.setDatabase(Database.MYSQL);
+        properties.setGenerateDdl(false);
+        properties.setShowSql(true);
+        properties.setOpenInView(false);
+        return properties;
     }
 
     @Bean

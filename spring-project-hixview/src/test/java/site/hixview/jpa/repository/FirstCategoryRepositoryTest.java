@@ -1,15 +1,18 @@
 package site.hixview.jpa.repository;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.util.FirstCategoryTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.support.jpa.util.ObjectTestUtils.resetAutoIncrement;
 
 @OnlyRealRepositoryContext
 class FirstCategoryRepositoryTest implements FirstCategoryTestUtils {
@@ -18,6 +21,11 @@ class FirstCategoryRepositoryTest implements FirstCategoryTestUtils {
     private FirstCategoryRepository firstCategoryRepository;
 
     private static final Logger log = LoggerFactory.getLogger(FirstCategoryRepositoryTest.class);
+
+    @BeforeAll
+    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
+        resetAutoIncrement(applicationContext);
+    }
 
     @DisplayName("JpaRepository 1차 업종 연결")
     @Test

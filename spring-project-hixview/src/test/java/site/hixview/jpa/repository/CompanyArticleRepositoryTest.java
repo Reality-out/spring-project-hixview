@@ -1,10 +1,12 @@
 package site.hixview.jpa.repository;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import site.hixview.jpa.entity.CompanyArticleEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.util.CompanyArticleTestUtils;
@@ -12,6 +14,7 @@ import site.hixview.support.jpa.util.CompanyArticleTestUtils;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.support.jpa.util.ObjectTestUtils.resetAutoIncrement;
 
 @OnlyRealRepositoryContext
 class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
@@ -20,6 +23,11 @@ class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
     private CompanyArticleRepository companyArticleRepository;
 
     private static final Logger log = LoggerFactory.getLogger(CompanyArticleRepositoryTest.class);
+
+    @BeforeAll
+    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
+        resetAutoIncrement(applicationContext);
+    }
 
     @DisplayName("JpaRepository 기업 기사 연결")
     @Test

@@ -5,9 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.ClassUtils;
 import site.hixview.aggregate.error.UnexpectedClassTypeException;
 
@@ -84,5 +88,36 @@ public interface ObjectTestUtils {
             return TEST_TABLE_PREFIX + tableAnnotation.name();
         }
         throw new UnexpectedClassTypeException(NOT_ENTITY_CLASS + clazz.getSimpleName());
+    }
+
+    static void resetAutoIncrement(ApplicationContext applicationContext) {
+        JdbcTemplate jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
+        TransactionTemplate transactionTemplate = new TransactionTemplate(applicationContext.getBean(PlatformTransactionManager.class));
+        transactionTemplate.execute(status -> {
+            for (String schemaName : ObjectTestUtils.getGeneratedIdClassList().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
+                jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
+                jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
+            }
+            return null;
+        });
+    }
+
+    static void resetTable(ApplicationContext applicationContext) {
+        JdbcTemplate jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
+        TransactionTemplate transactionTemplate = new TransactionTemplate(applicationContext.getBean(PlatformTransactionManager.class));
+        List<List<Class<?>>> allEntityClassList = ObjectTestUtils.getAllEntityClass();
+        transactionTemplate.execute(status -> {
+            for (String schemaName : allEntityClassList.getFirst().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
+                jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
+                jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
+            }
+            return null;
+        });
+        transactionTemplate.execute(status -> {
+            for (String schemaName : allEntityClassList.getLast().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
+                jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
+            }
+            return null;
+        });
     }
 }
