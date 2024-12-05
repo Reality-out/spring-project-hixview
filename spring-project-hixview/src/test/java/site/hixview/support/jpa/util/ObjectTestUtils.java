@@ -19,6 +19,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import static site.hixview.aggregate.vo.ExceptionMessage.NOT_ENTITY_CLASS;
 import static site.hixview.aggregate.vo.Reference.JPA_ENTITY_REFERENCE;
@@ -94,29 +95,36 @@ public interface ObjectTestUtils {
         JdbcTemplate jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
         TransactionTemplate transactionTemplate = new TransactionTemplate(applicationContext.getBean(PlatformTransactionManager.class));
         transactionTemplate.execute(status -> {
-            for (String schemaName : ObjectTestUtils.getGeneratedIdClassList().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
-                jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
-                jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
-            }
+            List<String> schemaNames = ObjectTestUtils.getGeneratedIdClassList().stream()
+                    .map(ObjectTestUtils::getTestSchemaNameFromEntity).toList();
+            String[] sqlStatements = schemaNames.stream().flatMap(schemaName -> Stream.of(
+                            "TRUNCATE TABLE " + schemaName, "ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1"))
+                    .toArray(String[]::new);
+            jdbcTemplate.batchUpdate(sqlStatements);
             return null;
         });
     }
 
     static void resetTable(ApplicationContext applicationContext) {
         JdbcTemplate jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
-        TransactionTemplate transactionTemplate = new TransactionTemplate(applicationContext.getBean(PlatformTransactionManager.class));
+        TransactionTemplate transactionTemplate = new TransactionTemplate(
+                applicationContext.getBean(PlatformTransactionManager.class));
         List<List<Class<?>>> allEntityClassList = ObjectTestUtils.getAllEntityClass();
         transactionTemplate.execute(status -> {
-            for (String schemaName : allEntityClassList.getFirst().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
-                jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
-                jdbcTemplate.execute("ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1");
-            }
+            List<String> generatedIdSchemaNames = allEntityClassList.getFirst().stream()
+                    .map(ObjectTestUtils::getTestSchemaNameFromEntity).toList();
+            String[] sqlStatements = generatedIdSchemaNames.stream().flatMap(schemaName -> Stream.of(
+                            "TRUNCATE TABLE " + schemaName, "ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1"))
+                    .toArray(String[]::new);
+            jdbcTemplate.batchUpdate(sqlStatements);
             return null;
         });
         transactionTemplate.execute(status -> {
-            for (String schemaName : allEntityClassList.getLast().stream().map(ObjectTestUtils::getTestSchemaNameFromEntity).toList()) {
-                jdbcTemplate.execute("TRUNCATE TABLE " + schemaName);
-            }
+            List<String> noGeneratedIdSchemaNames = allEntityClassList.getLast().stream()
+                    .map(ObjectTestUtils::getTestSchemaNameFromEntity).toList();
+            String[] sqlStatements = noGeneratedIdSchemaNames.stream()
+                    .map(schemaName -> "TRUNCATE TABLE " + schemaName).toArray(String[]::new);
+            jdbcTemplate.batchUpdate(sqlStatements);
             return null;
         });
     }
