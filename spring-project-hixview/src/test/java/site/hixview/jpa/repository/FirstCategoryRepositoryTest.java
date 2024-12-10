@@ -1,18 +1,21 @@
 package site.hixview.jpa.repository;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
-import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.FirstCategoryTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.aggregate.vo.WordSnake.FIRST_CATEGORY_SNAKE;
+import static site.hixview.aggregate.vo.WordSnake.INDUSTRY_CATEGORY_SNAKE;
+import static site.hixview.support.jpa.util.ObjectTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 class FirstCategoryRepositoryTest implements FirstCategoryTestUtils {
@@ -20,11 +23,17 @@ class FirstCategoryRepositoryTest implements FirstCategoryTestUtils {
     @Autowired
     private FirstCategoryRepository firstCategoryRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE,
+            TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
+
     private static final Logger log = LoggerFactory.getLogger(FirstCategoryRepositoryTest.class);
 
-    @BeforeAll
-    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        new SqlExecutor().resetAutoIncrement(applicationContext);
+    @BeforeEach
+    public void beforeEach() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
     }
 
     @DisplayName("번호로 1차 업종 찾기")

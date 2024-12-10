@@ -1,20 +1,24 @@
 package site.hixview.jpa.repository;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.jpa.entity.EconomyArticleEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
-import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.EconomyArticleTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.aggregate.vo.WordCamel.ARTICLE;
+import static site.hixview.aggregate.vo.WordCamel.PRESS;
+import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
+import static site.hixview.support.jpa.util.ObjectTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 class EconomyArticleRepositoryTest implements EconomyArticleTestUtils {
@@ -22,11 +26,17 @@ class EconomyArticleRepositoryTest implements EconomyArticleTestUtils {
     @Autowired
     private EconomyArticleRepository economyArticleRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + ECONOMY_ARTICLE_SNAKE,
+            TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + PRESS};
+
     private static final Logger log = LoggerFactory.getLogger(EconomyArticleRepositoryTest.class);
 
-    @BeforeAll
-    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        new SqlExecutor().resetAutoIncrement(applicationContext);
+    @BeforeEach
+    public void beforeEach() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
     }
 
     @DisplayName("날짜로 경제 기사 찾기")

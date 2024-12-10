@@ -1,20 +1,22 @@
 package site.hixview.jpa.repository;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.jpa.entity.SiteMemberEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
-import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.SiteMemberTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static site.hixview.aggregate.vo.WordSnake.SITE_MEMBER_SNAKE;
+import static site.hixview.support.jpa.util.ObjectTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 class SiteMemberRepositoryTest implements SiteMemberTestUtils {
@@ -22,11 +24,16 @@ class SiteMemberRepositoryTest implements SiteMemberTestUtils {
     @Autowired
     private SiteMemberRepository siteMemberRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + SITE_MEMBER_SNAKE};
+
     private static final Logger log = LoggerFactory.getLogger(SiteMemberRepositoryTest.class);
 
-    @BeforeAll
-    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        new SqlExecutor().resetAutoIncrement(applicationContext);
+    @BeforeEach
+    public void beforeEach() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
     }
 
     @DisplayName("이름으로 사이트 회원 찾기")
