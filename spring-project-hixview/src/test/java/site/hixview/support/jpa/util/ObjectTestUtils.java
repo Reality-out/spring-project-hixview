@@ -56,28 +56,6 @@ public interface ObjectTestUtils {
         return List.of(generatedIdEntityClass, noGeneratedIdEntityClass);
     }
 
-    static List<Class<?>> getGeneratedIdEntity() {
-        ArrayList<Class<?>> generatedIdClassList = new ArrayList<>();
-        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        scanner.addIncludeFilter(new AnnotationTypeFilter(Entity.class));
-        for (BeanDefinition beanDefinition : scanner.findCandidateComponents(JPA_ENTITY_REFERENCE)) {
-            Class<?> clazz;
-            try {
-                clazz = ClassUtils.forName(Objects.requireNonNull(beanDefinition.getBeanClassName()), classLoader);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            for (Field field : clazz.getDeclaredFields()) {
-                if (field.isAnnotationPresent(Id.class) && field.isAnnotationPresent(GeneratedValue.class)) {
-                    generatedIdClassList.add(clazz);
-                    break;
-                }
-            }
-        }
-        return generatedIdClassList;
-    }
-
     static String getTestSchemaNameFromEntity(Class<?> clazz) {
         Table tableAnnotation = AnnotationUtils.findAnnotation(clazz, Table.class);
         if (tableAnnotation != null) {
