@@ -27,19 +27,6 @@ class EconomyContentRepositoryTest implements EconomyContentTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 경제 컨텐츠 연결")
-    @Test
-    void connectTest() {
-        // given
-        EconomyContentEntity economyContent = createEconomyContent();
-
-        // when
-        economyContentRepository.save(economyContent);
-
-        // then
-        assertThat(economyContentRepository.findByNumber(economyContent.getNumber()).orElseThrow()).isEqualTo(economyContent);
-    }
-
     @DisplayName("번호로 경제 컨텐츠 찾기")
     @Test
     void findByNumberTest() {

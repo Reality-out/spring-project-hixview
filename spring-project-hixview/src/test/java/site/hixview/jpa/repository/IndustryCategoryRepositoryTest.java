@@ -27,19 +27,6 @@ class IndustryCategoryRepositoryTest implements IndustryCategoryTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 산업 업종 연결")
-    @Test
-    void connectTest() {
-        // given
-        IndustryCategoryEntity industryCategory = createFirstIndustryCategory();
-
-        // when
-        industryCategoryRepository.save(industryCategory);
-
-        // then
-        assertThat(industryCategoryRepository.findByNumber(industryCategory.getNumber()).orElseThrow()).isEqualTo(industryCategory);
-    }
-
     @DisplayName("번호로 산업 업종 찾기")
     @Test
     void findByNumberTest() {

@@ -27,19 +27,6 @@ class FirstCategoryRepositoryTest implements FirstCategoryTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 1차 업종 연결")
-    @Test
-    void connectTest() {
-        // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
-
-        // when
-        firstCategoryRepository.save(firstCategory);
-
-        // then
-        assertThat(firstCategoryRepository.findByNumber(firstCategory.getNumber()).orElseThrow()).isEqualTo(firstCategory);
-    }
-
     @DisplayName("번호로 1차 업종 찾기")
     @Test
     void findByNumberTest() {

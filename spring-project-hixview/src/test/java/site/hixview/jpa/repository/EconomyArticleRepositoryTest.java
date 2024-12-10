@@ -29,19 +29,6 @@ class EconomyArticleRepositoryTest implements EconomyArticleTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 경제 기사 연결")
-    @Test
-    void connectTest() {
-        // given
-        EconomyArticleEntity article = createEconomyArticle();
-
-        // when
-        economyArticleRepository.save(article);
-
-        // then
-        assertThat(economyArticleRepository.findByNumber(article.getNumber()).orElseThrow()).isEqualTo(article);
-    }
-
     @DisplayName("날짜로 경제 기사 찾기")
     @Test
     void findByDateTest() {

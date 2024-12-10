@@ -29,19 +29,6 @@ class SecondCategoryRepositoryTest implements SecondCategoryTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 2차 업종 연결")
-    @Test
-    void connectTest() {
-        // given
-        SecondCategoryEntity secondCategory = createSecondCategory();
-
-        // when
-        secondCategoryRepository.save(secondCategory);
-
-        // then
-        assertThat(secondCategoryRepository.findByNumber(secondCategory.getNumber()).orElseThrow()).isEqualTo(secondCategory);
-    }
-
     @DisplayName("번호로 2차 업종 찾기")
     @Test
     void findByNumberTest() {

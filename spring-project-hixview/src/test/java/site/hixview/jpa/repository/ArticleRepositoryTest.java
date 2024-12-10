@@ -27,19 +27,6 @@ class ArticleRepositoryTest implements ArticleTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 기사 연결")
-    @Test
-    void connectTest() {
-        // given
-        ArticleEntity article = createArticle();
-
-        // when
-        articleRepository.save(article);
-
-        // then
-        assertThat(articleRepository.findByNumber(article.getNumber()).orElseThrow()).isEqualTo(article);
-    }
-
     @DisplayName("번호로 기사 찾기")
     @Test
     void findByNumberTest() {

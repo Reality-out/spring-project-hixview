@@ -27,19 +27,6 @@ class PressRepositoryTest implements PressTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 언론사 연결")
-    @Test
-    void connectTest() {
-        // given
-        PressEntity press = createPress();
-
-        // when
-        pressRepository.save(press);
-
-        // then
-        assertThat(pressRepository.findByNumber(press.getNumber()).orElseThrow()).isEqualTo(press);
-    }
-
     @DisplayName("번호로 언론사 찾기")
     @Test
     void findByNumberTest() {

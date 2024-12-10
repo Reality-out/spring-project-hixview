@@ -12,8 +12,6 @@ public interface BasicPostRepositoryFunction<T> {
 
     List<T> findByDateBetween(LocalDate startDate, LocalDate endDate);
 
-    List<T> findTopByDate(LocalDate date);
-
     Optional<T> findByNumber(Long number);
 
     Optional<T> findByName(String name);

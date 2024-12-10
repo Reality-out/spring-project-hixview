@@ -5,14 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionTemplate;
 import site.hixview.support.jpa.util.ObjectTestUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 import static site.hixview.aggregate.vo.ExceptionMessage.FAILED_BATCH_PROCESSING;
@@ -38,7 +36,6 @@ public class SqlExecutor {
         JdbcTemplate jdbcTemplate = applicationContext.getBean(JdbcTemplate.class);
         TransactionTemplate transactionTemplate = new TransactionTemplate(
                 applicationContext.getBean(PlatformTransactionManager.class));
-        TransactionStatus status = Objects.requireNonNull(transactionTemplate.getTransactionManager()).getTransaction(transactionTemplate);
         List<List<Class<?>>> allEntityClassList = ObjectTestUtils.getAllEntity();
         List<String> generatedIdSchemaNames = allEntityClassList.getFirst().stream()
                 .map(ObjectTestUtils::getTestSchemaNameFromEntity).toList();
@@ -56,8 +53,6 @@ public class SqlExecutor {
                 .map(schemaName -> "ALTER TABLE " + schemaName + " AUTO_INCREMENT = 1").toArray(String[]::new);
         int[] alterResult = jdbcTemplate.batchUpdate(alterSqlStatements);
         validateBatchProcess(alterResult);
-
-        transactionTemplate.getTransactionManager().commit(status);
     }
 
     private void validateBatchProcess(int[] result) {

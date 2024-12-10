@@ -29,19 +29,6 @@ class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 산업 기사 연결")
-    @Test
-    void connectTest() {
-        // given
-        IndustryArticleEntity article = createIndustryArticle();
-
-        // when
-        industryArticleRepository.save(article);
-
-        // then
-        assertThat(industryArticleRepository.findByNumber(article.getNumber()).orElseThrow()).isEqualTo(article);
-    }
-
     @DisplayName("날짜로 산업 기사 찾기")
     @Test
     void findByDateTest() {

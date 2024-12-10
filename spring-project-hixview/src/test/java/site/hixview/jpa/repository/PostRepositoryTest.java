@@ -27,19 +27,6 @@ class PostRepositoryTest implements PostTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 포스트 연결")
-    @Test
-    void connectTest() {
-        // given
-        PostEntity post = createPost();
-
-        // when
-        postRepository.save(post);
-
-        // then
-        assertThat(postRepository.findByNumber(post.getNumber()).orElseThrow()).isEqualTo(post);
-    }
-
     @DisplayName("번호로 포스트 찾기")
     @Test
     void findByNumberTest() {

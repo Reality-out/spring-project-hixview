@@ -1,8 +1,6 @@
 package site.hixview.jpa.repository;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.PersistenceUnit;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -46,30 +44,6 @@ class CompanyRepositoryTest implements CompanyTestUtils {
     }
 
     private static final Logger log = LoggerFactory.getLogger(CompanyRepositoryTest.class);
-
-    @DisplayName("Jakarta Persistence API로 기업 기능 수행")
-    @Test
-    void connectTest() {
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            // given
-            EntityTransaction transaction = entityManager.getTransaction();
-            transaction.begin();
-            CompanyEntity company = createCompany();
-            FirstCategoryEntity firstCategory = company.getFirstCategory();
-            SecondCategoryEntity secondCategory = company.getSecondCategory();
-            entityManager.persist(firstCategory);
-            secondCategory.updateFirstCategory(entityManager.find(FirstCategoryEntity.class, firstCategory.getNumber()));
-            entityManager.merge(secondCategory.getFirstCategory());
-            entityManager.persist(secondCategory);
-
-            // when
-            entityManager.persist(company);
-
-            // then
-            assertThat(entityManager.find(CompanyEntity.class, company.getCode())).isEqualTo(company);
-            transaction.rollback();
-        }
-    }
 
     @DisplayName("상장된 국가로 기업 찾기")
     @Test

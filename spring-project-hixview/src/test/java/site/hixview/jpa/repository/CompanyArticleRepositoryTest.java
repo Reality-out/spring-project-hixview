@@ -29,19 +29,6 @@ class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
         new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
-    @DisplayName("JpaRepository 기업 기사 연결")
-    @Test
-    void connectTest() {
-        // given
-        CompanyArticleEntity article = createCompanyArticle();
-
-        // when
-        companyArticleRepository.save(article);
-
-        // then
-        assertThat(companyArticleRepository.findByNumber(article.getNumber()).orElseThrow()).isEqualTo(article);
-    }
-
     @DisplayName("날짜로 기업 기사 찾기")
     @Test
     void findByDateTest() {
