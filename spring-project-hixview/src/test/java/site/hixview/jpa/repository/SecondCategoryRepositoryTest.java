@@ -1,12 +1,11 @@
 package site.hixview.jpa.repository;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
@@ -33,9 +32,9 @@ class SecondCategoryRepositoryTest implements SecondCategoryTestUtils {
 
     private static final Logger log = LoggerFactory.getLogger(SecondCategoryRepositoryTest.class);
 
-    @BeforeAll
-    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        new SqlExecutor().resetAutoIncrement(applicationContext);
+    @BeforeEach
+    public void beforeEach() {
+        new SqlExecutor().deleteOnlyWithGeneratedId(jdbcTemplate);
     }
 
     @DisplayName("번호로 2차 업종 찾기")

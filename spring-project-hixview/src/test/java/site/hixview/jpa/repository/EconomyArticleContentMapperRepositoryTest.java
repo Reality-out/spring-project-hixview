@@ -1,12 +1,12 @@
 package site.hixview.jpa.repository;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.jpa.entity.EconomyArticleContentMapperEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.executor.SqlExecutor;
@@ -21,12 +21,15 @@ class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContent
 
     @Autowired
     private EconomyArticleContentMapperRepository economyArticleMapperRepository;
-    
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentMapperRepositoryTest.class);
 
-    @BeforeAll
-    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        new SqlExecutor().resetAutoIncrement(applicationContext);
+    @BeforeEach
+    public void beforeEach() {
+        new SqlExecutor().deleteOnlyWithGeneratedId(jdbcTemplate);
     }
 
     @DisplayName("번호로 경제 기사와 컨텐츠 간 매퍼 찾기")

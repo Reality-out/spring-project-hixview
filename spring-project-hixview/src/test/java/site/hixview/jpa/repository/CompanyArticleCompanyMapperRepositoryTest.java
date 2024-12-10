@@ -1,12 +1,12 @@
 package site.hixview.jpa.repository;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.jpa.entity.CompanyArticleCompanyMapperEntity;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.FirstCategoryEntity;
@@ -34,11 +34,14 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
     @Autowired
     private SecondCategoryRepository secondCategoryRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyMapperRepositoryTest.class);
 
-    @BeforeAll
-    public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        new SqlExecutor().resetAutoIncrement(applicationContext);
+    @BeforeEach
+    public void beforeEach() {
+        new SqlExecutor().deleteOnlyWithGeneratedId(jdbcTemplate);
     }
 
     @DisplayName("번호로 기업 기사와 기업 간 매퍼 찾기")
