@@ -20,6 +20,9 @@ public final class ExceptionMessage {
     // RuntimeJsonParsingException
     public static final String CANNOT_PARSE_TO_LIST = "해당 값을 List로 파싱할 수 없습니다: ";
 
+    // SQLException
+    public static final String FAILED_BATCH_PROCESSING = "해당 SQL문을 사용한 배치 처리에 실패했습니다: ";
+
     // UnexpectedClassTypeException
     public static final String NOT_ENTITY_CLASS = "해당 클래스가 엔터티 클래스가 아닙니다: ";
 }

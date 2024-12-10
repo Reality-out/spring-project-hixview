@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import site.hixview.jpa.entity.PressEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
+import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.PressTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.support.jpa.util.ObjectTestUtils.resetAutoIncrement;
 
 @OnlyRealRepositoryContext
 class PressRepositoryTest implements PressTestUtils {
@@ -24,7 +24,7 @@ class PressRepositoryTest implements PressTestUtils {
 
     @BeforeAll
     public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        resetAutoIncrement(applicationContext);
+        new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
     @DisplayName("JpaRepository 언론사 연결")

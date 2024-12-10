@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
+import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.IndustryArticleTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.support.jpa.util.ObjectTestUtils.resetAutoIncrement;
 
 @OnlyRealRepositoryContext
 class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
@@ -26,7 +26,7 @@ class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
 
     @BeforeAll
     public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        resetAutoIncrement(applicationContext);
+        new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
     @DisplayName("JpaRepository 산업 기사 연결")

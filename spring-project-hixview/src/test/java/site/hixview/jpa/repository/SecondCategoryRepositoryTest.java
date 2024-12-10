@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
+import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.SecondCategoryTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.support.jpa.util.ObjectTestUtils.resetAutoIncrement;
 
 @OnlyRealRepositoryContext
 class SecondCategoryRepositoryTest implements SecondCategoryTestUtils {
@@ -26,7 +26,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryTestUtils {
 
     @BeforeAll
     public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        resetAutoIncrement(applicationContext);
+        new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
     @DisplayName("JpaRepository 2차 업종 연결")

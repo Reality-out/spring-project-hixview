@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import site.hixview.jpa.entity.PostEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
+import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.PostTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.support.jpa.util.ObjectTestUtils.resetAutoIncrement;
 
 @OnlyRealRepositoryContext
 class PostRepositoryTest implements PostTestUtils {
@@ -24,7 +24,7 @@ class PostRepositoryTest implements PostTestUtils {
 
     @BeforeAll
     public static void beforeAll(@Autowired ApplicationContext applicationContext) {
-        resetAutoIncrement(applicationContext);
+        new SqlExecutor().resetAutoIncrement(applicationContext);
     }
 
     @DisplayName("JpaRepository 포스트 연결")
