@@ -151,8 +151,7 @@ class IndustryArticleRepositoryTest implements IndustryArticleTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
-        industryArticleRepository.save(article);
+        IndustryArticleEntity article = industryArticleRepository.save(createIndustryArticle());
 
         // when
         industryArticleRepository.deleteByNumber(article.getNumber());

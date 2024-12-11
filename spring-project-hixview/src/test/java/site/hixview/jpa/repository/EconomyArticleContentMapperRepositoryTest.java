@@ -17,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class EconomyArticleContentRepositoryTest implements EconomyArticleContentMapperTestUtils {
+class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContentMapperTestUtils {
 
     @Autowired
     private EconomyArticleContentMapperRepository economyArticleMapperRepository;
@@ -25,7 +25,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentMapper
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentMapperRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -75,7 +75,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentMapper
     @Test
     void deleteByNumberTest() {
         // given
-        EconomyArticleContentMapperEntity mapper = createEconomyArticleContentMapper();
+        EconomyArticleContentMapperEntity mapper = economyArticleMapperRepository.save(createEconomyArticleContentMapper());
 
         // when
         economyArticleMapperRepository.deleteByNumber(mapper.getNumber());

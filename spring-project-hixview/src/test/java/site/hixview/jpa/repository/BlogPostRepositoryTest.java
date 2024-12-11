@@ -121,8 +121,7 @@ class BlogPostRepositoryTest implements BlogPostTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        BlogPostEntity post = createBlogPost();
-        blogPostRepository.save(post);
+        BlogPostEntity post = blogPostRepository.save(createBlogPost());
 
         // when
         blogPostRepository.deleteByNumber(post.getNumber());

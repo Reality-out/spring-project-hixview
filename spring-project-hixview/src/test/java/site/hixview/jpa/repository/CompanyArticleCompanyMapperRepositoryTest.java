@@ -20,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class CompanyArticleCompanyRepositoryTest implements CompanyArticleCompanyMapperTestUtils {
+class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompanyMapperTestUtils {
 
     @Autowired
     private CompanyArticleCompanyMapperRepository companyArticleMapperRepository;
@@ -37,7 +37,7 @@ class CompanyArticleCompanyRepositoryTest implements CompanyArticleCompanyMapper
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyMapperRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -120,6 +120,7 @@ class CompanyArticleCompanyRepositoryTest implements CompanyArticleCompanyMapper
         companyRepository.save(company);
         CompanyArticleCompanyMapperEntity mapper = createCompanyArticleCompanyMapper();
         mapper.updateCompany(company);
+        companyArticleMapperRepository.save(mapper);
 
         // when
         companyArticleMapperRepository.deleteByNumber(mapper.getNumber());

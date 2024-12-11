@@ -20,7 +20,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSecondCategoryMapperTestUtils {
+class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArticleSecondCategoryMapperTestUtils {
 
     @Autowired
     private IndustryArticleSecondCategoryMapperRepository industryArticleMapperRepository;
@@ -31,7 +31,7 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(IndustryArticleSecondCategoryRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(IndustryArticleSecondCategoryMapperRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -102,6 +102,7 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
         SecondCategoryEntity secondCategory = createSecondCategory();
         secondCategory.updateFirstCategory(firstCategory);
         IndustryArticleSecondCategoryMapperEntity mapper = new IndustryArticleSecondCategoryMapperEntity(industryArticle, secondCategory);
+        industryArticleMapperRepository.save(mapper);
 
         // when
         industryArticleMapperRepository.deleteByNumber(mapper.getNumber());

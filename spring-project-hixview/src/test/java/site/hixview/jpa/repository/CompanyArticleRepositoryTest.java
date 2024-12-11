@@ -138,8 +138,7 @@ class CompanyArticleRepositoryTest implements CompanyArticleTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
-        companyArticleRepository.save(article);
+        CompanyArticleEntity article = companyArticleRepository.save(createCompanyArticle());
 
         // when
         companyArticleRepository.deleteByNumber(article.getNumber());

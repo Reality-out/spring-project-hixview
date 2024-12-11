@@ -138,8 +138,7 @@ class EconomyArticleRepositoryTest implements EconomyArticleTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
-        economyArticleRepository.save(article);
+        EconomyArticleEntity article = economyArticleRepository.save(createEconomyArticle());
 
         // when
         economyArticleRepository.deleteByNumber(article.getNumber());
