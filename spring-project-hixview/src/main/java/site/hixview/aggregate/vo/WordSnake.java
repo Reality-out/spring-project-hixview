@@ -24,6 +24,10 @@ public final class WordSnake {
     public static final String INDU_ARTI_SEC_CATE_MAPPER_SNAKE = "indu_arti_sec_cate_mapper";
     public static final String INDU_CATE_NUM_SNAKE = "indu_cate_num";
     public static final String KOR_NAME_SNAKE = "kor_name";
+    public static final String MAPPED_ARTICLE_NUMBERS_SNAKE = "mapped_article_numbers";
+    public static final String MAPPED_COMPANY_CODES_SNAKE = "mapped_company_codes";
+    public static final String MAPPED_ECONOMY_CONTENT_NUMBERS_SNAKE = "mapped_economy_content_numbers";
+    public static final String MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE = "mapped_second_category_numbers";
     public static final String NAME_LISTED_SNAKE = "name_listed";
     public static final String POST_NUM_SNAKE = "post_num";
     public static final String PRESS_NUM_SNAKE = "press_num";

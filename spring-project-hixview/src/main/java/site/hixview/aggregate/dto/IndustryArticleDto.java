@@ -14,5 +14,6 @@ public class IndustryArticleDto {
     private String importance;
     private String summary;
     private Long pressNumber;
+    private Long firstCategoryNumber;
     private String mappedSecondCategoryNumbers;
 }
