@@ -17,15 +17,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class BlogPostArticleMapperRepositoryTest implements BlogPostArticleMapperTestUtils {
+class BlogPostArticleRepositoryTest implements BlogPostArticleMapperTestUtils {
 
     @Autowired
-    private BlogPostArticleMapperRepository blogPostMapperRepository;
+    private BlogPostArticleRepository blogPostMapperRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(BlogPostArticleMapperRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(BlogPostArticleRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -36,7 +36,7 @@ class BlogPostArticleMapperRepositoryTest implements BlogPostArticleMapperTestUt
     @Test
     void findByNumberTest() {
         // given
-        BlogPostArticleMapperEntity mapper = createBlogPostArticleMapper();
+        BlogPostArticleEntity mapper = createBlogPostArticleMapper();
 
         // when
         blogPostMapperRepository.save(mapper);
@@ -49,7 +49,7 @@ class BlogPostArticleMapperRepositoryTest implements BlogPostArticleMapperTestUt
     @Test
     void findByBlogPostTest() {
         // given
-        BlogPostArticleMapperEntity mapper = createBlogPostArticleMapper();
+        BlogPostArticleEntity mapper = createBlogPostArticleMapper();
 
         // when
         blogPostMapperRepository.save(mapper);
@@ -62,7 +62,7 @@ class BlogPostArticleMapperRepositoryTest implements BlogPostArticleMapperTestUt
     @Test
     void findByArticleTest() {
         // given
-        BlogPostArticleMapperEntity mapper = createBlogPostArticleMapper();
+        BlogPostArticleEntity mapper = createBlogPostArticleMapper();
 
         // when
         blogPostMapperRepository.save(mapper);
@@ -75,7 +75,7 @@ class BlogPostArticleMapperRepositoryTest implements BlogPostArticleMapperTestUt
     @Test
     void deleteByNumberTest() {
         // given
-        BlogPostArticleMapperEntity mapper = blogPostMapperRepository.save(createBlogPostArticleMapper());
+        BlogPostArticleEntity mapper = blogPostMapperRepository.save(createBlogPostArticleMapper());
 
         // when
         blogPostMapperRepository.deleteByNumber(mapper.getNumber());
@@ -88,7 +88,7 @@ class BlogPostArticleMapperRepositoryTest implements BlogPostArticleMapperTestUt
     @Test
     void existsByNumberTest() {
         // given
-        BlogPostArticleMapperEntity mapper = createBlogPostArticleMapper();
+        BlogPostArticleEntity mapper = createBlogPostArticleMapper();
 
         // when
         blogPostMapperRepository.save(mapper);

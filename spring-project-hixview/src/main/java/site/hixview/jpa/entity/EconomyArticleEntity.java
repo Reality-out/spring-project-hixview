@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.BatchSize;
-import site.hixview.jpa.entity.supers.ArticleSuperEntity;
+import site.hixview.jpa.entity.supers.SuperArticleEntity;
 
 import java.time.LocalDate;
 
@@ -18,7 +18,7 @@ import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
 @Table(name = ECONOMY_ARTICLE_SNAKE)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EconomyArticleEntity extends ArticleSuperEntity {
+public class EconomyArticleEntity extends SuperArticleEntity {
     @Id
     private Long number;
 

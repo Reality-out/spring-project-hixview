@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class PostSuperEntity {
+public abstract class SuperPostEntity {
     @Column(unique = true, length = 80, nullable = false)
     private String name;
 

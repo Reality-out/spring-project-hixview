@@ -5,15 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import site.hixview.jpa.entity.type.MapperTable;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity
 @Table(name = COMP_ARTI_COMP_MAPPER_SNAKE)
+@MapperTable
 @Getter
 @NoArgsConstructor
-public class CompanyArticleCompanyMapperEntity {
+public class CompanyArticleCompanyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = NUM, nullable = false)
@@ -35,7 +37,7 @@ public class CompanyArticleCompanyMapperEntity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        CompanyArticleCompanyMapperEntity companyArticleCompanyMapper = (CompanyArticleCompanyMapperEntity) obj;
+        CompanyArticleCompanyEntity companyArticleCompanyMapper = (CompanyArticleCompanyEntity) obj;
         return new EqualsBuilder()
                 .append(getCompanyArticle().getName(), companyArticleCompanyMapper.getCompanyArticle().getName())
                 .append(getCompany().getCode(), companyArticleCompanyMapper.getCompany().getCode())
@@ -50,13 +52,13 @@ public class CompanyArticleCompanyMapperEntity {
                 .toHashCode();
     }
 
-    public CompanyArticleCompanyMapperEntity(CompanyArticleEntity companyArticle, CompanyEntity company, Long versionNumber) {
+    public CompanyArticleCompanyEntity(CompanyArticleEntity companyArticle, CompanyEntity company, Long versionNumber) {
         this.companyArticle = companyArticle;
         this.company = company;
         this.versionNumber = versionNumber;
     }
 
-    public CompanyArticleCompanyMapperEntity(CompanyArticleEntity companyArticle, CompanyEntity company) {
+    public CompanyArticleCompanyEntity(CompanyArticleEntity companyArticle, CompanyEntity company) {
         this.companyArticle = companyArticle;
         this.company = company;
     }

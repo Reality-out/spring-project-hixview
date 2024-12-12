@@ -5,15 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import site.hixview.jpa.entity.type.MapperTable;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity
 @Table(name = INDU_ARTI_SEC_CATE_MAPPER_SNAKE)
+@MapperTable
 @Getter
 @NoArgsConstructor
-public class IndustryArticleSecondCategoryMapperEntity {
+public class IndustryArticleSecondCategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = NUM, nullable = false)
@@ -35,7 +37,7 @@ public class IndustryArticleSecondCategoryMapperEntity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        IndustryArticleSecondCategoryMapperEntity industryArticleSecondCategoryMapper = (IndustryArticleSecondCategoryMapperEntity) obj;
+        IndustryArticleSecondCategoryEntity industryArticleSecondCategoryMapper = (IndustryArticleSecondCategoryEntity) obj;
         return new EqualsBuilder()
                 .append(getIndustryArticle().getName(), industryArticleSecondCategoryMapper.getIndustryArticle().getName())
                 .append(getSecondCategory().getKoreanName(), industryArticleSecondCategoryMapper.getSecondCategory().getKoreanName())
@@ -52,13 +54,13 @@ public class IndustryArticleSecondCategoryMapperEntity {
                 .toHashCode();
     }
 
-    public IndustryArticleSecondCategoryMapperEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory, Long versionNumber) {
+    public IndustryArticleSecondCategoryEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory, Long versionNumber) {
         this.industryArticle = industryArticle;
         this.secondCategory = secondCategory;
         this.versionNumber = versionNumber;
     }
 
-    public IndustryArticleSecondCategoryMapperEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory) {
+    public IndustryArticleSecondCategoryEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory) {
         this.industryArticle = industryArticle;
         this.secondCategory = secondCategory;
     }

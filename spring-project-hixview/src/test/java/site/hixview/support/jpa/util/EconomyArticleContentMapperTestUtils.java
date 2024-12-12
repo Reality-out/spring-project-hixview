@@ -1,13 +1,13 @@
 package site.hixview.support.jpa.util;
 
-import site.hixview.jpa.entity.EconomyArticleContentMapperEntity;
+import site.hixview.jpa.entity.EconomyArticleContentEntity;
 
 public interface EconomyArticleContentMapperTestUtils extends EconomyArticleTestUtils, EconomyContentTestUtils {
-    default EconomyArticleContentMapperEntity createEconomyArticleContentMapper() {
-        return new EconomyArticleContentMapperEntity(createEconomyArticle(), createEconomyContent());
+    default EconomyArticleContentEntity createEconomyArticleContentMapper() {
+        return new EconomyArticleContentEntity(createEconomyArticle(), createEconomyContent());
     }
 
-    default EconomyArticleContentMapperEntity createAnotherEconomyArticleContentMapper() {
-        return new EconomyArticleContentMapperEntity(createAnotherEconomyArticle(), createAnotherEconomyContent());
+    default EconomyArticleContentEntity createAnotherEconomyArticleContentMapper() {
+        return new EconomyArticleContentEntity(createAnotherEconomyArticle(), createAnotherEconomyContent());
     }
 }

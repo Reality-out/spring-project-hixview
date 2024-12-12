@@ -16,7 +16,7 @@ import static site.hixview.aggregate.vo.WordSnake.SUBJECT_COUNTRY_SNAKE;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class ArticleSuperEntity {
+public abstract class SuperArticleEntity {
     @Column(unique = true, length = 80, nullable = false)
     private String name;
 

@@ -1,13 +1,13 @@
 package site.hixview.support.jpa.util;
 
-import site.hixview.jpa.entity.BlogPostArticleMapperEntity;
+import site.hixview.jpa.entity.BlogPostArticleEntity;
 
 public interface BlogPostArticleMapperTestUtils extends BlogPostTestUtils, ArticleTestUtils {
-    default BlogPostArticleMapperEntity createBlogPostArticleMapper() {
-        return new BlogPostArticleMapperEntity(createBlogPost(), createArticle());
+    default BlogPostArticleEntity createBlogPostArticleMapper() {
+        return new BlogPostArticleEntity(createBlogPost(), createArticle());
     }
 
-    default BlogPostArticleMapperEntity createAnotherBlogPostArticleMapper() {
-        return new BlogPostArticleMapperEntity(createAnotherBlogPost(), createAnotherArticle());
+    default BlogPostArticleEntity createAnotherBlogPostArticleMapper() {
+        return new BlogPostArticleEntity(createAnotherBlogPost(), createAnotherArticle());
     }
 }

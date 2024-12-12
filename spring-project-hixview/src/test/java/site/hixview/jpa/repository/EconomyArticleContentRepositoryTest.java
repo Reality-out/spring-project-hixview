@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.jpa.entity.EconomyArticleContentMapperEntity;
+import site.hixview.jpa.entity.EconomyArticleContentEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.executor.SqlExecutor;
 import site.hixview.support.jpa.util.EconomyArticleContentMapperTestUtils;
@@ -17,15 +17,15 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContentMapperTestUtils {
+class EconomyArticleContentRepositoryTest implements EconomyArticleContentMapperTestUtils {
 
     @Autowired
-    private EconomyArticleContentMapperRepository economyArticleMapperRepository;
+    private EconomyArticleContentRepository economyArticleMapperRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentMapperRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -36,7 +36,7 @@ class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContent
     @Test
     void findByNumberTest() {
         // given
-        EconomyArticleContentMapperEntity mapper = createEconomyArticleContentMapper();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentMapper();
 
         // when
         economyArticleMapperRepository.save(mapper);
@@ -49,7 +49,7 @@ class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContent
     @Test
     void findByCompanyArticleTest() {
         // given
-        EconomyArticleContentMapperEntity mapper = createEconomyArticleContentMapper();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentMapper();
 
         // when
         economyArticleMapperRepository.save(mapper);
@@ -62,7 +62,7 @@ class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContent
     @Test
     void findByCompanyTest() {
         // given
-        EconomyArticleContentMapperEntity mapper = createEconomyArticleContentMapper();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentMapper();
 
         // when
         economyArticleMapperRepository.save(mapper);
@@ -75,7 +75,7 @@ class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContent
     @Test
     void deleteByNumberTest() {
         // given
-        EconomyArticleContentMapperEntity mapper = economyArticleMapperRepository.save(createEconomyArticleContentMapper());
+        EconomyArticleContentEntity mapper = economyArticleMapperRepository.save(createEconomyArticleContentMapper());
 
         // when
         economyArticleMapperRepository.deleteByNumber(mapper.getNumber());
@@ -88,7 +88,7 @@ class EconomyArticleContentMapperRepositoryTest implements EconomyArticleContent
     @Test
     void existsByNumberTest() {
         // given
-        EconomyArticleContentMapperEntity mapper = createEconomyArticleContentMapper();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentMapper();
 
         // when
         economyArticleMapperRepository.save(mapper);

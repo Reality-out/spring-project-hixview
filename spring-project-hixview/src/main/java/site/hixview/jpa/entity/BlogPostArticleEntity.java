@@ -5,15 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import site.hixview.jpa.entity.type.MapperTable;
 
 import static site.hixview.aggregate.vo.WordCamel.NUM;
 import static site.hixview.aggregate.vo.WordSnake.*;
 
 @Entity
 @Table(name = BLOG_POST_ARTI_MAPPER_SNAKE)
+@MapperTable
 @Getter
 @NoArgsConstructor
-public class BlogPostArticleMapperEntity {
+public class BlogPostArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = NUM, nullable = false)
@@ -35,7 +37,7 @@ public class BlogPostArticleMapperEntity {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        BlogPostArticleMapperEntity blogPostArticleMapper = (BlogPostArticleMapperEntity) obj;
+        BlogPostArticleEntity blogPostArticleMapper = (BlogPostArticleEntity) obj;
         return new EqualsBuilder()
                 .append(getBlogPost().getName(), blogPostArticleMapper.getBlogPost().getName())
                 .append(getArticle().getNumber(), blogPostArticleMapper.getArticle().getNumber())
@@ -50,13 +52,13 @@ public class BlogPostArticleMapperEntity {
                 .toHashCode();
     }
 
-    public BlogPostArticleMapperEntity(BlogPostEntity blogPost, ArticleEntity article, Long versionNumber) {
+    public BlogPostArticleEntity(BlogPostEntity blogPost, ArticleEntity article, Long versionNumber) {
         this.blogPost = blogPost;
         this.article = article;
         this.versionNumber = versionNumber;
     }
 
-    public BlogPostArticleMapperEntity(BlogPostEntity blogPost, ArticleEntity article) {
+    public BlogPostArticleEntity(BlogPostEntity blogPost, ArticleEntity article) {
         this.blogPost = blogPost;
         this.article = article;
     }

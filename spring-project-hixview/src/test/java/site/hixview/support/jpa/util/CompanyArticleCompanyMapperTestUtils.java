@@ -1,13 +1,13 @@
 package site.hixview.support.jpa.util;
 
-import site.hixview.jpa.entity.CompanyArticleCompanyMapperEntity;
+import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
 
 public interface CompanyArticleCompanyMapperTestUtils extends CompanyArticleTestUtils, CompanyTestUtils{
-    default CompanyArticleCompanyMapperEntity createCompanyArticleCompanyMapper() {
-        return new CompanyArticleCompanyMapperEntity(createCompanyArticle(), createCompany());
+    default CompanyArticleCompanyEntity createCompanyArticleCompanyMapper() {
+        return new CompanyArticleCompanyEntity(createCompanyArticle(), createCompany());
     }
 
-    default CompanyArticleCompanyMapperEntity createAnotherCompanyArticleCompanyMapper() {
-        return new CompanyArticleCompanyMapperEntity(createAnotherCompanyArticle(), createAnotherCompany());
+    default CompanyArticleCompanyEntity createAnotherCompanyArticleCompanyMapper() {
+        return new CompanyArticleCompanyEntity(createAnotherCompanyArticle(), createAnotherCompany());
     }
 }

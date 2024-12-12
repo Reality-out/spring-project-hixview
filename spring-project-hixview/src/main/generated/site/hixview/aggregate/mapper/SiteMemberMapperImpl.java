@@ -8,7 +8,7 @@ import site.hixview.aggregate.dto.SiteMemberDtoNoNumber;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-12T00:26:25+0900",
+    date = "2024-12-13T00:02:20+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component

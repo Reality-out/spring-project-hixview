@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.jpa.entity.CompanyArticleCompanyMapperEntity;
+import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
@@ -20,10 +20,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompanyMapperTestUtils {
+class CompanyArticleCompanyRepositoryTest implements CompanyArticleCompanyMapperTestUtils {
 
     @Autowired
-    private CompanyArticleCompanyMapperRepository companyArticleMapperRepository;
+    private CompanyArticleCompanyRepository companyArticleMapperRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -37,7 +37,7 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyMapperRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -55,7 +55,7 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyRepository.save(company);
-        CompanyArticleCompanyMapperEntity mapper = createCompanyArticleCompanyMapper();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyMapper();
         mapper.updateCompany(company);
 
         // when
@@ -76,7 +76,7 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyRepository.save(company);
-        CompanyArticleCompanyMapperEntity mapper = createCompanyArticleCompanyMapper();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyMapper();
         mapper.updateCompany(company);
 
         // when
@@ -97,7 +97,7 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyRepository.save(company);
-        CompanyArticleCompanyMapperEntity mapper = createCompanyArticleCompanyMapper();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyMapper();
         mapper.updateCompany(company);
 
         // when
@@ -118,7 +118,7 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyRepository.save(company);
-        CompanyArticleCompanyMapperEntity mapper = createCompanyArticleCompanyMapper();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyMapper();
         mapper.updateCompany(company);
         companyArticleMapperRepository.save(mapper);
 
@@ -140,7 +140,7 @@ class CompanyArticleCompanyMapperRepositoryTest implements CompanyArticleCompany
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyRepository.save(company);
-        CompanyArticleCompanyMapperEntity mapper = createCompanyArticleCompanyMapper();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyMapper();
         mapper.updateCompany(company);
 
         // when

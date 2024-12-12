@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.IndustryArticleEntity;
-import site.hixview.jpa.entity.IndustryArticleSecondCategoryMapperEntity;
+import site.hixview.jpa.entity.IndustryArticleSecondCategoryEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.support.context.OnlyRealRepositoryContext;
 import site.hixview.support.executor.SqlExecutor;
@@ -20,10 +20,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArticleSecondCategoryMapperTestUtils {
+class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSecondCategoryMapperTestUtils {
 
     @Autowired
-    private IndustryArticleSecondCategoryMapperRepository industryArticleMapperRepository;
+    private IndustryArticleSecondCategoryRepository industryArticleMapperRepository;
 
     @Autowired
     private FirstCategoryRepository firstCategoryRepository;
@@ -31,7 +31,7 @@ class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArtic
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(IndustryArticleSecondCategoryMapperRepositoryTest.class);
+    private static final Logger log = LoggerFactory.getLogger(IndustryArticleSecondCategoryRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -47,7 +47,7 @@ class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArtic
         IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
         SecondCategoryEntity secondCategory = createSecondCategory();
         secondCategory.updateFirstCategory(firstCategory);
-        IndustryArticleSecondCategoryMapperEntity mapper = new IndustryArticleSecondCategoryMapperEntity(industryArticle, secondCategory);
+        IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
         // when
         industryArticleMapperRepository.save(mapper);
@@ -65,7 +65,7 @@ class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArtic
         IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
         SecondCategoryEntity secondCategory = createSecondCategory();
         secondCategory.updateFirstCategory(firstCategory);
-        IndustryArticleSecondCategoryMapperEntity mapper = new IndustryArticleSecondCategoryMapperEntity(industryArticle, secondCategory);
+        IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
         // when
         industryArticleMapperRepository.save(mapper);
@@ -83,7 +83,7 @@ class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArtic
         IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
         SecondCategoryEntity secondCategory = createSecondCategory();
         secondCategory.updateFirstCategory(firstCategory);
-        IndustryArticleSecondCategoryMapperEntity mapper = new IndustryArticleSecondCategoryMapperEntity(industryArticle, secondCategory);
+        IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
         // when
         industryArticleMapperRepository.save(mapper);
@@ -101,7 +101,7 @@ class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArtic
         IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
         SecondCategoryEntity secondCategory = createSecondCategory();
         secondCategory.updateFirstCategory(firstCategory);
-        IndustryArticleSecondCategoryMapperEntity mapper = new IndustryArticleSecondCategoryMapperEntity(industryArticle, secondCategory);
+        IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
         industryArticleMapperRepository.save(mapper);
 
         // when
@@ -120,7 +120,7 @@ class IndustryArticleSecondCategoryMapperRepositoryTest implements IndustryArtic
         IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
         SecondCategoryEntity secondCategory = createSecondCategory();
         secondCategory.updateFirstCategory(firstCategory);
-        IndustryArticleSecondCategoryMapperEntity mapper = new IndustryArticleSecondCategoryMapperEntity(industryArticle, secondCategory);
+        IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
         // when
         industryArticleMapperRepository.save(mapper);

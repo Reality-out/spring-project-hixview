@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import site.hixview.jpa.entity.supers.PostSuperEntity;
+import site.hixview.jpa.entity.supers.SuperPostEntity;
 
 import java.time.LocalDate;
 
@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordSnake.BLOG_POST_SNAKE;
 @Table(name = BLOG_POST_SNAKE)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BlogPostEntity extends PostSuperEntity {
+public class BlogPostEntity extends SuperPostEntity {
     @Id
     private Long number;
 
