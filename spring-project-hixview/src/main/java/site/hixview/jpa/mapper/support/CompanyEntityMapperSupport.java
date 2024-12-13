@@ -9,15 +9,15 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.CompanyEntity.CompanyEntityBuilder;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
-import site.hixview.jpa.repository.FirstCategoryRepository;
-import site.hixview.jpa.repository.SecondCategoryRepository;
+import site.hixview.jpa.repository.FirstCategoryEntityRepository;
+import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
 public abstract class CompanyEntityMapperSupport {
     @Autowired
-    private FirstCategoryRepository firstCategoryRepository;
+    private FirstCategoryEntityRepository firstCategoryRepository;
 
     @Autowired
-    private SecondCategoryRepository secondCategoryRepository;
+    private SecondCategoryEntityRepository secondCategoryRepository;
 
     @AfterMapping
     public CompanyEntityBuilder afterMappingToEntity(

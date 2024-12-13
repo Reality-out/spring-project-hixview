@@ -10,26 +10,26 @@ import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.entity.CompanyArticleEntity;
 import site.hixview.jpa.entity.CompanyArticleEntity.CompanyArticleEntityBuilder;
 import site.hixview.jpa.entity.PressEntity;
-import site.hixview.jpa.repository.ArticleRepository;
-import site.hixview.jpa.repository.CompanyArticleCompanyRepository;
-import site.hixview.jpa.repository.PressRepository;
+import site.hixview.jpa.repository.ArticleEntityRepository;
+import site.hixview.jpa.repository.CompanyArticleCompanyEntityRepository;
+import site.hixview.jpa.repository.PressEntityRepository;
 
 public abstract class CompanyArticleEntityMapperSupport extends SuperArticleEntityMapperSupport {
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleEntityRepository articleEntityRepository;
 
     @Autowired
-    private PressRepository pressRepository;
+    private PressEntityRepository pressEntityRepository;
 
     @Autowired
-    private CompanyArticleCompanyRepository companyArticleCompanyRepository;
+    private CompanyArticleCompanyEntityRepository companyArticleCompanyRepository;
 
     @AfterMapping
     public CompanyArticleEntityBuilder afterMappingToEntity(
             @MappingTarget CompanyArticleEntityBuilder builder, CompanyArticle companyArticle) {
-        return builder.article(articleRepository.findByNumber(companyArticle.getNumber()).orElseThrow(() ->
+        return builder.article(articleEntityRepository.findByNumber(companyArticle.getNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(companyArticle.getNumber(), ArticleEntity.class)))
-                .press(pressRepository.findByNumber(companyArticle.getPressNumber()).orElseThrow(() ->
+                .press(pressEntityRepository.findByNumber(companyArticle.getPressNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(companyArticle.getPressNumber(), PressEntity.class)));
     }
 

@@ -8,21 +8,21 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.entity.BlogPostArticleEntity;
 import site.hixview.jpa.entity.BlogPostEntity;
-import site.hixview.jpa.repository.ArticleRepository;
-import site.hixview.jpa.repository.BlogPostRepository;
+import site.hixview.jpa.repository.ArticleEntityRepository;
+import site.hixview.jpa.repository.BlogPostEntityRepository;
 
 public abstract class BlogPostArticleEntityMapperSupport {
     @Autowired
-    private BlogPostRepository blogPostRepository;
+    private BlogPostEntityRepository blogPostRepository;
 
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleEntityRepository articleEntityRepository;
 
     @AfterMapping
     public void afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, Long postNumber, Long articleNumber) {
         entity.updatePost(blogPostRepository.findByNumber(postNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class)));
-        entity.updateArticle(articleRepository.findByNumber(articleNumber).orElseThrow(() ->
+        entity.updateArticle(articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class)));
     }
 

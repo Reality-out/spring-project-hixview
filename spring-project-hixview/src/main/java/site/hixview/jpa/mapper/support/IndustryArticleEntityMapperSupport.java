@@ -12,30 +12,30 @@ import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.entity.IndustryArticleEntity.IndustryArticleEntityBuilder;
 import site.hixview.jpa.entity.PressEntity;
-import site.hixview.jpa.repository.ArticleRepository;
-import site.hixview.jpa.repository.FirstCategoryRepository;
-import site.hixview.jpa.repository.IndustryArticleSecondCategoryRepository;
-import site.hixview.jpa.repository.PressRepository;
+import site.hixview.jpa.repository.ArticleEntityRepository;
+import site.hixview.jpa.repository.FirstCategoryEntityRepository;
+import site.hixview.jpa.repository.IndustryArticleSecondCategoryEntityRepository;
+import site.hixview.jpa.repository.PressEntityRepository;
 
 public abstract class IndustryArticleEntityMapperSupport extends SuperArticleEntityMapperSupport {
     @Autowired
-    private ArticleRepository articleRepository;
+    private ArticleEntityRepository articleEntityRepository;
 
     @Autowired
-    private PressRepository pressRepository;
+    private PressEntityRepository pressEntityRepository;
 
     @Autowired
-    private FirstCategoryRepository firstCategoryRepository;
+    private FirstCategoryEntityRepository firstCategoryRepository;
 
     @Autowired
-    private IndustryArticleSecondCategoryRepository industryArticleSecondCategoryRepository;
+    private IndustryArticleSecondCategoryEntityRepository industryArticleSecondCategoryRepository;
 
     @AfterMapping
     public IndustryArticleEntityBuilder afterMappingToEntity(
             @MappingTarget IndustryArticleEntityBuilder builder, IndustryArticle industryArticle) {
-        return builder.article(articleRepository.findByNumber(industryArticle.getNumber()).orElseThrow(() ->
+        return builder.article(articleEntityRepository.findByNumber(industryArticle.getNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(industryArticle.getNumber(), ArticleEntity.class)))
-                .press(pressRepository.findByNumber(industryArticle.getPressNumber()).orElseThrow(() ->
+                .press(pressEntityRepository.findByNumber(industryArticle.getPressNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(industryArticle.getPressNumber(), PressEntity.class)))
                 .firstCategory(firstCategoryRepository.findByNumber(industryArticle.getFirstCategoryNumber())
                         .orElseThrow(() -> new EntityNotFoundWithNumberException(

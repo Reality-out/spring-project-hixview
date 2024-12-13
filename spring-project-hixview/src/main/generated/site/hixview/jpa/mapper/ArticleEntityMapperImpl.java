@@ -7,7 +7,7 @@ import site.hixview.jpa.entity.ArticleEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-13T00:16:28+0900",
+    date = "2024-12-13T16:56:47+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -20,6 +20,8 @@ public class ArticleEntityMapperImpl extends ArticleEntityMapper {
         }
 
         ArticleEntity articleEntity = new ArticleEntity();
+
+        afterMappingToEntity( articleEntity, article );
 
         return articleEntity;
     }

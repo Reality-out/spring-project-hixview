@@ -9,15 +9,15 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.EconomyArticleContentEntity;
 import site.hixview.jpa.entity.EconomyArticleEntity;
 import site.hixview.jpa.entity.EconomyContentEntity;
-import site.hixview.jpa.repository.EconomyArticleRepository;
-import site.hixview.jpa.repository.EconomyContentRepository;
+import site.hixview.jpa.repository.EconomyArticleEntityRepository;
+import site.hixview.jpa.repository.EconomyContentEntityRepository;
 
 public abstract class EconomyArticleContentEntityMapperSupport {
     @Autowired
-    private EconomyArticleRepository economyArticleRepository;
+    private EconomyArticleEntityRepository economyArticleRepository;
 
     @Autowired
-    private EconomyContentRepository economyContentRepository;
+    private EconomyContentEntityRepository economyContentEntityRepository;
 
     @AfterMapping
     public void afterMappingToEntity(
@@ -26,7 +26,7 @@ public abstract class EconomyArticleContentEntityMapperSupport {
         entity.updateArticle(economyArticleRepository.findByNumber(economyArticleContent.getArticleNumber())
                 .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getArticleNumber(),
                         EconomyArticleEntity.class)));
-        entity.updateEconomyContent(economyContentRepository.findByNumber(economyArticleContent.getContentNumber())
+        entity.updateEconomyContent(economyContentEntityRepository.findByNumber(economyArticleContent.getContentNumber())
                 .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getContentNumber(),
                         EconomyContentEntity.class)));
     }

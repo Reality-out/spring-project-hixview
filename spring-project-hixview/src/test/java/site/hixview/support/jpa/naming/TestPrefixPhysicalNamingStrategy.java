@@ -6,7 +6,7 @@ import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static site.hixview.support.jpa.util.ObjectTestUtils.TEST_TABLE_PREFIX;
+import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 public class TestPrefixPhysicalNamingStrategy extends CamelCaseToUnderscoresNamingStrategy {
     private static final Logger log = LoggerFactory.getLogger(TestPrefixPhysicalNamingStrategy.class);

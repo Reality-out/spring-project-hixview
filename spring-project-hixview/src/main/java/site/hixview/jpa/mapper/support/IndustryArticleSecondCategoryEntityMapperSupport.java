@@ -8,15 +8,15 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.entity.IndustryArticleSecondCategoryEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
-import site.hixview.jpa.repository.IndustryArticleRepository;
-import site.hixview.jpa.repository.SecondCategoryRepository;
+import site.hixview.jpa.repository.IndustryArticleEntityRepository;
+import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
 public abstract class IndustryArticleSecondCategoryEntityMapperSupport {
     @Autowired
-    private IndustryArticleRepository industryArticleRepository;
+    private IndustryArticleEntityRepository industryArticleRepository;
 
     @Autowired
-    private SecondCategoryRepository secondCategoryRepository;
+    private SecondCategoryEntityRepository secondCategoryRepository;
 
     @AfterMapping
     public void afterMappingToEntity(@MappingTarget IndustryArticleSecondCategoryEntity entity, Long articleNumber, Long secondCategoryNumber) {

@@ -40,4 +40,8 @@ public class ArticleEntity {
     public ArticleEntity(Long versionNumber) {
         this.versionNumber = versionNumber;
     }
+
+    public void updateNumber(Long number) {
+        this.number = number;
+    }
 }

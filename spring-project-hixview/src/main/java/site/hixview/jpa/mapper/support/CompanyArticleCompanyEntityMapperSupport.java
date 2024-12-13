@@ -9,24 +9,24 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
 import site.hixview.jpa.entity.CompanyArticleEntity;
 import site.hixview.jpa.entity.CompanyEntity;
-import site.hixview.jpa.repository.CompanyArticleRepository;
-import site.hixview.jpa.repository.CompanyRepository;
+import site.hixview.jpa.repository.CompanyArticleEntityRepository;
+import site.hixview.jpa.repository.CompanyEntityRepository;
 
 import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY_WITH_CODE;
 
 public abstract class CompanyArticleCompanyEntityMapperSupport {
     @Autowired
-    private CompanyArticleRepository companyArticleRepository;
+    private CompanyArticleEntityRepository companyArticleRepository;
 
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyEntityRepository companyEntityRepository;
 
     @AfterMapping
     public void afterMappingToEntity(
             @MappingTarget CompanyArticleCompanyEntity entity, Long articleNumber, String companyCode) {
         entity.updateArticle(companyArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(articleNumber, CompanyArticleEntity.class)));
-        entity.updateCompany(companyRepository.findByCode(companyCode).orElseThrow(() ->
+        entity.updateCompany(companyEntityRepository.findByCode(companyCode).orElseThrow(() ->
                 new EntityNotFoundException(CANNOT_FOUND_ENTITY_WITH_CODE + companyCode +
                         " , for the class named: " + CompanyEntity.class.getSimpleName())));
     }

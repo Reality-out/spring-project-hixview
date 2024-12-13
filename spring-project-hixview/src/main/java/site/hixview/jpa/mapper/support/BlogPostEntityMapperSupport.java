@@ -9,8 +9,8 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.BlogPostArticleEntity;
 import site.hixview.jpa.entity.BlogPostEntity;
 import site.hixview.jpa.entity.PostEntity;
-import site.hixview.jpa.repository.BlogPostArticleRepository;
-import site.hixview.jpa.repository.PostRepository;
+import site.hixview.jpa.repository.BlogPostArticleEntityRepository;
+import site.hixview.jpa.repository.PostEntityRepository;
 
 import java.util.List;
 
@@ -18,15 +18,15 @@ import static site.hixview.jpa.entity.BlogPostEntity.BlogPostEntityBuilder;
 
 public abstract class BlogPostEntityMapperSupport {
     @Autowired
-    private PostRepository postRepository;
+    private PostEntityRepository postEntityRepository;
 
     @Autowired
-    private BlogPostArticleRepository blogPostArticleRepository;
+    private BlogPostArticleEntityRepository blogPostArticleRepository;
 
     @AfterMapping
     public BlogPostEntityBuilder afterMappingToEntity(
             @MappingTarget BlogPostEntityBuilder blogPostEntityBuilder, BlogPost blogPost) {
-        return blogPostEntityBuilder.post(postRepository.findByNumber(blogPost.getNumber()).orElseThrow(() ->
+        return blogPostEntityBuilder.post(postEntityRepository.findByNumber(blogPost.getNumber()).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(blogPost.getNumber(), PostEntity.class)));
     }
 

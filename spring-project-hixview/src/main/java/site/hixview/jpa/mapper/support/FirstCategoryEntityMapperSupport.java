@@ -9,11 +9,11 @@ import site.hixview.aggregate.domain.IndustryCategory;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.IndustryCategoryEntity;
-import site.hixview.jpa.repository.IndustryCategoryRepository;
+import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 
 public abstract class FirstCategoryEntityMapperSupport {
     @Autowired
-    private IndustryCategoryRepository industryCategoryRepository;
+    private IndustryCategoryEntityRepository industryCategoryRepository;
 
     @AfterMapping
     public void afterMappingToEntity(
