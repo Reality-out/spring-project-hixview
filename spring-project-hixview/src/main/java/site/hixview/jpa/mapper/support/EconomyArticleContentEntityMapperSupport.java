@@ -21,8 +21,7 @@ public abstract class EconomyArticleContentEntityMapperSupport {
 
     @AfterMapping
     public void afterMappingToEntity(
-            @MappingTarget EconomyArticleContentEntity entity, EconomyArticleContent economyArticleContent
-    ) {
+            @MappingTarget EconomyArticleContentEntity entity, EconomyArticleContent economyArticleContent) {
         entity.updateArticle(economyArticleRepository.findByNumber(economyArticleContent.getArticleNumber())
                 .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getArticleNumber(),
                         EconomyArticleEntity.class)));

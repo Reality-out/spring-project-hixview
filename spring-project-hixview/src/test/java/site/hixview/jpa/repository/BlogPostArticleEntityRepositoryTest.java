@@ -17,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
-class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntityTestUtils {
+class BlogPostArticleEntityRepositoryTest implements BlogPostArticleEntityTestUtils {
 
     @Autowired
     private BlogPostArticleEntityRepository blogPostMapperRepository;
@@ -25,7 +25,7 @@ class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntity
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(BlogPostArticleEntityRepositoryEntityTest.class);
+    private static final Logger log = LoggerFactory.getLogger(BlogPostArticleEntityRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {

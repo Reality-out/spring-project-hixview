@@ -5,6 +5,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
+import site.hixview.aggregate.domain.CompanyArticleCompany;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
 import site.hixview.jpa.entity.CompanyArticleEntity;
@@ -23,7 +24,9 @@ public abstract class CompanyArticleCompanyEntityMapperSupport {
 
     @AfterMapping
     public void afterMappingToEntity(
-            @MappingTarget CompanyArticleCompanyEntity entity, Long articleNumber, String companyCode) {
+            @MappingTarget CompanyArticleCompanyEntity entity, CompanyArticleCompany companyArticleCompany) {
+        Long articleNumber = companyArticleCompany.getArticleNumber();
+        String companyCode = companyArticleCompany.getCompanyCode();
         entity.updateArticle(companyArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(articleNumber, CompanyArticleEntity.class)));
         entity.updateCompany(companyEntityRepository.findByCode(companyCode).orElseThrow(() ->

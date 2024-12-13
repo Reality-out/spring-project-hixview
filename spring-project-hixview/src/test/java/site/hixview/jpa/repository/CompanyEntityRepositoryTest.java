@@ -24,7 +24,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
-class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
+class CompanyEntityRepositoryTest implements CompanyEntityTestUtils {
 
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
@@ -53,7 +53,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
     }
 
-    private static final Logger log = LoggerFactory.getLogger(CompanyEntityRepositoryEntityTest.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyEntityRepositoryTest.class);
 
     @DisplayName("상장된 국가로 기업 찾기")
     @Test

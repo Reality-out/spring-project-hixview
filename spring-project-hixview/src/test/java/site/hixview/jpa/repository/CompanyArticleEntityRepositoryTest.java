@@ -21,7 +21,7 @@ import static site.hixview.aggregate.vo.WordSnake.COMPANY_ARTICLE_SNAKE;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
-class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTestUtils {
+class CompanyArticleEntityRepositoryTest implements CompanyArticleEntityTestUtils {
 
     @Autowired
     private CompanyArticleEntityRepository companyArticleRepository;
@@ -32,7 +32,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + COMPANY_ARTICLE_SNAKE,
             TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + PRESS};
 
-    private static final Logger log = LoggerFactory.getLogger(CompanyArticleEntityRepositoryEntityTest.class);
+    private static final Logger log = LoggerFactory.getLogger(CompanyArticleEntityRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {

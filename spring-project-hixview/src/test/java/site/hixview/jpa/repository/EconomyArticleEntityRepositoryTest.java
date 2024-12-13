@@ -21,7 +21,7 @@ import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
-class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTestUtils {
+class EconomyArticleEntityRepositoryTest implements EconomyArticleEntityTestUtils {
 
     @Autowired
     private EconomyArticleEntityRepository economyArticleRepository;
@@ -32,7 +32,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + ECONOMY_ARTICLE_SNAKE,
             TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + PRESS};
 
-    private static final Logger log = LoggerFactory.getLogger(EconomyArticleEntityRepositoryEntityTest.class);
+    private static final Logger log = LoggerFactory.getLogger(EconomyArticleEntityRepositoryTest.class);
 
     @BeforeEach
     public void beforeEach() {

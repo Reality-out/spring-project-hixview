@@ -4,6 +4,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
+import site.hixview.aggregate.domain.IndustryArticleSecondCategory;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.entity.IndustryArticleSecondCategoryEntity;
@@ -19,10 +20,13 @@ public abstract class IndustryArticleSecondCategoryEntityMapperSupport {
     private SecondCategoryEntityRepository secondCategoryRepository;
 
     @AfterMapping
-    public void afterMappingToEntity(@MappingTarget IndustryArticleSecondCategoryEntity entity, Long articleNumber, Long secondCategoryNumber) {
-        entity.updateArticle(industryArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
+    public void afterMappingToEntity(@MappingTarget IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity,
+                                     IndustryArticleSecondCategory industryArticleSecondCategory) {
+        Long articleNumber = industryArticleSecondCategory.getArticleNumber();
+        Long secondCategoryNumber = industryArticleSecondCategory.getSecondCategoryNumber();
+        industryArticleSecondCategoryEntity.updateArticle(industryArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(articleNumber, IndustryArticleEntity.class)));
-        entity.updateSecondCategory(secondCategoryRepository.findByNumber(secondCategoryNumber).orElseThrow(
+        industryArticleSecondCategoryEntity.updateSecondCategory(secondCategoryRepository.findByNumber(secondCategoryNumber).orElseThrow(
                 () -> new EntityNotFoundWithNumberException(secondCategoryNumber, SecondCategoryEntity.class)));
     }
 

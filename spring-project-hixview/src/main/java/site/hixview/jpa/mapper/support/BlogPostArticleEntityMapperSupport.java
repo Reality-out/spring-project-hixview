@@ -4,6 +4,7 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
+import site.hixview.aggregate.domain.BlogPostArticle;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.entity.BlogPostArticleEntity;
@@ -13,14 +14,16 @@ import site.hixview.jpa.repository.BlogPostEntityRepository;
 
 public abstract class BlogPostArticleEntityMapperSupport {
     @Autowired
-    private BlogPostEntityRepository blogPostRepository;
+    private BlogPostEntityRepository blogPostEntityRepository;
 
     @Autowired
     private ArticleEntityRepository articleEntityRepository;
 
     @AfterMapping
-    public void afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, Long postNumber, Long articleNumber) {
-        entity.updatePost(blogPostRepository.findByNumber(postNumber).orElseThrow(() ->
+    public void afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, BlogPostArticle blogPostArticle) {
+        Long postNumber = blogPostArticle.getPostNumber();
+        Long articleNumber = blogPostArticle.getArticleNumber();
+        entity.updatePost(blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class)));
         entity.updateArticle(articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class)));

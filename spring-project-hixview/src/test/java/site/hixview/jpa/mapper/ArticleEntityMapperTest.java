@@ -2,15 +2,14 @@ package site.hixview.jpa.mapper;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import site.hixview.jpa.entity.ArticleEntity;
+import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.spring.util.ArticleTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Execution(value = ExecutionMode.CONCURRENT)
+@OnlyRealRepositoryContext
 class ArticleEntityMapperTest implements ArticleEntityTestUtils, ArticleTestUtils {
 
     private final ArticleEntityMapperImpl mapperImpl = new ArticleEntityMapperImpl();

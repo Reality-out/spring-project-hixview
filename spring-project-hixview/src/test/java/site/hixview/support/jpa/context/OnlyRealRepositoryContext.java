@@ -22,14 +22,4 @@ import static site.hixview.aggregate.vo.Reference.JPA_REPOSITORY_REFERENCE;
 @Transactional
 @RegisterRepositorySettingConfig
 public @interface OnlyRealRepositoryContext {
-
-    ResetMode resetMode() default ResetMode.RESET_AUTO_INCREMENT;
-
-    enum ResetMode {
-        RESET_AUTO_INCREMENT,
-        RESET_TABLE;
-
-        ResetMode() {
-        }
-    }
 }
