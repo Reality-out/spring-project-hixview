@@ -42,10 +42,10 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
     @Test
     void findByNumberTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
         firstCategoryRepository.save(firstCategory);
-        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategory).build();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
         secondCategory.updateFirstCategory(firstCategory);
         IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
@@ -60,10 +60,10 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
     @Test
     void findByIndustryArticleTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
         firstCategoryRepository.save(firstCategory);
-        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategory).build();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
         secondCategory.updateFirstCategory(firstCategory);
         IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
@@ -78,10 +78,10 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
     @Test
     void findBySecondCategoryTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
         firstCategoryRepository.save(firstCategory);
-        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategory).build();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
         secondCategory.updateFirstCategory(firstCategory);
         IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 
@@ -96,10 +96,10 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
     @Test
     void deleteByNumberTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
         firstCategoryRepository.save(firstCategory);
-        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategory).build();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
         secondCategory.updateFirstCategory(firstCategory);
         IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
         industryArticleMapperRepository.save(mapper);
@@ -115,10 +115,10 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
     @Test
     void existsByNumberTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
         firstCategoryRepository.save(firstCategory);
-        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticle()).firstCategory(firstCategory).build();
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategory).build();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
         secondCategory.updateFirstCategory(firstCategory);
         IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
 

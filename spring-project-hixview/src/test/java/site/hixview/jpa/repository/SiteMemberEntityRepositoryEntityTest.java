@@ -40,7 +40,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void findByNameTest() {
         // given
-        SiteMemberEntity member = createSiteMember();
+        SiteMemberEntity member = createSiteMemberEntity();
 
         // when
         siteMemberEntityRepository.save(member);
@@ -53,7 +53,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        SiteMemberEntity member = createSiteMember();
+        SiteMemberEntity member = createSiteMemberEntity();
 
         // when
         siteMemberEntityRepository.save(member);
@@ -66,7 +66,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void findByIdTest() {
         // given
-        SiteMemberEntity member = createSiteMember();
+        SiteMemberEntity member = createSiteMemberEntity();
 
         // when
         siteMemberEntityRepository.save(member);
@@ -79,7 +79,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void findByIdAndPwTest() {
         // given
-        SiteMemberEntity member = createSiteMember();
+        SiteMemberEntity member = createSiteMemberEntity();
 
         // when
         siteMemberEntityRepository.save(member);
@@ -92,7 +92,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void findByEmailTest() {
         // given
-        SiteMemberEntity member = createSiteMember();
+        SiteMemberEntity member = createSiteMemberEntity();
 
         // when
         siteMemberEntityRepository.save(member);
@@ -105,7 +105,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        SiteMemberEntity member = siteMemberEntityRepository.save(createSiteMember());
+        SiteMemberEntity member = siteMemberEntityRepository.save(createSiteMemberEntity());
 
         // when
         siteMemberEntityRepository.deleteByNumber(member.getNumber());
@@ -118,7 +118,7 @@ class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        SiteMemberEntity member = createSiteMember();
+        SiteMemberEntity member = createSiteMemberEntity();
 
         // when
         siteMemberEntityRepository.save(member);

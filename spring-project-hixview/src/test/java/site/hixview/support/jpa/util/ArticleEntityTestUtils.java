@@ -6,11 +6,11 @@ public interface ArticleEntityTestUtils {
     /**
      * Create
      */
-    default ArticleEntity createArticle() {
+    default ArticleEntity createArticleEntity() {
         return new ArticleEntity();
     }
 
-    default ArticleEntity createAnotherArticle() {
+    default ArticleEntity createAnotherArticleEntity() {
         return new ArticleEntity();
     }
 }

@@ -38,7 +38,7 @@ class ArticleEntityRepositoryTest implements ArticleEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        ArticleEntity article = createArticle();
+        ArticleEntity article = createArticleEntity();
 
         // when
         articleEntityRepository.save(article);
@@ -51,7 +51,7 @@ class ArticleEntityRepositoryTest implements ArticleEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        ArticleEntity article = articleEntityRepository.save(createArticle());
+        ArticleEntity article = articleEntityRepository.save(createArticleEntity());
 
         // when
         articleEntityRepository.deleteByNumber(article.getNumber());
@@ -64,7 +64,7 @@ class ArticleEntityRepositoryTest implements ArticleEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        ArticleEntity article = createArticle();
+        ArticleEntity article = createArticleEntity();
 
         // when
         articleEntityRepository.save(article);

@@ -36,7 +36,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntity
     @Test
     void findByNumberTest() {
         // given
-        EconomyArticleContentEntity mapper = createEconomyArticleContent();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentEntity();
 
         // when
         economyArticleMapperRepository.save(mapper);
@@ -49,7 +49,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntity
     @Test
     void findByCompanyArticleTest() {
         // given
-        EconomyArticleContentEntity mapper = createEconomyArticleContent();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentEntity();
 
         // when
         economyArticleMapperRepository.save(mapper);
@@ -62,7 +62,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntity
     @Test
     void findByCompanyTest() {
         // given
-        EconomyArticleContentEntity mapper = createEconomyArticleContent();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentEntity();
 
         // when
         economyArticleMapperRepository.save(mapper);
@@ -75,7 +75,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntity
     @Test
     void deleteByNumberTest() {
         // given
-        EconomyArticleContentEntity mapper = economyArticleMapperRepository.save(createEconomyArticleContent());
+        EconomyArticleContentEntity mapper = economyArticleMapperRepository.save(createEconomyArticleContentEntity());
 
         // when
         economyArticleMapperRepository.deleteByNumber(mapper.getNumber());
@@ -88,7 +88,7 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntity
     @Test
     void existsByNumberTest() {
         // given
-        EconomyArticleContentEntity mapper = createEconomyArticleContent();
+        EconomyArticleContentEntity mapper = createEconomyArticleContentEntity();
 
         // when
         economyArticleMapperRepository.save(mapper);

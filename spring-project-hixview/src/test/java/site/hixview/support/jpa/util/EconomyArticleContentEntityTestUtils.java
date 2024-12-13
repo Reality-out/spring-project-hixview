@@ -3,11 +3,11 @@ package site.hixview.support.jpa.util;
 import site.hixview.jpa.entity.EconomyArticleContentEntity;
 
 public interface EconomyArticleContentEntityTestUtils extends EconomyArticleEntityTestUtils, EconomyContentEntityTestUtils {
-    default EconomyArticleContentEntity createEconomyArticleContent() {
-        return new EconomyArticleContentEntity(createEconomyArticle(), createEconomyContent());
+    default EconomyArticleContentEntity createEconomyArticleContentEntity() {
+        return new EconomyArticleContentEntity(createEconomyArticleEntity(), createEconomyContentEntity());
     }
 
-    default EconomyArticleContentEntity createAnotherEconomyArticleContent() {
-        return new EconomyArticleContentEntity(createAnotherEconomyArticle(), createAnotherEconomyContent());
+    default EconomyArticleContentEntity createAnotherEconomyArticleContentEntity() {
+        return new EconomyArticleContentEntity(createAnotherEconomyArticleEntity(), createAnotherEconomyContentEntity());
     }
 }

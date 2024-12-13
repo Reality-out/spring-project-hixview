@@ -6,11 +6,11 @@ public interface SecondCategoryEntityTestUtils extends FirstCategoryEntityTestUt
     /**
      * Create
      */
-    default SecondCategoryEntity createSecondCategory() {
-        return new SecondCategoryEntity("은행", "BANK", createSecondIndustryCategory(), createFirstCategory());
+    default SecondCategoryEntity createSecondCategoryEntity() {
+        return new SecondCategoryEntity("은행", "BANK", createSecondIndustryCategoryEntity(), createFirstCategoryEntity());
     }
 
-    default SecondCategoryEntity createAnotherSecondCategory() {
-        return new SecondCategoryEntity("배터리 제조", "BATTERY_MANUFACTURING", createSecondIndustryCategory(), createAnotherFirstCategory());
+    default SecondCategoryEntity createAnotherSecondCategoryEntity() {
+        return new SecondCategoryEntity("배터리 제조", "BATTERY_MANUFACTURING", createSecondIndustryCategoryEntity(), createAnotherFirstCategoryEntity());
     }
 }

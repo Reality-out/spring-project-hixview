@@ -48,14 +48,14 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
     @Test
     void findByNumberTest() {
         // given
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyEntityRepository.save(company);
-        CompanyArticleCompanyEntity mapper = createCompanyArticleCompany();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyEntity();
         mapper.updateCompany(company);
 
         // when
@@ -69,14 +69,14 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
     @Test
     void findByCompanyArticleTest() {
         // given
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyEntityRepository.save(company);
-        CompanyArticleCompanyEntity mapper = createCompanyArticleCompany();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyEntity();
         mapper.updateCompany(company);
 
         // when
@@ -90,14 +90,14 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
     @Test
     void findByCompanyTest() {
         // given
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyEntityRepository.save(company);
-        CompanyArticleCompanyEntity mapper = createCompanyArticleCompany();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyEntity();
         mapper.updateCompany(company);
 
         // when
@@ -111,14 +111,14 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
     @Test
     void deleteByNumberTest() {
         // given
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyEntityRepository.save(company);
-        CompanyArticleCompanyEntity mapper = createCompanyArticleCompany();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyEntity();
         mapper.updateCompany(company);
         companyArticleMapperRepository.save(mapper);
 
@@ -133,14 +133,14 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
     @Test
     void existsByNumberTest() {
         // given
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryRepository.save(secondCategory);
         companyEntityRepository.save(company);
-        CompanyArticleCompanyEntity mapper = createCompanyArticleCompany();
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyEntity();
         mapper.updateCompany(company);
 
         // when

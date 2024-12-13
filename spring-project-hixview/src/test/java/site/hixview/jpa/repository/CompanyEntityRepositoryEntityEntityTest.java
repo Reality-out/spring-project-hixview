@@ -58,7 +58,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("상장된 국가로 기업 찾기")
     @Test
     void findByCountryListedTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -75,7 +75,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("규모로 기업 찾기")
     @Test
     void findByScaleTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -92,7 +92,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("1차 업종으로 기업 찾기")
     @Test
     void findByFirstCategoryTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -109,7 +109,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("2차 업종으로 기업 찾기")
     @Test
     void findBySecondCategoryTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -126,7 +126,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("코드로 기업 찾기")
     @Test
     void findByCodeTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -143,7 +143,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("한글명으로 기업 찾기")
     @Test
     void findByKoreanNameTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -160,7 +160,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("영문명으로 기업 찾기")
     @Test
     void findByEnglishNameTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -177,7 +177,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("상장된 이름으로 기업 찾기")
     @Test
     void findByNameListedTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -194,7 +194,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("코드로 기업 삭제")
     @Test
     void deleteByCodeTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);
@@ -212,7 +212,7 @@ class CompanyEntityRepositoryEntityTest implements CompanyEntityTestUtils {
     @DisplayName("코드로 기업 확인")
     @Test
     void existsByNumberTest() {
-        CompanyEntity company = createCompany();
+        CompanyEntity company = createCompanyEntity();
         FirstCategoryEntity firstCategory = company.getFirstCategory();
         SecondCategoryEntity secondCategory = company.getSecondCategory();
         firstCategoryRepository.save(firstCategory);

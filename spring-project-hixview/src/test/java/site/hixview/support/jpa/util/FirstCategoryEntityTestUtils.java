@@ -6,11 +6,11 @@ public interface FirstCategoryEntityTestUtils extends IndustryCategoryEntityTest
     /**
      * Create
      */
-    default FirstCategoryEntity createFirstCategory() {
-        return new FirstCategoryEntity("건설", "CONSTRUCTION", createFirstIndustryCategory());
+    default FirstCategoryEntity createFirstCategoryEntity() {
+        return new FirstCategoryEntity("건설", "CONSTRUCTION", createFirstIndustryCategoryEntity());
     }
 
-    default FirstCategoryEntity createAnotherFirstCategory() {
-        return new FirstCategoryEntity("방산", "DEFENSE", createFirstIndustryCategory());
+    default FirstCategoryEntity createAnotherFirstCategoryEntity() {
+        return new FirstCategoryEntity("방산", "DEFENSE", createFirstIndustryCategoryEntity());
     }
 }

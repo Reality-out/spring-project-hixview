@@ -43,7 +43,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByDateTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
 
         // when
         industryArticleRepository.save(article);
@@ -56,7 +56,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByDateBetweenTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
         List<IndustryArticleEntity> articleList = List.of(article);
 
         // when
@@ -71,7 +71,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findBySubjectCountryTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
 
         // when
         industryArticleRepository.save(article);
@@ -84,7 +84,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByImportanceTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
         List<IndustryArticleEntity> articleList = List.of(article);
 
         // when
@@ -98,7 +98,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByNumberTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
 
         // when
         industryArticleRepository.save(article);
@@ -111,7 +111,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByNameTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
 
         // when
         industryArticleRepository.save(article);
@@ -124,7 +124,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByLinkTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
 
         // when
         industryArticleRepository.save(article);
@@ -137,7 +137,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void findByFirstCategoryTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
         List<IndustryArticleEntity> articleList = List.of(article);
 
         // when
@@ -151,7 +151,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void deleteByNumberTest() {
         // given
-        IndustryArticleEntity article = industryArticleRepository.save(createIndustryArticle());
+        IndustryArticleEntity article = industryArticleRepository.save(createIndustryArticleEntity());
 
         // when
         industryArticleRepository.deleteByNumber(article.getNumber());
@@ -164,7 +164,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
     @Test
     void existsByNumberTest() {
         // given
-        IndustryArticleEntity article = createIndustryArticle();
+        IndustryArticleEntity article = createIndustryArticleEntity();
 
         // when
         industryArticleRepository.save(article);

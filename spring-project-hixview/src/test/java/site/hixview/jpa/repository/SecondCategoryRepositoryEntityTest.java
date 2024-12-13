@@ -41,7 +41,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
 
         // when
         secondCategoryRepository.save(secondCategory);
@@ -54,7 +54,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
     @Test
     void findByKoreanNameTest() {
         // given
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
 
         // when
         secondCategoryRepository.save(secondCategory);
@@ -67,7 +67,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
     @Test
     void findByEnglishNameTest() {
         // given
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
 
         // when
         secondCategoryRepository.save(secondCategory);
@@ -80,7 +80,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
     @Test
     void findByFirstCategoryTest() {
         // given
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
 
         // when
         secondCategoryRepository.save(secondCategory);
@@ -93,7 +93,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        SecondCategoryEntity secondCategory = secondCategoryRepository.save(createSecondCategory());
+        SecondCategoryEntity secondCategory = secondCategoryRepository.save(createSecondCategoryEntity());
 
         // when
         secondCategoryRepository.deleteByNumber(secondCategory.getNumber());
@@ -106,7 +106,7 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        SecondCategoryEntity secondCategory = createSecondCategory();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
 
         // when
         secondCategoryRepository.save(secondCategory);

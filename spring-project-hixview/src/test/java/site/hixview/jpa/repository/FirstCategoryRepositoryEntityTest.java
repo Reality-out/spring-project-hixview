@@ -40,7 +40,7 @@ class FirstCategoryRepositoryTest implements FirstCategoryEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
 
         // when
         firstCategoryRepository.save(firstCategory);
@@ -53,7 +53,7 @@ class FirstCategoryRepositoryTest implements FirstCategoryEntityTestUtils {
     @Test
     void findByKoreanNameTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
 
         // when
         firstCategoryRepository.save(firstCategory);
@@ -66,7 +66,7 @@ class FirstCategoryRepositoryTest implements FirstCategoryEntityTestUtils {
     @Test
     void findByEnglishNameTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
 
         // when
         firstCategoryRepository.save(firstCategory);
@@ -79,7 +79,7 @@ class FirstCategoryRepositoryTest implements FirstCategoryEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        FirstCategoryEntity firstCategory = firstCategoryRepository.save(createFirstCategory());
+        FirstCategoryEntity firstCategory = firstCategoryRepository.save(createFirstCategoryEntity());
 
         // when
         firstCategoryRepository.deleteByNumber(firstCategory.getNumber());
@@ -92,7 +92,7 @@ class FirstCategoryRepositoryTest implements FirstCategoryEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        FirstCategoryEntity firstCategory = createFirstCategory();
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
 
         // when
         firstCategoryRepository.save(firstCategory);

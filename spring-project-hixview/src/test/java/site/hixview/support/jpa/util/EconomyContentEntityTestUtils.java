@@ -6,11 +6,11 @@ public interface EconomyContentEntityTestUtils {
     /**
      * Create
      */
-    default EconomyContentEntity createEconomyContent() {
+    default EconomyContentEntity createEconomyContentEntity() {
         return new EconomyContentEntity("합병");
     }
 
-    default EconomyContentEntity createAnotherEconomyContent() {
+    default EconomyContentEntity createAnotherEconomyContentEntity() {
         return new EconomyContentEntity("대주주");
     }
 }

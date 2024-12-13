@@ -38,7 +38,7 @@ class PressEntityRepositoryTest implements PressEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        PressEntity press = createPress();
+        PressEntity press = createPressEntity();
 
         // when
         pressEntityRepository.save(press);
@@ -51,7 +51,7 @@ class PressEntityRepositoryTest implements PressEntityTestUtils {
     @Test
     void findByKoreanNameTest() {
         // given
-        PressEntity press = createPress();
+        PressEntity press = createPressEntity();
 
         // when
         pressEntityRepository.save(press);
@@ -64,7 +64,7 @@ class PressEntityRepositoryTest implements PressEntityTestUtils {
     @Test
     void findByEnglishNameTest() {
         // given
-        PressEntity press = createPress();
+        PressEntity press = createPressEntity();
 
         // when
         pressEntityRepository.save(press);
@@ -77,7 +77,7 @@ class PressEntityRepositoryTest implements PressEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        PressEntity press = pressEntityRepository.save(createPress());
+        PressEntity press = pressEntityRepository.save(createPressEntity());
 
         // when
         pressEntityRepository.deleteByNumber(press.getNumber());
@@ -90,7 +90,7 @@ class PressEntityRepositoryTest implements PressEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        PressEntity press = createPress();
+        PressEntity press = createPressEntity();
 
         // when
         pressEntityRepository.save(press);

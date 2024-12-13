@@ -43,7 +43,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findByDateTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
 
         // when
         economyArticleRepository.save(article);
@@ -56,8 +56,8 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findByDateBetweenTest() {
         // given
-        EconomyArticleEntity articleFirst = createEconomyArticle();
-        EconomyArticleEntity articleLast = createAnotherEconomyArticle();
+        EconomyArticleEntity articleFirst = createEconomyArticleEntity();
+        EconomyArticleEntity articleLast = createAnotherEconomyArticleEntity();
         List<EconomyArticleEntity> articleList = List.of(articleFirst, articleLast);
 
         // when
@@ -71,7 +71,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findBySubjectCountryTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
 
         // when
         economyArticleRepository.save(article);
@@ -84,8 +84,8 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findByImportanceTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
-        EconomyArticleEntity anotherEconomyArticle = createAnotherEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
+        EconomyArticleEntity anotherEconomyArticle = createAnotherEconomyArticleEntity();
         List<EconomyArticleEntity> articleList = List.of(article, anotherEconomyArticle);
 
         // when
@@ -99,7 +99,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findByNumberTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
 
         // when
         economyArticleRepository.save(article);
@@ -112,7 +112,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findByNameTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
 
         // when
         economyArticleRepository.save(article);
@@ -125,7 +125,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void findByLinkTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
 
         // when
         economyArticleRepository.save(article);
@@ -138,7 +138,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void deleteByNumberTest() {
         // given
-        EconomyArticleEntity article = economyArticleRepository.save(createEconomyArticle());
+        EconomyArticleEntity article = economyArticleRepository.save(createEconomyArticleEntity());
 
         // when
         economyArticleRepository.deleteByNumber(article.getNumber());
@@ -151,7 +151,7 @@ class EconomyArticleEntityRepositoryEntityTest implements EconomyArticleEntityTe
     @Test
     void existsByNumberTest() {
         // given
-        EconomyArticleEntity article = createEconomyArticle();
+        EconomyArticleEntity article = createEconomyArticleEntity();
 
         // when
         economyArticleRepository.save(article);

@@ -6,11 +6,11 @@ public interface PostEntityTestUtils {
     /**
      * Create
      */
-    default PostEntity createPost() {
+    default PostEntity createPostEntity() {
         return new PostEntity();
     }
 
-    default PostEntity createAnotherPost() {
+    default PostEntity createAnotherPostEntity() {
         return new PostEntity();
     }
 }

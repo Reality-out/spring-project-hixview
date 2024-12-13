@@ -38,7 +38,7 @@ class EconomyContentEntityRepositoryTest implements EconomyContentEntityTestUtil
     @Test
     void findByNumberTest() {
         // given
-        EconomyContentEntity economyContent = createEconomyContent();
+        EconomyContentEntity economyContent = createEconomyContentEntity();
 
         // when
         economyContentEntityRepository.save(economyContent);
@@ -51,7 +51,7 @@ class EconomyContentEntityRepositoryTest implements EconomyContentEntityTestUtil
     @Test
     void findByKoreanNameTest() {
         // given
-        EconomyContentEntity economyContent = createEconomyContent();
+        EconomyContentEntity economyContent = createEconomyContentEntity();
 
         // when
         economyContentEntityRepository.save(economyContent);
@@ -64,7 +64,7 @@ class EconomyContentEntityRepositoryTest implements EconomyContentEntityTestUtil
     @Test
     void deleteByNumberTest() {
         // given
-        EconomyContentEntity economyContent = economyContentEntityRepository.save(createEconomyContent());
+        EconomyContentEntity economyContent = economyContentEntityRepository.save(createEconomyContentEntity());
 
         // when
         economyContentEntityRepository.deleteByNumber(economyContent.getNumber());
@@ -77,7 +77,7 @@ class EconomyContentEntityRepositoryTest implements EconomyContentEntityTestUtil
     @Test
     void existsByNumberTest() {
         // given
-        EconomyContentEntity economyContent = createEconomyContent();
+        EconomyContentEntity economyContent = createEconomyContentEntity();
 
         // when
         economyContentEntityRepository.save(economyContent);

@@ -6,11 +6,11 @@ public interface PressEntityTestUtils {
     /**
      * Create
      */
-    default PressEntity createPress() {
+    default PressEntity createPressEntity() {
         return new PressEntity("아주경제", "AJU_ECONOMY");
     }
 
-    default PressEntity createAnotherPress() {
+    default PressEntity createAnotherPressEntity() {
         return new PressEntity("아시아경제", "ASIA_ECONOMY");
     }
 }

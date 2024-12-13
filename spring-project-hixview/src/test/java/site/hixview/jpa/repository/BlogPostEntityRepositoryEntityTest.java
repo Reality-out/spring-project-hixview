@@ -41,7 +41,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void findByDateTest() {
         // given
-        BlogPostEntity post = createBlogPost();
+        BlogPostEntity post = createBlogPostEntity();
 
         // when
         blogPostRepository.save(post);
@@ -54,8 +54,8 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void findByDateBetweenTest() {
         // given
-        BlogPostEntity postFirst = createBlogPost();
-        BlogPostEntity postLast = createAnotherBlogPost();
+        BlogPostEntity postFirst = createBlogPostEntity();
+        BlogPostEntity postLast = createAnotherBlogPostEntity();
         List<BlogPostEntity> postList = List.of(postFirst, postLast);
 
         // when
@@ -69,7 +69,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void findBySubjectCountryTest() {
         // given
-        BlogPostEntity post = createBlogPost();
+        BlogPostEntity post = createBlogPostEntity();
 
         // when
         blogPostRepository.save(post);
@@ -82,7 +82,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        BlogPostEntity post = createBlogPost();
+        BlogPostEntity post = createBlogPostEntity();
 
         // when
         blogPostRepository.save(post);
@@ -95,7 +95,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void findByNameTest() {
         // given
-        BlogPostEntity post = createBlogPost();
+        BlogPostEntity post = createBlogPostEntity();
 
         // when
         blogPostRepository.save(post);
@@ -108,7 +108,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void findByLinkTest() {
         // given
-        BlogPostEntity post = createBlogPost();
+        BlogPostEntity post = createBlogPostEntity();
 
         // when
         blogPostRepository.save(post);
@@ -121,7 +121,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        BlogPostEntity post = blogPostRepository.save(createBlogPost());
+        BlogPostEntity post = blogPostRepository.save(createBlogPostEntity());
 
         // when
         blogPostRepository.deleteByNumber(post.getNumber());
@@ -134,7 +134,7 @@ class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        BlogPostEntity post = createBlogPost();
+        BlogPostEntity post = createBlogPostEntity();
 
         // when
         blogPostRepository.save(post);

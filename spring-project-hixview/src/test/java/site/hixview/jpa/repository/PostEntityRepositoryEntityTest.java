@@ -38,7 +38,7 @@ class PostEntityRepositoryTest implements PostEntityTestUtils {
     @Test
     void findByNumberTest() {
         // given
-        PostEntity post = createPost();
+        PostEntity post = createPostEntity();
 
         // when
         postEntityRepository.save(post);
@@ -51,7 +51,7 @@ class PostEntityRepositoryTest implements PostEntityTestUtils {
     @Test
     void deleteByNumberTest() {
         // given
-        PostEntity post = postEntityRepository.save(createPost());
+        PostEntity post = postEntityRepository.save(createPostEntity());
 
         // when
         postEntityRepository.deleteByNumber(post.getNumber());
@@ -64,7 +64,7 @@ class PostEntityRepositoryTest implements PostEntityTestUtils {
     @Test
     void existsByNumberTest() {
         // given
-        PostEntity post = createPost();
+        PostEntity post = createPostEntity();
 
         // when
         postEntityRepository.save(post);

@@ -43,7 +43,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findByDateTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
 
         // when
         companyArticleRepository.save(article);
@@ -56,8 +56,8 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findByDateBetweenTest() {
         // given
-        CompanyArticleEntity articleFirst = createCompanyArticle();
-        CompanyArticleEntity articleLast = createAnotherCompanyArticle();
+        CompanyArticleEntity articleFirst = createCompanyArticleEntity();
+        CompanyArticleEntity articleLast = createAnotherCompanyArticleEntity();
         List<CompanyArticleEntity> articleList = List.of(articleFirst, articleLast);
 
         // when
@@ -71,7 +71,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findBySubjectCountryTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
 
         // when
         companyArticleRepository.save(article);
@@ -84,8 +84,8 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findByImportanceTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
-        CompanyArticleEntity anotherCompanyArticle = createAnotherCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
+        CompanyArticleEntity anotherCompanyArticle = createAnotherCompanyArticleEntity();
         List<CompanyArticleEntity> articleList = List.of(article, anotherCompanyArticle);
 
         // when
@@ -99,7 +99,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findByNumberTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
 
         // when
         companyArticleRepository.save(article);
@@ -112,7 +112,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findByNameTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
 
         // when
         companyArticleRepository.save(article);
@@ -125,7 +125,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void findByLinkTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
 
         // when
         companyArticleRepository.save(article);
@@ -138,7 +138,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void deleteByNumberTest() {
         // given
-        CompanyArticleEntity article = companyArticleRepository.save(createCompanyArticle());
+        CompanyArticleEntity article = companyArticleRepository.save(createCompanyArticleEntity());
 
         // when
         companyArticleRepository.deleteByNumber(article.getNumber());
@@ -151,7 +151,7 @@ class CompanyArticleEntityRepositoryEntityTest implements CompanyArticleEntityTe
     @Test
     void existsByNumberTest() {
         // given
-        CompanyArticleEntity article = createCompanyArticle();
+        CompanyArticleEntity article = createCompanyArticleEntity();
 
         // when
         companyArticleRepository.save(article);

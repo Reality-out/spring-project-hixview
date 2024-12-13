@@ -1,0 +1,34 @@
+package site.hixview.aggregate.mapper;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import site.hixview.aggregate.dto.IndustryArticleDto;
+import site.hixview.support.spring.util.IndustryArticleTestUtils;
+import site.hixview.support.spring.util.dto.IndustryArticleDtoTestUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Execution(value = ExecutionMode.CONCURRENT)
+class IndustryArticleMapperTest implements IndustryArticleTestUtils, IndustryArticleDtoTestUtils {
+
+    private final IndustryArticleMapperImpl mapperImpl = new IndustryArticleMapperImpl();
+
+    private static final Logger log = LoggerFactory.getLogger(IndustryArticleMapperTest.class);
+
+    @DisplayName("도메인 매퍼 사용 후 IndustryArticle 일관성 보장")
+    @Test
+    void industryArticleMappingWithDomainMapper() {
+        assertThat(mapperImpl.toIndustryArticle(mapperImpl.toIndustryArticleDto(industryArticle))).isEqualTo(industryArticle);
+    }
+
+    @DisplayName("도메인 매퍼 사용 후 IndustryArticleDto 일관성 보장")
+    @Test
+    void industryArticleDtoMappingWithDomainMapper() {
+        IndustryArticleDto IndustryArticleDto = createIndustryArticleDto();
+        assertThat(mapperImpl.toIndustryArticleDto(mapperImpl.toIndustryArticle(IndustryArticleDto))).usingRecursiveComparison().isEqualTo(IndustryArticleDto);
+    }
+}

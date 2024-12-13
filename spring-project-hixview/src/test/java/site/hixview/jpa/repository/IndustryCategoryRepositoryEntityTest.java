@@ -38,7 +38,7 @@ class IndustryCategoryRepositoryTest implements IndustryCategoryEntityTestUtils 
     @Test
     void findByNumberTest() {
         // given
-        IndustryCategoryEntity industryCategory = createFirstIndustryCategory();
+        IndustryCategoryEntity industryCategory = createFirstIndustryCategoryEntity();
 
         // when
         industryCategoryRepository.save(industryCategory);
@@ -51,7 +51,7 @@ class IndustryCategoryRepositoryTest implements IndustryCategoryEntityTestUtils 
     @Test
     void findByKoreanNameTest() {
         // given
-        IndustryCategoryEntity industryCategory = createFirstIndustryCategory();
+        IndustryCategoryEntity industryCategory = createFirstIndustryCategoryEntity();
 
         // when
         industryCategoryRepository.save(industryCategory);
@@ -64,7 +64,7 @@ class IndustryCategoryRepositoryTest implements IndustryCategoryEntityTestUtils 
     @Test
     void findByEnglishNameTest() {
         // given
-        IndustryCategoryEntity industryCategory = createFirstIndustryCategory();
+        IndustryCategoryEntity industryCategory = createFirstIndustryCategoryEntity();
 
         // when
         industryCategoryRepository.save(industryCategory);
@@ -77,7 +77,7 @@ class IndustryCategoryRepositoryTest implements IndustryCategoryEntityTestUtils 
     @Test
     void deleteByNumberTest() {
         // given
-        IndustryCategoryEntity industryCategory = industryCategoryRepository.save(createFirstIndustryCategory());
+        IndustryCategoryEntity industryCategory = industryCategoryRepository.save(createFirstIndustryCategoryEntity());
 
         // when
         industryCategoryRepository.deleteByNumber(industryCategory.getNumber());
@@ -90,7 +90,7 @@ class IndustryCategoryRepositoryTest implements IndustryCategoryEntityTestUtils 
     @Test
     void existsByNumberTest() {
         // given
-        IndustryCategoryEntity industryCategory = createFirstIndustryCategory();
+        IndustryCategoryEntity industryCategory = createFirstIndustryCategoryEntity();
 
         // when
         industryCategoryRepository.save(industryCategory);

@@ -36,7 +36,7 @@ class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntity
     @Test
     void findByNumberTest() {
         // given
-        BlogPostArticleEntity mapper = createBlogPostArticle();
+        BlogPostArticleEntity mapper = createBlogPostArticleEntity();
 
         // when
         blogPostMapperRepository.save(mapper);
@@ -49,7 +49,7 @@ class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntity
     @Test
     void findByBlogPostTest() {
         // given
-        BlogPostArticleEntity mapper = createBlogPostArticle();
+        BlogPostArticleEntity mapper = createBlogPostArticleEntity();
 
         // when
         blogPostMapperRepository.save(mapper);
@@ -62,7 +62,7 @@ class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntity
     @Test
     void findByArticleTest() {
         // given
-        BlogPostArticleEntity mapper = createBlogPostArticle();
+        BlogPostArticleEntity mapper = createBlogPostArticleEntity();
 
         // when
         blogPostMapperRepository.save(mapper);
@@ -75,7 +75,7 @@ class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntity
     @Test
     void deleteByNumberTest() {
         // given
-        BlogPostArticleEntity mapper = blogPostMapperRepository.save(createBlogPostArticle());
+        BlogPostArticleEntity mapper = blogPostMapperRepository.save(createBlogPostArticleEntity());
 
         // when
         blogPostMapperRepository.deleteByNumber(mapper.getNumber());
@@ -88,7 +88,7 @@ class BlogPostArticleEntityRepositoryEntityTest implements BlogPostArticleEntity
     @Test
     void existsByNumberTest() {
         // given
-        BlogPostArticleEntity mapper = createBlogPostArticle();
+        BlogPostArticleEntity mapper = createBlogPostArticleEntity();
 
         // when
         blogPostMapperRepository.save(mapper);

@@ -6,11 +6,11 @@ public interface IndustryCategoryEntityTestUtils {
     /**
      * Create
      */
-    default IndustryCategoryEntity createFirstIndustryCategory() {
+    default IndustryCategoryEntity createFirstIndustryCategoryEntity() {
         return new IndustryCategoryEntity("1차 업종", "FIRST_CATEGORY");
     }
 
-    default IndustryCategoryEntity createSecondIndustryCategory() {
+    default IndustryCategoryEntity createSecondIndustryCategoryEntity() {
         return new IndustryCategoryEntity("2차 업종", "SECOND_CATEGORY");
     }
 }
