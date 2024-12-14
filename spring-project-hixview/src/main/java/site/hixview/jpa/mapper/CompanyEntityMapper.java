@@ -23,5 +23,6 @@ public interface CompanyEntityMapper extends CompanyEntityMapperSupport {
 
     @Mapping(source = FIRST_CATEGORY, target = FIRST_CATEGORY_NUMBER, qualifiedByName = "firstCategoryNumberToDomain")
     @Mapping(source = SECOND_CATEGORY, target = SECOND_CATEGORY_NUMBER, qualifiedByName = "secondCategoryNumberToDomain")
+    @Mapping(target = COMPANY, ignore = true)
     Company toCompany(CompanyEntity companyEntity);
 }

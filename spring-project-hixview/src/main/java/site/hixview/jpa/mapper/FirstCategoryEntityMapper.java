@@ -16,5 +16,6 @@ public interface FirstCategoryEntityMapper extends FirstCategoryEntityMapperSupp
     FirstCategoryEntity toFirstCategoryEntity(FirstCategory firstCategory);
 
     @Mapping(source = INDUSTRY_CATEGORY, target = INDUSTRY_CATEGORY_NUMBER, qualifiedByName = "industryCategoryNumberToDomain")
+    @Mapping(target = FIRST_CATEGORY, ignore = true)
     FirstCategory toFirstCategory(FirstCategoryEntity firstCategoryEntity);
 }

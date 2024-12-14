@@ -24,5 +24,6 @@ public interface BlogPostArticleEntityMapper extends BlogPostArticleEntityMapper
 
     @Mapping(source = BLOG_POST, target = POST_NUMBER, qualifiedByName = "postNumberToDomain")
     @Mapping(source = ARTICLE, target = ARTICLE_NUMBER, qualifiedByName = "articleNumberToDomain")
+    @Mapping(target = BLOG_POST_ARTICLE, ignore = true)
     BlogPostArticle toBlogPostArticle(BlogPostArticleEntity blogPostArticleEntity);
 }

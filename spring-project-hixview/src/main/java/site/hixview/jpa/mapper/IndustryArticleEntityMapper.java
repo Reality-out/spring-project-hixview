@@ -29,6 +29,7 @@ public interface IndustryArticleEntityMapper extends IndustryArticleEntityMapper
     @Mapping(source = PRESS, target = PRESS_NUMBER, qualifiedByName = "pressNumberToDomain")
     @Mapping(source = FIRST_CATEGORY, target = FIRST_CATEGORY_NUMBER, qualifiedByName = "firstCategoryNumberToDomain")
     @Mapping(target = MAPPED_SECOND_CATEGORY_NUMBERS, ignore = true)
+    @Mapping(target = INDUSTRY_ARTICLE, ignore = true)
     IndustryArticle toIndustryArticle(IndustryArticleEntity industryArticleEntity,
                                       @Context IndustryArticleSecondCategoryEntityRepository industryArticleSecondCategoryRepository);
 }

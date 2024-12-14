@@ -23,5 +23,6 @@ public interface CompanyArticleCompanyEntityMapper extends CompanyArticleCompany
 
     @Mapping(source = COMPANY_ARTICLE, target = ARTICLE_NUMBER, qualifiedByName = "articleNumberToDomain")
     @Mapping(source = COMPANY, target = COMPANY_CODE, qualifiedByName = "companyCodeToDomain")
+    @Mapping(target = COMPANY_ARTICLE_COMPANY, ignore = true)
     CompanyArticleCompany toCompanyArticleCompany(CompanyArticleCompanyEntity companyArticleCompanyEntity);
 }

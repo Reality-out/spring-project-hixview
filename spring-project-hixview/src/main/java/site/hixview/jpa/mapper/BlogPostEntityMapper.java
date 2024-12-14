@@ -20,6 +20,7 @@ public interface BlogPostEntityMapper extends BlogPostEntityMapperSupport {
                                     @Context PostEntityRepository postEntityRepository);
 
     @Mapping(target = MAPPED_ARTICLE_NUMBERS, ignore = true)
+    @Mapping(target = BLOG_POST, ignore = true)
     BlogPost toBlogPost(BlogPostEntity blogPostEntity,
                         @Context BlogPostArticleEntityRepository blogPostArticleRepository);
 }

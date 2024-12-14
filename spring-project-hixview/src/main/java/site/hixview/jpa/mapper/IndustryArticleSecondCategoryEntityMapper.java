@@ -23,5 +23,6 @@ public interface IndustryArticleSecondCategoryEntityMapper extends IndustryArtic
 
     @Mapping(source = INDUSTRY_ARTICLE, target = ARTICLE_NUMBER, qualifiedByName = "articleNumberToDomain")
     @Mapping(source = SECOND_CATEGORY, target = SECOND_CATEGORY_NUMBER, qualifiedByName = "secondCategoryNumberToDomain")
+    @Mapping(target = INDUSTRY_ARTICLE_SECOND_CATEGORY, ignore = true)
     IndustryArticleSecondCategory toIndustryArticleSecondCategory(IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity);
 }

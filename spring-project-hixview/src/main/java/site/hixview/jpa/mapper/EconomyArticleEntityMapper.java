@@ -25,6 +25,7 @@ public interface EconomyArticleEntityMapper extends EconomyArticleEntityMapperSu
     @Mapping(source = ARTICLE, target = NUMBER, qualifiedByName = "numberToDomain")
     @Mapping(source = PRESS, target = PRESS_NUMBER, qualifiedByName = "pressNumberToDomain")
     @Mapping(target = MAPPED_ECONOMY_CONTENT_NUMBERS, ignore = true)
+    @Mapping(target = ECONOMY_ARTICLE, ignore = true)
     EconomyArticle toEconomyArticle(EconomyArticleEntity economyArticleEntity,
                                     @Context EconomyArticleContentEntityRepository economyArticleContentRepository);
 }
