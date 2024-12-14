@@ -2,9 +2,9 @@ package site.hixview.jpa.mapper.support;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.mapstruct.AfterMapping;
+import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.CompanyArticleCompany;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
@@ -15,16 +15,12 @@ import site.hixview.jpa.repository.CompanyEntityRepository;
 
 import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY_WITH_CODE;
 
-public abstract class CompanyArticleCompanyEntityMapperSupport {
-    @Autowired
-    private CompanyArticleEntityRepository companyArticleRepository;
-
-    @Autowired
-    private CompanyEntityRepository companyEntityRepository;
-
+public interface CompanyArticleCompanyEntityMapperSupport {
     @AfterMapping
-    public void afterMappingToEntity(
-            @MappingTarget CompanyArticleCompanyEntity entity, CompanyArticleCompany companyArticleCompany) {
+    default void afterMappingToEntity(
+            @MappingTarget CompanyArticleCompanyEntity entity, CompanyArticleCompany companyArticleCompany,
+            @Context CompanyArticleEntityRepository companyArticleRepository,
+            @Context CompanyEntityRepository companyEntityRepository) {
         Long articleNumber = companyArticleCompany.getArticleNumber();
         String companyCode = companyArticleCompany.getCompanyCode();
         entity.updateArticle(companyArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
@@ -35,12 +31,12 @@ public abstract class CompanyArticleCompanyEntityMapperSupport {
     }
 
     @Named("articleNumberToDomain")
-    public Long articleNumberToDomain(CompanyArticleEntity companyArticleEntity) {
+    default Long articleNumberToDomain(CompanyArticleEntity companyArticleEntity) {
         return companyArticleEntity.getNumber();
     }
 
     @Named("companyCodeToDomain")
-    public String companyCodeToDomain(CompanyEntity companyEntity) {
+    default String companyCodeToDomain(CompanyEntity companyEntity) {
         return companyEntity.getCode();
     }
 }

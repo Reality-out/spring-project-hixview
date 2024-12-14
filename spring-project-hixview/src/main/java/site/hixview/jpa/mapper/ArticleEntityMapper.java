@@ -11,11 +11,11 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class ArticleEntityMapper extends ArticleEntityMapperSupport {
+public interface ArticleEntityMapper extends ArticleEntityMapperSupport {
     @Mapping(target = NUMBER, ignore = true)
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract ArticleEntity toArticleEntity(Article article);
+    ArticleEntity toArticleEntity(Article article);
 
     @Mapping(source = NUMBER, target = NUMBER)
-    public abstract Article toArticle(ArticleEntity articleEntity);
+    Article toArticle(ArticleEntity articleEntity);
 }

@@ -4,14 +4,14 @@ import org.mapstruct.Named;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.entity.PressEntity;
 
-abstract class SuperArticleEntityMapperSupport {
+interface SuperArticleEntityMapperSupport {
     @Named("numberToDomain")
-    public Long numberToDomain(ArticleEntity article) {
+    default Long numberToDomain(ArticleEntity article) {
         return article.getNumber();
     }
 
     @Named("pressNumberToDomain")
-    public Long pressNumberToDomain(PressEntity press) {
+    default Long pressNumberToDomain(PressEntity press) {
         return press.getNumber();
     }
 }

@@ -10,13 +10,13 @@ import site.hixview.jpa.mapper.support.CompanyEntityMapperSupport;
 import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class CompanyEntityMapper extends CompanyEntityMapperSupport {
+public interface CompanyEntityMapper extends CompanyEntityMapperSupport {
     @Mapping(target = FIRST_CATEGORY, ignore = true)
     @Mapping(target = SECOND_CATEGORY, ignore = true)
     @Mapping(target = COMPANY, ignore = true)
-    public abstract CompanyEntity toCompanyEntity(Company company);
+    CompanyEntity toCompanyEntity(Company company);
 
     @Mapping(source = FIRST_CATEGORY, target = FIRST_CATEGORY_NUMBER, qualifiedByName = "firstCategoryNumberToDomain")
     @Mapping(source = SECOND_CATEGORY, target = SECOND_CATEGORY_NUMBER, qualifiedByName = "secondCategoryNumberToDomain")
-    public abstract Company toCompany(CompanyEntity companyEntity);
+    Company toCompany(CompanyEntity companyEntity);
 }

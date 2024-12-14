@@ -1,9 +1,9 @@
 package site.hixview.jpa.mapper.support;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.BlogPostArticle;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.ArticleEntity;
@@ -12,15 +12,11 @@ import site.hixview.jpa.entity.BlogPostEntity;
 import site.hixview.jpa.repository.ArticleEntityRepository;
 import site.hixview.jpa.repository.BlogPostEntityRepository;
 
-public abstract class BlogPostArticleEntityMapperSupport {
-    @Autowired
-    private BlogPostEntityRepository blogPostEntityRepository;
-
-    @Autowired
-    private ArticleEntityRepository articleEntityRepository;
-
+public interface BlogPostArticleEntityMapperSupport {
     @AfterMapping
-    public void afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, BlogPostArticle blogPostArticle) {
+    default void afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, BlogPostArticle blogPostArticle,
+                                      @Context BlogPostEntityRepository blogPostEntityRepository,
+                                      @Context ArticleEntityRepository articleEntityRepository) {
         Long postNumber = blogPostArticle.getPostNumber();
         Long articleNumber = blogPostArticle.getArticleNumber();
         entity.updatePost(blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
@@ -30,12 +26,12 @@ public abstract class BlogPostArticleEntityMapperSupport {
     }
 
     @Named("postNumberToDomain")
-    public Long postNumberToDomain(BlogPostEntity blogPostEntity) {
+    default Long postNumberToDomain(BlogPostEntity blogPostEntity) {
         return blogPostEntity.getNumber();
     }
 
     @Named("articleNumberToDomain")
-    public Long articleNumberToDomain(ArticleEntity articleEntity) {
+    default Long articleNumberToDomain(ArticleEntity articleEntity) {
         return articleEntity.getNumber();
     }
 }

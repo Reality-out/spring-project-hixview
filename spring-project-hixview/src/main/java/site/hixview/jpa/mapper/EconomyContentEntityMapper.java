@@ -9,9 +9,9 @@ import site.hixview.jpa.entity.EconomyContentEntity;
 import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class EconomyContentEntityMapper {
+public interface EconomyContentEntityMapper {
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract EconomyContentEntity toEconomyContentEntity(EconomyContent economyContent);
+    EconomyContentEntity toEconomyContentEntity(EconomyContent economyContent);
 
-    public abstract EconomyContent toEconomyContent(EconomyContentEntity economyContentEntity);
+    EconomyContent toEconomyContent(EconomyContentEntity economyContentEntity);
 }

@@ -10,13 +10,13 @@ import site.hixview.jpa.mapper.support.SecondCategoryEntityMapperSupport;
 import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class SecondCategoryEntityMapper extends SecondCategoryEntityMapperSupport {
+public interface SecondCategoryEntityMapper extends SecondCategoryEntityMapperSupport {
     @Mapping(target = INDUSTRY_CATEGORY, ignore = true)
     @Mapping(target = FIRST_CATEGORY, ignore = true)
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract SecondCategoryEntity toSecondCategoryEntity(SecondCategory secondCategory);
+    SecondCategoryEntity toSecondCategoryEntity(SecondCategory secondCategory);
 
     @Mapping(source = INDUSTRY_CATEGORY, target = INDUSTRY_CATEGORY_NUMBER, qualifiedByName = "industryCategoryNumberToDomain")
     @Mapping(source = FIRST_CATEGORY, target = FIRST_CATEGORY_NUMBER, qualifiedByName = "firstCategoryNumberToDomain")
-    public abstract SecondCategory toSecondCategory(SecondCategoryEntity secondCategoryEntity);
+    SecondCategory toSecondCategory(SecondCategoryEntity secondCategoryEntity);
 }

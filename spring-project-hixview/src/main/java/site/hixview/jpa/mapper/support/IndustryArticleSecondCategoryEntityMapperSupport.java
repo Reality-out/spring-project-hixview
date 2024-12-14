@@ -1,9 +1,9 @@
 package site.hixview.jpa.mapper.support;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.IndustryArticleSecondCategory;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.IndustryArticleEntity;
@@ -12,16 +12,12 @@ import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.repository.IndustryArticleEntityRepository;
 import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
-public abstract class IndustryArticleSecondCategoryEntityMapperSupport {
-    @Autowired
-    private IndustryArticleEntityRepository industryArticleRepository;
-
-    @Autowired
-    private SecondCategoryEntityRepository secondCategoryRepository;
-
+public interface IndustryArticleSecondCategoryEntityMapperSupport {
     @AfterMapping
-    public void afterMappingToEntity(@MappingTarget IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity,
-                                     IndustryArticleSecondCategory industryArticleSecondCategory) {
+    default void afterMappingToEntity(@MappingTarget IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity,
+                                     IndustryArticleSecondCategory industryArticleSecondCategory,
+                                     @Context IndustryArticleEntityRepository industryArticleRepository,
+                                     @Context SecondCategoryEntityRepository secondCategoryRepository) {
         Long articleNumber = industryArticleSecondCategory.getArticleNumber();
         Long secondCategoryNumber = industryArticleSecondCategory.getSecondCategoryNumber();
         industryArticleSecondCategoryEntity.updateArticle(industryArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
@@ -31,12 +27,12 @@ public abstract class IndustryArticleSecondCategoryEntityMapperSupport {
     }
 
     @Named("articleNumberToDomain")
-    public Long articleNumberToDomain(IndustryArticleEntity industryArticleEntity) {
+    default Long articleNumberToDomain(IndustryArticleEntity industryArticleEntity) {
         return industryArticleEntity.getNumber();
     }
 
     @Named("secondCategoryNumberToDomain")
-    public Long secondCategoryNumberToDomain(SecondCategoryEntity secondCategoryEntity) {
+    default Long secondCategoryNumberToDomain(SecondCategoryEntity secondCategoryEntity) {
         return secondCategoryEntity.getNumber();
     }
 }

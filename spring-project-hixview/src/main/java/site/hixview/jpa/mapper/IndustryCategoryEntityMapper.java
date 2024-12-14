@@ -6,8 +6,8 @@ import site.hixview.aggregate.domain.IndustryCategory;
 import site.hixview.jpa.entity.IndustryCategoryEntity;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class IndustryCategoryEntityMapper {
-    public abstract IndustryCategoryEntity toIndustryCategoryEntity(IndustryCategory industryCategory);
+public interface IndustryCategoryEntityMapper {
+    IndustryCategoryEntity toIndustryCategoryEntity(IndustryCategory industryCategory);
 
-    public abstract IndustryCategory toIndustryCategory(IndustryCategoryEntity industryCategoryEntity);
+    IndustryCategory toIndustryCategory(IndustryCategoryEntity industryCategoryEntity);
 }

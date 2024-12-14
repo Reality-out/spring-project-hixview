@@ -7,11 +7,11 @@ import site.hixview.jpa.entity.IndustryCategoryEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-13T00:27:06+0900",
+    date = "2024-12-14T11:41:28+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
-public class IndustryCategoryEntityMapperImpl extends IndustryCategoryEntityMapper {
+public class IndustryCategoryEntityMapperImpl implements IndustryCategoryEntityMapper {
 
     @Override
     public IndustryCategoryEntity toIndustryCategoryEntity(IndustryCategory industryCategory) {

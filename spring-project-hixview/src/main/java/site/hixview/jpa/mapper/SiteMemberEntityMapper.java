@@ -9,9 +9,9 @@ import site.hixview.jpa.entity.SiteMemberEntity;
 import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class SiteMemberEntityMapper {
+public interface SiteMemberEntityMapper {
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract SiteMemberEntity toSiteMemberEntity(SiteMember siteMember);
+    SiteMemberEntity toSiteMemberEntity(SiteMember siteMember);
 
-    public abstract SiteMember toSiteMember(SiteMemberEntity siteMemberEntity);
+    SiteMember toSiteMember(SiteMemberEntity siteMemberEntity);
 }

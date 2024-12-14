@@ -7,11 +7,11 @@ import site.hixview.jpa.entity.SiteMemberEntity;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-13T00:39:22+0900",
+    date = "2024-12-14T11:41:28+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
-public class SiteMemberEntityMapperImpl extends SiteMemberEntityMapper {
+public class SiteMemberEntityMapperImpl implements SiteMemberEntityMapper {
 
     @Override
     public SiteMemberEntity toSiteMemberEntity(SiteMember siteMember) {

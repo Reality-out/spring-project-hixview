@@ -5,9 +5,9 @@ import org.mapstruct.MappingTarget;
 import site.hixview.aggregate.domain.Article;
 import site.hixview.jpa.entity.ArticleEntity;
 
-public abstract class ArticleEntityMapperSupport {
+public interface ArticleEntityMapperSupport {
     @AfterMapping
-    public void afterMappingToEntity(
+    default void afterMappingToEntity(
             @MappingTarget ArticleEntity articleEntity, Article article) {
         articleEntity.updateNumber(article.getNumber());
     }

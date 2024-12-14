@@ -10,13 +10,13 @@ import site.hixview.jpa.mapper.support.IndustryArticleSecondCategoryEntityMapper
 import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class IndustryArticleSecondCategoryEntityMapper extends IndustryArticleSecondCategoryEntityMapperSupport {
+public interface IndustryArticleSecondCategoryEntityMapper extends IndustryArticleSecondCategoryEntityMapperSupport {
     @Mapping(target = INDUSTRY_ARTICLE, ignore = true)
     @Mapping(target = SECOND_CATEGORY, ignore = true)
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract IndustryArticleSecondCategoryEntity toIndustryArticleSecondCategoryEntity(IndustryArticleSecondCategory industryArticleSecondCategory);
+    IndustryArticleSecondCategoryEntity toIndustryArticleSecondCategoryEntity(IndustryArticleSecondCategory industryArticleSecondCategory);
 
     @Mapping(source = INDUSTRY_ARTICLE, target = ARTICLE_NUMBER, qualifiedByName = "articleNumberToDomain")
     @Mapping(source = SECOND_CATEGORY, target = SECOND_CATEGORY_NUMBER, qualifiedByName = "secondCategoryNumberToDomain")
-    public abstract IndustryArticleSecondCategory toIndustryArticleSecondCategory(IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity);
+    IndustryArticleSecondCategory toIndustryArticleSecondCategory(IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity);
 }

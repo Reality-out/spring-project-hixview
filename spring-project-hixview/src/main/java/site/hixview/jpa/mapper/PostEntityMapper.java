@@ -9,9 +9,9 @@ import site.hixview.jpa.entity.PostEntity;
 import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class PostEntityMapper {
+public interface PostEntityMapper {
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract PostEntity toPostEntity(Post post);
+    PostEntity toPostEntity(Post post);
 
-    public abstract Post toPost(PostEntity postEntity);
+    Post toPost(PostEntity postEntity);
 }

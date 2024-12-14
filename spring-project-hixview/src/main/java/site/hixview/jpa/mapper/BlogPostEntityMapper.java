@@ -10,11 +10,11 @@ import site.hixview.jpa.mapper.support.BlogPostEntityMapperSupport;
 import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class BlogPostEntityMapper extends BlogPostEntityMapperSupport {
+public interface BlogPostEntityMapper extends BlogPostEntityMapperSupport {
     @Mapping(target = POST, ignore = true)
     @Mapping(target = BLOG_POST, ignore = true)
-    public abstract BlogPostEntity toBlogPostEntity(BlogPost blogPost);
+    BlogPostEntity toBlogPostEntity(BlogPost blogPost);
 
     @Mapping(target = MAPPED_ARTICLE_NUMBERS, ignore = true)
-    public abstract BlogPost toBlogPost(BlogPostEntity blogPostEntity);
+    BlogPost toBlogPost(BlogPostEntity blogPostEntity);
 }

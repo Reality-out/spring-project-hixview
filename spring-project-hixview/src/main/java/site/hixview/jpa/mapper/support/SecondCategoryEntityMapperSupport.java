@@ -1,29 +1,25 @@
 package site.hixview.jpa.mapper.support;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.FirstCategory;
-import site.hixview.aggregate.domain.SecondCategory;
 import site.hixview.aggregate.domain.IndustryCategory;
+import site.hixview.aggregate.domain.SecondCategory;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.FirstCategoryEntity;
-import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.entity.IndustryCategoryEntity;
+import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.repository.FirstCategoryEntityRepository;
 import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 
-public abstract class SecondCategoryEntityMapperSupport {
-    @Autowired
-    private IndustryCategoryEntityRepository industryCategoryRepository;
-
-    @Autowired
-    private FirstCategoryEntityRepository firstCategoryRepository;
-
+public interface SecondCategoryEntityMapperSupport {
     @AfterMapping
-    public void afterMappingToEntity(
-            @MappingTarget SecondCategoryEntity secondCategoryEntity, SecondCategory secondCategory) {
+    default void afterMappingToEntity(
+            @MappingTarget SecondCategoryEntity secondCategoryEntity, SecondCategory secondCategory,
+            @Context IndustryCategoryEntityRepository industryCategoryRepository,
+            @Context FirstCategoryEntityRepository firstCategoryRepository) {
         secondCategoryEntity.updateIndustryCategory(industryCategoryRepository.findByNumber(
                 secondCategory.getIndustryCategoryNumber()).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(secondCategory.getIndustryCategoryNumber(), IndustryCategory.class)));
@@ -34,12 +30,12 @@ public abstract class SecondCategoryEntityMapperSupport {
     }
 
     @Named("industryCategoryNumberToDomain")
-    public Long industryCategoryNumberToDomain(IndustryCategoryEntity industryCategoryEntity) {
+    default Long industryCategoryNumberToDomain(IndustryCategoryEntity industryCategoryEntity) {
         return industryCategoryEntity.getNumber();
     }
 
     @Named("firstCategoryNumberToDomain")
-    public Long firstCategoryNumberToDomain(FirstCategoryEntity firstCategoryEntity) {
+    default Long firstCategoryNumberToDomain(FirstCategoryEntity firstCategoryEntity) {
         return firstCategoryEntity.getNumber();
     }
 }

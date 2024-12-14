@@ -9,9 +9,9 @@ import site.hixview.jpa.entity.PressEntity;
 import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public abstract class PressEntityMapper {
+public interface PressEntityMapper {
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    public abstract PressEntity toPressEntity(Press press);
+    PressEntity toPressEntity(Press press);
 
-    public abstract Press toPress(PressEntity pressEntity);
+    Press toPress(PressEntity pressEntity);
 }
