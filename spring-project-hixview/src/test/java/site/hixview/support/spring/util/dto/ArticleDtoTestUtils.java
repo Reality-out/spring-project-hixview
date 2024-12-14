@@ -1,20 +1,21 @@
 package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.ArticleDto;
+import site.hixview.support.spring.util.ArticleTestUtils;
 
-public interface ArticleDtoTestUtils {
+public interface ArticleDtoTestUtils extends ArticleTestUtils {
     /**
      * Create
      */
     default ArticleDto createArticleDto() {
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setNumber(1L);
+        articleDto.setNumber(article.getNumber());
         return articleDto;
     }
 
     default ArticleDto createAnotherArticleDto() {
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setNumber(2L);
+        articleDto.setNumber(anotherArticle.getNumber());
         return articleDto;
     }
 }

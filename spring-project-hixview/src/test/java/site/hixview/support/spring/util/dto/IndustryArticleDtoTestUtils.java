@@ -2,63 +2,68 @@ package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.IndustryArticleDto;
 import site.hixview.aggregate.dto.IndustryArticleDtoNoNumber;
-import site.hixview.aggregate.enums.Country;
-import site.hixview.aggregate.enums.Importance;
+import site.hixview.support.spring.util.IndustryArticleTestUtils;
 
 import static site.hixview.aggregate.vo.WordSnake.MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE;
 
-public interface IndustryArticleDtoTestUtils {
+public interface IndustryArticleDtoTestUtils extends IndustryArticleTestUtils {
+    String industryArticleSecondCategoryNumbers = "{\"" + MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE + "\":[1,2]}";
+    String anotherIndustryArticleSecondCategoryNumbers = "{\"" + MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE + "\":[3,4]}";
+
+    /**
+     * Create
+     */
     default IndustryArticleDto createIndustryArticleDto() {
         IndustryArticleDto industryArticleDto = new IndustryArticleDto();
-        industryArticleDto.setNumber(1L);
-        industryArticleDto.setName("ASML, 중국 내 장비 유지보수 중단… &quot;中, 반도체 산업 타격 불가피&quot;");
-        industryArticleDto.setLink("https://biz.chosun.com/it-science/ict/2024/08/30/EFI7ZQXPTZE45D53WKE4DNQ6AU/");
-        industryArticleDto.setDate("2024-08-30");
-        industryArticleDto.setSubjectCountry(Country.CHINA.name());
-        industryArticleDto.setImportance(Importance.IMPORTANT.name());
-        industryArticleDto.setSummary("테스트용 첫 번째 산업 기사");
-        industryArticleDto.setPressNumber(1L);
-        industryArticleDto.setMappedSecondCategoryNumbers("{\"" + MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE + "\":[1,2]}");
+        industryArticleDto.setNumber(industryArticle.getNumber());
+        industryArticleDto.setName(industryArticle.getName());
+        industryArticleDto.setLink(industryArticle.getLink());
+        industryArticleDto.setDate(String.valueOf(industryArticle.getDate()));
+        industryArticleDto.setSubjectCountry(industryArticle.getSubjectCountry().name());
+        industryArticleDto.setImportance(industryArticle.getImportance().name());
+        industryArticleDto.setSummary(industryArticle.getSummary());
+        industryArticleDto.setPressNumber(industryArticle.getPressNumber());
+        industryArticleDto.setMappedSecondCategoryNumbers(industryArticleSecondCategoryNumbers);
         return industryArticleDto;
     }
 
     default IndustryArticleDto createAnotherIndustryArticleDto() {
         IndustryArticleDto industryArticleDto = new IndustryArticleDto();
-        industryArticleDto.setNumber(2L);
-        industryArticleDto.setName("흔들리는 반도체 굴기…화웨이 &quot;3·5나노칩 확보 불가&quot;");
-        industryArticleDto.setLink("https://www.sedaily.com/NewsView/2DAECLJTW4");
-        industryArticleDto.setDate("2024-06-09");
-        industryArticleDto.setSubjectCountry(Country.CHINA.name());
-        industryArticleDto.setImportance(Importance.MODERATE.name());
-        industryArticleDto.setSummary("테스트용 두 번째 산업 기사");
-        industryArticleDto.setPressNumber(2L);
-        industryArticleDto.setMappedSecondCategoryNumbers("{\"" + MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE + "\":[3,4]}");
+        industryArticleDto.setNumber(anotherIndustryArticle.getNumber());
+        industryArticleDto.setName(anotherIndustryArticle.getName());
+        industryArticleDto.setLink(anotherIndustryArticle.getLink());
+        industryArticleDto.setDate(String.valueOf(anotherIndustryArticle.getDate()));
+        industryArticleDto.setSubjectCountry(anotherIndustryArticle.getSubjectCountry().name());
+        industryArticleDto.setImportance(anotherIndustryArticle.getImportance().name());
+        industryArticleDto.setSummary(anotherIndustryArticle.getSummary());
+        industryArticleDto.setPressNumber(anotherIndustryArticle.getPressNumber());
+        industryArticleDto.setMappedSecondCategoryNumbers(anotherIndustryArticleSecondCategoryNumbers);
         return industryArticleDto;
     }
 
     default IndustryArticleDtoNoNumber createIndustryArticleDtoNoNumber() {
         IndustryArticleDtoNoNumber industryArticleDto = new IndustryArticleDtoNoNumber();
-        industryArticleDto.setName("ASML, 중국 내 장비 유지보수 중단… &quot;中, 반도체 산업 타격 불가피&quot;");
-        industryArticleDto.setLink("https://biz.chosun.com/it-science/ict/2024/08/30/EFI7ZQXPTZE45D53WKE4DNQ6AU/");
-        industryArticleDto.setDate("2024-08-30");
-        industryArticleDto.setSubjectCountry(Country.CHINA.name());
-        industryArticleDto.setImportance(Importance.IMPORTANT.name());
-        industryArticleDto.setSummary("테스트용 첫 번째 산업 기사");
-        industryArticleDto.setPressNumber(1L);
-        industryArticleDto.setMappedSecondCategoryNumbers("{\"" + MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE + "\":[1,2]}");
+        industryArticleDto.setName(industryArticle.getName());
+        industryArticleDto.setLink(industryArticle.getLink());
+        industryArticleDto.setDate(String.valueOf(industryArticle.getDate()));
+        industryArticleDto.setSubjectCountry(industryArticle.getSubjectCountry().name());
+        industryArticleDto.setImportance(industryArticle.getImportance().name());
+        industryArticleDto.setSummary(industryArticle.getSummary());
+        industryArticleDto.setPressNumber(industryArticle.getPressNumber());
+        industryArticleDto.setMappedSecondCategoryNumbers(industryArticleSecondCategoryNumbers);
         return industryArticleDto;
     }
 
     default IndustryArticleDtoNoNumber createAnotherIndustryArticleDtoNoNumber() {
         IndustryArticleDtoNoNumber industryArticleDto = new IndustryArticleDtoNoNumber();
-        industryArticleDto.setName("흔들리는 반도체 굴기…화웨이 &quot;3·5나노칩 확보 불가&quot;");
-        industryArticleDto.setLink("https://www.sedaily.com/NewsView/2DAECLJTW4");
-        industryArticleDto.setDate("2024-06-09");
-        industryArticleDto.setSubjectCountry(Country.CHINA.name());
-        industryArticleDto.setImportance(Importance.MODERATE.name());
-        industryArticleDto.setSummary("테스트용 두 번째 산업 기사");
-        industryArticleDto.setPressNumber(2L);
-        industryArticleDto.setMappedSecondCategoryNumbers("{\"" + MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE + "\":[3,4]}");
+        industryArticleDto.setName(anotherIndustryArticle.getName());
+        industryArticleDto.setLink(anotherIndustryArticle.getLink());
+        industryArticleDto.setDate(String.valueOf(anotherIndustryArticle.getDate()));
+        industryArticleDto.setSubjectCountry(anotherIndustryArticle.getSubjectCountry().name());
+        industryArticleDto.setImportance(anotherIndustryArticle.getImportance().name());
+        industryArticleDto.setSummary(anotherIndustryArticle.getSummary());
+        industryArticleDto.setPressNumber(anotherIndustryArticle.getPressNumber());
+        industryArticleDto.setMappedSecondCategoryNumbers(anotherIndustryArticleSecondCategoryNumbers);
         return industryArticleDto;
     }
 }

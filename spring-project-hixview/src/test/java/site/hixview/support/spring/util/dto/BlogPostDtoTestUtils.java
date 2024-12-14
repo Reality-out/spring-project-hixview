@@ -2,53 +2,56 @@ package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.BlogPostDto;
 import site.hixview.aggregate.dto.BlogPostDtoNoNumber;
-import site.hixview.aggregate.enums.Classification;
+import site.hixview.support.spring.util.BlogPostTestUtils;
 
 import static site.hixview.aggregate.vo.WordSnake.MAPPED_ARTICLE_NUMBERS_SNAKE;
 
-public interface BlogPostDtoTestUtils {
+public interface BlogPostDtoTestUtils extends BlogPostTestUtils {
+    String blogPostArticleNumbers = "{\"" + MAPPED_ARTICLE_NUMBERS_SNAKE + "\":[1,2]}";
+    String anotherBlogPostArticleNumbers = "{\"" + MAPPED_ARTICLE_NUMBERS_SNAKE + "\":[3,4]}";
+
     /**
      * Create
      */
     default BlogPostDto createBlogPostDto() {
         BlogPostDto blogPostDto = new BlogPostDto();
-        blogPostDto.setNumber(1L);
-        blogPostDto.setName("이노와이어리스 투자 포인트 재확인");
-        blogPostDto.setLink("https://blog.naver.com/akdnjs0308/223491404394");
-        blogPostDto.setDate("2024-06-26");
-        blogPostDto.setClassification(Classification.COMPANY.name());
-        blogPostDto.setMappedArticleNumbers("{\"" + MAPPED_ARTICLE_NUMBERS_SNAKE + "\":[1,2]}");
+        blogPostDto.setNumber(blogPost.getNumber());
+        blogPostDto.setName(blogPost.getName());
+        blogPostDto.setLink(blogPost.getLink());
+        blogPostDto.setDate(String.valueOf(blogPost.getDate()));
+        blogPostDto.setClassification(blogPost.getClassification().name());
+        blogPostDto.setMappedArticleNumbers(blogPostArticleNumbers);
         return blogPostDto;
     }
 
     default BlogPostDto createAnotherBlogPostDto() {
         BlogPostDto blogPostDto = new BlogPostDto();
-        blogPostDto.setNumber(2L);
-        blogPostDto.setName("중국 경제 진단(중국은 어떤 처지에 놓여 있을까)");
-        blogPostDto.setLink("https://blog.naver.com/akdnjs0308/223527440189");
-        blogPostDto.setDate("2024-07-27");
-        blogPostDto.setClassification(Classification.ECONOMY.name());
-        blogPostDto.setMappedArticleNumbers("{\"" + MAPPED_ARTICLE_NUMBERS_SNAKE + "\":[3,4]}");
+        blogPostDto.setNumber(anotherBlogPost.getNumber());
+        blogPostDto.setName(anotherBlogPost.getName());
+        blogPostDto.setLink(anotherBlogPost.getLink());
+        blogPostDto.setDate(String.valueOf(anotherBlogPost.getDate()));
+        blogPostDto.setClassification(blogPost.getClassification().name());
+        blogPostDto.setMappedArticleNumbers(anotherBlogPostArticleNumbers);
         return blogPostDto;
     }
 
     default BlogPostDtoNoNumber createBlogPostDtoNoNumber() {
         BlogPostDtoNoNumber blogPostDto = new BlogPostDtoNoNumber();
-        blogPostDto.setName("이노와이어리스 투자 포인트 재확인");
-        blogPostDto.setLink("https://blog.naver.com/akdnjs0308/223491404394");
-        blogPostDto.setDate("2024-06-26");
-        blogPostDto.setClassification(Classification.COMPANY.name());
-        blogPostDto.setMappedArticleNumbers("{\"" + MAPPED_ARTICLE_NUMBERS_SNAKE + "\":[1,2]}");
+        blogPostDto.setName(blogPost.getName());
+        blogPostDto.setLink(blogPost.getLink());
+        blogPostDto.setDate(String.valueOf(blogPost.getDate()));
+        blogPostDto.setClassification(blogPost.getClassification().name());
+        blogPostDto.setMappedArticleNumbers(blogPostArticleNumbers);
         return blogPostDto;
     }
 
     default BlogPostDtoNoNumber createAnotherBlogPostDtoNoNumber() {
         BlogPostDtoNoNumber blogPostDto = new BlogPostDtoNoNumber();
-        blogPostDto.setName("중국 경제 진단(중국은 어떤 처지에 놓여 있을까)");
-        blogPostDto.setLink("https://blog.naver.com/akdnjs0308/223527440189");
-        blogPostDto.setDate("2024-07-27");
-        blogPostDto.setClassification(Classification.ECONOMY.name());
-        blogPostDto.setMappedArticleNumbers("{\"" + MAPPED_ARTICLE_NUMBERS_SNAKE + "\":[3,4]}");
+        blogPostDto.setName(anotherBlogPost.getName());
+        blogPostDto.setLink(anotherBlogPost.getLink());
+        blogPostDto.setDate(String.valueOf(anotherBlogPost.getDate()));
+        blogPostDto.setClassification(blogPost.getClassification().name());
+        blogPostDto.setMappedArticleNumbers(anotherBlogPostArticleNumbers);
         return blogPostDto;
     }
 }

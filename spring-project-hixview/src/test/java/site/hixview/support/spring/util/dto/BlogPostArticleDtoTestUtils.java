@@ -1,24 +1,25 @@
 package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.BlogPostArticleDto;
+import site.hixview.support.spring.util.BlogPostArticleTestUtils;
 
-public interface BlogPostArticleDtoTestUtils {
+public interface BlogPostArticleDtoTestUtils extends BlogPostArticleTestUtils {
     /**
      * Create
      */
     default BlogPostArticleDto createBlogPostArticleDto() {
         BlogPostArticleDto blogPostArticleDto = new BlogPostArticleDto();
-        blogPostArticleDto.setNumber(1L);
-        blogPostArticleDto.setPostNumber(1L);
-        blogPostArticleDto.setArticleNumber(1L);
+        blogPostArticleDto.setNumber(blogPostArticle.getNumber());
+        blogPostArticleDto.setPostNumber(blogPostArticle.getPostNumber());
+        blogPostArticleDto.setArticleNumber(blogPostArticle.getArticleNumber());
         return blogPostArticleDto;
     }
 
     default BlogPostArticleDto createAnotherBlogPostArticleDto() {
         BlogPostArticleDto blogPostArticleDto = new BlogPostArticleDto();
-        blogPostArticleDto.setNumber(2L);
-        blogPostArticleDto.setPostNumber(2L);
-        blogPostArticleDto.setArticleNumber(2L);
+        blogPostArticleDto.setNumber(anotherBlogPostArticle.getNumber());
+        blogPostArticleDto.setPostNumber(anotherBlogPostArticle.getPostNumber());
+        blogPostArticleDto.setArticleNumber(anotherBlogPostArticle.getArticleNumber());
         return blogPostArticleDto;
     }
 }

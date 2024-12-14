@@ -1,6 +1,7 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -14,6 +15,7 @@ import static site.hixview.aggregate.vo.WordSnake.VERSION_NUM_SNAKE;
 @Table(name = ARTICLE)
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,38 +2,39 @@ package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.PressDto;
 import site.hixview.aggregate.dto.PressDtoNoNumber;
+import site.hixview.support.spring.util.PressTestUtils;
 
-public interface PressDtoTestUtils {
+public interface PressDtoTestUtils extends PressTestUtils {
     /**
      * Create
      */
     default PressDto createPressDto() {
         PressDto pressDto = new PressDto();
-        pressDto.setNumber(1L);
-        pressDto.setKoreanName("아주경제");
-        pressDto.setEnglishName("AJU_ECONOMY");
+        pressDto.setNumber(press.getNumber());
+        pressDto.setKoreanName(press.getKoreanName());
+        pressDto.setEnglishName(press.getEnglishName());
         return pressDto;
     }
 
     default PressDto createAnotherPressDto() {
         PressDto pressDto = new PressDto();
-        pressDto.setNumber(2L);
-        pressDto.setKoreanName("아시아경제");
-        pressDto.setEnglishName("ASIA_ECONOMY");
+        pressDto.setNumber(anotherPress.getNumber());
+        pressDto.setKoreanName(anotherPress.getKoreanName());
+        pressDto.setEnglishName(anotherPress.getEnglishName());
         return pressDto;
     }
 
     default PressDtoNoNumber createPressDtoNoNumber() {
         PressDtoNoNumber pressDto = new PressDtoNoNumber();
-        pressDto.setKoreanName("아주경제");
-        pressDto.setEnglishName("AJU_ECONOMY");
+        pressDto.setKoreanName(press.getKoreanName());
+        pressDto.setEnglishName(press.getEnglishName());
         return pressDto;
     }
 
     default PressDtoNoNumber createAnotherPressDtoNoNumber() {
         PressDtoNoNumber pressDto = new PressDtoNoNumber();
-        pressDto.setKoreanName("아시아경제");
-        pressDto.setEnglishName("ASIA_ECONOMY");
+        pressDto.setKoreanName(anotherPress.getKoreanName());
+        pressDto.setEnglishName(anotherPress.getEnglishName());
         return pressDto;
     }
 }

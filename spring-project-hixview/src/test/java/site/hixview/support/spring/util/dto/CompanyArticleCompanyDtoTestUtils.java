@@ -1,24 +1,25 @@
 package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.CompanyArticleCompanyDto;
+import site.hixview.support.spring.util.CompanyArticleCompanyTestUtils;
 
-public interface CompanyArticleCompanyDtoTestUtils {
+public interface CompanyArticleCompanyDtoTestUtils extends CompanyArticleCompanyTestUtils {
     /**
      * Create
      */
     default CompanyArticleCompanyDto createCompanyArticleCompanyDto() {
         CompanyArticleCompanyDto companyArticleCompanyDto = new CompanyArticleCompanyDto();
-        companyArticleCompanyDto.setNumber(1L);
-        companyArticleCompanyDto.setArticleNumber(1L);
-        companyArticleCompanyDto.setCompanyCode("000270");
+        companyArticleCompanyDto.setNumber(companyArticleCompany.getNumber());
+        companyArticleCompanyDto.setArticleNumber(companyArticleCompany.getArticleNumber());
+        companyArticleCompanyDto.setCompanyCode(companyArticleCompany.getCompanyCode());
         return companyArticleCompanyDto;
     }
 
     default CompanyArticleCompanyDto createAnotherCompanyArticleCompanyDto() {
         CompanyArticleCompanyDto companyArticleCompanyDto = new CompanyArticleCompanyDto();
-        companyArticleCompanyDto.setNumber(2L);
-        companyArticleCompanyDto.setArticleNumber(2L);
-        companyArticleCompanyDto.setCompanyCode("000660");
+        companyArticleCompanyDto.setNumber(anotherCompanyArticleCompany.getNumber());
+        companyArticleCompanyDto.setArticleNumber(anotherCompanyArticleCompany.getArticleNumber());
+        companyArticleCompanyDto.setCompanyCode(anotherCompanyArticleCompany.getCompanyCode());
         return companyArticleCompanyDto;
     }
 }

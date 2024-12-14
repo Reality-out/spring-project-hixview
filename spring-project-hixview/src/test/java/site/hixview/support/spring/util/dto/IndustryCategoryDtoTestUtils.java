@@ -2,38 +2,39 @@ package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.IndustryCategoryDto;
 import site.hixview.aggregate.dto.IndustryCategoryDtoNoNumber;
+import site.hixview.support.spring.util.IndustryCategoryTestUtils;
 
-public interface IndustryCategoryDtoTestUtils {
+public interface IndustryCategoryDtoTestUtils extends IndustryCategoryTestUtils {
     /**
      * Create
      */
     default IndustryCategoryDto createIndustryCategoryDto() {
         IndustryCategoryDto industryCategoryDto = new IndustryCategoryDto();
-        industryCategoryDto.setNumber(1L);
-        industryCategoryDto.setKoreanName("1차 업종");
-        industryCategoryDto.setEnglishName("FIRST_CATEGORY");
+        industryCategoryDto.setNumber(industryCategory.getNumber());
+        industryCategoryDto.setKoreanName(industryCategory.getKoreanName());
+        industryCategoryDto.setEnglishName(industryCategory.getEnglishName());
         return industryCategoryDto;
     }
 
     default IndustryCategoryDto createAnotherIndustryCategoryDto() {
         IndustryCategoryDto industryCategoryDto = new IndustryCategoryDto();
-        industryCategoryDto.setNumber(2L);
-        industryCategoryDto.setKoreanName("2차 업종");
-        industryCategoryDto.setEnglishName("SECOND_CATEGORY");
+        industryCategoryDto.setNumber(anotherIndustryCategory.getNumber());
+        industryCategoryDto.setKoreanName(anotherIndustryCategory.getKoreanName());
+        industryCategoryDto.setEnglishName(anotherIndustryCategory.getEnglishName());
         return industryCategoryDto;
     }
 
     default IndustryCategoryDtoNoNumber createIndustryCategoryDtoNoNumber() {
         IndustryCategoryDtoNoNumber industryCategoryDto = new IndustryCategoryDtoNoNumber();
-        industryCategoryDto.setKoreanName("1차 업종");
-        industryCategoryDto.setEnglishName("FIRST_CATEGORY");
+        industryCategoryDto.setKoreanName(industryCategory.getKoreanName());
+        industryCategoryDto.setEnglishName(industryCategory.getEnglishName());
         return industryCategoryDto;
     }
 
     default IndustryCategoryDtoNoNumber createAnotherIndustryCategoryDtoNoNumber() {
         IndustryCategoryDtoNoNumber industryCategoryDto = new IndustryCategoryDtoNoNumber();
-        industryCategoryDto.setKoreanName("2차 업종");
-        industryCategoryDto.setEnglishName("SECOND_CATEGORY");
+        industryCategoryDto.setKoreanName(anotherIndustryCategory.getKoreanName());
+        industryCategoryDto.setEnglishName(anotherIndustryCategory.getEnglishName());
         return industryCategoryDto;
     }
 }

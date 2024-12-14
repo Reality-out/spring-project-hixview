@@ -1,24 +1,25 @@
 package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.IndustryArticleSecondCategoryDto;
+import site.hixview.support.spring.util.IndustryArticleSecondCategoryTestUtils;
 
-public interface IndustryArticleSecondCategoryDtoTestUtils {
+public interface IndustryArticleSecondCategoryDtoTestUtils extends IndustryArticleSecondCategoryTestUtils {
     /**
      * Create
      */
     default IndustryArticleSecondCategoryDto createIndustryArticleSecondCategoryDto() {
         IndustryArticleSecondCategoryDto industryArticleSecondCategoryDto = new IndustryArticleSecondCategoryDto();
-        industryArticleSecondCategoryDto.setNumber(1L);
-        industryArticleSecondCategoryDto.setArticleNumber(1L);
-        industryArticleSecondCategoryDto.setSecondCategoryNumber(1L);
+        industryArticleSecondCategoryDto.setNumber(industryArticleSecondCategory.getNumber());
+        industryArticleSecondCategoryDto.setArticleNumber(industryArticleSecondCategory.getArticleNumber());
+        industryArticleSecondCategoryDto.setSecondCategoryNumber(industryArticleSecondCategory.getSecondCategoryNumber());
         return industryArticleSecondCategoryDto;
     }
 
     default IndustryArticleSecondCategoryDto createAnotherIndustryArticleSecondCategoryDto() {
         IndustryArticleSecondCategoryDto industryArticleSecondCategoryDto = new IndustryArticleSecondCategoryDto();
-        industryArticleSecondCategoryDto.setNumber(2L);
-        industryArticleSecondCategoryDto.setArticleNumber(2L);
-        industryArticleSecondCategoryDto.setSecondCategoryNumber(2L);
+        industryArticleSecondCategoryDto.setNumber(anotherIndustryArticleSecondCategory.getNumber());
+        industryArticleSecondCategoryDto.setArticleNumber(anotherIndustryArticleSecondCategory.getArticleNumber());
+        industryArticleSecondCategoryDto.setSecondCategoryNumber(anotherIndustryArticleSecondCategory.getSecondCategoryNumber());
         return industryArticleSecondCategoryDto;
     }
 }

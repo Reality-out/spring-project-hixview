@@ -1,24 +1,25 @@
 package site.hixview.support.spring.util.dto;
 
 import site.hixview.aggregate.dto.EconomyArticleContentDto;
+import site.hixview.support.spring.util.EconomyArticleContentTestUtils;
 
-public interface EconomyArticleContentDtoTestUtils {
+public interface EconomyArticleContentDtoTestUtils extends EconomyArticleContentTestUtils {
     /**
      * Create
      */
     default EconomyArticleContentDto createEconomyArticleContentDto() {
         EconomyArticleContentDto economyArticleContentDto = new EconomyArticleContentDto();
-        economyArticleContentDto.setNumber(1L);
-        economyArticleContentDto.setArticleNumber(1L);
-        economyArticleContentDto.setContentNumber(1L);
+        economyArticleContentDto.setNumber(economyArticleContent.getNumber());
+        economyArticleContentDto.setArticleNumber(economyArticleContent.getArticleNumber());
+        economyArticleContentDto.setContentNumber(economyArticleContent.getContentNumber());
         return economyArticleContentDto;
     }
 
     default EconomyArticleContentDto createAnotherEconomyArticleContentDto() {
         EconomyArticleContentDto economyArticleContentDto = new EconomyArticleContentDto();
-        economyArticleContentDto.setNumber(2L);
-        economyArticleContentDto.setArticleNumber(2L);
-        economyArticleContentDto.setContentNumber(2L);
+        economyArticleContentDto.setNumber(anotherEconomyArticleContent.getNumber());
+        economyArticleContentDto.setArticleNumber(anotherEconomyArticleContent.getArticleNumber());
+        economyArticleContentDto.setContentNumber(anotherEconomyArticleContent.getContentNumber());
         return economyArticleContentDto;
     }
 }
