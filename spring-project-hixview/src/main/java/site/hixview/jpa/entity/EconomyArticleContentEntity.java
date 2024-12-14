@@ -52,6 +52,12 @@ public class EconomyArticleContentEntity {
                 .toHashCode();
     }
 
+    public EconomyArticleContentEntity(EconomyArticleEntity economyArticle, EconomyContentEntity economyContent, Long versionNumber) {
+        this.economyArticle = economyArticle;
+        this.economyContent = economyContent;
+        this.versionNumber = versionNumber;
+    }
+
     public EconomyArticleContentEntity(EconomyArticleEntity economyArticle, EconomyContentEntity economyContent) {
         this.economyArticle = economyArticle;
         this.economyContent = economyContent;
@@ -63,13 +69,5 @@ public class EconomyArticleContentEntity {
 
     public void updateEconomyContent(EconomyContentEntity economyContent) {
         this.economyContent = economyContent;
-    }
-
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 }

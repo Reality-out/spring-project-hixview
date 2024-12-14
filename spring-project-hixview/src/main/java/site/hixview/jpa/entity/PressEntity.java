@@ -49,6 +49,12 @@ public class PressEntity {
                 .toHashCode();
     }
 
+    public PressEntity(String koreanName, String englishName, Long versionNumber) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+        this.versionNumber = versionNumber;
+    }
+
     public PressEntity(String koreanName, String englishName) {
         this.koreanName = koreanName;
         this.englishName = englishName;
@@ -60,13 +66,5 @@ public class PressEntity {
 
     public void updateEnglishName(String englishName) {
         this.englishName = englishName;
-    }
-
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 }

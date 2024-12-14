@@ -37,11 +37,7 @@ public class ArticleEntity {
         return new HashCodeBuilder(17, 37).append(getNumber()).toHashCode();
     }
 
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
+    public ArticleEntity(Long versionNumber) {
         this.versionNumber = versionNumber;
     }
 }

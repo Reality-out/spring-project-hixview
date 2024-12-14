@@ -54,6 +54,12 @@ public class IndustryArticleSecondCategoryEntity {
                 .toHashCode();
     }
 
+    public IndustryArticleSecondCategoryEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory, Long versionNumber) {
+        this.industryArticle = industryArticle;
+        this.secondCategory = secondCategory;
+        this.versionNumber = versionNumber;
+    }
+
     public IndustryArticleSecondCategoryEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory) {
         this.industryArticle = industryArticle;
         this.secondCategory = secondCategory;
@@ -65,13 +71,5 @@ public class IndustryArticleSecondCategoryEntity {
 
     public void updateSecondCategory(SecondCategoryEntity secondCategory) {
         this.secondCategory = secondCategory;
-    }
-
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 }

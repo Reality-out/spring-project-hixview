@@ -52,24 +52,22 @@ public class BlogPostArticleEntity {
                 .toHashCode();
     }
 
+    public BlogPostArticleEntity(BlogPostEntity blogPost, ArticleEntity article, Long versionNumber) {
+        this.blogPost = blogPost;
+        this.article = article;
+        this.versionNumber = versionNumber;
+    }
+
     public BlogPostArticleEntity(BlogPostEntity blogPost, ArticleEntity article) {
         this.blogPost = blogPost;
         this.article = article;
     }
 
-    public void updateBlogPost(BlogPostEntity blogPost) {
-        this.blogPost = blogPost;
+    public void updateBlogPost(BlogPostEntity post) {
+        this.blogPost = post;
     }
 
     public void updateArticle(ArticleEntity article) {
         this.article = article;
-    }
-
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 }

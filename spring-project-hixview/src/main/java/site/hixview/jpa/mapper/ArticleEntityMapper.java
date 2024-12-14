@@ -1,11 +1,13 @@
 package site.hixview.jpa.mapper;
 
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import site.hixview.aggregate.domain.Article;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.mapper.support.ArticleEntityMapperSupport;
+import site.hixview.jpa.repository.ArticleEntityRepository;
 
 import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
@@ -14,7 +16,7 @@ import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
 public interface ArticleEntityMapper extends ArticleEntityMapperSupport {
     @Mapping(target = NUMBER, ignore = true)
     @Mapping(target = VERSION_NUMBER, ignore = true)
-    ArticleEntity toArticleEntity(Article article);
+    ArticleEntity toArticleEntity(Article article, @Context ArticleEntityRepository articleEntityRepository);
 
     @Mapping(source = NUMBER, target = NUMBER)
     Article toArticle(ArticleEntity articleEntity);

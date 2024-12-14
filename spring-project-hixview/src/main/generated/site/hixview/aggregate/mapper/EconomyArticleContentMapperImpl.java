@@ -7,7 +7,7 @@ import site.hixview.aggregate.dto.EconomyArticleContentDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-14T12:52:18+0900",
+    date = "2024-12-14T18:09:29+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component

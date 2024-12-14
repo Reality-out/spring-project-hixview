@@ -49,6 +49,14 @@ public class SiteMemberEntity {
         return new HashCodeBuilder(17, 37).append(getId()).toHashCode();
     }
 
+    public SiteMemberEntity(String id, String pw, String name, String email, Long versionNumber) {
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.email = email;
+        this.versionNumber = versionNumber;
+    }
+
     public SiteMemberEntity(String id, String pw, String name, String email) {
         this.id = id;
         this.pw = pw;
@@ -70,13 +78,5 @@ public class SiteMemberEntity {
 
     public void updateEmail(String email) {
         this.email = email;
-    }
-
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 }

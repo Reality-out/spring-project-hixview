@@ -56,6 +56,14 @@ public class SecondCategoryEntity {
                 .toHashCode();
     }
 
+    public SecondCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory, Long versionNumber) {
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+        this.industryCategory = industryCategory;
+        this.firstCategory = firstCategory;
+        this.versionNumber = versionNumber;
+    }
+
     public SecondCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory) {
         this.koreanName = koreanName;
         this.englishName = englishName;
@@ -77,13 +85,5 @@ public class SecondCategoryEntity {
 
     public void updateFirstCategory(FirstCategoryEntity firstCategory) {
         this.firstCategory = firstCategory;
-    }
-
-    public void updateNumber(Long number) {
-        this.number = number;
-    }
-
-    public void updateVersionNumber(Long versionNumber) {
-        this.versionNumber = versionNumber;
     }
 }

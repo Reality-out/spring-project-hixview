@@ -4,24 +4,28 @@ import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import site.hixview.aggregate.domain.Article;
 import site.hixview.jpa.entity.ArticleEntity;
+import site.hixview.jpa.repository.ArticleEntityRepository;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-14T12:52:19+0900",
+    date = "2024-12-14T18:09:29+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
 public class ArticleEntityMapperImpl implements ArticleEntityMapper {
 
     @Override
-    public ArticleEntity toArticleEntity(Article article) {
+    public ArticleEntity toArticleEntity(Article article, ArticleEntityRepository articleEntityRepository) {
         if ( article == null ) {
             return null;
         }
 
         ArticleEntity articleEntity = new ArticleEntity();
 
-        afterMappingToEntity( articleEntity, article );
+        ArticleEntity target = afterMappingToEntity( articleEntity, article, articleEntityRepository );
+        if ( target != null ) {
+            return target;
+        }
 
         return articleEntity;
     }
