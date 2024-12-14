@@ -22,16 +22,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @OnlyRealRepositoryContext
 class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSecondCategoryEntityTestUtils {
 
-    @Autowired
-    private IndustryArticleSecondCategoryEntityRepository industryArticleMapperRepository;
-
-    @Autowired
-    private FirstCategoryEntityRepository firstCategoryRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final IndustryArticleSecondCategoryEntityRepository industryArticleMapperRepository;
+    private final FirstCategoryEntityRepository firstCategoryRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(IndustryArticleSecondCategoryRepositoryTest.class);
+
+    @Autowired
+    IndustryArticleSecondCategoryRepositoryTest(IndustryArticleSecondCategoryEntityRepository industryArticleMapperRepository, FirstCategoryEntityRepository firstCategoryRepository, JdbcTemplate jdbcTemplate) {
+        this.industryArticleMapperRepository = industryArticleMapperRepository;
+        this.firstCategoryRepository = firstCategoryRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

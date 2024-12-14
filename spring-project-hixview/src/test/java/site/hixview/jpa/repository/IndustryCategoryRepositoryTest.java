@@ -19,15 +19,18 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 @OnlyRealRepositoryContext
 class IndustryCategoryRepositoryTest implements IndustryCategoryEntityTestUtils {
 
-    @Autowired
-    private IndustryCategoryEntityRepository industryCategoryRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final IndustryCategoryEntityRepository industryCategoryRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 
     private static final Logger log = LoggerFactory.getLogger(IndustryCategoryRepositoryTest.class);
+
+    @Autowired
+    IndustryCategoryRepositoryTest(IndustryCategoryEntityRepository industryCategoryRepository, JdbcTemplate jdbcTemplate) {
+        this.industryCategoryRepository = industryCategoryRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

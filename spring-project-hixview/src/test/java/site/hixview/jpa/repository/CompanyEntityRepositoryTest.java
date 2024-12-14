@@ -28,25 +28,22 @@ class CompanyEntityRepositoryTest implements CompanyEntityTestUtils {
 
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
-
-    @Autowired
-    private CompanyEntityRepository companyEntityRepository;
-
-    @Autowired
-    private FirstCategoryEntityRepository firstCategoryRepository;
-
-    @Autowired
-    private SecondCategoryEntityRepository secondCategoryRepository;
-
-    @Autowired
-    private IndustryCategoryEntityRepository industryCategoryRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final CompanyEntityRepository companyEntityRepository;
+    private final FirstCategoryEntityRepository firstCategoryRepository;
+    private final SecondCategoryEntityRepository secondCategoryRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + COMPANY,
             TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE, TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE,
             TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
+
+    @Autowired
+    CompanyEntityRepositoryTest(CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryRepository, SecondCategoryEntityRepository secondCategoryRepository, IndustryCategoryEntityRepository industryCategoryRepository, JdbcTemplate jdbcTemplate) {
+        this.companyEntityRepository = companyEntityRepository;
+        this.firstCategoryRepository = firstCategoryRepository;
+        this.secondCategoryRepository = secondCategoryRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

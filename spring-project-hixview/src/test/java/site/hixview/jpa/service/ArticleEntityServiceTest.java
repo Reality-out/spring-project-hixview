@@ -18,15 +18,19 @@ import static org.mockito.Mockito.when;
 
 @OnlyRealServiceContext
 class ArticleEntityServiceTest implements ArticleTestUtils {
-    @Autowired
-    private ArticleEntityService articleEntityService;
 
-    @Autowired
-    private ArticleEntityRepository articleEntityRepository;
+    private final ArticleEntityService articleEntityService;
+    private final ArticleEntityRepository articleEntityRepository;
 
     private final ArticleEntityMapperImpl articleEntityMapperImpl = new ArticleEntityMapperImpl();
 
     private static final Logger log = LoggerFactory.getLogger(ArticleEntityServiceTest.class);
+
+    @Autowired
+    ArticleEntityServiceTest(ArticleEntityService articleEntityService, ArticleEntityRepository articleEntityRepository) {
+        this.articleEntityService = articleEntityService;
+        this.articleEntityRepository = articleEntityRepository;
+    }
 
     @DisplayName("모든 기사 획득")
     @Test

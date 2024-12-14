@@ -23,16 +23,19 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 @OnlyRealRepositoryContext
 class CompanyArticleEntityRepositoryTest implements CompanyArticleEntityTestUtils {
 
-    @Autowired
-    private CompanyArticleEntityRepository companyArticleRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final CompanyArticleEntityRepository companyArticleRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + COMPANY_ARTICLE_SNAKE,
             TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + PRESS};
 
     private static final Logger log = LoggerFactory.getLogger(CompanyArticleEntityRepositoryTest.class);
+
+    @Autowired
+    CompanyArticleEntityRepositoryTest(CompanyArticleEntityRepository companyArticleRepository, JdbcTemplate jdbcTemplate) {
+        this.companyArticleRepository = companyArticleRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

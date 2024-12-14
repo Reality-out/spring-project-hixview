@@ -19,13 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @OnlyRealRepositoryContext
 class BlogPostArticleEntityRepositoryTest implements BlogPostArticleEntityTestUtils {
 
-    @Autowired
-    private BlogPostArticleEntityRepository blogPostMapperRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final BlogPostArticleEntityRepository blogPostMapperRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(BlogPostArticleEntityRepositoryTest.class);
+
+    @Autowired
+    BlogPostArticleEntityRepositoryTest(BlogPostArticleEntityRepository blogPostMapperRepository, JdbcTemplate jdbcTemplate) {
+        this.blogPostMapperRepository = blogPostMapperRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

@@ -20,16 +20,19 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 @OnlyRealRepositoryContext
 class FirstCategoryRepositoryTest implements FirstCategoryEntityTestUtils {
 
-    @Autowired
-    private FirstCategoryEntityRepository firstCategoryRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final FirstCategoryEntityRepository firstCategoryRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE,
             TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 
     private static final Logger log = LoggerFactory.getLogger(FirstCategoryRepositoryTest.class);
+
+    @Autowired
+    FirstCategoryRepositoryTest(FirstCategoryEntityRepository firstCategoryRepository, JdbcTemplate jdbcTemplate) {
+        this.firstCategoryRepository = firstCategoryRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

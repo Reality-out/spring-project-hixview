@@ -19,13 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @OnlyRealRepositoryContext
 class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntityTestUtils {
 
-    @Autowired
-    private EconomyArticleContentEntityRepository economyArticleMapperRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final EconomyArticleContentEntityRepository economyArticleMapperRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentRepositoryTest.class);
+
+    @Autowired
+    EconomyArticleContentRepositoryTest(EconomyArticleContentEntityRepository economyArticleMapperRepository, JdbcTemplate jdbcTemplate) {
+        this.economyArticleMapperRepository = economyArticleMapperRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

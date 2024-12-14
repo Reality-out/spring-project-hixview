@@ -19,15 +19,18 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 @OnlyRealRepositoryContext
 class PostEntityRepositoryTest implements PostEntityTestUtils {
 
-    @Autowired
-    private PostEntityRepository postEntityRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final PostEntityRepository postEntityRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + POST};
 
     private static final Logger log = LoggerFactory.getLogger(PostEntityRepositoryTest.class);
+
+    @Autowired
+    PostEntityRepositoryTest(PostEntityRepository postEntityRepository, JdbcTemplate jdbcTemplate) {
+        this.postEntityRepository = postEntityRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

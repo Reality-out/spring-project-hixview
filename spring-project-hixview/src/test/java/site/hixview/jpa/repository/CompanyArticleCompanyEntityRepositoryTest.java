@@ -22,22 +22,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 @OnlyRealRepositoryContext
 class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompanyEntityTestUtils {
 
-    @Autowired
-    private CompanyArticleCompanyEntityRepository companyArticleMapperRepository;
-
-    @Autowired
-    private CompanyEntityRepository companyEntityRepository;
-
-    @Autowired
-    private FirstCategoryEntityRepository firstCategoryRepository;
-
-    @Autowired
-    private SecondCategoryEntityRepository secondCategoryRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final CompanyArticleCompanyEntityRepository companyArticleMapperRepository;
+    private final CompanyEntityRepository companyEntityRepository;
+    private final FirstCategoryEntityRepository firstCategoryRepository;
+    private final SecondCategoryEntityRepository secondCategoryRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyEntityRepositoryTest.class);
+
+    @Autowired
+    CompanyArticleCompanyEntityRepositoryTest(CompanyArticleCompanyEntityRepository companyArticleMapperRepository, CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryRepository, SecondCategoryEntityRepository secondCategoryRepository, JdbcTemplate jdbcTemplate) {
+        this.companyArticleMapperRepository = companyArticleMapperRepository;
+        this.companyEntityRepository = companyEntityRepository;
+        this.firstCategoryRepository = firstCategoryRepository;
+        this.secondCategoryRepository = secondCategoryRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {

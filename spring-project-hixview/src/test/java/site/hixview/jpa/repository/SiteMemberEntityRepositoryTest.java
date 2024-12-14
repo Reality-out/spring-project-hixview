@@ -21,15 +21,18 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 @OnlyRealRepositoryContext
 class SiteMemberEntityRepositoryTest implements SiteMemberEntityTestUtils {
 
-    @Autowired
-    private SiteMemberEntityRepository siteMemberEntityRepository;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final SiteMemberEntityRepository siteMemberEntityRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + SITE_MEMBER_SNAKE};
 
     private static final Logger log = LoggerFactory.getLogger(SiteMemberEntityRepositoryTest.class);
+
+    @Autowired
+    SiteMemberEntityRepositoryTest(SiteMemberEntityRepository siteMemberEntityRepository, JdbcTemplate jdbcTemplate) {
+        this.siteMemberEntityRepository = siteMemberEntityRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @BeforeEach
     public void beforeEach() {
