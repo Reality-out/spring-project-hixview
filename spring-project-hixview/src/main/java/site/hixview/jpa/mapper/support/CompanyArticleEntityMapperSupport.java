@@ -16,21 +16,21 @@ import site.hixview.jpa.repository.PressEntityRepository;
 
 public interface CompanyArticleEntityMapperSupport extends SuperArticleEntityMapperSupport {
     @AfterMapping
-    default CompanyArticleEntityBuilder afterMappingToEntity(
+    default void afterMappingToEntity(
             @MappingTarget CompanyArticleEntityBuilder builder, CompanyArticle companyArticle,
             @Context ArticleEntityRepository articleEntityRepository,
             @Context PressEntityRepository pressEntityRepository) {
-        return builder.article(articleEntityRepository.findByNumber(companyArticle.getNumber()).orElseThrow(() ->
+        builder.article(articleEntityRepository.findByNumber(companyArticle.getNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(companyArticle.getNumber(), ArticleEntity.class)))
                 .press(pressEntityRepository.findByNumber(companyArticle.getPressNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(companyArticle.getPressNumber(), PressEntity.class)));
     }
 
     @AfterMapping
-    default CompanyArticleBuilder afterMappingToDomain(
+    default void afterMappingToDomain(
             @MappingTarget CompanyArticleBuilder builder, CompanyArticleEntity entity,
             @Context CompanyArticleCompanyEntityRepository companyArticleCompanyRepository) {
-        return builder.mappedCompanyCodes(companyArticleCompanyRepository.findByCompanyArticle(entity)
+        builder.mappedCompanyCodes(companyArticleCompanyRepository.findByCompanyArticle(entity)
                 .stream().map(data -> data.getCompany().getCode()).toList());
     }
 }

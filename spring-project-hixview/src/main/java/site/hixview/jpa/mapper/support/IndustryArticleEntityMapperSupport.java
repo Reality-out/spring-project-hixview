@@ -19,12 +19,12 @@ import site.hixview.jpa.repository.PressEntityRepository;
 
 public interface IndustryArticleEntityMapperSupport extends SuperArticleEntityMapperSupport {
     @AfterMapping
-    default IndustryArticleEntityBuilder afterMappingToEntity(
+    default void afterMappingToEntity(
             @MappingTarget IndustryArticleEntityBuilder builder, IndustryArticle industryArticle,
             @Context ArticleEntityRepository articleEntityRepository,
             @Context PressEntityRepository pressEntityRepository,
             @Context FirstCategoryEntityRepository firstCategoryRepository) {
-        return builder.article(articleEntityRepository.findByNumber(industryArticle.getNumber()).orElseThrow(() ->
+        builder.article(articleEntityRepository.findByNumber(industryArticle.getNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(industryArticle.getNumber(), ArticleEntity.class)))
                 .press(pressEntityRepository.findByNumber(industryArticle.getPressNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(industryArticle.getPressNumber(), PressEntity.class)))
@@ -39,10 +39,10 @@ public interface IndustryArticleEntityMapperSupport extends SuperArticleEntityMa
     }
 
     @AfterMapping
-    default IndustryArticleBuilder afterMappingToDomain(
+    default void afterMappingToDomain(
             @MappingTarget IndustryArticleBuilder builder, IndustryArticleEntity entity,
             @Context IndustryArticleSecondCategoryEntityRepository industryArticleSecondCategoryRepository) {
-        return builder.mappedSecondCategoryNumbers(
+        builder.mappedSecondCategoryNumbers(
                 industryArticleSecondCategoryRepository.findByIndustryArticle(entity).stream()
                         .map(data -> data.getSecondCategory().getNumber()).toList());
     }
