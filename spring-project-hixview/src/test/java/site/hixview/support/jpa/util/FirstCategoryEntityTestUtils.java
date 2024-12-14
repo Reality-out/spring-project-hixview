@@ -1,16 +1,19 @@
 package site.hixview.support.jpa.util;
 
 import site.hixview.jpa.entity.FirstCategoryEntity;
+import site.hixview.support.spring.util.FirstCategoryTestUtils;
 
-public interface FirstCategoryEntityTestUtils extends IndustryCategoryEntityTestUtils {
+public interface FirstCategoryEntityTestUtils extends IndustryCategoryEntityTestUtils, FirstCategoryTestUtils {
     /**
      * Create
      */
     default FirstCategoryEntity createFirstCategoryEntity() {
-        return new FirstCategoryEntity("건설", "CONSTRUCTION", createFirstIndustryCategoryEntity());
+        return new FirstCategoryEntity(firstCategory.getKoreanName(), firstCategory.getEnglishName(),
+                createFirstIndustryCategoryEntity());
     }
 
     default FirstCategoryEntity createAnotherFirstCategoryEntity() {
-        return new FirstCategoryEntity("방산", "DEFENSE", createFirstIndustryCategoryEntity());
+        return new FirstCategoryEntity(anotherFirstCategory.getKoreanName(), anotherFirstCategory.getEnglishName(),
+                createFirstIndustryCategoryEntity());
     }
 }

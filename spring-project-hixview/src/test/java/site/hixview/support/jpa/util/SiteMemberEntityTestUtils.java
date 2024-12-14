@@ -1,16 +1,17 @@
 package site.hixview.support.jpa.util;
 
 import site.hixview.jpa.entity.SiteMemberEntity;
+import site.hixview.support.spring.util.SiteMemberTestUtils;
 
-public interface SiteMemberEntityTestUtils {
+public interface SiteMemberEntityTestUtils extends SiteMemberTestUtils {
     /**
      * Create
      */
     default SiteMemberEntity createSiteMemberEntity() {
-        return new SiteMemberEntity("arman1435", "crumble!646!", "박강호", "crazzz1@naver.com");
+        return new SiteMemberEntity(siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
     }
 
     default SiteMemberEntity createAnotherSiteMemberEntity() {
-        return new SiteMemberEntity("skipp0230", "croskan@#12", "김건수", "akgkgh2@naver.com");
+        return new SiteMemberEntity(anotherSiteMember.getId(), anotherSiteMember.getPw(), anotherSiteMember.getName(), anotherSiteMember.getEmail());
     }
 }

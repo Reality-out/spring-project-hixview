@@ -1,16 +1,17 @@
 package site.hixview.support.jpa.util;
 
 import site.hixview.jpa.entity.IndustryCategoryEntity;
+import site.hixview.support.spring.util.IndustryCategoryTestUtils;
 
-public interface IndustryCategoryEntityTestUtils {
+public interface IndustryCategoryEntityTestUtils extends IndustryCategoryTestUtils {
     /**
      * Create
      */
     default IndustryCategoryEntity createFirstIndustryCategoryEntity() {
-        return new IndustryCategoryEntity("1차 업종", "FIRST_CATEGORY");
+        return new IndustryCategoryEntity(industryCategory.getKoreanName(), industryCategory.getEnglishName());
     }
 
     default IndustryCategoryEntity createSecondIndustryCategoryEntity() {
-        return new IndustryCategoryEntity("2차 업종", "SECOND_CATEGORY");
+        return new IndustryCategoryEntity(anotherIndustryCategory.getKoreanName(), anotherIndustryCategory.getEnglishName());
     }
 }

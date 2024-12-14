@@ -1,16 +1,17 @@
 package site.hixview.support.jpa.util;
 
 import site.hixview.jpa.entity.EconomyContentEntity;
+import site.hixview.support.spring.util.EconomyContentTestUtils;
 
-public interface EconomyContentEntityTestUtils {
+public interface EconomyContentEntityTestUtils extends EconomyContentTestUtils {
     /**
      * Create
      */
     default EconomyContentEntity createEconomyContentEntity() {
-        return new EconomyContentEntity("합병");
+        return new EconomyContentEntity(economyContent.getName());
     }
 
     default EconomyContentEntity createAnotherEconomyContentEntity() {
-        return new EconomyContentEntity("대주주");
+        return new EconomyContentEntity(anotherEconomyContent.getName());
     }
 }
