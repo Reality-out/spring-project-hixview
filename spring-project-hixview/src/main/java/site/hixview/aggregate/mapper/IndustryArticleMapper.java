@@ -12,26 +12,18 @@ import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface IndustryArticleMapper extends IndustryArticleMapperSupport {
-    @Mapping(source = SUBJECT_COUNTRY, target = SUBJECT_COUNTRY, qualifiedByName = "subjectCountryToDomain")
-    @Mapping(source = IMPORTANCE, target = IMPORTANCE, qualifiedByName = "importanceToDomain")
     @Mapping(source = MAPPED_SECOND_CATEGORY_NUMBERS, target = MAPPED_SECOND_CATEGORY_NUMBERS, qualifiedByName = "mappedSecondCategoryNumbersToDomain")
     @Mapping(target = INDUSTRY_ARTICLE, ignore = true)
     IndustryArticle toIndustryArticle(IndustryArticleDto industryArticleDto);
 
-    @Mapping(source = SUBJECT_COUNTRY, target = SUBJECT_COUNTRY, qualifiedByName = "subjectCountryToDto")
-    @Mapping(source = IMPORTANCE, target = IMPORTANCE, qualifiedByName = "importanceToDto")
     @Mapping(source = MAPPED_SECOND_CATEGORY_NUMBERS, target = MAPPED_SECOND_CATEGORY_NUMBERS, qualifiedByName = "mappedSecondCategoryNumbersToDto")
     IndustryArticleDto toIndustryArticleDto(IndustryArticle industryArticle);
 
     @Mapping(target = NUMBER, ignore = true)
-    @Mapping(source = SUBJECT_COUNTRY, target = SUBJECT_COUNTRY, qualifiedByName = "subjectCountryToDomain")
-    @Mapping(source = IMPORTANCE, target = IMPORTANCE, qualifiedByName = "importanceToDomain")
     @Mapping(source = MAPPED_SECOND_CATEGORY_NUMBERS, target = MAPPED_SECOND_CATEGORY_NUMBERS, qualifiedByName = "mappedSecondCategoryNumbersToDomain")
     @Mapping(target = INDUSTRY_ARTICLE, ignore = true)
     IndustryArticle toIndustryArticle(IndustryArticleDtoNoNumber industryArticleDto);
 
-    @Mapping(source = SUBJECT_COUNTRY, target = SUBJECT_COUNTRY, qualifiedByName = "subjectCountryToDto")
-    @Mapping(source = IMPORTANCE, target = IMPORTANCE, qualifiedByName = "importanceToDto")
     @Mapping(source = MAPPED_SECOND_CATEGORY_NUMBERS, target = MAPPED_SECOND_CATEGORY_NUMBERS, qualifiedByName = "mappedSecondCategoryNumbersToDto")
     IndustryArticleDtoNoNumber toIndustryArticleDtoNoNumber(IndustryArticle industryArticle);
 }

@@ -8,7 +8,7 @@ import static site.hixview.aggregate.util.JsonUtils.mapLongList;
 import static site.hixview.aggregate.util.JsonUtils.parseToLongList;
 import static site.hixview.aggregate.vo.WordSnake.MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE;
 
-public interface IndustryArticleMapperSupport extends ArticleMapperSupport {
+public interface IndustryArticleMapperSupport {
     @Named("mappedSecondCategoryNumbersToDomain")
     default List<Long> mappedSecondCategoryNumbersToDomain(String mappedSecondCategoryNumbers) {
         return parseToLongList(mappedSecondCategoryNumbers, MAPPED_SECOND_CATEGORY_NUMBERS_SNAKE);

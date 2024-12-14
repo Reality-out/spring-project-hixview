@@ -8,7 +8,7 @@ import static site.hixview.aggregate.util.JsonUtils.mapLongList;
 import static site.hixview.aggregate.util.JsonUtils.parseToLongList;
 import static site.hixview.aggregate.vo.WordSnake.MAPPED_ECONOMY_CONTENT_NUMBERS_SNAKE;
 
-public interface EconomyArticleMapperSupport extends ArticleMapperSupport {
+public interface EconomyArticleMapperSupport {
     @Named("mappedEconomyContentNumbersToDomain")
     default List<Long> mappedEconomyContentNumbersToDomain(String mappedEconomyContentNumbers) {
         return parseToLongList(mappedEconomyContentNumbers, MAPPED_ECONOMY_CONTENT_NUMBERS_SNAKE);
