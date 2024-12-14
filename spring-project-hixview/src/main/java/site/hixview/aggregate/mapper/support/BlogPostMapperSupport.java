@@ -5,8 +5,8 @@ import site.hixview.aggregate.enums.Classification;
 
 import java.util.List;
 
-import static site.hixview.aggregate.util.JsonUtils.parseToLongList;
 import static site.hixview.aggregate.util.JsonUtils.mapLongList;
+import static site.hixview.aggregate.util.JsonUtils.parseToLongList;
 import static site.hixview.aggregate.vo.WordSnake.MAPPED_ARTICLE_NUMBERS_SNAKE;
 
 public interface BlogPostMapperSupport {

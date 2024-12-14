@@ -4,7 +4,8 @@ import org.mapstruct.Named;
 
 import java.util.List;
 
-import static site.hixview.aggregate.util.JsonUtils.*;
+import static site.hixview.aggregate.util.JsonUtils.mapStringList;
+import static site.hixview.aggregate.util.JsonUtils.parseToStringList;
 import static site.hixview.aggregate.vo.WordSnake.MAPPED_COMPANY_CODES_SNAKE;
 
 public interface CompanyArticleMapperSupport extends ArticleMapperSupport {

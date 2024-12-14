@@ -88,8 +88,8 @@ class CompanyArticleEntityRepositoryTest implements CompanyArticleEntityTestUtil
     void findByImportanceTest() {
         // given
         CompanyArticleEntity article = createCompanyArticleEntity();
-        CompanyArticleEntity anotherCompanyArticle = createAnotherCompanyArticleEntity();
-        List<CompanyArticleEntity> articleList = List.of(article, anotherCompanyArticle);
+        CompanyArticleEntity anotherArticle = createAnotherCompanyArticleEntity();
+        List<CompanyArticleEntity> articleList = List.of(article, anotherArticle);
 
         // when
         companyArticleRepository.saveAll(articleList);

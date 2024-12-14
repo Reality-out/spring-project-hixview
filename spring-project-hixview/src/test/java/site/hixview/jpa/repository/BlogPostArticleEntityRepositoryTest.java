@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import site.hixview.jpa.entity.*;
+import site.hixview.jpa.entity.BlogPostArticleEntity;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.executor.SqlExecutor;
 import site.hixview.support.jpa.util.BlogPostArticleEntityTestUtils;

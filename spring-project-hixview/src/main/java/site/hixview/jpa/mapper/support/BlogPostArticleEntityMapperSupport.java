@@ -14,15 +14,16 @@ import site.hixview.jpa.repository.BlogPostEntityRepository;
 
 public interface BlogPostArticleEntityMapperSupport {
     @AfterMapping
-    default void afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, BlogPostArticle blogPostArticle,
+    default BlogPostArticleEntity afterMappingToEntity(@MappingTarget BlogPostArticleEntity entity, BlogPostArticle blogPostArticle,
                                       @Context BlogPostEntityRepository blogPostEntityRepository,
                                       @Context ArticleEntityRepository articleEntityRepository) {
         Long postNumber = blogPostArticle.getPostNumber();
         Long articleNumber = blogPostArticle.getArticleNumber();
-        entity.updateBlogPost(blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class)));
-        entity.updateArticle(articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class)));
+        BlogPostEntity blogPost = blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class));
+        ArticleEntity article = articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class));
+        return new BlogPostArticleEntity(blogPostArticle.getNumber(), blogPost, article);
     }
 
     @Named("postNumberToDomain")

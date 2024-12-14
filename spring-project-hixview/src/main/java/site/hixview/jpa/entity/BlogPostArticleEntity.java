@@ -1,6 +1,7 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,6 +16,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @MapperTable
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class BlogPostArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +52,12 @@ public class BlogPostArticleEntity {
                 .append(getBlogPost().getName())
                 .append(getArticle().getNumber())
                 .toHashCode();
+    }
+
+    public BlogPostArticleEntity(Long number, BlogPostEntity blogPost, ArticleEntity article) {
+        this.number = number;
+        this.blogPost = blogPost;
+        this.article = article;
     }
 
     public BlogPostArticleEntity(BlogPostEntity blogPost, ArticleEntity article, Long versionNumber) {

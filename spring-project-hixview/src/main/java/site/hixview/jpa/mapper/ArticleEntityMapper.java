@@ -18,6 +18,5 @@ public interface ArticleEntityMapper extends ArticleEntityMapperSupport {
     @Mapping(target = VERSION_NUMBER, ignore = true)
     ArticleEntity toArticleEntity(Article article, @Context ArticleEntityRepository articleEntityRepository);
 
-    @Mapping(source = NUMBER, target = NUMBER)
     Article toArticle(ArticleEntity articleEntity);
 }

@@ -14,6 +14,7 @@ import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface BlogPostArticleEntityMapper extends BlogPostArticleEntityMapperSupport {
+    @Mapping(target = NUMBER, ignore = true)
     @Mapping(target = BLOG_POST, ignore = true)
     @Mapping(target = ARTICLE, ignore = true)
     @Mapping(target = VERSION_NUMBER, ignore = true)
