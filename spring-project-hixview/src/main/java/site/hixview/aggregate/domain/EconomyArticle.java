@@ -21,4 +21,33 @@ public class EconomyArticle {
     private final String summary;
     private final Long pressNumber;
     private final List<Long> mappedEconomyContentNumbers;
+
+    public static class EconomyArticleBuilder {
+        private Long number;
+        private String name;
+        private String link;
+        private LocalDate date;
+        private Country subjectCountry;
+        private Importance importance;
+        private String summary;
+        private Long pressNumber;
+        private List<Long> mappedEconomyContentNumbers;
+
+        public EconomyArticleBuilder economyArticle(final EconomyArticle economyArticle) {
+            this.number = economyArticle.getNumber();
+            this.name = economyArticle.getName();
+            this.link = economyArticle.getLink();
+            this.date = economyArticle.getDate();
+            this.subjectCountry = economyArticle.getSubjectCountry();
+            this.importance = economyArticle.getImportance();
+            this.summary = economyArticle.getSummary();
+            this.pressNumber = economyArticle.getPressNumber();
+            this.mappedEconomyContentNumbers = economyArticle.getMappedEconomyContentNumbers();
+            return this;
+        }
+        
+        public EconomyArticle build() {
+            return new EconomyArticle(this.number, this.name, this.link, this.date, this.subjectCountry, this.importance, this.summary, this.pressNumber, this.mappedEconomyContentNumbers);
+        }
+    }
 }

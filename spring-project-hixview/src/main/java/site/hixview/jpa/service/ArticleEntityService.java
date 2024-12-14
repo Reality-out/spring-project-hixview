@@ -1,6 +1,6 @@
 package site.hixview.jpa.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.Article;
@@ -14,15 +14,15 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ArticleEntityService implements ArticleService {
-    @Autowired
-    private ArticleEntityRepository articleEntityRepository;
 
-    private final ArticleEntityMapperImpl articleEntityMapperImpl = new ArticleEntityMapperImpl();
+    private final ArticleEntityRepository articleEntityRepository;
+    private final ArticleEntityMapperImpl mapper = new ArticleEntityMapperImpl();
 
     @Override
     public List<Article> getAll() {
-        return articleEntityRepository.findAll().stream().map(articleEntityMapperImpl::toArticle).toList();
+        return articleEntityRepository.findAll().stream().map(mapper::toArticle).toList();
     }
 
     @Override
@@ -31,6 +31,6 @@ public class ArticleEntityService implements ArticleService {
         if (optionalArticleEntity.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(articleEntityMapperImpl.toArticle(optionalArticleEntity.orElseThrow()));
+        return Optional.of(mapper.toArticle(optionalArticleEntity.orElseThrow()));
     }
 }

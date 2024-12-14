@@ -54,7 +54,7 @@ class BlogPostArticleEntityMapperTest implements BlogPostArticleTestUtils, BlogP
         JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
     }
 
-    @DisplayName("도메인 매퍼 사용 후 BlogPostArticle 일관성 보장")
+    @DisplayName("엔터티 매퍼 사용 후 BlogPostArticle 일관성 보장")
     @Test
     void blogPostArticleMappingWithEntityMapper() {
         // given
@@ -75,7 +75,7 @@ class BlogPostArticleEntityMapperTest implements BlogPostArticleTestUtils, BlogP
                 blogPostEntityRepository, articleEntityRepository))).usingRecursiveComparison().isEqualTo(blogPostArticle);
     }
 
-    @DisplayName("도메인 매퍼 사용 후 BlogPostArticleEntity 일관성 보장")
+    @DisplayName("엔터티 매퍼 사용 후 BlogPostArticleEntity 일관성 보장")
     @Test
     void blogPostArticleEntityMappingWithEntityMapper() {
         // given

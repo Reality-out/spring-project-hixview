@@ -22,4 +22,33 @@ public class IndustryArticle {
     private final Long pressNumber;
     private final Long firstCategoryNumber;
     private final List<Long> mappedSecondCategoryNumbers;
+
+    public static class IndustryArticleBuilder {
+        private Long number;
+        private String name;
+        private String link;
+        private LocalDate date;
+        private Country subjectCountry;
+        private Importance importance;
+        private String summary;
+        private Long pressNumber;
+        private List<Long> mappedSecondCategoryNumbers;
+
+        public IndustryArticle.IndustryArticleBuilder industryArticle(final IndustryArticle industryArticle) {
+            this.number = industryArticle.getNumber();
+            this.name = industryArticle.getName();
+            this.link = industryArticle.getLink();
+            this.date = industryArticle.getDate();
+            this.subjectCountry = industryArticle.getSubjectCountry();
+            this.importance = industryArticle.getImportance();
+            this.summary = industryArticle.getSummary();
+            this.pressNumber = industryArticle.getPressNumber();
+            this.mappedSecondCategoryNumbers = industryArticle.getMappedSecondCategoryNumbers();
+            return this;
+        }
+
+        public IndustryArticle build() {
+            return new IndustryArticle(this.number, this.name, this.link, this.date, this.subjectCountry, this.importance, this.summary, this.pressNumber, this.firstCategoryNumber, this.mappedSecondCategoryNumbers);
+        }
+    }
 }

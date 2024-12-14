@@ -12,4 +12,25 @@ public class SecondCategory {
     private final String englishName;
     private final Long industryCategoryNumber;
     private final Long firstCategoryNumber;
+
+    public static class SecondCategoryBuilder {
+        private Long number;
+        private String koreanName;
+        private String englishName;
+        private Long industryCategoryNumber;
+        private Long firstCategoryNumber;
+
+        public SecondCategoryBuilder secondCategory(final SecondCategory secondCategory) {
+            this.number = secondCategory.getNumber();
+            this.koreanName = secondCategory.getKoreanName();
+            this.englishName = secondCategory.getEnglishName();
+            this.industryCategoryNumber = secondCategory.getIndustryCategoryNumber();
+            this.firstCategoryNumber = secondCategory.getFirstCategoryNumber();
+            return this;
+        }
+
+        public SecondCategory build() {
+            return new SecondCategory(this.number, this.koreanName, this.englishName, this.industryCategoryNumber, this.firstCategoryNumber);
+        }
+    }
 }
