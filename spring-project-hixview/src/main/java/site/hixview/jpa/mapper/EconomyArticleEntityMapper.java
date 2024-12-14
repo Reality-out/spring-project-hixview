@@ -1,11 +1,15 @@
 package site.hixview.jpa.mapper;
 
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import site.hixview.aggregate.domain.EconomyArticle;
 import site.hixview.jpa.entity.EconomyArticleEntity;
 import site.hixview.jpa.mapper.support.EconomyArticleEntityMapperSupport;
+import site.hixview.jpa.repository.ArticleEntityRepository;
+import site.hixview.jpa.repository.EconomyArticleContentEntityRepository;
+import site.hixview.jpa.repository.PressEntityRepository;
 
 import static site.hixview.aggregate.vo.WordCamel.*;
 
@@ -14,10 +18,13 @@ public interface EconomyArticleEntityMapper extends EconomyArticleEntityMapperSu
     @Mapping(target = ARTICLE, ignore = true)
     @Mapping(target = PRESS, ignore = true)
     @Mapping(target = ECONOMY_ARTICLE, ignore = true)
-    EconomyArticleEntity toEconomyArticleEntity(EconomyArticle economyArticle);
+    EconomyArticleEntity toEconomyArticleEntity(EconomyArticle economyArticle,
+                                                @Context ArticleEntityRepository articleEntityRepository,
+                                                @Context PressEntityRepository pressEntityRepository);
 
     @Mapping(source = ARTICLE, target = NUMBER, qualifiedByName = "numberToDomain")
     @Mapping(source = PRESS, target = PRESS_NUMBER, qualifiedByName = "pressNumberToDomain")
     @Mapping(target = MAPPED_ECONOMY_CONTENT_NUMBERS, ignore = true)
-    EconomyArticle toEconomyArticle(EconomyArticleEntity economyArticleEntity);
+    EconomyArticle toEconomyArticle(EconomyArticleEntity economyArticleEntity,
+                                    @Context EconomyArticleContentEntityRepository economyArticleContentRepository);
 }
