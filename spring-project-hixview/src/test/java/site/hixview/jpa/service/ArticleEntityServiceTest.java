@@ -14,6 +14,7 @@ import site.hixview.support.spring.util.ArticleTestUtils;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @OnlyRealServiceContext
@@ -36,8 +37,8 @@ class ArticleEntityServiceTest implements ArticleTestUtils {
     @Test
     void getAllTest() {
         // given
-        ArticleEntity articleEntity = articleEntityMapperImpl.toArticleEntity(article);
-        when(articleEntityRepository.save(articleEntity)).thenReturn(articleEntity);
+        ArticleEntity articleEntity = new ArticleEntity(article.getNumber(), 1L);
+        when(articleEntityRepository.save(any())).thenReturn(articleEntity);
         when(articleEntityRepository.findAll()).thenReturn(List.of(articleEntity));
 
         // when

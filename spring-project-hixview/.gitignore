@@ -41,3 +41,6 @@ dbnavigator.xml
 
 ### Properties ###
 gradle.properties
+
+### Generated Objects ###
+**/generated/**
