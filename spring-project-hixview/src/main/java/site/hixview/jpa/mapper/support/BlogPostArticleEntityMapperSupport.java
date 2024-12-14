@@ -19,7 +19,7 @@ public interface BlogPostArticleEntityMapperSupport {
                                       @Context ArticleEntityRepository articleEntityRepository) {
         Long postNumber = blogPostArticle.getPostNumber();
         Long articleNumber = blogPostArticle.getArticleNumber();
-        entity.updatePost(blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
+        entity.updateBlogPost(blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class)));
         entity.updateArticle(articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class)));

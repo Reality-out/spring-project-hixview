@@ -7,7 +7,7 @@ import site.hixview.aggregate.dto.PostDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-14T11:41:28+0900",
+    date = "2024-12-14T12:52:19+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component

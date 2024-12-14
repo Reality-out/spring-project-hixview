@@ -56,4 +56,8 @@ public class IndustryCategoryEntity {
     public void updateEnglishName(String englishName) {
         this.englishName = englishName;
     }
+
+    public void updateNumber(Long number) {
+        this.number = number;
+    }
 }

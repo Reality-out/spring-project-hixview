@@ -37,7 +37,11 @@ public class PostEntity {
         return new HashCodeBuilder(17, 37).append(getNumber()).toHashCode();
     }
 
-    public PostEntity(Long versionNumber) {
+    public void updateNumber(Long number) {
+        this.number = number;
+    }
+
+    public void updateVersionNumber(Long versionNumber) {
         this.versionNumber = versionNumber;
     }
 }

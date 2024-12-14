@@ -6,6 +6,6 @@ import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY_WIT
 
 public class EntityNotFoundWithNumberException extends EntityNotFoundException {
     public EntityNotFoundWithNumberException(Long number, Class<?> clazz) {
-        super(CANNOT_FOUND_ENTITY_WITH_NUMBER + number + " , for the class named " + clazz.getSimpleName());
+        super(CANNOT_FOUND_ENTITY_WITH_NUMBER + number + ", for the class named " + clazz.getSimpleName());
     }
 }

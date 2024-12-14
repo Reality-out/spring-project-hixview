@@ -4,22 +4,26 @@ import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import site.hixview.aggregate.domain.BlogPostArticle;
 import site.hixview.jpa.entity.BlogPostArticleEntity;
+import site.hixview.jpa.repository.ArticleEntityRepository;
+import site.hixview.jpa.repository.BlogPostEntityRepository;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-12-14T11:41:28+0900",
+    date = "2024-12-14T12:52:19+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
 public class BlogPostArticleEntityMapperImpl implements BlogPostArticleEntityMapper {
 
     @Override
-    public BlogPostArticleEntity toBlogPostArticleEntity(BlogPostArticle blogPostArticle) {
+    public BlogPostArticleEntity toBlogPostArticleEntity(BlogPostArticle blogPostArticle, BlogPostEntityRepository blogPostEntityRepository, ArticleEntityRepository articleEntityRepository) {
         if ( blogPostArticle == null ) {
             return null;
         }
 
         BlogPostArticleEntity blogPostArticleEntity = new BlogPostArticleEntity();
+
+        afterMappingToEntity( blogPostArticleEntity, blogPostArticle, blogPostEntityRepository, articleEntityRepository );
 
         return blogPostArticleEntity;
     }
