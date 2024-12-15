@@ -49,6 +49,12 @@ public class PressEntity {
                 .toHashCode();
     }
 
+    public PressEntity(Long number, String koreanName, String englishName) {
+        this.number = number;
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+    }
+
     public PressEntity(String koreanName, String englishName, Long versionNumber) {
         this.koreanName = koreanName;
         this.englishName = englishName;

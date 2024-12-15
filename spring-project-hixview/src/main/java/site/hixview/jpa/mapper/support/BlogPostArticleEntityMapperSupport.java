@@ -19,11 +19,11 @@ public interface BlogPostArticleEntityMapperSupport {
                                       @Context ArticleEntityRepository articleEntityRepository) {
         Long postNumber = blogPostArticle.getPostNumber();
         Long articleNumber = blogPostArticle.getArticleNumber();
-        BlogPostEntity blogPost = blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class));
-        ArticleEntity article = articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class));
-        return new BlogPostArticleEntity(blogPostArticle.getNumber(), blogPost, article);
+        return new BlogPostArticleEntity(blogPostArticle.getNumber(),
+                blogPostEntityRepository.findByNumber(postNumber).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(postNumber, BlogPostEntity.class)),
+                articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class)));
     }
 
     @Named("postNumberToDomain")

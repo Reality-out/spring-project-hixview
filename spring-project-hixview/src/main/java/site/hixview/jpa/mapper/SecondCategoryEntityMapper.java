@@ -1,9 +1,6 @@
 package site.hixview.jpa.mapper;
 
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import site.hixview.aggregate.domain.SecondCategory;
 import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.mapper.support.SecondCategoryEntityMapperSupport;
@@ -14,9 +11,7 @@ import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface SecondCategoryEntityMapper extends SecondCategoryEntityMapperSupport {
-    @Mapping(target = INDUSTRY_CATEGORY, ignore = true)
-    @Mapping(target = FIRST_CATEGORY, ignore = true)
-    @Mapping(target = VERSION_NUMBER, ignore = true)
+    @BeanMapping(ignoreByDefault = true)
     SecondCategoryEntity toSecondCategoryEntity(SecondCategory secondCategory,
                                                 @Context IndustryCategoryEntityRepository industryCategoryRepository,
                                                 @Context FirstCategoryEntityRepository firstCategoryRepository);

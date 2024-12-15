@@ -14,16 +14,17 @@ import site.hixview.jpa.repository.EconomyContentEntityRepository;
 
 public interface EconomyArticleContentEntityMapperSupport {
     @AfterMapping
-    default void afterMappingToEntity(
+    default EconomyArticleContentEntity afterMappingToEntity(
             @MappingTarget EconomyArticleContentEntity entity, EconomyArticleContent economyArticleContent,
             @Context EconomyArticleEntityRepository economyArticleRepository,
             @Context EconomyContentEntityRepository economyContentEntityRepository) {
-        entity.updateArticle(economyArticleRepository.findByNumber(economyArticleContent.getArticleNumber())
-                .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getArticleNumber(),
-                        EconomyArticleEntity.class)));
-        entity.updateEconomyContent(economyContentEntityRepository.findByNumber(economyArticleContent.getContentNumber())
-                .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getContentNumber(),
-                        EconomyContentEntity.class)));
+        return new EconomyArticleContentEntity(economyArticleContent.getNumber(),
+                economyArticleRepository.findByNumber(economyArticleContent.getArticleNumber())
+                        .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getArticleNumber(),
+                                EconomyArticleEntity.class)),
+                economyContentEntityRepository.findByNumber(economyArticleContent.getContentNumber())
+                        .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getContentNumber(),
+                                EconomyContentEntity.class)));
     }
 
     @Named("articleNumberToDomain")

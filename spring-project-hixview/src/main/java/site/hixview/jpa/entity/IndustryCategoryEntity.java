@@ -44,6 +44,12 @@ public class IndustryCategoryEntity {
                 .toHashCode();
     }
 
+    public IndustryCategoryEntity(Long number, String koreanName, String englishName) {
+        this.number = number;
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+    }
+
     public IndustryCategoryEntity(String koreanName, String englishName) {
         this.koreanName = koreanName;
         this.englishName = englishName;

@@ -1,16 +1,15 @@
 package site.hixview.jpa.mapper;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import site.hixview.aggregate.domain.Post;
 import site.hixview.jpa.entity.PostEntity;
-
-import static site.hixview.aggregate.vo.WordCamel.VERSION_NUMBER;
+import site.hixview.jpa.mapper.support.PostEntityMapperSupport;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
-public interface PostEntityMapper {
-    @Mapping(target = VERSION_NUMBER, ignore = true)
+public interface PostEntityMapper extends PostEntityMapperSupport {
+    @BeanMapping(ignoreByDefault = true)
     PostEntity toPostEntity(Post post);
 
     Post toPost(PostEntity postEntity);

@@ -41,17 +41,25 @@ class ArticleEntityMapperTest implements ArticleTestUtils, ArticleEntityTestUtil
     @DisplayName("엔터티 매퍼 사용 후 Article 일관성 보장")
     @Test
     void articleMappingWithEntityMapper() {
+        // given
         ArticleEntity articleEntity = articleEntityRepository.save(createArticleEntity());
+
+        // when
         Article article = Article.builder().number(articleEntity.getNumber()).build();
+
+        // then
         assertThat(mapperImpl.toArticle(
-                mapperImpl.toArticleEntity(article, articleEntityRepository))).isEqualTo(article);
+                mapperImpl.toArticleEntity(article))).isEqualTo(article);
     }
 
     @DisplayName("엔터티 매퍼 사용 후 ArticleEntity 일관성 보장")
     @Test
     void articleEntityMappingWithEntityMapper() {
+        // given & when
         ArticleEntity articleEntity = articleEntityRepository.save(createArticleEntity());
+
+        // then
         assertThat(mapperImpl.toArticleEntity(
-                mapperImpl.toArticle(articleEntity), articleEntityRepository)).isEqualTo(articleEntity);
+                mapperImpl.toArticle(articleEntity))).isEqualTo(articleEntity);
     }
 }

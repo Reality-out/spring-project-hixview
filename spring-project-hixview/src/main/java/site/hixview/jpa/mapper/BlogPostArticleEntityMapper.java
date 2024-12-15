@@ -1,9 +1,6 @@
 package site.hixview.jpa.mapper;
 
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import site.hixview.aggregate.domain.BlogPostArticle;
 import site.hixview.jpa.entity.BlogPostArticleEntity;
 import site.hixview.jpa.mapper.support.BlogPostArticleEntityMapperSupport;
@@ -14,10 +11,7 @@ import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface BlogPostArticleEntityMapper extends BlogPostArticleEntityMapperSupport {
-    @Mapping(target = NUMBER, ignore = true)
-    @Mapping(target = BLOG_POST, ignore = true)
-    @Mapping(target = ARTICLE, ignore = true)
-    @Mapping(target = VERSION_NUMBER, ignore = true)
+    @BeanMapping(ignoreByDefault = true)
     BlogPostArticleEntity toBlogPostArticleEntity(BlogPostArticle blogPostArticle,
                                                   @Context BlogPostEntityRepository blogPostEntityRepository,
                                                   @Context ArticleEntityRepository articleEntityRepository);

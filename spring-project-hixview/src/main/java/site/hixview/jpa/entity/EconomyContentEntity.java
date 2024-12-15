@@ -40,6 +40,11 @@ public class EconomyContentEntity {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
     }
 
+    public EconomyContentEntity(Long number, String name) {
+        this.number = number;
+        this.name = name;
+    }
+
     public EconomyContentEntity(String name, Long versionNumber) {
         this.name = name;
         this.versionNumber = versionNumber;

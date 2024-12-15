@@ -54,6 +54,12 @@ public class IndustryArticleSecondCategoryEntity {
                 .toHashCode();
     }
 
+    public IndustryArticleSecondCategoryEntity(Long number, IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory) {
+        this.number = number;
+        this.industryArticle = industryArticle;
+        this.secondCategory = secondCategory;
+    }
+
     public IndustryArticleSecondCategoryEntity(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory, Long versionNumber) {
         this.industryArticle = industryArticle;
         this.secondCategory = secondCategory;

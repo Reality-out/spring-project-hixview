@@ -24,10 +24,10 @@ public interface IndustryArticleEntityMapperSupport extends SuperArticleEntityMa
             @Context ArticleEntityRepository articleEntityRepository,
             @Context PressEntityRepository pressEntityRepository,
             @Context FirstCategoryEntityRepository firstCategoryRepository) {
-        builder.article(articleEntityRepository.findByNumber(industryArticle.getNumber()).orElseThrow(() ->
-                        new EntityNotFoundWithNumberException(industryArticle.getNumber(), ArticleEntity.class)))
-                .press(pressEntityRepository.findByNumber(industryArticle.getPressNumber()).orElseThrow(() ->
+        builder.press(pressEntityRepository.findByNumber(industryArticle.getPressNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(industryArticle.getPressNumber(), PressEntity.class)))
+                .article(articleEntityRepository.findByNumber(industryArticle.getNumber()).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(industryArticle.getNumber(), ArticleEntity.class)))
                 .firstCategory(firstCategoryRepository.findByNumber(industryArticle.getFirstCategoryNumber())
                         .orElseThrow(() -> new EntityNotFoundWithNumberException(
                                 industryArticle.getFirstCategoryNumber(), FirstCategoryEntity.class)));

@@ -20,10 +20,12 @@ public interface EconomyArticleEntityMapperSupport extends SuperArticleEntityMap
             @MappingTarget EconomyArticleEntityBuilder builder, EconomyArticle economyArticle,
             @Context ArticleEntityRepository articleEntityRepository,
             @Context PressEntityRepository pressEntityRepository) {
-        builder.article(articleEntityRepository.findByNumber(economyArticle.getNumber()).orElseThrow(() ->
-                        new EntityNotFoundWithNumberException(economyArticle.getNumber(), ArticleEntity.class)))
-                .press(pressEntityRepository.findByNumber(economyArticle.getPressNumber()).orElseThrow(() ->
-                        new EntityNotFoundWithNumberException(economyArticle.getPressNumber(), PressEntity.class)));
+        Long articleNumber = economyArticle.getNumber();
+        Long pressNumber = economyArticle.getPressNumber();
+        builder.article(articleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class)))
+                .press(pressEntityRepository.findByNumber(pressNumber).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(pressNumber, PressEntity.class)));
     }
 
     @AfterMapping

@@ -16,17 +16,19 @@ import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 
 public interface SecondCategoryEntityMapperSupport {
     @AfterMapping
-    default void afterMappingToEntity(
+    default SecondCategoryEntity afterMappingToEntity(
             @MappingTarget SecondCategoryEntity secondCategoryEntity, SecondCategory secondCategory,
             @Context IndustryCategoryEntityRepository industryCategoryRepository,
             @Context FirstCategoryEntityRepository firstCategoryRepository) {
-        secondCategoryEntity.updateIndustryCategory(industryCategoryRepository.findByNumber(
-                secondCategory.getIndustryCategoryNumber()).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(secondCategory.getIndustryCategoryNumber(), IndustryCategory.class)));
-
-        secondCategoryEntity.updateFirstCategory(firstCategoryRepository.findByNumber(
-                secondCategory.getFirstCategoryNumber()).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(secondCategory.getFirstCategoryNumber(), FirstCategory.class)));
+        return new SecondCategoryEntity(secondCategory.getNumber(),
+                secondCategory.getKoreanName(),
+                secondCategory.getEnglishName(),
+                industryCategoryRepository.findByNumber(
+                        secondCategory.getIndustryCategoryNumber()).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(secondCategory.getIndustryCategoryNumber(), IndustryCategory.class)),
+                firstCategoryRepository.findByNumber(
+                        secondCategory.getFirstCategoryNumber()).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(secondCategory.getFirstCategoryNumber(), FirstCategory.class)));
     }
 
     @Named("industryCategoryNumberToDomain")

@@ -1,9 +1,6 @@
 package site.hixview.jpa.mapper;
 
-import org.mapstruct.Context;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 import site.hixview.aggregate.domain.EconomyArticleContent;
 import site.hixview.jpa.entity.EconomyArticleContentEntity;
 import site.hixview.jpa.mapper.support.EconomyArticleContentEntityMapperSupport;
@@ -14,9 +11,7 @@ import static site.hixview.aggregate.vo.WordCamel.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface EconomyArticleContentEntityMapper extends EconomyArticleContentEntityMapperSupport {
-    @Mapping(target = ECONOMY_ARTICLE, ignore = true)
-    @Mapping(target = ECONOMY_CONTENT, ignore = true)
-    @Mapping(target = VERSION_NUMBER, ignore = true)
+    @BeanMapping(ignoreByDefault = true)
     EconomyArticleContentEntity toEconomyArticleContentEntity(EconomyArticleContent economyArticleContent,
                                                               @Context EconomyArticleEntityRepository economyArticleRepository,
                                                               @Context EconomyContentEntityRepository economyContentEntityRepository);

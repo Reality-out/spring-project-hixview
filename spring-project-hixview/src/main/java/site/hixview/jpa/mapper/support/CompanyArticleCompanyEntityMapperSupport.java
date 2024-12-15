@@ -19,16 +19,16 @@ public interface CompanyArticleCompanyEntityMapperSupport {
     @AfterMapping
     default CompanyArticleCompanyEntity afterMappingToEntity(
             @MappingTarget CompanyArticleCompanyEntity entity, CompanyArticleCompany companyArticleCompany,
-            @Context CompanyArticleEntityRepository companyArticleRepository,
+            @Context CompanyArticleEntityRepository companyArticleEntityRepository,
             @Context CompanyEntityRepository companyEntityRepository) {
         Long articleNumber = companyArticleCompany.getArticleNumber();
         String companyCode = companyArticleCompany.getCompanyCode();
         return new CompanyArticleCompanyEntity(companyArticleCompany.getNumber(),
-                companyArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
+                companyArticleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(articleNumber, CompanyArticleEntity.class)),
                 companyEntityRepository.findByCode(companyCode).orElseThrow(() ->
                         new EntityNotFoundException(CANNOT_FOUND_ENTITY_WITH_CODE + companyCode +
-                                " , for the class named: " + CompanyEntity.class.getSimpleName())));
+                                ", for the class named: " + CompanyEntity.class.getSimpleName())));
     }
 
     @Named("articleNumberToDomain")

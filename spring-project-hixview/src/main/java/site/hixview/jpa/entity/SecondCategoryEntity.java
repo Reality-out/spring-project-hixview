@@ -56,6 +56,14 @@ public class SecondCategoryEntity {
                 .toHashCode();
     }
 
+    public SecondCategoryEntity(Long number, String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory) {
+        this.number = number;
+        this.koreanName = koreanName;
+        this.englishName = englishName;
+        this.industryCategory = industryCategory;
+        this.firstCategory = firstCategory;
+    }
+
     public SecondCategoryEntity(String koreanName, String englishName, IndustryCategoryEntity industryCategory, FirstCategoryEntity firstCategory, Long versionNumber) {
         this.koreanName = koreanName;
         this.englishName = englishName;

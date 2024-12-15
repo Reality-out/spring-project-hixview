@@ -22,7 +22,7 @@ public interface BlogPostEntityMapperSupport {
             @Context PostEntityRepository postEntityRepository) {
         blogPostEntityBuilder
                 .post(postEntityRepository.findByNumber(blogPost.getNumber()).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(blogPost.getNumber(), PostEntity.class)));
+                        new EntityNotFoundWithNumberException(blogPost.getNumber(), PostEntity.class)));
     }
 
     @AfterMapping
