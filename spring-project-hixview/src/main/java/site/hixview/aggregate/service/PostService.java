@@ -1,7 +1,7 @@
 package site.hixview.aggregate.service;
 
 import site.hixview.aggregate.domain.Post;
-import site.hixview.aggregate.service.supers.OnlyAllowedToSearch;
+import site.hixview.aggregate.service.supers.OnlyGetAllowedServiceWithNumberId;
 
-public interface PostService extends OnlyAllowedToSearch<Post> {
+public interface PostService extends OnlyGetAllowedServiceWithNumberId<Post> {
 }

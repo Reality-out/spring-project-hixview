@@ -1,14 +1,14 @@
 package site.hixview.aggregate.service;
 
 import site.hixview.aggregate.domain.Company;
-import site.hixview.aggregate.service.supers.Service;
+import site.hixview.aggregate.service.supers.CrudAllowedService;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CompanyService extends Service<Company> {
+public interface CompanyService extends CrudAllowedService<Company> {
     List<Company> getByCountryListed(String countryListed);
 
     List<Company> getByScale(String scale);

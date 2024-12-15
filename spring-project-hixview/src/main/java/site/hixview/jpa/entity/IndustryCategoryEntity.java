@@ -1,6 +1,7 @@
 package site.hixview.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -13,6 +14,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 @Table(name = INDUSTRY_CATEGORY_SNAKE)
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class IndustryCategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +44,6 @@ public class IndustryCategoryEntity {
                 .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
-    }
-
-    public IndustryCategoryEntity(Long number, String koreanName, String englishName) {
-        this.number = number;
-        this.koreanName = koreanName;
-        this.englishName = englishName;
     }
 
     public IndustryCategoryEntity(String koreanName, String englishName) {

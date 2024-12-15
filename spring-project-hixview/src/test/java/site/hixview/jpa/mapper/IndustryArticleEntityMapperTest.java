@@ -18,7 +18,8 @@ import site.hixview.support.spring.util.IndustryArticleTestUtils;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.aggregate.vo.WordCamel.*;
+import static site.hixview.aggregate.vo.WordCamel.ARTICLE;
+import static site.hixview.aggregate.vo.WordCamel.PRESS;
 import static site.hixview.aggregate.vo.WordSnake.*;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
