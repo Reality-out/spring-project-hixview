@@ -17,17 +17,18 @@ import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY_WIT
 
 public interface CompanyArticleCompanyEntityMapperSupport {
     @AfterMapping
-    default void afterMappingToEntity(
+    default CompanyArticleCompanyEntity afterMappingToEntity(
             @MappingTarget CompanyArticleCompanyEntity entity, CompanyArticleCompany companyArticleCompany,
             @Context CompanyArticleEntityRepository companyArticleRepository,
             @Context CompanyEntityRepository companyEntityRepository) {
         Long articleNumber = companyArticleCompany.getArticleNumber();
         String companyCode = companyArticleCompany.getCompanyCode();
-        entity.updateArticle(companyArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
-                new EntityNotFoundWithNumberException(articleNumber, CompanyArticleEntity.class)));
-        entity.updateCompany(companyEntityRepository.findByCode(companyCode).orElseThrow(() ->
-                new EntityNotFoundException(CANNOT_FOUND_ENTITY_WITH_CODE + companyCode +
-                        " , for the class named: " + CompanyEntity.class.getSimpleName())));
+        return new CompanyArticleCompanyEntity(companyArticleCompany.getNumber(),
+                companyArticleRepository.findByNumber(articleNumber).orElseThrow(() ->
+                        new EntityNotFoundWithNumberException(articleNumber, CompanyArticleEntity.class)),
+                companyEntityRepository.findByCode(companyCode).orElseThrow(() ->
+                        new EntityNotFoundException(CANNOT_FOUND_ENTITY_WITH_CODE + companyCode +
+                                " , for the class named: " + CompanyEntity.class.getSimpleName())));
     }
 
     @Named("articleNumberToDomain")

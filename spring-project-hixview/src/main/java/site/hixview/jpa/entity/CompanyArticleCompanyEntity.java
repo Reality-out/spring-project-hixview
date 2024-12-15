@@ -52,6 +52,12 @@ public class CompanyArticleCompanyEntity {
                 .toHashCode();
     }
 
+    public CompanyArticleCompanyEntity(Long number, CompanyArticleEntity companyArticle, CompanyEntity company) {
+        this.number = number;
+        this.companyArticle = companyArticle;
+        this.company = company;
+    }
+
     public CompanyArticleCompanyEntity(CompanyArticleEntity companyArticle, CompanyEntity company, Long versionNumber) {
         this.companyArticle = companyArticle;
         this.company = company;
