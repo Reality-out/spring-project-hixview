@@ -13,7 +13,6 @@ import site.hixview.jpa.entity.IndustryCategoryEntity;
 import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.util.FirstCategoryEntityTestUtils;
-import site.hixview.support.jpa.util.IndustryCategoryEntityTestUtils;
 import site.hixview.support.spring.util.FirstCategoryTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +22,7 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 
 @OnlyRealRepositoryContext
 @Slf4j
-class FirstCategoryEntityMapperTest implements FirstCategoryTestUtils, FirstCategoryEntityTestUtils, IndustryCategoryEntityTestUtils {
+class FirstCategoryEntityMapperTest implements FirstCategoryTestUtils, FirstCategoryEntityTestUtils {
 
     private final IndustryCategoryEntityRepository industryCategoryEntityRepository;
     private final JdbcTemplate jdbcTemplate;

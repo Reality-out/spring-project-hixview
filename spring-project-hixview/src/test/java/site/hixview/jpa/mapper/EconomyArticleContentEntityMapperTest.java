@@ -17,7 +17,6 @@ import site.hixview.jpa.repository.EconomyArticleEntityRepository;
 import site.hixview.jpa.repository.EconomyContentEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.executor.SqlExecutor;
-import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.jpa.util.EconomyArticleEntityTestUtils;
 import site.hixview.support.jpa.util.EconomyContentEntityTestUtils;
 import site.hixview.support.spring.util.EconomyArticleContentTestUtils;
@@ -26,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
 @Slf4j
-class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTestUtils, EconomyArticleEntityTestUtils, ArticleEntityTestUtils, EconomyContentEntityTestUtils {
+class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTestUtils, EconomyArticleEntityTestUtils, EconomyContentEntityTestUtils {
 
     private final EconomyArticleContentEntityRepository economyArticleContentEntityRepository;
     private final EconomyArticleEntityRepository economyArticleEntityRepository;

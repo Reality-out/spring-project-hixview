@@ -15,8 +15,6 @@ import site.hixview.jpa.repository.FirstCategoryEntityRepository;
 import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
-import site.hixview.support.jpa.util.FirstCategoryEntityTestUtils;
-import site.hixview.support.jpa.util.IndustryCategoryEntityTestUtils;
 import site.hixview.support.jpa.util.SecondCategoryEntityTestUtils;
 import site.hixview.support.spring.util.SecondCategoryTestUtils;
 
@@ -26,7 +24,7 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 
 @OnlyRealRepositoryContext
 @Slf4j
-class SecondCategoryEntityMapperTest implements SecondCategoryTestUtils, SecondCategoryEntityTestUtils, FirstCategoryEntityTestUtils, IndustryCategoryEntityTestUtils {
+class SecondCategoryEntityMapperTest implements SecondCategoryTestUtils, SecondCategoryEntityTestUtils {
 
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final FirstCategoryEntityRepository firstCategoryEntityRepository;

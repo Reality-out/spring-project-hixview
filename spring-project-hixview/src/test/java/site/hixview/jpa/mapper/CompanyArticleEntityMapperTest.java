@@ -11,10 +11,8 @@ import site.hixview.jpa.entity.*;
 import site.hixview.jpa.repository.*;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.executor.SqlExecutor;
-import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.jpa.util.CompanyArticleEntityTestUtils;
 import site.hixview.support.jpa.util.CompanyEntityTestUtils;
-import site.hixview.support.jpa.util.PressEntityTestUtils;
 import site.hixview.support.spring.util.CompanyArticleTestUtils;
 
 import java.util.List;
@@ -23,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
 @Slf4j
-class CompanyArticleEntityMapperTest implements CompanyArticleEntityTestUtils, ArticleEntityTestUtils, CompanyEntityTestUtils, PressEntityTestUtils, CompanyArticleTestUtils {
+class CompanyArticleEntityMapperTest implements CompanyArticleEntityTestUtils, CompanyEntityTestUtils, CompanyArticleTestUtils {
 
     private final CompanyArticleCompanyEntityRepository companyArticleCompanyEntityRepository;
     private final CompanyArticleEntityRepository companyArticleEntityRepository;

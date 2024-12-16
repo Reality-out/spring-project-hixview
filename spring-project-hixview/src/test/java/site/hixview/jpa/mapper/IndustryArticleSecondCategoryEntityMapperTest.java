@@ -11,14 +11,15 @@ import site.hixview.jpa.entity.*;
 import site.hixview.jpa.repository.*;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
 import site.hixview.support.jpa.executor.SqlExecutor;
-import site.hixview.support.jpa.util.*;
+import site.hixview.support.jpa.util.IndustryArticleEntityTestUtils;
+import site.hixview.support.jpa.util.SecondCategoryEntityTestUtils;
 import site.hixview.support.spring.util.IndustryArticleTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
 @Slf4j
-class IndustryArticleSecondCategoryEntityMapperTest implements IndustryArticleEntityTestUtils, ArticleEntityTestUtils, IndustryCategoryEntityTestUtils, FirstCategoryEntityTestUtils, SecondCategoryEntityTestUtils, PressEntityTestUtils, IndustryArticleTestUtils {
+class IndustryArticleSecondCategoryEntityMapperTest implements IndustryArticleEntityTestUtils, SecondCategoryEntityTestUtils, IndustryArticleTestUtils {
 
     private final IndustryArticleSecondCategoryEntityRepository IndustryArticleSecondCategoryEntityRepository;
     private final IndustryArticleEntityRepository industryArticleEntityRepository;

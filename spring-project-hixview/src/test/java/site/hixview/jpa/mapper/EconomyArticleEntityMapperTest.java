@@ -11,10 +11,8 @@ import site.hixview.aggregate.domain.EconomyArticle;
 import site.hixview.jpa.entity.*;
 import site.hixview.jpa.repository.*;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
-import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.jpa.util.EconomyArticleEntityTestUtils;
 import site.hixview.support.jpa.util.EconomyContentEntityTestUtils;
-import site.hixview.support.jpa.util.PressEntityTestUtils;
 import site.hixview.support.spring.util.EconomyArticleTestUtils;
 
 import java.util.List;
@@ -27,7 +25,7 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 
 @OnlyRealRepositoryContext
 @Slf4j
-class EconomyArticleEntityMapperTest implements EconomyArticleEntityTestUtils, ArticleEntityTestUtils, EconomyContentEntityTestUtils, PressEntityTestUtils, EconomyArticleTestUtils {
+class EconomyArticleEntityMapperTest implements EconomyArticleEntityTestUtils, EconomyContentEntityTestUtils, EconomyArticleTestUtils {
 
     private final EconomyArticleContentEntityRepository economyArticleContentEntityRepository;
     private final EconomyArticleEntityRepository economyArticleEntityRepository;
