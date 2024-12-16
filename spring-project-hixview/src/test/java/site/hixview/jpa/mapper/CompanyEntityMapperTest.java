@@ -83,9 +83,6 @@ class CompanyEntityMapperTest implements CompanyEntityTestUtils {
         firstCategoryEntityRepository.save(firstCategory);
         secondCategory.updateFirstCategory(firstCategory);
         secondCategoryEntityRepository.save(secondCategory);
-        Company company = Company.builder()
-                .firstCategoryNumber(firstCategory.getNumber())
-                .secondCategoryNumber(secondCategory.getNumber()).build();
 
         // when
         companyEntity = companyEntityRepository.save(companyEntity);

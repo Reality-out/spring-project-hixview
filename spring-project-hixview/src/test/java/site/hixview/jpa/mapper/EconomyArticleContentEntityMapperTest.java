@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.aggregate.domain.EconomyArticleContent;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.entity.EconomyArticleContentEntity;
@@ -17,15 +16,13 @@ import site.hixview.jpa.repository.EconomyArticleContentEntityRepository;
 import site.hixview.jpa.repository.EconomyArticleEntityRepository;
 import site.hixview.jpa.repository.EconomyContentEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
+import site.hixview.support.jpa.executor.SqlExecutor;
 import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.jpa.util.EconomyArticleEntityTestUtils;
 import site.hixview.support.jpa.util.EconomyContentEntityTestUtils;
 import site.hixview.support.spring.util.EconomyArticleContentTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.aggregate.vo.WordCamel.*;
-import static site.hixview.aggregate.vo.WordSnake.*;
-import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 @Slf4j
@@ -36,10 +33,6 @@ class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTest
     private final ArticleEntityRepository articleEntityRepository;
     private final EconomyContentEntityRepository economyContentEntityRepository;
     private final JdbcTemplate jdbcTemplate;
-
-    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + COMP_ARTI_COMP_MAPPER_SNAKE,
-            TEST_TABLE_PREFIX + COMPANY_ARTICLE_SNAKE, TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + COMPANY,
-            TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE, TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE, TEST_TABLE_PREFIX + PRESS};
 
     private final EconomyArticleContentEntityMapperImpl mapperImpl = new EconomyArticleContentEntityMapperImpl();
 
@@ -54,7 +47,7 @@ class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTest
 
     @BeforeEach
     public void beforeEach() {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
+        new SqlExecutor().deleteOnlyWithGeneratedId(jdbcTemplate);
     }
 
     @DisplayName("엔터티 매퍼 사용 후 EconomyArticleContent 일관성 보장")

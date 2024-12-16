@@ -14,8 +14,6 @@ import site.hixview.support.jpa.util.SecondCategoryEntityTestUtils;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.aggregate.vo.WordSnake.*;
-import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 @Slf4j
@@ -23,9 +21,6 @@ class SecondCategoryRepositoryTest implements SecondCategoryEntityTestUtils {
 
     private final SecondCategoryEntityRepository secondCategoryRepository;
     private final JdbcTemplate jdbcTemplate;
-
-    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE,
-            TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE, TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 
     @Autowired
     SecondCategoryRepositoryTest(SecondCategoryEntityRepository secondCategoryRepository, JdbcTemplate jdbcTemplate) {

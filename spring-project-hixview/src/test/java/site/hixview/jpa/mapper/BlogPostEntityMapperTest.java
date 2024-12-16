@@ -70,10 +70,8 @@ class BlogPostEntityMapperTest implements BlogPostTestUtils, BlogPostEntityTestU
                 .mappedArticleNumbers(List.of(articleEntity.getNumber(), anotherArticleEntity.getNumber())).build();
         BlogPostEntity blogPostEntity = blogPostEntityRepository.save(BlogPostEntity.builder()
                 .blogPost(createBlogPostEntity()).post(postEntity).build());
-        BlogPostArticleEntity blogPostArticleEntity = blogPostArticleEntityRepository.save(
-                new BlogPostArticleEntity(blogPostEntity, articleEntity));
-        BlogPostArticleEntity anotherBlogPostArticleEntity = blogPostArticleEntityRepository.save(
-                new BlogPostArticleEntity(blogPostEntity, anotherArticleEntity));
+        blogPostArticleEntityRepository.save(new BlogPostArticleEntity(blogPostEntity, articleEntity));
+        blogPostArticleEntityRepository.save(new BlogPostArticleEntity(blogPostEntity, anotherArticleEntity));
 
         // when
         BlogPostEntity mappedBlogPostEntity = mapperImpl.toBlogPostEntity(testBlogPost, postEntityRepository);
@@ -91,14 +89,10 @@ class BlogPostEntityMapperTest implements BlogPostTestUtils, BlogPostEntityTestU
         ArticleEntity articleEntity = articleEntityRepository.save(createArticleEntity());
         ArticleEntity anotherArticleEntity = articleEntityRepository.save(createAnotherArticleEntity());
         PostEntity postEntity = postEntityRepository.save(createPostEntity());
-        BlogPost testBlogPost = BlogPost.builder().blogPost(blogPost).number(postEntity.getNumber())
-                .mappedArticleNumbers(List.of(articleEntity.getNumber(), anotherArticleEntity.getNumber())).build();
         BlogPostEntity blogPostEntity = blogPostEntityRepository.save(BlogPostEntity.builder()
                 .blogPost(createBlogPostEntity()).post(postEntity).build());
-        BlogPostArticleEntity blogPostArticleEntity = blogPostArticleEntityRepository.save(
-                new BlogPostArticleEntity(blogPostEntity, articleEntity));
-        BlogPostArticleEntity anotherBlogPostArticleEntity = blogPostArticleEntityRepository.save(
-                new BlogPostArticleEntity(blogPostEntity, anotherArticleEntity));
+        blogPostArticleEntityRepository.save(new BlogPostArticleEntity(blogPostEntity, articleEntity));
+        blogPostArticleEntityRepository.save(new BlogPostArticleEntity(blogPostEntity, anotherArticleEntity));
 
         // then
         assertThat(mapperImpl.toBlogPostEntity(mapperImpl.toBlogPost(blogPostEntity, blogPostArticleEntityRepository),

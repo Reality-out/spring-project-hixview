@@ -1,7 +1,5 @@
 package site.hixview.jpa.repository;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,8 +24,6 @@ import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PRE
 @Slf4j
 class CompanyEntityRepositoryTest implements CompanyEntityTestUtils {
 
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
     private final CompanyEntityRepository companyEntityRepository;
     private final FirstCategoryEntityRepository firstCategoryRepository;
     private final SecondCategoryEntityRepository secondCategoryRepository;
@@ -38,7 +34,7 @@ class CompanyEntityRepositoryTest implements CompanyEntityTestUtils {
             TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 
     @Autowired
-    CompanyEntityRepositoryTest(CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryRepository, SecondCategoryEntityRepository secondCategoryRepository, IndustryCategoryEntityRepository industryCategoryRepository, JdbcTemplate jdbcTemplate) {
+    CompanyEntityRepositoryTest(CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryRepository, SecondCategoryEntityRepository secondCategoryRepository, JdbcTemplate jdbcTemplate) {
         this.companyEntityRepository = companyEntityRepository;
         this.firstCategoryRepository = firstCategoryRepository;
         this.secondCategoryRepository = secondCategoryRepository;

@@ -67,9 +67,9 @@ class EconomyArticleEntityMapperTest implements EconomyArticleEntityTestUtils, A
                 EconomyArticleEntity.builder().economyArticle(createEconomyArticleEntity()).article(articleEntity).press(pressEntity).build());
         EconomyContentEntity economyContentEntity = economyContentEntityRepository.save(createEconomyContentEntity());
         EconomyContentEntity anotherEconomyContentEntity = economyContentEntityRepository.save(createAnotherEconomyContentEntity());
-        EconomyArticleContentEntity economyArticleContentEntity = economyArticleContentEntityRepository.save(
+        economyArticleContentEntityRepository.save(
                 new EconomyArticleContentEntity(economyArticleEntity, economyContentEntity));
-        EconomyArticleContentEntity anotherEconomyArticleContentEntity = economyArticleContentEntityRepository.save(
+        economyArticleContentEntityRepository.save(
                 new EconomyArticleContentEntity(economyArticleEntity, anotherEconomyContentEntity));
 
         // when
@@ -98,9 +98,9 @@ class EconomyArticleEntityMapperTest implements EconomyArticleEntityTestUtils, A
                 EconomyArticleEntity.builder().economyArticle(createEconomyArticleEntity()).article(articleEntity).press(pressEntity).build());
         EconomyContentEntity economyContentEntity = economyContentEntityRepository.save(createEconomyContentEntity());
         EconomyContentEntity anotherEconomyContentEntity = economyContentEntityRepository.save(createAnotherEconomyContentEntity());
-        EconomyArticleContentEntity economyArticleContentEntity = economyArticleContentEntityRepository.save(
+        economyArticleContentEntityRepository.save(
                 new EconomyArticleContentEntity(economyArticleEntity, economyContentEntity));
-        EconomyArticleContentEntity anotherEconomyArticleContentEntity = economyArticleContentEntityRepository.save(
+        economyArticleContentEntityRepository.save(
                 new EconomyArticleContentEntity(economyArticleEntity, anotherEconomyContentEntity));
 
         // then

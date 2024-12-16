@@ -6,21 +6,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.aggregate.domain.IndustryArticle;
 import site.hixview.jpa.entity.*;
 import site.hixview.jpa.repository.*;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
+import site.hixview.support.jpa.executor.SqlExecutor;
 import site.hixview.support.jpa.util.*;
 import site.hixview.support.spring.util.IndustryArticleTestUtils;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.aggregate.vo.WordCamel.ARTICLE;
-import static site.hixview.aggregate.vo.WordCamel.PRESS;
-import static site.hixview.aggregate.vo.WordSnake.*;
-import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 @Slf4j
@@ -34,11 +30,6 @@ class IndustryArticleEntityMapperTest implements IndustryArticleEntityTestUtils,
     private final FirstCategoryEntityRepository firstCategoryEntityRepository;
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final JdbcTemplate jdbcTemplate;
-
-    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + INDU_ARTI_SEC_CATE_MAPPER_SNAKE,
-            TEST_TABLE_PREFIX + INDUSTRY_ARTICLE_SNAKE, TEST_TABLE_PREFIX + ARTICLE,
-            TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE, TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE,
-            TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE, TEST_TABLE_PREFIX + PRESS};
 
     private final IndustryArticleEntityMapperImpl mapperImpl = new IndustryArticleEntityMapperImpl();
 
@@ -56,7 +47,7 @@ class IndustryArticleEntityMapperTest implements IndustryArticleEntityTestUtils,
 
     @BeforeEach
     public void beforeEach() {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
+        new SqlExecutor().deleteOnlyWithGeneratedId(jdbcTemplate);
     }
 
     @DisplayName("엔터티 매퍼 사용 후 IndustryArticle 일관성 보장")
@@ -85,9 +76,9 @@ class IndustryArticleEntityMapperTest implements IndustryArticleEntityTestUtils,
                         .article(articleEntity)
                         .firstCategory(firstCategoryEntity).build());
 
-        IndustryArticleSecondCategoryEntity IndustryArticleSecondCategoryEntity = IndustryArticleSecondCategoryEntityRepository.save(
+        IndustryArticleSecondCategoryEntityRepository.save(
                 new IndustryArticleSecondCategoryEntity(industryArticleEntity, secondCategoryEntity));
-        IndustryArticleSecondCategoryEntity anotherIndustryArticleSecondCategoryEntity = IndustryArticleSecondCategoryEntityRepository.save(
+        IndustryArticleSecondCategoryEntityRepository.save(
                 new IndustryArticleSecondCategoryEntity(industryArticleEntity, anotherSecondCategoryEntity));
 
         // when
@@ -133,9 +124,9 @@ class IndustryArticleEntityMapperTest implements IndustryArticleEntityTestUtils,
                         .article(articleEntity)
                         .firstCategory(firstCategoryEntity).build());
 
-        IndustryArticleSecondCategoryEntity IndustryArticleSecondCategoryEntity = IndustryArticleSecondCategoryEntityRepository.save(
+        IndustryArticleSecondCategoryEntityRepository.save(
                 new IndustryArticleSecondCategoryEntity(industryArticleEntity, secondCategoryEntity));
-        IndustryArticleSecondCategoryEntity anotherIndustryArticleSecondCategoryEntity = IndustryArticleSecondCategoryEntityRepository.save(
+        IndustryArticleSecondCategoryEntityRepository.save(
                 new IndustryArticleSecondCategoryEntity(industryArticleEntity, anotherSecondCategoryEntity));
 
         // when

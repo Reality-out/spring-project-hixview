@@ -6,20 +6,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.aggregate.domain.CompanyArticleCompany;
 import site.hixview.jpa.entity.*;
 import site.hixview.jpa.repository.*;
 import site.hixview.support.jpa.context.OnlyRealRepositoryContext;
+import site.hixview.support.jpa.executor.SqlExecutor;
 import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.jpa.util.CompanyArticleEntityTestUtils;
 import site.hixview.support.jpa.util.CompanyEntityTestUtils;
 import site.hixview.support.spring.util.CompanyArticleCompanyTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static site.hixview.aggregate.vo.WordCamel.*;
-import static site.hixview.aggregate.vo.WordSnake.*;
-import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
 @Slf4j
@@ -32,10 +29,6 @@ class CompanyArticleCompanyEntityMapperTest implements CompanyArticleCompanyTest
     private final FirstCategoryEntityRepository firstCategoryEntityRepository;
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final JdbcTemplate jdbcTemplate;
-
-    private final String[] relatedSchemas = {TEST_TABLE_PREFIX + COMP_ARTI_COMP_MAPPER_SNAKE,
-            TEST_TABLE_PREFIX + COMPANY_ARTICLE_SNAKE, TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + COMPANY,
-            TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE, TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE, TEST_TABLE_PREFIX + PRESS};
 
     private final CompanyArticleCompanyEntityMapperImpl mapperImpl = new CompanyArticleCompanyEntityMapperImpl();
 
@@ -52,7 +45,7 @@ class CompanyArticleCompanyEntityMapperTest implements CompanyArticleCompanyTest
 
     @BeforeEach
     public void beforeEach() {
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
+        new SqlExecutor().deleteAll(jdbcTemplate);
     }
 
     @DisplayName("엔터티 매퍼 사용 후 CompanyArticleCompany 일관성 보장")
