@@ -39,7 +39,6 @@ public class FirstCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         FirstCategoryEntity firstCategory = (FirstCategoryEntity) obj;
         return new EqualsBuilder()
-                .append(getKoreanName(), firstCategory.getKoreanName())
                 .append(getEnglishName(), firstCategory.getEnglishName())
                 .isEquals();
     }
@@ -47,7 +46,6 @@ public class FirstCategoryEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
     }

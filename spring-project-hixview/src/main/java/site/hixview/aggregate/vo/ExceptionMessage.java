@@ -8,6 +8,13 @@ public final class ExceptionMessage {
     // ConversionFailedException
     public static final String CANNOT_CONVERT_TO_LOCAL_DATE = "Cannot convert the value to the type LocalDate: ";
 
+    // EntityExistsException
+    public static final String ALREADY_EXISTED_ENTITY_WITH_ID = "The entity that has the ID already exists: ";
+
+    // EntityExistsWithNameException
+    public static final String ALREADY_EXISTED_ENTITY_WITH_ENGLISH_NAME = "The entity that has the english name already exists: ";
+    public static final String ALREADY_EXISTED_ENTITY_WITH_NAME = "The entity that has the name already exists: ";
+
     // EntityExistsWithNumberException
     public static final String ALREADY_EXISTED_ENTITY_WITH_NUMBER = "The entity that has the number already exists: ";
 

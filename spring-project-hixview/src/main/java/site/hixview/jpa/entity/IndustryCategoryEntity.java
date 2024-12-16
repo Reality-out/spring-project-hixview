@@ -33,7 +33,6 @@ public class IndustryCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         IndustryCategoryEntity industryCategory = (IndustryCategoryEntity) obj;
         return new EqualsBuilder()
-                .append(getKoreanName(), industryCategory.getKoreanName())
                 .append(getEnglishName(), industryCategory.getEnglishName())
                 .isEquals();
     }
@@ -41,7 +40,6 @@ public class IndustryCategoryEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
     }

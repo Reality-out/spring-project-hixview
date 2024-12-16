@@ -1,5 +1,6 @@
 package site.hixview.jpa.service;
 
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,9 @@ import site.hixview.jpa.repository.SiteMemberEntityRepository;
 
 import java.util.List;
 import java.util.Optional;
+
+import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY_WITH_ID;
+import static site.hixview.aggregate.vo.ExceptionMessage.FOR_THE_CLASS_NAMED;
 
 @Service
 @Transactional(readOnly = true)
@@ -52,19 +56,17 @@ public class SiteMemberEntityService implements SiteMemberService {
         return getOptionalSiteMember(siteMemberEntityRepository.findByEmail(email).orElse(null));
     }
 
-    private Optional<SiteMember> getOptionalSiteMember(SiteMemberEntity siteMemberEntity) {
-        if (siteMemberEntity == null) {
-            return Optional.empty();
-        }
-        return Optional.of(mapper.toSiteMember(siteMemberEntity));
-    }
-
     @Override
     @Transactional
     public SiteMember insert(SiteMember siteMember) {
         Long number = siteMember.getNumber();
+        String id = siteMember.getId();
         if (siteMemberEntityRepository.existsByNumber(number)) {
             throw new EntityExistsWithNumberException(number, SiteMember.class);
+        }
+        if (siteMemberEntityRepository.findById(id).isPresent()) {
+            throw new EntityExistsException(ALREADY_EXISTED_ENTITY_WITH_ID + id +
+                    FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
         }
         return mapper.toSiteMember(siteMemberEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
     }
@@ -73,8 +75,13 @@ public class SiteMemberEntityService implements SiteMemberService {
     @Transactional
     public SiteMember update(SiteMember siteMember) {
         Long number = siteMember.getNumber();
+        String id = siteMember.getId();
         if (!siteMemberEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, SiteMember.class);
+        }
+        if (siteMemberEntityRepository.findById(id).isPresent()) {
+            throw new EntityExistsException(ALREADY_EXISTED_ENTITY_WITH_ID + id +
+                    FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
         }
         return mapper.toSiteMember(siteMemberEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
     }
@@ -86,5 +93,12 @@ public class SiteMemberEntityService implements SiteMemberService {
             throw new EntityNotFoundWithNumberException(number, SiteMember.class);
         }
         siteMemberEntityRepository.deleteByNumber(number);
+    }
+
+    private Optional<SiteMember> getOptionalSiteMember(SiteMemberEntity siteMemberEntity) {
+        if (siteMemberEntity == null) {
+            return Optional.empty();
+        }
+        return Optional.of(mapper.toSiteMember(siteMemberEntity));
     }
 }

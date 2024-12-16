@@ -43,7 +43,6 @@ public class SecondCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         SecondCategoryEntity secondCategory = (SecondCategoryEntity) obj;
         return new EqualsBuilder()
-                .append(getKoreanName(), secondCategory.getKoreanName())
                 .append(getEnglishName(), secondCategory.getEnglishName())
                 .isEquals();
     }
@@ -51,7 +50,6 @@ public class SecondCategoryEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
     }

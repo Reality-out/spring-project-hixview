@@ -42,7 +42,6 @@ public class BlogPostArticleEntity {
         BlogPostArticleEntity blogPostArticleMapper = (BlogPostArticleEntity) obj;
         return new EqualsBuilder()
                 .append(getBlogPost().getName(), blogPostArticleMapper.getBlogPost().getName())
-                .append(getArticle().getNumber(), blogPostArticleMapper.getArticle().getNumber())
                 .isEquals();
     }
 
@@ -50,7 +49,6 @@ public class BlogPostArticleEntity {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(getBlogPost().getName())
-                .append(getArticle().getNumber())
                 .toHashCode();
     }
 

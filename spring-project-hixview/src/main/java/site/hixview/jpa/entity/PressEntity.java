@@ -36,7 +36,6 @@ public class PressEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         PressEntity press = (PressEntity) obj;
         return new EqualsBuilder()
-                .append(getKoreanName(), press.getKoreanName())
                 .append(getEnglishName(), press.getEnglishName())
                 .isEquals();
     }
@@ -44,7 +43,6 @@ public class PressEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
-                .append(getKoreanName())
                 .append(getEnglishName())
                 .toHashCode();
     }
