@@ -8,6 +8,9 @@ public final class ExceptionMessage {
     // ConversionFailedException
     public static final String CANNOT_CONVERT_TO_LOCAL_DATE = "Cannot convert the value to the type LocalDate: ";
 
+    // EntityExistsWithNumberException
+    public static final String ALREADY_EXISTED_ENTITY_WITH_NUMBER = "The entity that has the number already exists: ";
+
     // EntityNotFoundException
     public static final String CANNOT_FOUND_ENTITY_WITH_CODE = "Cannot find the entity that has the code: ";
 
@@ -22,4 +25,7 @@ public final class ExceptionMessage {
 
     // UnexpectedClassTypeException
     public static final String NOT_ENTITY_CLASS = "The class is not an entity class: ";
+
+    // Others
+    public static final String FOR_THE_CLASS_NAMED = ", for the class named ";
 }

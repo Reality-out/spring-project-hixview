@@ -4,5 +4,5 @@ public interface CrudAllowedService<T> extends Service<T> {
 
     T insert(T object);
 
-    T update(T from, T to);
+    T update(T object);
 }
