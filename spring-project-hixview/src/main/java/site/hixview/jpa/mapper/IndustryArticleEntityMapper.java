@@ -3,7 +3,6 @@ package site.hixview.jpa.mapper;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 import site.hixview.aggregate.domain.IndustryArticle;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.mapper.support.IndustryArticleEntityMapperSupport;
@@ -14,7 +13,7 @@ import site.hixview.jpa.repository.PressEntityRepository;
 
 import static site.hixview.aggregate.vo.WordCamel.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper
 public interface IndustryArticleEntityMapper extends IndustryArticleEntityMapperSupport {
     @Mapping(target = ARTICLE, ignore = true)
     @Mapping(target = PRESS, ignore = true)

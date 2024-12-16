@@ -1,6 +1,9 @@
 package site.hixview.jpa.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Context;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import site.hixview.aggregate.domain.FirstCategory;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.mapper.support.FirstCategoryEntityMapperSupport;
@@ -8,7 +11,7 @@ import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 
 import static site.hixview.aggregate.vo.WordCamel.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper
 public interface FirstCategoryEntityMapper extends FirstCategoryEntityMapperSupport {
     @BeanMapping(ignoreByDefault = true)
     FirstCategoryEntity toFirstCategoryEntity(FirstCategory firstCategory,

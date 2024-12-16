@@ -32,7 +32,6 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -42,22 +41,25 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.assertj:assertj-core'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	testCompileOnly 'org.projectlombok:lombok'
-	testImplementation(platform('org.junit:junit-bom:5.11.0'))
-	testAnnotationProcessor 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
 	testRuntimeOnly('org.junit.platform:junit-platform-launcher') {
 		because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
 	}
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.assertj:assertj-core'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testImplementation(platform('org.junit:junit-bom:5.11.0'))
 }
 
 tasks.withType(JavaCompile).configureEach {
 	options.compilerArgs += ["-parameters",
-							 "-Amapstruct.defaultComponentModel=spring"
+							 "-Amapstruct.defaultComponentModel=spring",
+							 "-Amapstruct.unmappedTargetPolicy=ERROR"
 	]
 }
 

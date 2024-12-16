@@ -3,7 +3,6 @@ package site.hixview.jpa.mapper;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 import site.hixview.aggregate.domain.Company;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.mapper.support.CompanyEntityMapperSupport;
@@ -12,7 +11,7 @@ import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
 import static site.hixview.aggregate.vo.WordCamel.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper
 public interface CompanyEntityMapper extends CompanyEntityMapperSupport {
     @Mapping(target = FIRST_CATEGORY, ignore = true)
     @Mapping(target = SECOND_CATEGORY, ignore = true)

@@ -1,7 +1,5 @@
 package site.hixview.support.jpa.executor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import site.hixview.support.jpa.util.ObjectEntityTestUtils;
@@ -14,8 +12,6 @@ public class SqlExecutor {
             .map(ObjectEntityTestUtils::getTestSchemaNameFromEntity).toArray(String[]::new);
     private final String[] noGeneratedIdSchemaNames = allEntityClassList.getLast().stream()
             .map(ObjectEntityTestUtils::getTestSchemaNameFromEntity).toArray(String[]::new);
-
-    private static final Logger log = LoggerFactory.getLogger(SqlExecutor.class);
 
     public void deleteAll(JdbcTemplate jdbcTemplate) {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, generatedIdSchemaNames);

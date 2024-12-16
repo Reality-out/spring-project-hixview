@@ -1,6 +1,9 @@
 package site.hixview.jpa.mapper;
 
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Context;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import site.hixview.aggregate.domain.IndustryArticleSecondCategory;
 import site.hixview.jpa.entity.IndustryArticleSecondCategoryEntity;
 import site.hixview.jpa.mapper.support.IndustryArticleSecondCategoryEntityMapperSupport;
@@ -9,7 +12,7 @@ import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
 import static site.hixview.aggregate.vo.WordCamel.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper
 public interface IndustryArticleSecondCategoryEntityMapper extends IndustryArticleSecondCategoryEntityMapperSupport {
     @BeanMapping(ignoreByDefault = true)
     IndustryArticleSecondCategoryEntity toIndustryArticleSecondCategoryEntity(IndustryArticleSecondCategory industryArticleSecondCategory,

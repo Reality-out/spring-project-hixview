@@ -1,9 +1,8 @@
 package site.hixview.support.jpa.postprocessor;
 
 import io.micrometer.common.lang.NonNullApi;
+import lombok.extern.slf4j.Slf4j;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -17,11 +16,10 @@ import org.springframework.util.ClassUtils;
 import java.util.Objects;
 
 @NonNullApi
+@Slf4j
 public class MockRepositoryBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     private static final String REPOSITORY_BASE_PACKAGE = "site.hixview.jpa.repository";
-
-    private static final Logger log = LoggerFactory.getLogger(MockRepositoryBeanFactoryPostProcessor.class);
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
