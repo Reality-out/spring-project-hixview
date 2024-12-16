@@ -1,10 +1,9 @@
 package site.hixview.jpa.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
@@ -20,6 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompanyEntityTestUtils {
 
     private final CompanyArticleCompanyEntityRepository companyArticleMapperRepository;
@@ -27,8 +27,6 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
     private final FirstCategoryEntityRepository firstCategoryRepository;
     private final SecondCategoryEntityRepository secondCategoryRepository;
     private final JdbcTemplate jdbcTemplate;
-
-    private static final Logger log = LoggerFactory.getLogger(CompanyArticleCompanyEntityRepositoryTest.class);
 
     @Autowired
     CompanyArticleCompanyEntityRepositoryTest(CompanyArticleCompanyEntityRepository companyArticleMapperRepository, CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryRepository, SecondCategoryEntityRepository secondCategoryRepository, JdbcTemplate jdbcTemplate) {

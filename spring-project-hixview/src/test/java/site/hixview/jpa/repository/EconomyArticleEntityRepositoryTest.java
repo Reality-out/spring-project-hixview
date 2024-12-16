@@ -1,10 +1,9 @@
 package site.hixview.jpa.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
@@ -21,6 +20,7 @@ import static site.hixview.aggregate.vo.WordSnake.ECONOMY_ARTICLE_SNAKE;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class EconomyArticleEntityRepositoryTest implements EconomyArticleEntityTestUtils {
 
     private final EconomyArticleEntityRepository economyArticleRepository;
@@ -28,8 +28,6 @@ class EconomyArticleEntityRepositoryTest implements EconomyArticleEntityTestUtil
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + ECONOMY_ARTICLE_SNAKE,
             TEST_TABLE_PREFIX + ARTICLE, TEST_TABLE_PREFIX + PRESS};
-
-    private static final Logger log = LoggerFactory.getLogger(EconomyArticleEntityRepositoryTest.class);
 
     @Autowired
     EconomyArticleEntityRepositoryTest(EconomyArticleEntityRepository economyArticleRepository, JdbcTemplate jdbcTemplate) {

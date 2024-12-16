@@ -1,5 +1,6 @@
 package site.hixview.jpa.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import static site.hixview.aggregate.vo.WordSnake.INDUSTRY_CATEGORY_SNAKE;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class IndustryCategoryEntityMapperTest implements IndustryCategoryTestUtils, IndustryCategoryEntityTestUtils {
 
     private final IndustryCategoryEntityRepository industryCategoryEntityRepository;

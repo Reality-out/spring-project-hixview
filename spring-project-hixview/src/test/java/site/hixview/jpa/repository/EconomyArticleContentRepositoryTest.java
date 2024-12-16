@@ -1,10 +1,9 @@
 package site.hixview.jpa.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import site.hixview.jpa.entity.EconomyArticleContentEntity;
@@ -17,12 +16,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntityTestUtils {
 
     private final EconomyArticleContentEntityRepository economyArticleMapperRepository;
     private final JdbcTemplate jdbcTemplate;
-
-    private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentRepositoryTest.class);
 
     @Autowired
     EconomyArticleContentRepositoryTest(EconomyArticleContentEntityRepository economyArticleMapperRepository, JdbcTemplate jdbcTemplate) {

@@ -1,10 +1,9 @@
 package site.hixview.jpa.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
@@ -20,14 +19,13 @@ import static site.hixview.aggregate.vo.WordSnake.BLOG_POST_SNAKE;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class BlogPostEntityRepositoryTest implements BlogPostEntityTestUtils {
 
     private final BlogPostEntityRepository blogPostRepository;
     private final JdbcTemplate jdbcTemplate;
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + BLOG_POST_SNAKE, TEST_TABLE_PREFIX + POST};
-
-    private static final Logger log = LoggerFactory.getLogger(BlogPostEntityRepositoryTest.class);
 
     @Autowired
     BlogPostEntityRepositoryTest(BlogPostEntityRepository blogPostRepository, JdbcTemplate jdbcTemplate) {

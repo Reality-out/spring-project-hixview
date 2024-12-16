@@ -1,5 +1,6 @@
 package site.hixview.aggregate.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -11,6 +12,7 @@ import site.hixview.support.spring.util.dto.BlogPostArticleDtoTestUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Execution(value = ExecutionMode.CONCURRENT)
+@Slf4j
 class BlogPostArticleMapperTest implements BlogPostArticleTestUtils, BlogPostArticleDtoTestUtils {
 
     private final BlogPostArticleMapperImpl mapperImpl = new BlogPostArticleMapperImpl();

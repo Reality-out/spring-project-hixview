@@ -1,10 +1,9 @@
 package site.hixview.jpa.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
@@ -29,6 +28,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTestUtils, EconomyArticleEntityTestUtils, ArticleEntityTestUtils, EconomyContentEntityTestUtils {
 
     private final EconomyArticleContentEntityRepository economyArticleContentEntityRepository;
@@ -42,8 +42,6 @@ class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTest
             TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE, TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE, TEST_TABLE_PREFIX + PRESS};
 
     private final EconomyArticleContentEntityMapperImpl mapperImpl = new EconomyArticleContentEntityMapperImpl();
-
-    private static final Logger log = LoggerFactory.getLogger(EconomyArticleContentEntityMapperTest.class);
 
     @Autowired
     public EconomyArticleContentEntityMapperTest(EconomyArticleContentEntityRepository economyArticleContentEntityRepository, EconomyArticleEntityRepository economyArticleEntityRepository, ArticleEntityRepository articleEntityRepository, EconomyContentEntityRepository economyContentEntityRepository, JdbcTemplate jdbcTemplate) {

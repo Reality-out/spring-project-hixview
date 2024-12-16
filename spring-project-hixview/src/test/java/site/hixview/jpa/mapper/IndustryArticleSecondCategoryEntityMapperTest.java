@@ -1,10 +1,9 @@
 package site.hixview.jpa.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
@@ -22,6 +21,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class IndustryArticleSecondCategoryEntityMapperTest implements IndustryArticleEntityTestUtils, ArticleEntityTestUtils, IndustryCategoryEntityTestUtils, FirstCategoryEntityTestUtils, SecondCategoryEntityTestUtils, PressEntityTestUtils, IndustryArticleTestUtils {
 
     private final IndustryArticleSecondCategoryEntityRepository IndustryArticleSecondCategoryEntityRepository;
@@ -38,8 +38,6 @@ class IndustryArticleSecondCategoryEntityMapperTest implements IndustryArticleEn
             TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE, TEST_TABLE_PREFIX + PRESS};
 
     private final IndustryArticleSecondCategoryEntityMapperImpl mapperImpl = new IndustryArticleSecondCategoryEntityMapperImpl();
-
-    private static final Logger log = LoggerFactory.getLogger(IndustryArticleSecondCategoryEntityMapperTest.class);
 
     @Autowired
     IndustryArticleSecondCategoryEntityMapperTest(IndustryArticleSecondCategoryEntityRepository IndustryArticleSecondCategoryEntityRepository, IndustryArticleEntityRepository industryArticleEntityRepository, ArticleEntityRepository articleEntityRepository, IndustryCategoryEntityRepository industryCategoryEntityRepository, FirstCategoryEntityRepository firstCategoryEntityRepository, SecondCategoryEntityRepository secondCategoryEntityRepository, JdbcTemplate jdbcTemplate) {

@@ -2,11 +2,10 @@ package site.hixview.jpa.repository;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
@@ -24,6 +23,7 @@ import static site.hixview.aggregate.vo.WordSnake.*;
 import static site.hixview.support.jpa.util.ObjectEntityTestUtils.TEST_TABLE_PREFIX;
 
 @OnlyRealRepositoryContext
+@Slf4j
 class CompanyEntityRepositoryTest implements CompanyEntityTestUtils {
 
     @PersistenceUnit
@@ -49,8 +49,6 @@ class CompanyEntityRepositoryTest implements CompanyEntityTestUtils {
     public void beforeEach() {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, relatedSchemas);
     }
-
-    private static final Logger log = LoggerFactory.getLogger(CompanyEntityRepositoryTest.class);
 
     @DisplayName("상장된 국가로 기업 찾기")
     @Test
