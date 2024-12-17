@@ -96,6 +96,21 @@ class CompanyArticleEntityRepositoryTest implements CompanyArticleEntityTestUtil
         assertThat(companyArticleRepository.findByImportance(article.getImportance())).isEqualTo(articleList);
     }
 
+    @DisplayName("언론사로 기업 기사 찾기")
+    @Test
+    void findByPressTest() {
+        // given
+        CompanyArticleEntity article = createCompanyArticleEntity();
+        CompanyArticleEntity anotherArticle = createAnotherCompanyArticleEntity();
+        List<CompanyArticleEntity> articleList = List.of(article, anotherArticle);
+
+        // when
+        companyArticleRepository.saveAll(articleList);
+
+        // then
+        assertThat(companyArticleRepository.findByPress(article.getPress())).isEqualTo(List.of(article));
+    }
+
     @DisplayName("번호로 기업 기사 찾기")
     @Test
     void findByNumberTest() {

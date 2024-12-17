@@ -96,6 +96,21 @@ class EconomyArticleEntityRepositoryTest implements EconomyArticleEntityTestUtil
         assertThat(economyArticleRepository.findByImportance(article.getImportance())).isEqualTo(articleList);
     }
 
+    @DisplayName("중요성으로 경제 기사 찾기")
+    @Test
+    void findByPressTest() {
+        // given
+        EconomyArticleEntity article = createEconomyArticleEntity();
+        EconomyArticleEntity anotherEconomyArticle = createAnotherEconomyArticleEntity();
+        List<EconomyArticleEntity> articleList = List.of(article, anotherEconomyArticle);
+
+        // when
+        economyArticleRepository.saveAll(articleList);
+
+        // then
+        assertThat(economyArticleRepository.findByPress(article.getPress())).isEqualTo(List.of(article));
+    }
+
     @DisplayName("번호로 경제 기사 찾기")
     @Test
     void findByNumberTest() {

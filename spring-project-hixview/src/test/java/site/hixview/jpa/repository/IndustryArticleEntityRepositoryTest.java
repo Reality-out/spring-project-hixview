@@ -95,6 +95,20 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
         assertThat(industryArticleRepository.findByImportance(article.getImportance())).isEqualTo(articleList);
     }
 
+    @DisplayName("언론사로 산업 기사 찾기")
+    @Test
+    void findByPressTest() {
+        // given
+        IndustryArticleEntity article = createIndustryArticleEntity();
+        List<IndustryArticleEntity> articleList = List.of(article);
+
+        // when
+        industryArticleRepository.save(article);
+
+        // then
+        assertThat(industryArticleRepository.findByPress(article.getPress())).isEqualTo(articleList);
+    }
+
     @DisplayName("번호로 산업 기사 찾기")
     @Test
     void findByNumberTest() {

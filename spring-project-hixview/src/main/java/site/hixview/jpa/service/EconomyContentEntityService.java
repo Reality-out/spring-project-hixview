@@ -92,8 +92,7 @@ public class EconomyContentEntityService implements EconomyContentService {
         }
         if (!eacEntityRepository.findByEconomyContent(economyContentEntityRepository.findByNumber(number).orElseThrow()).isEmpty()) {
             throw new DataIntegrityViolationException(getFormattedExceptionMessage(
-                    REMOVE_REFERENCED_ENTITY, NUMBER, number, EconomyContent.class
-            ));
+                    REMOVE_REFERENCED_ENTITY, NUMBER, number, EconomyContent.class));
         }
         economyContentEntityRepository.deleteByNumber(number);
     }

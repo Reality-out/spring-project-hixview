@@ -1,5 +1,7 @@
 package site.hixview.jpa.repository.method;
 
+import site.hixview.jpa.entity.PressEntity;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +17,8 @@ public interface BasicArticleEntityRepositoryFunction<T> {
     List<T> findBySubjectCountry(String subjectCountry);
 
     List<T> findByImportance(String importance);
+
+    List<T> findByPress(PressEntity press);
 
     Optional<T> findByNumber(Long number);
 
