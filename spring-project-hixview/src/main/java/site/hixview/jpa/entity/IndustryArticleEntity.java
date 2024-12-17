@@ -25,12 +25,12 @@ public class IndustryArticleEntity extends SuperArticleEntity {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = NUM)
+    @JoinColumn(name = NUM, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @BatchSize(size = 200)
     private ArticleEntity article;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
+    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private FirstCategoryEntity firstCategory;
 
     @Override

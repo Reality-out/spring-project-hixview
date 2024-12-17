@@ -24,11 +24,11 @@ public class BlogPostArticleEntity {
     private Long number;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = POST_NUM_SNAKE)
+    @JoinColumn(name = POST_NUM_SNAKE, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private BlogPostEntity blogPost;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = ARTI_NUM_SNAKE)
+    @JoinColumn(name = ARTI_NUM_SNAKE, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private ArticleEntity article;
 
     @Version

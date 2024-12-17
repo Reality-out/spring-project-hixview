@@ -22,11 +22,11 @@ public class CompanyArticleCompanyEntity {
     private Long number;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = ARTI_NUM_SNAKE)
+    @JoinColumn(name = ARTI_NUM_SNAKE, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private CompanyArticleEntity companyArticle;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = COMP_CODE_SNAKE)
+    @JoinColumn(name = COMP_CODE_SNAKE, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private CompanyEntity company;
 
     @Version

@@ -24,7 +24,7 @@ public class CompanyArticleEntity extends SuperArticleEntity {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = NUM)
+    @JoinColumn(name = NUM, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     @BatchSize(size = 200)
     private ArticleEntity article;
 

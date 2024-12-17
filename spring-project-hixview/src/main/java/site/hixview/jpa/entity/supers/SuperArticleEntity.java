@@ -36,6 +36,6 @@ public abstract class SuperArticleEntity {
     private String summary;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = PRESS_NUM_SNAKE, nullable = false)
+    @JoinColumn(name = PRESS_NUM_SNAKE, nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private PressEntity press;
 }

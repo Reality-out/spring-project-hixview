@@ -26,11 +26,11 @@ public class SecondCategoryEntity {
     private String englishName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = INDU_CATE_NUM_SNAKE, nullable = false)
+    @JoinColumn(name = INDU_CATE_NUM_SNAKE, nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private IndustryCategoryEntity industryCategory;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false)
+    @JoinColumn(name = FIR_CATE_NUM_SNAKE, nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private FirstCategoryEntity firstCategory;
 
     @Version

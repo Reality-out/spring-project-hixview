@@ -23,7 +23,7 @@ public class BlogPostEntity extends SuperPostEntity {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = NUM)
+    @JoinColumn(name = NUM, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private PostEntity post;
 
     @Column(nullable = false)

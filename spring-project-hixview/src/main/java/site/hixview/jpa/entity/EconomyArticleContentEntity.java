@@ -22,11 +22,11 @@ public class EconomyArticleContentEntity {
     private Long number;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = ARTI_NUM_SNAKE)
+    @JoinColumn(name = ARTI_NUM_SNAKE, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private EconomyArticleEntity economyArticle;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
-    @JoinColumn(name = ECON_CONT_NUM_SNAKE)
+    @JoinColumn(name = ECON_CONT_NUM_SNAKE, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private EconomyContentEntity economyContent;
 
     @Version
