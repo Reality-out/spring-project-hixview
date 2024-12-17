@@ -34,7 +34,7 @@ class SecondCategoryEntityMapperTest implements SecondCategoryTestUtils, SecondC
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE,
             TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE, TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 
-    private final SecondCategoryEntityMapperImpl mapperImpl = new SecondCategoryEntityMapperImpl();
+    private final SecondCategoryEntityMapper mapperImpl = new SecondCategoryEntityMapperImpl();
 
     @Autowired
     SecondCategoryEntityMapperTest(SecondCategoryEntityRepository secondCategoryEntityRepository, FirstCategoryEntityRepository firstCategoryEntityRepository, IndustryCategoryEntityRepository industryCategoryEntityRepository, JdbcTemplate jdbcTemplate) {

@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class PressMapperTest implements PressTestUtils, PressDtoTestUtils {
 
-    private final PressMapperImpl mapperImpl = new PressMapperImpl();
+    private final PressMapper mapperImpl = new PressMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 Press 일관성 보장")
     @Test

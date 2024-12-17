@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class IndustryCategoryMapperTest implements IndustryCategoryTestUtils, IndustryCategoryDtoTestUtils {
 
-    private final IndustryCategoryMapperImpl mapperImpl = new IndustryCategoryMapperImpl();
+    private final IndustryCategoryMapper mapperImpl = new IndustryCategoryMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 IndustryCategory 일관성 보장")
     @Test

@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class BlogPostArticleMapperTest implements BlogPostArticleTestUtils, BlogPostArticleDtoTestUtils {
 
-    private final BlogPostArticleMapperImpl mapperImpl = new BlogPostArticleMapperImpl();
+    private final BlogPostArticleMapper mapperImpl = new BlogPostArticleMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 BlogPostArticle 일관성 보장")
     @Test

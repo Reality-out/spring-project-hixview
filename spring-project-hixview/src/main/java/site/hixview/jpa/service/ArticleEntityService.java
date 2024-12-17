@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.Article;
 import site.hixview.aggregate.service.ArticleService;
 import site.hixview.jpa.entity.ArticleEntity;
+import site.hixview.jpa.mapper.ArticleEntityMapper;
 import site.hixview.jpa.mapper.ArticleEntityMapperImpl;
 import site.hixview.jpa.repository.ArticleEntityRepository;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class ArticleEntityService implements ArticleService {
 
     private final ArticleEntityRepository articleEntityRepository;
-    private final ArticleEntityMapperImpl mapper = new ArticleEntityMapperImpl();
+    private final ArticleEntityMapper mapper = new ArticleEntityMapperImpl();
 
     @Override
     public List<Article> getAll() {

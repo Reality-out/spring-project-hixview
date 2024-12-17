@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class CompanyArticleMapperTest implements CompanyArticleTestUtils, CompanyArticleDtoTestUtils {
 
-    private final CompanyArticleMapperImpl mapperImpl = new CompanyArticleMapperImpl();
+    private final CompanyArticleMapper mapperImpl = new CompanyArticleMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 CompanyArticle 일관성 보장")
     @Test

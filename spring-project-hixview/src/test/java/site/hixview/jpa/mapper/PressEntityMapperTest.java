@@ -25,7 +25,7 @@ class PressEntityMapperTest implements PressTestUtils, PressEntityTestUtils {
     private final PressEntityRepository pressEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final PressEntityMapperImpl mapperImpl = new PressEntityMapperImpl();
+    private final PressEntityMapper mapperImpl = new PressEntityMapperImpl();
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + PRESS};
 

@@ -39,6 +39,7 @@ public class IndustryArticleSecondCategoryEntity {
         if (obj == null || getClass() != obj.getClass()) return false;
         IndustryArticleSecondCategoryEntity industryArticleSecondCategoryMapper = (IndustryArticleSecondCategoryEntity) obj;
         return new EqualsBuilder()
+                .append(getIndustryArticle().getName(), industryArticleSecondCategoryMapper.getIndustryArticle().getName())
                 .append(getSecondCategory().getEnglishName(), industryArticleSecondCategoryMapper.getSecondCategory().getEnglishName())
                 .isEquals();
     }
@@ -46,6 +47,7 @@ public class IndustryArticleSecondCategoryEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
+                .append(getIndustryArticle().getName())
                 .append(getSecondCategory().getEnglishName())
                 .toHashCode();
     }
@@ -67,7 +69,7 @@ public class IndustryArticleSecondCategoryEntity {
         this.secondCategory = secondCategory;
     }
 
-    public void updateArticle(IndustryArticleEntity article) {
+    public void updateIndustryArticle(IndustryArticleEntity article) {
         this.industryArticle = article;
     }
 

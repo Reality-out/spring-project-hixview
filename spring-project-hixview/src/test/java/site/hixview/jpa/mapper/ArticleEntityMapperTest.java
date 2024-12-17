@@ -25,7 +25,7 @@ class ArticleEntityMapperTest implements ArticleTestUtils, ArticleEntityTestUtil
     private final ArticleEntityRepository articleEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final ArticleEntityMapperImpl mapperImpl = new ArticleEntityMapperImpl();
+    private final ArticleEntityMapper mapperImpl = new ArticleEntityMapperImpl();
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + ARTICLE};
 

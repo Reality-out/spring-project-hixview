@@ -25,7 +25,7 @@ class PostEntityMapperTest implements PostTestUtils, PostEntityTestUtils {
     private final PostEntityRepository postEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final PostEntityMapperImpl mapperImpl = new PostEntityMapperImpl();
+    private final PostEntityMapper mapperImpl = new PostEntityMapperImpl();
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + POST};
 

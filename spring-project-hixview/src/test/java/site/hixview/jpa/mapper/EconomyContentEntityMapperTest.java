@@ -27,7 +27,7 @@ class EconomyContentEntityMapperTest implements EconomyContentTestUtils, Economy
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + ECONOMY_CONTENT_SNAKE};
 
-    private final EconomyContentEntityMapperImpl mapperImpl = new EconomyContentEntityMapperImpl();
+    private final EconomyContentEntityMapper mapperImpl = new EconomyContentEntityMapperImpl();
 
     @Autowired
     EconomyContentEntityMapperTest(EconomyContentEntityRepository economyContentEntityRepository, JdbcTemplate jdbcTemplate) {

@@ -25,7 +25,7 @@ class SiteMemberEntityMapperTest implements SiteMemberTestUtils, SiteMemberEntit
     private final SiteMemberEntityRepository siteMemberEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final SiteMemberEntityMapperImpl mapperImpl = new SiteMemberEntityMapperImpl();
+    private final SiteMemberEntityMapper mapperImpl = new SiteMemberEntityMapperImpl();
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + SITE_MEMBER_SNAKE};
 

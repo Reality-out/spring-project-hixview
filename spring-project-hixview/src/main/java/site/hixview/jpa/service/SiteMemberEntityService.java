@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.SiteMember;
+import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.SiteMemberService;
 import site.hixview.jpa.entity.SiteMemberEntity;
+import site.hixview.jpa.mapper.SiteMemberEntityMapper;
 import site.hixview.jpa.mapper.SiteMemberEntityMapperImpl;
 import site.hixview.jpa.repository.SiteMemberEntityRepository;
 
@@ -17,7 +19,6 @@ import java.util.Optional;
 import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ID;
-import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,7 +26,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 public class SiteMemberEntityService implements SiteMemberService {
 
     private final SiteMemberEntityRepository siteMemberEntityRepository;
-    private final SiteMemberEntityMapperImpl mapper = new SiteMemberEntityMapperImpl();
+    private final SiteMemberEntityMapper mapper = new SiteMemberEntityMapperImpl();
 
     @Override
     public List<SiteMember> getAll() {
@@ -63,12 +64,11 @@ public class SiteMemberEntityService implements SiteMemberService {
         Long number = siteMember.getNumber();
         String id = siteMember.getId();
         if (siteMemberEntityRepository.existsByNumber(number)) {
-            throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, NUMBER, number, SiteMember.class));
+            throw new EntityExistsWithNumberException(number, SiteMemberEntity.class);
         }
         if (siteMemberEntityRepository.findById(id).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, ID, id, SiteMember.class));
+                    ALREADY_EXISTED_ENTITY, ID, id, SiteMemberEntity.class));
         }
         return mapper.toSiteMember(siteMemberEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
     }
@@ -79,11 +79,11 @@ public class SiteMemberEntityService implements SiteMemberService {
         Long number = siteMember.getNumber();
         String id = siteMember.getId();
         if (!siteMemberEntityRepository.existsByNumber(number)) {
-            throw new EntityNotFoundWithNumberException(number, SiteMember.class);
+            throw new EntityNotFoundWithNumberException(number, SiteMemberEntity.class);
         }
         if (siteMemberEntityRepository.findById(id).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, ID, id, SiteMember.class));
+                    ALREADY_EXISTED_ENTITY, ID, id, SiteMemberEntity.class));
         }
         return mapper.toSiteMember(siteMemberEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
     }
@@ -92,7 +92,7 @@ public class SiteMemberEntityService implements SiteMemberService {
     @Transactional
     public void removeByNumber(Long number) {
         if (!siteMemberEntityRepository.existsByNumber(number)) {
-            throw new EntityNotFoundWithNumberException(number, SiteMember.class);
+            throw new EntityNotFoundWithNumberException(number, SiteMemberEntity.class);
         }
         siteMemberEntityRepository.deleteByNumber(number);
     }

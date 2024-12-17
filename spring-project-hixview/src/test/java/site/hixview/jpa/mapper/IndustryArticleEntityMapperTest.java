@@ -32,7 +32,7 @@ class IndustryArticleEntityMapperTest implements IndustryArticleEntityTestUtils,
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final IndustryArticleEntityMapperImpl mapperImpl = new IndustryArticleEntityMapperImpl();
+    private final IndustryArticleEntityMapper mapperImpl = new IndustryArticleEntityMapperImpl();
 
     @Autowired
     IndustryArticleEntityMapperTest(IndustryArticleSecondCategoryEntityRepository IndustryArticleSecondCategoryEntityRepository, IndustryArticleEntityRepository industryArticleEntityRepository, ArticleEntityRepository articleEntityRepository, IndustryCategoryEntityRepository industryCategoryEntityRepository, FirstCategoryEntityRepository firstCategoryEntityRepository, PressEntityRepository pressEntityRepository, SecondCategoryEntityRepository secondCategoryEntityRepository, JdbcTemplate jdbcTemplate) {

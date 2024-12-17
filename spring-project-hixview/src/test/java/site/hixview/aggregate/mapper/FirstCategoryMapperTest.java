@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class FirstCategoryMapperTest implements FirstCategoryTestUtils, FirstCategoryDtoTestUtils {
 
-    private final FirstCategoryMapperImpl mapperImpl = new FirstCategoryMapperImpl();
+    private final FirstCategoryMapper mapperImpl = new FirstCategoryMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 FirstCategory 일관성 보장")
     @Test

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.IndustryCategory;
 import site.hixview.aggregate.service.IndustryCategoryService;
 import site.hixview.jpa.entity.IndustryCategoryEntity;
+import site.hixview.jpa.mapper.IndustryCategoryEntityMapper;
 import site.hixview.jpa.mapper.IndustryCategoryEntityMapperImpl;
 import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class IndustryCategoryEntityService implements IndustryCategoryService {
 
     private final IndustryCategoryEntityRepository industryCategoryEntityRepository;
-    private final IndustryCategoryEntityMapperImpl mapper = new IndustryCategoryEntityMapperImpl();
+    private final IndustryCategoryEntityMapper mapper = new IndustryCategoryEntityMapperImpl();
 
     @Override
     public List<IndustryCategory> getAll() {

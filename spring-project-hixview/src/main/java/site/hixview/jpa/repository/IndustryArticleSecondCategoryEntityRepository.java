@@ -8,18 +8,16 @@ import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.repository.method.BasicMapperEntityRepositoryFunction;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IndustryArticleSecondCategoryEntityRepository extends BasicMapperEntityRepositoryFunction<IndustryArticleSecondCategoryEntity, IndustryArticleEntity, SecondCategoryEntity>, JpaRepository<IndustryArticleSecondCategoryEntity, Long> {
     /**
      * SELECT IndustryArticleSecondCategoryMapper
      */
-    List<IndustryArticleSecondCategoryEntity> findByIndustryArticle(IndustryArticleEntity article);
+    List<IndustryArticleSecondCategoryEntity> findByIndustryArticle(IndustryArticleEntity industryArticle);
 
     List<IndustryArticleSecondCategoryEntity> findBySecondCategory(SecondCategoryEntity secondCategory);
 
-    /**
-     * CHECK IndustryArticleSecondCategoryMapper
-     */
-    boolean existsByNumber(Long number);
+    Optional<IndustryArticleSecondCategoryEntity> findByIndustryArticleAndSecondCategory(IndustryArticleEntity industryArticle, SecondCategoryEntity secondCategory);
 }

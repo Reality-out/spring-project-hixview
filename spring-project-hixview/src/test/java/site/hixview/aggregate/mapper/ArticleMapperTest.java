@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class ArticleMapperTest implements ArticleTestUtils, ArticleDtoTestUtils {
 
-    private final ArticleMapperImpl mapperImpl = new ArticleMapperImpl();
+    private final ArticleMapper mapperImpl = new ArticleMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 Article 일관성 보장")
     @Test

@@ -30,7 +30,7 @@ class FirstCategoryEntityMapperTest implements FirstCategoryTestUtils, FirstCate
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE,
             TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 
-    private final FirstCategoryEntityMapperImpl mapperImpl = new FirstCategoryEntityMapperImpl();
+    private final FirstCategoryEntityMapper mapperImpl = new FirstCategoryEntityMapperImpl();
 
     @Autowired
     FirstCategoryEntityMapperTest(IndustryCategoryEntityRepository industryCategoryEntityRepository, JdbcTemplate jdbcTemplate) {

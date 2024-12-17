@@ -13,9 +13,10 @@ public interface BlogPostService extends CrudAllowedServiceWithNumberId<BlogPost
 
     List<BlogPost> getByDateRange(LocalDate startDate, LocalDate endDate);
 
+    List<BlogPost> getByClassification(Classification classification);
+
     Optional<BlogPost> getByName(String name);
 
     Optional<BlogPost> getByLink(String link);
 
-    Optional<BlogPost> getByClassification(Classification classification);
 }

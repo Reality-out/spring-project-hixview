@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class PostMapperTest implements PostTestUtils, PostDtoTestUtils {
 
-    private final PostMapperImpl mapperImpl = new PostMapperImpl();
+    private final PostMapper mapperImpl = new PostMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 Post 일관성 보장")
     @Test

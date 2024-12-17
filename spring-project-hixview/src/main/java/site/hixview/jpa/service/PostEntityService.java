@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.Post;
 import site.hixview.aggregate.service.PostService;
 import site.hixview.jpa.entity.PostEntity;
+import site.hixview.jpa.mapper.PostEntityMapper;
 import site.hixview.jpa.mapper.PostEntityMapperImpl;
 import site.hixview.jpa.repository.PostEntityRepository;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class PostEntityService implements PostService {
 
     private final PostEntityRepository postEntityRepository;
-    private final PostEntityMapperImpl mapper = new PostEntityMapperImpl();
+    private final PostEntityMapper mapper = new PostEntityMapperImpl();
 
     @Override
     public List<Post> getAll() {

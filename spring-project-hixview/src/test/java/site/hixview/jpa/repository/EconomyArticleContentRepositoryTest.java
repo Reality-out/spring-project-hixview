@@ -72,6 +72,20 @@ class EconomyArticleContentRepositoryTest implements EconomyArticleContentEntity
         assertThat(economyArticleMapperRepository.findByEconomyContent(mapper.getEconomyContent())).isEqualTo(List.of(mapper));
     }
 
+    @DisplayName("경제 기사와 컨텐츠로 경제 기사와 컨텐츠 간 매퍼 찾기")
+    @Test
+    void findByEconomyArticleAndEconomyContentTest() {
+        // given
+        EconomyArticleContentEntity mapper = createEconomyArticleContentEntity();
+
+        // when
+        economyArticleMapperRepository.save(mapper);
+
+        // then
+        assertThat(economyArticleMapperRepository.findByEconomyArticleAndEconomyContent(
+                mapper.getEconomyArticle(), mapper.getEconomyContent()).orElseThrow()).isEqualTo(mapper);
+    }
+
     @DisplayName("번호로 경제 기사와 컨텐츠 간 매퍼 삭제")
     @Test
     void deleteByNumberTest() {

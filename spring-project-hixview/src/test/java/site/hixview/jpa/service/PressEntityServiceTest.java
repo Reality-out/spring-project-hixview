@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.Press;
+import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.PressEntity;
 import site.hixview.jpa.mapper.PressEntityMapperImpl;
@@ -157,10 +158,10 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         pressEntityService.insert(press);
 
         // then
-        EntityExistsException exception = assertThrows(EntityExistsException.class,
+        EntityExistsWithNumberException exception = assertThrows(EntityExistsWithNumberException.class,
                 () -> pressEntityService.insert(pressExistedNumber));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, NUMBER, press.getNumber(), Press.class));
+                ALREADY_EXISTED_ENTITY, NUMBER, press.getNumber(), PressEntity.class));
     }
 
     @DisplayName("이미 존재하는 영문명으로 언론사 삽입")
@@ -184,7 +185,7 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> pressEntityService.insert(pressExistedName));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                        ALREADY_EXISTED_ENTITY, ENGLISH_NAME, press.getEnglishName(), Press.class));
+                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, press.getEnglishName(), PressEntity.class));
     }
 
     @DisplayName("언론사 갱신")
@@ -231,7 +232,7 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class,
                 () -> pressEntityService.update(pressNotFoundNumber));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                CANNOT_FOUND_ENTITY, NUMBER, notFoundNumber, Press.class));
+                CANNOT_FOUND_ENTITY, NUMBER, notFoundNumber, PressEntity.class));
     }
 
     @DisplayName("이미 존재하는 영문명으로 언론사 갱신")
@@ -257,7 +258,7 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> pressEntityService.insert(pressExistedName));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, press.getEnglishName(), Press.class));
+                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, press.getEnglishName(), PressEntity.class));
     }
 
     @DisplayName("번호로 언론사 제거")
@@ -293,6 +294,6 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
 
         // then
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                CANNOT_FOUND_ENTITY, NUMBER, press.getNumber(), Press.class));
+                CANNOT_FOUND_ENTITY, NUMBER, press.getNumber(), PressEntity.class));
     }
 }

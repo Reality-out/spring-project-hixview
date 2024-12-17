@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class EconomyArticleMapperTest implements EconomyArticleTestUtils, EconomyArticleDtoTestUtils {
 
-    private final EconomyArticleMapperImpl mapperImpl = new EconomyArticleMapperImpl();
+    private final EconomyArticleMapper mapperImpl = new EconomyArticleMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 EconomyArticle 일관성 보장")
     @Test

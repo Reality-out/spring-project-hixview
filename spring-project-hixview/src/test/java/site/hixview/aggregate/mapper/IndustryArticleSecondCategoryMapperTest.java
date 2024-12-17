@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class IndustryArticleSecondCategoryMapperTest implements IndustryArticleSecondCategoryTestUtils, IndustryArticleSecondCategoryDtoTestUtils {
 
-    private final IndustryArticleSecondCategoryMapperImpl mapperImpl = new IndustryArticleSecondCategoryMapperImpl();
+    private final IndustryArticleSecondCategoryMapper mapperImpl = new IndustryArticleSecondCategoryMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 IndustryArticleSecondCategory 일관성 보장")
     @Test

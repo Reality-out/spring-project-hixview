@@ -69,7 +69,7 @@ public class CompanyArticleCompanyEntity {
         this.company = company;
     }
 
-    public void updateArticle(CompanyArticleEntity article) {
+    public void updateCompanyArticle(CompanyArticleEntity article) {
         this.companyArticle = article;
     }
 

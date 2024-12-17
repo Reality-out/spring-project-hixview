@@ -43,7 +43,7 @@ class BlogPostEntityMapperTest implements BlogPostTestUtils, BlogPostEntityTestU
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + BLOG_POST_ARTI_MAPPER_SNAKE,
             TEST_TABLE_PREFIX + BLOG_POST_SNAKE, TEST_TABLE_PREFIX + POST, TEST_TABLE_PREFIX + ARTICLE};
 
-    private final BlogPostEntityMapperImpl mapperImpl = new BlogPostEntityMapperImpl();
+    private final BlogPostEntityMapper mapperImpl = new BlogPostEntityMapperImpl();
 
     @Autowired
     BlogPostEntityMapperTest(ArticleEntityRepository articleEntityRepository, BlogPostEntityRepository blogPostEntityRepository, PostEntityRepository postEntityRepository, BlogPostArticleEntityRepository blogPostArticleEntityRepository, JdbcTemplate jdbcTemplate) {

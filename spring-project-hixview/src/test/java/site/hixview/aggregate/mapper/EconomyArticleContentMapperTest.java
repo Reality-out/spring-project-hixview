@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class EconomyArticleContentMapperTest implements EconomyArticleContentTestUtils, EconomyArticleContentDtoTestUtils {
 
-    private final EconomyArticleContentMapperImpl mapperImpl = new EconomyArticleContentMapperImpl();
+    private final EconomyArticleContentMapper mapperImpl = new EconomyArticleContentMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 EconomyArticleContent 일관성 보장")
     @Test

@@ -35,7 +35,7 @@ class CompanyEntityMapperTest implements CompanyEntityTestUtils {
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + COMPANY,
             TEST_TABLE_PREFIX + FIRST_CATEGORY_SNAKE, TEST_TABLE_PREFIX + SECOND_CATEGORY_SNAKE};
 
-    private final CompanyEntityMapperImpl mapperImpl = new CompanyEntityMapperImpl();
+    private final CompanyEntityMapper mapperImpl = new CompanyEntityMapperImpl();
 
     @Autowired
     public CompanyEntityMapperTest(CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryEntityRepository, SecondCategoryEntityRepository secondCategoryEntityRepository, JdbcTemplate jdbcTemplate) {

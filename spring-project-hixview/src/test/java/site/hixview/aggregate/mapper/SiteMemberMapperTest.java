@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class SiteMemberMapperTest implements SiteMemberTestUtils, SiteMemberDtoTestUtils {
 
-    private final SiteMemberMapperImpl mapperImpl = new SiteMemberMapperImpl();
+    private final SiteMemberMapper mapperImpl = new SiteMemberMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 SiteMember 일관성 보장")
     @Test

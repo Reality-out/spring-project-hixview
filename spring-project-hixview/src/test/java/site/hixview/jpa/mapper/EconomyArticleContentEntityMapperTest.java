@@ -33,7 +33,7 @@ class EconomyArticleContentEntityMapperTest implements EconomyArticleContentTest
     private final EconomyContentEntityRepository economyContentEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final EconomyArticleContentEntityMapperImpl mapperImpl = new EconomyArticleContentEntityMapperImpl();
+    private final EconomyArticleContentEntityMapper mapperImpl = new EconomyArticleContentEntityMapperImpl();
 
     @Autowired
     public EconomyArticleContentEntityMapperTest(EconomyArticleContentEntityRepository economyArticleContentEntityRepository, EconomyArticleEntityRepository economyArticleEntityRepository, ArticleEntityRepository articleEntityRepository, EconomyContentEntityRepository economyContentEntityRepository, JdbcTemplate jdbcTemplate) {

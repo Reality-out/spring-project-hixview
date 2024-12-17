@@ -27,5 +27,5 @@ public final class ExceptionMessage {
     public static final String NOT_ENTITY_CLASS = "The class is not an entity class: ";
 
     // Others
-    public static final String FOR_THE_CLASS = ", for the class ";
+    public static final String FOR_THE_CLASS = " for the class ";
 }

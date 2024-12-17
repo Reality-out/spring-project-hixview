@@ -72,6 +72,20 @@ class BlogPostArticleEntityRepositoryTest implements BlogPostArticleEntityTestUt
         assertThat(blogPostMapperRepository.findByArticle(mapper.getArticle())).isEqualTo(List.of(mapper));
     }
 
+    @DisplayName("블로그 포스트와 기사로 블로그 포스트와 기사 간 매퍼 찾기")
+    @Test
+    void findByBlogPostAndArticleTest() {
+        // given
+        BlogPostArticleEntity mapper = createBlogPostArticleEntity();
+
+        // when
+        blogPostMapperRepository.save(mapper);
+
+        // then
+        assertThat(blogPostMapperRepository.findByBlogPostAndArticle(
+                mapper.getBlogPost(), mapper.getArticle()).orElseThrow()).isEqualTo(mapper);
+    }
+
     @DisplayName("번호로 블로그 포스트와 기사 간 매퍼 삭제")
     @Test
     void deleteByNumberTest() {

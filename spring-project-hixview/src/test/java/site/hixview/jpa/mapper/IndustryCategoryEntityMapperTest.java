@@ -25,7 +25,7 @@ class IndustryCategoryEntityMapperTest implements IndustryCategoryTestUtils, Ind
     private final IndustryCategoryEntityRepository industryCategoryEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final IndustryCategoryEntityMapperImpl mapperImpl = new IndustryCategoryEntityMapperImpl();
+    private final IndustryCategoryEntityMapper mapperImpl = new IndustryCategoryEntityMapperImpl();
 
     private final String[] relatedSchemas = {TEST_TABLE_PREFIX + INDUSTRY_CATEGORY_SNAKE};
 

@@ -69,7 +69,7 @@ public class EconomyArticleContentEntity {
         this.economyContent = economyContent;
     }
 
-    public void updateArticle(EconomyArticleEntity article) {
+    public void updateEconomyArticle(EconomyArticleEntity article) {
         this.economyArticle = article;
     }
 

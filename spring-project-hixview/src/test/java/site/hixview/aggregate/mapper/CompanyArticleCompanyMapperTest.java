@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class CompanyArticleCompanyMapperTest implements CompanyArticleCompanyTestUtils, CompanyArticleCompanyDtoTestUtils {
 
-    private final CompanyArticleCompanyMapperImpl mapperImpl = new CompanyArticleCompanyMapperImpl();
+    private final CompanyArticleCompanyMapper mapperImpl = new CompanyArticleCompanyMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 CompanyArticleCompany 일관성 보장")
     @Test

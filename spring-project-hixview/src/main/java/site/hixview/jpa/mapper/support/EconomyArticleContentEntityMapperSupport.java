@@ -15,16 +15,16 @@ import site.hixview.jpa.repository.EconomyContentEntityRepository;
 public interface EconomyArticleContentEntityMapperSupport {
     @AfterMapping
     default EconomyArticleContentEntity afterMappingToEntity(
-            @MappingTarget EconomyArticleContentEntity entity, EconomyArticleContent economyArticleContent,
+            @MappingTarget EconomyArticleContentEntity ignoredEntity, EconomyArticleContent economyArticleContent,
             @Context EconomyArticleEntityRepository economyArticleRepository,
             @Context EconomyContentEntityRepository economyContentEntityRepository) {
         return new EconomyArticleContentEntity(economyArticleContent.getNumber(),
                 economyArticleRepository.findByNumber(economyArticleContent.getArticleNumber())
-                        .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getArticleNumber(),
-                                EconomyArticleEntity.class)),
+                        .orElseThrow(() -> new EntityNotFoundWithNumberException(
+                                economyArticleContent.getArticleNumber(), EconomyArticleEntity.class)),
                 economyContentEntityRepository.findByNumber(economyArticleContent.getContentNumber())
-                        .orElseThrow(() -> new EntityNotFoundWithNumberException(economyArticleContent.getContentNumber(),
-                                EconomyContentEntity.class)));
+                        .orElseThrow(() -> new EntityNotFoundWithNumberException(
+                                economyArticleContent.getContentNumber(), EconomyContentEntity.class)));
     }
 
     @Named("articleNumberToDomain")

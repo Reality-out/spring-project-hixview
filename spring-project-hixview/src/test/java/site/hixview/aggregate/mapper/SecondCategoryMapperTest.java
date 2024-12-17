@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class SecondCategoryMapperTest implements SecondCategoryTestUtils, SecondCategoryDtoTestUtils {
 
-    private final SecondCategoryMapperImpl mapperImpl = new SecondCategoryMapperImpl();
+    private final SecondCategoryMapper mapperImpl = new SecondCategoryMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 SecondCategory 일관성 보장")
     @Test

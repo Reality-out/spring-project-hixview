@@ -17,7 +17,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class BlogPostMapperTest implements BlogPostTestUtils, BlogPostDtoTestUtils {
 
-    private final BlogPostMapperImpl mapperImpl = new BlogPostMapperImpl();
+    private final BlogPostMapper mapperImpl = new BlogPostMapperImpl();
 
     @DisplayName("도메인 매퍼 사용 후 BlogPost 일관성 보장")
     @Test

@@ -6,12 +6,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.Press;
+import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.PressService;
 import site.hixview.jpa.entity.CompanyArticleEntity;
 import site.hixview.jpa.entity.EconomyArticleEntity;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.entity.PressEntity;
+import site.hixview.jpa.mapper.PressEntityMapper;
 import site.hixview.jpa.mapper.PressEntityMapperImpl;
 import site.hixview.jpa.repository.CompanyArticleEntityRepository;
 import site.hixview.jpa.repository.EconomyArticleEntityRepository;
@@ -36,7 +38,7 @@ public class PressEntityService implements PressService {
     private final CompanyArticleEntityRepository companyArticleEntityRepository;
     private final IndustryArticleEntityRepository industryArticleEntityRepository;
     private final EconomyArticleEntityRepository economyArticleEntityRepository;
-    private final PressEntityMapperImpl mapper = new PressEntityMapperImpl();
+    private final PressEntityMapper mapper = new PressEntityMapperImpl();
 
     @Override
     public List<Press> getAll() {
@@ -64,12 +66,11 @@ public class PressEntityService implements PressService {
         Long number = press.getNumber();
         String englishName = press.getEnglishName();
         if (pressEntityRepository.existsByNumber(number)) {
-            throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, NUMBER, number, Press.class));
+            throw new EntityExistsWithNumberException(number, PressEntity.class);
         }
         if (pressEntityRepository.findByEnglishName(englishName).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, Press.class));
+                    ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, PressEntity.class));
         }
         return mapper.toPress(pressEntityRepository.save(mapper.toPressEntity(press)));
     }
@@ -80,28 +81,14 @@ public class PressEntityService implements PressService {
         Long number = press.getNumber();
         String englishName = press.getEnglishName();
         if (!pressEntityRepository.existsByNumber(number)) {
-            throw new EntityNotFoundWithNumberException(number, Press.class);
+            throw new EntityNotFoundWithNumberException(number, PressEntity.class);
         }
         if (pressEntityRepository.findByEnglishName(englishName).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, Press.class));
+                    ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, PressEntity.class));
         }
         PressEntity pressEntity = pressEntityRepository.save(mapper.toPressEntity(press));
-        companyArticleEntityRepository.saveAll(
-                companyArticleEntityRepository.findByPress(pressEntity).stream().map(article -> {
-            article = CompanyArticleEntity.builder().companyArticle(article).press(pressEntity).build();
-            return article;
-        }).toList());
-        economyArticleEntityRepository.saveAll(
-                economyArticleEntityRepository.findByPress(pressEntity).stream().map(article -> {
-            article = EconomyArticleEntity.builder().economyArticle(article).press(pressEntity).build();
-            return article;
-        }).toList());
-        industryArticleEntityRepository.saveAll(
-                industryArticleEntityRepository.findByPress(pressEntity).stream().map(article -> {
-            article = IndustryArticleEntity.builder().industryArticle(article).press(pressEntity).build();
-            return article;
-        }).toList());
+        propagatePressEntity(pressEntity);
         return mapper.toPress(pressEntity);
     }
 
@@ -109,7 +96,7 @@ public class PressEntityService implements PressService {
     @Transactional
     public void removeByNumber(Long number) {
         if (!pressEntityRepository.existsByNumber(number)) {
-            throw new EntityNotFoundWithNumberException(number, Press.class);
+            throw new EntityNotFoundWithNumberException(number, PressEntity.class);
         }
         PressEntity pressEntity = pressEntityRepository.findByNumber(number).orElseThrow();
         if (!companyArticleEntityRepository.findByPress(pressEntity).isEmpty() ||
@@ -126,5 +113,23 @@ public class PressEntityService implements PressService {
             return Optional.empty();
         }
         return Optional.of(mapper.toPress(pressEntity));
+    }
+
+    private void propagatePressEntity(PressEntity pressEntity) {
+        companyArticleEntityRepository.saveAll(
+                companyArticleEntityRepository.findByPress(pressEntity).stream().map(article -> {
+                    article = CompanyArticleEntity.builder().companyArticle(article).press(pressEntity).build();
+                    return article;
+                }).toList());
+        economyArticleEntityRepository.saveAll(
+                economyArticleEntityRepository.findByPress(pressEntity).stream().map(article -> {
+                    article = EconomyArticleEntity.builder().economyArticle(article).press(pressEntity).build();
+                    return article;
+                }).toList());
+        industryArticleEntityRepository.saveAll(
+                industryArticleEntityRepository.findByPress(pressEntity).stream().map(article -> {
+                    article = IndustryArticleEntity.builder().industryArticle(article).press(pressEntity).build();
+                    return article;
+                }).toList());
     }
 }

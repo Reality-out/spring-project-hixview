@@ -92,6 +92,25 @@ class IndustryArticleSecondCategoryRepositoryTest implements IndustryArticleSeco
         assertThat(industryArticleMapperRepository.findBySecondCategory(mapper.getSecondCategory())).isEqualTo(List.of(mapper));
     }
 
+    @DisplayName("2차 업종으로 산업 기사와 2차 업종 간 매퍼 찾기")
+    @Test
+    void findByIndustryArticleAndSecondCategoryTest() {
+        // given
+        FirstCategoryEntity firstCategory = createFirstCategoryEntity();
+        firstCategoryRepository.save(firstCategory);
+        IndustryArticleEntity industryArticle = IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategory).build();
+        SecondCategoryEntity secondCategory = createSecondCategoryEntity();
+        secondCategory.updateFirstCategory(firstCategory);
+        IndustryArticleSecondCategoryEntity mapper = new IndustryArticleSecondCategoryEntity(industryArticle, secondCategory);
+
+        // when
+        industryArticleMapperRepository.save(mapper);
+
+        // then
+        assertThat(industryArticleMapperRepository.findByIndustryArticleAndSecondCategory(
+                mapper.getIndustryArticle(), mapper.getSecondCategory()).orElseThrow()).isEqualTo(mapper);
+    }
+
     @DisplayName("번호로 산업 기사와 2차 업종 간 매퍼 삭제")
     @Test
     void deleteByNumberTest() {

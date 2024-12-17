@@ -5,7 +5,6 @@ import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import site.hixview.aggregate.domain.FirstCategory;
-import site.hixview.aggregate.domain.IndustryCategory;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.IndustryCategoryEntity;
@@ -14,14 +13,14 @@ import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 public interface FirstCategoryEntityMapperSupport {
     @AfterMapping
     default FirstCategoryEntity afterMappingToEntity(
-            @MappingTarget FirstCategoryEntity firstCategoryEntity, FirstCategory firstCategory,
+            @MappingTarget FirstCategoryEntity ignoredFirstCategoryEntity, FirstCategory firstCategory,
             @Context IndustryCategoryEntityRepository industryCategoryRepository) {
         return new FirstCategoryEntity(firstCategory.getNumber(),
                 firstCategory.getKoreanName(),
                 firstCategory.getEnglishName(),
                 industryCategoryRepository.findByNumber(
                         firstCategory.getIndustryCategoryNumber()).orElseThrow(() ->
-                        new EntityNotFoundWithNumberException(firstCategory.getIndustryCategoryNumber(), IndustryCategory.class)));
+                        new EntityNotFoundWithNumberException(firstCategory.getIndustryCategoryNumber(), IndustryCategoryEntity.class)));
     }
 
     @Named("industryCategoryNumberToDomain")

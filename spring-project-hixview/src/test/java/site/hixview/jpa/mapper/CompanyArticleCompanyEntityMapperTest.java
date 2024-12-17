@@ -29,7 +29,7 @@ class CompanyArticleCompanyEntityMapperTest implements CompanyArticleCompanyTest
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final JdbcTemplate jdbcTemplate;
 
-    private final CompanyArticleCompanyEntityMapperImpl mapperImpl = new CompanyArticleCompanyEntityMapperImpl();
+    private final CompanyArticleCompanyEntityMapper mapperImpl = new CompanyArticleCompanyEntityMapperImpl();
 
     @Autowired
     CompanyArticleCompanyEntityMapperTest(CompanyArticleCompanyEntityRepository companyArticleCompanyEntityRepository, CompanyArticleEntityRepository companyArticleEntityRepository, ArticleEntityRepository articleEntityRepository, CompanyEntityRepository companyEntityRepository, FirstCategoryEntityRepository firstCategoryEntityRepository, SecondCategoryEntityRepository secondCategoryEntityRepository, JdbcTemplate jdbcTemplate) {

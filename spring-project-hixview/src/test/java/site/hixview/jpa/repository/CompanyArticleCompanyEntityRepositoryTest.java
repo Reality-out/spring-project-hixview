@@ -105,6 +105,28 @@ class CompanyArticleCompanyEntityRepositoryTest implements CompanyArticleCompany
         assertThat(companyArticleMapperRepository.findByCompany(mapper.getCompany())).isEqualTo(List.of(mapper));
     }
 
+    @DisplayName("기업 기사와 기업으로 기업 기사와 기업 간 매퍼 찾기")
+    @Test
+    void findByCompanyArticleAndCompanyTest() {
+        // given
+        CompanyEntity company = createCompanyEntity();
+        FirstCategoryEntity firstCategory = company.getFirstCategory();
+        SecondCategoryEntity secondCategory = company.getSecondCategory();
+        firstCategoryRepository.save(firstCategory);
+        secondCategory.updateFirstCategory(firstCategory);
+        secondCategoryRepository.save(secondCategory);
+        companyEntityRepository.save(company);
+        CompanyArticleCompanyEntity mapper = createCompanyArticleCompanyEntity();
+        mapper.updateCompany(company);
+
+        // when
+        companyArticleMapperRepository.save(mapper);
+
+        // then
+        assertThat(companyArticleMapperRepository.findByCompanyArticleAndCompany(
+                mapper.getCompanyArticle(), mapper.getCompany()).orElseThrow()).isEqualTo(mapper);
+    }
+
     @DisplayName("번호로 기업 기사와 기업 간 매퍼 삭제")
     @Test
     void deleteByNumberTest() {

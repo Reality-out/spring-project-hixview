@@ -38,7 +38,7 @@ class EconomyArticleEntityMapperTest implements EconomyArticleEntityTestUtils, E
             TEST_TABLE_PREFIX + ECONOMY_ARTICLE_SNAKE, TEST_TABLE_PREFIX + ARTICLE,
             TEST_TABLE_PREFIX + ECONOMY_CONTENT_SNAKE, TEST_TABLE_PREFIX + PRESS};
 
-    private final EconomyArticleEntityMapperImpl mapperImpl = new EconomyArticleEntityMapperImpl();
+    private final EconomyArticleEntityMapper mapperImpl = new EconomyArticleEntityMapperImpl();
 
     @Autowired
     EconomyArticleEntityMapperTest(EconomyArticleContentEntityRepository economyArticleContentEntityRepository, EconomyArticleEntityRepository economyArticleEntityRepository, ArticleEntityRepository articleEntityRepository, PressEntityRepository pressEntityRepository, EconomyContentEntityRepository economyContentEntityRepository, JdbcTemplate jdbcTemplate) {
