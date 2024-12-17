@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.SiteMember;
-import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.SiteMemberEntity;
 import site.hixview.jpa.mapper.SiteMemberEntityMapperImpl;
@@ -24,7 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.*;
+import static site.hixview.aggregate.vo.WordCamel.ID;
+import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 
 @OnlyRealServiceContext
 @Slf4j
@@ -175,11 +177,10 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         siteMemberEntityService.insert(siteMember);
 
         // then
-        EntityExistsWithNumberException exception = assertThrows(EntityExistsWithNumberException.class,
+        EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> siteMemberEntityService.insert(siteMemberExistedNumber));
-        assertThat(exception.getMessage()).isEqualTo(
-                ALREADY_EXISTED_ENTITY_WITH_NUMBER + siteMember.getNumber() +
-                        FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                ALREADY_EXISTED_ENTITY, NUMBER, siteMember.getNumber(), SiteMember.class));
     }
 
     @DisplayName("이미 존재하는 ID로 사이트 회원 삽입")
@@ -202,9 +203,8 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         // then
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> siteMemberEntityService.insert(siteMemberExistedName));
-        assertThat(exception.getMessage()).isEqualTo(
-                ALREADY_EXISTED_ENTITY_WITH_ID + siteMember.getId() +
-                        FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                ALREADY_EXISTED_ENTITY, ID, siteMember.getId(), SiteMember.class));
     }
 
     @DisplayName("사이트 회원 갱신")
@@ -250,9 +250,8 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         // then
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class,
                 () -> siteMemberEntityService.update(siteMemberNotFoundNumber));
-        assertThat(exception.getMessage()).isEqualTo(
-                CANNOT_FOUND_ENTITY_WITH_NUMBER + notFoundNumber +
-                        FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                CANNOT_FOUND_ENTITY, NUMBER, notFoundNumber, SiteMember.class));
     }
 
     @DisplayName("이미 존재하는 Id로 사이트 회원 갱신")
@@ -277,9 +276,8 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         // then
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> siteMemberEntityService.insert(siteMemberExistedName));
-        assertThat(exception.getMessage()).isEqualTo(
-                ALREADY_EXISTED_ENTITY_WITH_ID + siteMember.getId() +
-                        FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                ALREADY_EXISTED_ENTITY, ID, siteMember.getId(), SiteMember.class));
     }
 
     @DisplayName("번호로 사이트 회원 제거")
@@ -314,8 +312,7 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
                 () -> siteMemberEntityService.removeByNumber(siteMember.getNumber()));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo(
-                CANNOT_FOUND_ENTITY_WITH_NUMBER + siteMember.getNumber() +
-                        FOR_THE_CLASS_NAMED + SiteMember.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                CANNOT_FOUND_ENTITY, NUMBER, siteMember.getNumber(), SiteMember.class));
     }
 }

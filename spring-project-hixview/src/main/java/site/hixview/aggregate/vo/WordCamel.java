@@ -10,6 +10,7 @@ public final class WordCamel {
     public static final String BLOG_POST = "blogPost";
     public static final String BLOG_POST_ARTICLE = "blogPostArticle";
     public static final String CLASSIFICATION = "classification";
+    public static final String CODE = "code";
     public static final String COMPANY = "company";
     public static final String COMPANY_ARTICLE = "companyArticle";
     public static final String COMPANY_ARTICLE_COMPANY = "companyArticleCompany";
@@ -19,8 +20,10 @@ public final class WordCamel {
     public static final String ECONOMY_ARTICLE = "economyArticle";
     public static final String ECONOMY_ARTICLE_CONTENT = "economyArticleContent";
     public static final String ECONOMY_CONTENT = "economyContent";
+    public static final String ENGLISH_NAME = "englishName";
     public static final String FIRST_CATEGORY = "firstCategory";
     public static final String FIRST_CATEGORY_NUMBER = "firstCategoryNumber";
+    public static final String ID = "id";
     public static final String IMPORTANCE = "importance";
     public static final String INDUSTRY_ARTICLE = "industryArticle";
     public static final String INDUSTRY_ARTICLE_SECOND_CATEGORY = "industryArticleSecondCategory";
@@ -30,6 +33,7 @@ public final class WordCamel {
     public static final String MAPPED_COMPANY_CODES = "mappedCompanyCodes";
     public static final String MAPPED_ECONOMY_CONTENT_NUMBERS = "mappedEconomyContentNumbers";
     public static final String MAPPED_SECOND_CATEGORY_NUMBERS = "mappedSecondCategoryNumbers";
+    public static final String NAME = "name";
     public static final String NUM = "num";
     public static final String NUMBER = "number";
     public static final String POST = "post";

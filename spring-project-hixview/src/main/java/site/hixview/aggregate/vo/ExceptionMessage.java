@@ -8,21 +8,14 @@ public final class ExceptionMessage {
     // ConversionFailedException
     public static final String CANNOT_CONVERT_TO_LOCAL_DATE = "Cannot convert the value to the type LocalDate: ";
 
+    // DataIntegrityViolationException
+    public static final String REMOVE_REFERENCED_ENTITY = "Cannot remove the entity by the value. It is referenced by other entities: ";
+
     // EntityExistsException
-    public static final String ALREADY_EXISTED_ENTITY_WITH_ID = "The entity that has the ID already exists: ";
-
-    // EntityExistsWithNameException
-    public static final String ALREADY_EXISTED_ENTITY_WITH_ENGLISH_NAME = "The entity that has the english name already exists: ";
-    public static final String ALREADY_EXISTED_ENTITY_WITH_NAME = "The entity that has the name already exists: ";
-
-    // EntityExistsWithNumberException
-    public static final String ALREADY_EXISTED_ENTITY_WITH_NUMBER = "The entity that has the number already exists: ";
+    public static final String ALREADY_EXISTED_ENTITY = "The entity that has the value already exists: ";
 
     // EntityNotFoundException
-    public static final String CANNOT_FOUND_ENTITY_WITH_CODE = "Cannot find the entity that has the code: ";
-
-    // EntityNotFoundWithNumberException
-    public static final String CANNOT_FOUND_ENTITY_WITH_NUMBER = "Cannot find the entity that has the number: ";
+    public static final String CANNOT_FOUND_ENTITY = "Cannot find the entity that has the value: ";
 
     // RuntimeJsonMappingException
     public static final String CANNOT_MAP_TO_JSON = "Cannot map the value to JSON: ";
@@ -34,5 +27,5 @@ public final class ExceptionMessage {
     public static final String NOT_ENTITY_CLASS = "The class is not an entity class: ";
 
     // Others
-    public static final String FOR_THE_CLASS_NAMED = ", for the class named ";
+    public static final String FOR_THE_CLASS = ", for the class ";
 }

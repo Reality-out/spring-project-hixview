@@ -1,12 +1,11 @@
 package site.hixview.jpa.service;
 
+import jakarta.persistence.EntityExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.aggregate.domain.EconomyContent;
-import site.hixview.aggregate.error.EntityExistsWithNameException;
-import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.EconomyContentEntity;
 import site.hixview.jpa.mapper.EconomyContentEntityMapperImpl;
@@ -24,7 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.*;
+import static site.hixview.aggregate.vo.WordCamel.NAME;
+import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 
 @OnlyRealServiceContext
 @Slf4j
@@ -136,11 +138,10 @@ class EconomyContentEntityServiceTest implements EconomyContentEntityTestUtils, 
         economyContentEntityService.insert(economyContent);
 
         // then
-        EntityExistsWithNumberException exception = assertThrows(EntityExistsWithNumberException.class,
+        EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> economyContentEntityService.insert(economyContentExistedNumber));
-        assertThat(exception.getMessage()).isEqualTo(
-                ALREADY_EXISTED_ENTITY_WITH_NUMBER + economyContent.getNumber() +
-                        FOR_THE_CLASS_NAMED + EconomyContent.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                ALREADY_EXISTED_ENTITY, NUMBER, economyContent.getNumber(), EconomyContent.class));
     }
 
     @DisplayName("이미 존재하는 이름으로 경제 컨텐츠 삽입")
@@ -161,11 +162,10 @@ class EconomyContentEntityServiceTest implements EconomyContentEntityTestUtils, 
         economyContentEntityService.insert(economyContent);
 
         // then
-        EntityExistsWithNameException exception = assertThrows(EntityExistsWithNameException.class,
+        EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> economyContentEntityService.insert(economyContentExistedName));
-        assertThat(exception.getMessage()).isEqualTo(
-                ALREADY_EXISTED_ENTITY_WITH_NAME + name +
-                        FOR_THE_CLASS_NAMED + EconomyContent.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                ALREADY_EXISTED_ENTITY, NAME, name, EconomyContent.class));
     }
 
     @DisplayName("경제 컨텐츠 갱신")
@@ -211,9 +211,8 @@ class EconomyContentEntityServiceTest implements EconomyContentEntityTestUtils, 
         // then
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class,
                 () -> economyContentEntityService.update(economyContentNotFoundNumber));
-        assertThat(exception.getMessage()).isEqualTo(
-                CANNOT_FOUND_ENTITY_WITH_NUMBER + notFoundNumber +
-                        FOR_THE_CLASS_NAMED + EconomyContent.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                CANNOT_FOUND_ENTITY, NUMBER, notFoundNumber, EconomyContent.class));
     }
 
     @DisplayName("이미 존재하는 이름으로 경제 컨텐츠 갱신")
@@ -236,11 +235,10 @@ class EconomyContentEntityServiceTest implements EconomyContentEntityTestUtils, 
         economyContentEntityService.insert(economyContent);
 
         // then
-        EntityExistsWithNameException exception = assertThrows(EntityExistsWithNameException.class,
+        EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> economyContentEntityService.insert(economyContentExistedName));
-        assertThat(exception.getMessage()).isEqualTo(
-                ALREADY_EXISTED_ENTITY_WITH_NAME + economyContent.getName() +
-                        FOR_THE_CLASS_NAMED + EconomyContent.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                ALREADY_EXISTED_ENTITY, NAME, economyContent.getName(), EconomyContent.class));
     }
 
     @DisplayName("번호로 경제 컨텐츠 제거")
@@ -275,8 +273,7 @@ class EconomyContentEntityServiceTest implements EconomyContentEntityTestUtils, 
                 () -> economyContentEntityService.removeByNumber(economyContent.getNumber()));
 
         // then
-        assertThat(exception.getMessage()).isEqualTo(
-                CANNOT_FOUND_ENTITY_WITH_NUMBER + economyContent.getNumber() +
-                        FOR_THE_CLASS_NAMED + EconomyContent.class.getSimpleName());
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                CANNOT_FOUND_ENTITY, NUMBER, economyContent.getNumber(), EconomyContent.class));
     }
 }

@@ -1,11 +1,10 @@
 package site.hixview.jpa.service;
 
+import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.Press;
-import site.hixview.aggregate.error.EntityExistsWithNameException;
-import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.PressService;
 import site.hixview.jpa.entity.PressEntity;
@@ -15,8 +14,10 @@ import site.hixview.jpa.repository.PressEntityRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY_WITH_ENGLISH_NAME;
-import static site.hixview.aggregate.vo.ExceptionMessage.FOR_THE_CLASS_NAMED;
+import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
+import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
+import static site.hixview.aggregate.vo.WordCamel.ENGLISH_NAME;
+import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 
 @Service
 @Transactional(readOnly = true)
@@ -52,11 +53,12 @@ public class PressEntityService implements PressService {
         Long number = press.getNumber();
         String englishName = press.getEnglishName();
         if (pressEntityRepository.existsByNumber(number)) {
-            throw new EntityExistsWithNumberException(number, Press.class);
+            throw new EntityExistsException(getFormattedExceptionMessage(
+                    ALREADY_EXISTED_ENTITY, NUMBER, number, Press.class));
         }
         if (pressEntityRepository.findByEnglishName(englishName).isPresent()) {
-            throw new EntityExistsWithNameException(ALREADY_EXISTED_ENTITY_WITH_ENGLISH_NAME + englishName
-                    + FOR_THE_CLASS_NAMED + Press.class.getSimpleName());
+            throw new EntityExistsException(getFormattedExceptionMessage(
+                    ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, Press.class));
         }
         return mapper.toPress(pressEntityRepository.save(mapper.toPressEntity(press)));
     }
@@ -70,8 +72,8 @@ public class PressEntityService implements PressService {
             throw new EntityNotFoundWithNumberException(number, Press.class);
         }
         if (pressEntityRepository.findByEnglishName(englishName).isPresent()) {
-            throw new EntityExistsWithNameException(ALREADY_EXISTED_ENTITY_WITH_ENGLISH_NAME + englishName
-                    + FOR_THE_CLASS_NAMED + Press.class.getSimpleName());
+            throw new EntityExistsException(getFormattedExceptionMessage(
+                    ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, Press.class));
         }
         return mapper.toPress(pressEntityRepository.save(mapper.toPressEntity(press)));
     }

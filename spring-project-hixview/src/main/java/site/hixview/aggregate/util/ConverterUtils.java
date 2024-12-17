@@ -13,7 +13,8 @@ public abstract class ConverterUtils {
 
     public static LocalDate convertFromStringToLocalDate(String string) {
         if (!string.matches(NUMBER_REGEX) || string.length() != 6) {
-            throw new ConversionFailedException(TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(LocalDate.class), string, new IllegalArgumentException(CANNOT_CONVERT_TO_LOCAL_DATE + string));
+            throw new ConversionFailedException(TypeDescriptor.valueOf(String.class), TypeDescriptor.valueOf(LocalDate.class),
+                    string, new IllegalArgumentException(CANNOT_CONVERT_TO_LOCAL_DATE + string));
         }
         return LocalDate.of(Integer.parseInt(YEAR_VALUE + string.substring(0, 2)),
                 Integer.parseInt(string.substring(2, 4)),

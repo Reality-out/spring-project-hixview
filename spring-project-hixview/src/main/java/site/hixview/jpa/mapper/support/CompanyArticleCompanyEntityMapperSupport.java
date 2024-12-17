@@ -13,7 +13,9 @@ import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.repository.CompanyArticleEntityRepository;
 import site.hixview.jpa.repository.CompanyEntityRepository;
 
-import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY_WITH_CODE;
+import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
+import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY;
+import static site.hixview.aggregate.vo.WordCamel.CODE;
 
 public interface CompanyArticleCompanyEntityMapperSupport {
     @AfterMapping
@@ -27,8 +29,8 @@ public interface CompanyArticleCompanyEntityMapperSupport {
                 companyArticleEntityRepository.findByNumber(articleNumber).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(articleNumber, CompanyArticleEntity.class)),
                 companyEntityRepository.findByCode(companyCode).orElseThrow(() ->
-                        new EntityNotFoundException(CANNOT_FOUND_ENTITY_WITH_CODE + companyCode +
-                                ", for the class named: " + CompanyEntity.class.getSimpleName())));
+                        new EntityNotFoundException(getFormattedExceptionMessage(
+                                CANNOT_FOUND_ENTITY, CODE, companyCode, CompanyEntity.class))));
     }
 
     @Named("articleNumberToDomain")
