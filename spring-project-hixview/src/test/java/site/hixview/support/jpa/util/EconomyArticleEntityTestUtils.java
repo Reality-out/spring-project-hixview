@@ -32,4 +32,17 @@ public interface EconomyArticleEntityTestUtils extends ArticleEntityTestUtils, P
                 .press(createAnotherPressEntity())
                 .build();
     }
+
+    default EconomyArticleEntity createNumberedEconomyArticleEntity() {
+        return EconomyArticleEntity.builder()
+                .article(createNumberedArticleEntity())
+                .name(anotherEconomyArticle.getName())
+                .link(anotherEconomyArticle.getLink())
+                .date(anotherEconomyArticle.getDate())
+                .subjectCountry(anotherEconomyArticle.getSubjectCountry().name())
+                .importance(anotherEconomyArticle.getImportance().name())
+                .summary(anotherEconomyArticle.getSummary())
+                .press(createAnotherPressEntity())
+                .build();
+    }
 }

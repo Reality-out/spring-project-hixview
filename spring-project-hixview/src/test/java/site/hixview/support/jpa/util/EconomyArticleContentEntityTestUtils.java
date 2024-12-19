@@ -10,4 +10,8 @@ public interface EconomyArticleContentEntityTestUtils extends EconomyArticleEnti
     default EconomyArticleContentEntity createAnotherEconomyArticleContentEntity() {
         return new EconomyArticleContentEntity(createAnotherEconomyArticleEntity(), createAnotherEconomyContentEntity());
     }
+
+    default EconomyArticleContentEntity createNumberedEconomyArticleContentEntity() {
+        return new EconomyArticleContentEntity(createNumberedEconomyArticleEntity(), createNumberedEconomyContentEntity());
+    }
 }

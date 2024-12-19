@@ -5,13 +5,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import site.hixview.aggregate.domain.Press;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.PressEntity;
+import site.hixview.jpa.mapper.PressEntityMapper;
 import site.hixview.jpa.mapper.PressEntityMapperImpl;
+import site.hixview.jpa.repository.CompanyArticleEntityRepository;
+import site.hixview.jpa.repository.EconomyArticleEntityRepository;
+import site.hixview.jpa.repository.IndustryArticleEntityRepository;
 import site.hixview.jpa.repository.PressEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealServiceContext;
+import site.hixview.support.jpa.util.CompanyArticleEntityTestUtils;
+import site.hixview.support.jpa.util.EconomyArticleEntityTestUtils;
+import site.hixview.support.jpa.util.IndustryArticleEntityTestUtils;
 import site.hixview.support.jpa.util.PressEntityTestUtils;
 import site.hixview.support.spring.util.PressTestUtils;
 
@@ -31,15 +39,21 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 
 @OnlyRealServiceContext
 @Slf4j
-class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
+class PressEntityServiceTest implements PressEntityTestUtils, CompanyArticleEntityTestUtils, IndustryArticleEntityTestUtils, EconomyArticleEntityTestUtils, PressTestUtils {
 
+    private final CompanyArticleEntityRepository caEntityRepository;
+    private final IndustryArticleEntityRepository iaEntityRepository;
+    private final EconomyArticleEntityRepository eaEntityRepository;
     private final PressEntityService pressEntityService;
     private final PressEntityRepository pressEntityRepository;
 
-    private final PressEntityMapperImpl mapper = new PressEntityMapperImpl();
+    private final PressEntityMapper mapper = new PressEntityMapperImpl();
 
     @Autowired
-    PressEntityServiceTest(PressEntityService pressEntityService, PressEntityRepository pressEntityRepository) {
+    PressEntityServiceTest(CompanyArticleEntityRepository caEntityRepository, IndustryArticleEntityRepository iaEntityRepository, EconomyArticleEntityRepository eaEntityRepository, PressEntityService pressEntityService, PressEntityRepository pressEntityRepository) {
+        this.caEntityRepository = caEntityRepository;
+        this.iaEntityRepository = iaEntityRepository;
+        this.eaEntityRepository = eaEntityRepository;
         this.pressEntityService = pressEntityService;
         this.pressEntityRepository = pressEntityRepository;
     }
@@ -48,10 +62,9 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void getAllTest() {
         // given
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), press.getEnglishName());
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false);
-        when(pressEntityRepository.findByEnglishName(press.getEnglishName())).thenReturn(Optional.empty());
+        PressEntity pressEntity = createNumberedPressEntity();
+        when(pressEntityRepository.existsByNumber(pressEntity.getNumber())).thenReturn(false);
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
         when(pressEntityRepository.findAll()).thenReturn(List.of(pressEntity));
 
@@ -66,11 +79,10 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void getByNumberTest() {
         // given
-        Long number = press.getNumber();
-        PressEntity pressEntity = new PressEntity(
-                number, press.getKoreanName(), press.getEnglishName());
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false);
-        when(pressEntityRepository.findByEnglishName(press.getEnglishName())).thenReturn(Optional.empty());
+        PressEntity pressEntity = createNumberedPressEntity();
+        Long number = pressEntity.getNumber();
+        when(pressEntityRepository.existsByNumber(pressEntity.getNumber())).thenReturn(false);
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
         when(pressEntityRepository.findByNumber(number)).thenReturn(Optional.of(pressEntity));
 
@@ -85,12 +97,11 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void getByKoreanNameTest() {
         // given
-        String koreanName = press.getKoreanName();
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), koreanName, press.getEnglishName());
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false);
+        PressEntity pressEntity = createNumberedPressEntity();
+        String koreanName = pressEntity.getKoreanName();
+        when(pressEntityRepository.existsByNumber(pressEntity.getNumber())).thenReturn(false);
         when(pressEntityRepository.findByKoreanName(koreanName)).thenReturn(Optional.of(pressEntity));
-        when(pressEntityRepository.findByEnglishName(press.getEnglishName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
 
         // when
@@ -104,27 +115,24 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void getByEnglishNameTest() {
         // given
-        String englishName = press.getEnglishName();
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), englishName);
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false);
-        when(pressEntityRepository.findByEnglishName(englishName))
-                .thenReturn(Optional.empty()).thenReturn(Optional.of(pressEntity));
+        PressEntity pressEntity = createNumberedPressEntity();
+        String englishName = pressEntity.getEnglishName();
+        when(pressEntityRepository.existsByNumber(pressEntity.getNumber())).thenReturn(false);
+        when(pressEntityRepository.findByEnglishName(englishName)).thenReturn(Optional.empty()).thenReturn(Optional.of(pressEntity));
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
 
         // when
         pressEntityService.insert(press);
 
         // then
-        assertThat(pressEntityService.getByEnglishName(press.getEnglishName()).orElseThrow()).isEqualTo(press);
+        assertThat(pressEntityService.getByEnglishName(englishName).orElseThrow()).isEqualTo(press);
     }
 
     @DisplayName("언론사 삽입")
     @Test
     void insertTest() {
         // given
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), press.getEnglishName());
+        PressEntity pressEntity = createNumberedPressEntity();
         PressEntity anotherPressEntity = new PressEntity(
                 anotherPress.getNumber(), anotherPress.getKoreanName(), anotherPress.getEnglishName());
         when(pressEntityRepository.existsByNumber(any())).thenReturn(false);
@@ -144,14 +152,13 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void insertAlreadyExistedNumberTest() {
         // given
-        Long number = press.getNumber();
-        PressEntity pressEntity = new PressEntity(
-                number, press.getKoreanName(), press.getEnglishName());
+        PressEntity pressEntity = createNumberedPressEntity();
+        Long number = pressEntity.getNumber();
         PressEntity pressEntityExistedNumber = new PressEntity(
                 number, anotherPress.getKoreanName(), anotherPress.getEnglishName());
         Press pressExistedNumber = mapper.toPress(pressEntityExistedNumber);
         when(pressEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
-        when(pressEntityRepository.findByEnglishName(press.getEnglishName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
 
         // when
@@ -161,18 +168,17 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         EntityExistsWithNumberException exception = assertThrows(EntityExistsWithNumberException.class,
                 () -> pressEntityService.insert(pressExistedNumber));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, NUMBER, press.getNumber(), PressEntity.class));
+                ALREADY_EXISTED_ENTITY, NUMBER, number, PressEntity.class));
     }
 
     @DisplayName("이미 존재하는 영문명으로 언론사 삽입")
     @Test
     void insertAlreadyExistedEnglishNameTest() {
         // given
-        String englishName = press.getEnglishName();
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), englishName);
-        PressEntity pressEntityExistedEnglishName = new PressEntity(
-                anotherPress.getNumber(), anotherPress.getKoreanName(), englishName);
+        PressEntity pressEntity = createNumberedPressEntity();
+        String englishName = pressEntity.getEnglishName();
+        PressEntity pressEntityExistedEnglishName = createAnotherPressEntity();
+        pressEntityExistedEnglishName.updateEnglishName(englishName);
         Press pressExistedName = mapper.toPress(pressEntityExistedEnglishName);
         when(pressEntityRepository.existsByNumber(any())).thenReturn(false);
         when(pressEntityRepository.findByEnglishName(englishName)).thenReturn(Optional.empty()).thenReturn(Optional.of(pressEntity));
@@ -185,19 +191,18 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> pressEntityService.insert(pressExistedName));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, press.getEnglishName(), PressEntity.class));
+                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, PressEntity.class));
     }
 
     @DisplayName("언론사 갱신")
     @Test
     void updateTest() {
         // given
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), press.getEnglishName());
-        Press updatedPress = Press.builder()
-                .press(anotherPress).number(press.getNumber()).build();
+        PressEntity pressEntity = createNumberedPressEntity();
+        Long number = pressEntity.getNumber();
+        Press updatedPress = Press.builder().press(anotherPress).number(number).build();
         PressEntity updatedPressEntity = mapper.toPressEntity(updatedPress);
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false).thenReturn(true);
+        when(pressEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
         when(pressEntityRepository.findByEnglishName(any())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity).thenReturn(updatedPressEntity);
         when(pressEntityRepository.findAll()).thenReturn(List.of(updatedPressEntity));
@@ -214,15 +219,14 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void updateNotFoundNumberTest() {
         // given
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), press.getEnglishName());
+        PressEntity pressEntity = createNumberedPressEntity();
         Long notFoundNumber = anotherPress.getNumber();
         PressEntity pressEntityNotFoundNumber = new PressEntity(
                 notFoundNumber, anotherPress.getKoreanName(), anotherPress.getEnglishName());
         Press pressNotFoundNumber = mapper.toPress(pressEntityNotFoundNumber);
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false);
+        when(pressEntityRepository.existsByNumber(pressEntity.getNumber())).thenReturn(false);
         when(pressEntityRepository.existsByNumber(notFoundNumber)).thenReturn(false);
-        when(pressEntityRepository.findByEnglishName(press.getEnglishName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
 
         // when
@@ -239,11 +243,10 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void updateAlreadyExistedEnglishNameTest() {
         // given
-        String englishName = press.getEnglishName();
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), englishName);
-        PressEntity pressEntityExistedNumber = new PressEntity(
-                anotherPress.getNumber(), anotherPress.getKoreanName(), englishName);
+        PressEntity pressEntity = createNumberedPressEntity();
+        String englishName = pressEntity.getEnglishName();
+        PressEntity pressEntityExistedNumber = createAnotherPressEntity();
+        pressEntityExistedNumber.updateEnglishName(englishName);
         Press pressExistedName = mapper.toPress(pressEntityExistedNumber);
         when(pressEntityRepository.existsByNumber(press.getNumber()))
                 .thenReturn(false).thenReturn(true);
@@ -258,19 +261,22 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> pressEntityService.insert(pressExistedName));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, press.getEnglishName(), PressEntity.class));
+                ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, PressEntity.class));
     }
 
     @DisplayName("번호로 언론사 제거")
     @Test
     void removeByNumberTest() {
         // given
-        Long number = press.getNumber();
-        PressEntity pressEntity = new PressEntity(
-                press.getNumber(), press.getKoreanName(), press.getEnglishName());
+        PressEntity pressEntity = createNumberedPressEntity();
+        Long number = pressEntity.getNumber();
         when(pressEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
-        when(pressEntityRepository.findByEnglishName(press.getEnglishName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity);
+        when(pressEntityRepository.findByNumber(number)).thenReturn(Optional.of(pressEntity));
+        when(caEntityRepository.findByPress(pressEntity)).thenReturn(Collections.emptyList());
+        when(iaEntityRepository.findByPress(pressEntity)).thenReturn(Collections.emptyList());
+        when(eaEntityRepository.findByPress(pressEntity)).thenReturn(Collections.emptyList());
         doNothing().when(pressEntityRepository).deleteByNumber(number);
         when(pressEntityRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -286,14 +292,57 @@ class PressEntityServiceTest implements PressEntityTestUtils, PressTestUtils {
     @Test
     void removeByNotFoundNumberTest() {
         // given
-        when(pressEntityRepository.existsByNumber(press.getNumber())).thenReturn(false);
+        Long number = press.getNumber();
+        when(pressEntityRepository.existsByNumber(number)).thenReturn(false);
 
         // when
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class,
-                () -> pressEntityService.removeByNumber(press.getNumber()));
+                () -> pressEntityService.removeByNumber(number));
 
         // then
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                CANNOT_FOUND_ENTITY, NUMBER, press.getNumber(), PressEntity.class));
+                CANNOT_FOUND_ENTITY, NUMBER, number, PressEntity.class));
+    }
+
+    @DisplayName("번호로 기사에 포함된 언론사 제거")
+    @Test
+    void removeByNumberInArticleTest() {
+        // given
+        PressEntity pressEntity = createNumberedPressEntity();
+        Long number = pressEntity.getNumber();
+        when(pressEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.save(any())).thenReturn(pressEntity);
+        when(pressEntityRepository.findByNumber(number)).thenReturn(Optional.of(pressEntity));
+        when(caEntityRepository.findByPress(pressEntity)).thenReturn(List.of(createCompanyArticleEntity()));
+
+        // when - 1
+        pressEntityService.insert(press);
+
+        // then - 1
+        DataIntegrityViolationException exception = assertThrows(
+                DataIntegrityViolationException.class, () -> pressEntityService.removeByNumber(number));
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                REMOVE_REFERENCED_ENTITY, NUMBER, number, PressEntity.class));
+
+        // when - 2
+        when(caEntityRepository.findByPress(pressEntity)).thenReturn(Collections.emptyList());
+        when(iaEntityRepository.findByPress(pressEntity)).thenReturn(List.of(createIndustryArticleEntity()));
+
+        // then - 2
+        exception = assertThrows(
+                DataIntegrityViolationException.class, () -> pressEntityService.removeByNumber(number));
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                REMOVE_REFERENCED_ENTITY, NUMBER, number, PressEntity.class));
+
+        // when - 3
+        when(iaEntityRepository.findByPress(pressEntity)).thenReturn(Collections.emptyList());
+        when(eaEntityRepository.findByPress(pressEntity)).thenReturn(List.of(createEconomyArticleEntity()));
+
+        // then - 3
+        exception = assertThrows(
+                DataIntegrityViolationException.class, () -> pressEntityService.removeByNumber(number));
+        assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
+                REMOVE_REFERENCED_ENTITY, NUMBER, number, PressEntity.class));
     }
 }

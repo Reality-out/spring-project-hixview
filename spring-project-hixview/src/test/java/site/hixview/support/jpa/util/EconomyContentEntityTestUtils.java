@@ -14,4 +14,8 @@ public interface EconomyContentEntityTestUtils extends EconomyContentTestUtils {
     default EconomyContentEntity createAnotherEconomyContentEntity() {
         return new EconomyContentEntity(anotherEconomyContent.getName());
     }
+
+    default EconomyContentEntity createNumberedEconomyContentEntity() {
+        return new EconomyContentEntity(economyContent.getNumber(), economyContent.getName());
+    }
 }

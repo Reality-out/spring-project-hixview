@@ -12,6 +12,7 @@ import site.hixview.aggregate.service.FirstCategoryService;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.IndustryArticleEntity;
+import site.hixview.jpa.mapper.FirstCategoryEntityMapper;
 import site.hixview.jpa.mapper.FirstCategoryEntityMapperImpl;
 import site.hixview.jpa.repository.*;
 
@@ -34,7 +35,7 @@ public class FirstCategoryEntityService implements FirstCategoryService {
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final CompanyEntityRepository companyEntityRepository;
     private final IndustryArticleEntityRepository industryArticleEntityRepository;
-    private final FirstCategoryEntityMapperImpl mapper = new FirstCategoryEntityMapperImpl();
+    private final FirstCategoryEntityMapper mapper = new FirstCategoryEntityMapperImpl();
 
     @Override
     public List<FirstCategory> getAll() {

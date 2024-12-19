@@ -14,4 +14,8 @@ public interface PressEntityTestUtils extends PressTestUtils {
     default PressEntity createAnotherPressEntity() {
         return new PressEntity(anotherPress.getKoreanName(), anotherPress.getEnglishName());
     }
+
+    default PressEntity createNumberedPressEntity() {
+        return new PressEntity(press.getNumber(), press.getKoreanName(), press.getEnglishName());
+    }
 }

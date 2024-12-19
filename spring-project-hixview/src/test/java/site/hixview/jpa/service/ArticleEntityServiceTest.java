@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.repository.ArticleEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealServiceContext;
+import site.hixview.support.jpa.util.ArticleEntityTestUtils;
 import site.hixview.support.spring.util.ArticleTestUtils;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @OnlyRealServiceContext
 @Slf4j
-class ArticleEntityServiceTest implements ArticleTestUtils {
+class ArticleEntityServiceTest implements ArticleEntityTestUtils, ArticleTestUtils {
 
     private final ArticleEntityService articleEntityService;
     private final ArticleEntityRepository articleEntityRepository;
@@ -33,7 +34,7 @@ class ArticleEntityServiceTest implements ArticleTestUtils {
     @Test
     void getAllTest() {
         // given
-        ArticleEntity articleEntity = new ArticleEntity(article.getNumber(), 1L);
+        ArticleEntity articleEntity = createNumberedArticleEntity();
         when(articleEntityRepository.save(any())).thenReturn(articleEntity);
         when(articleEntityRepository.findAll()).thenReturn(List.of(articleEntity));
 
@@ -48,8 +49,8 @@ class ArticleEntityServiceTest implements ArticleTestUtils {
     @Test
     void getByNumberTest() {
         // given
-        Long number = article.getNumber();
-        ArticleEntity articleEntity = new ArticleEntity(number, 1L);
+        ArticleEntity articleEntity = createNumberedArticleEntity();
+        Long number = articleEntity.getNumber();
         when(articleEntityRepository.save(any())).thenReturn(articleEntity);
         when(articleEntityRepository.findByNumber(number)).thenReturn(Optional.of(articleEntity));
 

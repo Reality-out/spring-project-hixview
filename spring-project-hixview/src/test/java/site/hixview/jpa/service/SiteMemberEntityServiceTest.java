@@ -9,6 +9,7 @@ import site.hixview.aggregate.domain.SiteMember;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.SiteMemberEntity;
+import site.hixview.jpa.mapper.SiteMemberEntityMapper;
 import site.hixview.jpa.mapper.SiteMemberEntityMapperImpl;
 import site.hixview.jpa.repository.SiteMemberEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealServiceContext;
@@ -36,7 +37,7 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     private final SiteMemberEntityService siteMemberEntityService;
     private final SiteMemberEntityRepository siteMemberEntityRepository;
 
-    private final SiteMemberEntityMapperImpl mapper = new SiteMemberEntityMapperImpl();
+    private final SiteMemberEntityMapper mapper = new SiteMemberEntityMapperImpl();
 
     @Autowired
     SiteMemberEntityServiceTest(SiteMemberEntityService siteMemberEntityService, SiteMemberEntityRepository siteMemberEntityRepository) {
@@ -48,10 +49,9 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void getAllTest() {
         // given
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false);
-        when(siteMemberEntityRepository.findById(siteMember.getId())).thenReturn(Optional.empty());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false);
+        when(siteMemberEntityRepository.findById(siteMemberEntity.getId())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
         when(siteMemberEntityRepository.findAll()).thenReturn(List.of(siteMemberEntity));
 
@@ -62,15 +62,32 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         assertThat(siteMemberEntityService.getAll()).isEqualTo(List.of(siteMember));
     }
 
+    @DisplayName("이름으로 사이트 회원 획득")
+    @Test
+    void getByNameTest() {
+        // given
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        String name = siteMemberEntity.getName();
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false);
+        when(siteMemberEntityRepository.findById(siteMemberEntity.getId())).thenReturn(Optional.empty());
+        when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
+        when(siteMemberEntityRepository.findByName(name)).thenReturn(List.of(siteMemberEntity));
+
+        // when
+        siteMemberEntityService.insert(siteMember);
+
+        // then
+        assertThat(siteMemberEntityService.getByName(name)).isEqualTo(List.of(siteMember));
+    }
+
     @DisplayName("번호로 사이트 회원 획득")
     @Test
     void getByNumberTest() {
         // given
-        Long number = siteMember.getNumber();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        Long number = siteMemberEntity.getNumber();
         when(siteMemberEntityRepository.existsByNumber(number)).thenReturn(false);
-        when(siteMemberEntityRepository.findById(siteMember.getId())).thenReturn(Optional.empty());
+        when(siteMemberEntityRepository.findById(siteMemberEntity.getId())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
         when(siteMemberEntityRepository.findByNumber(number)).thenReturn(Optional.of(siteMemberEntity));
 
@@ -85,9 +102,8 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void getByIdTest() {
         // given
-        String id = siteMember.getId();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), id, siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        String id = siteMemberEntity.getId();
         when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false);
         when(siteMemberEntityRepository.findById(id))
                 .thenReturn(Optional.empty()).thenReturn(Optional.of(siteMemberEntity));
@@ -104,11 +120,10 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void getByIdAndPwTest() {
         // given
-        String id = siteMember.getId();
-        String pw = siteMember.getPw();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), id, pw, siteMember.getName(), siteMember.getEmail());
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false);
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        String id = siteMemberEntity.getId();
+        String pw = siteMemberEntity.getPw();
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false);
         when(siteMemberEntityRepository.findById(id)).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.findByIdAndPw(id, pw)).thenReturn(Optional.of(siteMemberEntity));
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
@@ -124,10 +139,9 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void getByEmailTest() {
         // given
-        String email = siteMember.getEmail();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), email);
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false);
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        String email = siteMemberEntity.getEmail();
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false);
         when(siteMemberEntityRepository.findById(email)).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.findByEmail(email)).thenReturn(Optional.of(siteMemberEntity));
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
@@ -143,8 +157,7 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void insertTest() {
         // given
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
         SiteMemberEntity anotherSiteMemberEntity = new SiteMemberEntity(
                 anotherSiteMember.getNumber(), anotherSiteMember.getId(), anotherSiteMember.getPw(), anotherSiteMember.getName(), anotherSiteMember.getEmail());
         when(siteMemberEntityRepository.existsByNumber(any())).thenReturn(false);
@@ -164,14 +177,13 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void insertAlreadyExistedNumberTest() {
         // given
-        Long number = siteMember.getNumber();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        Long number = siteMemberEntity.getNumber();
         SiteMemberEntity siteMemberEntityExistedNumber = new SiteMemberEntity(
-                number, siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+                number, anotherSiteMember.getId(), anotherSiteMember.getPw(), anotherSiteMember.getName(), anotherSiteMember.getEmail());
         SiteMember siteMemberExistedNumber = mapper.toSiteMember(siteMemberEntityExistedNumber);
         when(siteMemberEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
-        when(siteMemberEntityRepository.findById(siteMember.getId())).thenReturn(Optional.empty());
+        when(siteMemberEntityRepository.findById(siteMemberEntity.getId())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
 
         // when
@@ -181,18 +193,17 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         EntityExistsWithNumberException exception = assertThrows(EntityExistsWithNumberException.class,
                 () -> siteMemberEntityService.insert(siteMemberExistedNumber));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, NUMBER, siteMember.getNumber(), SiteMemberEntity.class));
+                ALREADY_EXISTED_ENTITY, NUMBER, number, SiteMemberEntity.class));
     }
 
     @DisplayName("이미 존재하는 ID로 사이트 회원 삽입")
     @Test
     void insertAlreadyExistedIdTest() {
         // given
-        String id = siteMember.getId();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), id, siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
-        SiteMemberEntity siteMemberEntityExistedId = new SiteMemberEntity(
-                anotherSiteMember.getNumber(), id, anotherSiteMember.getPw(), anotherSiteMember.getName(), anotherSiteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        String id = siteMemberEntity.getId();
+        SiteMemberEntity siteMemberEntityExistedId = createAnotherSiteMemberEntity();
+        siteMemberEntityExistedId.updateId(id);
         SiteMember siteMemberExistedName = mapper.toSiteMember(siteMemberEntityExistedId);
         when(siteMemberEntityRepository.existsByNumber(any())).thenReturn(false);
         when(siteMemberEntityRepository.findById(id)).thenReturn(Optional.empty()).thenReturn(Optional.of(siteMemberEntity));
@@ -205,19 +216,18 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> siteMemberEntityService.insert(siteMemberExistedName));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, ID, siteMember.getId(), SiteMemberEntity.class));
+                ALREADY_EXISTED_ENTITY, ID, id, SiteMemberEntity.class));
     }
 
     @DisplayName("사이트 회원 갱신")
     @Test
     void updateTest() {
         // given
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
         SiteMember updatedSiteMember = SiteMember.builder()
-                .siteMember(anotherSiteMember).number(siteMember.getNumber()).build();
+                .siteMember(anotherSiteMember).number(siteMemberEntity.getNumber()).build();
         SiteMemberEntity updatedSiteMemberEntity = mapper.toSiteMemberEntity(updatedSiteMember);
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false).thenReturn(true);
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false).thenReturn(true);
         when(siteMemberEntityRepository.findById((String) any())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity).thenReturn(updatedSiteMemberEntity);
         when(siteMemberEntityRepository.findAll()).thenReturn(List.of(updatedSiteMemberEntity));
@@ -234,15 +244,13 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void updateNotFoundNumberTest() {
         // given
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
-        Long notFoundNumber = anotherSiteMember.getNumber();
-        SiteMemberEntity siteMemberEntityNotFoundNumber = new SiteMemberEntity(
-                notFoundNumber, siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        SiteMemberEntity siteMemberEntityNotFoundNumber = createAnotherSiteMemberEntity();
+        Long notFoundNumber = siteMemberEntityNotFoundNumber.getNumber();
         SiteMember siteMemberNotFoundNumber = mapper.toSiteMember(siteMemberEntityNotFoundNumber);
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false);
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false);
         when(siteMemberEntityRepository.existsByNumber(notFoundNumber)).thenReturn(false);
-        when(siteMemberEntityRepository.findById(siteMember.getId())).thenReturn(Optional.empty());
+        when(siteMemberEntityRepository.findById(siteMemberEntity.getId())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
 
         // when
@@ -259,13 +267,12 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void updateAlreadyExistedEnglishNameTest() {
         // given
-        String id = siteMember.getId();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), id, siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
-        SiteMemberEntity siteMemberEntityExistedNumber = new SiteMemberEntity(
-                anotherSiteMember.getNumber(), id, anotherSiteMember.getPw(), anotherSiteMember.getName(), anotherSiteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        String id = siteMemberEntity.getId();
+        SiteMemberEntity siteMemberEntityExistedNumber = createAnotherSiteMemberEntity();
+        siteMemberEntityExistedNumber.updateId(id);
         SiteMember siteMemberExistedName = mapper.toSiteMember(siteMemberEntityExistedNumber);
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber()))
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber()))
                 .thenReturn(false).thenReturn(true);
         when(siteMemberEntityRepository.findById(id))
                 .thenReturn(Optional.empty()).thenReturn(Optional.of(siteMemberEntity));
@@ -278,18 +285,17 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         EntityExistsException exception = assertThrows(EntityExistsException.class,
                 () -> siteMemberEntityService.insert(siteMemberExistedName));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, ID, siteMember.getId(), SiteMemberEntity.class));
+                ALREADY_EXISTED_ENTITY, ID, id, SiteMemberEntity.class));
     }
 
     @DisplayName("번호로 사이트 회원 제거")
     @Test
     void removeByNumberTest() {
         // given
-        Long number = siteMember.getNumber();
-        SiteMemberEntity siteMemberEntity = new SiteMemberEntity(
-                siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+        SiteMemberEntity siteMemberEntity = createNumberedSiteMemberEntity();
+        Long number = siteMemberEntity.getNumber();
         when(siteMemberEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
-        when(siteMemberEntityRepository.findById(siteMember.getId())).thenReturn(Optional.empty());
+        when(siteMemberEntityRepository.findById(siteMemberEntity.getId())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity);
         doNothing().when(siteMemberEntityRepository).deleteByNumber(number);
         when(siteMemberEntityRepository.findAll()).thenReturn(Collections.emptyList());
@@ -306,14 +312,15 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
     @Test
     void removeByNotFoundNumberTest() {
         // given
-        when(siteMemberEntityRepository.existsByNumber(siteMember.getNumber())).thenReturn(false);
+        Long number = siteMember.getNumber();
+        when(siteMemberEntityRepository.existsByNumber(number)).thenReturn(false);
 
         // when
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class,
-                () -> siteMemberEntityService.removeByNumber(siteMember.getNumber()));
+                () -> siteMemberEntityService.removeByNumber(number));
 
         // then
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                CANNOT_FOUND_ENTITY, NUMBER, siteMember.getNumber(), SiteMemberEntity.class));
+                CANNOT_FOUND_ENTITY, NUMBER, number, SiteMemberEntity.class));
     }
 }

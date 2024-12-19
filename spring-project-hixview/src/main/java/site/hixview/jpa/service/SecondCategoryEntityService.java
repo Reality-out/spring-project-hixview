@@ -11,6 +11,7 @@ import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.SecondCategoryService;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
+import site.hixview.jpa.mapper.SecondCategoryEntityMapper;
 import site.hixview.jpa.mapper.SecondCategoryEntityMapperImpl;
 import site.hixview.jpa.repository.*;
 
@@ -33,7 +34,7 @@ public class SecondCategoryEntityService implements SecondCategoryService {
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final IndustryArticleSecondCategoryEntityRepository iascEntityRepository;
     private final CompanyEntityRepository companyEntityRepository;
-    private final SecondCategoryEntityMapperImpl mapper = new SecondCategoryEntityMapperImpl();
+    private final SecondCategoryEntityMapper mapper = new SecondCategoryEntityMapperImpl();
 
     @Override
     public List<SecondCategory> getAll() {

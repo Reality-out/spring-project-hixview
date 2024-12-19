@@ -14,4 +14,8 @@ public interface SiteMemberEntityTestUtils extends SiteMemberTestUtils {
     default SiteMemberEntity createAnotherSiteMemberEntity() {
         return new SiteMemberEntity(anotherSiteMember.getId(), anotherSiteMember.getPw(), anotherSiteMember.getName(), anotherSiteMember.getEmail());
     }
+
+    default SiteMemberEntity createNumberedSiteMemberEntity() {
+        return new SiteMemberEntity(siteMember.getNumber(), siteMember.getId(), siteMember.getPw(), siteMember.getName(), siteMember.getEmail());
+    }
 }

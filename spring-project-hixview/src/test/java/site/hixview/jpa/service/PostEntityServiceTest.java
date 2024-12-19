@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import site.hixview.jpa.entity.PostEntity;
 import site.hixview.jpa.repository.PostEntityRepository;
 import site.hixview.support.jpa.context.OnlyRealServiceContext;
+import site.hixview.support.jpa.util.PostEntityTestUtils;
 import site.hixview.support.spring.util.PostTestUtils;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 
 @OnlyRealServiceContext
 @Slf4j
-class PostEntityServiceTest implements PostTestUtils {
+class PostEntityServiceTest implements PostEntityTestUtils, PostTestUtils {
 
     private final PostEntityService postEntityService;
     private final PostEntityRepository postEntityRepository;
@@ -33,7 +34,7 @@ class PostEntityServiceTest implements PostTestUtils {
     @Test
     void getAllTest() {
         // given
-        PostEntity postEntity = new PostEntity(post.getNumber(), 1L);
+        PostEntity postEntity = createNumberedPostEntity();
         when(postEntityRepository.save(any())).thenReturn(postEntity);
         when(postEntityRepository.findAll()).thenReturn(List.of(postEntity));
 
@@ -48,8 +49,8 @@ class PostEntityServiceTest implements PostTestUtils {
     @Test
     void getByNumberTest() {
         // given
-        Long number = post.getNumber();
-        PostEntity postEntity = new PostEntity(number, 1L);
+        PostEntity postEntity = createNumberedPostEntity();
+        Long number = postEntity.getNumber();
         when(postEntityRepository.save(any())).thenReturn(postEntity);
         when(postEntityRepository.findByNumber(number)).thenReturn(Optional.of(postEntity));
 

@@ -34,8 +34,7 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getAllTest() {
         // given
-        IndustryCategoryEntity industryCategoryEntity = new IndustryCategoryEntity(
-                industryCategory.getNumber(), industryCategory.getKoreanName(), industryCategory.getEnglishName());
+        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findAll()).thenReturn(List.of(industryCategoryEntity));
 
@@ -50,9 +49,8 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getByNumberTest() {
         // given
-        Long number = industryCategory.getNumber();
-        IndustryCategoryEntity industryCategoryEntity = new IndustryCategoryEntity(
-                industryCategory.getNumber(), industryCategory.getKoreanName(), industryCategory.getEnglishName());
+        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        Long number = industryCategoryEntity.getNumber();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findByNumber(number)).thenReturn(Optional.of(industryCategoryEntity));
 
@@ -67,9 +65,8 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getByKoreanNameTest() {
         // given
-        String koreanName = industryCategory.getKoreanName();
-        IndustryCategoryEntity industryCategoryEntity = new IndustryCategoryEntity(
-                industryCategory.getNumber(), industryCategory.getKoreanName(), industryCategory.getEnglishName());
+        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        String koreanName = industryCategoryEntity.getKoreanName();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findByKoreanName(koreanName)).thenReturn(Optional.of(industryCategoryEntity));
 
@@ -84,9 +81,8 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getByEnglishNameTest() {
         // given
-        String englishName = industryCategory.getEnglishName();
-        IndustryCategoryEntity industryCategoryEntity = new IndustryCategoryEntity(
-                industryCategory.getNumber(), industryCategory.getKoreanName(), industryCategory.getEnglishName());
+        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        String englishName = industryCategoryEntity.getEnglishName();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findByEnglishName(englishName)).thenReturn(Optional.of(industryCategoryEntity));
 
