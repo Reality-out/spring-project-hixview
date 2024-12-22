@@ -13,11 +13,11 @@ import site.hixview.aggregate.service.BlogPostArticleService;
 import site.hixview.jpa.entity.ArticleEntity;
 import site.hixview.jpa.entity.BlogPostArticleEntity;
 import site.hixview.jpa.entity.BlogPostEntity;
-import site.hixview.jpa.mapper.*;
+import site.hixview.jpa.mapper.BlogPostArticleEntityMapper;
+import site.hixview.jpa.mapper.BlogPostArticleEntityMapperImpl;
 import site.hixview.jpa.repository.ArticleEntityRepository;
 import site.hixview.jpa.repository.BlogPostArticleEntityRepository;
 import site.hixview.jpa.repository.BlogPostEntityRepository;
-import site.hixview.jpa.repository.PostEntityRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +26,7 @@ import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMe
 import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ARTICLE_NUMBER;
 import static site.hixview.aggregate.vo.WordCamel.POST_NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,13 +34,10 @@ import static site.hixview.aggregate.vo.WordCamel.POST_NUMBER;
 public class BlogPostArticleEntityService implements BlogPostArticleService {
 
     private final ArticleEntityRepository articleEntityRepository;
-    private final PostEntityRepository postEntityRepository;
     private final BlogPostEntityRepository blogPostEntityRepository;
     private final BlogPostArticleEntityRepository bpaEntityRepository;
 
     private final BlogPostArticleEntityMapper blogPostArticleEntityMapper = new BlogPostArticleEntityMapperImpl();
-    private final ArticleEntityMapper articleEntityMapper = new ArticleEntityMapperImpl();
-    private final BlogPostEntityMapper blogPostEntityMapper = new BlogPostEntityMapperImpl();
 
     @Override
     public List<BlogPostArticle> getAll() {
@@ -54,14 +52,14 @@ public class BlogPostArticleEntityService implements BlogPostArticleService {
     @Override
     public List<BlogPostArticle> getByBlogPost(BlogPost blogPost) {
         return bpaEntityRepository.findByBlogPost(
-                        blogPostEntityMapper.toBlogPostEntity(blogPost, postEntityRepository))
+                        blogPostEntityRepository.findByNumber(blogPost.getNumber()).orElseThrow())
                 .stream().map(blogPostArticleEntityMapper::toBlogPostArticle).toList();
     }
 
     @Override
     public List<BlogPostArticle> getByArticle(Article article) {
         return bpaEntityRepository.findByArticle(
-                        articleEntityMapper.toArticleEntity(article))
+                        articleEntityRepository.findByNumber(article.getNumber()).orElseThrow())
                 .stream().map(blogPostArticleEntityMapper::toBlogPostArticle).toList();
     }
 
@@ -89,8 +87,8 @@ public class BlogPostArticleEntityService implements BlogPostArticleService {
         Long articleNumber = blogPostArticle.getArticleNumber();
         validateDuplicateEntity(postNumber, articleNumber);
         return blogPostArticleEntityMapper.toBlogPostArticle(bpaEntityRepository.save(
-                blogPostArticleEntityMapper.toBlogPostArticleEntity(
-                        blogPostArticle, blogPostEntityRepository, articleEntityRepository)));
+                map(blogPostArticle, bpaEntityRepository.findByNumber(number).orElseThrow(),
+                        blogPostEntityRepository, articleEntityRepository)));
     }
 
     @Override

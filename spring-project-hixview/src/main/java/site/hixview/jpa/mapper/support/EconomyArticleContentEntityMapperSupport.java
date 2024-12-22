@@ -18,13 +18,15 @@ public interface EconomyArticleContentEntityMapperSupport {
             @MappingTarget EconomyArticleContentEntity ignoredEntity, EconomyArticleContent economyArticleContent,
             @Context EconomyArticleEntityRepository economyArticleRepository,
             @Context EconomyContentEntityRepository economyContentEntityRepository) {
+        Long articleNumber = economyArticleContent.getArticleNumber();
+        Long contentNumber = economyArticleContent.getContentNumber();
         return new EconomyArticleContentEntity(economyArticleContent.getNumber(),
-                economyArticleRepository.findByNumber(economyArticleContent.getArticleNumber())
+                economyArticleRepository.findByNumber(articleNumber)
                         .orElseThrow(() -> new EntityNotFoundWithNumberException(
-                                economyArticleContent.getArticleNumber(), EconomyArticleEntity.class)),
-                economyContentEntityRepository.findByNumber(economyArticleContent.getContentNumber())
+                                articleNumber, EconomyArticleEntity.class)),
+                economyContentEntityRepository.findByNumber(contentNumber)
                         .orElseThrow(() -> new EntityNotFoundWithNumberException(
-                                economyArticleContent.getContentNumber(), EconomyContentEntity.class)));
+                                contentNumber, EconomyContentEntity.class)));
     }
 
     @Named("articleNumberToDomain")

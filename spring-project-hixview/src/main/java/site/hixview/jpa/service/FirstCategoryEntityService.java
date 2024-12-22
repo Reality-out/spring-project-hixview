@@ -24,6 +24,7 @@ import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.ExceptionMessage.REMOVE_REFERENCED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ENGLISH_NAME;
 import static site.hixview.aggregate.vo.WordCamel.NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,7 +32,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 public class FirstCategoryEntityService implements FirstCategoryService {
 
     private final IndustryCategoryEntityRepository industryCategoryEntityRepository;
-    private final FirstCategoryEntityRepository firstCategoryEntityRepository;
+    private final FirstCategoryEntityRepository fcEntityRepository;
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final CompanyEntityRepository companyEntityRepository;
     private final IndustryArticleEntityRepository industryArticleEntityRepository;
@@ -39,36 +40,36 @@ public class FirstCategoryEntityService implements FirstCategoryService {
 
     @Override
     public List<FirstCategory> getAll() {
-        return firstCategoryEntityRepository.findAll().stream().map(mapper::toFirstCategory).toList();
+        return fcEntityRepository.findAll().stream().map(mapper::toFirstCategory).toList();
     }
 
     @Override
     public Optional<FirstCategory> getByNumber(Long number) {
-        return getOptionalFirstCategory(firstCategoryEntityRepository.findByNumber(number).orElse(null));
+        return getOptionalFirstCategory(fcEntityRepository.findByNumber(number).orElse(null));
     }
     
     @Override
     public Optional<FirstCategory> getByKoreanName(String koreanName) {
-        return getOptionalFirstCategory(firstCategoryEntityRepository.findByKoreanName(koreanName).orElse(null));
+        return getOptionalFirstCategory(fcEntityRepository.findByKoreanName(koreanName).orElse(null));
     }
 
     @Override
     public Optional<FirstCategory> getByEnglishName(String englishName) {
-        return getOptionalFirstCategory(firstCategoryEntityRepository.findByEnglishName(englishName).orElse(null));
+        return getOptionalFirstCategory(fcEntityRepository.findByEnglishName(englishName).orElse(null));
     }
     
     @Override
     public FirstCategory insert(FirstCategory firstCategory) {
         Long number = firstCategory.getNumber();
         String englishName = firstCategory.getEnglishName();
-        if (firstCategoryEntityRepository.existsByNumber(number)) {
+        if (fcEntityRepository.existsByNumber(number)) {
             throw new EntityExistsWithNumberException(number, FirstCategoryEntity.class);
         }
-        if (firstCategoryEntityRepository.findByEnglishName(englishName).isPresent()) {
+        if (fcEntityRepository.findByEnglishName(englishName).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
                     ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, FirstCategoryEntity.class));
         }
-        return mapper.toFirstCategory(firstCategoryEntityRepository.save(mapper.toFirstCategoryEntity(
+        return mapper.toFirstCategory(fcEntityRepository.save(mapper.toFirstCategoryEntity(
                 firstCategory, industryCategoryEntityRepository)));
     }
 
@@ -76,32 +77,32 @@ public class FirstCategoryEntityService implements FirstCategoryService {
     public FirstCategory update(FirstCategory firstCategory) {
         Long number = firstCategory.getNumber();
         String englishName = firstCategory.getEnglishName();
-        if (!firstCategoryEntityRepository.existsByNumber(number)) {
+        if (!fcEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, FirstCategoryEntity.class);
         }
-        if (firstCategoryEntityRepository.findByEnglishName(englishName).isPresent()) {
+        if (fcEntityRepository.findByEnglishName(englishName).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
                     ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, FirstCategoryEntity.class));
         }
-        FirstCategoryEntity firstCategoryEntity = firstCategoryEntityRepository.save(mapper.toFirstCategoryEntity(
-                firstCategory, industryCategoryEntityRepository));
+        FirstCategoryEntity firstCategoryEntity = fcEntityRepository.save(map(firstCategory,
+                fcEntityRepository.findByNumber(number).orElseThrow(), industryCategoryEntityRepository));
         propagateFirstCategoryEntity(firstCategoryEntity);
         return mapper.toFirstCategory(firstCategoryEntity);
     }
     
     @Override
     public void removeByNumber(Long number) {
-        if (!firstCategoryEntityRepository.existsByNumber(number)) {
+        if (!fcEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, FirstCategoryEntity.class);
         }
-        FirstCategoryEntity firstCategoryEntity = firstCategoryEntityRepository.findByNumber(number).orElseThrow();
+        FirstCategoryEntity firstCategoryEntity = fcEntityRepository.findByNumber(number).orElseThrow();
         if (!secondCategoryEntityRepository.findByFirstCategory(firstCategoryEntity).isEmpty() ||
                 !companyEntityRepository.findByFirstCategory(firstCategoryEntity).isEmpty() ||
                 !industryArticleEntityRepository.findByFirstCategory(firstCategoryEntity).isEmpty()) {
             throw new DataIntegrityViolationException(getFormattedExceptionMessage(
                     REMOVE_REFERENCED_ENTITY, NUMBER, number, FirstCategoryEntity.class));
         }
-        firstCategoryEntityRepository.deleteByNumber(number);
+        fcEntityRepository.deleteByNumber(number);
     }
 
     private Optional<FirstCategory> getOptionalFirstCategory(FirstCategoryEntity optionalFirstCategoryEntity) {

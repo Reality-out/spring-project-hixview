@@ -15,7 +15,7 @@ import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 public interface SecondCategoryEntityMapperSupport {
     @AfterMapping
     default SecondCategoryEntity afterMappingToEntity(
-            @MappingTarget SecondCategoryEntity ignoredSecondCategoryEntity, SecondCategory secondCategory,
+            @MappingTarget SecondCategoryEntity ignoredEntity, SecondCategory secondCategory,
             @Context IndustryCategoryEntityRepository industryCategoryRepository,
             @Context FirstCategoryEntityRepository firstCategoryRepository) {
         return new SecondCategoryEntity(secondCategory.getNumber(),

@@ -23,6 +23,7 @@ import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMe
 import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ARTICLE_NUMBER;
 import static site.hixview.aggregate.vo.WordCamel.CONTENT_NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,14 +31,10 @@ import static site.hixview.aggregate.vo.WordCamel.CONTENT_NUMBER;
 public class EconomyArticleContentEntityService implements EconomyArticleContentService {
 
     private final EconomyContentEntityRepository economyContentEntityRepository;
-    private final PressEntityRepository pressEntityRepository;
-    private final ArticleEntityRepository articleEntityRepository;
     private final EconomyArticleEntityRepository economyArticleEntityRepository;
     private final EconomyArticleContentEntityRepository eacEntityRepository;
 
     private final EconomyArticleContentEntityMapper economyArticleContentEntityMapper = new EconomyArticleContentEntityMapperImpl();
-    private final EconomyContentEntityMapper economyContentEntityMapper = new EconomyContentEntityMapperImpl();
-    private final EconomyArticleEntityMapper economyArticleEntityMapper = new EconomyArticleEntityMapperImpl();
 
     @Override
     public List<EconomyArticleContent> getAll() {
@@ -52,15 +49,14 @@ public class EconomyArticleContentEntityService implements EconomyArticleContent
     @Override
     public List<EconomyArticleContent> getByEconomyArticle(EconomyArticle economyArticle) {
         return eacEntityRepository.findByEconomyArticle(
-                        economyArticleEntityMapper.toEconomyArticleEntity(
-                                economyArticle, articleEntityRepository, pressEntityRepository))
+                        economyArticleEntityRepository.findByNumber(economyArticle.getNumber()).orElseThrow())
                 .stream().map(economyArticleContentEntityMapper::toEconomyArticleContent).toList();
     }
     
     @Override
     public List<EconomyArticleContent> getByEconomyContent(EconomyContent economyContent) {
         return eacEntityRepository.findByEconomyContent(
-                        economyContentEntityMapper.toEconomyContentEntity(economyContent))
+                        economyContentEntityRepository.findByNumber(economyContent.getNumber()).orElseThrow())
                 .stream().map(economyArticleContentEntityMapper::toEconomyArticleContent).toList();
     }
     
@@ -88,8 +84,8 @@ public class EconomyArticleContentEntityService implements EconomyArticleContent
         Long contentNumber = economyArticleContent.getContentNumber();
         validateDuplicateEntity(articleNumber, contentNumber);
         return economyArticleContentEntityMapper.toEconomyArticleContent(eacEntityRepository.save(
-                economyArticleContentEntityMapper.toEconomyArticleContentEntity(
-                        economyArticleContent, economyArticleEntityRepository, economyContentEntityRepository)));
+                map(economyArticleContent, eacEntityRepository.findByNumber(number).orElseThrow(),
+                        economyArticleEntityRepository, economyContentEntityRepository)));
     }
 
     @Override

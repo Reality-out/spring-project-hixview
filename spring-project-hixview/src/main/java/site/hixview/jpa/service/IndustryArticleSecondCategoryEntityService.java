@@ -23,6 +23,7 @@ import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMe
 import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ARTICLE_NUMBER;
 import static site.hixview.aggregate.vo.WordCamel.SECOND_CATEGORY_NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,20 +31,14 @@ import static site.hixview.aggregate.vo.WordCamel.SECOND_CATEGORY_NUMBER;
 public class IndustryArticleSecondCategoryEntityService implements IndustryArticleSecondCategoryService {
 
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
-    private final PressEntityRepository pressEntityRepository;
-    private final ArticleEntityRepository articleEntityRepository;
-    private final IndustryCategoryEntityRepository industryCategoryEntityRepository;
-    private final FirstCategoryEntityRepository firstCategoryEntityRepository;
     private final IndustryArticleEntityRepository industryArticleEntityRepository;
     private final IndustryArticleSecondCategoryEntityRepository iascEntityRepository;
 
-    private final IndustryArticleSecondCategoryEntityMapper industryArticleSecondCategoryEntityMapper = new IndustryArticleSecondCategoryEntityMapperImpl();
-    private final SecondCategoryEntityMapper secondCategoryEntityMapper = new SecondCategoryEntityMapperImpl();
-    private final IndustryArticleEntityMapper industryArticleEntityMapper = new IndustryArticleEntityMapperImpl();
+    private final IndustryArticleSecondCategoryEntityMapper iascEntityMapper = new IndustryArticleSecondCategoryEntityMapperImpl();
 
     @Override
     public List<IndustryArticleSecondCategory> getAll() {
-        return iascEntityRepository.findAll().stream().map(industryArticleSecondCategoryEntityMapper::toIndustryArticleSecondCategory).toList();
+        return iascEntityRepository.findAll().stream().map(iascEntityMapper::toIndustryArticleSecondCategory).toList();
     }
 
     @Override
@@ -53,16 +48,16 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
 
     @Override
     public List<IndustryArticleSecondCategory> getByIndustryArticle(IndustryArticle industryArticle) {
-        return iascEntityRepository.findByIndustryArticle(industryArticleEntityMapper.toIndustryArticleEntity(
-                        industryArticle, articleEntityRepository, pressEntityRepository, firstCategoryEntityRepository))
-                .stream().map(industryArticleSecondCategoryEntityMapper::toIndustryArticleSecondCategory).toList();
+        return iascEntityRepository.findByIndustryArticle(
+                        industryArticleEntityRepository.findByNumber(industryArticle.getNumber()).orElseThrow())
+                .stream().map(iascEntityMapper::toIndustryArticleSecondCategory).toList();
     }
     
     @Override
     public List<IndustryArticleSecondCategory> getBySecondCategory(SecondCategory secondCategory) {
-        return iascEntityRepository.findBySecondCategory(secondCategoryEntityMapper.toSecondCategoryEntity(
-                        secondCategory, industryCategoryEntityRepository, firstCategoryEntityRepository))
-                .stream().map(industryArticleSecondCategoryEntityMapper::toIndustryArticleSecondCategory).toList();
+        return iascEntityRepository.findBySecondCategory(
+                        secondCategoryEntityRepository.findByNumber(secondCategory.getNumber()).orElseThrow())
+                .stream().map(iascEntityMapper::toIndustryArticleSecondCategory).toList();
     }
     
     @Override
@@ -74,8 +69,8 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
             throw new EntityExistsWithNumberException(number, IndustryArticleSecondCategoryEntity.class);
         }
         validateDuplicateEntity(articleNumber, secondCategoryNumber);
-        return industryArticleSecondCategoryEntityMapper.toIndustryArticleSecondCategory(iascEntityRepository.save(
-                industryArticleSecondCategoryEntityMapper.toIndustryArticleSecondCategoryEntity(
+        return iascEntityMapper.toIndustryArticleSecondCategory(iascEntityRepository.save(
+                iascEntityMapper.toIndustryArticleSecondCategoryEntity(
                         industryArticleSecondCategory, industryArticleEntityRepository, secondCategoryEntityRepository)));
     }
     
@@ -88,9 +83,9 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
         Long articleNumber = industryArticleSecondCategory.getArticleNumber();
         Long secondCategoryNumber = industryArticleSecondCategory.getSecondCategoryNumber();
         validateDuplicateEntity(articleNumber, secondCategoryNumber);
-        return industryArticleSecondCategoryEntityMapper.toIndustryArticleSecondCategory(iascEntityRepository.save(
-                industryArticleSecondCategoryEntityMapper.toIndustryArticleSecondCategoryEntity(
-                        industryArticleSecondCategory, industryArticleEntityRepository, secondCategoryEntityRepository)));
+        return iascEntityMapper.toIndustryArticleSecondCategory(iascEntityRepository.save(
+                map(industryArticleSecondCategory, iascEntityRepository.findByNumber(number).orElseThrow(),
+                        industryArticleEntityRepository, secondCategoryEntityRepository)));
     }
 
     @Override
@@ -105,7 +100,7 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
         if (industryArticleSecondCategoryEntity == null) {
             return Optional.empty();
         }
-        return Optional.of(industryArticleSecondCategoryEntityMapper.toIndustryArticleSecondCategory(industryArticleSecondCategoryEntity));
+        return Optional.of(iascEntityMapper.toIndustryArticleSecondCategory(industryArticleSecondCategoryEntity));
     }
     
     private void validateDuplicateEntity(Long articleNumber, Long secondCategoryNumber) {

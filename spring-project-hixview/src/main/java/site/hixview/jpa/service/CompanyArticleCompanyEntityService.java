@@ -15,7 +15,9 @@ import site.hixview.jpa.entity.CompanyArticleCompanyEntity;
 import site.hixview.jpa.entity.CompanyArticleEntity;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.mapper.*;
-import site.hixview.jpa.repository.*;
+import site.hixview.jpa.repository.CompanyArticleCompanyEntityRepository;
+import site.hixview.jpa.repository.CompanyArticleEntityRepository;
+import site.hixview.jpa.repository.CompanyEntityRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,23 +27,18 @@ import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.ExceptionMessage.CANNOT_FOUND_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ARTICLE_NUMBER;
 import static site.hixview.aggregate.vo.WordCamel.COMPANY_CODE;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CompanyArticleCompanyEntityService implements CompanyArticleCompanyService {
 
-    private final FirstCategoryEntityRepository firstCategoryEntityRepository;
-    private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final CompanyEntityRepository companyEntityRepository;
-    private final PressEntityRepository pressEntityRepository;
-    private final ArticleEntityRepository articleEntityRepository;
     private final CompanyArticleEntityRepository companyArticleEntityRepository;
     private final CompanyArticleCompanyEntityRepository cacEntityRepository;
 
     private final CompanyArticleCompanyEntityMapper companyArticleCompanyEntityMapper = new CompanyArticleCompanyEntityMapperImpl();
-    private final CompanyEntityMapper companyEntityMapper = new CompanyEntityMapperImpl();
-    private final CompanyArticleEntityMapper companyArticleEntityMapper = new CompanyArticleEntityMapperImpl();
 
     @Override
     public List<CompanyArticleCompany> getAll() {
@@ -56,15 +53,14 @@ public class CompanyArticleCompanyEntityService implements CompanyArticleCompany
     @Override
     public List<CompanyArticleCompany> getByCompanyArticle(CompanyArticle companyArticle) {
         return cacEntityRepository.findByCompanyArticle(
-                        companyArticleEntityMapper.toCompanyArticleEntity(
-                                companyArticle, articleEntityRepository, pressEntityRepository))
+                        companyArticleEntityRepository.findByNumber(companyArticle.getNumber()).orElseThrow())
                 .stream().map(companyArticleCompanyEntityMapper::toCompanyArticleCompany).toList();
     }
 
     @Override
     public List<CompanyArticleCompany> getByCompany(Company company) {
-        return cacEntityRepository.findByCompany(companyEntityMapper.toCompanyEntity(
-                        company, firstCategoryEntityRepository, secondCategoryEntityRepository))
+        return cacEntityRepository.findByCompany(
+                        companyEntityRepository.findByCode(company.getCode()).orElseThrow())
                 .stream().map(companyArticleCompanyEntityMapper::toCompanyArticleCompany).toList();
     }
 
@@ -92,8 +88,8 @@ public class CompanyArticleCompanyEntityService implements CompanyArticleCompany
         String companyCode = companyArticleCompany.getCompanyCode();
         validateDuplicateEntity(articleNumber, companyCode);
         return companyArticleCompanyEntityMapper.toCompanyArticleCompany(cacEntityRepository.save(
-                companyArticleCompanyEntityMapper.toCompanyArticleCompanyEntity(
-                        companyArticleCompany, companyArticleEntityRepository, companyEntityRepository)));
+                map(companyArticleCompany, cacEntityRepository.findByNumber(number).orElseThrow(),
+                        companyArticleEntityRepository, companyEntityRepository)));
     }
 
     @Override

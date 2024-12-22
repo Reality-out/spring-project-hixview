@@ -202,11 +202,12 @@ class PressEntityServiceTest implements PressEntityTestUtils, CompanyArticleEnti
         Long number = pressEntity.getNumber();
         Press updatedPress = Press.builder().press(anotherPress).number(number).build();
         PressEntity updatedPressEntity = mapper.toPressEntity(updatedPress);
-        when(pressEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
-        when(pressEntityRepository.findByEnglishName(any())).thenReturn(Optional.empty());
         when(pressEntityRepository.save(any())).thenReturn(pressEntity).thenReturn(updatedPressEntity);
+        when(pressEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(pressEntityRepository.findByEnglishName(pressEntity.getEnglishName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.findByNumber(number)).thenReturn(Optional.of(pressEntity));
         when(pressEntityRepository.findAll()).thenReturn(List.of(updatedPressEntity));
-        pressEntityService.insert(press);
+        pressEntityRepository.save(pressEntity);
 
         // when
         Press updatePress = pressEntityService.update(updatedPress);

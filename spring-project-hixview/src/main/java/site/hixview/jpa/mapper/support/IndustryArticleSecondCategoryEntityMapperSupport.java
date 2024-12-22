@@ -14,10 +14,11 @@ import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
 public interface IndustryArticleSecondCategoryEntityMapperSupport {
     @AfterMapping
-    default IndustryArticleSecondCategoryEntity afterMappingToEntity(@MappingTarget IndustryArticleSecondCategoryEntity industryArticleSecondCategoryEntity,
-                                     IndustryArticleSecondCategory industryArticleSecondCategory,
-                                     @Context IndustryArticleEntityRepository industryArticleRepository,
-                                     @Context SecondCategoryEntityRepository secondCategoryRepository) {
+    default IndustryArticleSecondCategoryEntity afterMappingToEntity(
+            @MappingTarget IndustryArticleSecondCategoryEntity ignoredEntity,
+            IndustryArticleSecondCategory industryArticleSecondCategory,
+            @Context IndustryArticleEntityRepository industryArticleRepository,
+            @Context SecondCategoryEntityRepository secondCategoryRepository) {
         Long articleNumber = industryArticleSecondCategory.getArticleNumber();
         Long secondCategoryNumber = industryArticleSecondCategory.getSecondCategoryNumber();
         return new IndustryArticleSecondCategoryEntity(industryArticleSecondCategory.getNumber(),

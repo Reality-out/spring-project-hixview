@@ -18,19 +18,18 @@ import java.util.List;
 public interface BlogPostEntityMapperSupport {
     @AfterMapping
     default void afterMappingToEntity(
-            @MappingTarget BlogPostEntityBuilder blogPostEntityBuilder, BlogPost blogPost,
+            @MappingTarget BlogPostEntityBuilder builder, BlogPost blogPost,
             @Context PostEntityRepository postEntityRepository) {
-        blogPostEntityBuilder
-                .post(postEntityRepository.findByNumber(blogPost.getNumber()).orElseThrow(() ->
-                        new EntityNotFoundWithNumberException(blogPost.getNumber(), PostEntity.class)));
+        builder.post(postEntityRepository.findByNumber(blogPost.getNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(blogPost.getNumber(), PostEntity.class)));
     }
 
     @AfterMapping
     default void afterMappingToDomain(
-            @MappingTarget BlogPostBuilder blogPostBuilder, BlogPostEntity blogPostEntity,
+            @MappingTarget BlogPostBuilder builder, BlogPostEntity blogPostEntity,
             @Context BlogPostArticleEntityRepository blogPostArticleRepository) {
         List<BlogPostArticleEntity> blogPostArticles = blogPostArticleRepository.findByBlogPost(blogPostEntity);
-        blogPostBuilder.mappedArticleNumbers(blogPostArticles.stream()
+        builder.mappedArticleNumbers(blogPostArticles.stream()
                 .map(data -> data.getArticle().getNumber()).toList());
     }
 }

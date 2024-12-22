@@ -19,43 +19,44 @@ import java.util.Optional;
 import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ID;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SiteMemberEntityService implements SiteMemberService {
 
-    private final SiteMemberEntityRepository siteMemberEntityRepository;
+    private final SiteMemberEntityRepository smEntityRepository;
     private final SiteMemberEntityMapper mapper = new SiteMemberEntityMapperImpl();
 
     @Override
     public List<SiteMember> getAll() {
-        return siteMemberEntityRepository.findAll().stream().map(mapper::toSiteMember).toList();
+        return smEntityRepository.findAll().stream().map(mapper::toSiteMember).toList();
     }
 
     @Override
     public List<SiteMember> getByName(String name) {
-        return siteMemberEntityRepository.findByName(name).stream().map(mapper::toSiteMember).toList();
+        return smEntityRepository.findByName(name).stream().map(mapper::toSiteMember).toList();
     }
 
     @Override
     public Optional<SiteMember> getByNumber(Long number) {
-        return getOptionalSiteMember(siteMemberEntityRepository.findByNumber(number).orElse(null));
+        return getOptionalSiteMember(smEntityRepository.findByNumber(number).orElse(null));
     }
 
     @Override
     public Optional<SiteMember> getById(String id) {
-        return getOptionalSiteMember(siteMemberEntityRepository.findById(id).orElse(null));
+        return getOptionalSiteMember(smEntityRepository.findById(id).orElse(null));
     }
 
     @Override
     public Optional<SiteMember> getByIdAndPw(String id, String pw) {
-        return getOptionalSiteMember(siteMemberEntityRepository.findByIdAndPw(id, pw).orElse(null));
+        return getOptionalSiteMember(smEntityRepository.findByIdAndPw(id, pw).orElse(null));
     }
 
     @Override
     public Optional<SiteMember> getByEmail(String email) {
-        return getOptionalSiteMember(siteMemberEntityRepository.findByEmail(email).orElse(null));
+        return getOptionalSiteMember(smEntityRepository.findByEmail(email).orElse(null));
     }
 
     @Override
@@ -63,14 +64,14 @@ public class SiteMemberEntityService implements SiteMemberService {
     public SiteMember insert(SiteMember siteMember) {
         Long number = siteMember.getNumber();
         String id = siteMember.getId();
-        if (siteMemberEntityRepository.existsByNumber(number)) {
+        if (smEntityRepository.existsByNumber(number)) {
             throw new EntityExistsWithNumberException(number, SiteMemberEntity.class);
         }
-        if (siteMemberEntityRepository.findById(id).isPresent()) {
+        if (smEntityRepository.findById(id).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
                     ALREADY_EXISTED_ENTITY, ID, id, SiteMemberEntity.class));
         }
-        return mapper.toSiteMember(siteMemberEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
+        return mapper.toSiteMember(smEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
     }
 
     @Override
@@ -78,23 +79,24 @@ public class SiteMemberEntityService implements SiteMemberService {
     public SiteMember update(SiteMember siteMember) {
         Long number = siteMember.getNumber();
         String id = siteMember.getId();
-        if (!siteMemberEntityRepository.existsByNumber(number)) {
+        if (!smEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, SiteMemberEntity.class);
         }
-        if (siteMemberEntityRepository.findById(id).isPresent()) {
+        if (smEntityRepository.findById(id).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
                     ALREADY_EXISTED_ENTITY, ID, id, SiteMemberEntity.class));
         }
-        return mapper.toSiteMember(siteMemberEntityRepository.save(mapper.toSiteMemberEntity(siteMember)));
+        return mapper.toSiteMember(smEntityRepository.save(
+                map(siteMember, smEntityRepository.findByNumber(number).orElseThrow())));
     }
 
     @Override
     @Transactional
     public void removeByNumber(Long number) {
-        if (!siteMemberEntityRepository.existsByNumber(number)) {
+        if (!smEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, SiteMemberEntity.class);
         }
-        siteMemberEntityRepository.deleteByNumber(number);
+        smEntityRepository.deleteByNumber(number);
     }
 
     private Optional<SiteMember> getOptionalSiteMember(SiteMemberEntity siteMemberEntity) {

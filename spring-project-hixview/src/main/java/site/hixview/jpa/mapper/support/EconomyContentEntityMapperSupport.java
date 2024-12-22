@@ -8,7 +8,7 @@ import site.hixview.jpa.entity.EconomyContentEntity;
 public interface EconomyContentEntityMapperSupport {
     @AfterMapping
     default EconomyContentEntity afterMappingToEntity(
-            @MappingTarget EconomyContentEntity economyContentEntity, EconomyContent economyContent) {
+            @MappingTarget EconomyContentEntity ignoredEntity, EconomyContent economyContent) {
         return new EconomyContentEntity(economyContent.getNumber(), economyContent.getName());
     }
 }

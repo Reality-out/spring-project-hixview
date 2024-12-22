@@ -8,7 +8,7 @@ import site.hixview.jpa.entity.PressEntity;
 public interface PressEntityMapperSupport {
     @AfterMapping
     default PressEntity afterMappingToEntity(
-            @MappingTarget PressEntity pressEntity, Press press) {
+            @MappingTarget PressEntity ignoredEntity, Press press) {
         return new PressEntity(press.getNumber(), press.getKoreanName(), press.getEnglishName());
     }
 }

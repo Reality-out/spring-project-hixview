@@ -8,7 +8,7 @@ import site.hixview.jpa.entity.IndustryCategoryEntity;
 public interface IndustryCategoryEntityMapperSupport {
     @AfterMapping
     default IndustryCategoryEntity afterMappingToEntity(
-            @MappingTarget IndustryCategoryEntity industryCategoryEntity, IndustryCategory industryCategory) {
+            @MappingTarget IndustryCategoryEntity ignoredEntity, IndustryCategory industryCategory) {
         return new IndustryCategoryEntity(industryCategory.getNumber(),
                 industryCategory.getKoreanName(),
                 industryCategory.getEnglishName());

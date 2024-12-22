@@ -101,8 +101,8 @@ public class BlogPostEntityService implements BlogPostService {
         if (blogPostEntityRepository.findByName(name).isPresent()) {
             throw new EntityExistsWithNameException(name, BlogPostEntity.class);
         }
-        BlogPostEntity blogPostEntity = blogPostEntityRepository.save(mapper.toBlogPostEntity(
-                blogPost, postEntityRepository));
+        BlogPostEntity blogPostEntity = blogPostEntityRepository.save(
+                mapper.toBlogPostEntity(blogPost, postEntityRepository));
         propagateBlogPostEntity(blogPostEntity);
         return mapper.toBlogPost(blogPostEntity, bpaEntityRepository);
     }
@@ -129,6 +129,6 @@ public class BlogPostEntityService implements BlogPostService {
 
     private void propagateBlogPostEntity(BlogPostEntity blogPostEntity) {
         bpaEntityRepository.saveAll(bpaEntityRepository.findByBlogPost(blogPostEntity).stream()
-                        .peek(mapper -> mapper.updateBlogPost(blogPostEntity)).toList());
+                .peek(mapper -> mapper.updateBlogPost(blogPostEntity)).toList());
     }
 }

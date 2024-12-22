@@ -4,6 +4,8 @@ import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.SpringSessionContext;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,13 +21,15 @@ import static site.hixview.support.spring.config.TestDataSourceConfig.dataSource
 
 @TestConfiguration
 public class TestJpaConfig {
+    private final String packagesToScan = "site.hixview.jpa.entity";
+
     @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setJpaVendorAdapter(jpaVendorAdapter());
-        em.setPackagesToScan("site.hixview.jpa.entity");
+        em.setPackagesToScan(packagesToScan);
 
         Properties properties = new Properties();
         properties.putAll(jpaProperties().getProperties());
@@ -56,5 +60,16 @@ public class TestJpaConfig {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return jpaTransactionManager;
+    }
+
+    @Bean
+    public LocalSessionFactoryBean sessionFactoryBean() {
+        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource());
+        sessionFactoryBean.setPackagesToScan(packagesToScan);
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.current_session_context_class", SpringSessionContext.class.getName());
+        sessionFactoryBean.setHibernateProperties(properties);
+        return sessionFactoryBean;
     }
 }

@@ -6,12 +6,12 @@ import site.hixview.jpa.entity.PressEntity;
 
 interface SuperArticleEntityMapperSupport {
     @Named("numberToDomain")
-    default Long numberToDomain(ArticleEntity article) {
-        return article.getNumber();
+    default Long numberToDomain(ArticleEntity articleEntity) {
+        return articleEntity.getNumber();
     }
 
     @Named("pressNumberToDomain")
-    default Long pressNumberToDomain(PressEntity press) {
-        return press.getNumber();
+    default Long pressNumberToDomain(PressEntity pressEntity) {
+        return pressEntity.getNumber();
     }
 }

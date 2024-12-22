@@ -28,13 +28,14 @@ import static site.hixview.aggregate.vo.ExceptionMessage.ALREADY_EXISTED_ENTITY;
 import static site.hixview.aggregate.vo.ExceptionMessage.REMOVE_REFERENCED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.ENGLISH_NAME;
 import static site.hixview.aggregate.vo.WordCamel.NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PressEntityService implements PressService {
 
-    private final PressEntityRepository pressEntityRepository;
+    private final PressEntityRepository pEntityRepository;
     private final CompanyArticleEntityRepository companyArticleEntityRepository;
     private final IndustryArticleEntityRepository industryArticleEntityRepository;
     private final EconomyArticleEntityRepository economyArticleEntityRepository;
@@ -42,22 +43,22 @@ public class PressEntityService implements PressService {
 
     @Override
     public List<Press> getAll() {
-        return pressEntityRepository.findAll().stream().map(mapper::toPress).toList();
+        return pEntityRepository.findAll().stream().map(mapper::toPress).toList();
     }
 
     @Override
     public Optional<Press> getByNumber(Long number) {
-        return getOptionalPress(pressEntityRepository.findByNumber(number).orElse(null));
+        return getOptionalPress(pEntityRepository.findByNumber(number).orElse(null));
     }
 
     @Override
     public Optional<Press> getByKoreanName(String koreanName) {
-        return getOptionalPress(pressEntityRepository.findByKoreanName(koreanName).orElse(null));
+        return getOptionalPress(pEntityRepository.findByKoreanName(koreanName).orElse(null));
     }
 
     @Override
     public Optional<Press> getByEnglishName(String englishName) {
-        return getOptionalPress(pressEntityRepository.findByEnglishName(englishName).orElse(null));
+        return getOptionalPress(pEntityRepository.findByEnglishName(englishName).orElse(null));
     }
 
     @Override
@@ -65,14 +66,14 @@ public class PressEntityService implements PressService {
     public Press insert(Press press) {
         Long number = press.getNumber();
         String englishName = press.getEnglishName();
-        if (pressEntityRepository.existsByNumber(number)) {
+        if (pEntityRepository.existsByNumber(number)) {
             throw new EntityExistsWithNumberException(number, PressEntity.class);
         }
-        if (pressEntityRepository.findByEnglishName(englishName).isPresent()) {
+        if (pEntityRepository.findByEnglishName(englishName).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
                     ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, PressEntity.class));
         }
-        return mapper.toPress(pressEntityRepository.save(mapper.toPressEntity(press)));
+        return mapper.toPress(pEntityRepository.save(mapper.toPressEntity(press)));
     }
 
     @Override
@@ -80,14 +81,15 @@ public class PressEntityService implements PressService {
     public Press update(Press press) {
         Long number = press.getNumber();
         String englishName = press.getEnglishName();
-        if (!pressEntityRepository.existsByNumber(number)) {
+        if (!pEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, PressEntity.class);
         }
-        if (pressEntityRepository.findByEnglishName(englishName).isPresent()) {
+        if (pEntityRepository.findByEnglishName(englishName).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
                     ALREADY_EXISTED_ENTITY, ENGLISH_NAME, englishName, PressEntity.class));
         }
-        PressEntity pressEntity = pressEntityRepository.save(mapper.toPressEntity(press));
+        PressEntity pressEntity = pEntityRepository.save(
+                map(press, pEntityRepository.findByNumber(number).orElseThrow()));
         propagatePressEntity(pressEntity);
         return mapper.toPress(pressEntity);
     }
@@ -95,17 +97,17 @@ public class PressEntityService implements PressService {
     @Override
     @Transactional
     public void removeByNumber(Long number) {
-        if (!pressEntityRepository.existsByNumber(number)) {
+        if (!pEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, PressEntity.class);
         }
-        PressEntity pressEntity = pressEntityRepository.findByNumber(number).orElseThrow();
+        PressEntity pressEntity = pEntityRepository.findByNumber(number).orElseThrow();
         if (!companyArticleEntityRepository.findByPress(pressEntity).isEmpty() ||
                 !economyArticleEntityRepository.findByPress(pressEntity).isEmpty() ||
                 !industryArticleEntityRepository.findByPress(pressEntity).isEmpty()) {
             throw new DataIntegrityViolationException(getFormattedExceptionMessage(
                     REMOVE_REFERENCED_ENTITY, NUMBER, number, PressEntity.class));
         }
-        pressEntityRepository.deleteByNumber(number);
+        pEntityRepository.deleteByNumber(number);
     }
 
     private Optional<Press> getOptionalPress(PressEntity pressEntity) {

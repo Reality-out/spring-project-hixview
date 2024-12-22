@@ -14,7 +14,10 @@ import site.hixview.aggregate.enums.Scale;
 import site.hixview.aggregate.service.CompanyService;
 import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.mapper.*;
-import site.hixview.jpa.repository.*;
+import site.hixview.jpa.repository.CompanyArticleCompanyEntityRepository;
+import site.hixview.jpa.repository.CompanyEntityRepository;
+import site.hixview.jpa.repository.FirstCategoryEntityRepository;
+import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,15 +31,12 @@ import static site.hixview.aggregate.vo.WordCamel.CODE;
 @RequiredArgsConstructor
 public class CompanyEntityService implements CompanyService {
 
-    private final IndustryCategoryEntityRepository industryCategoryEntityRepository;
     private final FirstCategoryEntityRepository firstCategoryEntityRepository;
     private final SecondCategoryEntityRepository secondCategoryEntityRepository;
     private final CompanyEntityRepository companyEntityRepository;
     private final CompanyArticleCompanyEntityRepository cacEntityRepository;
 
     private final CompanyEntityMapper companyEntityMapper = new CompanyEntityMapperImpl();
-    private final FirstCategoryEntityMapper firstCategoryEntityMapper = new FirstCategoryEntityMapperImpl();
-    private final SecondCategoryEntityMapper secondCategoryEntityMapper = new SecondCategoryEntityMapperImpl();
 
     @Override
     public List<Company> getAll() {
@@ -55,15 +55,15 @@ public class CompanyEntityService implements CompanyService {
 
     @Override
     public List<Company> getByFirstCategory(FirstCategory firstCategory) {
-        return companyEntityRepository.findByFirstCategory(firstCategoryEntityMapper.toFirstCategoryEntity(
-                        firstCategory, industryCategoryEntityRepository))
+        return companyEntityRepository.findByFirstCategory(
+                        firstCategoryEntityRepository.findByNumber(firstCategory.getNumber()).orElseThrow())
                 .stream().map(companyEntityMapper::toCompany).toList();
     }
 
     @Override
     public List<Company> getBySecondCategory(SecondCategory secondCategory) {
-        return companyEntityRepository.findBySecondCategory(secondCategoryEntityMapper.toSecondCategoryEntity(
-                        secondCategory, industryCategoryEntityRepository, firstCategoryEntityRepository))
+        return companyEntityRepository.findBySecondCategory(
+                        secondCategoryEntityRepository.findByNumber(secondCategory.getNumber()).orElseThrow())
                 .stream().map(companyEntityMapper::toCompany).toList();
     }
 

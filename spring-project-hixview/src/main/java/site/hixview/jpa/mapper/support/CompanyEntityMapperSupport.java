@@ -15,10 +15,10 @@ import site.hixview.jpa.repository.SecondCategoryEntityRepository;
 public interface CompanyEntityMapperSupport {
     @AfterMapping
     default void afterMappingToEntity(
-            @MappingTarget CompanyEntityBuilder companyEntityBuilder, Company company,
+            @MappingTarget CompanyEntityBuilder builder, Company company,
             @Context FirstCategoryEntityRepository firstCategoryRepository,
             @Context SecondCategoryEntityRepository secondCategoryRepository) {
-        companyEntityBuilder.firstCategory(firstCategoryRepository.findByNumber(company.getFirstCategoryNumber())
+        builder.firstCategory(firstCategoryRepository.findByNumber(company.getFirstCategoryNumber())
                         .orElseThrow(() -> new EntityNotFoundWithNumberException(company.getFirstCategoryNumber(),
                                 FirstCategoryEntity.class)))
                 .secondCategory(secondCategoryRepository.findByNumber(company.getSecondCategoryNumber())

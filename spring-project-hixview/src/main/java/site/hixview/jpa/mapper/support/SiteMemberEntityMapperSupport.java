@@ -8,7 +8,7 @@ import site.hixview.jpa.entity.SiteMemberEntity;
 public interface SiteMemberEntityMapperSupport {
     @AfterMapping
     default SiteMemberEntity afterMappingToEntity(
-            @MappingTarget SiteMemberEntity siteMemberEntity, SiteMember siteMember) {
+            @MappingTarget SiteMemberEntity ignoredEntity, SiteMember siteMember) {
         return new SiteMemberEntity(siteMember.getNumber(),
                 siteMember.getId(),
                 siteMember.getPw(),

@@ -8,7 +8,7 @@ import site.hixview.jpa.entity.PostEntity;
 public interface PostEntityMapperSupport {
     @AfterMapping
     default PostEntity afterMappingToEntity(
-            @MappingTarget PostEntity postEntity, Post post) {
+            @MappingTarget PostEntity ignoredEntity, Post post) {
         PostEntity newPostEntity = new PostEntity();
         newPostEntity.updateNumber(post.getNumber());
         return newPostEntity;

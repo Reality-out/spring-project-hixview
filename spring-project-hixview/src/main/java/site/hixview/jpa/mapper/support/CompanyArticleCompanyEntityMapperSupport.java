@@ -20,7 +20,7 @@ import static site.hixview.aggregate.vo.WordCamel.CODE;
 public interface CompanyArticleCompanyEntityMapperSupport {
     @AfterMapping
     default CompanyArticleCompanyEntity afterMappingToEntity(
-            @MappingTarget CompanyArticleCompanyEntity entity, CompanyArticleCompany companyArticleCompany,
+            @MappingTarget CompanyArticleCompanyEntity ignoredEntity, CompanyArticleCompany companyArticleCompany,
             @Context CompanyArticleEntityRepository companyArticleEntityRepository,
             @Context CompanyEntityRepository companyEntityRepository) {
         Long articleNumber = companyArticleCompany.getArticleNumber();

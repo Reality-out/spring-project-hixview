@@ -227,11 +227,12 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         SiteMember updatedSiteMember = SiteMember.builder()
                 .siteMember(anotherSiteMember).number(siteMemberEntity.getNumber()).build();
         SiteMemberEntity updatedSiteMemberEntity = mapper.toSiteMemberEntity(updatedSiteMember);
-        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(false).thenReturn(true);
-        when(siteMemberEntityRepository.findById((String) any())).thenReturn(Optional.empty());
         when(siteMemberEntityRepository.save(any())).thenReturn(siteMemberEntity).thenReturn(updatedSiteMemberEntity);
+        when(siteMemberEntityRepository.existsByNumber(siteMemberEntity.getNumber())).thenReturn(true);
+        when(siteMemberEntityRepository.findById((String) any())).thenReturn(Optional.empty());
+        when(siteMemberEntityRepository.findByNumber(siteMemberEntity.getNumber())).thenReturn(Optional.of(siteMemberEntity));
         when(siteMemberEntityRepository.findAll()).thenReturn(List.of(updatedSiteMemberEntity));
-        siteMemberEntityService.insert(siteMember);
+        siteMemberEntityRepository.save(siteMemberEntity);
 
         // when
         SiteMember updateSiteMember = siteMemberEntityService.update(updatedSiteMember);

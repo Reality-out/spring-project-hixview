@@ -13,12 +13,12 @@ import site.hixview.jpa.repository.IndustryCategoryEntityRepository;
 public interface FirstCategoryEntityMapperSupport {
     @AfterMapping
     default FirstCategoryEntity afterMappingToEntity(
-            @MappingTarget FirstCategoryEntity ignoredFirstCategoryEntity, FirstCategory firstCategory,
-            @Context IndustryCategoryEntityRepository industryCategoryRepository) {
+            @MappingTarget FirstCategoryEntity ignoredEntity, FirstCategory firstCategory,
+            @Context IndustryCategoryEntityRepository industryCategoryEntityRepository) {
         return new FirstCategoryEntity(firstCategory.getNumber(),
                 firstCategory.getKoreanName(),
                 firstCategory.getEnglishName(),
-                industryCategoryRepository.findByNumber(
+                industryCategoryEntityRepository.findByNumber(
                         firstCategory.getIndustryCategoryNumber()).orElseThrow(() ->
                         new EntityNotFoundWithNumberException(firstCategory.getIndustryCategoryNumber(), IndustryCategoryEntity.class)));
     }
