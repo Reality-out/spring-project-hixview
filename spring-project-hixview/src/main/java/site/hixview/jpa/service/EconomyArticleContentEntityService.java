@@ -61,6 +61,7 @@ public class EconomyArticleContentEntityService implements EconomyArticleContent
     }
     
     @Override
+    @Transactional
     public EconomyArticleContent insert(EconomyArticleContent economyArticleContent) {
         Long number = economyArticleContent.getNumber();
         Long articleNumber = economyArticleContent.getArticleNumber();
@@ -75,6 +76,7 @@ public class EconomyArticleContentEntityService implements EconomyArticleContent
     }
     
     @Override
+    @Transactional
     public EconomyArticleContent update(EconomyArticleContent economyArticleContent) {
         Long number = economyArticleContent.getNumber();
         if (!eacEntityRepository.existsByNumber(number)) {
@@ -89,6 +91,7 @@ public class EconomyArticleContentEntityService implements EconomyArticleContent
     }
 
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!eacEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, EconomyArticleContentEntity.class);

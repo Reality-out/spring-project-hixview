@@ -1,6 +1,7 @@
 package site.hixview.jpa.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class BlogPostEntityService implements BlogPostService {
 
     private final PostEntityRepository postEntityRepository;
@@ -78,6 +80,7 @@ public class BlogPostEntityService implements BlogPostService {
     }
 
     @Override
+    @Transactional
     public BlogPost insert(BlogPost blogPost) {
         Long number = blogPost.getNumber();
         String name = blogPost.getName();
@@ -92,6 +95,7 @@ public class BlogPostEntityService implements BlogPostService {
     }
 
     @Override
+    @Transactional
     public BlogPost update(BlogPost blogPost) {
         Long number = blogPost.getNumber();
         String name = blogPost.getName();
@@ -106,8 +110,9 @@ public class BlogPostEntityService implements BlogPostService {
         propagateBlogPostEntity(blogPostEntity);
         return mapper.toBlogPost(blogPostEntity, bpaEntityRepository);
     }
-    
+
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!blogPostEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, BlogPostEntity.class);

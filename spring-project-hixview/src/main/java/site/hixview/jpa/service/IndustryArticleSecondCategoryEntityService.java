@@ -61,6 +61,7 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
     }
     
     @Override
+    @Transactional
     public IndustryArticleSecondCategory insert(IndustryArticleSecondCategory industryArticleSecondCategory) {
         Long number = industryArticleSecondCategory.getNumber();
         Long articleNumber = industryArticleSecondCategory.getArticleNumber();
@@ -75,6 +76,7 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
     }
     
     @Override
+    @Transactional
     public IndustryArticleSecondCategory update(IndustryArticleSecondCategory industryArticleSecondCategory) {
         Long number = industryArticleSecondCategory.getNumber();
         if (!iascEntityRepository.existsByNumber(number)) {
@@ -89,6 +91,7 @@ public class IndustryArticleSecondCategoryEntityService implements IndustryArtic
     }
 
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!iascEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, IndustryArticleSecondCategoryEntity.class);

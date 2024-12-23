@@ -57,6 +57,7 @@ public class FirstCategoryEntityService implements FirstCategoryService {
     }
     
     @Override
+    @Transactional
     public FirstCategory insert(FirstCategory firstCategory) {
         Long number = firstCategory.getNumber();
         String englishName = firstCategory.getEnglishName();
@@ -72,6 +73,7 @@ public class FirstCategoryEntityService implements FirstCategoryService {
     }
 
     @Override
+    @Transactional
     public FirstCategory update(FirstCategory firstCategory) {
         Long number = firstCategory.getNumber();
         String englishName = firstCategory.getEnglishName();
@@ -89,6 +91,7 @@ public class FirstCategoryEntityService implements FirstCategoryService {
     }
     
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!fcEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, FirstCategoryEntity.class);

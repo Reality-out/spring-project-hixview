@@ -88,6 +88,7 @@ public class CompanyEntityService implements CompanyService {
     }
 
     @Override
+    @Transactional
     public Company insert(Company company) {
         String code = company.getCode();
         if (companyEntityRepository.existsByCode(code)) {
@@ -99,6 +100,7 @@ public class CompanyEntityService implements CompanyService {
     }
 
     @Override
+    @Transactional
     public Company update(Company company) {
         String code = company.getCode();
         if (!companyEntityRepository.existsByCode(code)) {
@@ -112,6 +114,7 @@ public class CompanyEntityService implements CompanyService {
     }
 
     @Override
+    @Transactional
     public void removeByCode(String code) {
         if (!companyEntityRepository.existsByCode(code)) {
             throw new EntityNotFoundException(getFormattedExceptionMessage(

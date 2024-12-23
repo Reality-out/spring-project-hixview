@@ -18,6 +18,7 @@ public interface BlogPostEntityMapper extends BlogPostEntityMapperSupport {
     BlogPostEntity toBlogPostEntity(BlogPost blogPost,
                                     @Context PostEntityRepository postEntityRepository);
 
+    @Mapping(source = POST, target = NUMBER, qualifiedByName = "numberToDomain")
     @Mapping(target = MAPPED_ARTICLE_NUMBERS, ignore = true)
     @Mapping(target = BLOG_POST, ignore = true)
     BlogPost toBlogPost(BlogPostEntity blogPostEntity,

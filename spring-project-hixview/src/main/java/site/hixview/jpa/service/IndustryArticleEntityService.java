@@ -104,6 +104,7 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     }
 
     @Override
+    @Transactional
     public IndustryArticle insert(IndustryArticle industryArticle) {
         Long number = industryArticle.getNumber();
         String name = industryArticle.getName();
@@ -119,6 +120,7 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     }
 
     @Override
+    @Transactional
     public IndustryArticle update(IndustryArticle industryArticle) {
         Long number = industryArticle.getNumber();
         String name = industryArticle.getName();
@@ -135,6 +137,7 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     }
     
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!industryArticleEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, IndustryArticleEntity.class);

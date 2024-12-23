@@ -66,6 +66,7 @@ public class SecondCategoryEntityService implements SecondCategoryService {
     }
 
     @Override
+    @Transactional
     public SecondCategory insert(SecondCategory secondCategory) {
         Long number = secondCategory.getNumber();
         String englishName = secondCategory.getEnglishName();
@@ -81,6 +82,7 @@ public class SecondCategoryEntityService implements SecondCategoryService {
     }
 
     @Override
+    @Transactional
     public SecondCategory update(SecondCategory secondCategory) {
         Long number = secondCategory.getNumber();
         String englishName = secondCategory.getEnglishName();
@@ -99,6 +101,7 @@ public class SecondCategoryEntityService implements SecondCategoryService {
     }
 
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!scEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, SecondCategoryEntity.class);

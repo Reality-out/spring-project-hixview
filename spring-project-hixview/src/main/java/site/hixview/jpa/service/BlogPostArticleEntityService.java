@@ -64,6 +64,7 @@ public class BlogPostArticleEntityService implements BlogPostArticleService {
     }
 
     @Override
+    @Transactional
     public BlogPostArticle insert(BlogPostArticle blogPostArticle) {
         Long number = blogPostArticle.getNumber();
         Long postNumber = blogPostArticle.getPostNumber();
@@ -78,6 +79,7 @@ public class BlogPostArticleEntityService implements BlogPostArticleService {
     }
 
     @Override
+    @Transactional
     public BlogPostArticle update(BlogPostArticle blogPostArticle) {
         Long number = blogPostArticle.getNumber();
         if (!bpaEntityRepository.existsByNumber(number)) {
@@ -92,6 +94,7 @@ public class BlogPostArticleEntityService implements BlogPostArticleService {
     }
 
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!bpaEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, BlogPostArticleEntity.class);

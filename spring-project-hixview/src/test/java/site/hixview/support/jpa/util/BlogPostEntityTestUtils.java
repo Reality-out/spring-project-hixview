@@ -26,4 +26,14 @@ public interface BlogPostEntityTestUtils extends PostEntityTestUtils, BlogPostTe
                 .classification(anotherBlogPost.getClassification().name())
                 .build();
     }
+
+    default BlogPostEntity createNumberedBlogPostEntity() {
+        return BlogPostEntity.builder()
+                .post(createNumberedPostEntity())
+                .name(blogPost.getName())
+                .link(blogPost.getLink())
+                .date(blogPost.getDate())
+                .classification(blogPost.getClassification().name())
+                .build();
+    }
 }

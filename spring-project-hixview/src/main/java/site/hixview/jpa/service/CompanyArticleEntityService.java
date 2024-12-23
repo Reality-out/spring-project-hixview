@@ -97,6 +97,7 @@ public class CompanyArticleEntityService implements CompanyArticleService {
     }
 
     @Override
+    @Transactional
     public CompanyArticle insert(CompanyArticle companyArticle) {
         Long number = companyArticle.getNumber();
         String name = companyArticle.getName();
@@ -111,6 +112,7 @@ public class CompanyArticleEntityService implements CompanyArticleService {
     }
 
     @Override
+    @Transactional
     public CompanyArticle update(CompanyArticle companyArticle) {
         Long number = companyArticle.getNumber();
         String name = companyArticle.getName();
@@ -127,6 +129,7 @@ public class CompanyArticleEntityService implements CompanyArticleService {
     }
     
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!companyArticleEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, CompanyArticleEntity.class);

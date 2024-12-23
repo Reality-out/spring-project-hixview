@@ -65,6 +65,7 @@ public class CompanyArticleCompanyEntityService implements CompanyArticleCompany
     }
 
     @Override
+    @Transactional
     public CompanyArticleCompany insert(CompanyArticleCompany companyArticleCompany) {
         Long number = companyArticleCompany.getNumber();
         Long articleNumber = companyArticleCompany.getArticleNumber();
@@ -79,6 +80,7 @@ public class CompanyArticleCompanyEntityService implements CompanyArticleCompany
     }
     
     @Override
+    @Transactional
     public CompanyArticleCompany update(CompanyArticleCompany companyArticleCompany) {
         Long number = companyArticleCompany.getNumber();
         if (!cacEntityRepository.existsByNumber(number)) {
@@ -93,6 +95,7 @@ public class CompanyArticleCompanyEntityService implements CompanyArticleCompany
     }
 
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!cacEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, CompanyArticleCompanyEntity.class);

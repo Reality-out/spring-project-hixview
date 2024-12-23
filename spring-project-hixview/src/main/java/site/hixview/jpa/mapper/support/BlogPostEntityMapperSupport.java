@@ -15,7 +15,7 @@ import site.hixview.jpa.repository.PostEntityRepository;
 
 import java.util.List;
 
-public interface BlogPostEntityMapperSupport {
+public interface BlogPostEntityMapperSupport extends SuperPostEntityMapperSupport {
     @AfterMapping
     default void afterMappingToEntity(
             @MappingTarget BlogPostEntityBuilder builder, BlogPost blogPost,

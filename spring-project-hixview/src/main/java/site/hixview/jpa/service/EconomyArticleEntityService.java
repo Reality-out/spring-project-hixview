@@ -97,6 +97,7 @@ public class EconomyArticleEntityService implements EconomyArticleService {
     }
 
     @Override
+    @Transactional
     public EconomyArticle insert(EconomyArticle economyArticle) {
         Long number = economyArticle.getNumber();
         String name = economyArticle.getName();
@@ -111,6 +112,7 @@ public class EconomyArticleEntityService implements EconomyArticleService {
     }
 
     @Override
+    @Transactional
     public EconomyArticle update(EconomyArticle economyArticle) {
         Long number = economyArticle.getNumber();
         String name = economyArticle.getName();
@@ -127,6 +129,7 @@ public class EconomyArticleEntityService implements EconomyArticleService {
     }
     
     @Override
+    @Transactional
     public void removeByNumber(Long number) {
         if (!economyArticleEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, EconomyArticleEntity.class);
