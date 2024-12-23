@@ -16,4 +16,9 @@ public interface FirstCategoryEntityTestUtils extends IndustryCategoryEntityTest
         return new FirstCategoryEntity(anotherFirstCategory.getKoreanName(), anotherFirstCategory.getEnglishName(),
                 createFirstIndustryCategoryEntity());
     }
+
+    default FirstCategoryEntity createNumberedFirstCategoryEntity() {
+        return new FirstCategoryEntity(firstCategory.getNumber(), firstCategory.getKoreanName(),
+                firstCategory.getEnglishName(), createNumberedFirstIndustryCategoryEntity());
+    }
 }

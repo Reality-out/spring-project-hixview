@@ -241,7 +241,7 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         assertThat(siteMemberEntityService.getAll()).isEqualTo(List.of(updateSiteMember));
     }
 
-    @DisplayName("존재하지 않는 번호로 사이트 회원 갱신")
+    @DisplayName("발견되지 않는 번호로 사이트 회원 갱신")
     @Test
     void updateNotFoundNumberTest() {
         // given
@@ -309,7 +309,7 @@ class SiteMemberEntityServiceTest implements SiteMemberEntityTestUtils, SiteMemb
         assertThat(siteMemberEntityService.getAll()).isEqualTo(Collections.emptyList());
     }
 
-    @DisplayName("존재하지 않는 번호로 사이트 회원 제거")
+    @DisplayName("발견되지 않는 번호로 사이트 회원 제거")
     @Test
     void removeByNotFoundNumberTest() {
         // given

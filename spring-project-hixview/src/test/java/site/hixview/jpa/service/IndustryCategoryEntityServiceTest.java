@@ -34,7 +34,7 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getAllTest() {
         // given
-        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        IndustryCategoryEntity industryCategoryEntity = createNumberedFirstIndustryCategoryEntity();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findAll()).thenReturn(List.of(industryCategoryEntity));
 
@@ -49,7 +49,7 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getByNumberTest() {
         // given
-        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        IndustryCategoryEntity industryCategoryEntity = createNumberedFirstIndustryCategoryEntity();
         Long number = industryCategoryEntity.getNumber();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findByNumber(number)).thenReturn(Optional.of(industryCategoryEntity));
@@ -65,7 +65,7 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getByKoreanNameTest() {
         // given
-        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        IndustryCategoryEntity industryCategoryEntity = createNumberedFirstIndustryCategoryEntity();
         String koreanName = industryCategoryEntity.getKoreanName();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findByKoreanName(koreanName)).thenReturn(Optional.of(industryCategoryEntity));
@@ -81,7 +81,7 @@ class IndustryCategoryEntityServiceTest implements IndustryCategoryEntityTestUti
     @Test
     void getByEnglishNameTest() {
         // given
-        IndustryCategoryEntity industryCategoryEntity = createNumberedIndustryCategoryEntity();
+        IndustryCategoryEntity industryCategoryEntity = createNumberedFirstIndustryCategoryEntity();
         String englishName = industryCategoryEntity.getEnglishName();
         when(industryCategoryEntityRepository.save(any())).thenReturn(industryCategoryEntity);
         when(industryCategoryEntityRepository.findByEnglishName(englishName)).thenReturn(Optional.of(industryCategoryEntity));

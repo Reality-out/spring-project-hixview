@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.hixview.aggregate.domain.FirstCategory;
 import site.hixview.aggregate.domain.IndustryArticle;
 import site.hixview.aggregate.domain.Press;
 import site.hixview.aggregate.enums.Country;
@@ -75,6 +76,14 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     public List<IndustryArticle> getByPress(Press press) {
         return industryArticleEntityRepository.findByPress(
                         pressEntityRepository.findByNumber(press.getNumber()).orElseThrow())
+                .stream().map((IndustryArticleEntity industryArticleEntity) ->
+                        mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
+    }
+
+    @Override
+    public List<IndustryArticle> getByFirstCategory(FirstCategory firstCategory) {
+        return industryArticleEntityRepository.findByFirstCategory(
+                        firstCategoryEntityRepository.findByNumber(firstCategory.getNumber()).orElseThrow())
                 .stream().map((IndustryArticleEntity industryArticleEntity) ->
                         mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
     }

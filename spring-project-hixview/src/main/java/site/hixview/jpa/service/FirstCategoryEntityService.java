@@ -9,9 +9,7 @@ import site.hixview.aggregate.domain.FirstCategory;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.FirstCategoryService;
-import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.FirstCategoryEntity;
-import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.mapper.FirstCategoryEntityMapper;
 import site.hixview.jpa.mapper.FirstCategoryEntityMapperImpl;
 import site.hixview.jpa.repository.*;
@@ -115,16 +113,15 @@ public class FirstCategoryEntityService implements FirstCategoryService {
     private void propagateFirstCategoryEntity(FirstCategoryEntity firstCategoryEntity) {
         secondCategoryEntityRepository.saveAll(
                 secondCategoryEntityRepository.findByFirstCategory(firstCategoryEntity).stream().peek(
-                        category -> category.updateFirstCategory(firstCategoryEntity)).toList());
+                                category -> category.updateFirstCategory(firstCategoryEntity))
+                        .toList());
         companyEntityRepository.saveAll(
-                companyEntityRepository.findByFirstCategory(firstCategoryEntity).stream().map(company -> {
-                    company = CompanyEntity.builder().company(company).firstCategory(firstCategoryEntity).build();
-                    return company;
-                }).toList());
+                companyEntityRepository.findByFirstCategory(firstCategoryEntity).stream().peek(
+                        company -> company.updateFirstCategory(firstCategoryEntity)
+                ).toList());
         industryArticleEntityRepository.saveAll(
-                industryArticleEntityRepository.findByFirstCategory(firstCategoryEntity).stream().map(article -> {
-                    article = IndustryArticleEntity.builder().industryArticle(article).firstCategory(firstCategoryEntity).build();
-                    return article;
-                }).toList());
+                industryArticleEntityRepository.findByFirstCategory(firstCategoryEntity).stream().peek(
+                        article -> article.updateFirstCategory(firstCategoryEntity)
+                ).toList());
     }
 }

@@ -216,7 +216,7 @@ class PressEntityServiceTest implements PressEntityTestUtils, CompanyArticleEnti
         assertThat(pressEntityService.getAll()).isEqualTo(List.of(updatePress));
     }
 
-    @DisplayName("존재하지 않는 번호로 언론사 갱신")
+    @DisplayName("발견되지 않는 번호로 언론사 갱신")
     @Test
     void updateNotFoundNumberTest() {
         // given
@@ -289,7 +289,7 @@ class PressEntityServiceTest implements PressEntityTestUtils, CompanyArticleEnti
         assertThat(pressEntityService.getAll()).isEqualTo(Collections.emptyList());
     }
 
-    @DisplayName("존재하지 않는 번호로 언론사 제거")
+    @DisplayName("발견되지 않는 번호로 언론사 제거")
     @Test
     void removeByNotFoundNumberTest() {
         // given

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.hixview.aggregate.domain.FirstCategory;
 import site.hixview.aggregate.domain.SecondCategory;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
@@ -40,6 +41,13 @@ public class SecondCategoryEntityService implements SecondCategoryService {
     @Override
     public List<SecondCategory> getAll() {
         return scEntityRepository.findAll().stream().map(mapper::toSecondCategory).toList();
+    }
+
+    @Override
+    public List<SecondCategory> getByFirstCategory(FirstCategory firstCategory) {
+        return scEntityRepository.findByFirstCategory(
+                        firstCategoryEntityRepository.findByNumber(firstCategory.getNumber()).orElseThrow())
+                .stream().map(mapper::toSecondCategory).toList();
     }
 
     @Override

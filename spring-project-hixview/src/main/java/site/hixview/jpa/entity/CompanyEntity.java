@@ -59,6 +59,14 @@ public class CompanyEntity {
         return new HashCodeBuilder(17, 37).append(getCode()).toHashCode();
     }
 
+    public void updateFirstCategory(FirstCategoryEntity firstCategory) {
+        this.firstCategory = firstCategory;
+    }
+
+    public void updateSecondCategory(SecondCategoryEntity secondCategory) {
+        this.secondCategory = secondCategory;
+    }
+
     public static CompanyEntityBuilder builder() {
         return new CompanyEntityBuilder();
     }

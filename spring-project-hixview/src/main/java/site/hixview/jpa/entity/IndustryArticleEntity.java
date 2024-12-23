@@ -46,6 +46,10 @@ public class IndustryArticleEntity extends SuperArticleEntity {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
     }
 
+    public void updateFirstCategory(FirstCategoryEntity firstCategory) {
+        this.firstCategory = firstCategory;
+    }
+
     public static IndustryArticleEntityBuilder builder() {
         return new IndustryArticleEntityBuilder();
     }

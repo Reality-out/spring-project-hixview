@@ -199,7 +199,7 @@ class EconomyContentEntityServiceTest implements EconomyArticleContentEntityTest
         assertThat(economyContentEntityService.getAll()).isEqualTo(List.of(updateEconomyContent));
     }
 
-    @DisplayName("존재하지 않는 번호로 경제 컨텐츠 갱신")
+    @DisplayName("발견되지 않는 번호로 경제 컨텐츠 갱신")
     @Test
     void updateNotFoundNumberTest() {
         // given
@@ -268,7 +268,7 @@ class EconomyContentEntityServiceTest implements EconomyArticleContentEntityTest
         assertThat(economyContentEntityService.getAll()).isEqualTo(Collections.emptyList());
     }
 
-    @DisplayName("존재하지 않는 번호로 경제 컨텐츠 제거")
+    @DisplayName("발견되지 않는 번호로 경제 컨텐츠 제거")
     @Test
     void removeByNotFoundNumberTest() {
         // given
