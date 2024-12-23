@@ -9,7 +9,6 @@ import site.hixview.aggregate.error.EntityExistsWithNameException;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.EconomyContentService;
-import site.hixview.jpa.entity.EconomyArticleContentEntity;
 import site.hixview.jpa.entity.EconomyContentEntity;
 import site.hixview.jpa.mapper.EconomyContentEntityMapper;
 import site.hixview.jpa.mapper.EconomyContentEntityMapperImpl;
@@ -22,6 +21,7 @@ import java.util.Optional;
 import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.REMOVE_REFERENCED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -72,7 +72,8 @@ public class EconomyContentEntityService implements EconomyContentService {
         if (economyContentEntityRepository.findByName(name).isPresent()) {
             throw new EntityExistsWithNameException(name, EconomyContentEntity.class);
         }
-        EconomyContentEntity economyContentEntity = economyContentEntityRepository.save(mapper.toEconomyContentEntity(economyContent));
+        EconomyContentEntity economyContentEntity = economyContentEntityRepository.save(
+                map(economyContent, economyContentEntityRepository.findByNumber(economyContent.getNumber()).orElseThrow()));
         propagateEconomyContent(economyContentEntity);
         return mapper.toEconomyContent(economyContentEntity);
     }
@@ -98,10 +99,7 @@ public class EconomyContentEntityService implements EconomyContentService {
     }
 
     private void propagateEconomyContent(EconomyContentEntity economyContentEntity) {
-        List<EconomyArticleContentEntity> eacEntities = eacEntityRepository.findByEconomyContent(economyContentEntity);
-        for (EconomyArticleContentEntity eacEntity : eacEntities) {
-            eacEntity.updateEconomyContent(economyContentEntity);
-        }
-        eacEntityRepository.saveAll(eacEntities);
+        eacEntityRepository.saveAll(eacEntityRepository.findByEconomyContent(economyContentEntity).stream().peek(
+                mapper -> mapper.updateEconomyContent(economyContentEntity)).toList());
     }
 }

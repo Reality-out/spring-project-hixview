@@ -1,5 +1,6 @@
 package site.hixview.aggregate.service.supers;
 
+import site.hixview.aggregate.domain.Press;
 import site.hixview.aggregate.enums.Country;
 import site.hixview.aggregate.enums.Importance;
 
@@ -15,6 +16,8 @@ public interface ArticleSuperService<T> extends CrudAllowedServiceWithNumberId<T
     List<T> getBySubjectCountry(Country subjectCountry);
 
     List<T> getByImportance(Importance importance);
+
+    List<T> getByPress(Press press);
 
     Optional<T> getByName(String name);
 

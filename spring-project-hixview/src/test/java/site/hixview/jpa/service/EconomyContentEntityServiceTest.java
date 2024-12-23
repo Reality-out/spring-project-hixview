@@ -187,6 +187,7 @@ class EconomyContentEntityServiceTest implements EconomyArticleContentEntityTest
         EconomyContentEntity updatedEconomyContentEntity = economyContentEntityMapper.toEconomyContentEntity(updatedEconomyContent);
         when(economyContentEntityRepository.existsByNumber(number)).thenReturn(false).thenReturn(true);
         when(economyContentEntityRepository.findByName(any())).thenReturn(Optional.empty());
+        when(economyContentEntityRepository.findByNumber(any())).thenReturn(Optional.of(economyContentEntity));
         when(economyContentEntityRepository.save(any())).thenReturn(economyContentEntity).thenReturn(updatedEconomyContentEntity);
         when(economyContentEntityRepository.findAll()).thenReturn(List.of(updatedEconomyContentEntity));
         economyContentEntityService.insert(economyContent);

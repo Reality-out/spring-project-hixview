@@ -38,4 +38,8 @@ public abstract class SuperArticleEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = false)
     @JoinColumn(name = PRESS_NUM_SNAKE, nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private PressEntity press;
+
+    public void updatePress(PressEntity press) {
+        this.press = press;
+    }
 }

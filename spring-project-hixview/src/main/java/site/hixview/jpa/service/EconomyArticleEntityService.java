@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.hixview.aggregate.domain.EconomyArticle;
+import site.hixview.aggregate.domain.Press;
 import site.hixview.aggregate.enums.Country;
 import site.hixview.aggregate.enums.Importance;
 import site.hixview.aggregate.error.EntityExistsWithNameException;
@@ -69,6 +70,14 @@ public class EconomyArticleEntityService implements EconomyArticleService {
     public List<EconomyArticle> getByImportance(Importance importance) {
         return economyArticleEntityRepository.findByImportance(importance.name()).stream()
                 .map((EconomyArticleEntity economyArticleEntity) ->
+                        mapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)).toList();
+    }
+
+    @Override
+    public List<EconomyArticle> getByPress(Press press) {
+        return economyArticleEntityRepository.findByPress(
+                        pressEntityRepository.findByNumber(press.getNumber()).orElseThrow())
+                .stream().map((EconomyArticleEntity economyArticleEntity) ->
                         mapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)).toList();
     }
 

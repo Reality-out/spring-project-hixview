@@ -52,6 +52,12 @@ public abstract class MapperUtils {
         return to;
     }
 
+    public static EconomyContentEntity map(EconomyContent from,
+                                           EconomyContentEntity to) {
+        to.updateName(from.getName());
+        return to;
+    }
+
     public static FirstCategoryEntity map(FirstCategory from, FirstCategoryEntity to,
                                           IndustryCategoryEntityRepository icRepository) {
         to.updateKoreanName(from.getKoreanName());
