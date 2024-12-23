@@ -81,7 +81,7 @@ class EconomyArticleEntityRepositoryTest implements EconomyArticleEntityTestUtil
         assertThat(economyArticleRepository.findBySubjectCountry(article.getSubjectCountry())).isEqualTo(List.of(article));
     }
 
-    @DisplayName("중요성으로 경제 기사 찾기")
+    @DisplayName("중요도로 경제 기사 찾기")
     @Test
     void findByImportanceTest() {
         // given
@@ -96,7 +96,7 @@ class EconomyArticleEntityRepositoryTest implements EconomyArticleEntityTestUtil
         assertThat(economyArticleRepository.findByImportance(article.getImportance())).isEqualTo(articleList);
     }
 
-    @DisplayName("중요성으로 경제 기사 찾기")
+    @DisplayName("중요도로 경제 기사 찾기")
     @Test
     void findByPressTest() {
         // given

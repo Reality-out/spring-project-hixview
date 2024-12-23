@@ -81,7 +81,7 @@ class IndustryArticleEntityRepositoryTest implements IndustryArticleEntityTestUt
         assertThat(industryArticleRepository.findBySubjectCountry(article.getSubjectCountry())).isEqualTo(List.of(article));
     }
 
-    @DisplayName("중요성으로 산업 기사 찾기")
+    @DisplayName("중요도로 산업 기사 찾기")
     @Test
     void findByImportanceTest() {
         // given

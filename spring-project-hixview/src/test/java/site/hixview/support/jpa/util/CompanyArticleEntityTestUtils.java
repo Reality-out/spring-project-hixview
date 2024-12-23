@@ -32,4 +32,17 @@ public interface CompanyArticleEntityTestUtils extends ArticleEntityTestUtils, P
                 .press(createAnotherPressEntity())
                 .build();
     }
+
+    default CompanyArticleEntity createNumberedCompanyArticleEntity() {
+        return CompanyArticleEntity.builder()
+                .article(createNumberedArticleEntity())
+                .name(companyArticle.getName())
+                .link(companyArticle.getLink())
+                .date(companyArticle.getDate())
+                .subjectCountry(companyArticle.getSubjectCountry().name())
+                .importance(companyArticle.getImportance().name())
+                .summary(companyArticle.getSummary())
+                .press(createNumberedPressEntity())
+                .build();
+    }
 }

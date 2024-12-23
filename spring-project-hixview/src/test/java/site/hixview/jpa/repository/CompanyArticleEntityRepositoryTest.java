@@ -81,7 +81,7 @@ class CompanyArticleEntityRepositoryTest implements CompanyArticleEntityTestUtil
         assertThat(companyArticleRepository.findBySubjectCountry(article.getSubjectCountry())).isEqualTo(List.of(article));
     }
 
-    @DisplayName("중요성으로 기업 기사 찾기")
+    @DisplayName("중요도로 기업 기사 찾기")
     @Test
     void findByImportanceTest() {
         // given
