@@ -345,8 +345,8 @@ class BlogPostEntityServiceTest implements BlogPostEntityTestUtils, BlogPostArti
         BlogPostEntity bpEntity = createNumberedBlogPostEntity();
         Long number = bpEntity.getNumber();
         when(bpEntityRepository.save(bpEntity)).thenReturn(bpEntity);
-        when(bpEntityRepository.existsByNumber(bpEntity.getNumber())).thenReturn(true);
-        when(bpEntityRepository.findByNumber(bpEntity.getNumber())).thenReturn(Optional.of(bpEntity));
+        when(bpEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(bpEntityRepository.findByNumber(number)).thenReturn(Optional.of(bpEntity));
         when(bpaEntityRepository.findByBlogPost(bpEntity)).thenReturn(List.of(createBlogPostArticleEntity()));
 
         // when

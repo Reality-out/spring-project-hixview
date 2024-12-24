@@ -387,8 +387,8 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
         Long number = iaEntity.getNumber();
         when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
-        when(iaEntityRepository.existsByNumber(iaEntity.getNumber())).thenReturn(true);
-        when(iaEntityRepository.findByNumber(iaEntity.getNumber())).thenReturn(Optional.of(iaEntity));
+        when(iaEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(iaEntityRepository.findByNumber(number)).thenReturn(Optional.of(iaEntity));
         when(eacEntityRepository.findByEconomyArticle(iaEntity)).thenReturn(List.of(createEconomyArticleContentEntity()));
 
         // when

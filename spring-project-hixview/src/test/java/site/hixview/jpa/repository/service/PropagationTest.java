@@ -112,6 +112,31 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         assertThat(bpaEntityService.getByBlogPost(updatedBlogPost).size()).isEqualTo(1);
     }
 
+    @DisplayName("기업 엔터티 전파 테스트")
+    @Test
+    void companyEntityPropagationTest() {
+        // given
+        CompanyEntity companyEntity = createCompanyEntity();
+        FirstCategoryEntity fcEntity = companyEntity.getFirstCategory();
+        SecondCategoryEntity scEntity = companyEntity.getSecondCategory();
+        CompanyArticleCompanyEntity cacEntity = createCompanyArticleCompanyEntity();
+        scEntity.updateFirstCategory(fcEntity);
+        cacEntity.updateCompany(companyEntity);
+        fcEntityRepository.save(fcEntity);
+        scEntityRepository.save(scEntity);
+        companyEntityRepository.save(companyEntity);
+        cacEntityRepository.save(cacEntity);
+
+        // when
+        Company updatedCompany = Company.builder().company(anotherCompany).code(companyEntity.getCode()).firstCategoryNumber(companyEntity.getFirstCategory().getNumber()).secondCategoryNumber(companyEntity.getSecondCategory().getNumber()).build();
+        entityManager.clear();
+        companyEntityService.update(updatedCompany);
+
+        // then
+        entityManager.clear();
+        assertThat(cacEntityService.getByCompany(updatedCompany).size()).isEqualTo(1);
+    }
+
     @DisplayName("기업 기사 엔터티 전파 테스트")
     @Test
     void companyArticleEntityPropagationTest() {

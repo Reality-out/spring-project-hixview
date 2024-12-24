@@ -387,8 +387,8 @@ class CompanyArticleEntityServiceTest implements CompanyArticleEntityTestUtils, 
         CompanyArticleEntity caEntity = createNumberedCompanyArticleEntity();
         Long number = caEntity.getNumber();
         when(caEntityRepository.save(caEntity)).thenReturn(caEntity);
-        when(caEntityRepository.existsByNumber(caEntity.getNumber())).thenReturn(true);
-        when(caEntityRepository.findByNumber(caEntity.getNumber())).thenReturn(Optional.of(caEntity));
+        when(caEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(caEntityRepository.findByNumber(number)).thenReturn(Optional.of(caEntity));
         when(cacEntityRepository.findByCompanyArticle(caEntity)).thenReturn(List.of(createCompanyArticleCompanyEntity()));
 
         // when

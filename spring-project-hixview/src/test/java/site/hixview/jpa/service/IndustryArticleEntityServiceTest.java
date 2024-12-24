@@ -404,8 +404,8 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         IndustryArticleEntity iaEntity = createNumberedIndustryArticleEntity();
         Long number = iaEntity.getNumber();
         when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
-        when(iaEntityRepository.existsByNumber(iaEntity.getNumber())).thenReturn(true);
-        when(iaEntityRepository.findByNumber(iaEntity.getNumber())).thenReturn(Optional.of(iaEntity));
+        when(iaEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(iaEntityRepository.findByNumber(number)).thenReturn(Optional.of(iaEntity));
         when(iascEntityRepository.findByIndustryArticle(iaEntity)).thenReturn(List.of(createIndustryArticleSecondCategoryEntity()));
 
         // when

@@ -323,8 +323,8 @@ class SecondCategoryEntityServiceTest implements CompanyEntityTestUtils, FirstCa
         SecondCategoryEntity scEntity = createNumberedSecondCategoryEntity();
         Long number = scEntity.getNumber();
         when(scEntityRepository.save(scEntity)).thenReturn(scEntity);
-        when(scEntityRepository.existsByNumber(scEntity.getNumber())).thenReturn(true);
-        when(scEntityRepository.findByNumber(scEntity.getNumber())).thenReturn(Optional.of(scEntity));
+        when(scEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(scEntityRepository.findByNumber(number)).thenReturn(Optional.of(scEntity));
         when(companyEntityRepository.findBySecondCategory(scEntity)).thenReturn(List.of(createCompanyEntity()));
 
         // when - 1
