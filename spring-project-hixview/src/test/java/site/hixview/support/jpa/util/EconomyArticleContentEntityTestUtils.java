@@ -1,8 +1,9 @@
 package site.hixview.support.jpa.util;
 
 import site.hixview.jpa.entity.EconomyArticleContentEntity;
+import site.hixview.support.spring.util.EconomyArticleContentTestUtils;
 
-public interface EconomyArticleContentEntityTestUtils extends EconomyArticleEntityTestUtils, EconomyContentEntityTestUtils {
+public interface EconomyArticleContentEntityTestUtils extends EconomyArticleContentTestUtils, EconomyArticleEntityTestUtils, EconomyContentEntityTestUtils {
     default EconomyArticleContentEntity createEconomyArticleContentEntity() {
         return new EconomyArticleContentEntity(createEconomyArticleEntity(), createEconomyContentEntity());
     }
@@ -12,6 +13,6 @@ public interface EconomyArticleContentEntityTestUtils extends EconomyArticleEnti
     }
 
     default EconomyArticleContentEntity createNumberedEconomyArticleContentEntity() {
-        return new EconomyArticleContentEntity(createNumberedEconomyArticleEntity(), createNumberedEconomyContentEntity());
+        return new EconomyArticleContentEntity(economyArticleContent.getNumber(), createNumberedEconomyArticleEntity(), createNumberedEconomyContentEntity());
     }
 }

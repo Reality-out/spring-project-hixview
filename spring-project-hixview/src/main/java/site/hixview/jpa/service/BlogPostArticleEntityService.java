@@ -117,7 +117,7 @@ public class BlogPostArticleEntityService implements BlogPostArticleService {
                         () -> new EntityNotFoundWithNumberException(articleNumber, ArticleEntity.class))
         ).isPresent()) {
             throw new EntityExistsException(getFormattedExceptionMessage(
-                    ALREADY_EXISTED_ENTITY, POST_NUMBER, postNumber, BlogPostArticleEntity.class,
+                    ALREADY_EXISTED_ENTITY, POST_NUMBER, postNumber, BlogPostEntity.class,
                     ARTICLE_NUMBER, articleNumber, ArticleEntity.class));
         }
     }
