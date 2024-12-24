@@ -40,7 +40,11 @@ public class EconomyArticleEntity extends SuperArticleEntity {
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
     }
-    
+
+    public void updateArticle(ArticleEntity article) {
+        this.article = article;
+    }
+
     public static EconomyArticleEntityBuilder builder() {
         return new EconomyArticleEntityBuilder();
     }

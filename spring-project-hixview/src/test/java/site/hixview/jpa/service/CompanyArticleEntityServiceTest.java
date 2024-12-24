@@ -295,6 +295,7 @@ class CompanyArticleEntityServiceTest implements CompanyArticleEntityTestUtils, 
         when(caEntityRepository.save(caEntityUpdated)).thenReturn(caEntityUpdated);
         when(caEntityRepository.existsByNumber(articleNumber)).thenReturn(true);
         when(caEntityRepository.findByName(caEntityUpdated.getName())).thenReturn(Optional.empty());
+        when(caEntityRepository.findByNumber(articleNumber)).thenReturn(Optional.of(caEntity));
         when(articleEntityRepository.findByNumber(articleEntity.getNumber())).thenReturn(Optional.of(articleEntity));
         when(cacEntityRepository.findByCompanyArticle(caEntityUpdated)).thenReturn(Collections.emptyList());
         when(caEntityRepository.findAll()).thenReturn(List.of(caEntityUpdated));

@@ -39,6 +39,30 @@ public abstract class SuperArticleEntity {
     @JoinColumn(name = PRESS_NUM_SNAKE, nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private PressEntity press;
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateLink(String link) {
+        this.link = link;
+    }
+
+    public void updateDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void updateSubjectCountry(String subjectCountry) {
+        this.subjectCountry = subjectCountry;
+    }
+
+    public void updateImportance(String importance) {
+        this.importance = importance;
+    }
+
+    public void updateSummary(String summary) {
+        this.summary = summary;
+    }
+
     public void updatePress(PressEntity press) {
         this.press = press;
     }

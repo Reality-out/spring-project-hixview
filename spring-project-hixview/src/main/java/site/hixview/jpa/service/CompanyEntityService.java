@@ -25,6 +25,7 @@ import java.util.Optional;
 import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.*;
 import static site.hixview.aggregate.vo.WordCamel.CODE;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -107,8 +108,9 @@ public class CompanyEntityService implements CompanyService {
             throw new EntityNotFoundException(getFormattedExceptionMessage(
                     CANNOT_FOUND_ENTITY, CODE, code, CompanyEntity.class));
         }
-        CompanyEntity companyEntity = companyEntityRepository.save(companyEntityMapper.toCompanyEntity(
-                company, firstCategoryEntityRepository, secondCategoryEntityRepository));
+        CompanyEntity companyEntity = companyEntityRepository.save(map(company,
+                companyEntityRepository.findByCode(company.getCode()).orElseThrow(), firstCategoryEntityRepository, secondCategoryEntityRepository)
+        );
         propagateCompanyEntity(companyEntity);
         return companyEntityMapper.toCompany(companyEntity);
     }

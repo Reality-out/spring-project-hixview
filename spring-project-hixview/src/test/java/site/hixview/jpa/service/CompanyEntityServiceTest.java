@@ -263,17 +263,19 @@ class CompanyEntityServiceTest implements CompanyArticleCompanyEntityTestUtils, 
     void updateTest() {
         // given
         CompanyEntity companyEntity = createCompanyEntity();
+        String code = companyEntity.getCode();
         FirstCategoryEntity firstCategoryEntity = companyEntity.getFirstCategory();
         SecondCategoryEntity secondCategoryEntity = companyEntity.getSecondCategory();
         secondCategoryEntity.updateFirstCategory(firstCategoryEntity);
-        Company companyUpdated = Company.builder().company(anotherCompany).code(companyEntity.getCode()).firstCategoryNumber(companyEntity.getFirstCategory().getNumber()).secondCategoryNumber(companyEntity.getSecondCategory().getNumber()).build();
+        Company companyUpdated = Company.builder().company(anotherCompany).code(code).firstCategoryNumber(companyEntity.getFirstCategory().getNumber()).secondCategoryNumber(companyEntity.getSecondCategory().getNumber()).build();
         when(fcEntityRepository.findByNumber(companyUpdated.getFirstCategoryNumber())).thenReturn(Optional.of(firstCategoryEntity));
         when(scEntityRepository.findByNumber(companyUpdated.getSecondCategoryNumber())).thenReturn(Optional.of(secondCategoryEntity));
         CompanyEntity companyEntityUpdated = companyEntityMapper.toCompanyEntity(companyUpdated, fcEntityRepository, scEntityRepository);
         when(fcEntityRepository.save(firstCategoryEntity)).thenReturn(firstCategoryEntity);
         when(scEntityRepository.save(secondCategoryEntity)).thenReturn(secondCategoryEntity);
         when(companyEntityRepository.save(companyEntity)).thenReturn(companyEntity);
-        when(companyEntityRepository.existsByCode(companyUpdated.getCode())).thenReturn(true);
+        when(companyEntityRepository.existsByCode(code)).thenReturn(true);
+        when(companyEntityRepository.findByCode(code)).thenReturn(Optional.of(companyEntity));
         when(companyEntityRepository.findAll()).thenReturn(List.of(companyEntityUpdated));
         fcEntityRepository.save(firstCategoryEntity);
         scEntityRepository.save(secondCategoryEntity);

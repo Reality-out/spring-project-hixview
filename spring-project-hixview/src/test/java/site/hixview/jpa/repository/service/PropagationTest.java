@@ -103,12 +103,12 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
     void blogPostEntityPropagationTest() {
         // given
         BlogPostEntity bpEntity = bpEntityRepository.save(createBlogPostEntity());
-        bpaEntityRepository.save(new BlogPostArticleEntity(bpEntity, createArticleEntity()));
-        ArticleEntity articleEntityUpdated = articleEntityRepository.save(createAnotherArticleEntity());
-        BlogPost updatedBlogPost = BlogPost.builder().blogPost(anotherBlogPost).number(bpEntity.getNumber()).mappedArticleNumbers(List.of(articleEntityUpdated.getNumber())).build();
+        ArticleEntity articleEntity = articleEntityRepository.save(createArticleEntity());
+        bpaEntityRepository.save(new BlogPostArticleEntity(bpEntity, articleEntity));
+        BlogPost updatedBlogPost = BlogPost.builder().blogPost(anotherBlogPost).number(bpEntity.getNumber()).mappedArticleNumbers(List.of(articleEntity.getNumber())).build();
 
         // when
-        entityManager.clear();
+        entityManager.flush();
         bpEntityService.update(updatedBlogPost);
 
         // then
@@ -130,15 +130,15 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         scEntityRepository.save(scEntity);
         companyEntityRepository.save(companyEntity);
         cacEntityRepository.save(cacEntity);
+        Company updatedCompany = Company.builder().company(anotherCompany).code(companyEntity.getCode()).firstCategoryNumber(companyEntity.getFirstCategory().getNumber()).secondCategoryNumber(companyEntity.getSecondCategory().getNumber()).build();
 
         // when
-        Company updatedCompany = Company.builder().company(anotherCompany).code(companyEntity.getCode()).firstCategoryNumber(companyEntity.getFirstCategory().getNumber()).secondCategoryNumber(companyEntity.getSecondCategory().getNumber()).build();
-        entityManager.clear();
+        entityManager.flush();
         companyEntityService.update(updatedCompany);
 
         // then
-        entityManager.clear();
-        assertThat(cacEntityService.getByCompany(updatedCompany).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(companyEntityRepository.findByCode(cacEntityService.getByCompany(updatedCompany).getFirst().getCompanyCode()).orElseThrow().getEnglishName()).isEqualTo(updatedCompany.getEnglishName());
     }
 
     @DisplayName("기업 기사 엔터티 전파 테스트")
@@ -159,12 +159,12 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
 
         // when
         CompanyArticle updatedCompanyArticle = CompanyArticle.builder().companyArticle(anotherCompanyArticle).number(caEntity.getNumber()).pressNumber(caEntity.getPress().getNumber()).build();
-        entityManager.clear();
+        entityManager.flush();
         caEntityService.update(updatedCompanyArticle);
 
         // then
-        entityManager.clear();
-        assertThat(cacEntityService.getByCompanyArticle(updatedCompanyArticle).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(caEntityRepository.findByNumber(cacEntityService.getByCompanyArticle(updatedCompanyArticle).getFirst().getArticleNumber()).orElseThrow().getName()).isEqualTo(updatedCompanyArticle.getName());
     }
 
     @DisplayName("경제 기사 엔터티 전파 테스트")
@@ -174,33 +174,32 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         EconomyArticleContentEntity eacEntity = createEconomyArticleContentEntity();
         EconomyArticleEntity eaEntity = eacEntity.getEconomyArticle();
         eacEntityRepository.save(eacEntity);
+        EconomyArticle updatedEconomyArticle = EconomyArticle.builder().economyArticle(anotherEconomyArticle).number(eaEntity.getNumber()).pressNumber(eaEntity.getPress().getNumber()).build();
 
         // when
-        EconomyArticle updatedEconomyArticle = EconomyArticle.builder().economyArticle(anotherEconomyArticle).number(eaEntity.getNumber()).pressNumber(eaEntity.getPress().getNumber()).build();
-        entityManager.clear();
+        entityManager.flush();
         eaEntityService.update(updatedEconomyArticle);
 
         // then
-        entityManager.clear();
-        assertThat(eacEntityService.getByEconomyArticle(updatedEconomyArticle).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(eaEntityRepository.findByNumber(eacEntityService.getByEconomyArticle(updatedEconomyArticle).getFirst().getArticleNumber()).orElseThrow().getName()).isEqualTo(updatedEconomyArticle.getName());
     }
 
     @DisplayName("경제 컨텐츠 엔터티 전파 테스트")
     @Test
     void economyContentEntityPropagationTest() {
         // given
-        eacEntityRepository.save(createEconomyArticleContentEntity());
+        EconomyContentEntity economyContentEntity = createEconomyContentEntity();
+        eacEntityRepository.save(new EconomyArticleContentEntity(createEconomyArticleEntity(), economyContentEntity));
+        EconomyContent updatedEconomyContent = EconomyContent.builder().economyContent(anotherEconomyContent).number(economyContentEntity.getNumber()).build();
 
         // when
-        String name = economyContent.getName();
-        Long number = ecEntityRepository.findByName(name).orElseThrow().getNumber();
-        EconomyContent updatedEconomyContent = EconomyContent.builder().economyContent(anotherEconomyContent).number(number).build();
-        entityManager.clear();
+        entityManager.flush();
         ecEntityService.update(updatedEconomyContent);
 
         // then
-        entityManager.clear();
-        assertThat(eacEntityService.getByEconomyContent(updatedEconomyContent).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(ecEntityRepository.findByNumber(eacEntityService.getByEconomyContent(updatedEconomyContent).getFirst().getContentNumber()).orElseThrow().getName()).isEqualTo(updatedEconomyContent.getName());
     }
 
     @DisplayName("1차 업종 엔터티 전파 테스트")
@@ -217,20 +216,19 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         scEntityRepository.save(secondCategoryEntity);
         companyEntityRepository.save(companyEntity);
         iaEntityRepository.save(IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).firstCategory(firstCategoryEntity).build());
-        entityManager.flush();
+        FirstCategory updatedFirstCategory = FirstCategory.builder().firstCategory(anotherFirstCategory)
+                .number(firstCategoryEntity.getNumber()).industryCategoryNumber(firstCategoryEntity.getIndustryCategory().getNumber()).build();
+        String updatedEnglishName = updatedFirstCategory.getEnglishName();
 
         // when
-        String englishName = firstCategoryEntity.getEnglishName();
-        Long number = fcEntityRepository.findByEnglishName(englishName).orElseThrow().getNumber();
-        FirstCategory updatedFirstCategory = FirstCategory.builder().firstCategory(anotherFirstCategory)
-                .industryCategoryNumber(firstCategoryEntity.getIndustryCategory().getNumber()).number(number).build();
-        entityManager.clear();
+        entityManager.flush();
         fcEntityService.update(updatedFirstCategory);
 
         // then
-        assertThat(scEntityService.getByFirstCategory(updatedFirstCategory).size()).isEqualTo(1);
-        assertThat(companyEntityService.getByFirstCategory(updatedFirstCategory).size()).isEqualTo(1);
-        assertThat(iaEntityService.getByFirstCategory(updatedFirstCategory).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(fcEntityRepository.findByNumber(scEntityService.getByFirstCategory(updatedFirstCategory).getFirst().getFirstCategoryNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedEnglishName);
+        assertThat(fcEntityRepository.findByNumber(companyEntityService.getByFirstCategory(updatedFirstCategory).getFirst().getFirstCategoryNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedEnglishName);
+        assertThat(fcEntityRepository.findByNumber(iaEntityService.getByFirstCategory(updatedFirstCategory).getFirst().getFirstCategoryNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedEnglishName);
     }
 
     @DisplayName("산업 기사 엔터티 전파 테스트")
@@ -247,15 +245,15 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         fcEntityRepository.save(fcEntity);
         scEntityRepository.save(scEntity);
         iascEntityRepository.save(iascEntity);
+        IndustryArticle updatedIndustryArticle = IndustryArticle.builder().industryArticle(anotherIndustryArticle).number(iaEntity.getNumber()).pressNumber(iaEntity.getPress().getNumber()).firstCategoryNumber(iaEntity.getFirstCategory().getNumber()).build();
 
         // when
-        IndustryArticle updatedIndustryArticle = IndustryArticle.builder().industryArticle(anotherIndustryArticle).number(iaEntity.getNumber()).pressNumber(iaEntity.getPress().getNumber()).firstCategoryNumber(iaEntity.getFirstCategory().getNumber()).build();
-        entityManager.clear();
+        entityManager.flush();
         iaEntityService.update(updatedIndustryArticle);
 
         // then
-        entityManager.clear();
-        assertThat(iascEntityService.getByIndustryArticle(updatedIndustryArticle).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(iaEntityRepository.findByNumber(iascEntityService.getByIndustryArticle(updatedIndustryArticle).getFirst().getArticleNumber()).orElseThrow().getName()).isEqualTo(updatedIndustryArticle.getName());
     }
 
     @DisplayName("언론사 엔터티 전파 테스트")
@@ -266,19 +264,17 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         caEntityRepository.save(CompanyArticleEntity.builder().companyArticle(createCompanyArticleEntity()).press(pressEntity).build());
         eaEntityRepository.save(EconomyArticleEntity.builder().economyArticle(createEconomyArticleEntity()).press(pressEntity).build());
         iaEntityRepository.save(IndustryArticleEntity.builder().industryArticle(createIndustryArticleEntity()).press(pressEntity).build());
-        entityManager.flush();
+        Press updatedPress = Press.builder().press(anotherPress).number(pressEntity.getNumber()).build();
 
         // when
-        String englishName = pressEntity.getEnglishName();
-        Long number = pressEntityRepository.findByEnglishName(englishName).orElseThrow().getNumber();
-        Press updatedPress = Press.builder().press(anotherPress).number(number).build();
-        entityManager.clear();
+        entityManager.flush();
         pressEntityService.update(updatedPress);
 
         // then
-        assertThat(caEntityService.getByPress(updatedPress).size()).isEqualTo(1);
-        assertThat(eaEntityService.getByPress(updatedPress).size()).isEqualTo(1);
-        assertThat(iaEntityService.getByPress(updatedPress).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(pressEntityRepository.findByNumber(caEntityService.getByPress(updatedPress).getFirst().getPressNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedPress.getEnglishName());
+        assertThat(pressEntityRepository.findByNumber(eaEntityService.getByPress(updatedPress).getFirst().getPressNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedPress.getEnglishName());
+        assertThat(pressEntityRepository.findByNumber(iaEntityService.getByPress(updatedPress).getFirst().getPressNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedPress.getEnglishName());
     }
 
     @DisplayName("2차 업종 엔터티 전파 테스트")
@@ -301,19 +297,18 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         companyEntityRepository.save(companyEntity);
         iaEntityRepository.save(industryArticleEntity);
         iascEntityRepository.save(iascEntity);
-        entityManager.flush();
+        SecondCategory updatedSecondCategory = SecondCategory.builder().secondCategory(anotherSecondCategory)
+                .number(secondCategoryEntity.getNumber())
+                .industryCategoryNumber(secondCategoryEntity.getIndustryCategory().getNumber())
+                .firstCategoryNumber(secondCategoryEntity.getFirstCategory().getNumber()).build();
 
         // when
-        String englishName = secondCategoryEntity.getEnglishName();
-        Long number = scEntityRepository.findByEnglishName(englishName).orElseThrow().getNumber();
-        SecondCategory updatedSecondCategory = SecondCategory.builder().secondCategory(anotherSecondCategory)
-                .industryCategoryNumber(secondCategoryEntity.getIndustryCategory().getNumber())
-                .firstCategoryNumber(secondCategoryEntity.getFirstCategory().getNumber()).number(number).build();
-        entityManager.clear();
+        entityManager.flush();
         scEntityService.update(updatedSecondCategory);
 
         // then
-        assertThat(companyEntityService.getBySecondCategory(updatedSecondCategory).size()).isEqualTo(1);
-        assertThat(iascEntityService.getBySecondCategory(updatedSecondCategory).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(scEntityRepository.findByNumber(companyEntityService.getBySecondCategory(updatedSecondCategory).getFirst().getSecondCategoryNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedSecondCategory.getEnglishName());
+        assertThat(scEntityRepository.findByNumber(iascEntityService.getBySecondCategory(updatedSecondCategory).getFirst().getSecondCategoryNumber()).orElseThrow().getEnglishName()).isEqualTo(updatedSecondCategory.getEnglishName());
     }
 }

@@ -59,6 +59,26 @@ public class CompanyEntity {
         return new HashCodeBuilder(17, 37).append(getCode()).toHashCode();
     }
 
+    public void updateKoreanName(String koreanName) {
+        this.koreanName = koreanName;
+    }
+
+    public void updateEnglishName(String englishName) {
+        this.englishName = englishName;
+    }
+
+    public void updateNameListed(String nameListed) {
+        this.nameListed = nameListed;
+    }
+
+    public void updateCountryListed(String countryListed) {
+        this.countryListed = countryListed;
+    }
+
+    public void updateScale(String scale) {
+        this.scale = scale;
+    }
+
     public void updateFirstCategory(FirstCategoryEntity firstCategory) {
         this.firstCategory = firstCategory;
     }

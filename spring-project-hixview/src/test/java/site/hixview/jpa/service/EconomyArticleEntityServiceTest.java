@@ -47,19 +47,19 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 @Slf4j
 class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, EconomyArticleContentEntityTestUtils, EconomyArticleTestUtils {
 
-    private final EconomyArticleEntityService iaEntityService;
-    private final EconomyArticleEntityRepository iaEntityRepository;
+    private final EconomyArticleEntityService eaEntityService;
+    private final EconomyArticleEntityRepository eaEntityRepository;
     private final EconomyArticleContentEntityRepository eacEntityRepository;
     private final ArticleEntityRepository articleEntityRepository;
     private final PressEntityRepository pressEntityRepository;
 
-    private final EconomyArticleEntityMapper iaEntityMapper = new EconomyArticleEntityMapperImpl();
+    private final EconomyArticleEntityMapper eaEntityMapper = new EconomyArticleEntityMapperImpl();
     private final PressEntityMapper pressEntityMapper = new PressEntityMapperImpl();
 
     @Autowired
-    EconomyArticleEntityServiceTest(EconomyArticleEntityService iaEntityService, EconomyArticleEntityRepository iaEntityRepository, EconomyArticleContentEntityRepository eacEntityRepository, ArticleEntityRepository articleEntityRepository, PressEntityRepository pressEntityRepository) {
-        this.iaEntityService = iaEntityService;
-        this.iaEntityRepository = iaEntityRepository;
+    EconomyArticleEntityServiceTest(EconomyArticleEntityService eaEntityService, EconomyArticleEntityRepository eaEntityRepository, EconomyArticleContentEntityRepository eacEntityRepository, ArticleEntityRepository articleEntityRepository, PressEntityRepository pressEntityRepository) {
+        this.eaEntityService = eaEntityService;
+        this.eaEntityRepository = eaEntityRepository;
         this.eacEntityRepository = eacEntityRepository;
         this.articleEntityRepository = articleEntityRepository;
         this.pressEntityRepository = pressEntityRepository;
@@ -70,14 +70,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     void getAllTest() {
         // given
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findAll()).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findAll()).thenReturn(List.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getAll()).isEqualTo(List.of(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
+        assertThat(eaEntityService.getAll()).isEqualTo(List.of(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
     }
 
     @DisplayName("날짜로 경제 기사 획득")
@@ -85,14 +85,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     void getByDateTest() {
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         LocalDate date = economyArticleEntity.getDate();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByDate(date)).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByDate(date)).thenReturn(List.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByDate(date)).isEqualTo(List.of(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
+        assertThat(eaEntityService.getByDate(date)).isEqualTo(List.of(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
     }
 
     @DisplayName("날짜 범위로 경제 기사 획득")
@@ -100,14 +100,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     void getByDateRangeTest() {
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         LocalDate date = economyArticleEntity.getDate();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByDateBetween(date, date)).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByDateBetween(date, date)).thenReturn(List.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByDateRange(date, date)).isEqualTo(List.of(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
+        assertThat(eaEntityService.getByDateRange(date, date)).isEqualTo(List.of(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
     }
 
     @DisplayName("대상 국가로 경제 기사 획득")
@@ -115,14 +115,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     void getBySubjectCountryTest() {
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         String subjectCountry = economyArticleEntity.getSubjectCountry();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findBySubjectCountry(subjectCountry)).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findBySubjectCountry(subjectCountry)).thenReturn(List.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getBySubjectCountry(Country.valueOf(subjectCountry))).isEqualTo(List.of(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
+        assertThat(eaEntityService.getBySubjectCountry(Country.valueOf(subjectCountry))).isEqualTo(List.of(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
     }
 
     @DisplayName("중요도로 경제 기사 획득")
@@ -130,14 +130,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     void getByImportanceTest() {
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         String importance = economyArticleEntity.getImportance();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByImportance(importance)).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByImportance(importance)).thenReturn(List.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByImportance(Importance.valueOf(importance))).isEqualTo(List.of(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
+        assertThat(eaEntityService.getByImportance(Importance.valueOf(importance))).isEqualTo(List.of(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
     }
 
     @DisplayName("언론사로 경제 기사 획득")
@@ -146,15 +146,15 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         PressEntity pressEntity = createNumberedPressEntity();
         economyArticleEntity.updatePress(pressEntity);
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByPress(pressEntity)).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByPress(pressEntity)).thenReturn(List.of(economyArticleEntity));
         when(pressEntityRepository.findByNumber(pressEntity.getNumber())).thenReturn(Optional.of(pressEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByPress(pressEntityMapper.toPress(pressEntity))).isEqualTo(List.of(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
+        assertThat(eaEntityService.getByPress(pressEntityMapper.toPress(pressEntity))).isEqualTo(List.of(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository)));
     }
 
     @DisplayName("번호로 경제 기사 획득")
@@ -163,14 +163,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         // given
         EconomyArticleEntity economyArticleEntity = createNumberedEconomyArticleEntity();
         Long number = economyArticleEntity.getNumber();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByNumber(number)).thenReturn(Optional.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByNumber(number)).thenReturn(Optional.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByNumber(number).orElseThrow()).isEqualTo(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository));
+        assertThat(eaEntityService.getByNumber(number).orElseThrow()).isEqualTo(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository));
     }
 
     @DisplayName("이름으로 경제 기사 획득")
@@ -179,14 +179,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         // given
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         String name = economyArticleEntity.getName();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByName(name)).thenReturn(Optional.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByName(name)).thenReturn(Optional.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByName(name).orElseThrow()).isEqualTo(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository));
+        assertThat(eaEntityService.getByName(name).orElseThrow()).isEqualTo(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository));
     }
 
     @DisplayName("링크로 경제 기사 획득")
@@ -195,14 +195,14 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         // given
         EconomyArticleEntity economyArticleEntity = createEconomyArticleEntity();
         String link = economyArticleEntity.getLink();
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findByLink(link)).thenReturn(Optional.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findByLink(link)).thenReturn(Optional.of(economyArticleEntity));
 
         // when
-        iaEntityRepository.save(economyArticleEntity);
+        eaEntityRepository.save(economyArticleEntity);
 
         // then
-        assertThat(iaEntityService.getByLink(link).orElseThrow()).isEqualTo(iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository));
+        assertThat(eaEntityService.getByLink(link).orElseThrow()).isEqualTo(eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository));
     }
 
     @DisplayName("경제 기사 삽입")
@@ -211,20 +211,20 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         // given
         EconomyArticleEntity economyArticleEntity = createNumberedEconomyArticleEntity();
         ArticleEntity articleEntity = economyArticleEntity.getArticle();
-        EconomyArticle economyArticle = iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository);
+        EconomyArticle economyArticle = eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository);
         when(articleEntityRepository.save(articleEntity)).thenReturn(articleEntity);
-        when(iaEntityRepository.existsByNumber(economyArticle.getNumber())).thenReturn(false);
-        when(iaEntityRepository.findByName(economyArticle.getName())).thenReturn(Optional.empty());
+        when(eaEntityRepository.existsByNumber(economyArticle.getNumber())).thenReturn(false);
+        when(eaEntityRepository.findByName(economyArticle.getName())).thenReturn(Optional.empty());
         when(articleEntityRepository.findByNumber(articleEntity.getNumber())).thenReturn(Optional.of(articleEntity));
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
-        when(iaEntityRepository.findAll()).thenReturn(List.of(economyArticleEntity));
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.findAll()).thenReturn(List.of(economyArticleEntity));
         articleEntityRepository.save(articleEntity);
 
         // when
-        iaEntityService.insert(economyArticle);
+        eaEntityService.insert(economyArticle);
 
         // then
-        assertThat(iaEntityService.getAll()).isEqualTo(List.of(economyArticle));
+        assertThat(eaEntityService.getAll()).isEqualTo(List.of(economyArticle));
     }
 
     @DisplayName("이미 존재하는 번호로 경제 기사 삽입")
@@ -233,20 +233,20 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
         // given
         EconomyArticleEntity economyArticleEntity = createNumberedEconomyArticleEntity();
         ArticleEntity articleEntity = economyArticleEntity.getArticle();
-        EconomyArticle economyArticle = iaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository);
+        EconomyArticle economyArticle = eaEntityMapper.toEconomyArticle(economyArticleEntity, eacEntityRepository);
         when(articleEntityRepository.save(articleEntity)).thenReturn(articleEntity);
-        when(iaEntityRepository.existsByNumber(economyArticle.getNumber())).thenReturn(false).thenReturn(true);
-        when(iaEntityRepository.findByName(economyArticle.getName())).thenReturn(Optional.empty());
+        when(eaEntityRepository.existsByNumber(economyArticle.getNumber())).thenReturn(false).thenReturn(true);
+        when(eaEntityRepository.findByName(economyArticle.getName())).thenReturn(Optional.empty());
         when(articleEntityRepository.findByNumber(articleEntity.getNumber())).thenReturn(Optional.of(articleEntity));
-        when(iaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
+        when(eaEntityRepository.save(economyArticleEntity)).thenReturn(economyArticleEntity);
         articleEntityRepository.save(articleEntity);
 
         // when
-        iaEntityService.insert(economyArticle);
+        eaEntityService.insert(economyArticle);
 
         // then
         EntityExistsWithNumberException exception = assertThrows(EntityExistsWithNumberException.class,
-                () -> iaEntityService.insert(EconomyArticle.builder()
+                () -> eaEntityService.insert(EconomyArticle.builder()
                         .economyArticle(anotherEconomyArticle).number(economyArticle.getNumber()).build()));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
                 ALREADY_EXISTED_ENTITY, NUMBER, economyArticle.getNumber(), EconomyArticleEntity.class));
@@ -256,70 +256,71 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     @Test
     void insertAlreadyExistedNameTest() {
         // given
-        EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
-        EconomyArticleEntity iaEntityExistedEnglishName = EconomyArticleEntity.builder()
-                .economyArticle(createAnotherEconomyArticleEntity()).article(iaEntity.getArticle()).name(iaEntity.getName()).build();
-        ArticleEntity articleEntity = iaEntity.getArticle();
+        EconomyArticleEntity eaEntity = createNumberedEconomyArticleEntity();
+        EconomyArticleEntity eaEntityExistedEnglishName = EconomyArticleEntity.builder()
+                .economyArticle(createAnotherEconomyArticleEntity()).article(eaEntity.getArticle()).name(eaEntity.getName()).build();
+        ArticleEntity articleEntity = eaEntity.getArticle();
         Long number = articleEntity.getNumber();
-        EconomyArticle economyArticle = iaEntityMapper.toEconomyArticle(iaEntity, eacEntityRepository);
+        EconomyArticle economyArticle = eaEntityMapper.toEconomyArticle(eaEntity, eacEntityRepository);
         when(articleEntityRepository.save(articleEntity)).thenReturn(articleEntity);
-        when(iaEntityRepository.existsByNumber(number)).thenReturn(false);
-        when(iaEntityRepository.findByName(economyArticle.getName())).thenReturn(Optional.empty()).thenReturn(Optional.of(iaEntity));
+        when(eaEntityRepository.existsByNumber(number)).thenReturn(false);
+        when(eaEntityRepository.findByName(economyArticle.getName())).thenReturn(Optional.empty()).thenReturn(Optional.of(eaEntity));
         when(articleEntityRepository.findByNumber(number)).thenReturn(Optional.of(articleEntity));
-        when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
+        when(eaEntityRepository.save(eaEntity)).thenReturn(eaEntity);
         articleEntityRepository.save(articleEntity);
 
         // when
-        iaEntityService.insert(economyArticle);
+        eaEntityService.insert(economyArticle);
 
         // then
         EntityExistsException exception = assertThrows(EntityExistsException.class,
-                () -> iaEntityService.insert(iaEntityMapper.toEconomyArticle(iaEntityExistedEnglishName, eacEntityRepository)));
+                () -> eaEntityService.insert(eaEntityMapper.toEconomyArticle(eaEntityExistedEnglishName, eacEntityRepository)));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, NAME, iaEntity.getName(), EconomyArticleEntity.class));
+                ALREADY_EXISTED_ENTITY, NAME, eaEntity.getName(), EconomyArticleEntity.class));
     }
 
     @DisplayName("경제 기사 갱신")
     @Test
     void updateTest() {
         // given
-        EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
-        ArticleEntity articleEntity = iaEntity.getArticle();
+        EconomyArticleEntity eaEntity = createNumberedEconomyArticleEntity();
+        ArticleEntity articleEntity = eaEntity.getArticle();
         Long articleNumber = articleEntity.getNumber();
-        Long pressNumber = iaEntity.getPress().getNumber();
+        Long pressNumber = eaEntity.getPress().getNumber();
         EconomyArticle iaUpdated = EconomyArticle.builder().economyArticle(anotherEconomyArticle).number(articleNumber).pressNumber(pressNumber).mappedEconomyContentNumbers(Collections.emptyList()).build();
         when(articleEntityRepository.findByNumber(articleNumber)).thenReturn(Optional.of(articleEntity));
-        when(pressEntityRepository.findByNumber(pressNumber)).thenReturn(Optional.of(iaEntity.getPress()));
-        EconomyArticleEntity iaEntityUpdated = iaEntityMapper.toEconomyArticleEntity(iaUpdated, articleEntityRepository, pressEntityRepository);
-        when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
-        when(iaEntityRepository.save(iaEntityUpdated)).thenReturn(iaEntityUpdated);
-        when(iaEntityRepository.existsByNumber(articleNumber)).thenReturn(true);
-        when(iaEntityRepository.findByName(iaEntityUpdated.getName())).thenReturn(Optional.empty());
+        when(pressEntityRepository.findByNumber(pressNumber)).thenReturn(Optional.of(eaEntity.getPress()));
+        EconomyArticleEntity eaEntityUpdated = eaEntityMapper.toEconomyArticleEntity(iaUpdated, articleEntityRepository, pressEntityRepository);
+        when(eaEntityRepository.save(eaEntity)).thenReturn(eaEntity);
+        when(eaEntityRepository.save(eaEntityUpdated)).thenReturn(eaEntityUpdated);
+        when(eaEntityRepository.existsByNumber(articleNumber)).thenReturn(true);
+        when(eaEntityRepository.findByName(eaEntityUpdated.getName())).thenReturn(Optional.empty());
+        when(eaEntityRepository.findByNumber(articleNumber)).thenReturn(Optional.of(eaEntity));
         when(articleEntityRepository.findByNumber(articleEntity.getNumber())).thenReturn(Optional.of(articleEntity));
-        when(eacEntityRepository.findByEconomyArticle(iaEntityUpdated)).thenReturn(Collections.emptyList());
-        when(iaEntityRepository.findAll()).thenReturn(List.of(iaEntityUpdated));
-        iaEntityRepository.save(iaEntity);
+        when(eacEntityRepository.findByEconomyArticle(eaEntityUpdated)).thenReturn(Collections.emptyList());
+        when(eaEntityRepository.findAll()).thenReturn(List.of(eaEntityUpdated));
+        eaEntityRepository.save(eaEntity);
 
         // when
-        iaEntityService.update(iaUpdated);
+        eaEntityService.update(iaUpdated);
 
         // then
-        assertThat(iaEntityService.getAll()).isEqualTo(List.of(iaUpdated));
+        assertThat(eaEntityService.getAll()).isEqualTo(List.of(iaUpdated));
     }
 
     @DisplayName("발견되지 않는 번호로 경제 기사 갱신")
     @Test
     void updateNotFoundNumberTest() {
         // given
-        EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
-        Long number = iaEntity.getArticle().getNumber();
+        EconomyArticleEntity eaEntity = createNumberedEconomyArticleEntity();
+        Long number = eaEntity.getArticle().getNumber();
 
         // when
-        when(iaEntityRepository.existsByNumber(number)).thenReturn(false);
+        when(eaEntityRepository.existsByNumber(number)).thenReturn(false);
 
         // then
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class, () ->
-                iaEntityService.update(iaEntityMapper.toEconomyArticle(iaEntity, eacEntityRepository)));
+                eaEntityService.update(eaEntityMapper.toEconomyArticle(eaEntity, eacEntityRepository)));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
                 CANNOT_FOUND_ENTITY, NUMBER, number, EconomyArticleEntity.class));
     }
@@ -328,54 +329,54 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     @Test
     void updateAlreadyExistedNameTest() {
         // given
-        EconomyArticleEntity iaEntity = createEconomyArticleEntity();
-        when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
-        when(iaEntityRepository.existsByNumber(any())).thenReturn(true);
-        when(iaEntityRepository.findByName(iaEntity.getName())).thenReturn(Optional.of(iaEntity));
+        EconomyArticleEntity eaEntity = createEconomyArticleEntity();
+        when(eaEntityRepository.save(eaEntity)).thenReturn(eaEntity);
+        when(eaEntityRepository.existsByNumber(any())).thenReturn(true);
+        when(eaEntityRepository.findByName(eaEntity.getName())).thenReturn(Optional.of(eaEntity));
 
         // when
-        iaEntityRepository.save(iaEntity);
+        eaEntityRepository.save(eaEntity);
 
         // then
         EntityExistsWithNameException exception = assertThrows(EntityExistsWithNameException.class, () ->
-                iaEntityService.update(iaEntityMapper.toEconomyArticle(iaEntity, eacEntityRepository)));
+                eaEntityService.update(eaEntityMapper.toEconomyArticle(eaEntity, eacEntityRepository)));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
-                ALREADY_EXISTED_ENTITY, NAME, iaEntity.getName(), EconomyArticleEntity.class));
+                ALREADY_EXISTED_ENTITY, NAME, eaEntity.getName(), EconomyArticleEntity.class));
     }
 
     @DisplayName("번호로 경제 기사 제거")
     @Test
     void removeByNumberTest() {
         // given
-        EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
-        when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
-        when(iaEntityRepository.existsByNumber(iaEntity.getNumber())).thenReturn(true);
-        when(iaEntityRepository.findByNumber(iaEntity.getNumber())).thenReturn(Optional.of(iaEntity));
-        when(eacEntityRepository.findByEconomyArticle(iaEntity)).thenReturn(Collections.emptyList());
-        doNothing().when(iaEntityRepository).deleteByNumber(iaEntity.getNumber());
-        when(iaEntityRepository.findAll()).thenReturn(Collections.emptyList());
-        iaEntityRepository.save(iaEntity);
+        EconomyArticleEntity eaEntity = createNumberedEconomyArticleEntity();
+        when(eaEntityRepository.save(eaEntity)).thenReturn(eaEntity);
+        when(eaEntityRepository.existsByNumber(eaEntity.getNumber())).thenReturn(true);
+        when(eaEntityRepository.findByNumber(eaEntity.getNumber())).thenReturn(Optional.of(eaEntity));
+        when(eacEntityRepository.findByEconomyArticle(eaEntity)).thenReturn(Collections.emptyList());
+        doNothing().when(eaEntityRepository).deleteByNumber(eaEntity.getNumber());
+        when(eaEntityRepository.findAll()).thenReturn(Collections.emptyList());
+        eaEntityRepository.save(eaEntity);
 
         // when
-        iaEntityService.removeByNumber(iaEntity.getNumber());
+        eaEntityService.removeByNumber(eaEntity.getNumber());
 
         // then
-        assertThat(iaEntityService.getAll()).isEmpty();
+        assertThat(eaEntityService.getAll()).isEmpty();
     }
 
     @DisplayName("발견되지 않는 번호로 경제 기사 제거")
     @Test
     void removeByNotFoundNumberTest() {
         // given
-        EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
-        Long number = iaEntity.getNumber();
+        EconomyArticleEntity eaEntity = createNumberedEconomyArticleEntity();
+        Long number = eaEntity.getNumber();
 
         // when
-        when(iaEntityRepository.existsByNumber(number)).thenReturn(false);
+        when(eaEntityRepository.existsByNumber(number)).thenReturn(false);
 
         // then
         EntityNotFoundWithNumberException exception = assertThrows(EntityNotFoundWithNumberException.class,
-                () -> iaEntityService.removeByNumber(number));
+                () -> eaEntityService.removeByNumber(number));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
                 CANNOT_FOUND_ENTITY, NUMBER, number, EconomyArticleEntity.class));
     }
@@ -384,19 +385,19 @@ class EconomyArticleEntityServiceTest implements EconomyArticleEntityTestUtils, 
     @Test
     void removeByNumberInMapperTest() {
         // given
-        EconomyArticleEntity iaEntity = createNumberedEconomyArticleEntity();
-        Long number = iaEntity.getNumber();
-        when(iaEntityRepository.save(iaEntity)).thenReturn(iaEntity);
-        when(iaEntityRepository.existsByNumber(number)).thenReturn(true);
-        when(iaEntityRepository.findByNumber(number)).thenReturn(Optional.of(iaEntity));
-        when(eacEntityRepository.findByEconomyArticle(iaEntity)).thenReturn(List.of(createEconomyArticleContentEntity()));
+        EconomyArticleEntity eaEntity = createNumberedEconomyArticleEntity();
+        Long number = eaEntity.getNumber();
+        when(eaEntityRepository.save(eaEntity)).thenReturn(eaEntity);
+        when(eaEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(eaEntityRepository.findByNumber(number)).thenReturn(Optional.of(eaEntity));
+        when(eacEntityRepository.findByEconomyArticle(eaEntity)).thenReturn(List.of(createEconomyArticleContentEntity()));
 
         // when
-        iaEntityRepository.save(iaEntity);
+        eaEntityRepository.save(eaEntity);
 
         // then
         DataIntegrityViolationException exception = assertThrows(
-                DataIntegrityViolationException.class, () -> iaEntityService.removeByNumber(number));
+                DataIntegrityViolationException.class, () -> eaEntityService.removeByNumber(number));
         assertThat(exception.getMessage()).isEqualTo(getFormattedExceptionMessage(
                 REMOVE_REFERENCED_ENTITY, NUMBER, number, EconomyArticleEntity.class));
     }

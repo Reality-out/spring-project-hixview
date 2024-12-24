@@ -25,6 +25,7 @@ import java.util.Optional;
 import static site.hixview.aggregate.util.ExceptionUtils.getFormattedExceptionMessage;
 import static site.hixview.aggregate.vo.ExceptionMessage.REMOVE_REFERENCED_ENTITY;
 import static site.hixview.aggregate.vo.WordCamel.NUMBER;
+import static site.hixview.jpa.utils.MapperUtils.map;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,47 +35,47 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     private final PressEntityRepository pressEntityRepository;
     private final FirstCategoryEntityRepository firstCategoryEntityRepository;
     private final ArticleEntityRepository articleEntityRepository;
-    private final IndustryArticleEntityRepository industryArticleEntityRepository;
+    private final IndustryArticleEntityRepository iaEntityRepository;
     private final IndustryArticleSecondCategoryEntityRepository iascEntityRepository;
     
     private final IndustryArticleEntityMapper mapper = new IndustryArticleEntityMapperImpl();
 
     @Override
     public List<IndustryArticle> getAll() {
-        return industryArticleEntityRepository.findAll().stream().map((IndustryArticleEntity industryArticleEntity) -> 
+        return iaEntityRepository.findAll().stream().map((IndustryArticleEntity industryArticleEntity) ->
                 mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
     }
 
     @Override
     public List<IndustryArticle> getByDate(LocalDate date) {
-        return industryArticleEntityRepository.findByDate(date).stream().map((IndustryArticleEntity industryArticleEntity) ->
+        return iaEntityRepository.findByDate(date).stream().map((IndustryArticleEntity industryArticleEntity) ->
                 mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
     }
 
     @Override
     public List<IndustryArticle> getByDateRange(LocalDate startDate, LocalDate endDate) {
-        return industryArticleEntityRepository.findByDateBetween(startDate, endDate).stream()
+        return iaEntityRepository.findByDateBetween(startDate, endDate).stream()
                 .map((IndustryArticleEntity industryArticleEntity) ->
                         mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
     }
 
     @Override
     public List<IndustryArticle> getBySubjectCountry(Country subjectCountry) {
-        return industryArticleEntityRepository.findBySubjectCountry(subjectCountry.name()).stream()
+        return iaEntityRepository.findBySubjectCountry(subjectCountry.name()).stream()
                 .map((IndustryArticleEntity industryArticleEntity) ->
                         mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
     }
 
     @Override
     public List<IndustryArticle> getByImportance(Importance importance) {
-        return industryArticleEntityRepository.findByImportance(importance.name()).stream()
+        return iaEntityRepository.findByImportance(importance.name()).stream()
                 .map((IndustryArticleEntity industryArticleEntity) ->
                         mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
     }
 
     @Override
     public List<IndustryArticle> getByPress(Press press) {
-        return industryArticleEntityRepository.findByPress(
+        return iaEntityRepository.findByPress(
                         pressEntityRepository.findByNumber(press.getNumber()).orElseThrow())
                 .stream().map((IndustryArticleEntity industryArticleEntity) ->
                         mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
@@ -82,7 +83,7 @@ public class IndustryArticleEntityService implements IndustryArticleService {
 
     @Override
     public List<IndustryArticle> getByFirstCategory(FirstCategory firstCategory) {
-        return industryArticleEntityRepository.findByFirstCategory(
+        return iaEntityRepository.findByFirstCategory(
                         firstCategoryEntityRepository.findByNumber(firstCategory.getNumber()).orElseThrow())
                 .stream().map((IndustryArticleEntity industryArticleEntity) ->
                         mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)).toList();
@@ -90,17 +91,17 @@ public class IndustryArticleEntityService implements IndustryArticleService {
 
     @Override
     public Optional<IndustryArticle> getByNumber(Long number) {
-        return getOptionalIndustryArticle(industryArticleEntityRepository.findByNumber(number).orElse(null));
+        return getOptionalIndustryArticle(iaEntityRepository.findByNumber(number).orElse(null));
     }
 
     @Override
     public Optional<IndustryArticle> getByName(String name) {
-        return getOptionalIndustryArticle(industryArticleEntityRepository.findByName(name).orElse(null));
+        return getOptionalIndustryArticle(iaEntityRepository.findByName(name).orElse(null));
     }
 
     @Override
     public Optional<IndustryArticle> getByLink(String link) {
-        return getOptionalIndustryArticle(industryArticleEntityRepository.findByLink(link).orElse(null));
+        return getOptionalIndustryArticle(iaEntityRepository.findByLink(link).orElse(null));
     }
 
     @Override
@@ -108,13 +109,13 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     public IndustryArticle insert(IndustryArticle industryArticle) {
         Long number = industryArticle.getNumber();
         String name = industryArticle.getName();
-        if (industryArticleEntityRepository.existsByNumber(number)) {
+        if (iaEntityRepository.existsByNumber(number)) {
             throw new EntityExistsWithNumberException(number, IndustryArticleEntity.class);
         }
-        if (industryArticleEntityRepository.findByName(name).isPresent()) {
+        if (iaEntityRepository.findByName(name).isPresent()) {
             throw new EntityExistsWithNameException(name, IndustryArticleEntity.class);
         }
-        return mapper.toIndustryArticle(industryArticleEntityRepository.save(mapper.toIndustryArticleEntity(
+        return mapper.toIndustryArticle(iaEntityRepository.save(mapper.toIndustryArticleEntity(
                 industryArticle, articleEntityRepository, pressEntityRepository,
                 firstCategoryEntityRepository)), iascEntityRepository);
     }
@@ -124,14 +125,15 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     public IndustryArticle update(IndustryArticle industryArticle) {
         Long number = industryArticle.getNumber();
         String name = industryArticle.getName();
-        if (!industryArticleEntityRepository.existsByNumber(number)) {
+        if (!iaEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, IndustryArticleEntity.class);
         }
-        if (industryArticleEntityRepository.findByName(name).isPresent()) {
+        if (iaEntityRepository.findByName(name).isPresent()) {
             throw new EntityExistsWithNameException(name, IndustryArticleEntity.class);
         }
-        IndustryArticleEntity industryArticleEntity = industryArticleEntityRepository.save(mapper.toIndustryArticleEntity(
-                industryArticle, articleEntityRepository, pressEntityRepository, firstCategoryEntityRepository));
+        IndustryArticleEntity industryArticleEntity = iaEntityRepository.save(map(industryArticle,
+                iaEntityRepository.findByNumber(number).orElseThrow(), articleEntityRepository, pressEntityRepository, firstCategoryEntityRepository)
+        );
         propagateIndustryArticleEntity(industryArticleEntity);
         return mapper.toIndustryArticle(industryArticleEntity, iascEntityRepository);
     }
@@ -139,15 +141,15 @@ public class IndustryArticleEntityService implements IndustryArticleService {
     @Override
     @Transactional
     public void removeByNumber(Long number) {
-        if (!industryArticleEntityRepository.existsByNumber(number)) {
+        if (!iaEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, IndustryArticleEntity.class);
         }
-        IndustryArticleEntity industryArticleEntity = industryArticleEntityRepository.findByNumber(number).orElseThrow();
+        IndustryArticleEntity industryArticleEntity = iaEntityRepository.findByNumber(number).orElseThrow();
         if (!iascEntityRepository.findByIndustryArticle(industryArticleEntity).isEmpty()) {
             throw new DataIntegrityViolationException(getFormattedExceptionMessage(
                     REMOVE_REFERENCED_ENTITY, NUMBER, number, IndustryArticleEntity.class));
         }
-        industryArticleEntityRepository.deleteByNumber(number);
+        iaEntityRepository.deleteByNumber(number);
     }
 
     private Optional<IndustryArticle> getOptionalIndustryArticle(IndustryArticleEntity optionalIndustryArticleEntity) {

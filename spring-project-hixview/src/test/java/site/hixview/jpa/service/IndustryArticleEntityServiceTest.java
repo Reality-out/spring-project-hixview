@@ -312,6 +312,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         when(iaEntityRepository.save(iaEntityUpdated)).thenReturn(iaEntityUpdated);
         when(iaEntityRepository.existsByNumber(articleNumber)).thenReturn(true);
         when(iaEntityRepository.findByName(iaEntityUpdated.getName())).thenReturn(Optional.empty());
+        when(iaEntityRepository.findByNumber(articleNumber)).thenReturn(Optional.of(iaEntity));
         when(articleEntityRepository.findByNumber(articleEntity.getNumber())).thenReturn(Optional.of(articleEntity));
         when(iascEntityRepository.findByIndustryArticle(iaEntityUpdated)).thenReturn(Collections.emptyList());
         when(iaEntityRepository.findAll()).thenReturn(List.of(iaEntityUpdated));

@@ -35,6 +35,37 @@ public abstract class MapperUtils {
         return to;
     }
 
+    public static CompanyEntity map(Company from, CompanyEntity to,
+                                    FirstCategoryEntityRepository fcEntityRepository,
+                                    SecondCategoryEntityRepository scEntityRepository) {
+        to.updateKoreanName(from.getKoreanName());
+        to.updateEnglishName(from.getEnglishName());
+        to.updateNameListed(from.getNameListed());
+        to.updateCountryListed(from.getCountryListed().name());
+        to.updateScale(from.getScale().name());
+        to.updateFirstCategory(fcEntityRepository.findByNumber(from.getFirstCategoryNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getFirstCategoryNumber(), FirstCategoryEntity.class)));
+        to.updateSecondCategory(scEntityRepository.findByNumber(from.getSecondCategoryNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getSecondCategoryNumber(), SecondCategoryEntity.class)));
+        return to;
+    }
+
+    public static CompanyArticleEntity map(CompanyArticle from, CompanyArticleEntity to,
+                                           ArticleEntityRepository articleEntityRepository,
+                                           PressEntityRepository pressEntityRepository) {
+        to.updateName(from.getName());
+        to.updateLink(from.getLink());
+        to.updateDate(from.getDate());
+        to.updateSubjectCountry(from.getSubjectCountry().name());
+        to.updateImportance(from.getImportance().name());
+        to.updateSummary(from.getSummary());
+        to.updatePress(pressEntityRepository.findByNumber(from.getPressNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getPressNumber(), PressEntity.class)));
+        to.updateArticle(articleEntityRepository.findByNumber(from.getNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getNumber(), CompanyArticleEntity.class)));
+        return to;
+    }
+
     public static CompanyArticleCompanyEntity map(CompanyArticleCompany from, CompanyArticleCompanyEntity to,
                                                   CompanyArticleEntityRepository caRepository,
                                                   CompanyEntityRepository cRepository) {
@@ -45,6 +76,22 @@ public abstract class MapperUtils {
         to.updateCompany(cRepository.findByCode(companyCode).orElseThrow(() ->
                 new EntityNotFoundException(getFormattedExceptionMessage(
                         CANNOT_FOUND_ENTITY, CODE, companyCode, CompanyEntity.class))));
+        return to;
+    }
+
+    public static EconomyArticleEntity map(EconomyArticle from, EconomyArticleEntity to,
+                                           ArticleEntityRepository articleEntityRepository,
+                                           PressEntityRepository pressEntityRepository) {
+        to.updateName(from.getName());
+        to.updateLink(from.getLink());
+        to.updateDate(from.getDate());
+        to.updateSubjectCountry(from.getSubjectCountry().name());
+        to.updateImportance(from.getImportance().name());
+        to.updateSummary(from.getSummary());
+        to.updatePress(pressEntityRepository.findByNumber(from.getPressNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getPressNumber(), PressEntity.class)));
+        to.updateArticle(articleEntityRepository.findByNumber(from.getNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getNumber(), EconomyArticleEntity.class)));
         return to;
     }
 
@@ -76,6 +123,25 @@ public abstract class MapperUtils {
         to.updateIndustryCategory(icRepository.findByNumber(
                 from.getIndustryCategoryNumber()).orElseThrow(() ->
                 new EntityNotFoundWithNumberException(from.getIndustryCategoryNumber(), IndustryCategoryEntity.class)));
+        return to;
+    }
+
+    public static IndustryArticleEntity map(IndustryArticle from, IndustryArticleEntity to,
+                                            ArticleEntityRepository articleEntityRepository,
+                                            PressEntityRepository pressEntityRepository,
+                                            FirstCategoryEntityRepository fcEntityRepository) {
+        to.updateName(from.getName());
+        to.updateLink(from.getLink());
+        to.updateDate(from.getDate());
+        to.updateSubjectCountry(from.getSubjectCountry().name());
+        to.updateImportance(from.getImportance().name());
+        to.updateSummary(from.getSummary());
+        to.updatePress(pressEntityRepository.findByNumber(from.getPressNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getPressNumber(), PressEntity.class)));
+        to.updateArticle(articleEntityRepository.findByNumber(from.getNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getNumber(), EconomyArticleEntity.class)));
+        to.updateFirstCategory(fcEntityRepository.findByNumber(from.getFirstCategoryNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getFirstCategoryNumber(), FirstCategoryEntity.class)));
         return to;
     }
 
