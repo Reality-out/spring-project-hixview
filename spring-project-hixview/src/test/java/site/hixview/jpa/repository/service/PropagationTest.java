@@ -37,6 +37,7 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
     private final EconomyArticleContentEntityService eacEntityService;
     private final FirstCategoryEntityService fcEntityService;
     private final IndustryArticleEntityService iaEntityService;
+    private final IndustryArticleSecondCategoryEntityService iascEntityService;
     private final PressEntityService pressEntityService;
     private final SecondCategoryEntityService scEntityService;
 
@@ -50,13 +51,14 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
     private final EconomyArticleContentEntityRepository eacEntityRepository;
     private final FirstCategoryEntityRepository fcEntityRepository;
     private final IndustryArticleEntityRepository iaEntityRepository;
+    private final IndustryArticleSecondCategoryEntityRepository iascEntityRepository;
     private final PressEntityRepository pressEntityRepository;
     private final SecondCategoryEntityRepository scEntityRepository;
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    PropagationTest(TestEntityManager entityManager, BlogPostEntityService bpEntityService, BlogPostArticleEntityService bpaEntityService, CompanyEntityService companyEntityService, CompanyArticleEntityService caEntityService, CompanyArticleCompanyEntityService cacEntityService, EconomyArticleEntityService eaEntityService, EconomyContentEntityService ecEntityService, EconomyArticleContentEntityService eacEntityService, FirstCategoryEntityService fcEntityService, IndustryArticleEntityService iaEntityService, PressEntityService pressEntityService, SecondCategoryEntityService scEntityService, BlogPostEntityRepository bpEntityRepository, BlogPostArticleEntityRepository bpaEntityRepository, CompanyEntityRepository companyEntityRepository, CompanyArticleEntityRepository caEntityRepository, CompanyArticleCompanyEntityRepository cacEntityRepository, EconomyArticleEntityRepository eaEntityRepository, EconomyContentEntityRepository ecEntityRepository, EconomyArticleContentEntityRepository eacEntityRepository, FirstCategoryEntityRepository fcEntityRepository, IndustryArticleEntityRepository iaEntityRepository, PressEntityRepository pressEntityRepository, SecondCategoryEntityRepository scEntityRepository, JdbcTemplate jdbcTemplate) {
+    PropagationTest(TestEntityManager entityManager, BlogPostEntityService bpEntityService, BlogPostArticleEntityService bpaEntityService, CompanyEntityService companyEntityService, CompanyArticleEntityService caEntityService, CompanyArticleCompanyEntityService cacEntityService, EconomyArticleEntityService eaEntityService, EconomyContentEntityService ecEntityService, EconomyArticleContentEntityService eacEntityService, FirstCategoryEntityService fcEntityService, IndustryArticleEntityService iaEntityService, IndustryArticleSecondCategoryEntityService iascEntityService, PressEntityService pressEntityService, SecondCategoryEntityService scEntityService, BlogPostEntityRepository bpEntityRepository, BlogPostArticleEntityRepository bpaEntityRepository, CompanyEntityRepository companyEntityRepository, CompanyArticleEntityRepository caEntityRepository, CompanyArticleCompanyEntityRepository cacEntityRepository, EconomyArticleEntityRepository eaEntityRepository, EconomyContentEntityRepository ecEntityRepository, EconomyArticleContentEntityRepository eacEntityRepository, FirstCategoryEntityRepository fcEntityRepository, IndustryArticleEntityRepository iaEntityRepository, IndustryArticleSecondCategoryEntityRepository iascEntityRepository, PressEntityRepository pressEntityRepository, SecondCategoryEntityRepository scEntityRepository, JdbcTemplate jdbcTemplate) {
         this.entityManager = entityManager;
         this.bpEntityService = bpEntityService;
         this.bpaEntityService = bpaEntityService;
@@ -68,6 +70,7 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         this.eacEntityService = eacEntityService;
         this.fcEntityService = fcEntityService;
         this.iaEntityService = iaEntityService;
+        this.iascEntityService = iascEntityService;
         this.pressEntityService = pressEntityService;
         this.scEntityService = scEntityService;
         this.bpEntityRepository = bpEntityRepository;
@@ -80,6 +83,7 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         this.eacEntityRepository = eacEntityRepository;
         this.fcEntityRepository = fcEntityRepository;
         this.iaEntityRepository = iaEntityRepository;
+        this.iascEntityRepository = iascEntityRepository;
         this.pressEntityRepository = pressEntityRepository;
         this.scEntityRepository = scEntityRepository;
         this.jdbcTemplate = jdbcTemplate;
@@ -134,6 +138,24 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         assertThat(cacEntityService.getByCompanyArticle(updatedCompanyArticle).size()).isEqualTo(1);
     }
 
+    @DisplayName("경제 기사 엔터티 전파 테스트")
+    @Test
+    void economyArticleEntityPropagationTest() {
+        // given
+        EconomyArticleContentEntity eacEntity = createEconomyArticleContentEntity();
+        EconomyArticleEntity eaEntity = eacEntity.getEconomyArticle();
+        eacEntityRepository.save(eacEntity);
+
+        // when
+        EconomyArticle updatedEconomyArticle = EconomyArticle.builder().economyArticle(anotherEconomyArticle).number(eaEntity.getNumber()).pressNumber(eaEntity.getPress().getNumber()).build();
+        entityManager.clear();
+        eaEntityService.update(updatedEconomyArticle);
+
+        // then
+        entityManager.clear();
+        assertThat(eacEntityService.getByEconomyArticle(updatedEconomyArticle).size()).isEqualTo(1);
+    }
+
     @DisplayName("경제 컨텐츠 엔터티 전파 테스트")
     @Test
     void economyContentEntityPropagationTest() {
@@ -180,6 +202,31 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         assertThat(scEntityService.getByFirstCategory(updatedFirstCategory).size()).isEqualTo(1);
         assertThat(companyEntityService.getByFirstCategory(updatedFirstCategory).size()).isEqualTo(1);
         assertThat(iaEntityService.getByFirstCategory(updatedFirstCategory).size()).isEqualTo(1);
+    }
+
+    @DisplayName("산업 기사 엔터티 전파 테스트")
+    @Test
+    void industryArticleEntityPropagationTest() {
+        // given
+        FirstCategoryEntity fcEntity = createFirstCategoryEntity();
+        SecondCategoryEntity scEntity = createSecondCategoryEntity();
+        IndustryArticleSecondCategoryEntity iascEntity = createIndustryArticleSecondCategoryEntity();
+        IndustryArticleEntity iaEntity = iascEntity.getIndustryArticle();
+        scEntity.updateFirstCategory(fcEntity);
+        iaEntity.updateFirstCategory(fcEntity);
+        iascEntity.updateSecondCategory(scEntity);
+        fcEntityRepository.save(fcEntity);
+        scEntityRepository.save(scEntity);
+        iascEntityRepository.save(iascEntity);
+
+        // when
+        IndustryArticle updatedIndustryArticle = IndustryArticle.builder().industryArticle(anotherIndustryArticle).number(iaEntity.getNumber()).pressNumber(iaEntity.getPress().getNumber()).firstCategoryNumber(iaEntity.getFirstCategory().getNumber()).build();
+        entityManager.clear();
+        iaEntityService.update(updatedIndustryArticle);
+
+        // then
+        entityManager.clear();
+        assertThat(iascEntityService.getByIndustryArticle(updatedIndustryArticle).size()).isEqualTo(1);
     }
 
     @DisplayName("언론사 엔터티 전파 테스트")

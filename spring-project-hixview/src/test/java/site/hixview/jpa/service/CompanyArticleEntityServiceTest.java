@@ -287,10 +287,10 @@ class CompanyArticleEntityServiceTest implements CompanyArticleEntityTestUtils, 
         ArticleEntity articleEntity = caEntity.getArticle();
         Long articleNumber = articleEntity.getNumber();
         Long pressNumber = caEntity.getPress().getNumber();
-        CompanyArticle bpUpdated = CompanyArticle.builder().companyArticle(anotherCompanyArticle).number(articleNumber).pressNumber(pressNumber).mappedCompanyCodes(Collections.emptyList()).build();
+        CompanyArticle caUpdated = CompanyArticle.builder().companyArticle(anotherCompanyArticle).number(articleNumber).pressNumber(pressNumber).mappedCompanyCodes(Collections.emptyList()).build();
         when(articleEntityRepository.findByNumber(articleNumber)).thenReturn(Optional.of(articleEntity));
         when(pressEntityRepository.findByNumber(pressNumber)).thenReturn(Optional.of(caEntity.getPress()));
-        CompanyArticleEntity caEntityUpdated = caEntityMapper.toCompanyArticleEntity(bpUpdated, articleEntityRepository, pressEntityRepository);
+        CompanyArticleEntity caEntityUpdated = caEntityMapper.toCompanyArticleEntity(caUpdated, articleEntityRepository, pressEntityRepository);
         when(caEntityRepository.save(caEntity)).thenReturn(caEntity);
         when(caEntityRepository.save(caEntityUpdated)).thenReturn(caEntityUpdated);
         when(caEntityRepository.existsByNumber(articleNumber)).thenReturn(true);
@@ -301,10 +301,10 @@ class CompanyArticleEntityServiceTest implements CompanyArticleEntityTestUtils, 
         caEntityRepository.save(caEntity);
 
         // when
-        caEntityService.update(bpUpdated);
+        caEntityService.update(caUpdated);
 
         // then
-        assertThat(caEntityService.getAll()).isEqualTo(List.of(bpUpdated));
+        assertThat(caEntityService.getAll()).isEqualTo(List.of(caUpdated));
     }
 
     @DisplayName("발견되지 않는 번호로 기업 기사 갱신")

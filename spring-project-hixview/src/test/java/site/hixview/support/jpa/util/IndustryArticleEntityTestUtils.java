@@ -34,4 +34,18 @@ public interface IndustryArticleEntityTestUtils extends ArticleEntityTestUtils, 
                 .firstCategory(createAnotherFirstCategoryEntity())
                 .build();
     }
+
+    default IndustryArticleEntity createNumberedIndustryArticleEntity() {
+        return IndustryArticleEntity.builder()
+                .article(createNumberedArticleEntity())
+                .name(industryArticle.getName())
+                .link(industryArticle.getLink())
+                .date(industryArticle.getDate())
+                .subjectCountry(industryArticle.getSubjectCountry().name())
+                .importance(industryArticle.getImportance().name())
+                .summary(industryArticle.getSummary())
+                .press(createPressEntity())
+                .firstCategory(createNumberedFirstCategoryEntity())
+                .build();
+    }
 }
