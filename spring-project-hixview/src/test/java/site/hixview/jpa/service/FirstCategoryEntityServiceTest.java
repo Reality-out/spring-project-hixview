@@ -198,8 +198,8 @@ class FirstCategoryEntityServiceTest implements CompanyEntityTestUtils, FirstCat
         // given
         FirstCategoryEntity fcEntity = createNumberedFirstCategoryEntity();
         IndustryCategoryEntity icEntity = fcEntity.getIndustryCategory();
-        FirstCategory fcUpdated = FirstCategory.builder().firstCategory(anotherFirstCategory).number(fcEntity.getNumber()).build();
-        when(icEntityRepository.findByNumber(fcUpdated.getIndustryCategoryNumber())).thenReturn(Optional.of(fcEntity.getIndustryCategory()));
+        FirstCategory fcUpdated = FirstCategory.builder().firstCategory(anotherFirstCategory).number(fcEntity.getNumber()).industryCategoryNumber(fcEntity.getIndustryCategory().getNumber()).build();
+        when(icEntityRepository.findByNumber(fcUpdated.getIndustryCategoryNumber())).thenReturn(Optional.of(icEntity));
         FirstCategoryEntity fcEntityUpdated = fcEntityMapper.toFirstCategoryEntity(fcUpdated, icEntityRepository);
         when(fcEntityRepository.save(fcEntity)).thenReturn(fcEntity).thenReturn(fcEntityUpdated);
         when(fcEntityRepository.existsByNumber(fcEntity.getNumber())).thenReturn(true);
@@ -254,18 +254,19 @@ class FirstCategoryEntityServiceTest implements CompanyEntityTestUtils, FirstCat
     void removeByNumberTest() {
         // given
         FirstCategoryEntity fcEntity = createNumberedFirstCategoryEntity();
+        Long number = fcEntity.getNumber();
         when(fcEntityRepository.save(fcEntity)).thenReturn(fcEntity);
-        when(fcEntityRepository.existsByNumber(fcEntity.getNumber())).thenReturn(true);
-        when(fcEntityRepository.findByNumber(fcEntity.getNumber())).thenReturn(Optional.of(fcEntity));
+        when(fcEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(fcEntityRepository.findByNumber(number)).thenReturn(Optional.of(fcEntity));
         when(scEntityRepository.findByFirstCategory(fcEntity)).thenReturn(Collections.emptyList());
         when(companyEntityRepository.findByFirstCategory(fcEntity)).thenReturn(Collections.emptyList());
         when(iaEntityRepository.findByFirstCategory(fcEntity)).thenReturn(Collections.emptyList());
-        doNothing().when(fcEntityRepository).deleteByNumber(fcEntity.getNumber());
+        doNothing().when(fcEntityRepository).deleteByNumber(number);
         when(fcEntityRepository.findAll()).thenReturn(Collections.emptyList());
         fcEntityRepository.save(fcEntity);
 
         // when
-        fcEntityService.removeByNumber(fcEntity.getNumber());
+        fcEntityService.removeByNumber(number);
 
         // then
         assertThat(fcEntityService.getAll()).isEmpty();
@@ -295,8 +296,8 @@ class FirstCategoryEntityServiceTest implements CompanyEntityTestUtils, FirstCat
         FirstCategoryEntity fcEntity = createNumberedFirstCategoryEntity();
         Long number = fcEntity.getNumber();
         when(fcEntityRepository.save(fcEntity)).thenReturn(fcEntity);
-        when(fcEntityRepository.existsByNumber(fcEntity.getNumber())).thenReturn(true);
-        when(fcEntityRepository.findByNumber(fcEntity.getNumber())).thenReturn(Optional.of(fcEntity));
+        when(fcEntityRepository.existsByNumber(number)).thenReturn(true);
+        when(fcEntityRepository.findByNumber(number)).thenReturn(Optional.of(fcEntity));
         when(scEntityRepository.findByFirstCategory(fcEntity)).thenReturn(List.of(createSecondCategoryEntity()));
 
         // when - 1

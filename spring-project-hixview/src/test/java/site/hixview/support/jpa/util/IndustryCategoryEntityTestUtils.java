@@ -16,7 +16,12 @@ public interface IndustryCategoryEntityTestUtils extends IndustryCategoryTestUti
     }
 
     default IndustryCategoryEntity createNumberedFirstIndustryCategoryEntity() {
-        return new IndustryCategoryEntity(
-                industryCategory.getNumber(), industryCategory.getKoreanName(), industryCategory.getEnglishName());
+        return new IndustryCategoryEntity(industryCategory.getNumber(),
+                industryCategory.getKoreanName(), industryCategory.getEnglishName());
+    }
+
+    default IndustryCategoryEntity createNumberedSecondIndustryCategoryEntity() {
+        return new IndustryCategoryEntity(anotherIndustryCategory.getNumber(),
+                anotherIndustryCategory.getKoreanName(), anotherIndustryCategory.getEnglishName());
     }
 }

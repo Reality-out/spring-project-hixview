@@ -251,4 +251,40 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         assertThat(eaEntityService.getByPress(updatedPress).size()).isEqualTo(1);
         assertThat(iaEntityService.getByPress(updatedPress).size()).isEqualTo(1);
     }
+
+    @DisplayName("2차 업종 엔터티 전파 테스트")
+    @Test
+    void secondCategoryEntityPropagationTest() {
+        // given
+        CompanyEntity companyEntity = createCompanyEntity();
+        FirstCategoryEntity firstCategoryEntity = createFirstCategoryEntity();
+        SecondCategoryEntity secondCategoryEntity = createSecondCategoryEntity();
+        IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
+        IndustryArticleSecondCategoryEntity iascEntity = createIndustryArticleSecondCategoryEntity();
+        secondCategoryEntity.updateFirstCategory(firstCategoryEntity);
+        companyEntity.updateFirstCategory(firstCategoryEntity);
+        companyEntity.updateSecondCategory(secondCategoryEntity);
+        industryArticleEntity.updateFirstCategory(firstCategoryEntity);
+        iascEntity.updateIndustryArticle(industryArticleEntity);
+        iascEntity.updateSecondCategory(secondCategoryEntity);
+        fcEntityRepository.save(firstCategoryEntity);
+        scEntityRepository.save(secondCategoryEntity);
+        companyEntityRepository.save(companyEntity);
+        iaEntityRepository.save(industryArticleEntity);
+        iascEntityRepository.save(iascEntity);
+        entityManager.flush();
+
+        // when
+        String englishName = secondCategoryEntity.getEnglishName();
+        Long number = scEntityRepository.findByEnglishName(englishName).orElseThrow().getNumber();
+        SecondCategory updatedSecondCategory = SecondCategory.builder().secondCategory(anotherSecondCategory)
+                .industryCategoryNumber(secondCategoryEntity.getIndustryCategory().getNumber())
+                .firstCategoryNumber(secondCategoryEntity.getFirstCategory().getNumber()).number(number).build();
+        entityManager.clear();
+        scEntityService.update(updatedSecondCategory);
+
+        // then
+        assertThat(companyEntityService.getBySecondCategory(updatedSecondCategory).size()).isEqualTo(1);
+        assertThat(iascEntityService.getBySecondCategory(updatedSecondCategory).size()).isEqualTo(1);
+    }
 }

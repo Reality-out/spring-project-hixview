@@ -10,7 +10,6 @@ import site.hixview.aggregate.domain.SecondCategory;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.aggregate.service.SecondCategoryService;
-import site.hixview.jpa.entity.CompanyEntity;
 import site.hixview.jpa.entity.SecondCategoryEntity;
 import site.hixview.jpa.mapper.SecondCategoryEntityMapper;
 import site.hixview.jpa.mapper.SecondCategoryEntityMapperImpl;
@@ -124,12 +123,12 @@ public class SecondCategoryEntityService implements SecondCategoryService {
 
     private void propagateSecondCategoryEntity(SecondCategoryEntity secondCategoryEntity) {
         companyEntityRepository.saveAll(
-                companyEntityRepository.findBySecondCategory(secondCategoryEntity).stream().map(company -> {
-                    company = CompanyEntity.builder().company(company).secondCategory(secondCategoryEntity).build();
-                    return company;
-                }).toList());
+                companyEntityRepository.findBySecondCategory(secondCategoryEntity).stream().peek(company ->
+                        company.updateSecondCategory(secondCategoryEntity)
+                ).toList());
         iascEntityRepository.saveAll(
-                iascEntityRepository.findBySecondCategory(secondCategoryEntity).stream()
-                        .peek(mapper -> mapper.updateSecondCategory(secondCategoryEntity)).toList());
+                iascEntityRepository.findBySecondCategory(secondCategoryEntity).stream().peek(mapper ->
+                        mapper.updateSecondCategory(secondCategoryEntity)
+                ).toList());
     }
 }

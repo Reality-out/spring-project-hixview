@@ -13,12 +13,10 @@ import site.hixview.aggregate.error.EntityExistsWithNameException;
 import site.hixview.aggregate.error.EntityExistsWithNumberException;
 import site.hixview.aggregate.error.EntityNotFoundWithNumberException;
 import site.hixview.jpa.entity.ArticleEntity;
+import site.hixview.jpa.entity.FirstCategoryEntity;
 import site.hixview.jpa.entity.IndustryArticleEntity;
 import site.hixview.jpa.entity.PressEntity;
-import site.hixview.jpa.mapper.IndustryArticleEntityMapper;
-import site.hixview.jpa.mapper.IndustryArticleEntityMapperImpl;
-import site.hixview.jpa.mapper.PressEntityMapper;
-import site.hixview.jpa.mapper.PressEntityMapperImpl;
+import site.hixview.jpa.mapper.*;
 import site.hixview.jpa.repository.*;
 import site.hixview.support.jpa.context.OnlyRealServiceContext;
 import site.hixview.support.jpa.util.IndustryArticleSecondCategoryEntityTestUtils;
@@ -53,6 +51,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
 
     private final IndustryArticleEntityMapper iaEntityMapper = new IndustryArticleEntityMapperImpl();
     private final PressEntityMapper pressEntityMapper = new PressEntityMapperImpl();
+    private final FirstCategoryEntityMapper fcEntityMapper = new FirstCategoryEntityMapperImpl();
 
     @Autowired
     IndustryArticleEntityServiceTest(IndustryArticleEntityService iaEntityService, IndustryArticleEntityRepository iaEntityRepository, IndustryArticleSecondCategoryEntityRepository iascEntityRepository, ArticleEntityRepository articleEntityRepository, PressEntityRepository pressEntityRepository, FirstCategoryEntityRepository fcEntityRepository) {
@@ -64,7 +63,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         this.fcEntityRepository = fcEntityRepository;
     }
 
-    @DisplayName("모든 기업 기사 획득")
+    @DisplayName("모든 산업 기사 획득")
     @Test
     void getAllTest() {
         // given
@@ -79,7 +78,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getAll()).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
     }
 
-    @DisplayName("날짜로 기업 기사 획득")
+    @DisplayName("날짜로 산업 기사 획득")
     @Test
     void getByDateTest() {
         IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
@@ -94,7 +93,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByDate(date)).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
     }
 
-    @DisplayName("날짜 범위로 기업 기사 획득")
+    @DisplayName("날짜 범위로 산업 기사 획득")
     @Test
     void getByDateRangeTest() {
         IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
@@ -109,7 +108,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByDateRange(date, date)).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
     }
 
-    @DisplayName("대상 국가로 기업 기사 획득")
+    @DisplayName("대상 국가로 산업 기사 획득")
     @Test
     void getBySubjectCountryTest() {
         IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
@@ -124,7 +123,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getBySubjectCountry(Country.valueOf(subjectCountry))).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
     }
 
-    @DisplayName("중요도로 기업 기사 획득")
+    @DisplayName("중요도로 산업 기사 획득")
     @Test
     void getByImportanceTest() {
         IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
@@ -139,7 +138,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByImportance(Importance.valueOf(importance))).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
     }
 
-    @DisplayName("언론사로 기업 기사 획득")
+    @DisplayName("언론사로 산업 기사 획득")
     @Test
     void getByPressTest() {
         IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
@@ -156,7 +155,24 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByPress(pressEntityMapper.toPress(pressEntity))).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
     }
 
-    @DisplayName("번호로 기업 기사 획득")
+    @DisplayName("1차 업종으로 산업 기사 획득")
+    @Test
+    void getByFirstCategoryTest() {
+        IndustryArticleEntity industryArticleEntity = createIndustryArticleEntity();
+        FirstCategoryEntity firstCategoryEntity = createNumberedFirstCategoryEntity();
+        industryArticleEntity.updateFirstCategory(firstCategoryEntity);
+        when(iaEntityRepository.save(industryArticleEntity)).thenReturn(industryArticleEntity);
+        when(iaEntityRepository.findByFirstCategory(firstCategoryEntity)).thenReturn(List.of(industryArticleEntity));
+        when(fcEntityRepository.findByNumber(firstCategoryEntity.getNumber())).thenReturn(Optional.of(firstCategoryEntity));
+
+        // when
+        iaEntityRepository.save(industryArticleEntity);
+
+        // then
+        assertThat(iaEntityService.getByFirstCategory(fcEntityMapper.toFirstCategory(firstCategoryEntity))).isEqualTo(List.of(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository)));
+    }
+
+    @DisplayName("번호로 산업 기사 획득")
     @Test
     void getByNumberTest() {
         // given
@@ -172,7 +188,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByNumber(number).orElseThrow()).isEqualTo(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository));
     }
 
-    @DisplayName("이름으로 기업 기사 획득")
+    @DisplayName("이름으로 산업 기사 획득")
     @Test
     void getByNameTest() {
         // given
@@ -188,7 +204,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByName(name).orElseThrow()).isEqualTo(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository));
     }
 
-    @DisplayName("링크로 기업 기사 획득")
+    @DisplayName("링크로 산업 기사 획득")
     @Test
     void getByLinkTest() {
         // given
@@ -204,7 +220,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getByLink(link).orElseThrow()).isEqualTo(iaEntityMapper.toIndustryArticle(industryArticleEntity, iascEntityRepository));
     }
 
-    @DisplayName("기업 기사 삽입")
+    @DisplayName("산업 기사 삽입")
     @Test
     void insertTest() {
         // given
@@ -226,7 +242,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getAll()).isEqualTo(List.of(industryArticle));
     }
 
-    @DisplayName("이미 존재하는 번호로 기업 기사 삽입")
+    @DisplayName("이미 존재하는 번호로 산업 기사 삽입")
     @Test
     void insertAlreadyExistedNumberTest() {
         // given
@@ -251,7 +267,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
                 ALREADY_EXISTED_ENTITY, NUMBER, industryArticle.getNumber(), IndustryArticleEntity.class));
     }
 
-    @DisplayName("이미 존재하는 이름으로 기업 기사 삽입")
+    @DisplayName("이미 존재하는 이름으로 산업 기사 삽입")
     @Test
     void insertAlreadyExistedNameTest() {
         // given
@@ -278,7 +294,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
                 ALREADY_EXISTED_ENTITY, NAME, iaEntity.getName(), IndustryArticleEntity.class));
     }
 
-    @DisplayName("기업 기사 갱신")
+    @DisplayName("산업 기사 갱신")
     @Test
     void updateTest() {
         // given
@@ -308,7 +324,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getAll()).isEqualTo(List.of(iaUpdated));
     }
 
-    @DisplayName("발견되지 않는 번호로 기업 기사 갱신")
+    @DisplayName("발견되지 않는 번호로 산업 기사 갱신")
     @Test
     void updateNotFoundNumberTest() {
         // given
@@ -325,7 +341,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
                 CANNOT_FOUND_ENTITY, NUMBER, number, IndustryArticleEntity.class));
     }
 
-    @DisplayName("이미 존재하는 이름으로 기업 기사 갱신")
+    @DisplayName("이미 존재하는 이름으로 산업 기사 갱신")
     @Test
     void updateAlreadyExistedNameTest() {
         // given
@@ -344,7 +360,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
                 ALREADY_EXISTED_ENTITY, NAME, iaEntity.getName(), IndustryArticleEntity.class));
     }
 
-    @DisplayName("번호로 기업 기사 제거")
+    @DisplayName("번호로 산업 기사 제거")
     @Test
     void removeByNumberTest() {
         // given
@@ -364,7 +380,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
         assertThat(iaEntityService.getAll()).isEmpty();
     }
 
-    @DisplayName("발견되지 않는 번호로 기업 기사 제거")
+    @DisplayName("발견되지 않는 번호로 산업 기사 제거")
     @Test
     void removeByNotFoundNumberTest() {
         // given
@@ -381,7 +397,7 @@ class IndustryArticleEntityServiceTest implements IndustryArticleEntityTestUtils
                 CANNOT_FOUND_ENTITY, NUMBER, number, IndustryArticleEntity.class));
     }
 
-    @DisplayName("번호로 기업 기사와 기업 간 매퍼에 포함된 기업 기사 제거")
+    @DisplayName("번호로 산업 기사와 산업 간 매퍼에 포함된 산업 기사 제거")
     @Test
     void removeByNumberInMapperTest() {
         // given

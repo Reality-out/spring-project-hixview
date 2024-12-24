@@ -14,4 +14,8 @@ public interface SecondCategoryEntityTestUtils extends FirstCategoryEntityTestUt
     default SecondCategoryEntity createAnotherSecondCategoryEntity() {
         return new SecondCategoryEntity(anotherIndustryCategory.getKoreanName(), anotherFirstCategory.getEnglishName(), createSecondIndustryCategoryEntity(), createAnotherFirstCategoryEntity());
     }
+
+    default SecondCategoryEntity createNumberedSecondCategoryEntity() {
+        return new SecondCategoryEntity(secondCategory.getNumber(), secondCategory.getKoreanName(), secondCategory.getEnglishName(), createNumberedSecondIndustryCategoryEntity(), createNumberedFirstCategoryEntity());
+    }
 }
