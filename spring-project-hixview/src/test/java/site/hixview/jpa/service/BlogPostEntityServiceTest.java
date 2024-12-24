@@ -250,11 +250,12 @@ class BlogPostEntityServiceTest implements BlogPostEntityTestUtils, BlogPostArti
         when(postEntityRepository.findByNumber(number)).thenReturn(Optional.of(postEntity));
         BlogPostEntity bpEntityUpdated = bpEntityMapper.toBlogPostEntity(bpUpdated, postEntityRepository);
         when(bpEntityRepository.save(bpEntity)).thenReturn(bpEntity);
-        when(bpEntityRepository.save(bpEntityUpdated)).thenReturn(bpEntityUpdated);
         when(bpEntityRepository.existsByNumber(number)).thenReturn(true);
-        when(bpEntityRepository.findByName(bpEntityUpdated.getName())).thenReturn(Optional.empty());
-        when(postEntityRepository.findByNumber(postEntity.getNumber())).thenReturn(Optional.of(postEntity));
+        when(bpEntityRepository.findByName(bpUpdated.getName())).thenReturn(Optional.empty());
+        when(bpEntityRepository.findByNumber(number)).thenReturn(Optional.of(bpEntity));
+        when(postEntityRepository.findByNumber(number)).thenReturn(Optional.of(postEntity));
         when(bpaEntityRepository.findByBlogPost(bpEntityUpdated)).thenReturn(Collections.emptyList());
+        when(bpEntityRepository.save(bpEntityUpdated)).thenReturn(bpEntityUpdated);
         when(bpEntityRepository.findAll()).thenReturn(List.of(bpEntityUpdated));
         bpEntityRepository.save(bpEntity);
 

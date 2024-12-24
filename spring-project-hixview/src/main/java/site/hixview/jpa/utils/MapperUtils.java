@@ -12,6 +12,17 @@ import static site.hixview.aggregate.vo.WordCamel.CODE;
 
 public abstract class MapperUtils {
 
+    public static BlogPostEntity map(BlogPost from, BlogPostEntity to,
+                                     PostEntityRepository postEntityRepository) {
+        to.updateName(from.getName());
+        to.updateLink(from.getLink());
+        to.updateDate(from.getDate());
+        to.updatePost(postEntityRepository.findByNumber(from.getNumber()).orElseThrow(() ->
+                new EntityNotFoundWithNumberException(from.getNumber(), BlogPostEntity.class)));
+        to.updateClassification(from.getClassification().name());
+        return to;
+    }
+
     public static BlogPostArticleEntity map(BlogPostArticle from, BlogPostArticleEntity to,
                                             BlogPostEntityRepository bpRepository,
                                             ArticleEntityRepository aRepository) {

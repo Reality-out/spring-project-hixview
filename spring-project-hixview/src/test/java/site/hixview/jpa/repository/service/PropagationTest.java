@@ -20,6 +20,8 @@ import site.hixview.support.jpa.util.IndustryArticleSecondCategoryEntityTestUtil
 import site.hixview.support.spring.util.BlogPostTestUtils;
 import site.hixview.support.spring.util.EconomyContentTestUtils;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RealRepositoryAndServiceContext
@@ -41,6 +43,7 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
     private final PressEntityService pressEntityService;
     private final SecondCategoryEntityService scEntityService;
 
+    private final ArticleEntityRepository articleEntityRepository;
     private final BlogPostEntityRepository bpEntityRepository;
     private final BlogPostArticleEntityRepository bpaEntityRepository;
     private final CompanyEntityRepository companyEntityRepository;
@@ -58,7 +61,7 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    PropagationTest(TestEntityManager entityManager, BlogPostEntityService bpEntityService, BlogPostArticleEntityService bpaEntityService, CompanyEntityService companyEntityService, CompanyArticleEntityService caEntityService, CompanyArticleCompanyEntityService cacEntityService, EconomyArticleEntityService eaEntityService, EconomyContentEntityService ecEntityService, EconomyArticleContentEntityService eacEntityService, FirstCategoryEntityService fcEntityService, IndustryArticleEntityService iaEntityService, IndustryArticleSecondCategoryEntityService iascEntityService, PressEntityService pressEntityService, SecondCategoryEntityService scEntityService, BlogPostEntityRepository bpEntityRepository, BlogPostArticleEntityRepository bpaEntityRepository, CompanyEntityRepository companyEntityRepository, CompanyArticleEntityRepository caEntityRepository, CompanyArticleCompanyEntityRepository cacEntityRepository, EconomyArticleEntityRepository eaEntityRepository, EconomyContentEntityRepository ecEntityRepository, EconomyArticleContentEntityRepository eacEntityRepository, FirstCategoryEntityRepository fcEntityRepository, IndustryArticleEntityRepository iaEntityRepository, IndustryArticleSecondCategoryEntityRepository iascEntityRepository, PressEntityRepository pressEntityRepository, SecondCategoryEntityRepository scEntityRepository, JdbcTemplate jdbcTemplate) {
+    PropagationTest(TestEntityManager entityManager, BlogPostEntityService bpEntityService, BlogPostArticleEntityService bpaEntityService, CompanyEntityService companyEntityService, CompanyArticleEntityService caEntityService, CompanyArticleCompanyEntityService cacEntityService, EconomyArticleEntityService eaEntityService, EconomyContentEntityService ecEntityService, EconomyArticleContentEntityService eacEntityService, FirstCategoryEntityService fcEntityService, IndustryArticleEntityService iaEntityService, IndustryArticleSecondCategoryEntityService iascEntityService, PressEntityService pressEntityService, SecondCategoryEntityService scEntityService, ArticleEntityRepository articleEntityRepository, BlogPostEntityRepository bpEntityRepository, BlogPostArticleEntityRepository bpaEntityRepository, CompanyEntityRepository companyEntityRepository, CompanyArticleEntityRepository caEntityRepository, CompanyArticleCompanyEntityRepository cacEntityRepository, EconomyArticleEntityRepository eaEntityRepository, EconomyContentEntityRepository ecEntityRepository, EconomyArticleContentEntityRepository eacEntityRepository, FirstCategoryEntityRepository fcEntityRepository, IndustryArticleEntityRepository iaEntityRepository, IndustryArticleSecondCategoryEntityRepository iascEntityRepository, PressEntityRepository pressEntityRepository, SecondCategoryEntityRepository scEntityRepository, JdbcTemplate jdbcTemplate) {
         this.entityManager = entityManager;
         this.bpEntityService = bpEntityService;
         this.bpaEntityService = bpaEntityService;
@@ -73,6 +76,7 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
         this.iascEntityService = iascEntityService;
         this.pressEntityService = pressEntityService;
         this.scEntityService = scEntityService;
+        this.articleEntityRepository = articleEntityRepository;
         this.bpEntityRepository = bpEntityRepository;
         this.bpaEntityRepository = bpaEntityRepository;
         this.companyEntityRepository = companyEntityRepository;
@@ -98,18 +102,18 @@ class PropagationTest implements BlogPostArticleEntityTestUtils, CompanyArticleC
     @Test
     void blogPostEntityPropagationTest() {
         // given
-        bpaEntityRepository.save(createBlogPostArticleEntity());
+        BlogPostEntity bpEntity = bpEntityRepository.save(createBlogPostEntity());
+        bpaEntityRepository.save(new BlogPostArticleEntity(bpEntity, createArticleEntity()));
+        ArticleEntity articleEntityUpdated = articleEntityRepository.save(createAnotherArticleEntity());
+        BlogPost updatedBlogPost = BlogPost.builder().blogPost(anotherBlogPost).number(bpEntity.getNumber()).mappedArticleNumbers(List.of(articleEntityUpdated.getNumber())).build();
 
         // when
-        String name = blogPost.getName();
-        Long number = bpEntityRepository.findByName(name).orElseThrow().getNumber();
-        BlogPost updatedBlogPost = BlogPost.builder().blogPost(anotherBlogPost).number(number).build();
         entityManager.clear();
         bpEntityService.update(updatedBlogPost);
 
         // then
-        entityManager.clear();
-        assertThat(bpaEntityService.getByBlogPost(updatedBlogPost).size()).isEqualTo(1);
+        entityManager.flush();
+        assertThat(bpEntityRepository.findByNumber(bpaEntityService.getByBlogPost(updatedBlogPost).getFirst().getPostNumber()).orElseThrow().getName()).isEqualTo(updatedBlogPost.getName());
     }
 
     @DisplayName("기업 엔터티 전파 테스트")

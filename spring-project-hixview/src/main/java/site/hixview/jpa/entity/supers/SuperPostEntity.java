@@ -23,4 +23,15 @@ public abstract class SuperPostEntity {
     @Column(nullable = false)
     private LocalDate date;
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateLink(String link) {
+        this.link = link;
+    }
+
+    public void updateDate(LocalDate date) {
+        this.date = date;
+    }
 }

@@ -17,6 +17,7 @@ import site.hixview.jpa.mapper.BlogPostEntityMapperImpl;
 import site.hixview.jpa.repository.BlogPostArticleEntityRepository;
 import site.hixview.jpa.repository.BlogPostEntityRepository;
 import site.hixview.jpa.repository.PostEntityRepository;
+import site.hixview.jpa.utils.MapperUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,50 +34,50 @@ import static site.hixview.aggregate.vo.WordCamel.NUMBER;
 public class BlogPostEntityService implements BlogPostService {
 
     private final PostEntityRepository postEntityRepository;
-    private final BlogPostEntityRepository blogPostEntityRepository;
+    private final BlogPostEntityRepository bpEntityRepository;
     private final BlogPostArticleEntityRepository bpaEntityRepository;
 
     private final BlogPostEntityMapper mapper = new BlogPostEntityMapperImpl();
 
     @Override
     public List<BlogPost> getAll() {
-        return blogPostEntityRepository.findAll().stream().map((BlogPostEntity blogPostEntity) ->
+        return bpEntityRepository.findAll().stream().map((BlogPostEntity blogPostEntity) ->
                 mapper.toBlogPost(blogPostEntity, bpaEntityRepository)).toList();
     }
 
     @Override
     public List<BlogPost> getByDate(LocalDate date) {
-        return blogPostEntityRepository.findByDate(date).stream().map((BlogPostEntity blogPostEntity) ->
+        return bpEntityRepository.findByDate(date).stream().map((BlogPostEntity blogPostEntity) ->
                 mapper.toBlogPost(blogPostEntity, bpaEntityRepository)).toList();
     }
 
     @Override
     public List<BlogPost> getByDateRange(LocalDate startDate, LocalDate endDate) {
-        return blogPostEntityRepository.findByDateBetween(startDate, endDate).stream()
+        return bpEntityRepository.findByDateBetween(startDate, endDate).stream()
                 .map((BlogPostEntity blogPostEntity) ->
                         mapper.toBlogPost(blogPostEntity, bpaEntityRepository)).toList();
     }
 
     @Override
     public List<BlogPost> getByClassification(Classification classification) {
-        return blogPostEntityRepository.findByClassification(classification.name()).stream()
+        return bpEntityRepository.findByClassification(classification.name()).stream()
                 .map((BlogPostEntity blogPostEntity) ->
                         mapper.toBlogPost(blogPostEntity, bpaEntityRepository)).toList();
     }
 
     @Override
     public Optional<BlogPost> getByNumber(Long number) {
-        return getOptionalBlogPost(blogPostEntityRepository.findByNumber(number).orElse(null));
+        return getOptionalBlogPost(bpEntityRepository.findByNumber(number).orElse(null));
     }
 
     @Override
     public Optional<BlogPost> getByName(String name) {
-        return getOptionalBlogPost(blogPostEntityRepository.findByName(name).orElse(null));
+        return getOptionalBlogPost(bpEntityRepository.findByName(name).orElse(null));
     }
 
     @Override
     public Optional<BlogPost> getByLink(String link) {
-        return getOptionalBlogPost(blogPostEntityRepository.findByLink(link).orElse(null));
+        return getOptionalBlogPost(bpEntityRepository.findByLink(link).orElse(null));
     }
 
     @Override
@@ -84,13 +85,13 @@ public class BlogPostEntityService implements BlogPostService {
     public BlogPost insert(BlogPost blogPost) {
         Long number = blogPost.getNumber();
         String name = blogPost.getName();
-        if (blogPostEntityRepository.existsByNumber(number)) {
+        if (bpEntityRepository.existsByNumber(number)) {
             throw new EntityExistsWithNumberException(number, BlogPostEntity.class);
         }
-        if (blogPostEntityRepository.findByName(name).isPresent()) {
+        if (bpEntityRepository.findByName(name).isPresent()) {
             throw new EntityExistsWithNameException(name, BlogPostEntity.class);
         }
-        return mapper.toBlogPost(blogPostEntityRepository.save(mapper.toBlogPostEntity(
+        return mapper.toBlogPost(bpEntityRepository.save(mapper.toBlogPostEntity(
                 blogPost, postEntityRepository)), bpaEntityRepository);
     }
 
@@ -99,14 +100,14 @@ public class BlogPostEntityService implements BlogPostService {
     public BlogPost update(BlogPost blogPost) {
         Long number = blogPost.getNumber();
         String name = blogPost.getName();
-        if (!blogPostEntityRepository.existsByNumber(number)) {
+        if (!bpEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, BlogPostEntity.class);
         }
-        if (blogPostEntityRepository.findByName(name).isPresent()) {
+        if (bpEntityRepository.findByName(name).isPresent()) {
             throw new EntityExistsWithNameException(name, BlogPostEntity.class);
         }
-        BlogPostEntity blogPostEntity = blogPostEntityRepository.save(
-                mapper.toBlogPostEntity(blogPost, postEntityRepository));
+        BlogPostEntity blogPostEntity = bpEntityRepository.save(MapperUtils.map(
+                blogPost, bpEntityRepository.findByNumber(blogPost.getNumber()).orElseThrow(), postEntityRepository));
         propagateBlogPostEntity(blogPostEntity);
         return mapper.toBlogPost(blogPostEntity, bpaEntityRepository);
     }
@@ -114,15 +115,15 @@ public class BlogPostEntityService implements BlogPostService {
     @Override
     @Transactional
     public void removeByNumber(Long number) {
-        if (!blogPostEntityRepository.existsByNumber(number)) {
+        if (!bpEntityRepository.existsByNumber(number)) {
             throw new EntityNotFoundWithNumberException(number, BlogPostEntity.class);
         }
-        BlogPostEntity blogPostEntity = blogPostEntityRepository.findByNumber(number).orElseThrow();
+        BlogPostEntity blogPostEntity = bpEntityRepository.findByNumber(number).orElseThrow();
         if (!bpaEntityRepository.findByBlogPost(blogPostEntity).isEmpty()) {
             throw new DataIntegrityViolationException(getFormattedExceptionMessage(
                     REMOVE_REFERENCED_ENTITY, NUMBER, number, BlogPostEntity.class));
         }
-        blogPostEntityRepository.deleteByNumber(number);
+        bpEntityRepository.deleteByNumber(number);
     }
 
     private Optional<BlogPost> getOptionalBlogPost(BlogPostEntity optionalBlogPostEntity) {

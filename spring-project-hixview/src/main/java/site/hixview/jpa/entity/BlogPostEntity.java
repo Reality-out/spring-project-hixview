@@ -37,6 +37,14 @@ public class BlogPostEntity extends SuperPostEntity {
         return new EqualsBuilder().append(getName(), post.getName()).isEquals();
     }
 
+    public void updatePost(PostEntity post) {
+        this.post = post;
+    }
+
+    public void updateClassification(String classification) {
+        this.classification = classification;
+    }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder(17, 37).append(getName()).toHashCode();
