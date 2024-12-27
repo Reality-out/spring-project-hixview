@@ -30,6 +30,7 @@ configurations {
 dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2', 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
@@ -43,6 +44,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-lang3'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
